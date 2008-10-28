@@ -2,6 +2,7 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +17,7 @@ import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
@@ -27,6 +29,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
     private String vendorNumber;
+    private String vendorName;
     private Long capitalAssetNumber;
     private String capitalAssetTagNumber;
     private Integer capitalAssetQuantity;
@@ -38,11 +41,20 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
     private CapitalAssetManagementAsset capitalAssetManagementAsset;
     private CapitalAssetManagementAssetType capitalAssetManagementAssetType;
+    private List<CapitalAssetInformationDetail> capitalAssetInformationDetails;
 
     private Campus campus;
     private Building building;
     private Room room;
     private VendorDetail vendorDetail;
+
+    /**
+     * Constructs a CapitalAssetInformation.java.
+     */
+    public CapitalAssetInformation() {
+        super();
+        capitalAssetInformationDetails = new TypedArrayList(CapitalAssetInformationDetail.class);
+    }
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -171,21 +183,23 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
     }
-    
+
     /**
-     * Gets the vendorNumber attribute. 
+     * Gets the vendorNumber attribute.
+     * 
      * @return Returns the vendorNumber.
      */
     public String getVendorNumber() {
-        if(this.vendorHeaderGeneratedIdentifier != null && this.vendorDetailAssignedIdentifier != null) {
+        if (this.vendorHeaderGeneratedIdentifier != null && this.vendorDetailAssignedIdentifier != null) {
             vendorNumber = this.vendorHeaderGeneratedIdentifier + "-" + this.vendorDetailAssignedIdentifier;
         }
-            
+
         return vendorNumber;
     }
 
     /**
      * Sets the vendorNumber attribute value.
+     * 
      * @param vendorNumber The vendorNumber to set.
      */
     public void setVendorNumber(String vendorNumber) {
@@ -306,7 +320,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public void setCampus(Campus campus) {
         this.campus = campus;
     }
-    
+
     /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
      * 
@@ -319,12 +333,46 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         simpleValues.put(KFSPropertyConstants.CAMPUS_CODE, this.getCampusCode());
         simpleValues.put(KFSPropertyConstants.BUILDING_CODE, this.getBuildingCode());
         simpleValues.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, this.getBuildingRoomNumber());
-        
+
         simpleValues.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.getVendorHeaderGeneratedIdentifier());
         simpleValues.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, this.getVendorDetailAssignedIdentifier());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber());
-        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, this.getCapitalAssetTypeCode());        
+        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, this.getCapitalAssetTypeCode());
 
         return simpleValues;
+    }
+
+    /**
+     * Gets the vendorName attribute.
+     * 
+     * @return Returns the vendorName.
+     */
+    public String getVendorName() {
+        return vendorName == null && ObjectUtils.isNotNull(vendorDetail) ? vendorDetail.getVendorName() : vendorName;
+    }
+
+    /**
+     * Sets the vendorName attribute value.
+     * 
+     * @param vendorName The vendorName to set.
+     */
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    /**
+     * Gets the capitalAssetInformationDetails attribute. 
+     * @return Returns the capitalAssetInformationDetails.
+     */
+    public List<CapitalAssetInformationDetail> getCapitalAssetInformationDetails() {
+        return capitalAssetInformationDetails;
+    }
+
+    /**
+     * Sets the capitalAssetInformationDetails attribute value.
+     * @param capitalAssetInformationDetails The capitalAssetInformationDetails to set.
+     */
+    public void setCapitalAssetInformationDetails(List<CapitalAssetInformationDetail> capitalAssetInformationDetails) {
+        this.capitalAssetInformationDetails = capitalAssetInformationDetails;
     }
 }

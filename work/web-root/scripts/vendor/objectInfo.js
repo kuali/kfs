@@ -34,3 +34,26 @@ function loadCommodityCodeInfo( purCommodityCode, commodityCodeFieldName ) {
         CommodityCodeService.getByPrimaryId( purchasingCommodityCode, dwrReply );
     }
 }
+
+function loadVendorDetailInfo( vendorNumber, vendorNameFieldName ) {
+    var vendorNumber = DWRUtil.getValue( vendorNumber );
+    var vendorNameDiv = document.getElementById(vendorNameFieldName + divSuffix);
+
+    if (vendorNumber == "") {
+        DWRUtil.setValue( vendorNameDiv.id, "&nbsp;" );
+    } else {
+        var dwrReply = {
+            callback:function(data) {
+            if ( data != null && typeof data == 'object' ) {
+                DWRUtil.setValue(vendorNameDiv.id, data.vendorName, {escapeHtml:true} );
+            } else {
+                DWRUtil.setValue(vendorNameDiv.id, wrapError( "vendor detail not found" ));
+            } },
+            errorHandler:function( errorMessage ) { 
+                DWRUtil.setValue(vendorNameDiv.id, wrapError( "vendor detail not found" ));
+            }
+        };
+        
+        VendorService.getByVendorNumber( vendorNumber, dwrReply );
+    }
+}

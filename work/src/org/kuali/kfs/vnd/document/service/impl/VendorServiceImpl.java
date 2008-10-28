@@ -60,6 +60,13 @@ public class VendorServiceImpl implements VendorService {
     public void saveVendorHeader(VendorDetail vendorDetail) {
         businessObjectService.save(vendorDetail.getVendorHeader());
     }
+    
+    /**
+     * @see org.kuali.kfs.vnd.document.service.getByVendorNumber(String)
+     */
+    public VendorDetail getByVendorNumber(String vendorNumber) {
+        return this.getVendorDetail(vendorNumber);
+    }
 
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(String)

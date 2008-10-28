@@ -23,12 +23,17 @@
 <%@ attribute name="capitalAssetInfoName" required="true" 
 	description="The name of the capital asset info object"%>	
 <%@ attribute name="readOnly" required="false" description="Whether the capital asset information should be read only" %>	
+
+<script language="JavaScript" type="text/javascript" src="dwr/interface/VendorService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
 	
-<c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />	
+<c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />
+<c:set var="vendorAttributes" value="${DataDictionary.VendorDetail.attributes}" />		
 <c:set var="dataCellCssClass" value="datacell"/>
 
 
-<table class="datatable" border="0" cellpadding="0" cellspacing="0" width="100%" summary="Capital Asset Information">
+
+<table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
    	<tr>
    		<td colspan="2" class="tab-subhead" style="border-right: medium none;">Retrieve Asset to be Updated</td>
    	</tr>
@@ -41,122 +46,74 @@
 			lookupUnkeyedFieldConversions="campusTagNumber:${capitalAssetInfoName}.capitalAssetTagNumber,"
 			lookupOrInquiryKeys="capitalAssetNumber"
 			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
-   	</tr>
-	<tr>
-		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTagNumber}" align="right"/>
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="capitalAssetTagNumber" conversionField="campusTagNumber" lookup="true" inquiry="false"
-			boClassSimpleName="CapitalAssetManagementAsset" boPackageName="org.kuali.kfs.integration.cam"
-			lookupOrInquiryKeys="capitalAssetNumber"
-			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>			
    	</tr>   
-   	<tr>
-   		<td colspan="2" ><br/></td>
-   	</tr>
 </table>
-		
-<table class="datatable" border="0" cellpadding="0" cellspacing="0" width="100%" summary="Capital Asset Information">
-   <tr>
-   		<td colspan="5" class="tab-subhead" style="border-right: medium none;">Extra Fields for Adding Asset</td>
-   </tr>
-   <tr>                        
-	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.campusCode}" labelFor="${capitalAssetInfoName}.campusCode"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.buildingCode}" labelFor="${capitalAssetInfoName}.buildingCode"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.buildingRoomNumber}" labelFor="${capitalAssetInfoName}.buildingRoomNumber"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.buildingSubRoomNumber}" labelFor="${capitalAssetInfoName}.buildingSubRoomNumber"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.vendorNumber}" useShortLabel="false" labelFor="${capitalAssetInfoName}.vendorNumber"/>
-   </tr>
-   
-   <tr>
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="campusCode" lookup="true" inquiry="true"
-			boClassSimpleName="Campus" boPackageName="org.kuali.rice.kns.bo"
-			lookupOrInquiryKeys="campusCode"
-			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
-		
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="buildingCode" lookup="true" inquiry="true"
-			boClassSimpleName="Building" boPackageName="org.kuali.kfs.sys.businessobject"
-			lookupOrInquiryKeys="campusCode,buildingCode"
-			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
-		
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="buildingRoomNumber" lookup="true" inquiry="true"
-			boClassSimpleName="Room" boPackageName="org.kuali.kfs.sys.businessobject"
-			lookupOrInquiryKeys="campusCode,buildingCode,buildingRoomNumber"
-			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
-		
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="buildingSubRoomNumber" lookup="false" inquiry="false"
-			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>					
 
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="vendorNumber" lookup="true" inquiry="true" disabled="true"
-			boClassSimpleName="VendorDetail" boPackageName="org.kuali.kfs.vnd.businessobject"
-			lookupOrInquiryKeys="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier"
-			businessObjectValuesMap="${capitalAssetInfo.valuesMap}" />																			 
+<br/><br/>
+		
+<table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
+   <tr>
+   		<td colspan="6" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
    </tr>
    
-   <tr><td colspan="5" class="infoline" style="border-bottom: none;"><center><br/>
-	   	<table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">       
-			<tr>
-				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTypeCode}" align="right" width="25%"/>		
-				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-					field="capitalAssetTypeCode" lookup="true" inquiry="true"
-					boClassSimpleName="CapitalAssetManagementAssetType" boPackageName="org.kuali.kfs.integration.cam" 
-					lookupOrInquiryKeys="capitalAssetTypeCode"
-					businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
-					
-			  	<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetDescription}" align="right" rowspan="7" width="25%"/>
-				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-					field="capitalAssetDescription" lookup="false" inquiry="false" rowSpan="6"/>					
-			</tr>				
-			<tr>
-				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTagNumber}" align="right"/>
-				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-					field="capitalAssetTagNumber" lookup="false" inquiry="false"/>			
-			</tr>
-			<tr>
-				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetQuantity}" align="right"/>
-				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-					field="capitalAssetQuantity" lookup="false" inquiry="false"/>
-			</tr>        
-			<tr>
-			   	<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerName}" align="right" />
-			    <fin:dataCell dataCellCssClass="${dataCellCssClass}"
-					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-					field="capitalAssetManufacturerName" lookup="false" inquiry="false"/>
-			</tr>
-			<tr> 
-			   	<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerModelNumber}" align="right" />      	
-				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-					field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
-		    </tr>
-		    <tr>
-				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetSerialNumber}" align="right" />	     				
-				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-					field="capitalAssetSerialNumber" lookup="false" inquiry="false"/>
-		    </tr>		    
-	   	</table><br/><br/>
-   </center></td></tr>
-   <tr><td colspan="5" class="datacell">
-		<div class="right">   			 
-			 <html:image property="methodToCall.clearCapitalAssetInfo" 
-				src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
-				title="Clear the capital Asset Information"
-				alt="Clear the capital Asset Information" styleClass="tinybutton" />
-		</div>
-	</td></tr>
+   <tr> 
+   	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetQuantity}" labelFor="${capitalAssetInfoName}.capitalAssetQuantity"/> 
+   	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTypeCode}" labelFor="${capitalAssetInfoName}.capitalAssetTypeCode"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.vendorName}" labelFor="${capitalAssetInfoName}.vendorName"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerName}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerName"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerModelNumber}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerModelNumber"/>
+		<kul:htmlAttributeHeaderCell literalLabel="Action"/>
+   </tr>
+   
+   <tr>
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="capitalAssetQuantity" lookup="false" inquiry="false"/>
+			
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="capitalAssetTypeCode" lookup="true" inquiry="true"
+			boClassSimpleName="CapitalAssetManagementAssetType" boPackageName="org.kuali.kfs.integration.cam" 
+			lookupOrInquiryKeys="capitalAssetTypeCode"
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>		
+			   
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="vendorName" lookup="true" inquiry="true" disabled="true"
+			boClassSimpleName="VendorDetail" boPackageName="org.kuali.kfs.vnd.businessobject"
+			lookupOrInquiryKeys="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier,vendorName"
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}" />	
+		
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="capitalAssetManufacturerName" lookup="false" inquiry="false"/>
+		
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
+		
+		<td rowspan="2" class="datacell">  
+			<div style="text-align: center;">	
+				<html:image property="methodToCall.addCapitalAssetInfoDetails" 
+					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
+					title="Add the capital Asset Information Detail"
+					alt="Add the capital Asset Information Detail" styleClass="tinybutton" />		 
+				 <html:image property="methodToCall.clearCapitalAssetInfo" 
+					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
+					title="Clear the capital Asset Information"
+					alt="Clear the capital Asset Information" styleClass="tinybutton" />
+			</div>
+		</td>																										 
+   </tr>
+   <tr>
+ 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetDescription}"/>
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="capitalAssetDescription" lookup="false" inquiry="false" colSpan="4"/>
+   </tr>   		
+
+   <tr><td colSpan="6"><center><br/>
+		<<fin:dataCellDetail capitalAssetInfoDetails="${capitalAssetInfo.capitalAssetInfoDetails}" 
+			capitalAssetInfoDetailsName="${capitalAssetInfoName}.capitalAssetInfoDetails" readOnly="${readOnly}"/>
+	<br/></center></td></tr>
 </table>

@@ -64,9 +64,22 @@
               description="map of the business object primitive fields and values, for inquiry keys" %>
 <%@ attribute name="inquiryExtraKeyValues" required="false"
               description="ampersand separated list of inquiry key=value pairs not in businessObjectValuesMap" %>
+              
+<%@ attribute name="detailFunction" required="false"
+              description="The name of the JavaScript function to asynchronously
+              update the detailed description of the value in this data cell on blur.
+              This attribute requires the detailField attribute." %>
+<%@ attribute name="detailFunctionExtraParam" required="false"
+              description="The value of an extra parameter required by some of the detail JavaScript functions." %>
+<%@ attribute name="detailField" required="false"
+              description="The name of the field in the business object containing the detail to be displayed." %>  
+<%@ attribute name="detailFields" required="false"
+              description="The name of multiple fields in the business object containing details to be display.
+			  Any supplied field that starts with a semicolon will be treated as a text field, rather 
+			  than a database field. The semicolon will be ignored in the output." %>            
 
-<%@ attribute name="rowSpan" required="false"
-              description="row span for the data cell" %>
+<%@ attribute name="rowSpan" required="false" description="row span for the data cell" %>
+<%@ attribute name="colSpan" required="false" description="column span for the data cell" %>
 
 <c:set var="qualifiedField" value="${businessObjectFormName}.${field}"/>
 <c:if test="${empty cellProperty}">
@@ -96,7 +109,7 @@
     </c:otherwise>
 </c:choose>
         
-<td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}"><span class="nowrap">
+<td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}" colspan="${colSpan}"><span class="nowrap">
     <c:choose>
         <c:when test="${useXmlHttp}">
             <c:set var="onblur" value="${detailFunction}(${detailFunctionExtraParam} this.name, '${businessObjectFormName}.${detailField}');"/>
@@ -156,6 +169,14 @@
             boClassName="${boClassName}"
             fieldConversions="${fieldConversions}${conversionField}:${qualifiedField}"
             lookupParameters="${lookupParameters}" fieldLabel="${attributes[field].shortLabel}" />
-    </c:if>
-    
-</span></td>
+    </c:if>    
+	</span>
+	
+	<fin:dataCellDetail
+    	detailField="${detailField}"
+    	businessObjectFormName="${businessObjectFormName}"
+    	detailFields="${detailFields}"
+    />
+</td>
+
+</td>

@@ -26,9 +26,7 @@
 <c:set var="newCapitalAssetInfoName" value="capitalAssetInformation" />
 
 <kul:tab tabTitle="Capital Edit" defaultOpen="false" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
-     <div class="tab-container" align="center">
-     <h3>Capital Asset Information</h3>
-	 
+     <div class="tab-container" align="center">	 
 	 <c:choose>
 	 	<c:when test="${not empty capitalAssetInfo}">
 	 		<fin:capitalAssetInfo capitalAssetInfo="${capitalAssetInfo}" capitalAssetInfoName="${capitalAssetInfoName}" readOnly="${readOnly}"/>

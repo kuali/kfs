@@ -20,7 +20,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     	<ref bean="CapitalAssetInformation-buildingSubRoomNumber" />
     	<ref bean="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" />
     	<ref bean="CapitalAssetInformation-vendorDetailAssignedIdentifier" />
-    	<ref bean="CapitalAssetInformation-vendorNumber" />
+    	<ref bean="CapitalAssetInformation-vendorName" />
     	<ref bean="CapitalAssetInformation-capitalAssetNumber" />
     	<ref bean="CapitalAssetInformation-capitalAssetTagNumber" />
     	<ref bean="CapitalAssetInformation-capitalAssetQuantity" />
@@ -86,10 +86,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier"/>
   
-  <bean id="CapitalAssetInformation-vendorNumber" parent="CapitalAssetInformation-vendorNumber-parentBean"/>
-  
-  <bean id="CapitalAssetInformation-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
-    <property name="shortLabel" value="Vendor Number" /> 
+  <bean id="CapitalAssetInformation-vendorName" parent="CapitalAssetInformation-vendorName-parentBean"/> 
+  <bean id="CapitalAssetInformation-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="shortLabel" value="Vendor Name" /> 
   </bean>  
   
   <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean">
@@ -143,6 +142,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
 	p:sourceAttributeName="capitalAssetDescription">
      <property name="name" value="capitalAssetDescription" />
+     <property name="control" >
+      	<bean parent="TextareaControlDefinition" p:rows="5" p:cols="80" />
+    </property>
   </bean> 
   
   <bean id="CapitalAssetInformation-capitalAssetManufacturerModelNumber" parent="CapitalAssetInformation-capitalAssetManufacturerModelNumber-parentBean" />

@@ -28,4 +28,13 @@
 	    	<include method="getByPrimaryId" />
 	    </create>
 	</allow>
+	<allow>
+	   	<convert converter="bean" match="org.kuali.kfs.vnd.businessobject.VendorDetail">
+	   		<param name="include" value="vendorNumber,vendorName,vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" />
+	   	</convert>
+	    <create creator="spring" javascript="VendorService">
+	    	<param name="beanName" value="vendorService" />
+	    	<include method="getByVendorNumber" />
+	    </create>
+	</allow>	
 </dwr>

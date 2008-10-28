@@ -28,6 +28,13 @@ public interface VendorService {
 
     public void saveVendorHeader(VendorDetail vendorDetail);
 
+    /**
+     * get the vendor detail with the given vendor number
+     * @param vendorNumber the given vendor number
+     * @return the vendor detail with the given vendor number if the vendor exists, otherwise, return null
+     */
+    public VendorDetail getByVendorNumber(String vendorNumber);
+    
     public VendorDetail getVendorDetail(String vendorNumber); 
     
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId);

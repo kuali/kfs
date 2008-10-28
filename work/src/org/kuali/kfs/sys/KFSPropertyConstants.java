@@ -1210,5 +1210,6 @@ public class KFSPropertyConstants {
     public static final String POSTAL_COUNTRY_RESTRICTED_INDICATOR = "postalCountryRestrictedIndicator";
     public static final String CAPITAL_ASSET_INFORMATION = "capitalAssetInformation";
     public static final String CLOSED = "closed";
+    public static final String ITEM_LINE_NUMBER = "itemLineNumber";
 }
 

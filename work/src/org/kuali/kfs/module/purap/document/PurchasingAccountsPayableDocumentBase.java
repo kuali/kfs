@@ -553,12 +553,25 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @return the total dollar amount with the specified item types excluded.
      */
     public KualiDecimal getTotalDollarAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine) {
+        List<PurApItem> itemsForTotal = (List<PurApItem>) getItems();
+        
+        return getTotalDollarAmountWithExclusionsSubsetItems(excludedTypes, includeBelowTheLine, itemsForTotal);
+    }
+
+    /**
+     * This method...
+     * @param excludedTypes
+     * @param includeBelowTheLine
+     * @param itemsForTotal
+     * @return
+     */
+    private KualiDecimal getTotalDollarAmountWithExclusionsSubsetItems(String[] excludedTypes, boolean includeBelowTheLine, List<PurApItem> itemsForTotal) {
         if (excludedTypes == null) {
             excludedTypes = new String[] {};
         }
 
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
-        for (PurApItem item : (List<PurApItem>) getItems()) {
+        for (PurApItem item : itemsForTotal) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
             if ((includeBelowTheLine || it.isLineItemIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
@@ -568,6 +581,25 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
         return total;
+    }
+    
+    public KualiDecimal getTotalDollarAmountForTradeIn() {
+        List<PurApItem> tradeInItems = getTradeInItems();
+        return getTotalDollarAmountWithExclusionsSubsetItems(null,false,tradeInItems);
+    }
+
+    /**
+     * This method...
+     * @param tradeInItems
+     */
+    public List<PurApItem> getTradeInItems() {
+        List<PurApItem> tradeInItems = new ArrayList<PurApItem>();
+        for (PurApItem purApItem : (List<PurApItem>)getItems()) {
+            if(purApItem.getItemAssignedToTradeInIndicator()) {
+                tradeInItems.add(purApItem);
+            }
+        }
+        return tradeInItems;
     }
 
     /**

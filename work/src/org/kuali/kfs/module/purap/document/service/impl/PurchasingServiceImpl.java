@@ -176,7 +176,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         if(fullOrderDiscount!=null && fullOrderDiscount.getExtendedPrice().isNonZero()) {
             //TODO: Chris check if we should update maybe use doc specific service since req is always update and po is only if empty
             fullOrderDiscount.getSourceAccountingLines().clear();
-
+            //FIXME: is this really correct?  including below the line?
             totalAmount = purDoc.getTotalDollarAmountAllItems(new String[]{PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE});
 
             summaryAccounts = purapAccountingService.generateSummary(purDoc.getItems());
@@ -184,8 +184,19 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, fullOrderDiscount.getAccountingLineClass());
             fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
         }
-        //TODO: If Trade in is not null or zero get proration list for all trade in selected items
-        
+        //TODO: Should we also check at least one trade in selected?
+        //If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
+        if(tradeIn!=null && tradeIn.getExtendedPrice().isNonZero()) {
+            //TODO: Chris check if we should update maybe use doc specific service since req is always update and po is only if empty
+            tradeIn.getSourceAccountingLines().clear();
+
+            totalAmount = purDoc.getTotalDollarAmountForTradeIn();
+
+            summaryAccounts = purapAccountingService.generateSummary(purDoc.getTradeInItems());
+
+            distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, tradeIn.getAccountingLineClass());
+            tradeIn.setSourceAccountingLines(distributedAccounts);
+        }
     }
     
     public boolean getDefaultUseTaxIndicatorValue(PurchasingDocument purDoc) {        

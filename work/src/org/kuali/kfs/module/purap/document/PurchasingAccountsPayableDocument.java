@@ -269,4 +269,10 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public Date getTransactionTaxDate();
     
     public PurApItem getTradeInItem();
+    
+    public KualiDecimal getTotalDollarAmountForTradeIn();
+    
+    public List<PurApItem> getTradeInItems();
+    
+    
 }

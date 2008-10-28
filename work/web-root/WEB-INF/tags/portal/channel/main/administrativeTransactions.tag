@@ -29,10 +29,6 @@
   <ul class="chan">		
 	 <li><portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" /></li>
   </ul>
-  <strong>Electronic Fund Transfer</strong>
-  <ul class="chan">
-    <li><portal:portalLink displayTitle="true" title="Electronic Fund Transfer" url="electronicFundTransfer.do?methodToCall=start" /></li>
-  </ul>
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Cash Management" url="financialCashManagement.do?methodToCall=docHandler&command=initiate&docTypeName=CashManagementDocument" /></li>
@@ -53,5 +49,9 @@
 				url="laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=KualiLaborLedgerErrorCorrectionDocument" />
 		</li>
     </ul>
+	<strong>System</strong>
+	<ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Electronic Fund Transfer" url="electronicFundTransfer.do?methodToCall=start" /></li>
+	</ul>
 </div>
 <channel:portalChannelBottom />

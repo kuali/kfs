@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.document.validation.impl;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +29,7 @@ import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -130,10 +132,12 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         for (T pd : projectDirectors) {
             String pdEmplStatusCode = pd.getProjectDirector().getPerson().getEmployeeStatusCode();
-            // TODO: FIXME
-            //String pdEmplStatusName = pd.getProjectDirector().getPerson().getEmployeeStatus().getName();
+            HashMap<String, String> criteria = new HashMap<String, String>();
+            criteria.put( "code", pdEmplStatusCode );
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
-                String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + "person status: fix me!" /*pdEmplStatusName*/ };
+                EmploymentStatusImpl empStatus = (EmploymentStatusImpl)getBoService().findByPrimaryKey(EmploymentStatusImpl.class, criteria);          
+                String pdEmplStatusName =  (empStatus != null)?empStatus.getName():"INVALID STATUS CODE " + pdEmplStatusCode;                    
+                String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + pdEmplStatusName };
                 putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
                 success = false;
             }

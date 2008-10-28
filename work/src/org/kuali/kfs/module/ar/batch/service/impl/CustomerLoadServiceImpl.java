@@ -483,8 +483,10 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
                 docSucceeded = false;
                 reporter.setCustomerFailureResult(customerName);
             }
-            
             addBatchErrorstoCustomerLoadResult(customerBatchErrors, result);
+            
+            //  force the customer numbers to upper case
+            customer.setCustomerName(customer.getCustomerName().toUpperCase());
             
             //  if the doc succeeded then add it to the list to be routed, and report it as successful
             if (docSucceeded) {

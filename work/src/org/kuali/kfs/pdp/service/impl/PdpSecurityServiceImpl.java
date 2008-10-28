@@ -72,7 +72,7 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
     public SecurityRecord getSecurityRecord(Person user) {
         LOG.debug("getSecurityRecord() started");
 
-        List<KimGroup> groups = user.getGroups();
+        List<? extends KimGroup> groups = user.getGroups();
 
         // All of these group names are names in the application settings table.
         SecurityRecord sr = new SecurityRecord();
@@ -99,7 +99,7 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
      * @param groupName
      * @return
      */
-    private boolean isGroupMember(List<KimGroup> groups, String groupName) {
+    private boolean isGroupMember(List<? extends KimGroup> groups, String groupName) {
         for (KimGroup element : groups) {
             if (element.getGroupName().equals(groupName)) {
                 return true;

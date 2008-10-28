@@ -589,12 +589,19 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
             fyValueCriteria.addOrCriteria(fyNullCriteria);
             criteria.addAndCriteria(fyValueCriteria);
-
         }
 
         // handle encumbrance balance type
         Map<String, Object> localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
+        
+        // we've already taken care of these fields...
+        if (includeNullFiscalPeriodCodeInLookup) {
+            localFieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        }
+        if (includeNullFiscalYearInLookup) {
+            localFieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        }
 
         String propertyName = KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
         if (localFieldValues.containsKey(propertyName)) {

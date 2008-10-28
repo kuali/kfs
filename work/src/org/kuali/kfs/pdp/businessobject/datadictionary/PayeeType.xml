@@ -16,7 +16,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupDefinition" >
       <ref bean="PayeeType-lookupDefinition" />
     </property>
-    <property name="objectLabel" value="Payment Type" />
+    <property name="objectLabel" value="Payee Type" />
     <property name="attributes" >
       <list>
         <ref bean="PayeeType-payeeTypeCode" />
@@ -34,15 +34,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="payeeTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Payee Type Code" />
-    <property name="shortLabel" value="Payment Type Code" />
+    <property name="shortLabel" value="Payee Type Code" />
     <property name="maxLength" value="1" />
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Payment Type Code" />
-    <property name="description" value="Payment Type Code" />
+    <property name="summary" value="Payee Type Code" />
+    <property name="description" value="Payee Type Code" />
+    <!--property name="allowsNewOrCopy" value="false" /-->
   </bean>
   
   <bean id="PayeeType-description" parent="PayeeType-description-parentBean" />

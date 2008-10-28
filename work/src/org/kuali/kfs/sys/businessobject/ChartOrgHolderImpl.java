@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -43,7 +42,6 @@ public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements
     protected static transient ChartService chartService;
 
     protected List<ChartOrgHolderModuleImpl> primaryOrganizations = new TypedArrayList(ChartOrgHolderModuleImpl.class);
-    protected List<ChartOrgHolderSecurityImpl> organizationSecurity = new TypedArrayList(ChartOrgHolderSecurityImpl.class);
 
     public ChartOrgHolderImpl() {}
     
@@ -66,29 +64,7 @@ public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements
         }
         return null;
     }
-    
-    
-    public List<ChartOrgHolderSecurityImpl> getOrganizationSecurity() {
-        return organizationSecurity;
-    }
-
-    public void setOrganizationSecurity(List<ChartOrgHolderSecurityImpl> organizationSecurity) {
-        this.organizationSecurity = organizationSecurity;
-    }
-
-    public List<ChartOrgHolderSecurityImpl> getOrganizationSecurityByModuleId( String moduleId ) {
-        List<ChartOrgHolderSecurityImpl> orgs = new ArrayList<ChartOrgHolderSecurityImpl>();
-        if ( moduleId == null ) {
-            return orgs;
-        }
-        for ( ChartOrgHolderSecurityImpl org : getOrganizationSecurity() ) {
-            if ( org.getModuleId().equals(moduleId)) {
-                orgs.add(org);
-            }
-        }
-        return orgs;
-    }
-    
+       
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
@@ -150,6 +126,7 @@ public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements
         this.moduleId = moduleId;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();

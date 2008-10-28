@@ -13,7 +13,7 @@
       <list>
         <ref bean="OrganizationExtension-chartOfAccountsCode" />
         <ref bean="OrganizationExtension-organizationCode" />
-        <ref bean="OrganizationExtension-organizationExtension.hrmsCompany" />
+        <ref bean="OrganizationExtension-hrmsCompany" />
         <ref bean="OrganizationExtension-hrmsIuOrganizationAddress2" />
         <ref bean="OrganizationExtension-hrmsIuOrganizationAddress3" />
         <ref bean="OrganizationExtension-hrmsIuCampusCode" />
@@ -91,10 +91,10 @@
 
   <bean id="OrganizationExtension-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
   </bean>
-  <bean id="OrganizationExtension-organizationExtension.hrmsCompany" parent="OrganizationExtension-organizationExtension.hrmsCompany-parentBean" />
+  <bean id="OrganizationExtension-hrmsCompany" parent="OrganizationExtension-hrmsCompany-parentBean" />
 
-  <bean id="OrganizationExtension-organizationExtension.hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationExtension.hrmsCompany" />
+  <bean id="OrganizationExtension-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsCompany" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="HRMS Company" />
     <property name="shortLabel" value="HRMS Company" />

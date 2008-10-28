@@ -2412,4 +2412,17 @@
     	<foreignkey field-ref="vendorDetailAssignedIdentifier"/>
     </reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail" table="FP_CPTL_AST_INFO_DTL_T" >
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+		<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="buildingSubroomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="capitalAssetTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="capitalAssetSerialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR" />
+</class-descriptor>	
 </descriptor-repository>

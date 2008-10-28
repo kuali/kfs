@@ -485,9 +485,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             }
             addBatchErrorstoCustomerLoadResult(customerBatchErrors, result);
             
-            //  force the customer numbers to upper case
-            customer.setCustomerName(customer.getCustomerName().toUpperCase());
-            
             //  if the doc succeeded then add it to the list to be routed, and report it as successful
             if (docSucceeded) {
                 customerMaintDocs.add(transientMaintDoc);
@@ -537,6 +534,9 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerBirthDate");
         }
         
+        //  upper case important fields
+        upperCaseKeyFields(customer);
+        
         //  determine whether the batch has a primary address, and which one it is
         boolean batchHasPrimaryAddress = false;
         CustomerAddress batchPrimaryAddress = null;
@@ -574,6 +574,115 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             customer.setCustomerParentCompanyNumber(null);
         }
         
+    }
+    
+    private void upperCaseKeyFields(Customer customer) {
+        
+        //  customer name
+        if (StringUtils.isNotBlank(customer.getCustomerName())) { 
+            customer.setCustomerName(customer.getCustomerName().toUpperCase());
+        }
+        
+        //  customer number
+        if (StringUtils.isNotBlank(customer.getCustomerNumber())) { 
+            customer.setCustomerNumber(customer.getCustomerNumber().toUpperCase());
+        }
+        
+        //  parent company number
+        if (StringUtils.isNotBlank(customer.getCustomerParentCompanyNumber())) { 
+            customer.setCustomerParentCompanyNumber(customer.getCustomerParentCompanyNumber().toUpperCase());
+        }
+        
+        //  customer tax type code
+        if (StringUtils.isNotBlank(customer.getCustomerTaxTypeCode())) { 
+            customer.setCustomerTaxTypeCode(customer.getCustomerTaxTypeCode().toUpperCase());
+        }
+        
+        //  customer tax number
+        if (StringUtils.isNotBlank(customer.getCustomerTaxNbr())) { 
+            customer.setCustomerTaxNbr(customer.getCustomerTaxNbr().toUpperCase());
+        }
+        
+        //  customer contact name
+        if (StringUtils.isNotBlank(customer.getCustomerContactName())) { 
+            customer.setCustomerContactName(customer.getCustomerContactName().toUpperCase());
+        }
+        
+        //  customer credit approved by name
+        if (StringUtils.isNotBlank(customer.getCustomerCreditApprovedByName())) { 
+            customer.setCustomerCreditApprovedByName(customer.getCustomerCreditApprovedByName().toUpperCase());
+        }
+        
+        //  customer email address
+        if (StringUtils.isNotBlank(customer.getCustomerEmailAddress())) { 
+            customer.setCustomerEmailAddress(customer.getCustomerEmailAddress().toUpperCase());
+        }
+        
+        for (CustomerAddress address : customer.getCustomerAddresses()) {
+            
+            if (address == null) continue;
+            
+            //  customer number
+            if (StringUtils.isNotBlank(address.getCustomerNumber())) {
+                address.setCustomerNumber(address.getCustomerNumber().toUpperCase());
+            }
+            
+            //  customer address name
+            if (StringUtils.isNotBlank(address.getCustomerAddressName())) {
+                address.setCustomerAddressName(address.getCustomerAddressName().toUpperCase());
+            }
+            
+            //  customerLine1StreetAddress
+            if (StringUtils.isNotBlank(address.getCustomerLine1StreetAddress())) {
+                address.setCustomerLine1StreetAddress(address.getCustomerLine1StreetAddress().toUpperCase());
+            }
+            
+            //  customerLine2StreetAddress
+            if (StringUtils.isNotBlank(address.getCustomerLine2StreetAddress())) {
+                address.setCustomerLine2StreetAddress(address.getCustomerLine2StreetAddress().toUpperCase());
+            }
+            
+            //  customerCityName
+            if (StringUtils.isNotBlank(address.getCustomerCityName())) {
+                address.setCustomerCityName(address.getCustomerCityName().toUpperCase());
+            }
+            
+            //  customerStateCode
+            if (StringUtils.isNotBlank(address.getCustomerStateCode())) {
+                address.setCustomerStateCode(address.getCustomerStateCode().toUpperCase());
+            }
+            
+            //  customerZipCode
+            if (StringUtils.isNotBlank(address.getCustomerZipCode())) {
+                address.setCustomerZipCode(address.getCustomerZipCode().toUpperCase());
+            }
+            
+            //  customerCountryCode
+            if (StringUtils.isNotBlank(address.getCustomerNumber())) {
+                address.setCustomerNumber(address.getCustomerNumber().toUpperCase());
+            }
+            
+            //  customerAddressInternationalProvinceName
+            if (StringUtils.isNotBlank(address.getCustomerAddressInternationalProvinceName())) {
+                address.setCustomerAddressInternationalProvinceName(address.getCustomerAddressInternationalProvinceName().toUpperCase());
+            }
+            
+            //  customerInternationalMailCode
+            if (StringUtils.isNotBlank(address.getCustomerInternationalMailCode())) {
+                address.setCustomerInternationalMailCode(address.getCustomerInternationalMailCode().toUpperCase());
+            }
+            
+            //  customerEmailAddress
+            if (StringUtils.isNotBlank(address.getCustomerEmailAddress())) {
+                address.setCustomerEmailAddress(address.getCustomerEmailAddress().toUpperCase());
+            }
+            
+            //  customerAddressTypeCode
+            if (StringUtils.isNotBlank(address.getCustomerAddressTypeCode())) {
+                address.setCustomerAddressTypeCode(address.getCustomerAddressTypeCode().toUpperCase());
+            }
+            
+        }
     }
     
     /**

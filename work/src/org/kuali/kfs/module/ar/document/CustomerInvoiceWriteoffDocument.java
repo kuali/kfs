@@ -281,7 +281,6 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     public void prepareForSave(KualiDocumentEvent event) {
-        
         // generate GLPEs
         if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
             logErrors();

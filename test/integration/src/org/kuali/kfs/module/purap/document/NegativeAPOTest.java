@@ -93,6 +93,18 @@ public class NegativeAPOTest extends KualiTestBase {
          }             
      }
      
+     //Missing some of the vendor address fields that are required in Purchase Order.
+     public void testInvalidAPOMissingVendorAddressFields() throws Exception {
+         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+         requisitionDocument.setVendorCityName(null);
+         final String docId = requisitionDocument.getDocumentNumber();
+         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));    
+         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
+             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_SOME_VENDOR_ADDRESS_FIELDS);
+             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         }    
+     }
+     
      //Error retrieving vendor from database.
      public void testInvalidAPOVendorNotInDB() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ERROR_RETRIEVING_VENDOR_FROM_DATABASE.createRequisitionDocument();

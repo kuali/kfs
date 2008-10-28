@@ -387,12 +387,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
         boolean valid = true;
-        // Check Object Code: Capital object code shall not be used for a non-capital asset.
-        if (assetGlobal.getInventoryStatusCode() != null && !isCapitalStatus(assetGlobal) && assetGlobalService.isCapitablObjectCode(objectCode)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED);
-            valid = false;
-        }
-
         // The acquisition type code of (F, G, N, S, T) requires a capital object code.
         valid &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, assetGlobal.getAcquisitionTypeCode(), objectCode.getFinancialObjectSubTypeCode()).evaluateAndAddError(ObjectCode.class, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE);
         return valid;
@@ -560,13 +554,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                     success &= false;
                 }
             }
-            if (StringUtils.isNotBlank(statusCode) && (CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(statusCode) || isStatusCodeRetired(statusCode))) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_CODE_INVALID, new String[] { statusCode });
-                success &= false;
-            }
             if (StringUtils.isNotBlank(acquisitionTypeCode) && StringUtils.isNotBlank(statusCode)) {
+                // TODO: once system parameters created, we should apply this rule.
                 // check if status code and acquisition type code combination is valid
-                success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, CamsConstants.Parameters.INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, statusCode, acquisitionTypeCode).evaluateAndAddError(AssetGlobal.class, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
+                //success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_STATUSES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE, acquisitionTypeCode, statusCode).evaluateAndAddError(AssetGlobal.class, CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE);
             }
             success &= validateAssetType(assetGlobal);
             if (isCapitalStatus(assetGlobal)) {

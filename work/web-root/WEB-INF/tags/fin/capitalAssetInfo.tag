@@ -49,8 +49,9 @@
 <br/><br/>
 		
 <table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
+   <c:set var="colspan" value="${readOnly ? 5 : 6 }"/>
    <tr>
-   		<td colspan="6" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
+   		<td colspan="${colspan}" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
    </tr>
    
    <tr> 
@@ -59,13 +60,15 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.vendorName}" labelFor="${capitalAssetInfoName}.vendorName"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerName}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerName"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerModelNumber}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerModelNumber"/>
-		<kul:htmlAttributeHeaderCell literalLabel="Action"/>
+		<c:if test="${!readOnly}">
+			<kul:htmlAttributeHeaderCell literalLabel="Action"/>
+		</c:if>
    </tr>
    
    <tr>
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}" dataFieldCssClass="amount"
 			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="capitalAssetQuantity" lookup="false" inquiry="false"/>
+			field="capitalAssetQuantity" lookup="false" inquiry="false" />
 			
 		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
 			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
@@ -89,6 +92,7 @@
 			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
 		
+		<c:if test="${!readOnly}">
 		<td rowspan="2" class="infoline">  
 			<div style="text-align: center;">	
 				<html:image property="methodToCall.addCapitalAssetInfo" 
@@ -96,12 +100,13 @@
 					title="Add the capital Asset Information"
 					alt="Add the capital Asset Information" styleClass="tinybutton" />	
 				<br/>	 
-				 <html:image property="methodToCall.clearCapitalAssetInfo" 
+				<html:image property="methodToCall.clearCapitalAssetInfo" 
 					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 					title="Clear the capital Asset Information"
 					alt="Clear the capital Asset Information" styleClass="tinybutton" />
 			</div>
-		</td>																										 
+		</td>
+		</c:if>																										 
    </tr>
    <tr>
  		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetDescription}"/>
@@ -110,7 +115,7 @@
 			field="capitalAssetDescription" lookup="false" inquiry="false" colSpan="4"/>
    </tr>   		
 
-   <tr><td colSpan="6"><center><br/>
+   <tr><td colSpan="${colspan}"><center><br/>
 		<fin:capitalAssetInfoDetail capitalAssetInfoDetails="${capitalAssetInfo.capitalAssetInformationDetails}" 
 			capitalAssetInfoDetailsName="${capitalAssetInfoName}.capitalAssetInformationDetails" readOnly="${readOnly}"/>
 	<br/></center></td></tr>

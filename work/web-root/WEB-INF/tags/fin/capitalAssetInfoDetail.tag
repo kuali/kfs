@@ -27,7 +27,7 @@
 <c:set var="dataCellCssClass" value="datacell"/>
 
 <c:if test="${not empty capitalAssetInfoDetails}">
-	<table style="border-top: 1px solid rgb(153, 153, 153); width: 95%;" cellpadding="0" cellspacing="0" class="datatable" summary="Capital Asset Information Details">  
+	<table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable" summary="Capital Asset Information Details">  
 	   <tr>  
 	   		<kul:htmlAttributeHeaderCell literalLabel=""/>
 	   	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTagNumber}" labelFor="${capitalAssetInfoDetailsName}.capitalAssetTagNumber"/>

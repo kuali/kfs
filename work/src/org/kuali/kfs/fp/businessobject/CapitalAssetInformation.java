@@ -357,6 +357,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
         simpleValues.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.getVendorHeaderGeneratedIdentifier());
         simpleValues.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, this.getVendorDetailAssignedIdentifier());
+        simpleValues.put(KFSPropertyConstants.VENDOR_NAME, this.getVendorName());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, this.getCapitalAssetTypeCode());
 

@@ -17,6 +17,9 @@
 
 <%@ attribute name="dataCellCssClass" required="true"
               description="The name of the CSS class for this data cell." %>
+<%@ attribute name="dataFieldCssClass" required="false"
+              description="The name of the CSS class for this data field." %>
+              
 <%@ attribute name="field" required="true"
               description="The name of the field of  the business object being edited or displayed by this cell.
               Combined with the businessObjectFormName, this identifies the value (i.e., the data) of this cell." %>

@@ -32,6 +32,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -318,10 +320,15 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+        Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
+        Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
+
         
         String chartOfAccountsCode;
         String accountNumber;
         String organizationcode;
+        Long assetNumber;
+        String assetTagNumber;
         
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
@@ -329,18 +336,27 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             chartOfAccountsCode = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerChartOfAccountsCode();
             accountNumber = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerAccountNumber();
             organizationcode = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerAccount().getOrganizationCode();
+            assetNumber = assetRetirementGlobal.getMergedTargetCapitalAssetNumber();
+            assetTagNumber = assetRetirementGlobal.getMergedTargetCapitalAsset().getCampusTagNumber();
             
             organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
             accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+            assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
+            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
         }
         
         for (AssetRetirementGlobalDetail detailLine : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
             chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
             accountNumber = detailLine.getAsset().getOrganizationOwnerAccountNumber();
             organizationcode = detailLine.getAsset().getOrganizationOwnerAccount().getOrganizationCode();
+            assetNumber = detailLine.getAsset().getCapitalAssetNumber();
+            assetTagNumber = detailLine.getAsset().getCampusTagNumber();
 
             organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
             accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+            assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
+            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
+
         }
                             
         //Storing data
@@ -353,5 +369,15 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
+        
+        RoutingData assetNumberRoutingData = new RoutingData();
+        assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
+        assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
+        routingInfo.add(assetNumberRoutingData);
+        
+        RoutingData assetTagNumberRoutingData = new RoutingData();
+        assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
+        assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
+        routingInfo.add(assetTagNumberRoutingData);
     }
 }

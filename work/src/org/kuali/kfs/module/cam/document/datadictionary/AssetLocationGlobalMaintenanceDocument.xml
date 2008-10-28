@@ -115,13 +115,12 @@
         <bean parent="WorkflowPropertyGroup">
           <property name="workflowProperties" >
             <list>
+             
               <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject" />
+                    p:path="routingInfo.routingTypes" />
               <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.assetLocationGlobalDetails.asset" />    
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.assetLocationGlobalDetails.asset.organizationOwnerAccount" />    
-                    
+                    p:path="routingInfo.routingSet" />
+            
             </list>
           </property>
         </bean>

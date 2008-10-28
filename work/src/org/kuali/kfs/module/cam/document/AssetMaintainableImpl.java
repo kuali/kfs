@@ -28,6 +28,8 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
@@ -212,18 +214,22 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
     public void populateRoutingInfo() {        
-        if (this.isAssetFabrication()) {
+       // if (this.isAssetFabrication()) {
             routingInfo = new HashSet<RoutingData>();
             
             Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
             Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-    
+            Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
+            Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
+            
             Asset asset = (Asset) getBusinessObject();
 
             //Asset information
             organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
             accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(),asset.getOrganizationOwnerAccountNumber()));
-                                
+            assetNumberRoutingSet.add(new RoutingAssetNumber(asset.getCapitalAssetNumber().toString())); 
+            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(asset.getCampusTagNumber()));
+             
             //Storing data
             RoutingData organizationRoutingData = new RoutingData();
             organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
@@ -234,7 +240,17 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
             accountRoutingData.setRoutingSet(accountRoutingSet);
             routingInfo.add(accountRoutingData);
-        }
+            
+            RoutingData assetNumberRoutingData = new RoutingData();
+            assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
+            assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
+            routingInfo.add(assetNumberRoutingData);
+            
+            RoutingData assetTagNumberRoutingData = new RoutingData();
+            assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
+            assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
+            routingInfo.add(assetTagNumberRoutingData);
+      //  }
     }    
 
 }

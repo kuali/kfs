@@ -41,6 +41,8 @@ import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinde
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.module.cam.util.KualiDecimalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -607,13 +609,16 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+        Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
+        Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
 
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         // Asset information
         organizationRoutingSet.add(new OrgReviewRoutingData(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccount().getOrganizationCode()));
         accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber()));
-
+        assetNumberRoutingSet.add(new RoutingAssetNumber(assetGlobal.getSeparateSourceCapitalAssetNumber().toString())); 
+        assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetGlobal.getSeparateSourceCapitalAsset().getCampusTagNumber()));
         // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
@@ -624,6 +629,16 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
+        
+        RoutingData assetNumberRoutingData = new RoutingData();
+        assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
+        assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
+        routingInfo.add(assetNumberRoutingData);
+        
+        RoutingData assetTagNumberRoutingData = new RoutingData();
+        assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
+        assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
+        routingInfo.add(assetTagNumberRoutingData);
     }
 
     /**

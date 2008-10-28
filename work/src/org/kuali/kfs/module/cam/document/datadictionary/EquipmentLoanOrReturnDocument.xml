@@ -510,9 +510,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           <property name="workflowProperties" >
             <list>
               <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
+                    p:path="routingInfo.routingTypes" />
               <bean parent="WorkflowProperty"
-                    p:path="asset" />
+                    p:path="routingInfo.routingSet" />
             </list>
           </property>
         </bean>

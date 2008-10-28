@@ -27,15 +27,15 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
@@ -49,7 +49,6 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -803,11 +802,14 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+        Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
+        Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
                 
         //Asset information
         organizationRoutingSet.add(new OrgReviewRoutingData(this.getAsset().getOrganizationOwnerChartOfAccountsCode(), this.getAsset().getOrganizationOwnerAccount().getOrganizationCode()));
         accountRoutingSet.add(new RoutingAccount(this.getAsset().getOrganizationOwnerChartOfAccountsCode(), this.getAsset().getOrganizationOwnerAccountNumber()));
-                        
+        assetNumberRoutingSet.add(new RoutingAssetNumber(this.getAsset().getCapitalAssetNumber().toString()));  
+        assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(this.getAsset().getCampusTagNumber()));
         //Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
@@ -818,6 +820,17 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
+        
+        RoutingData assetNumberRoutingData = new RoutingData();
+        assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
+        assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
+        routingInfo.add(assetNumberRoutingData);
+        
+        RoutingData assetTagNumberRoutingData = new RoutingData();
+        assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
+        assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
+        routingInfo.add(assetTagNumberRoutingData);
+        
     }
 
 }

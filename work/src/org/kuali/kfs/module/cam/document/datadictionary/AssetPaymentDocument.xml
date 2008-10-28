@@ -107,8 +107,11 @@
         <bean parent="WorkflowPropertyGroup">
           <property name="workflowProperties" >
             <list>
+              
               <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
+                    p:path="routingInfo.routingTypes" />
+              <bean parent="WorkflowProperty"
+                    p:path="routingInfo.routingSet" />
             </list>
           </property>
         </bean>

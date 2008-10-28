@@ -17,14 +17,24 @@ package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -33,10 +43,12 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location assets
  */
-public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalMaintainableImpl.class);
 
+    private Set<RoutingData> routingInfo;
+    
     /**
      * Populates any empty fields from Asset primary key
      * 
@@ -102,5 +114,79 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
             maintenanceLocks.add(maintenanceLock);
         }
         return maintenanceLocks;
+    }
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {        
+        routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+        Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
+        Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
+
+        
+        String chartOfAccountsCode;
+        String accountNumber;
+        String organizationcode;
+        Long assetNumber;
+        String assetTagNumber;
+        
+        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
+
+        for (AssetLocationGlobalDetail detailLine : assetLocationGlobal.getAssetLocationGlobalDetails()) {
+            chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
+            accountNumber = detailLine.getAsset().getOrganizationOwnerAccountNumber();
+            organizationcode = detailLine.getAsset().getOrganizationOwnerAccount().getOrganizationCode();
+            assetNumber = detailLine.getAsset().getCapitalAssetNumber();
+            assetTagNumber = detailLine.getAsset().getCampusTagNumber();
+
+            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
+            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+            assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
+            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
+            
+        }
+                            
+        //Storing data
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
+        
+        RoutingData accountRoutingData = new RoutingData();
+        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
+        accountRoutingData.setRoutingSet(accountRoutingSet);
+        routingInfo.add(accountRoutingData);
+        
+        RoutingData assetNumberRoutingData = new RoutingData();
+        assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
+        assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
+        routingInfo.add(assetNumberRoutingData);
+        
+        RoutingData assetTagNumberRoutingData = new RoutingData();
+        assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
+        assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
+        routingInfo.add(assetTagNumberRoutingData);
+        
     }
 }

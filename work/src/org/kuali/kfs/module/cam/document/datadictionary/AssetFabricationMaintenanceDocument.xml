@@ -24,9 +24,10 @@
           <property name="workflowProperties" >
             <list>
               <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject" />
-                <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.organizationOwnerAccount" />    
+                    p:path="routingInfo.routingTypes" />
+              <bean parent="WorkflowProperty"
+                    p:path="routingInfo.routingSet" />
+              
             </list>
           </property>
         </bean>

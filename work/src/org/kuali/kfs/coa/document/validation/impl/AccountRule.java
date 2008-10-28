@@ -498,7 +498,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks to see if two users are the same BusinessObject using their identifiers
+     * This method checks to see if two users are the same Person using their identifiers
      * 
      * @param user1
      * @param user2

@@ -32,11 +32,10 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -367,29 +366,20 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This method checks to see if two users are the same BusinessObject using their identifiers
+     * This method checks to see if two users are the same Person using their identifiers
      * 
      * @param user1
      * @param user2
      * @return true if these two users are the same
      */
     protected boolean areTwoUsersTheSame(Person user1, Person user2) {
-        if (ObjectUtils.isNull(user1)) {
+        if (ObjectUtils.isNull(user1) || user1.getPrincipalId() == null ) {
             return false;
         }
-        if (ObjectUtils.isNull(user2)) {
+        if (ObjectUtils.isNull(user2) || user2.getPrincipalId() == null ) {
             return false;
         }
-        // not a real person object - fail the comparison
-        if (user1.getPrincipalId() == null || user2.getPrincipalId() == null) {
-            return false;
-        }
-        if (ObjectUtils.equalByKeys(user1, user2)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return user1.getPrincipalId().equals(user2.getPrincipalId());
     }
 
     /**
@@ -623,7 +613,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         // attempt to retrieve the continuation account from the DB
         Account continuation = null;
-        Map pkMap = new HashMap();
+        Map<String,String> pkMap = new HashMap<String,String>();
         pkMap.put("chartOfAccountsCode", chartCode);
         pkMap.put("accountNumber", accountNumber);
         continuation = (Account) super.getBoService().findByPrimaryKey(Account.class, pkMap);

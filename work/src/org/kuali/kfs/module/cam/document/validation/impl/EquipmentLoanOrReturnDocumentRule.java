@@ -173,22 +173,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE, equipmentLoanOrReturnDocument.getBorrowerStateCode());
             valid &= false;
         }
-/* KULCAP-690 No need to validate zip code
-        PostalCode borrowerZipCode = equipmentLoanOrReturnDocument.getBorrowerPostalZipCode();
-        if (ObjectUtils.isNull(borrowerZipCode)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_POSTAL_ZIP_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerZipCode());
-            valid &= false;
-        }
-        else {
-            // validate postal zip code against state code
-            if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStateCode())) {
-                if (!equipmentLoanOrReturnDocument.getBorrowerStateCode().equals(borrowerZipCode.getPostalStateCode())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStateCode(), equipmentLoanOrReturnDocument.getBorrowerZipCode());
-                    valid &= false;
-                }
-            }
-        }
-*/
+
         // validate borrower storage state and postal zip code
         if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
             if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerStorageCountryCode())) {
@@ -201,24 +186,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             }
         }
         
-/* KULCAP-690 No need to validate zip code
-        if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageZipCode())) {
-            PostalCode borrowStorageZipCode = equipmentLoanOrReturnDocument.getBorrowerStoragePostalZipCode();
-            if (ObjectUtils.isNull(borrowStorageZipCode)) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STORAGE_POSTAL_ZIP_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStorageZipCode());
-                valid = false;
-            }
-            else {
-                // validate postal zip code against state code
-                if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
-                    if (!equipmentLoanOrReturnDocument.getBorrowerStorageStateCode().equals(borrowStorageZipCode.getPostalStateCode())) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode(), equipmentLoanOrReturnDocument.getBorrowerStorageZipCode());
-                        valid &= false;
-                    }
-                }
-            }
-        }
-*/
         return valid;
     }
 

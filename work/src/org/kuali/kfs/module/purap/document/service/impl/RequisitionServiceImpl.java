@@ -197,7 +197,11 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (vendorDetail == null) {
                 return "Error retrieving vendor from the database.";
             }
-
+            if ( StringUtils.isBlank(requisition.getVendorLine1Address()) || 
+                 StringUtils.isBlank(requisition.getVendorCityName()) ||
+                 StringUtils.isBlank(requisition.getVendorCountryCode())) {
+                return "Requisition does not have all of the vendor address fields that are required for Purchase Order.";
+            }
             requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
             if (requisition.getVendorRestrictedIndicator() != null && requisition.getVendorRestrictedIndicator()) {
                 return "Selected vendor is marked as restricted.";

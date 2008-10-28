@@ -45,6 +45,21 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator
     REQ_WITH_MANUALLY_ENTERED_VENDOR(null, RequisitionStatuses.IN_PROCESS, null, null, "Colts Gear Shop", "111 Champs St", null, "Indy Rocks", "IN", null, "11111", "US", null, null,false),
+    REQ_TAX(null, 
+            RequisitionStatuses.IN_PROCESS, 
+            1000, 
+            0, 
+            "ABC CLEANING SERVICES", 
+            "123456 BROAD ST", 
+            null, 
+            "TRUMANSBURG", 
+            "SC", 
+            null, 
+            "11111", 
+            "US", 
+            null, 
+            null,
+            false),
     // APO FIXTURES
     REQ_VALID_APO(null, // purapDocumentIdentifier
             RequisitionStatuses.IN_PROCESS, // statusCode

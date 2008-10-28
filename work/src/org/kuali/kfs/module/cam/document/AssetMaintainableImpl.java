@@ -56,7 +56,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     private Set<RoutingData> routingInfo;
 
     /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
      * @param document Maintenance Document used for editing
      * @param parameters Parameters available
      */
@@ -93,7 +94,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     }
 
     /**
-     * Hide a few sections if this is a create new (fabrication request) or vice versa. Also hide payments if there are more then the allowable number.
+     * Hide a few sections if this is a create new (fabrication request) or vice versa. Also hide payments if there are more then
+     * the allowable number.
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
@@ -116,7 +118,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         else {
             // asset edit. Hide sections that are only applicable to fabrication request
             for (Section section : sections) {
-                if (CamsConstants.Asset.SECTION_ID_FABRICATION_INFORMATION.equals(section.getSectionId())) {
+                // hide fabrication only if asset is not fabricated through CAMS.
+                if (CamsConstants.Asset.SECTION_ID_FABRICATION_INFORMATION.equals(section.getSectionId()) && asset.getEstimatedFabricationCompletionDate() == null) {
                     section.setHidden(true);
                 }
                 // if asset is not retired, hide retirement information
@@ -125,7 +128,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                 }
                 if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() == 0) {
                     section.setSectionTitle(section.getSectionTitle() + CamsConstants.Asset.SECTION_TITLE_NO_PAYMENT + asset.getCapitalAssetNumber());
-                } else if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() > CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
+                }
+                else if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() > CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
                     // Hide the payment section if there are more then CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY
                     section.setHidden(true);
                 }
@@ -142,12 +146,13 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
 
     /**
      * Checks if the maintainable is for asset fabrication as opposed "create new".
+     * 
      * @return
      */
     private boolean isAssetFabrication() {
         return KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction());
     }
-    
+
     /**
      * This method gets old and new maintainable objects and creates convenience handles to them
      * 
@@ -169,7 +174,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         Asset asset = ((Asset) businessObject);
         if (asset.getCapitalAssetNumber() == null) {
             asset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-        }        
+        }
         super.saveBusinessObject();
     }
 
@@ -190,7 +195,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         }
     }
 
-        
+
     /**
      * Gets the routingInfo attribute.
      * 
@@ -210,47 +215,46 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
-    public void populateRoutingInfo() {        
-       // if (this.isAssetFabrication()) {
-            routingInfo = new HashSet<RoutingData>();
-            
-            Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
-            Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-            Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
-            Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
-            
-            Asset asset = (Asset) getBusinessObject();
+    public void populateRoutingInfo() {
+        // if (this.isAssetFabrication()) {
+        routingInfo = new HashSet<RoutingData>();
 
-            //Asset information
-            organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
-            accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(),asset.getOrganizationOwnerAccountNumber()));
-            assetNumberRoutingSet.add(new RoutingAssetNumber(asset.getCapitalAssetNumber().toString())); 
-            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(asset.getCampusTagNumber()));
-             
-            //Storing data
-            RoutingData organizationRoutingData = new RoutingData();
-            organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
-            organizationRoutingData.setRoutingSet(organizationRoutingSet);
-            routingInfo.add(organizationRoutingData);
-                    
-            RoutingData accountRoutingData = new RoutingData();
-            accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
-            accountRoutingData.setRoutingSet(accountRoutingSet);
-            routingInfo.add(accountRoutingData);
-            
-            RoutingData assetNumberRoutingData = new RoutingData();
-            assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
-            assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
-            routingInfo.add(assetNumberRoutingData);
-            
-            RoutingData assetTagNumberRoutingData = new RoutingData();
-            assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
-            assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
-            routingInfo.add(assetTagNumberRoutingData);
-      //  }
-    }    
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+        Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
+        Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
+
+        Asset asset = (Asset) getBusinessObject();
+
+        // Asset information
+        organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
+        accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber()));
+        assetNumberRoutingSet.add(new RoutingAssetNumber(asset.getCapitalAssetNumber().toString()));
+        assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(asset.getCampusTagNumber()));
+
+        // Storing data
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
+
+        RoutingData accountRoutingData = new RoutingData();
+        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
+        accountRoutingData.setRoutingSet(accountRoutingSet);
+        routingInfo.add(accountRoutingData);
+
+        RoutingData assetNumberRoutingData = new RoutingData();
+        assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
+        assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
+        routingInfo.add(assetNumberRoutingData);
+
+        RoutingData assetTagNumberRoutingData = new RoutingData();
+        assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
+        assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
+        routingInfo.add(assetTagNumberRoutingData);
+        // }
+    }
 
 }

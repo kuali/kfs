@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.authorization;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
 import static org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -77,6 +78,8 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
             }
             // acquisition type code is read-only during edit
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
+            // fabrication fields are read-only
+            makeReadOnlyFields(auths, Arrays.asList(CamsConstants.Asset.FABRICATION_INFORMATION_FIELDS));
         }
 
         hidePaymentSequence(auths, newAsset);
@@ -156,4 +159,3 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
     }
 
 }
-

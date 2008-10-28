@@ -29,7 +29,7 @@
 <c:if test="${not empty capitalAssetInfoDetails}">
 	<table style="border-top: 1px solid rgb(153, 153, 153); width: 95%;" cellpadding="0" cellspacing="0" class="datatable" summary="Capital Asset Information Details">  
 	   <tr>  
-	   		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.itemLineNumber}" labelFor="${capitalAssetInfoDetailsName}.itemLineNumber"/>
+	   		<kul:htmlAttributeHeaderCell literalLabel=""/>
 	   	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTagNumber}" labelFor="${capitalAssetInfoDetailsName}.capitalAssetTagNumber"/>
 			<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetSerialNumber}" labelFor="${capitalAssetInfoDetailsName}.capitalAssetSerialNumber"/>                      
 		    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.campusCode}" labelFor="${capitalAssetInfoDetailsName}.campusCode"/>
@@ -38,14 +38,13 @@
 			<kul:htmlAttributeHeaderCell attributeEntry="${attributes.buildingSubRoomNumber}" labelFor="${capitalAssetInfoDetailsName}.buildingSubRoomNumber"/>
 			<c:if test="${!readOnly}">
 				<kul:htmlAttributeHeaderCell literalLabel="Action"/>
-			</c:if
+			</c:if>
 	   </tr>
 	   
    	   <c:forEach items="${capitalAssetInfoDetails}" var="detailLine" varStatus="status">
 	   <tr>
-	   		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="true"
-				field="itemLineNumber" lookup="false" inquiry="false"/>	
+	   		<c:set var="lineNumber" value="${status.index + 1}"/>
+			<kul:htmlAttributeHeaderCell literalLabel="${lineNumber}"/>	
 	   		
 			<fin:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
@@ -57,7 +56,7 @@
 				
 			<fin:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
-				field="campusCode" lookup="true" inquiry="true"
+				field="campusCode" lookup="false" inquiry="true"
 				boClassSimpleName="Campus" boPackageName="org.kuali.rice.kns.bo"
 				lookupOrInquiryKeys="campusCode"
 				businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
@@ -82,12 +81,12 @@
 				businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
 			
 			<c:if test="${!readOnly}">
-				<td class="${dataCellCssClass}">  
+				<td class="infoline">  
 					<div style="text-align: center;">			 
-						 <html:image property="methodToCall.deleteCapitalAssetInfoDetail.line${status.index}" 
+						 <html:image property="methodToCall.deleteCapitalAssetInfoDetailLine.line${status.index}" 
 							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
-							title="delete the capital Asset Information Detail line ${status.index}"
-							alt="delete the capital Asset Information Detail line ${status.index}" styleClass="tinybutton" />
+							title="delete the capital Asset Information Detail line ${lineNumber}"
+							alt="delete the capital Asset Information Detail line ${lineNumber}" styleClass="tinybutton" />
 					</div>
 				</td>
 			</c:if>																									 

@@ -2404,7 +2404,7 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" primarykey="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />

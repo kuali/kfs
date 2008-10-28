@@ -27,11 +27,8 @@
 <script language="JavaScript" type="text/javascript" src="dwr/interface/VendorService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
 	
-<c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />
-<c:set var="vendorAttributes" value="${DataDictionary.VendorDetail.attributes}" />		
+<c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />	
 <c:set var="dataCellCssClass" value="datacell"/>
-
-
 
 <table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
    	<tr>
@@ -92,12 +89,13 @@
 			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
 		
-		<td rowspan="2" class="datacell">  
+		<td rowspan="2" class="infoline">  
 			<div style="text-align: center;">	
-				<html:image property="methodToCall.addCapitalAssetInfoDetails" 
+				<html:image property="methodToCall.addCapitalAssetInfo" 
 					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
-					title="Add the capital Asset Information Detail"
-					alt="Add the capital Asset Information Detail" styleClass="tinybutton" />		 
+					title="Add the capital Asset Information"
+					alt="Add the capital Asset Information" styleClass="tinybutton" />	
+				<br/>	 
 				 <html:image property="methodToCall.clearCapitalAssetInfo" 
 					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 					title="Clear the capital Asset Information"
@@ -113,7 +111,7 @@
    </tr>   		
 
    <tr><td colSpan="6"><center><br/>
-		<<fin:dataCellDetail capitalAssetInfoDetails="${capitalAssetInfo.capitalAssetInfoDetails}" 
-			capitalAssetInfoDetailsName="${capitalAssetInfoName}.capitalAssetInfoDetails" readOnly="${readOnly}"/>
+		<fin:capitalAssetInfoDetail capitalAssetInfoDetails="${capitalAssetInfo.capitalAssetInformationDetails}" 
+			capitalAssetInfoDetailsName="${capitalAssetInfoName}.capitalAssetInformationDetails" readOnly="${readOnly}"/>
 	<br/></center></td></tr>
 </table>

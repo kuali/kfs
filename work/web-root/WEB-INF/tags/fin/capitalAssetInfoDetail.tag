@@ -59,26 +59,26 @@
 				field="campusCode" lookup="false" inquiry="true"
 				boClassSimpleName="Campus" boPackageName="org.kuali.rice.kns.bo"
 				lookupOrInquiryKeys="campusCode"
-				businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
+				businessObjectValuesMap="${detailLine.valuesMap}"/>	
 			
 			<fin:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 				field="buildingCode" lookup="true" inquiry="true"
 				boClassSimpleName="Building" boPackageName="org.kuali.kfs.sys.businessobject"
 				lookupOrInquiryKeys="campusCode,buildingCode"
-				businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
+				businessObjectValuesMap="${detailLine.valuesMap}"/>
 			
 			<fin:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 				field="buildingRoomNumber" lookup="true" inquiry="true"
 				boClassSimpleName="Room" boPackageName="org.kuali.kfs.sys.businessobject"
 				lookupOrInquiryKeys="campusCode,buildingCode,buildingRoomNumber"
-				businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
+				businessObjectValuesMap="${detailLine.valuesMap}"/>	
 			
 			<fin:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 				field="buildingSubRoomNumber" lookup="false" inquiry="false"
-				businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
+				businessObjectValuesMap="${detailLine.valuesMap}"/>
 			
 			<c:if test="${!readOnly}">
 				<td class="infoline">  

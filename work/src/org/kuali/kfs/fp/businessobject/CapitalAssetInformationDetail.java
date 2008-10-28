@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
@@ -261,5 +263,21 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
      */
     public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
         this.buildingSubRoomNumber = buildingSubRoomNumber;
+    }
+    
+    /**
+     * Returns a map with the primitive field names as the key and the primitive values as the map value.
+     * 
+     * @return Map a map with the primitive field names as the key and the primitive values as the map value.
+     */
+    public Map<String, Object> getValuesMap() {
+        Map<String, Object> simpleValues = new HashMap<String, Object>();
+
+        simpleValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        simpleValues.put(KFSPropertyConstants.CAMPUS_CODE, this.getCampusCode());
+        simpleValues.put(KFSPropertyConstants.BUILDING_CODE, this.getBuildingCode());
+        simpleValues.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, this.getBuildingRoomNumber());
+
+        return simpleValues;
     }
 }

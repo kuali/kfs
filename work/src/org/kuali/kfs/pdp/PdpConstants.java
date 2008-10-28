@@ -28,6 +28,7 @@ public class PdpConstants {
     public static final String PDP_FDOC_TYPE_CODE = "PDP";
     public static final String PDP_FDOC_ORIGIN_CODE = "01";
     public static final String ACH_ACCOUNT_IDENTIFIER_SEQUENCE_NAME = "PDP_ACH_ACCT_GNRTD_ID_SEQ";
+    public static final String ACH_TRANSACTION_TYPE_DEFAULT = "22";
 
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 

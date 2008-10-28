@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.rice.kim.bo.Person;
@@ -51,22 +52,6 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         super();
     }
 
-    /*public PaymentProcess createProcess(String campusCd, Person processUser) {
-        LOG.debug("createProcess() started");
-
-        Date d = new Date();
-        Timestamp now = new Timestamp(d.getTime());
-
-        PaymentProcess p = new PaymentProcess();
-        p.setCampus(campusCd);
-        p.setProcessUser(processUser);
-        p.setProcessTimestamp(now);
-
-        getPersistenceBrokerTemplate().store(p);
-        
-        return p;
-    }*/
-
     public PaymentProcess createProcessToRun(Integer procId) {
         LOG.debug("createProcess() started");
 
@@ -85,8 +70,8 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
     
     public List<PaymentProcess> getAllExtractsToRun() {
         Criteria c = new Criteria();
-        c.addEqualTo("extractedInd", false);
-
+        c.addEqualTo(PdpPropertyConstants.PaymentProcess.EXTRACTED_IND, false);
+        c.addEqualTo(PdpPropertyConstants.PaymentProcess.FORMATTED_IND, true);
         return (List<PaymentProcess>) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentProcess.class, c));
     }
     

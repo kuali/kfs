@@ -135,6 +135,8 @@ public class PdpPropertyConstants {
     
     public static class PaymentProcess {
         public static final String PAYMENT_PROCESS_ID = "id";
+        public static final String EXTRACTED_IND = "extractedInd";
+        public static final String FORMATTED_IND = "formattedIndicator";
     }
     
     public static class ProcessSummary {

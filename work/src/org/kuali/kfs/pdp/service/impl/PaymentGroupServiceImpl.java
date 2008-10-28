@@ -115,7 +115,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
         
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_ID, id);
-        return (PaymentGroup) this.businessObjectService.findMatching(PaymentGroup.class, primaryKeys);
+        return (PaymentGroup) this.businessObjectService.findByPrimaryKey(PaymentGroup.class, primaryKeys);
     }
 
     /**

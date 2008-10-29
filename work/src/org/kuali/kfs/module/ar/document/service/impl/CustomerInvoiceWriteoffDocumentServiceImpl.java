@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.ArConstants;
@@ -32,12 +34,13 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentS
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,8 +106,16 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup() {
         // change this service call to a service method that actually takes in the lookup parameters
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = customerInvoiceDocumentService.getAllCustomerInvoiceDocumentsWithoutWorkflowInfo(); 
-        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocuments);
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = customerInvoiceDocumentService.getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
+        
+        Collection<CustomerInvoiceDocument> customerInvoiceDocumentsWithOpenBalance = new ArrayList<CustomerInvoiceDocument>();
+        for (Iterator itr = customerInvoiceDocuments.iterator(); itr.hasNext();) {
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) itr.next();
+            if (invoice.getOpenAmount().isGreaterThan(KualiDecimal.ZERO))
+                customerInvoiceDocumentsWithOpenBalance.add(invoice);
+        }
+
+        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocumentsWithOpenBalance);
     }
     
     public void createCustomerInvoiceWriteoffDocuments(Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) throws WorkflowException {

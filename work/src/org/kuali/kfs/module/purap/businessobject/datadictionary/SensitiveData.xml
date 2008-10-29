@@ -20,7 +20,6 @@
       <list>
         <ref bean="SensitiveData-sensitiveDataCode" />
         <ref bean="SensitiveData-sensitiveDataDescription" />
-        <ref bean="SensitiveData-selected" />
         <ref bean="SensitiveData-active" />
       </list>
     </property>
@@ -68,6 +67,8 @@
             p:size="47" />
     </property>
   </bean>
+  
+  <!--
   <bean id="SensitiveData-selected" parent="SensitiveData-selected-parentBean" />
 
   <bean id="SensitiveData-selected-parentBean" abstract="true" parent="AttributeDefinition">
@@ -80,6 +81,8 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
+  -->
+    
   <bean id="SensitiveData-active" parent="SensitiveData-active-parentBean" />
 
   <bean id="SensitiveData-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">

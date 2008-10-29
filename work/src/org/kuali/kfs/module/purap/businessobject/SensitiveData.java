@@ -30,9 +30,6 @@ public class SensitiveData extends PersistableBusinessObjectBase implements Purc
     private String sensitiveDataDescription;
     private boolean active;
 
-    //Not persisted in DB
-    private boolean selected;
-    
     /**
      * Default constructor.
      */
@@ -62,14 +59,6 @@ public class SensitiveData extends PersistableBusinessObjectBase implements Purc
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean isSelected) {
-        this.selected = isSelected;
     }
 
     /**

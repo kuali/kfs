@@ -657,7 +657,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         sda.setPurapDocumentIdentifier(poId);
         sda.setSensitiveDataAssignmentReasonText(poForm.getSensitiveDataAssignmentReason());
         sda.setSensitiveDataAssignmentChangeDate(currentDate);
-        sda.setSensitiveDataAssignmentPersonIdentifier(currentUser.getPrincipalName());
+        sda.setSensitiveDataAssignmentPersonIdentifier(currentUser.getPrincipalId());
         sdService.saveSensitiveDataAssignment(sda);        
 
         // update table SensitiveDataAssignmentDetail

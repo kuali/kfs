@@ -24,7 +24,6 @@ import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.kfs.sys.service.TaxService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +41,11 @@ public class TaxServiceImpl implements TaxService {
         List<TaxDetail> salesTaxDetails = new ArrayList<TaxDetail>();
 
         if (StringUtils.isNotEmpty(postalCode)) {
-            for (TaxRegion taxRegion : taxRegionService.getSalesTaxRegions(postalCode)) {
-                salesTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
+            List<TaxRegion> salesTaxRegions = taxRegionService.getSalesTaxRegions(postalCode);
+            TaxDetail newTaxDetail = null;
+            for (TaxRegion taxRegion : salesTaxRegions) {
+                newTaxDetail = populateTaxDetail(taxRegion, dateOfTransaction, amount);
+                salesTaxDetails.add(newTaxDetail);
             }
         }
 
@@ -74,8 +76,11 @@ public class TaxServiceImpl implements TaxService {
         KualiDecimal totalSalesTaxAmount = KualiDecimal.ZERO;
 
         if (StringUtils.isNotEmpty(postalCode)) {
-            for (TaxDetail taxDetail : getSalesTaxDetails(dateOfTransaction, postalCode, amount)) {
-                totalSalesTaxAmount = totalSalesTaxAmount.add(taxDetail.getTaxAmount());
+            List<TaxDetail> salesTaxDetails = getSalesTaxDetails(dateOfTransaction, postalCode, amount);
+            KualiDecimal newTaxAmount = KualiDecimal.ZERO;
+            for (TaxDetail taxDetail : salesTaxDetails) {
+                newTaxAmount = taxDetail.getTaxAmount();
+                totalSalesTaxAmount = totalSalesTaxAmount.add(newTaxAmount);
             }
         }
 

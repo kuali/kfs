@@ -140,6 +140,10 @@ public class TaxRegion extends PersistableBusinessObjectBase {
         return null;
     }
 
+    public String toString() {
+        return taxRegionTypeCode + "-" + taxRegionCode + "-" + taxRegionName;
+    }
+    
     public Account getAccount() {
         return account;
     }

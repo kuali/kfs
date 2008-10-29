@@ -22,7 +22,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <ref bean="SystemInformation-systemInformationViewer" />
         <ref bean="SystemInformation-active" />
-        <ref bean="SystemInformation-adjustmentObjectCode" />
         <ref bean="SystemInformation-lockboxNumber" />
         <ref bean="SystemInformation-financialDocumentInitiatorIdentifier" />
         <ref bean="SystemInformation-financialDocumentInitiator.principalName" />
@@ -32,7 +31,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="SystemInformation-processingOrganizationCode" />
         <ref bean="SystemInformation-processingOrganization.codeAndDescription" />
         <ref bean="SystemInformation-discountObjectCode" />
-        <ref bean="SystemInformation-salesTaxAccountNumber" />
         <ref bean="SystemInformation-salesTaxFinancialObjectCode" />
         <ref bean="SystemInformation-universityClearingSubAccountNumber" />
         <ref bean="SystemInformation-universityFiscalYear" />
@@ -116,24 +114,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="summary" value="active" />
     <property name="description" value="active description..." />
   </bean>
-  <bean id="SystemInformation-adjustmentObjectCode" parent="SystemInformation-adjustmentObjectCode-parentBean" />
 
-  <bean id="SystemInformation-adjustmentObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="adjustmentObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Adjustment Object Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-    <property name="summary" value="adjustmentObjectCode" />
-    <property name="description" value="adjustmentObjectCode description..." />
-  </bean>
   <bean id="SystemInformation-lockboxNumber" parent="SystemInformation-lockboxNumber-parentBean" />
 
   <bean id="SystemInformation-lockboxNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -271,24 +252,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="summary" value="discountObjectCode" />
     <property name="description" value="discountObjectCode description..." />
   </bean>
-  <bean id="SystemInformation-salesTaxAccountNumber" parent="SystemInformation-salesTaxAccountNumber-parentBean" />
 
-  <bean id="SystemInformation-salesTaxAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salesTaxAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sales Tax Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="salesTaxAccountNumber" />
-    <property name="description" value="salesTaxAccountNumber description..." />
-  </bean>
   <bean id="SystemInformation-salesTaxFinancialObjectCode" parent="SystemInformation-salesTaxFinancialObjectCode-parentBean" />
 
   <bean id="SystemInformation-salesTaxFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">

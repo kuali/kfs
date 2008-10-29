@@ -285,31 +285,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        // Get the process ID
-
-        if ( ! parameterService.parameterExists(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID) ) {
-            throw new RuntimeException("This job should only be triggered by the format process.  It should not be run manually");
-        }
-        String pids = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
-        pids = pids.trim();
-        
-        
-        Integer processId = null;
-        try {
-            processId = Integer.parseInt(pids);
-        }
-        catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException("Unable to convert the process ID to a number");
-        }
-        
-        Map primaryKeys = new HashMap();
-        primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
-        PaymentProcess p = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
-        
-        if (p == null) {
-            throw new IllegalArgumentException("Invalid process ID");
-        }
-
         String filename = getOutputFile("pdp_check", processDate);
         LOG.debug("extractChecks() filename: " + filename);
         

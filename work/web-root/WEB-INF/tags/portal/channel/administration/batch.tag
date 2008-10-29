@@ -17,13 +17,23 @@
 
 <channel:portalChannelTop channelTitle="Batch" />
 <div class="body">
+	<strong>Accounts Receivable</strong><br/>
     <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Batch Schedule" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /></li>
-		<li><portal:portalLink displayTitle="true" title="Collector Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=collectorInputFileType" /></li>				
-		<li><portal:portalLink displayTitle="true" title="AR Customer Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=customerLoadInputFileType" /></li>				
-		<li><portal:portalLink displayTitle="true" title="Enterprise Feed Batch Upload" url="batchUploadFileSet.do?methodToCall=start&batchUpload.batchInputTypeName=enterpriseFeederFileSetType" /></li>
-		<li><portal:portalLink displayTitle="true" title="Procurement Card Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=procurementCardInputFileType" /></li>
-    </ul>
+		<li><portal:portalLink displayTitle="true" title="Customer Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=customerLoadInputFileType" /></li>				
+	</ul>
+	<strong>Financial Processing</strong><br/>
+    <ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Procurement Card Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=procurementCardInputFileType" /></li>
+	</ul>
+	<strong>General Ledger</strong><br/>
+    <ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Collector Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=collectorInputFileType" /></li>				
+		<li><portal:portalLink displayTitle="true" title="Enterprise Feed Upload" url="batchUploadFileSet.do?methodToCall=start&batchUpload.batchInputTypeName=enterpriseFeederFileSetType" /></li>
+	</ul>
+	<strong>System</strong><br/>
+    <ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Schedule" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /></li>
+	</ul>
 </div>
 <channel:portalChannelBottom />
                 

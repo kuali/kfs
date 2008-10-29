@@ -466,10 +466,16 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="calculateSeparateSourceRemainingAmountButton" />
+              p:name="totalCostAmount"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="separateSourceTotalAmount"
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="separateSourceRemainingAmount"
               p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="calculateSeparateSourceRemainingAmountButton" />
       </list>
     </property>
   </bean>

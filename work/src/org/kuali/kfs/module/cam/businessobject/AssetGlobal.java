@@ -90,11 +90,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String financialDocumentTypeCode;
     private Long separateSourceCapitalAssetNumber;
 
-    // calculate equal totals button
+    // Calculate Equal Source Amounts button
     private String calculateEqualSourceAmountsButton;
+    
     // calculate remaining source amount
-    private String calculateSeparateSourceRemainingAmountButton;
     private KualiDecimal separateSourceRemainingAmount;
+    private KualiDecimal separateSourceTotalAmount;
+    private String calculateSeparateSourceRemainingAmountButton;
 
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     private FinancialSystemDocumentHeader documentHeader;
@@ -841,7 +843,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             }
         }
 
-        List <AssetPayment>targetAssetPayments = new ArrayList<AssetPayment>();
+        List<AssetPayment> targetAssetPayments = new ArrayList<AssetPayment>();
         
         // set new AssetPayment(s) from each AssetPaymentDetails
         for (AssetPaymentDetail payment : assetPaymentDetails) {
@@ -877,10 +879,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 if (assetGlobalService.isAssetSeparateDocument(this)) {
                     // account amount from current payment source asset * target total cost / source total cost
                     assetPayment.setAccountChargeAmount(payment.getAmount().multiply(detail.getSeparateSourceAmount()).divide(separateSourceCapitalAsset.getTotalCostAmount()));
-                    
+
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
                     assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
-                    
+
                     targetAssetPayments.add(assetPayment);
                 }
                 else {
@@ -1258,5 +1260,23 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setTotalAssetPaymentAmount(KualiDecimal totalAssetPaymentAmount) {
         this.totalAssetPaymentAmount = totalAssetPaymentAmount;
+    }
+
+    /**
+     * Gets the separateSourceTotalAmount attribute value.
+     * 
+     * @return separateSourceTotalAmount
+     */
+    public KualiDecimal getSeparateSourceTotalAmount() {
+        return separateSourceTotalAmount;
+    }
+
+    /**
+     * Sets the separateSourceTotalAmount attribute value.
+     * 
+     * @param separateSourceTotalAmount
+     */
+    public void setSeparateSourceTotalAmount(KualiDecimal separateSourceTotalAmount) {
+        this.separateSourceTotalAmount = separateSourceTotalAmount;
     }
 }

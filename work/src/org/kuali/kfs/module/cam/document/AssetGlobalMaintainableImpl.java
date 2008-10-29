@@ -227,6 +227,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      */
     private void populateAssetSeparateRecalculateSourceAmount(AssetGlobal assetGlobal, Asset asset) {
         assetGlobal.setSeparateSourceRemainingAmount(asset.getTotalCostAmount());
+        if (assetGlobal.getSeparateSourceTotalAmount() == null) {
+            assetGlobal.setSeparateSourceTotalAmount(KualiDecimal.ZERO);
+        }
     }
 
     /**
@@ -562,7 +565,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
             // calculate source asset remaining amount
             if (customAction != null && "calculateSeparateSourceRemainingAmountButton".equals(customAction[0]) && sharedDetailsList.size() >= 1) {
-                KualiDecimal remainingAmount = assetGlobal.getTotalCostAmount().subtract(assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal));
+                // set Less Additions
+                assetGlobal.setSeparateSourceTotalAmount(assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal));
+                // set Remaining Total Amount
                 assetGlobal.setSeparateSourceRemainingAmount(assetGlobal.getTotalCostAmount().subtract(assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal)));
             }
         }

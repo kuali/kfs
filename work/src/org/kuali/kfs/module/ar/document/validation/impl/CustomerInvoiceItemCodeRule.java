@@ -21,9 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -31,7 +29,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 
@@ -68,7 +65,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     public boolean validateItemDefaultPrice(CustomerInvoiceItemCode customerInvoiceItemCode) {
         
         boolean validEntry = true;
-        BigDecimal itemDefaultPrice = customerInvoiceItemCode.getItemDefaultPrice();
+        BigDecimal itemDefaultPrice = customerInvoiceItemCode.getItemDefaultPrice().bigDecimalValue();
         
         if (ObjectUtils.isNotNull(itemDefaultPrice)) {
             validEntry = itemDefaultPrice.compareTo(BigDecimal.ZERO) == 1;

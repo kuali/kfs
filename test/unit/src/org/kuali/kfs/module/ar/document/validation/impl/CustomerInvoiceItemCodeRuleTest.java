@@ -4,10 +4,10 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
@@ -67,7 +67,7 @@ public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
      * This method tests if the validateItemDefaultPrice rule returns true when itemDefaultPrice is positive.
      */
     public void testValidateItemDefaultPrice_True(){
-        customerInvoiceItemCode.setItemDefaultPrice(new BigDecimal(POSITIVE_VALUE));
+        customerInvoiceItemCode.setItemDefaultPrice(new KualiDecimal(POSITIVE_VALUE));
         CustomerInvoiceItemCodeRule rule = (CustomerInvoiceItemCodeRule) setupMaintDocRule(newMaintDoc(customerInvoiceItemCode), CustomerInvoiceItemCodeRule.class);
         
         boolean result = rule.validateItemDefaultPrice(customerInvoiceItemCode);
@@ -78,7 +78,7 @@ public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
      * This method tests if the validateItemDefaultPrice rule returns false when itemDefaultPrice is not positive.
      */
     public void testValidateItemDefaultPrice_False(){  
-        customerInvoiceItemCode.setItemDefaultPrice(new BigDecimal(NON_POSITIVE_VALUE));
+        customerInvoiceItemCode.setItemDefaultPrice(new KualiDecimal(NON_POSITIVE_VALUE));
         CustomerInvoiceItemCodeRule rule = (CustomerInvoiceItemCodeRule) setupMaintDocRule(newMaintDoc(customerInvoiceItemCode), CustomerInvoiceItemCodeRule.class);
         
         boolean result = rule.validateItemDefaultPrice(customerInvoiceItemCode);

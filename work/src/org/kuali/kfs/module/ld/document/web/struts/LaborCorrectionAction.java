@@ -196,9 +196,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         document.setCorrectionOutputGroupId(null);
 
         SpringContext.getBean(LaborCorrectionDocumentService.class).persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
-
-        LOG.debug("save() doc type name: " + laborCorrectionForm.getDocTypeName());
-        return super.save(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 

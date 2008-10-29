@@ -82,7 +82,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         try {
             List<Org> pointOfViewOrgs = permissionService.getOrgReview(person);
             if (pointOfViewOrgs.isEmpty()) {
-                GlobalVariables.getErrorMap().putError("pointOfViewOrg", "error.budget.userNotOrgApprover");
+                GlobalVariables.getErrorMap().putError("pointOfViewOrg", BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
             }
 
         }

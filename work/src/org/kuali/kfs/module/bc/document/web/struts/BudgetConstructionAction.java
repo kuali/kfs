@@ -96,9 +96,23 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActionForward forward = super.execute(mapping, form, request, response);
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+        
+        // handle any security no access cases
+        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
+            budgetConstructionForm.setSecurityNoAccess(true);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+        }
+        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
+            budgetConstructionForm.setSecurityNoAccess(true);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+        }
+        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
+            budgetConstructionForm.setSecurityNoAccess(true);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+        }
 
         // apprise user of granted access
-        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PULLUP_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PUSHDOWN_METHOD)) {
 
             // init the account org hier state on initial load only - this is stored as hiddens
@@ -136,7 +150,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocument().getDocumentNumber());
 
                     BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-                    if (budgetConstructionHeader != null) {
+                    if (budgetConstructionHeader == null) {
                         // BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader,
                         // GlobalVariables.getUserSession().getPerson().getPrincipalId());
                         BudgetConstructionLockStatus bcLockStatus = lockService.lockAccountAndCommit(budgetConstructionHeader, GlobalVariables.getUserSession().getPerson().getPrincipalId());
@@ -153,14 +167,20 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         else {
                             if (bcLockStatus.getLockStatus() == LockStatus.BY_OTHER) {
                                 String lockerName = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(bcLockStatus.getAccountLockOwner()).getName();
-                                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(document is locked by " + lockerName + ")", budgetConstructionForm.isPickListMode());
+                                this.cleanupForLockError(budgetConstructionForm);
+                                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_LOCKED, lockerName);
+                                return forward;
                             }
                             else {
                                 if (bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND) {
-                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(funding for document is locked)", budgetConstructionForm.isPickListMode());
+                                    this.cleanupForLockError(budgetConstructionForm);
+                                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_FUNDING_LOCKED);
+                                    return forward;
                                 }
                                 else {
-                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(optimistic lock or other failure during lock attempt)", budgetConstructionForm.isPickListMode());
+                                    this.cleanupForLockError(budgetConstructionForm);
+                                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_OTHER);
+                                    return forward;
                                 }
                             }
                         }
@@ -277,6 +297,19 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
 
+    }
+
+    /**
+     * Cleans up state info to handle no access lock errors
+     * 
+     * @param budgetConstructionForm
+     */
+    private void cleanupForLockError(BudgetConstructionForm budgetConstructionForm) {
+        
+        budgetConstructionForm.setSecurityNoAccess(true);
+        budgetConstructionForm.getEditingMode().remove(BudgetConstructionEditMode.FULL_ENTRY);
+        budgetConstructionForm.getDocumentActionFlags().setCanSave(false);
+        GlobalVariables.getMessageList().remove(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
     }
 
     /**

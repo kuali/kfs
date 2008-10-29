@@ -64,6 +64,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     private boolean hideDetails = false;
     private boolean pickListClose = false;
+    private boolean securityNoAccess = false;
     private boolean hideAdjustmentMeasurement = true;
     private KualiDecimal revenueAdjustmentAmount;
     private KualiDecimal expenditureAdjustmentAmount;
@@ -355,15 +356,15 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
             // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
             // correct DocumentAuthorizer
-            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
-            }
-            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
-            }
-            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
-            }
+//            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
+//                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
+//            }
+//            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
+//                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
+//            }
+//            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
+//                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
+//            }
         }
     }
 
@@ -716,6 +717,22 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public void setPickListClose(boolean pickListClose) {
         this.pickListClose = pickListClose;
+    }
+
+    /**
+     * Gets the securityNoAccess attribute. 
+     * @return Returns the securityNoAccess.
+     */
+    public boolean isSecurityNoAccess() {
+        return securityNoAccess;
+    }
+
+    /**
+     * Sets the securityNoAccess attribute value.
+     * @param securityNoAccess The securityNoAccess to set.
+     */
+    public void setSecurityNoAccess(boolean securityNoAccess) {
+        this.securityNoAccess = securityNoAccess;
     }
 
     /**

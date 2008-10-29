@@ -32,12 +32,12 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.AccountingChangeCode;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PayeeType;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -175,6 +175,14 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             
             if (paymentFile.getCustomer().getOwnershipCodeRequired() && StringUtils.isBlank(paymentGroup.getPayeeOwnerCd())) {
                 errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYEE_OWNER_CODE, Integer.toString(groupCount));           
+            }
+            
+            // validate payee id type
+            if (StringUtils.isNotBlank(paymentGroup.getPayeeIdTypeCd())) {
+                PayeeType payeeType = (PayeeType) kualiCodeService.getByCode(PayeeType.class, paymentGroup.getPayeeIdTypeCd());
+                if (payeeType == null) {
+                    errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_PAYEE_ID_TYPE, Integer.toString(groupCount), paymentGroup.getPayeeIdTypeCd());
+                }
             }
             
             // validate bank
@@ -604,7 +612,12 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @return system parameter value giving the maximum number of notes allowed.
      */
     private int getMaxNoteLines() {
-        return GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        if (StringUtils.isBlank(maxLines)) {
+            throw new RuntimeException("System parameter for max note lines is blank");
+        }
+
+        return Integer.parseInt(maxLines);
     }
 
     /**

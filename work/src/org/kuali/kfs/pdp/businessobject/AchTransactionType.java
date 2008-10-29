@@ -20,58 +20,62 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class AchTransactionCode extends PersistableBusinessObjectBase {
-    private String transactionCode;
+public class AchTransactionType extends PersistableBusinessObjectBase {
+    private String transactionType;
     private String description;
 
-
     /**
-     * Constructs a AchTransactionCode.java.
+     * Constructs a AchTransactionType.java.
      */
-    public AchTransactionCode() {
+    public AchTransactionType() {
         super();
     }
 
+
     /**
-     * Gets Transaction Code Description
+     * Gets the transactionType attribute.
      * 
-     * @return
+     * @return Returns the transactionType.
+     */
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+
+    /**
+     * Sets the transactionType attribute value.
+     * 
+     * @param transactionType The transactionType to set.
+     */
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+
+    /**
+     * Gets the description attribute.
+     * 
+     * @return Returns the description.
      */
     public String getDescription() {
         return description;
     }
 
+
     /**
-     * Sets Description
+     * Sets the description attribute value.
      * 
-     * @param description
+     * @param description The description to set.
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * Gets the Transaction Code
-     * 
-     * @return
-     */
-    public String getTransactionCode() {
-        return transactionCode;
-    }
-
-    /**
-     * Sets Transaction Code
-     * 
-     * @param transactionCode
-     */
-    public void setTransactionCode(String transactionCode) {
-        this.transactionCode = transactionCode;
-    }
 
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PdpPropertyConstants.TRANSACTION_CODE, transactionCode);
+        m.put(PdpPropertyConstants.TRANSACTION_TYPE, this.transactionType);
 
         return m;
     }

@@ -19,21 +19,11 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-
-/**
- * 
- */
 
 public class FormatProcess extends TimestampedBusinessObjectBase {
 
@@ -86,20 +76,17 @@ public class FormatProcess extends TimestampedBusinessObjectBase {
         physicalCampusProcessCode = string;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof FormatProcess)) {
-            return false;
-        }
-        FormatProcess o = (FormatProcess) obj;
-        return new EqualsBuilder().append(physicalCampusProcessCode, o.getPhysicalCampusProcessCode()).isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(83, 91).append(physicalCampusProcessCode).toHashCode();
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this).append("physicalCampusProcessCode", this.physicalCampusProcessCode).toString();
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put(PdpPropertyConstants.PHYS_CAMPUS_PROCESS_CODE, this.physicalCampusProcessCode);
+        m.put(PdpPropertyConstants.PAYMENT_PROC_IDENTIFIER, this.paymentProcIdentifier);
+        
+        return m;
     }
 
 }

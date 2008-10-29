@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 
 /**
- * @author delyea
+ * 
  */
 public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements BatchMaintenanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchMaintenanceDaoOjb.class);

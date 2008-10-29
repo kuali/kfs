@@ -34,7 +34,7 @@
     <property name="label" value="ACH Transaction Code" />
     <property name="shortLabel" value="ACH Transaction Type" />
     <property name="maxLength" value="2" />
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="2" />

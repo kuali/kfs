@@ -89,7 +89,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private KualiDecimal paymentThresholdAmount; // PMT_THRSHLD_AMT
     private String paymentThresholdEmailAddress; // CUST_PMT_THRSHLD_EMAIL_ADDR
     private String processingEmailAddr; // CUST_PRCS_EMAIL_ADDR
-    private String psdTransactionCode; // PSD_TRN_CD
+    private String achTransactionType; 
     private String stateCode; // CUST_ST_CD
     private String subUnitCode; // SBUNT_CD
     private String zipCode; // CUST_ZIP_CD
@@ -109,6 +109,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private State state;
     private PostalCode postalCode;
     private Country country;
+    private AchTransactionType transactionType;
 
     private List<CustomerBank> customerBanks;
 
@@ -441,14 +442,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
             return processingEmailAddr.substring(0, 50);
         }
         return processingEmailAddr;
-    }
-
-    /**
-     * @hibernate.property column="PSD_TRN_CD" length="4" not-null="false"
-     * @return Returns the psdTransactionCode.
-     */
-    public String getPsdTransactionCode() {
-        return psdTransactionCode;
     }
 
     /**
@@ -795,13 +788,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @param psdTransactionCode The psdTransactionCode to set.
-     */
-    public void setPsdTransactionCode(String psdTransactionCode) {
-        this.psdTransactionCode = psdTransactionCode;
-    }
-
-    /**
      * @param state The state to set.
      */
     public void setStateCode(String state) {
@@ -1056,6 +1042,42 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      */
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    /**
+     * Gets the achTransactionType attribute.
+     * 
+     * @return Returns the achTransactionType.
+     */
+    public String getAchTransactionType() {
+        return achTransactionType;
+    }
+
+    /**
+     * Sets the achTransactionType attribute value.
+     * 
+     * @param achTransactionType The achTransactionType to set.
+     */
+    public void setAchTransactionType(String achTransactionType) {
+        this.achTransactionType = achTransactionType;
+    }
+
+    /**
+     * Gets the transactionType attribute.
+     * 
+     * @return Returns the transactionType.
+     */
+    public AchTransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    /**
+     * Sets the transactionType attribute value.
+     * 
+     * @param transactionType The transactionType to set.
+     */
+    public void setTransactionType(AchTransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 
     /**

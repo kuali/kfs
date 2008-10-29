@@ -20,14 +20,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * Defines methods for sending payment status emails.
+ * Defines methods for sending PDP emails.
  */
-public interface PaymentFileEmailService {
+public interface PdpEmailService {
 
     /**
      * Sends email for a payment load has failed. Errors encountered will be printed out in message
@@ -77,4 +80,13 @@ public interface PaymentFileEmailService {
      * @param extractDate date of ACH extraction
      */
     public void sendAchSummaryEmail(Map<String, Integer> unitCounts, Map<String, KualiDecimal> unitTotals, Date extractDate);
+
+    /**
+     * Sends advice notification email to the payee receiving an ACH payment
+     * 
+     * @param paymentGroup ACH payment group to send notification for
+     * @param paymentDetail Payment Detail containing payment amounts
+     * @param customer Pdp Customer profile for payment
+     */
+    public void sendAchAdviceEmail(PaymentGroup paymentGroup, PaymentDetail paymentDetail, CustomerProfile customer);
 }

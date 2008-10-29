@@ -63,7 +63,7 @@
 		<ref bean="CustomerProfile-employeeCheck" />
 		<ref bean="CustomerProfile-nraReview" />
 		<ref bean="CustomerProfile-relieveLiabilities" />
-		<ref bean="CustomerProfile-psdTransactionCode" />
+		<ref bean="CustomerProfile-achTransactionType" />
 		<ref bean="CustomerProfile-active" />
       </list>
     </property>
@@ -811,19 +811,10 @@
     </property>
   </bean>
   
-  <bean id="CustomerProfile-psdTransactionCode" parent="CustomerProfile-psdTransactionCode-parentBean" />
-  <bean id="CustomerProfile-psdTransactionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="psdTransactionCode" />
-    <property name="label" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
-    <property name="shortLabel" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
-    <property name="summary" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
-    <property name="description" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
+  <bean id="CustomerProfile-achTransactionType" parent="CustomerProfile-achTransactionType-parentBean" />
+  <bean id="CustomerProfile-achTransactionType-parentBean" abstract="true" parent="AchTransactionType-transactionType-parentBean">
+    <property name="name" value="achTransactionType" />
     <property name="required" value="false" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-active" parent="CustomerProfile-active-parentBean" />
@@ -947,7 +938,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentThresholdEmailAddress" />
               <bean parent="FieldDefinition"
-                    p:attributeName="psdTransactionCode" />
+                    p:attributeName="achTransactionType" />
               <bean parent="FieldDefinition"
                     p:attributeName="accountingEditRequired" />
               <bean parent="FieldDefinition"

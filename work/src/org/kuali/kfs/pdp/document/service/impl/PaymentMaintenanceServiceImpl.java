@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.pdp.GeneralUtilities;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -49,8 +49,8 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -558,7 +558,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         body.append(note + "\n\n");
         String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);
 
-        if (GeneralUtilities.isStringEmpty(taxEmail)) {
+        if (StringUtils.isBlank(taxEmail)) {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2);
             body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
         }

@@ -25,7 +25,7 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**
- * 
+ * TODO: remove later
  */
 public class SecurityRecord extends TransientBusinessObjectBase {
     private boolean sysAdminRole = false;

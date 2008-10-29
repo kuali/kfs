@@ -13,24 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.pdp.batch.util;
-
-import org.kuali.rice.kim.bo.Person;
+package org.kuali.kfs.pdp.batch.service;
 
 /**
- * PDP Batch Question Callback defines a callback method for post processing handling in the question interface.
+ * Provides methods for sending ACH advice notifications
  */
-public interface PdpBatchQuestionCallback {
+public interface AchAdviceNotificationService {
 
     /**
-     * Hooks for performing different actions on batch after a question has been performed.
-     * 
-     * @param batchIdString the id of the batch
-     * @param note a note from the user
-     * @param user the user that perfoms the action
-     * @return true if succesful, false otherwise
+     * Sends advice notifications to payees receiving an ACH payment
      */
-    public boolean doPostQuestion(String batchIdString, String note, Person user);
-
+    public void sendAdviceNotifications();
 }
-

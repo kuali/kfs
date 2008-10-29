@@ -316,7 +316,7 @@
 			<ref bean="businessObjectService"/>
 		</property>
 		<property name="paymentFileEmailService">
-			<ref bean="paymentFileEmailService"/>
+			<ref bean="pdpEmailService"/>
 		</property>
 	</bean>
 

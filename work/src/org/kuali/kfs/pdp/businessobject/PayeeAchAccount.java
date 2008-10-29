@@ -37,13 +37,14 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
     private KualiInteger vendorDetailAssignedIdentifier;
     private String principalId;
     private String payeeIdentifierTypeCode;
-    private String psdTransactionCode;
+    private String achTransactionType;
     private boolean active;
     private String bankAccountTypeCode;
 
     private AchBank bankRouting;
     private VendorDetail vendorDetail;
     private Person user;
+    private AchTransactionType transactionType;
 
     /**
      * Default constructor.
@@ -220,25 +221,41 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
         this.payeeIdentifierTypeCode = payeeIdentifierTypeCode;
     }
 
-
     /**
-     * Gets the psdTransactionCode attribute.
+     * Gets the achTransactionType attribute.
      * 
-     * @return Returns the psdTransactionCode
+     * @return Returns the achTransactionType.
      */
-    public String getPsdTransactionCode() {
-        return psdTransactionCode;
+    public String getAchTransactionType() {
+        return achTransactionType;
     }
 
     /**
-     * Sets the psdTransactionCode attribute.
+     * Sets the achTransactionType attribute value.
      * 
-     * @param psdTransactionCode The psdTransactionCode to set.
+     * @param achTransactionType The achTransactionType to set.
      */
-    public void setPsdTransactionCode(String psdTransactionCode) {
-        this.psdTransactionCode = psdTransactionCode;
+    public void setAchTransactionType(String achTransactionType) {
+        this.achTransactionType = achTransactionType;
     }
 
+    /**
+     * Gets the transactionType attribute.
+     * 
+     * @return Returns the transactionType.
+     */
+    public AchTransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    /**
+     * Sets the transactionType attribute value.
+     * 
+     * @param transactionType The transactionType to set.
+     */
+    public void setTransactionType(AchTransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
 
     /**
      * Gets the active attribute.
@@ -355,4 +372,3 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
         }
     }
 }
-

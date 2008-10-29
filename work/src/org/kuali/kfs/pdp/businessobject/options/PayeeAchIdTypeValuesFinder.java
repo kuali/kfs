@@ -18,13 +18,14 @@ package org.kuali.kfs.pdp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
-public class PayeeIdTypeValuesFinder extends KeyValuesBase {
+public class PayeeAchIdTypeValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
@@ -35,7 +36,9 @@ public class PayeeIdTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
         for (PayeeType element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(element.getCode())) {
+                keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            }
         }
 
         return keyValues;

@@ -120,7 +120,9 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Checks to verify record is not a duplicate for payee id.
+     * Checks to verify record is not a duplicate for payee id. Do not check for a duplicate record if the following conditions are
+     * true 1. editing an existing record (old primary key = new primary key) 2. new PSD code = old PSD code 3. new payee type code =
+     * old payee type code 4. depending of the value of payee type code, new correspoding PayeeId = old corresponding PayeeId
      * 
      * @param criteria
      * @param identifierField id field for payee
@@ -128,17 +130,12 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkForDuplicateRecord(Map<String, Object> criteria, String identifierField) {
         String newPayeeIdTypeCd = newPayeeAchAccount.getPayeeIdentifierTypeCode();
-        String newPsdTransactionCd = newPayeeAchAccount.getPsdTransactionCode();
+        String newAchTransactionType = newPayeeAchAccount.getAchTransactionType();
 
         boolean valid = true;
 
-        // Do not check for a duplicate record if the following conditions are true
-        // 1. editing an existing record (old primary key = new primary key)
-        // 2. new PSD code = old PSD code
-        // 3. new payee type code = old payee type code
-        // 4. depending of the value of payee type code, new correspoding PayeeId = old corresponding PayeeId
         if (newPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && oldPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && newPayeeAchAccount.getAchAccountGeneratedIdentifier().equals(oldPayeeAchAccount.getAchAccountGeneratedIdentifier())) {
-            if (newPayeeIdTypeCd.equals(oldPayeeAchAccount.getPayeeIdentifierTypeCode()) && newPsdTransactionCd.equals(oldPayeeAchAccount.getPsdTransactionCode())) {
+            if (newPayeeIdTypeCd.equals(oldPayeeAchAccount.getPayeeIdentifierTypeCode()) && newAchTransactionType.equals(oldPayeeAchAccount.getAchTransactionType())) {
                 if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID)) {
                     if (newPayeeAchAccount.getPrincipalId().equals(oldPayeeAchAccount.getPrincipalId()))
                         return valid;
@@ -151,7 +148,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // check for a duplicate record if creating a new record or editing an old one and above mentioned conditions are not true
-        criteria.put(PdpPropertyConstants.PSD_TRANSACTION_CODE, newPsdTransactionCd);
+        criteria.put(PdpPropertyConstants.ACH_TRANSACTION_TYPE, newAchTransactionType);
         criteria.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, newPayeeIdTypeCd);
 
         int matches = SpringContext.getBean(BusinessObjectService.class).countMatching(PayeeAchAccount.class, criteria);
@@ -164,4 +161,3 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
     }
 
 }
-

@@ -17,7 +17,7 @@ package org.kuali.kfs.pdp.document.authorization;
 
 import java.util.Map;
 
-import org.kuali.kfs.pdp.PdpAuthorizationConstants;
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
@@ -36,7 +36,7 @@ public class AchBankDocumentAuthorizer extends FinancialSystemMaintenanceDocumen
         String viewAllWorkgroup = "PD_VIEW_ACH";
 
         if (user.isMember(viewAllWorkgroup)) {
-            editMode.put(PdpAuthorizationConstants.PDPEditMode.ENTRY, "TRUE");
+            editMode.put(PdpConstants.PDPEditMode.ENTRY, "TRUE");
         }
 
         return editMode;

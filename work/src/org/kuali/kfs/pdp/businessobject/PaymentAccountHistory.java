@@ -20,16 +20,14 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
-
-/**
- * 
- */
 
 public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
 
@@ -156,22 +154,6 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
         id = integer;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PaymentAccountHistory)) {
-            return false;
-        }
-        PaymentAccountHistory o = (PaymentAccountHistory) obj;
-        return new EqualsBuilder().append(id, o.getId()).isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(79, 91).append(id).toHashCode();
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).toString();
-    }
-
     /**
      * This method gets the accountingChangeCode
      * @return accountingChangeCode
@@ -186,6 +168,18 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
      */
     public void setAccountingChangeCode(String accountingChangeCode) {
         this.accountingChangeCode = accountingChangeCode;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put(KFSPropertyConstants.ID, this.id);
+
+        return m;
     }
    
 }

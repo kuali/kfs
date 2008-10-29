@@ -22,7 +22,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 
 public interface PaymentGroupDao {
-    
+
     /**
      * Get all the disbursement numbers for a specific process of a certain type
      * 
@@ -30,7 +30,13 @@ public interface PaymentGroupDao {
      * @param disbursementType
      * @return
      */
-    public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType);
+    public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid, String disbursementType);
 
-    
+    /**
+     * Gets list of ach payments in which an advice notification has not been sent
+     * 
+     * @return List<PaymentGroup>
+     */
+    public List<PaymentGroup> getAchPaymentsNeedingAdviceNotification();
+
 }

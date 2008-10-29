@@ -23,7 +23,7 @@
         <ref bean="PayeeAchAccount-payeeName" />
         <ref bean="PayeeAchAccount-payeeEmailAddress" />
         <ref bean="PayeeAchAccount-payeeIdentifierTypeCode" />
-        <ref bean="PayeeAchAccount-psdTransactionCode" />
+        <ref bean="PayeeAchAccount-achTransactionType" />
         <ref bean="PayeeAchAccount-bankRoutingNumber" />
         <ref bean="PayeeAchAccount-vendorHeaderGeneratedIdentifier" />
         <ref bean="PayeeAchAccount-vendorDetailAssignedIdentifier" />
@@ -188,35 +188,20 @@
     <property name="label" value="Payee Type Code" />
     <property name="shortLabel" value="Payee Type Code" />
     <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="EFPSV" />
-    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.PayeeTypeCodeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.PayeeAchIdTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
 
-  <bean id="PayeeAchAccount-psdTransactionCode" parent="PayeeAchAccount-psdTransactionCode-parentBean" />
+  <bean id="PayeeAchAccount-achTransactionType" parent="PayeeAchAccount-achTransactionType-parentBean" />
 
-  <bean id="PayeeAchAccount-psdTransactionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="psdTransactionCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="PSD Transaction Code" />
-    <property name="shortLabel" value="PSD Transaction Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
+  <bean id="PayeeAchAccount-achTransactionType-parentBean" abstract="true" parent="AchTransactionType-transactionType-parentBean">
+    <property name="name" value="achTransactionType" />
   </bean>
+  
   <bean id="PayeeAchAccount-bankRoutingNumber" parent="PayeeAchAccount-bankRoutingNumber-parentBean" />
 
   <bean id="PayeeAchAccount-bankRoutingNumber-parentBean" abstract="true" parent="AchBank-bankRoutingNumber">
@@ -316,7 +301,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="payeeEmailAddress" />
               <bean parent="FieldDefinition"
-                    p:attributeName="psdTransactionCode" />
+                    p:attributeName="achTransactionType" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
               <bean parent="FieldDefinition"
@@ -364,7 +349,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="payeeName" />
         <bean parent="FieldDefinition"
-              p:attributeName="psdTransactionCode" />
+              p:attributeName="achTransactionType" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -385,4 +370,3 @@
     </property>
   </bean>
 </beans>
-

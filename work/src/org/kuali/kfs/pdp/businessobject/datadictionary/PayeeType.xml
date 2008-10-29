@@ -19,8 +19,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="objectLabel" value="Payee Type" />
     <property name="attributes" >
       <list>
-        <ref bean="PayeeType-payeeTypeCode" />
-        <ref bean="PayeeType-description" />
+        <ref bean="PayeeType-code" />
+        <ref bean="PayeeType-name" />
       </list>
     </property>
   </bean>
@@ -28,10 +28,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="PayeeType-payeeTypeCode" parent="PayeeType-payeeTypeCode-parentBean" />
+  <bean id="PayeeType-code" parent="PayeeType-code-parentBean" />
 
-  <bean id="PayeeType-payeeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="payeeTypeCode" />
+  <bean id="PayeeType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Payee Type Code" />
     <property name="shortLabel" value="Payee Type Code" />
@@ -41,15 +41,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Payee Type Code" />
-    <property name="description" value="Payee Type Code" />
-    <!--property name="allowsNewOrCopy" value="false" /-->
   </bean>
   
-  <bean id="PayeeType-description" parent="PayeeType-description-parentBean" />
+  <bean id="PayeeType-name" parent="PayeeType-name-parentBean" />
 
-  <bean id="PayeeType-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="description" />
+  <bean id="PayeeType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Payee Type Description" />
     <property name="shortLabel" value="Payee Type Description" />
@@ -59,8 +56,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="Payment Type Description" />
-    <property name="description" value="Payment Type Description" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->
@@ -78,9 +73,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="payeeTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+                    p:attributeName="name" />
               
             </list>
           </property>
@@ -101,7 +96,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>payeeTypeCode</value>
+            <value>code</value>
           </list>
         </property>
       </bean>
@@ -109,18 +104,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="payeeTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="description" />
+              p:attributeName="name" />
         
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="payeeTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="description" />
+              p:attributeName="name" />
       </list>
     </property>
   </bean>

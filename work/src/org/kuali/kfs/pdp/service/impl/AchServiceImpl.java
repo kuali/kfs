@@ -37,23 +37,17 @@ public class AchServiceImpl implements AchService {
     /**
      * @see org.kuali.kfs.pdp.service.AchService#getAchInformation(java.lang.String, java.lang.String, java.lang.String)
      */
-    public PayeeAchAccount getAchInformation(String idType, String payeeId, String psdTransactionCode) {
+    public PayeeAchAccount getAchInformation(String idType, String payeeId, String achTransactionType) {
         LOG.debug("getAchInformation() started");
 
         Map<String, Object> fields = new HashMap<String, Object>();
 
         fields.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         fields.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, idType);
-        fields.put(PdpPropertyConstants.PSD_TRANSACTION_CODE, psdTransactionCode);
+        fields.put(PdpPropertyConstants.ACH_TRANSACTION_TYPE, achTransactionType);
 
         if (PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(idType)) {
             fields.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, payeeId);
-        }
-        else if (PdpConstants.PayeeIdTypeCodes.SSN.equals(idType)) {
-            fields.put(PdpPropertyConstants.PAYEE_SOCIAL_SECURITY_NUMBER, payeeId);
-        }
-        else if (PdpConstants.PayeeIdTypeCodes.FEIN.equals(idType)) {
-            fields.put(PdpPropertyConstants.PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER, payeeId);
         }
         else if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(idType)) {
             String parts[] = payeeId.split("-");

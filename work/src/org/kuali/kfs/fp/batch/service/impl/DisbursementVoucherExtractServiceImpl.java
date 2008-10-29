@@ -42,7 +42,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.PaymentFileEmailService;
+import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -82,7 +82,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private PaymentFileService paymentFileService;
     private PaymentGroupService paymentGroupService;
     private BusinessObjectService businessObjectService;
-    private PaymentFileEmailService paymentFileEmailService;
+    private PdpEmailService paymentFileEmailService;
     private int maxNoteLines;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
@@ -756,7 +756,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * 
      * @param paymentFileEmailService The paymentFileEmailService to set.
      */
-    public void setPaymentFileEmailService(PaymentFileEmailService paymentFileEmailService) {
+    public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
     }
 

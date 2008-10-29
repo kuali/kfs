@@ -53,6 +53,9 @@
               p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="countryCode" />
         <bean parent="ReferenceDefinition"
+              p:attributeName="transactionType"
+              p:attributeToHighlightOnFail="achTransactionType" />
+        <bean parent="ReferenceDefinition"
               p:collection="customerBanks"
               p:attributeName="disbursementType"
               p:activeIndicatorAttributeName="active"
@@ -239,7 +242,7 @@
 	              p:name="relieveLiabilities"    
               p:required="false" />
 	  <bean parent="MaintainableFieldDefinition"
-	              p:name="psdTransactionCode"    
+	              p:name="achTransactionType"    
               p:required="false" />
        <bean parent="MaintainableFieldDefinition"
               p:name="active"

@@ -158,7 +158,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.orgCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" />
+                    p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" p:noLookup="true"/>
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.paymentDate" />   
               <bean parent="FieldDefinition"

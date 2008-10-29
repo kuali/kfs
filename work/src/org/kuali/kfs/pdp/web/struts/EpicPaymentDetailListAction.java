@@ -15,49 +15,39 @@
  */
 package org.kuali.kfs.pdp.web.struts;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.pdp.GeneralUtilities;
-import org.kuali.kfs.pdp.businessobject.PaymentDetail;
-import org.kuali.kfs.pdp.service.PaymentGroupService;
-import org.kuali.kfs.sys.context.SpringContext;
-
-public class EpicPaymentDetailListAction extends BaseAction {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EpicPaymentDetailListAction.class);
-    private PaymentGroupService paymentGroupService;
-
-    public EpicPaymentDetailListAction() {
-        setPaymentGroupService(SpringContext.getBean(PaymentGroupService.class));
-    }
-
-    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("executeLogic() started");
-
-        PaymentDetail pd = (PaymentDetail) request.getSession().getAttribute("PaymentDetail");
-        String listType = request.getParameter("listType");
-
-        if (pd.equals(null)) {
-            // Handle Session expiration
-            return mapping.findForward("pdp_session_timeout");
-        }
-        else if (GeneralUtilities.isStringEmpty(listType)) {
-            // Invalid call to Action
-            return mapping.findForward("pdp_system_error");
-        }
-        else {
-            if ((!("disbursement".equals(listType))) && (!("group".equals(listType)))) {
-                // Invalid List Type
-                return mapping.findForward("pdp_system_error");
-            }
-        }
-        return mapping.findForward("display");
-    }
-
-    public void setPaymentGroupService(PaymentGroupService p) {
-        paymentGroupService = p;
-    }
+public class EpicPaymentDetailListAction {
+//    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EpicPaymentDetailListAction.class);
+//    private PaymentGroupService paymentGroupService;
+//
+//    public EpicPaymentDetailListAction() {
+//        setPaymentGroupService(SpringContext.getBean(PaymentGroupService.class));
+//    }
+//
+//    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        LOG.debug("executeLogic() started");
+//
+//        PaymentDetail pd = (PaymentDetail) request.getSession().getAttribute("PaymentDetail");
+//        String listType = request.getParameter("listType");
+//
+//        if (pd.equals(null)) {
+//            // Handle Session expiration
+//            return mapping.findForward("pdp_session_timeout");
+//        }
+//        else if (GeneralUtilities.isStringEmpty(listType)) {
+//            // Invalid call to Action
+//            return mapping.findForward("pdp_system_error");
+//        }
+//        else {
+//            if ((!("disbursement".equals(listType))) && (!("group".equals(listType)))) {
+//                // Invalid List Type
+//                return mapping.findForward("pdp_system_error");
+//            }
+//        }
+//        return mapping.findForward("display");
+//    }
+//
+//    public void setPaymentGroupService(PaymentGroupService p) {
+//        paymentGroupService = p;
+//    }
 }

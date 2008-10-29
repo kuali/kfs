@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.pdp.businessobject;
+package org.kuali.kfs.pdp.util;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.bo.Person;
 
 /**
- * 
- * Represents a payment type code
+ * PDP Batch Question Callback defines a callback method for post processing handling in the question interface.
  */
-public class PayeeType extends KualiCodeBase {
+public interface PdpBatchQuestionCallback {
 
-    public PayeeType() {
-    }
+    /**
+     * Hooks for performing different actions on batch after a question has been performed.
+     * 
+     * @param batchIdString the id of the batch
+     * @param note a note from the user
+     * @param user the user that perfoms the action
+     * @return true if succesful, false otherwise
+     */
+    public boolean doPostQuestion(String batchIdString, String note, Person user);
 
 }
+

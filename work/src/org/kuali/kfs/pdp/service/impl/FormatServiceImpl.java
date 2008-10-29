@@ -24,10 +24,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
@@ -154,16 +154,14 @@ public class FormatServiceImpl implements FormatService {
         paymentProcess.setCampus(campus);
         paymentProcess.setProcessUser(user);
         paymentProcess.setProcessTimestamp(new Timestamp(d.getTime()));
-
+        
         this.businessObjectService.save(paymentProcess);
-
+        
         // add an entry in the format process table (to lock the format process)
         FormatProcess formatProcess = new FormatProcess();
-
         formatProcess.setPhysicalCampusProcessCode(campus);
         formatProcess.setBeginFormat(dateTimeService.getCurrentTimestamp());
         formatProcess.setPaymentProcIdentifier(paymentProcess.getId().intValue());
-
         this.businessObjectService.save(formatProcess);
 
         // Mark all of them ready for format
@@ -171,9 +169,9 @@ public class FormatServiceImpl implements FormatService {
 
         // summarize them
         PreFormatProcessSummary preFormatProcessSummary = new PreFormatProcessSummary();
-
+        
         Iterator iterator = this.paymentGroupService.getByProcess(paymentProcess);
-
+        
         int count = 0;
         while (iterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) iterator.next();
@@ -197,7 +195,12 @@ public class FormatServiceImpl implements FormatService {
      * @return the maximum number of lines in a note
      */
     private int getMaxNoteLines() {
-        return GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        if (StringUtils.isBlank(maxLines)) {
+            throw new RuntimeException("System parameter for max note lines is blank");
+        }
+
+        return Integer.parseInt(maxLines);
     }
 
     /**
@@ -205,7 +208,9 @@ public class FormatServiceImpl implements FormatService {
      * @return the size of the format summary list
      */
     private int getFormatSummaryListSize() {
-        return GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_LOOKUP.class, PdpConstants.ApplicationParameterKeys.FORMAT_SUMMARY_ROWS, 40);
+        return 0;
+        // TODO: remove the system parameter below
+        //GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_LOOKUP.class, PdpConstants.ApplicationParameterKeys.FORMAT_SUMMARY_ROWS, 40);
     }
 
     /**
@@ -213,12 +218,12 @@ public class FormatServiceImpl implements FormatService {
      */
     public List<FormatResult> performFormat(Integer processId) {
         LOG.debug("performFormat() started");
-
+        
         // get the PaymentProcess for the given id
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
-
+        
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new ConfigurationError("Invalid proc ID");
@@ -232,11 +237,9 @@ public class FormatServiceImpl implements FormatService {
 
         // Step one, get ACH or Check, Bank info, ACH info, sorting
         Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
-
+        
         PostFormatProcessSummary postFormatProcessSummary = new PostFormatProcessSummary();
-
         while (paymentGroupIterator.hasNext()) {
-
             PaymentGroup paymentGroup = (PaymentGroup) paymentGroupIterator.next();
             LOG.debug("performFormat() Step 1 Payment Group ID " + paymentGroup.getId());
 
@@ -283,7 +286,7 @@ public class FormatServiceImpl implements FormatService {
 
         // step 5 tell the extract batch job to start
         LOG.debug("performFormat() Start extract batch job");
-        triggerExtract(processId);
+        triggerExtract();
 
         // step 6 end the format process for this campus
         LOG.debug("performFormat() End the format process for this campus");
@@ -291,7 +294,7 @@ public class FormatServiceImpl implements FormatService {
 
         // step 7 return all the process summaries
         Map fieldValues = new HashMap();
-        fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, paymentProcess);
+        fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, paymentProcess.getId());
 
         List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
         return convertProcessSummary2FormatResult(processSummaryResults);
@@ -307,7 +310,6 @@ public class FormatServiceImpl implements FormatService {
      * @param pendingPaymentStatus
      */
     private void processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
-
         CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
         // Set the sort field to be saved in the database
@@ -331,16 +333,16 @@ public class FormatServiceImpl implements FormatService {
             }
         }
 
-        // Attachments, Process Immediate & Special Handling are always checks
-        // If there isn't a PSD Transaction code for the customer, don't even look to see if any payment is ACH
-        // If the payment ID is X, it's always a check
-        // If any one of the payment details in the group are negative, we always force a check
+        // determine whether payment should be ACH or Check
         PayeeAchAccount payeeAchAccount = null;
         boolean isCheck = true;
-        if ((!PdpConstants.PayeeIdTypeCodes.OTHER.equals(paymentGroup.getPayeeIdTypeCd())) && (!"".equals(paymentGroup.getPayeeIdTypeCd())) && (paymentGroup.getPayeeIdTypeCd() != null) && (!"".equals(paymentGroup.getPayeeId())) && (paymentGroup.getPayeeId() != null) && (!paymentGroup.getPymtAttachment().booleanValue()) && (!paymentGroup.getProcessImmediate().booleanValue()) && (!paymentGroup.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
-            LOG.debug("performFormat() Checking ACH");
-            payeeAchAccount = achService.getAchInformation(paymentGroup.getPayeeIdTypeCd(), paymentGroup.getPayeeId(), customer.getPsdTransactionCode());
-            isCheck = (payeeAchAccount == null);
+        if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(paymentGroup.getPayeeIdTypeCd())) {
+            if (StringUtils.isNotBlank(paymentGroup.getPayeeId()) && !paymentGroup.getPymtAttachment() && !paymentGroup.getProcessImmediate() && !paymentGroup.getPymtSpecialHandling() && (customer.getAchTransactionType() != null) && noNegativeDetails) {
+                LOG.debug("performFormat() Checking ACH");
+                payeeAchAccount = achService.getAchInformation(paymentGroup.getPayeeIdTypeCd(), paymentGroup.getPayeeId(), customer.getAchTransactionType());
+                isCheck = (payeeAchAccount == null);
+
+            }
         }
 
         if (isCheck) {
@@ -396,6 +398,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param paymentProcess
      * @param checkDisbursementType
      */
@@ -454,38 +457,11 @@ public class FormatServiceImpl implements FormatService {
      * 
      * @param procId
      */
-    private void triggerExtract(Integer procId) {
+    private void triggerExtract() {
         LOG.debug("triggerExtract() started");
 
-        //saveProcessId(procId);
         String emailAddress = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
-        schedulerService.runJob("pdpExtractChecksJob", emailAddress);
-    }
-
-    /**
-     * This method...
-     * @param id
-     */
-    private void saveProcessId(Integer id) {
-        /*Map fields = new HashMap();
-         fields.put("parameterNamespaceCode", "KFS-PDP");
-         fields.put("parameterDetailTypeCode", "All");
-         fields.put("parameterName", PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
-         Parameter processParam = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, fields);
-         if (processParam == null) {
-         processParam = new Parameter();
-         processParam.setParameterNamespaceCode("KFS-PDP");
-         processParam.setParameterDetailTypeCode("All");
-         processParam.setParameterTypeCode("CONFG");
-         processParam.setParameterName(PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
-         processParam.setParameterConstraintCode("A");
-         processParam.setParameterWorkgroupName("FP_OPERATIONS");
-         }
-         processParam.setParameterValue(id.toString());
-         businessObjectService.save(processParam);*/
-
-        //KFSMI-236
-        //this.processDao.createProcessToRun(id);
+        schedulerService.runJob(PdpConstants.PDP_EXTRACT_JOB_NAME, emailAddress);
     }
 
     /**
@@ -495,23 +471,17 @@ public class FormatServiceImpl implements FormatService {
      */
     private List<FormatResult> convertProcessSummary2FormatResult(List<ProcessSummary> processSummaryResults) {
         List<FormatResult> results = new ArrayList();
-
         for (ProcessSummary processSummary : processSummaryResults) {
-
             FormatResult formatResult = new FormatResult(processSummary.getProcess().getId().intValue(), processSummary.getCustomer());
-
             formatResult.setSortGroupOverride(processSummary.getSortGroupId());
             formatResult.setAmount(processSummary.getProcessTotalAmount());
             formatResult.setPayments(processSummary.getProcessTotalCount().intValue());
             formatResult.setBeginDisbursementNbr(processSummary.getBeginDisbursementNbr().intValue());
             formatResult.setEndDisbursementNbr(processSummary.getEndDisbursementNbr().intValue());
             formatResult.setDisbursementType(processSummary.getDisbursementType());
-
             results.add(formatResult);
         }
-
         Collections.sort(results);
-
         return results;
     }
 
@@ -520,7 +490,7 @@ public class FormatServiceImpl implements FormatService {
      */
     public void clearUnfinishedFormat(Integer processId) {
         LOG.debug("clearUnfinishedFormat() started");
-
+        
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
@@ -561,7 +531,7 @@ public class FormatServiceImpl implements FormatService {
         List<CustomerProfile> customerProfileList = (List<CustomerProfile>) this.businessObjectService.findAll(CustomerProfile.class);
 
         DynamicCollectionComparator.sort(customerProfileList, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);
-
+        
         return customerProfileList;
     }
 
@@ -573,7 +543,7 @@ public class FormatServiceImpl implements FormatService {
 
         List<DisbursementNumberRange> disbursementNumberRangeList = (List<DisbursementNumberRange>) this.businessObjectService.findAll(DisbursementNumberRange.class);
         DynamicCollectionComparator.sort(disbursementNumberRangeList, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_PHYS_CAMPUS_PROC_CODE, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_TYPE_CODE);
-
+        
         return disbursementNumberRangeList;
     }
 
@@ -690,10 +660,10 @@ public class FormatServiceImpl implements FormatService {
      */
     public List getFormatSummary(Integer procId) {
         LOG.debug("getFormatSummary() starting");
-
+        
         Map fieldValues = new HashMap();
         fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, procId);
-
+        
         List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
         return convertProcessSummary2FormatResult(processSummaryResults);
     }
@@ -835,4 +805,3 @@ public class FormatServiceImpl implements FormatService {
     }
 
 }
-

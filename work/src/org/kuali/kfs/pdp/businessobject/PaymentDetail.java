@@ -24,22 +24,20 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpParameterConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
-
-/**
- * 
- */
 
 public class PaymentDetail extends TimestampedBusinessObjectBase {
     private static KualiDecimal zero = KualiDecimal.ZERO;
@@ -75,7 +73,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public boolean isDetailAmountProvided() {
         return (origInvoiceAmount != null) || (invTotDiscountAmount != null) || (invTotShipAmount != null) || (invTotOtherDebitAmount != null) || (invTotOtherCreditAmount != null);
     }
-
+    
     public KualiDecimal getCalculatedPaymentAmount() {
         KualiDecimal orig_invoice_amt = origInvoiceAmount == null ? zero : origInvoiceAmount;
         KualiDecimal invoice_tot_discount_amt = invTotDiscountAmount == null ? zero : invTotDiscountAmount;
@@ -92,22 +90,23 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     }
 
     public boolean isDisbursementActionAllowed() {
-        if (paymentGroup.getDisbursementDate() == null) {
-            if ("EXTR".equals(paymentGroup.getPaymentStatus().getCode())) {
-                return false;
-            }
-            return true;
-        }
-        Calendar c = Calendar.getInstance();
-        c.setTime(paymentGroup.getDisbursementDate());
-        c.set(Calendar.HOUR, 11);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.SECOND, 59);
-        c.set(Calendar.MILLISECOND, 59);
-        c.set(Calendar.AM_PM, Calendar.PM);
-        Timestamp disbursementDate = new Timestamp(c.getTimeInMillis());
-        // date is equal to or after lastActionDate Allowed
-        return ((disbursementDate.compareTo(this.lastDisbursementActionDate)) >= 0);
+        return true;
+//        if (paymentGroup.getDisbursementDate() == null) {
+//            if ("EXTR".equals(paymentGroup.getPaymentStatus().getCode())) {
+//                return false;
+//            }
+//            return true;
+//        }
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(paymentGroup.getDisbursementDate());
+//        c.set(Calendar.HOUR, 11);
+//        c.set(Calendar.MINUTE, 59);
+//        c.set(Calendar.SECOND, 59);
+//        c.set(Calendar.MILLISECOND, 59);
+//        c.set(Calendar.AM_PM, Calendar.PM);
+//        Timestamp disbursementDate = new Timestamp(c.getTimeInMillis());
+//        // date is equal to or after lastActionDate Allowed
+//        return ((disbursementDate.compareTo(this.lastDisbursementActionDate)) >= 0);
     }
 
     /**
@@ -486,28 +485,24 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setFinancialSystemOriginCode(String financialSystemOriginCode) {
         this.financialSystemOriginCode = financialSystemOriginCode;
     }
-
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PaymentDetail)) {
-            return false;
-        }
-        PaymentDetail o = (PaymentDetail) obj;
-        return new EqualsBuilder().append(id, o.getId()).isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(61, 67).append(id).toHashCode();
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).toString();
-    }
-
+    
     /**
      * Returns the value of the system parameter that contains the disbursement cancellation email address
      */
     public String getDisbursementCancellationEmailAddress() {
         return SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put(KFSPropertyConstants.ID, this.id);
+
+        return m;
     }
 
 }

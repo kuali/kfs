@@ -77,8 +77,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       </bean>
     </property>
     <property name="displayWorkgroup" value="PD_VIEW_ACH" />
-    <property name="summary" value="Bank Routing Number" />
-    <property name="description" value="The institution&apos;s routing number." />
   </bean>
   <bean id="AchBank-bankOfficeCode" parent="AchBank-bankOfficeCode-parentBean" />
 
@@ -96,8 +94,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="Bank Office Code" />
-    <property name="description" value="Main office or branch O=main B=branch." />
   </bean>
   <bean id="AchBank-bankServiceNumber" parent="AchBank-bankServiceNumber-parentBean" />
 
@@ -115,8 +111,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="Bank Service Number" />
-    <property name="description" value="Servicing Fed&apos;s main office routing number." />
   </bean>
   <bean id="AchBank-bankTypeCode" parent="AchBank-bankTypeCode-parentBean" />
 
@@ -134,11 +128,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Record Type Code" />
-    <property name="description" value="The code indicating the ABA number to be used to route or send ACH items to the RFI
-                		 0 = Institution is a Federal Reserve Bank
-                		 1 = Send items to customer routing number
-                		 2 = Send items to customer using new routing number field" />
   </bean>
   <bean id="AchBank-bankNewRoutingNumber" parent="AchBank-bankNewRoutingNumber-parentBean" />
 
@@ -156,8 +145,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="Bank New Routing Number" />
-    <property name="description" value="Institution&apos;s new routing number resulting from a merger or renumber" />
   </bean>
   <bean id="AchBank-bankName" parent="AchBank-bankName-parentBean" />
 
@@ -176,8 +163,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="38" />
     </property>
-    <property name="summary" value="Bank Name" />
-    <property name="description" value="Commonly used abbreviated name." />
   </bean>
   <bean id="AchBank-bankStreetAddress" parent="AchBank-bankStreetAddress-parentBean" />
 
@@ -196,8 +181,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="38" />
     </property>
-    <property name="summary" value="Bank Street Address" />
-    <property name="description" value="Delivery address" />
   </bean>
   <bean id="AchBank-bankCityName" parent="AchBank-bankCityName-parentBean" />
 
@@ -216,8 +199,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="Bank City Name" />
-    <property name="description" value="City name in the delivery address" />
   </bean>
   <bean id="AchBank-bankStateCode" parent="AchBank-bankStateCode-parentBean" />
 
@@ -244,8 +225,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Bank Zip Code" />
-    <property name="description" value="Zip code in the delivery address" />
   </bean>
   
   <bean id="AchBank-bankPhoneAreaCode" parent="AchBank-bankPhoneAreaCode-parentBean" />
@@ -264,8 +243,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="Bank Phone Area Code" />
-    <property name="description" value="Area code of the CRF contact telephone number" />
   </bean>
   <bean id="AchBank-bankPhonePrefixNumber" parent="AchBank-bankPhonePrefixNumber-parentBean" />
 
@@ -283,8 +260,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="Bank Phone Prefix Number" />
-    <property name="description" value="Prefix of the CRF contact telephone number" />
   </bean>
   <bean id="AchBank-bankPhoneSuffixNumber" parent="AchBank-bankPhoneSuffixNumber-parentBean" />
 
@@ -302,8 +277,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Bank Phone Suffix Number" />
-    <property name="description" value="Suffix of the CRF contact telephone number" />
   </bean>
   <bean id="AchBank-bankInstitutionStatusCode" parent="AchBank-bankInstitutionStatusCode-parentBean" />
 
@@ -321,9 +294,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Bank Institution Status Code" />
-    <property name="description" value="Code is based on the customers receiver code
-                             1=Receives Gov/Comm" />
   </bean>
   <bean id="AchBank-bankDataViewCode" parent="AchBank-bankDataViewCode-parentBean" />
 
@@ -341,8 +311,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Bank Data View Code" />
-    <property name="description" value="1=Current view" />
   </bean>
   
   <bean id="AchBank-active" parent="AchBank-active-parentBean" />

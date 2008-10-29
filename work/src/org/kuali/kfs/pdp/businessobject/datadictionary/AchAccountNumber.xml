@@ -35,8 +35,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="Id." />
   </bean>
   <bean id="AchAccountNumber-achBankAccountNbr" parent="AchAccountNumber-achBankAccountNbr-parentBean" />
 
@@ -53,8 +51,6 @@
       <bean parent="TextControlDefinition"
             p:size="255" />
     </property>
-    <property name="summary" value="achBankAccountNbr" />
-    <property name="description" value="Payee Bank Account Number." />
   </bean>
   
 </beans>

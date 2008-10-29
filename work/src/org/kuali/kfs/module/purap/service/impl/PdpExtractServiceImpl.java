@@ -30,10 +30,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -41,7 +39,6 @@ import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.service.PdpExtractService;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
-import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
@@ -52,9 +49,9 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
-import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.BankService;
@@ -63,12 +60,10 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +87,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private CreditMemoService creditMemoService;
     private DocumentService documentService;
     private PurapRunDateService purapRunDateService;
-    private PaymentFileEmailService paymentFileEmailService;
+    private PdpEmailService paymentFileEmailService;
     private BankService bankService;
     private DocumentTypeService documentTypeService;
     private PurapAccountingServiceImpl purapAccountingService;
@@ -485,7 +480,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return configured maximum number of note lines allowed
      */
     private int getMaxNoteLines() {
-        return GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        if (StringUtils.isBlank(maxLines)) {
+            throw new RuntimeException("System parameter for max note lines is blank");
+        }
+
+        return Integer.parseInt(maxLines);
     }
 
     /**
@@ -1166,7 +1166,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * 
      * @param paymentFileEmailService The paymentFileEmailService to set.
      */
-    public void setPaymentFileEmailService(PaymentFileEmailService paymentFileEmailService) {
+    public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
     }
 

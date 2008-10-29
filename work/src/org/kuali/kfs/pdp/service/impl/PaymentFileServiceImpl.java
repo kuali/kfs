@@ -34,7 +34,7 @@ import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.PaymentFileEmailService;
+import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -68,7 +68,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     private PaymentFileValidationService paymentFileValidationService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private PaymentFileEmailService paymentFileEmailService;
+    private PdpEmailService paymentFileEmailService;
     private KualiConfigurationService kualiConfigurationService;
 
     public PaymentFileServiceImpl() {
@@ -426,7 +426,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      * 
      * @param paymentFileEmailService The paymentFileEmailService to set.
      */
-    public void setPaymentFileEmailService(PaymentFileEmailService paymentFileEmailService) {
+    public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
     }
 

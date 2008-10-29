@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp;
 
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 
 /**
  * Contains general PDP constants.
@@ -28,13 +29,12 @@ public class PdpConstants {
     public static final String PDP_FDOC_TYPE_CODE = "PDP";
     public static final String PDP_FDOC_ORIGIN_CODE = "01";
     public static final String ACH_ACCOUNT_IDENTIFIER_SEQUENCE_NAME = "PDP_ACH_ACCT_GNRTD_ID_SEQ";
+    public static final String PDP_EXTRACT_JOB_NAME = "pdpExtractChecksJob";
     public static final String ACH_TRANSACTION_TYPE_DEFAULT = "22";
 
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 
-    // TODO Probably should become a table
     public static class PayeeIdTypeCodes {
-        //public static String PAYEE_ID = "P";
         public static String SSN = "S";
         public static String EMPLOYEE_ID = "E";
         public static String FEIN = "F";
@@ -159,5 +159,9 @@ public class PdpConstants {
     public static final String MAPPING_SELECTION = "selection";
     public static final String MAPPING_CONTINUE = "continue";
     public static final String MAPPING_FINISHED = "finished";
+    
+    public static class PDPEditMode extends EditMode {
+        public static final String ENTRY = "entry";
+    }
 
 }

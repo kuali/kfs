@@ -718,7 +718,7 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="changeTime" />
+                          p:attributeName="changeTime" p:noInquiry="true"/>
                     <bean parent="FieldDefinition"
                           p:attributeName="paymentChange.name" /> 
                     <bean parent="FieldDefinition"

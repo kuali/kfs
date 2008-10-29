@@ -36,6 +36,7 @@ public class PdpKeyConstants {
     public static final String ERROR_PAYMENT_LOAD_PAYEE_OWNER_CODE = "error.pdp.paymentLoad.payeeOwnerCodeRequired";
     public static final String ERROR_PAYMENT_LOAD_INVALID_ORIGIN_CODE = "error.pdp.paymentLoad.invalidOriginCode";
     public static final String ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE = "error.pdp.paymentLoad.invalidDocType";
+    public static final String ERROR_PAYMENT_LOAD_INVALID_PAYEE_ID_TYPE = "error.pdp.paymentLoad.invalidPayeeIdType";
     
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PAYMENT = "message.batchUpload.title.payment";
     public static final String MESSAGE_PAYMENT_LOAD_FILE_THRESHOLD = "message.pdp.paymentLoad.fileThreshold";
@@ -63,6 +64,10 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_ACH_SUMMARY_EMAIL_UNIT_TOTAL = "message.pdp.achSummary.email.unitTotal";
     public static final String MESSAGE_PDP_ACH_SUMMARY_EMAIL_EXTRACT_TOTALS = "message.pdp.achSummary.email.extractTotals";
     public static final String MESSAGE_PDP_ACH_SUMMARY_EMAIL_COMPLETE = "message.pdp.achSummary.email.complete";
+    public static final String MESSAGE_PDP_ACH_ADVICE_EMAIL_TOFROM = "message.pdp.achAdvice.email.toFrom";
+    public static final String MESSAGE_PDP_ACH_ADVICE_EMAIL_BANKAMOUNT = "message.pdp.achAdvice.email.bankAmount";
+    public static final String MESSAGE_PDP_ACH_ADVICE_EMAIL_NONOTES = "message.pdp.achAdvice.email.noNotes";
+    public static final String MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS = "message.pdp.achAdvice.email.invalidEmailAddress";
     
     public static class BatchConstants{
         public static class ErrorMessages{

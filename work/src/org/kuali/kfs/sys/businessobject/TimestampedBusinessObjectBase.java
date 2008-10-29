@@ -28,31 +28,19 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class TimestampedBusinessObjectBase extends PersistableBusinessObjectBase implements TimestampedBusinessObject {
-    private Timestamp lastUpdate;
-    private String lastUpdateUserId; 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TimestampedBusinessObjectBase.class);
-    
+
+    private Timestamp lastUpdate;
+    private String lastUpdateUserId;
+
     /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    /**
-     * 
      * @see org.kuali.kfs.sys.businessobject.TimestampedBusinessObject#getLastUpdate()
      */
     public Timestamp getLastUpdate() {
-        
         return this.lastUpdate;
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.businessobject.TimestampedBusinessObject#getLastUpdateUser()
      */
     public Person getLastUpdateUser() {
@@ -60,16 +48,14 @@ public abstract class TimestampedBusinessObjectBase extends PersistableBusinessO
         if (StringUtils.isNotBlank(lastUpdateUserId)) {
             user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(lastUpdateUserId);
         }
-        
+
         return user;
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.businessobject.TimestampedBusinessObject#getLastUpdateUserId()
      */
     public String getLastUpdateUserId() {
-        
         return this.lastUpdateUserId;
     }
 
@@ -89,16 +75,15 @@ public abstract class TimestampedBusinessObjectBase extends PersistableBusinessO
 
     public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
         super.beforeInsert(broker);
-        
+
         lastUpdate = new Timestamp((new Date()).getTime());
         lastUpdateUserId = GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
 
     public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
         super.beforeUpdate(broker);
-        
+
         lastUpdate = new Timestamp((new Date()).getTime());
         lastUpdateUserId = GlobalVariables.getUserSession().getPerson().getPrincipalName();
-    } 
+    }
 }
-

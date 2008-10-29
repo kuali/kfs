@@ -38,6 +38,7 @@ import org.kuali.kfs.module.cg.businessobject.AgencyType;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory;
 import org.kuali.kfs.pdp.businessobject.AccountingChangeCode;
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
+import org.kuali.kfs.pdp.businessobject.PayeeType;
 import org.kuali.kfs.pdp.businessobject.PaymentChangeCode;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.sys.KFSConstants;
@@ -74,6 +75,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         codeColumns.put(AccountingChangeCode.class, "code");
         codeColumns.put(DisbursementType.class, "code");
         codeColumns.put(PaymentChangeCode.class, "code");
+        codeColumns.put(PayeeType.class, "code");
         // can't add entry for CashDetailTypeCode since the table doesn't yet exist
     }
 
@@ -93,10 +95,11 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         nameColumns.put(OriginEntrySource.class, "name");
         nameColumns.put(ProjectCode.class, "name");
         nameColumns.put(RestrictedStatus.class, "accountRestrictedStatusName");
-        nameColumns.put(PaymentStatus.class, "code");
-        nameColumns.put(AccountingChangeCode.class, "code");
-        nameColumns.put(DisbursementType.class, "code");
-        nameColumns.put(PaymentChangeCode.class, "code");
+        nameColumns.put(PaymentStatus.class, "name");
+        nameColumns.put(AccountingChangeCode.class, "name");
+        nameColumns.put(DisbursementType.class, "name");
+        nameColumns.put(PaymentChangeCode.class, "name");
+        nameColumns.put(PaymentChangeCode.class, "name");
         // can't add entry for CashDetailTypeCode since the table doesn't yet exist
     }
 

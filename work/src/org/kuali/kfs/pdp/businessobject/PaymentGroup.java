@@ -979,6 +979,24 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setId_type(String idType) {
         this.payeeIdTypeCd = idType;
     }
+    
+    /**
+     * Gets the adviceEmailSentDate attribute.
+     * 
+     * @return Returns the adviceEmailSentDate.
+     */
+    public Timestamp getAdviceEmailSentDate() {
+        return adviceEmailSentDate;
+    }
+
+    /**
+     * Sets the adviceEmailSentDate attribute value.
+     * 
+     * @param adviceEmailSentDate The adviceEmailSentDate to set.
+     */
+    public void setAdviceEmailSentDate(Timestamp adviceEmailSentDate) {
+        this.adviceEmailSentDate = adviceEmailSentDate;
+    }
 
     /**
      * This method gets a string representation of the address lines
@@ -1003,8 +1021,8 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         String payeeIdTypeCd = getPayeeIdTypeCd();
         List<PayeeType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PayeeType.class);
         for (PayeeType payeeType : boList) {
-            if (payeeType.getPayeeTypeCode().equalsIgnoreCase(payeeIdTypeCd)) {
-                return payeeType.getDescription();
+            if (payeeType.getCode().equalsIgnoreCase(payeeIdTypeCd)) {
+                return payeeType.getName();
             }
         }
         return KFSConstants.EMPTY_STRING;

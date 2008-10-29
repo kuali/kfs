@@ -24,12 +24,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
-import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kim.service.PersonService;
 
 public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentGroupDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentGroupDaoOjb.class);
@@ -63,6 +62,20 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
             results.add( new Integer(d.intValue()) );
         }
         return results;
+    }
+
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupDao#getAchPaymentsNeedingAdviceNotification()
+     */
+    public List<PaymentGroup> getAchPaymentsNeedingAdviceNotification() {
+        LOG.debug("getAchPaymentsNeedingAdviceNotification() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PdpPropertyConstants.PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        criteria.addEqualTo(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpConstants.DisbursementTypeCodes.ACH);
+        criteria.addIsNull(PdpPropertyConstants.ADVICE_EMAIL_SENT_DATE);
+
+        return (List<PaymentGroup>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
     }
  
 }

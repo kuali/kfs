@@ -22,19 +22,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.batch.ExtractAchPaymentsStep;
 import org.kuali.kfs.pdp.batch.LoadPaymentsStep;
+import org.kuali.kfs.pdp.businessobject.AchBank;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.service.AchBankService;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.PaymentFileEmailService;
+import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -47,21 +50,24 @@ import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.format.Formatter;
 
 /**
- * @see org.kuali.kfs.pdp.service.PaymentFileEmailService
+ * @see org.kuali.kfs.pdp.service.PdpEmailService
  */
-public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileEmailServiceImpl.class);
+public class PdpEmailServiceImpl implements PdpEmailService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PdpEmailServiceImpl.class);
 
     private CustomerProfileService customerProfileService;
     private KualiConfigurationService kualiConfigurationService;
     private MailService mailService;
     private ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;
+    private AchBankService achBankService;
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendErrorEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendErrorEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
      *      org.kuali.rice.kns.util.ErrorMap)
      */
     public void sendErrorEmail(PaymentFileLoad paymentFile, ErrorMap errors) {
@@ -135,7 +141,7 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendLoadEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendLoadEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
      *      java.util.List)
      */
     public void sendLoadEmail(PaymentFileLoad paymentFile, List<String> warnings) {
@@ -236,7 +242,7 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendTaxEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad)
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendTaxEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad)
      */
     public void sendTaxEmail(PaymentFileLoad paymentFile) {
         LOG.debug("sendTaxEmail() starting");
@@ -249,7 +255,7 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
         StringBuffer body = new StringBuffer();
 
         String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);
-        if (GeneralUtilities.isStringEmpty(taxEmail)) {
+        if (StringUtils.isBlank(taxEmail)) {
             LOG.error("No Tax E-mail Application Setting found to send notification e-mail");
             return;
         }
@@ -273,7 +279,7 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendLoadEmail(org.kuali.kfs.pdp.businessobject.Batch)
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendLoadEmail(org.kuali.kfs.pdp.businessobject.Batch)
      */
     public void sendLoadEmail(Batch batch) {
         LOG.debug("sendLoadEmail() starting");
@@ -311,9 +317,9 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }
-    
+
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendExceedsMaxNotesWarningEmail(java.util.List, java.util.List, int, int)
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendExceedsMaxNotesWarningEmail(java.util.List, java.util.List, int, int)
      */
     public void sendExceedsMaxNotesWarningEmail(List<String> creditMemos, List<String> paymentRequests, int lineTotal, int maxNoteLines) {
         LOG.debug("sendExceedsMaxNotesWarningEmail() starting");
@@ -355,9 +361,9 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
             LOG.error("sendExceedsMaxNotesWarningEmail() Invalid email address. Message not sent", e);
         }
     }
-    
+
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendAchSummaryEmail(java.util.Map, java.util.Map, java.util.Date)
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendAchSummaryEmail(java.util.Map, java.util.Map, java.util.Date)
      */
     public void sendAchSummaryEmail(Map<String, Integer> unitCounts, Map<String, KualiDecimal> unitTotals, Date disbursementDate) {
         LOG.debug("sendAchSummaryEmail() starting");
@@ -394,6 +400,143 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
         }
         catch (InvalidAddressException e) {
             LOG.error("sendAchSummaryEmail() Invalid email address. Message not sent", e);
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendAchAdviceEmail(org.kuali.kfs.pdp.businessobject.PaymentGroup,
+     *      org.kuali.kfs.pdp.businessobject.CustomerProfile, org.kuali.kfs.pdp.businessobject.PaymentDetail)
+     */
+    public void sendAchAdviceEmail(PaymentGroup paymentGroup, PaymentDetail paymentDetail, CustomerProfile customer) {
+        LOG.debug("sendAchAdviceEmail() starting");
+
+        MailMessage message = new MailMessage();
+
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            message.addToAddress(paymentGroup.getAdviceEmailAddress());
+            message.setFromAddress(customer.getAdviceReturnEmailAddr());
+            message.setSubject(customer.getAdviceSubjectLine());
+        }
+        else {
+            message.addToAddress(mailService.getBatchMailingList());
+            message.setFromAddress(customer.getAdviceReturnEmailAddr());
+            message.setSubject(environmentCode + ": " + customer.getAdviceSubjectLine() + ":" + paymentGroup.getAdviceEmailAddress());
+        }
+
+        LOG.debug("sending email to " + paymentGroup.getAdviceEmailAddress() + " for disb # " + paymentGroup.getDisbursementNbr());
+
+        StringBuffer body = new StringBuffer();
+        body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_EMAIL_TOFROM, paymentGroup.getPayeeName(), customer.getAchPaymentDescription()));
+
+        // formatter for payment amounts
+        Formatter formatter = new CurrencyFormatter();
+
+        // get bank name to which the payment is being transferred
+        String bankName = "";
+
+        AchBank achBank = achBankService.getByPrimaryId(paymentGroup.getAchBankRoutingNbr());
+        if (achBank == null) {
+            LOG.error("Bank cound not be found for routing number " + paymentGroup.getAchBankRoutingNbr());
+        }
+        else {
+            bankName = achBank.getBankName();
+        }
+
+        body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_EMAIL_BANKAMOUNT, bankName, formatter.formatForPresentation(paymentDetail.getNetPaymentAmount())));
+
+        // print detail amounts
+        int labelPad = 25;
+
+        String newPaymentAmountLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_NET_AMOUNT);
+        body.append(StringUtils.rightPad(newPaymentAmountLabel, labelPad) + formatter.formatForPresentation(paymentDetail.getNetPaymentAmount()) + "\n");
+
+        if (paymentDetail.getOrigInvoiceAmount().isNonZero()) {
+            String origInvoiceAmountLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORIGINAL_INVOICE_AMOUNT);
+            body.append(StringUtils.rightPad(origInvoiceAmountLabel, labelPad) + formatter.formatForPresentation(paymentDetail.getOrigInvoiceAmount()) + "\n");
+        }
+
+        if (paymentDetail.getInvTotDiscountAmount().isNonZero()) {
+            String invTotDiscountAmountLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_TOTAL_DISCOUNT_AMOUNT);
+            body.append(StringUtils.rightPad(invTotDiscountAmountLabel, labelPad) + formatter.formatForPresentation(paymentDetail.getInvTotDiscountAmount()) + "\n");
+        }
+
+        if (paymentDetail.getInvTotShipAmount().isNonZero()) {
+            String invTotShippingAmountLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_TOTAL_SHIPPING_AMOUNT);
+            body.append(StringUtils.rightPad(invTotShippingAmountLabel, labelPad) + formatter.formatForPresentation(paymentDetail.getInvTotShipAmount()) + "\n");
+        }
+
+        if (paymentDetail.getInvTotOtherDebitAmount().isNonZero()) {
+            String invTotOtherDebitAmountLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_TOTAL_OTHER_DEBIT_AMOUNT);
+            body.append(StringUtils.rightPad(invTotOtherDebitAmountLabel, labelPad) + formatter.formatForPresentation(paymentDetail.getInvTotOtherDebitAmount()) + "\n");
+        }
+
+        if (paymentDetail.getInvTotOtherCreditAmount().isNonZero()) {
+            String invTotOtherCreditAmountLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_TOTAL_OTHER_CREDIT_AMOUNT);
+            body.append(StringUtils.rightPad(invTotOtherCreditAmountLabel, labelPad) + formatter.formatForPresentation(paymentDetail.getInvTotOtherCreditAmount()) + "\n");
+        }
+
+        body.append("\n" + customer.getAdviceHeaderText() + "\n");
+
+        if (StringUtils.isNotBlank(paymentDetail.getPurchaseOrderNbr())) {
+            String purchaseOrderNbrLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PURCHASE_ORDER_NUMBER);
+            body.append(StringUtils.rightPad(purchaseOrderNbrLabel, labelPad) + paymentDetail.getPurchaseOrderNbr() + "\n");
+        }
+
+        if (StringUtils.isNotBlank(paymentDetail.getInvoiceNbr())) {
+            String invoiceNbrLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_NUMBER);
+            body.append(StringUtils.rightPad(invoiceNbrLabel, labelPad) + paymentDetail.getInvoiceNbr() + "\n");
+        }
+
+        if (StringUtils.isNotBlank(paymentDetail.getCustPaymentDocNbr())) {
+            String custPaymentDocNbrLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER);
+            body.append(StringUtils.rightPad(custPaymentDocNbrLabel, labelPad) + paymentDetail.getCustPaymentDocNbr() + "\n");
+        }
+
+        if (StringUtils.isNotBlank(paymentGroup.getCustomerInstitutionNumber())) {
+            String customerInstituitionNbrLabel = dataDictionaryService.getAttributeLabel(PaymentGroup.class, PdpPropertyConstants.CUSTOMER_INSTITUTION_NUMBER);
+            body.append(StringUtils.rightPad(customerInstituitionNbrLabel, labelPad) + paymentGroup.getCustomerInstitutionNumber() + "\n");
+        }
+
+        body.append("\n");
+
+        // print payment notes
+        for (PaymentNoteText paymentNoteText : paymentDetail.getNotes()) {
+            body.append(paymentNoteText.getCustomerNoteText() + "\n");
+        }
+
+        if (paymentDetail.getNotes().isEmpty()) {
+            body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_EMAIL_NONOTES));
+        }
+
+        message.setMessage(body.toString());
+
+        try {
+            mailService.sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendAchAdviceEmail() Invalid email address. Sending message to " + customer.getAdviceReturnEmailAddr(), e);
+
+            // send notification to advice return address with payment details
+            if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+                message.addToAddress(customer.getAdviceReturnEmailAddr());
+            }
+            else {
+                message.addToAddress(mailService.getBatchMailingList());
+            }
+            
+            message.setFromAddress(mailService.getBatchMailingList());
+            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS));
+
+            LOG.debug("bouncing email to " + customer.getAdviceReturnEmailAddr() + " for disb # " + paymentGroup.getDisbursementNbr());
+            try {
+                mailService.sendMessage(message);
+            }
+            catch (InvalidAddressException e1) {
+                LOG.error("Could not send email to advice return email address on customer profile: " + customer.getAdviceReturnEmailAddr(), e1);
+                throw new RuntimeException("Could not send email to advice return email address on customer profile: " + customer.getAdviceReturnEmailAddr());
+            }
         }
     }
 
@@ -514,6 +657,15 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Sets the achBankService attribute value.
+     * 
+     * @param achBankService The achBankService to set.
+     */
+    public void setAchBankService(AchBankService achBankService) {
+        this.achBankService = achBankService;
     }
 
 }

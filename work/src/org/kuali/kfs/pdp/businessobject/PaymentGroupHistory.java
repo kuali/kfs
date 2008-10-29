@@ -20,20 +20,18 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
-
-/**
- * 
- */
 
 public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
 
@@ -494,29 +492,25 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
         Person u = userService.getPerson(changeUserId);
         setChangeUser(u);
     }
-
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PaymentGroupHistory)) {
-            return false;
-        }
-        PaymentGroupHistory o = (PaymentGroupHistory) obj;
-        return new EqualsBuilder().append(id, o.getId()).isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(83, 3).append(id).toHashCode();
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).toString();
-    }
-
+    
     public KualiInteger getProcessId() {
         return processId;
     }
 
     public void setProcessId(KualiInteger processId) {
         this.processId = processId;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put(KFSPropertyConstants.ID, this.id);
+
+        return m;
     }
 
 }

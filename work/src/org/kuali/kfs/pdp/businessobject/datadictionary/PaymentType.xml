@@ -41,8 +41,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="Payment Type Code" />
-    <property name="description" value="Payment Type Code" />
   </bean>
   
   <bean id="PaymentType-description" parent="PaymentType-description-parentBean" />
@@ -58,8 +56,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="Payment Type Description" />
-    <property name="description" value="Payment Type Description" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->

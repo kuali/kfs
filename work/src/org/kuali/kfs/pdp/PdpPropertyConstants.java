@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.pdp;
 
+import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
+
 /**
  * Contains property name constants.
  */
@@ -33,7 +35,7 @@ public class PdpPropertyConstants {
     public static final String SUB_UNIT = "subUnit";
     
     public static final String PAYEE_IDENTIFIER_TYPE_CODE = "payeeIdentifierTypeCode";
-    public static final String PSD_TRANSACTION_CODE = "psdTransactionCode";
+    public static final String ACH_TRANSACTION_TYPE = "achTransactionType";
     public static final String PAYEE_SOCIAL_SECURITY_NUMBER = "payeeSocialSecurityNumber";
     public static final String PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER = "payeeFederalEmployerIdentificationNumber";
     
@@ -54,6 +56,12 @@ public class PdpPropertyConstants {
     public static final String PAYMENT_GROUP = "paymentGroup";
     public static final String PAYMENT_GROUP_HISTORY = "paymentGroupHistory";
     public static final String PROCESS_IND = "processInd";
+    public static final String TRANSACTION_CODE = "transactionCode";
+    public static final String TRANSACTION_TYPE = "transactionCode";
+    public static final String PAYMENT_STATUS_CODE = "paymentStatusCode";
+    public static final String ADVICE_EMAIL_SENT_DATE = "adviceEmailSentDate";
+    public static final String CUSTOMER_INSTITUTION_NUMBER = "customerInstitutionNumber";
+    public static final String PAYMENT_PROC_IDENTIFIER = "paymentProcIdentifier";
     
     public static class BatchConstants{
         public static class Fields{
@@ -86,7 +94,7 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_REQUISITION_NUMBER = "requisitionNbr";
             public static final String PAYMENT_SPECIAL_HANDLING = "paymentGroup.pymtSpecialHandling";
             public static final String PAYMENT_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
-            public static final String PAYMENT_DISBURSEMENT_DATE = "paymentGroup.disbursementDate";
+            public static final String PAYMENT_DISBURSEMENT_DATE = "paymentGroup.disbursementDate"; 
             public static final String PAYMENT_ATTACHMENT = "paymentGroup.pymtAttachment";
             public static final String PAYMENT_PROCESS_ID = "paymentGroup.processId";
             public static final String PAYMENT_DATE = "paymentGroup.paymentDate";
@@ -95,6 +103,11 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
             public static final String PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR = "custPaymentDocNbr";
             public static final String PAYMENT_DISBURSEMENT_TYPE_NAME = "paymentGroup.disbursementType.name";
+            public static final String PAYMENT_ORIGINAL_INVOICE_AMOUNT = "origInvoiceAmount";
+            public static final String PAYMENT_INVOICE_TOTAL_DISCOUNT_AMOUNT = "invTotDiscountAmount";
+            public static final String PAYMENT_INVOICE_TOTAL_SHIPPING_AMOUNT = "invTotShipAmount";
+            public static final String PAYMENT_INVOICE_TOTAL_OTHER_DEBIT_AMOUNT = "invTotOtherDebitAmount";
+            public static final String PAYMENT_INVOICE_TOTAL_OTHER_CREDIT_AMOUNT = "invTotOtherCreditAmount";
         }
     }
     
@@ -154,5 +167,7 @@ public class PdpPropertyConstants {
         public static final String DISBURSEMENT_NUMBER_RANGE_TYPE_CODE = "disbursementTypeCode";
         
     }
+    
+
 
 }

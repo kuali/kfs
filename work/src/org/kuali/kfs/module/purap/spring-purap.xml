@@ -107,7 +107,7 @@
 		<property name="creditMemoService" ref="creditMemoService"/>
 		<property name="documentService" ref="documentService"/>
         <property name="purapRunDateService" ref="purapRunDateService" />
-        <property name="paymentFileEmailService" ref="paymentFileEmailService" />
+        <property name="paymentFileEmailService" ref="pdpEmailService" />
         <property name="bankService" ref="bankService" />
         <property name="documentTypeService" ref="documentTypeService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
@@ -715,3 +715,4 @@
 	</bean>
 	
 </beans>
+

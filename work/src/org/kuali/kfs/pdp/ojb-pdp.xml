@@ -34,7 +34,14 @@
     <field-descriptor name="description" column="TRANS_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
- </class-descriptor>
+  </class-descriptor>
+ 
+   <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchTransactionType" table="PDP_ACH_TRANS_TYP_T">
+    <field-descriptor name="transactionType" column="TRANS_TYP" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="description" column="TRANS_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
   
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.Batch" table="PDP_FIL_T">
     <field-descriptor name="id" column="PMT_FIL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_FIL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
@@ -110,7 +117,7 @@
     <field-descriptor name="paymentThresholdAmount" column="PMT_THRSHLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="paymentThresholdEmailAddress" column="CUST_PMT_THRSHLD_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="processingEmailAddr" column="CUST_PRCS_EMAIL_ADDR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="achTransactionType" column="ACH_TRANS_TYP" jdbc-type="VARCHAR"/>
     <field-descriptor name="stateCode" column="CUST_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="subUnitCode" column="SBUNT_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="zipCode" column="CUST_ZIP_CD" jdbc-type="VARCHAR"/>
@@ -160,6 +167,10 @@
 		<foreignkey field-ref="defaultAccountNumber" />
 		<foreignkey field-ref="defaultObjectCode" />
 		<foreignkey field-ref="defaultSubObjectCode" />
+	</reference-descriptor>
+	
+    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.AchTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="achTransactionType" />
 	</reference-descriptor>
 	
 	<reference-descriptor name="defaultProcessingCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -531,8 +542,8 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PayeeType" table="PDP_PAYEE_TYP_T">
-    <field-descriptor name="payeeTypeCode" column="PAYEE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="description" column="PAYEE_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="code" column="PAYEE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="name" column="PAYEE_TYP_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
@@ -577,7 +588,7 @@
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="achTransactionType" column="ACH_TRANS_TYP" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 
@@ -588,6 +599,10 @@
 	<reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
 		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
+	</reference-descriptor>
+	
+    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.AchTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="achTransactionType" />
 	</reference-descriptor>
 </class-descriptor>
 
@@ -617,4 +632,3 @@
     </reference-descriptor>
   </class-descriptor>
 </descriptor-repository>
-

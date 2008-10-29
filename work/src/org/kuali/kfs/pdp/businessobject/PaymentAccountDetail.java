@@ -21,18 +21,17 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
-
-/**
- *
- */
 
 public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
 
@@ -245,19 +244,15 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
         this.paymentDetailId = paymentDetailId;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PaymentAccountDetail)) {
-            return false;
-        }
-        PaymentAccountDetail o = (PaymentAccountDetail) obj;
-        return new EqualsBuilder().append(id, o.getId()).isEquals();
-    }
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put(KFSPropertyConstants.ID, this.id);
 
-    public int hashCode() {
-        return new HashCodeBuilder(59, 67).append(id).toHashCode();
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).toString();
+        return m;
     }
 }

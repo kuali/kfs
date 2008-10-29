@@ -24,7 +24,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
 	private String universityFederalEmployerIdentificationNumber;
-	private String salesTaxFinancialObjectCode;
 	private String discountObjectCode;
 	private String universityClearingChartOfAccountsCode;
 	private String universityClearingAccountNumber;
@@ -49,7 +48,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private String wireSubObjectCode;    
     private String cashControlWorkgroup;
     
-	private ObjectCode salesTaxFinancialObject;
 	private ObjectCode creditCardFinancialObject;
 	private SubObjCd universityClearingSubObject;
 	private ObjectCode universityClearingObject;
@@ -164,27 +162,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     public void setUniversityFederalEmployerIdentificationNumber(String universityFederalEmployerIdentificationNumber) {
         this.universityFederalEmployerIdentificationNumber = universityFederalEmployerIdentificationNumber;
     }    
-
-	/**
-	 * Gets the salesTaxFinancialObjectCode attribute.
-	 * 
-	 * @return Returns the salesTaxFinancialObjectCode
-	 * 
-	 */
-	public String getSalesTaxFinancialObjectCode() { 
-		return salesTaxFinancialObjectCode;
-	}
-
-	/**
-	 * Sets the salesTaxFinancialObjectCode attribute.
-	 * 
-	 * @param salesTaxFinancialObjectCode The salesTaxFinancialObjectCode to set.
-	 * 
-	 */
-	public void setSalesTaxFinancialObjectCode(String salesTaxFinancialObjectCode) {
-		this.salesTaxFinancialObjectCode = salesTaxFinancialObjectCode;
-	}
-
 
 	/**
 	 * Gets the discountObjectCode attribute.
@@ -580,26 +557,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     public void setWireSubObjectCode(String wireSubObjectCode) {
         this.wireSubObjectCode = wireSubObjectCode;
     }
-
-	/**
-	 * Gets the salesTaxFinancialObject attribute.
-	 * 
-	 * @return Returns the salesTaxFinancialObject
-	 * 
-	 */
-	public ObjectCode getSalesTaxFinancialObject() { 
-		return salesTaxFinancialObject;
-	}
-
-	/**
-	 * Sets the salesTaxFinancialObject attribute.
-	 * 
-	 * @param salesTaxFinancialObject The salesTaxFinancialObject to set.
-	 * @deprecated
-	 */
-	public void setSalesTaxFinancialObject(ObjectCode salesTaxFinancialObject) {
-		this.salesTaxFinancialObject = salesTaxFinancialObject;
-	}
 
 	/**
 	 * Gets the creditCardFinancialObject attribute.

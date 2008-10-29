@@ -58,6 +58,7 @@
         includePostingYearRefresh="true"
         postingYearAttributes="${DataDictionary.BudgetAdjustmentDocument.attributes}" />
 --%>
+    <c:if test="${!KualiForm.securityNoAccess}">
     <bc:systemInformation />
 
     <bc:budgetConstructionRevenueLines />
@@ -65,6 +66,7 @@
     <bc:budgetConstructionExpenditureLines />
     
 	<kul:notes />
+    </c:if>
 
 	<kul:routeLog />
 

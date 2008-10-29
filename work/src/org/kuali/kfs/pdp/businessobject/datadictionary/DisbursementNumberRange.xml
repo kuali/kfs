@@ -201,6 +201,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="bankCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="disbursementTypeCode" />
+        <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
     </property>

@@ -56,13 +56,6 @@ public interface PurApLineService {
     void processSaveBusinessObjects(PurApLineForm purApLineForm, PurApLineSession purApLineSession);
 
     /**
-     * Set Purchasing order email address and contact phone from PurAp.
-     * 
-     * @param purApLineForm form
-     */
-    void setPurchaseOrderInfo(PurApLineForm purApLineForm);
-
-    /**
      * Build PurAp document collection and line item collection.
      * 
      * @param purApLineForm form

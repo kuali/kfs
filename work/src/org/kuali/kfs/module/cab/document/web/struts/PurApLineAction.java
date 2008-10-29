@@ -35,6 +35,7 @@ import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.service.PurApLineDocumentService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
@@ -59,6 +60,7 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 public class PurApLineAction extends KualiAction {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
     PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
+    PurApInfoService purApInfoService = SpringContext.getBean(PurApInfoService.class);
     PurApLineDocumentService purApLineDocumentService = SpringContext.getBean(PurApLineDocumentService.class);
 
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -67,7 +69,7 @@ public class PurApLineAction extends KualiAction {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_EMPTY);
         }
         else {
-            purApLineService.setPurchaseOrderInfo(purApLineForm);
+            purApInfoService.setPurchaseOrderFromPurAp(purApLineForm);
             buildPurApDocList(purApLineForm);
 
             if (!purApLineForm.getPurApDocs().isEmpty()) {

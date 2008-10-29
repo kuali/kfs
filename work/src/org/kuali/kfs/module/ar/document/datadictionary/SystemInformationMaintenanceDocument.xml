@@ -25,9 +25,11 @@
               p:attributeName="adjustmentFinancialObject"
               p:attributeToHighlightOnFail="adjustmentObjectCode" />
       -->
+      <!-- 
         <bean parent="ReferenceDefinition"
               p:attributeName="salesTaxFinancialObject"
               p:attributeToHighlightOnFail="salesTaxFinancialObjectCode" />
+      -->
         <bean parent="ReferenceDefinition"
               p:attributeName="creditCardFinancialObject"
               p:attributeToHighlightOnFail="creditCardObjectCode" />

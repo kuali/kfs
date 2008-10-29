@@ -30,19 +30,11 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	private String defaultInvoiceFinancialSubObjectCode;
 	private String defaultInvoiceProjectCode;
 	private String defaultInvoiceOrganizationReferenceIdentifier;
-	private BigDecimal itemDefaultPrice;
+	private KualiDecimal itemDefaultPrice;
 	private String defaultUnitOfMeasureCode;
 	private BigDecimal itemDefaultQuantity;
 	private boolean active;
 	private boolean taxableIndicator;
-
-    public boolean isTaxableIndicator() {
-        return taxableIndicator;
-    }
-
-    public void setTaxableIndicator(boolean taxableIndicator) {
-        this.taxableIndicator = taxableIndicator;
-    }
 
     private Chart chartOfAccounts;
 	private Org organization;
@@ -57,7 +49,6 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	 * Default constructor.
 	 */
 	public CustomerInvoiceItemCode() {
-
 	}
 
 	/**
@@ -318,7 +309,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	 * @return Returns the itemDefaultPrice
 	 * 
 	 */
-	public BigDecimal getItemDefaultPrice() { 
+	public KualiDecimal getItemDefaultPrice() { 
 		return itemDefaultPrice;
 	}
 
@@ -328,7 +319,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	 * @param itemDefaultPrice The itemDefaultPrice to set.
 	 * 
 	 */
-	public void setItemDefaultPrice(BigDecimal itemDefaultPrice) {
+	public void setItemDefaultPrice(KualiDecimal itemDefaultPrice) {
 		this.itemDefaultPrice = itemDefaultPrice;
 	}
 
@@ -395,6 +386,14 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
+
+    public boolean isTaxableIndicator() {
+        return taxableIndicator;
+    }
+
+    public void setTaxableIndicator(boolean taxableIndicator) {
+        this.taxableIndicator = taxableIndicator;
+    }
 
 	/**
 	 * Gets the chartOfAccounts attribute.

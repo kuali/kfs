@@ -215,7 +215,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         glKeys.put(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER, glEntry.getTransactionLedgerEntrySequenceNumber());
         Collection<GeneralLedgerEntry> matchingEntries = businessObjectService.findMatching(GeneralLedgerEntry.class, glKeys);
         // if not found, return false
-        if (matchingEntries == null || matchingEntries.size() == 0) {
+        if (matchingEntries == null || matchingEntries.isEmpty()) {
             return false;
         }
         return true;

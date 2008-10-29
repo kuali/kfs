@@ -38,6 +38,9 @@ public class BatchExtractReportServiceImpl implements BatchExtractReportService 
 
     protected DateTimeService dateTimeService;
 
+    /**
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractReportService#generateStatusReportPDF(org.kuali.kfs.module.cab.batch.ExtractProcessLog)
+     */
     public File generateStatusReportPDF(ExtractProcessLog extractProcessLog) {
         String reportFileName = cabBatchStatusReportInfo.getReportFileName();
         String reportDirectoty = cabBatchStatusReportInfo.getReportsDirectory();
@@ -58,6 +61,9 @@ public class BatchExtractReportServiceImpl implements BatchExtractReportService 
         return new File(fullReportFileName + ".pdf");
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractReportService#generateMismatchReportPDF(org.kuali.kfs.module.cab.batch.ExtractProcessLog)
+     */
     public File generateMismatchReportPDF(ExtractProcessLog extractProcessLog) {
         String reportFileName = cabBatchMismatchReportInfo.getReportFileName();
         String reportDirectoty = cabBatchMismatchReportInfo.getReportsDirectory();

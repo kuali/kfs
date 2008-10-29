@@ -157,4 +157,5 @@ public class CabPropertyConstants {
 
     public static final String PURAP_DOCUMENT = "purapDocument";
     public static final String PURAP_ITEM = "purapItem";
+    public static final String ACTIVE = "active";
 }

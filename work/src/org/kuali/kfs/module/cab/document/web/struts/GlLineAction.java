@@ -42,16 +42,19 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
+/**
+ * Struts action class that handles GL Line Processing Screen actions
+ */
 public class GlLineAction extends KualiAction {
 
     /**
      * Action "process" from CAB GL Lookup screen is processed by this method
      * 
-     * @param mapping ActionMapping
-     * @param form ActionForm
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
-     * @return ActionForward
+     * @param mapping {@link ActionMapping}
+     * @param form {@link ActionForm}
+     * @param request {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @return {@link ActionForward}
      * @throws Exception
      */
     public ActionForward process(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -59,9 +62,9 @@ public class GlLineAction extends KualiAction {
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("documentNumber", entry.getDocumentNumber());
-        fieldValues.put("active", true);
-        Collection<GeneralLedgerEntry> entries = boService.findMatchingOrderBy(GeneralLedgerEntry.class, fieldValues, "generalLedgerAccountIdentifier", true);
+        fieldValues.put(CabPropertyConstants.DOCUMENT_NUMBER, entry.getDocumentNumber());
+        fieldValues.put(CabPropertyConstants.ACTIVE, true);
+        Collection<GeneralLedgerEntry> entries = boService.findMatchingOrderBy(GeneralLedgerEntry.class, fieldValues, CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER, true);
         List<GeneralLedgerEntry> list = new ArrayList<GeneralLedgerEntry>();
         list.addAll(entries);
         for (GeneralLedgerEntry generalLedgerEntry : list) {
@@ -72,18 +75,30 @@ public class GlLineAction extends KualiAction {
         GlLineForm glLineForm = (GlLineForm) form;
         glLineForm.setRelatedGlEntries(list);
         glLineForm.setPrimaryGlAccountId(entry.getGeneralLedgerAccountIdentifier());
-        glLineForm.setListSize(list.size());
         CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(entry);
         glLineForm.setCapitalAssetInformation(capitalAssetInformation);
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Finds GL entry using the key from request
+     * 
+     * @param request HttpServletRequest
+     * @return GeneralLedgerEntry
+     */
     protected GeneralLedgerEntry findGeneralLedgerEntry(HttpServletRequest request) {
         String glAcctId = request.getParameter(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
         Long cabGlEntryId = Long.valueOf(glAcctId);
         return findGeneralLedgerEntry(cabGlEntryId);
     }
 
+    /**
+     * Prepares doc handler url based on the Document Type Definition from workflow
+     * 
+     * @param maintDoc Document
+     * @param docTypeName Document Type Name
+     * @return URL that handles the document
+     */
     protected String prepareDocHandlerUrl(Document maintDoc, String docTypeName) {
         DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
         DocumentType documentType = documentTypeService.findByName(docTypeName);
@@ -182,7 +197,6 @@ public class GlLineAction extends KualiAction {
      * @return ActionForward
      * @throws Exception
      */
-    // TODO this can be removed later if there is a core Document Search/View service that does the same
     public ActionForward viewDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String documentId = request.getParameter("documentNumber");
         DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
@@ -213,10 +227,24 @@ public class GlLineAction extends KualiAction {
         return entry;
     }
 
+    /**
+     * Cancels the action and returns to portal main page
+     * 
+     * @param mapping {@link ActionMapping}
+     * @param form {@link ActionForm}
+     * @param request {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @return {@link ActionForward}
+     * @throws Exception
+     */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#showAllTabs(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward showAllTabs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;

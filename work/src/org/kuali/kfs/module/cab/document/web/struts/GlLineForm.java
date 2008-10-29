@@ -24,7 +24,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class GlLineForm extends KualiForm {
     private List<GeneralLedgerEntry> relatedGlEntries;
-    private Integer listSize;
     private Long primaryGlAccountId;
     private CapitalAssetInformation capitalAssetInformation;
 
@@ -50,23 +49,6 @@ public class GlLineForm extends KualiForm {
         this.relatedGlEntries = relatedGlEntries;
     }
 
-    /**
-     * Gets the listSize attribute.
-     * 
-     * @return Returns the listSize.
-     */
-    public Integer getListSize() {
-        return listSize;
-    }
-
-    /**
-     * Sets the listSize attribute value.
-     * 
-     * @param listSize The listSize to set.
-     */
-    public void setListSize(Integer listSize) {
-        this.listSize = listSize;
-    }
 
     /**
      * Gets the primaryGlAccountId attribute.

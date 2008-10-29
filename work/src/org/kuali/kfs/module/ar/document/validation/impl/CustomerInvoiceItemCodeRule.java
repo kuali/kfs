@@ -65,7 +65,10 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     public boolean validateItemDefaultPrice(CustomerInvoiceItemCode customerInvoiceItemCode) {
         
         boolean validEntry = true;
-        BigDecimal itemDefaultPrice = customerInvoiceItemCode.getItemDefaultPrice().bigDecimalValue();
+        BigDecimal itemDefaultPrice = null;
+        if (customerInvoiceItemCode.getItemDefaultPrice() != null) {
+            itemDefaultPrice = customerInvoiceItemCode.getItemDefaultPrice().bigDecimalValue();
+        }
         
         if (ObjectUtils.isNotNull(itemDefaultPrice)) {
             validEntry = itemDefaultPrice.compareTo(BigDecimal.ZERO) == 1;

@@ -154,7 +154,7 @@
 			
 			<tr>
 	                <kfs:bankLabel align="right"/>
-                    <kfs:bankControl property="document.bankCode" objectProperty="document.bank" readOnly="false"/>
+                    <kfs:bankControl property="document.bankCode" objectProperty="document.bank" readOnly="${not (fullEntryMode or editPreExtract)}"/>
                     <th align=right valign=middle class="bord-l-b">
                         <div align="right">&nbsp;</div>
                     </th>

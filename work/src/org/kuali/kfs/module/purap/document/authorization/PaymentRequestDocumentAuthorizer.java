@@ -113,8 +113,11 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                         }
                     }
                 }else{
-                    editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
+                    editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
                 }
+            }
+            else if( preq.isPaymentRequestedCancelIndicator() ) {
+                editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
             }
             //This is for ad hoc approval
             if (preqDocAuth.isAdHocRequested()) {
@@ -131,7 +134,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         }
 
         // make sure ap user can edit certain fields
-        if (preqDocAuth.canEditPreExtractFields() && ! preqDocAuth.isAdHocRequested()) {
+        if (preqDocAuth.canEditPreExtractFields() && ! preqDocAuth.isAdHocRequested() && ! preq.isPaymentRequestedCancelIndicator()) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
         }
 

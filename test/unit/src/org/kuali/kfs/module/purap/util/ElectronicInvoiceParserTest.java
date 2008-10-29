@@ -55,6 +55,7 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
     private ElectronicInvoice eInvoice;
     private final String eInvoiceXMLFile = ".." + File.separator + "fixture" + File.separator + "electronicInvoiceFixture.xml";
     
+    @RelatesTo(JiraIssue.KULPURAP3047)
     public void testEInvoiceXMLParsing()
     throws Exception{
         

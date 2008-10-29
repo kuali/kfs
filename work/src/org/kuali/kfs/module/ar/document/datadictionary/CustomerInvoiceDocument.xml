@@ -41,11 +41,8 @@
         <ref bean="CustomerInvoiceDocument-invoiceTermsText" />
         <ref bean="CustomerInvoiceDocument-organizationInvoiceNumber" />
         <ref bean="CustomerInvoiceDocument-documentHeader.documentTemplateNumber" />
-        <ref bean="CustomerInvoiceDocument-writeoffIndicator" />
         <ref bean="CustomerInvoiceDocument-customerPurchaseOrderNumber" />
         <ref bean="CustomerInvoiceDocument-printInvoiceIndicator" />
-        <ref bean="CustomerInvoiceDocument-invoiceWriteoffAmount" />
-        <ref bean="CustomerInvoiceDocument-invoiceDescription" />
         <ref bean="CustomerInvoiceDocument-customerPurchaseOrderDate" />
         <ref bean="CustomerInvoiceDocument-billByChartOfAccountCode" />
         <ref bean="CustomerInvoiceDocument-billedByOrganizationCode" />
@@ -224,21 +221,6 @@
     <property name="description" value="The invoice number for this parent of this invoice" />
   </bean>
 
-  <bean id="CustomerInvoiceDocument-writeoffIndicator" parent="CustomerInvoiceDocument-writeoffIndicator-parentBean" />
-
-  <bean id="CustomerInvoiceDocument-writeoffIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="writeoffIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Write off Indicator" />
-    <property name="shortLabel" value="Write-off" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="&amp;nbsp;" />
-  </bean>
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderNumber" parent="CustomerInvoiceDocument-customerPurchaseOrderNumber-parentBean" />
 
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -272,43 +254,7 @@
     <property name="summary" value="Print Invoice Indicator" />
     <property name="description" value="..." />
   </bean>
-  <bean id="CustomerInvoiceDocument-invoiceWriteoffAmount" parent="CustomerInvoiceDocument-invoiceWriteoffAmount-parentBean" />
 
-  <bean id="CustomerInvoiceDocument-invoiceWriteoffAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceWriteoffAmount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Write Off Amount" />
-    <property name="shortLabel" value="Write-off Amt" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="2" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
-    </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The dollar amount that this invoice can be written off for." />
-  </bean>
-  <bean id="CustomerInvoiceDocument-invoiceDescription" parent="CustomerInvoiceDocument-invoiceDescription-parentBean" />
-
-  <bean id="CustomerInvoiceDocument-invoiceDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="50" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
-    </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Description of Invoice" />
-  </bean>
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderDate" parent="CustomerInvoiceDocument-customerPurchaseOrderDate-parentBean" />
 
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

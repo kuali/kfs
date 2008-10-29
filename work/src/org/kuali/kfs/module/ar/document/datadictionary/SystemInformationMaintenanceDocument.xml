@@ -20,9 +20,11 @@
     </property>
     <property name="defaultExistenceChecks" >
       <list>
+      <!--
         <bean parent="ReferenceDefinition"
               p:attributeName="adjustmentFinancialObject"
               p:attributeToHighlightOnFail="adjustmentObjectCode" />
+      -->
         <bean parent="ReferenceDefinition"
               p:attributeName="salesTaxFinancialObject"
               p:attributeToHighlightOnFail="salesTaxFinancialObjectCode" />
@@ -44,9 +46,11 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="processingChartOfAccount"
               p:attributeToHighlightOnFail="processingChartOfAccountCode" />
+        <!--
         <bean parent="ReferenceDefinition"
               p:attributeName="salesTaxAccount"
               p:attributeToHighlightOnFail="salesTaxAccountNumber" />
+        -->
         <bean parent="ReferenceDefinition"
               p:attributeName="universityClearingAccount"
               p:attributeToHighlightOnFail="universityClearingAccountNumber" />

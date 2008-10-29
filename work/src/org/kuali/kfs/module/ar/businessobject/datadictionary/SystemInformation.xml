@@ -31,7 +31,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="SystemInformation-processingOrganizationCode" />
         <ref bean="SystemInformation-processingOrganization.codeAndDescription" />
         <ref bean="SystemInformation-discountObjectCode" />
-        <ref bean="SystemInformation-salesTaxFinancialObjectCode" />
         <ref bean="SystemInformation-universityClearingSubAccountNumber" />
         <ref bean="SystemInformation-universityFiscalYear" />
         <ref bean="SystemInformation-universityClearingChartOfAccountsCode" />
@@ -251,25 +250,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="summary" value="discountObjectCode" />
     <property name="description" value="discountObjectCode description..." />
-  </bean>
-
-  <bean id="SystemInformation-salesTaxFinancialObjectCode" parent="SystemInformation-salesTaxFinancialObjectCode-parentBean" />
-
-  <bean id="SystemInformation-salesTaxFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salesTaxFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sales Tax Object Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-    <property name="summary" value="salesTaxFinancialObjectCode" />
-    <property name="description" value="salesTaxFinancialObjectCode description..." />
   </bean>
   <bean id="SystemInformation-universityClearingSubAccountNumber" parent="SystemInformation-universityClearingSubAccountNumber-parentBean" />
 

@@ -218,6 +218,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
             }
         }
+        
+        // only for "Asset Separate" document
+        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            // total cost must be > 0
+            success &= validateTotalCostAmount(assetGlobal);
+        }
+        
         return success;
     }
 
@@ -481,6 +488,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 }
                 sharedIndex++;
             }
+            
+            // total cost must be > 0
+            success &= validateTotalCostAmount(assetGlobal);
+            
         } // end ASEP
 
         success &= validateLocationCollection(assetGlobal, assetSharedDetails);
@@ -488,6 +499,21 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * Validate that the total cost of the source asset is not zero or a negative amount.
+     * 
+     * @param assetGlobal
+     * @return boolean
+     */
+    private boolean validateTotalCostAmount(AssetGlobal assetGlobal) {
+        boolean success = true;
+        if (!assetGlobal.getTotalCostAmount().isGreaterThan(KualiDecimal.ZERO)) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_ZERO_OR_NEGATIVE_DOLLAR_AMOUNT, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
+            success &= false;
+        }
+        return success;
+    }    
+    
     /**
      * Validates the capital asset type code.
      * 

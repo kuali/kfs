@@ -29,7 +29,7 @@
 	transactionalDocument="false" headerDispatch="true" headerTabActive="true"
 	sessionDocument="false" headerMenuBar="" feedbackKey="true" defaultMethodToCall="start" >
 	
-	<kul:tabTop tabTitle="Fiancial Document Capital Asset Info" defaultOpen="true">
+	<kul:tabTop tabTitle="Financial Document Capital Asset Info" defaultOpen="true">
 		<div class="tab-container" align=center>
 		<c:set var="CapitalAssetInformationAttributes"	value="${DataDictionary.CapitalAssetInformation.attributes}" />	
 			<c:if test="${!empty KualiForm.capitalAssetInformation }">		

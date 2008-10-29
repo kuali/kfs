@@ -31,7 +31,7 @@
   <bean id="AchTransactionType-transactionType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionType" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ach Transaction Type" />
+    <property name="label" value="ACH Transaction Type" />
     <property name="shortLabel" value="Trans Typ" />
     <property name="maxLength" value="4" />
     <property name="required" value="true" />
@@ -45,7 +45,7 @@
   <bean id="AchTransactionType-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Ach Transaction Type description" />
+    <property name="label" value="ACH Transaction Type Description" />
     <property name="shortLabel" value="Type Desc" />
     <property name="maxLength" value="50" />
     <property name="required" value="true" />
@@ -62,7 +62,7 @@
   <bean id="AchTransactionType-inquiryDefinition" parent="AchTransactionType-inquiryDefinition-parentBean" />
 
   <bean id="AchTransactionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Ach Transaction Code Inquiry" />
+    <property name="title" value="ACH Transaction Code Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -85,7 +85,7 @@
   <bean id="AchTransactionType-lookupDefinition" parent="AchTransactionType-lookupDefinition-parentBean" />
 
   <bean id="AchTransactionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Ach Transaction Code Lookup" />
+    <property name="title" value="ACH Transaction Type Lookup" />
     <property name="instructions" value="Lookup an Ach Transaction Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

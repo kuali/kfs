@@ -183,7 +183,7 @@
 
   <bean id="DisbursementNumberRange-lookupDefinition" parent="DisbursementNumberRange-lookupDefinition-parentBean" />
   <bean id="DisbursementNumberRange-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Disbursement Number Range Bank Lookup" />
+    <property name="title" value="Disbursement Number Range Lookup" />
     <property name="instructions" value="Lookup an Disbursement Number Range" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

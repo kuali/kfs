@@ -39,7 +39,6 @@
         </bean>
       </list>
     </property>
-    <property name="allowsNewOrCopy" value="false" />
   </bean>
 
 <!-- Maintenance Section Definitions -->

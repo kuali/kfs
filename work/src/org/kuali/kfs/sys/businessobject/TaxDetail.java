@@ -32,6 +32,11 @@ public class TaxDetail extends TransientBusinessObjectBase {
     private String accountNumber;
     private String financialObjectCode;
 
+    public TaxDetail() {
+        taxRate = BigDecimal.ZERO;
+        taxAmount = KualiDecimal.ZERO;
+    }
+    
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -102,4 +107,8 @@ public class TaxDetail extends TransientBusinessObjectBase {
         return null;
     }
 
+    public String toString() {
+        return typeCode + "-" + rateCode + "-" + rateName + " " + taxRate.toString() + ":" + taxAmount.toString();
+    }
+    
 }

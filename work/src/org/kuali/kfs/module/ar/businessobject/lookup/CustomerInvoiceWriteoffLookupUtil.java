@@ -41,6 +41,9 @@ public class CustomerInvoiceWriteoffLookupUtil {
     public static Collection<CustomerInvoiceWriteoffLookupResult> getPopulatedCustomerInvoiceWriteoffLookupResults(Collection<CustomerInvoiceDocument> customerInvoiceDocuments){
         Collection<CustomerInvoiceWriteoffLookupResult> populatedCustomerInvoiceWriteoffLookupResults = new TypedArrayList(CustomerInvoiceWriteoffLookupResult.class);
         
+        if (customerInvoiceDocuments.size() == 0)
+            return populatedCustomerInvoiceWriteoffLookupResults;
+            
         Iterator iter = getCustomerInvoiceDocumentsByCustomerNumberMap(customerInvoiceDocuments).entrySet().iterator();
         CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = null;
         while(iter.hasNext()) {

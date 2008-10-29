@@ -265,10 +265,6 @@
 		<forward name="route_report"
 			path="/kr/WEB-INF/jsp/RoutingReportForward.jsp" />
 
-		<!-- These are BudgetConstruction  items -->
-        <forward name="BudgetConstructionDocumentAuthorizationException"
-        	path="/authorizationException.do" />
-
 		<!-- These are PDP items -->
 		<forward name="pdp_authentication_error"
 			path="/pdp/authentication_error.jsp" />

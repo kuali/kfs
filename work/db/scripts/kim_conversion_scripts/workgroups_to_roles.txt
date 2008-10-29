@@ -1,12 +1,12 @@
 AR_ROLE_MAINTAINERS
-AR_SUPER_USERS 
+AR_SUPER_USERS
 AR_TAX_NUMBER_USERS > KFS-SYS Tax Identification Number User
-AZ-BL-VPIT-Content 
-AZ-KO-EDUC-Content 
-BCAPPROVE_BL_BI 
-CA_GLOBAL_OBJECT_CODE_USERS 
+AZ-BL-VPIT-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: VPIT)
+AZ-KO-EDUC-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: KO, Organization Code: EDUC)
+BCAPPROVE_BL_BI > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: BI)
+CA_GLOBAL_OBJECT_CODE_USERS > KFS-COA Chart Manager
 CA_ORGANIZATION_PLANT_FUND_USERS 
-CA_ORGANIZATION_REVERSION_USERS 
+CA_ORGANIZATION_REVERSION_USERS > KFS-COA Chart Manager
 CA_USER_MODULE_REVIEWERS 
 #CG_AWARD_A > KFS-SYS Contracts & Grants Processor (Award Group: 1)
 #CG_AWARD_B > KFS-SYS Contracts & Grants Processor (Award Group: 2)
@@ -31,18 +31,18 @@ CG_COST_SHARE_SUB-ACCOUNT_USERS
 CG_POST_AWARD_MAINTENANCE_USERS 
 CG_PROPOSAL_REVIEWERS > KFS-SYS Contracts & Grants Manager
 CG_USER_MODULE_REVIEWERS 
-CM_ADD_PAYMENT_USERS 
+CM_ADD_PAYMENT_USERS > KFS-CAM Asset Processor
 CM_ADMINISTRATORS > KFS-CAM Processor
-CM_ASSET_MERGE_SEPARATE_USERS 
+CM_ASSET_MERGE_SEPARATE_USERS KFS-CAM Campus Manager (Campuse Type >> Campus Code: self.campus)
 CM_BARCODE_USERS 
 CM_CAPITAL_ASSET_BUILDER_ADMINISTRATORS 
-CM_SUPER_USERS > KFS-CAM Manager
-CR-IN-COMM-Content 
-CR-SE-BUS-Content 
-DA-BL-CIA-Content 
-DA-BL-DFAC-Content 
-DL-BL-UDIV-Content 
-DL-NW-SPEA-Content 
+CM_SUPER_USERS > KFS-CAM Administrator
+CR-IN-COMM-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: IN, Organization Code: COMM)
+CR-SE-BUS-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: SE, Organization Code: BUS)
+DA-BL-CIA-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: CIA)
+DA-BL-DFAC-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: DFAC)
+DL-BL-UDIV-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: UDIV)
+DL-NW-SPEA-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: NW, Organization Code: SPEA)
 ECLAIM 
 ELECTRONIC_FUNDS_ADMINISTRATORS > KFS-SYS Treasury Manager: Electronic Funds Transfer
 ELECTRONIC_FUNDS_ADMINISTRATORS > KFS-SYS Treasury Manager: Electronic Funds Transfer
@@ -53,9 +53,9 @@ FP_CASH_MANAGEMENT_USERS_KO > KFS-FP Cash Manager (Campus Type >> Campus Code: K
 FP_CASH_MANAGEMENT_USERS_NW > KFS-FP Cash Manager (Campus Type >> Campus Code: NW)
 FP_CASH_MANAGEMENT_USERS_SB > KFS-FP Cash Manager (Campus Type >> Campus Code: SB)
 FP_CASH_MANAGEMENT_USERS_SE > KFS-FP Cash Manager (Campus Type >> Campus Code: SE)                            
-FP_DISBURSEMENT_VOUCHER_FOREIGN_DRAFT_REVIEWERS > KFS-SYS Accounts Payable Manager
-FP_DISBURSEMENT_VOUCHER_MOVING_EXPENSES_REVIEWERS_IN > KFS-FP Tax Manager: Moving Expenses
-FP_DISBURSEMENT_VOUCHER_PARAMETER_USERS > 
+FP_DISBURSEMENT_VOUCHER_FOREIGN_DRAFT_REVIEWERS > KFS-SYS Accounts Treasury Manager (Specialization Type >> Specialization Name: Foreign Drafts)
+FP_DISBURSEMENT_VOUCHER_MOVING_EXPENSES_REVIEWERS_IN > KFS-FP Tax Manager (Specialization Type >> Specialization Name: Money Moves)
+FP_DISBURSEMENT_VOUCHER_PARAMETER_USERS
 FP_DISBURSEMENT_VOUCHER_PAYEE_REVIEWERS 
 FP_DISBURSEMENT_VOUCHER_REVIEWERS_BL > KFS-FP Disbursement Manager (Campus Type >> Campus Code: BL)
 FP_DISBURSEMENT_VOUCHER_REVIEWERS_EA > KFS-FP Disbursement Manager (Campus Type >> Campus Code: EA)
@@ -64,112 +64,112 @@ FP_DISBURSEMENT_VOUCHER_REVIEWERS_KO > KFS-FP Disbursement Manager (Campus Type 
 FP_DISBURSEMENT_VOUCHER_REVIEWERS_NW > KFS-FP Disbursement Manager (Campus Type >> Campus Code: NW)
 FP_DISBURSEMENT_VOUCHER_REVIEWERS_SB > KFS-FP Disbursement Manager (Campus Type >> Campus Code: SB)
 FP_DISBURSEMENT_VOUCHER_REVIEWERS_SE > KFS-FP Disbursement Manager (Campus Type >> Campus Code: SE)
-FP_DISBURSEMENT_VOUCHER_TAX_REVIEWERS 
+FP_DISBURSEMENT_VOUCHER_TAX_REVIEWERS > KFS-SYS Tax Manager
 FP_DISBURSEMENT_VOUCHER_TRAVEL_REVIEWERS > KFS-FP Travel Manager
 FP_DISBURSEMENT_VOUCHER_USERS 
-FP_DISBURSEMENT_VOUCHER_WIRE_REVIEWERS > KFS-FP Treasury Manager: Money Moves              
-FP_ENDOWMENT_REVIEWERS 
+FP_DISBURSEMENT_VOUCHER_WIRE_REVIEWERS > KFS-FP Treasury Manager (Specialization Type >> Specialization Name: Money Moves)
+FP_ENDOWMENT_REVIEWERS KFS-SYS Sub-Fund Reviewer (Sub-Fund Type >> Sub-Fund Group Code: FEMP)
 FP_GENERAL_LEDGER_CORRECTION_PROCESS_USERS > KFS-SYS Operations
-FP_JOURNAL_VOUCHER_USERS 
-FP_MONEYMOVER_REVIEWERS 
-FP_NON-CHECK_DISBURSEMENT_BLANKET_APPROVERS 
+FP_JOURNAL_VOUCHER_USERS > KFS-SYS Manager
+FP_MONEYMOVER_REVIEWERS > KFS-FP Treasury Manager (Specialization Type >> Specialization Name: Money Moves)
+FP_NON-CHECK_DISBURSEMENT_BLANKET_APPROVERS > KFS-FP Treasury Manager (Specialization Type >> Specialization Name: Money Moves)
 FP_OPERATIONS > KFS-SYS Operations
 FP_PROCUREMENT_CARD_PARAMETER_USERS                     
 FP_SERVICE_BILLING_USERS > KFS-FP Service Bill Processor (Account Number Type >> Chart Code: BL, Account Number: 1031400)                           
 FP_SERVICE_BILLING_USERS_PARK > KFS-FP Service Bill Processor (Account Number Type >> Chart Code: BA, Account Number: 6044900; Chart Code: BA, Account Number: 6044906)
 FP_USER_MODULE_REVIEWERS 
 GL_USER_MODULE_REVIEWERS 
-HI-BL-SPHS-Content 
-HI-IN-HEMO-Content 
-IR-IN-HR-Content 
-IR-IN-INFO-Content 
-IU-CHEM-Content 
-IU-IN-ECON-Content 
-IU-IN-MATH-Content 
+HI-BL-SPHS-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: SPHS)
+HI-IN-HEMO-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: IN, Organization Code: HEMO)
+IR-IN-HR-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: IN, Organization Code: HR)
+IR-IN-INFO-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: IN, Organization Code: INFO)
+IU-CHEM-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: IN, Organization Code: CHEM)
+IU-IN-ECON-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: IN, Organization Code: ECON)
+IU-IN-MATH-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: IN, Organization Code: MATH)
 KUALI_AREA 
-KUALI_BCAPPROVE_BL_ARSC 
-KUALI_BCAPPROVE_BL_ARSD 
-KUALI_BCAPPROVE_BL_BL 
-KUALI_BCAPPROVE_BL_BUDG 
-KUALI_BCAPPROVE_BL_PSY 
-KUALI_BCAPPROVE_IU_UNIV 
-KUALI_BLSPECIAL 
+KUALI_BCAPPROVE_BL_ARSC > KFS-SYS Organization (Organization Type >> Chart Code: BL, Organization Code: ARSC)
+KUALI_BCAPPROVE_BL_ARSD > KFS-SYS Organization (Organization Type >> Chart Code: BL, Organization Code: ARSD)
+KUALI_BCAPPROVE_BL_BL > KFS-SYS Organization (Organization Type >> Chart Code: BL, Organization Code: BL)
+KUALI_BCAPPROVE_BL_BUDG > KFS-SYS Organization (Organization Type >> Chart Code: BL, Organization Code: BUDG)
+KUALI_BCAPPROVE_BL_PSY > KFS-SYS Organization (Organization Type >> Chart Code: BL, Organization Code: PSY)
+KUALI_BCAPPROVE_IU_UNIV > KFS-SYS Organization (Organization Type >> Chart Code: IU, Organization Code: UNIV)
+KUALI_BLSPECIAL > KFS-SYS Organization Reviewer (Organization Type >> Chart Code: BL, Organization Code: BL)
 KUALI_CAMS_MAINTAINERS 
-KUALI_CONTENT_BL_ARSD 
-KUALI_CONTENT_BL_BI 
-KUALI_CONTENT_BL_PHYS 
-KUALI_CONTENT_BL_PSY 
-KUALI_CONTENT_BL_RUAD 
-KUALI_CONTENT_BL_SOC 
-KUALI_CONTENT_BL_VPIT 
-KUALI_INSRFA 
-KUALI_RGBUDU > KFS-SYS Budget Manager (Campus Type >> Campus Code: self.campus)
-KUALI_UABUDU > KFS-SYS Budget Manager (Campus Type >> Campus Code: UA)
-KUALI_YEDOCSUNIV 
-LD_EFFORT_ADMINISTRATORS 
+KUALI_CONTENT_BL_ARSD > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: ARSD)
+KUALI_CONTENT_BL_BI > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: BI)
+KUALI_CONTENT_BL_PHYS > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: PHYS)
+KUALI_CONTENT_BL_PSY > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: PSY)
+KUALI_CONTENT_BL_RUAD > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: RUAD)
+KUALI_CONTENT_BL_SOC > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: SOC)
+KUALI_CONTENT_BL_VPIT > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: VPIT)
+KUALI_INSRFA > KFS-SYS Organization (Organization Type >> Chart Code: IN, Organization Code: IN)
+KUALI_RGBUDU > KFS-SYS Organization (Organization Type >> Chart Code: UA, Organization Code: BUDU)
+KUALI_UABUDU > KFS-SYS Organization (Organization Type >> Chart Code: UA, Organization Code: BUDU)
+KUALI_YEDOCSUNIV > KFS-SYS Organization (Organization Type >> Chart Code: IU, Organization Code: UNIV)
+LD_EFFORT_ADMINISTRATORS > KFS-CG Contracts and Grants Manager
 LD_LABOR_JOURNAL_VOUCHER_USERS 
 LD_SALARY_TRANSFER_OBJECT_CODE_USERS 
 LD_USER_MODULE_REVIEWERS 
-MERGE_SEPARATE_WORKGROUP 
-MS-BL-BI-Content 
-MS-BL-MUS-Content 
-MULTIPLE_ASSET_RETIREMENT_WORKGROUP 
-PA_AP_BLANKET_APPROVERS > KFS-SYS Accounts Payable Manager
-PA_AP_DV_VENDOR_REVIEWERS > KFS-SYS Accounts Payable Processor
+MERGE_SEPARATE_WORKGROUP > KFS-CAM Manager (Campus Type >> Campus Code: self.campus)
+MS-BL-BI-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: BI)
+MS-BL-MUS-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: MUS)
+MULTIPLE_ASSET_RETIREMENT_WORKGROUP > KFS-CAM Administrator
+PA_AP_BLANKET_APPROVERS > KFS-PURAP Blanket Approver
+PA_AP_DV_VENDOR_REVIEWERS > KFS-SYS Accounts Payable Manager
 PA_AP_MAINTENANCE_USERS 
-PA_AP_PAYMENT_REQUEST_REMOVE_HOLD_USERS > KFS-SYS Accounts Payable Processor
-PA_AP_REVIEWERS > KFS-SYS Accounts Payable Processor
+PA_AP_PAYMENT_REQUEST_REMOVE_HOLD_USERS > KFS-SYS Accounts Payable Manager
+PA_AP_REVIEWERS > KFS-SYS Accounts Payable Manager
 PA_AP_SUPER_USERS > KFS-SYS Accounts Payable Manager
-PA_AP_USERS > KFS-SYS Accounts Payable Processor
-PA_EMPLOYEE_AND_NON-RESIDENT_ALIEN_VENDOR_TAX_REVIEWERS 
-PA_EMPLOYEE_VENDOR_TAX_REVIEWERS > KFS-VND Tax Manager: Employee Vendors
-PA_MAINTENANCE_USERS 
-PA_NON-RESIDENT_ALIEN_TAX_REVIEWERS > KFS-VND Tax Manager: Non-Resident Alien Vendors
-PA_PURCHASE_ORDER_HOLD_USERS > KFS-PURAP Purchasing Processor
-PA_PURCHASE_ORDER_REMOVE_HOLD_USERS > KFS-PURAP Purchasing Processor
-PA_PURCHASE_ORDER_USERS > KFS-PURAP Purchasing Processor
-PA_PUR_COMM_CAMPUS 
+PA_AP_USERS > KFS-SYS Accounts Payable Manager
+PA_EMPLOYEE_AND_NON-RESIDENT_ALIEN_VENDOR_TAX_REVIEWERS > KFS-SYS Tax Manager (Specialization Type >> Specialization Name: Employee Vendors; Specialization Type >> Specialization Name: Non-Resident Alien Vendors)
+PA_EMPLOYEE_VENDOR_TAX_REVIEWERS > KFS-VND Tax Manager (Specialization Type >> Specialization Name: Employee Vendors)
+PA_MAINTENANCE_USERS
+PA_NON-RESIDENT_ALIEN_TAX_REVIEWERS > KFS-VND Tax Manager (Specialization Type >> Specialization Name: Non-Resident Alien Vendors)
+PA_PURCHASE_ORDER_HOLD_USERS > KFS-SYS Initiator
+PA_PURCHASE_ORDER_REMOVE_HOLD_USERS > KFS-SYS Initiator
+PA_PURCHASE_ORDER_USERS
+PA_PUR_COMM_CAMPUS
 PA_PUR_COMM_CODE 
-PA_PUR_CONTRACT_MANAGERS 
-PA_PUR_INTERNAL_REVIEWERS > KFS-PURAP Purchasing Processor
+PA_PUR_CONTRACT_MANAGERS > KFS-SYS Purchasing Manager (Specialization Type >> Specialization Name: Contracts)
+PA_PUR_INTERNAL_REVIEWERS
 PA_PUR_MAINTENANCE_USERS 
-PA_PUR_PO_VENDOR_REVIEWERS > KFS-VND Processor (Document Type >> Document Type Name: PurchaseOrderDocument)
-PA_PUR_STAFF > KFS-PURAP Purchasing Processor
-PA_PUR_USERS 
+PA_PUR_PO_VENDOR_REVIEWERS > KFS-SYS Purchasing Managers (Specialization Type >> Specialization Name: Purchase Order Vendors)
+PA_PUR_STAFF > KFS-SYS Purchasing Manager
+PA_PUR_USERS > KFS-SYS Purchasing Manager
 PA_SEPARATION_OF_DUTIES_REVIEWERS 
 PA_SPECIAL_SEARCH_USERS 
 PA_TAX_NUMBER_USERS > KFS-SYS Tax Identification Number User
-PA_USER_MODULE_REVIEWERS 
+PA_USER_MODULE_REVIEWERS > KR-SYS Identity Management Reviewer (Namespace Type >> Namespace Code: KFS-PURAP)
 PD_CANCEL_USERS > KFS-PDP Manager
 PD_HOLD_USERS > KFS-PDP Manager
-PD_LIMITED_VIEW 
+PD_LIMITED_VIEW > KFS-PDP User
 PD_PROCESS_PAYMENTS > KFS-PDP Manager
 PD_RANGE_USERS > KFS-SYS Operations
 PD_SUBMIT_PAYMENT_FILE_USERS > KFS-PDP Processor
 PD_SUPER_USERS > KFS-SYS Operations
-PD_TAX_HOLD_USERS > KFS-PDP Tax Manager: Disbursement Holds
-PD_USER_MODULE_REVIEWERS 
+PD_TAX_HOLD_USERS > KFS-PDP Tax Manager (Specialization Type >> Specialization Name: Disbursement Holds)
+PD_USER_MODULE_REVIEWERS > KR-SYS Identity Management Reviewer (Namespace Type >> Namespace Code: KFS-PDP)
 PD_VIEW_ACH > KFS-PDP Manager
 PD_VIEW_ALL 
-PD_VIEW_BANK 
+PD_VIEW_BANK > KFS-SYS Bank Account User 
 PD_VIEW_ID > KFS-SYS Tax Identification Number User
 PD_VIEW_ID_AND PARTIAL_BANK 
 RAZE_WORKGROUP > KFS-SYS Plant Fund Accountant
 RA_ADMINISTRATORS 
 RA_DEVELOPERS 
 RA_PRE_AWARD_MAINTENANCE_USERS 
-RA_USER_MODULE_REVIEWERS 
-SB-BL-SOC-Content 
-SB-EA_AAOA-Content 
-SY_BANK_CODE_USERS 
+RA_USER_MODULE_REVIEWERS > KFS-CG Contracts and Grants Manager
+SB-BL-SOC-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: BL, Organization Code: SOC)
+SB-EA_AAOA-Content > KFS-PURAP Content Reviewer (Organization Type >> Chart Code: EC, Organization Code: AAOA)
+SY_BANK_CODE_USERS > KFS-SYS Operations
 SY_BLANKET_APPROVERS 
 SY_EXCEPTION_ROUTING_REVIEWERS 
-SY_FUNCTIONAL_SUPER_USERS 
+SY_FUNCTIONAL_SUPER_USERS > KFS-SYS Administrator
 SY_MAINTENANCE_REVIEWERS 
-SY_MAINTENANCE_USERS 
+SY_MAINTENANCE_USERS > KFS-SYS Manager
 SY_PARAMETER_USERS 
-SY_USER_USERS 
+SY_USER_USERS > KFS-SYS Operations
 VENDOR_APPROVAL 
-VN_USER_MODULE_REVIEWERS 
-Workflow.NotificationExcludeWorkgroup 
-WorkflowAdmin 
+VN_USER_MODULE_REVIEWERS > KR-SYS Identity Management Reviewer (Namespace Type >> Namespace Code : KFS-VND)
+Workflow.NotificationExcludeWorkgroup > KR-KEW Notifications Exclusion
+WorkflowAdmin > KR-SYS Administrator

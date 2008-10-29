@@ -25,6 +25,8 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -32,7 +34,11 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationOptionsRule.class);
@@ -64,6 +70,47 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean checkAuthorizationRestrictions(MaintenanceDocument document) {
+        boolean success = super.checkAuthorizationRestrictions(document);
+
+        ErrorMap map = GlobalVariables.getErrorMap();
+        
+        if(map.containsMessageKey(KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED)) {
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE);
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ADDRESS_NAME);
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS);
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS);
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_CITY_NAME);
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_STATE_CODE);
+            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ZIP_CODE);
+        }
+        
+        return success;
+    }
+
+    /**
+     * This method...
+     * @param map
+     */
+    private void removeRestrictedFieldChangedErrors(ErrorMap map, String propertyKey) {
+        TypedArrayList errorMessages = (TypedArrayList)map.get(propertyKey);
+        if(errorMessages!=null) {
+            for(int i=0; i<errorMessages.size(); i++) {
+                ErrorMessage eMessage = (ErrorMessage)errorMessages.get(i);
+                String errorKey = eMessage.getErrorKey();
+                if(errorKey.equals(KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED)) {
+                    errorMessages.remove(i);
+                }
+            }
+        }
+    }
+        
+    /**
      * This method this returns true if system information row exists for processing chart and org
      * 
      * @param organizationOptions
@@ -76,9 +123,9 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
         String processingOrganizationCode = organizationOptions.getProcessingOrganizationCode();
 
         Map criteria = new HashMap();
-        criteria.put("universityFiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
-        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        criteria.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
 
         SystemInformation systemInformation = (SystemInformation) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 

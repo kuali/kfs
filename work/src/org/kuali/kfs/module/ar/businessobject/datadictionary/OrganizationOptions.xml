@@ -98,20 +98,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="OrganizationOptions-processingChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="processingChartOfAccountCode" />
     <property name="label" value="Processing Chart Code" />
-    <property name="control" >
-      <bean parent="LookupReadonlyControlDefinition"
-        p:size="42" />
-    </property>
   </bean>
   <bean id="OrganizationOptions-processingOrganizationCode" parent="OrganizationOptions-processingOrganizationCode-parentBean" />
 
   <bean id="OrganizationOptions-processingOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
     <property name="name" value="processingOrganizationCode" />
     <property name="label" value="Processing Organization Code" />
-    <property name="control" >
-      <bean parent="LookupReadonlyControlDefinition"
-        p:size="42" />
-    </property>
   </bean>
   
   <bean id="OrganizationOptions-processingOrganization.codeAndDescription" parent="OrganizationOptions-processingOrganization.codeAndDescription-parentBean" />

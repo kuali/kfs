@@ -24,10 +24,8 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
 	private String universityFederalEmployerIdentificationNumber;
-	private String salesTaxAccountNumber;
 	private String salesTaxFinancialObjectCode;
 	private String discountObjectCode;
-	private String adjustmentObjectCode;
 	private String universityClearingChartOfAccountsCode;
 	private String universityClearingAccountNumber;
 	private String universityClearingSubAccountNumber;
@@ -51,7 +49,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private String wireSubObjectCode;    
     private String cashControlWorkgroup;
     
-    private ObjectCode adjustmentFinancialObject;
 	private ObjectCode salesTaxFinancialObject;
 	private ObjectCode creditCardFinancialObject;
 	private SubObjCd universityClearingSubObject;
@@ -59,7 +56,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private ObjectCode discountFinancialObject;
 	private Org processingOrganization;
 	private Chart processingChartOfAccount;
-	private Account salesTaxAccount;
 	private Account universityClearingAccount;
 	private Chart universityClearingChartOfAccounts;
     private SubAccount universityClearingSubAccount;
@@ -170,27 +166,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     }    
 
 	/**
-	 * Gets the salesTaxAccountNumber attribute.
-	 * 
-	 * @return Returns the salesTaxAccountNumber
-	 * 
-	 */
-	public String getSalesTaxAccountNumber() { 
-		return salesTaxAccountNumber;
-	}
-
-	/**
-	 * Sets the salesTaxAccountNumber attribute.
-	 * 
-	 * @param salesTaxAccountNumber The salesTaxAccountNumber to set.
-	 * 
-	 */
-	public void setSalesTaxAccountNumber(String salesTaxAccountNumber) {
-		this.salesTaxAccountNumber = salesTaxAccountNumber;
-	}
-
-
-	/**
 	 * Gets the salesTaxFinancialObjectCode attribute.
 	 * 
 	 * @return Returns the salesTaxFinancialObjectCode
@@ -230,28 +205,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	public void setDiscountObjectCode(String refundFinancialObjectCode) {
 		this.discountObjectCode = refundFinancialObjectCode;
 	}
-
-
-	/**
-	 * Gets the adjustmentObjectCode attribute.
-	 * 
-	 * @return Returns the adjustmentObjectCode
-	 * 
-	 */
-	public String getAdjustmentObjectCode() { 
-		return adjustmentObjectCode;
-	}
-
-	/**
-	 * Sets the adjustmentObjectCode attribute.
-	 * 
-	 * @param adjustmentObjectCode The adjustmentObjectCode to set.
-	 * 
-	 */
-	public void setAdjustmentObjectCode(String adjustmentObjectCode) {
-		this.adjustmentObjectCode = adjustmentObjectCode;
-	}
-
 
 	/**
 	 * Gets the universityClearingChartOfAccountsCode attribute.
@@ -628,26 +581,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
         this.wireSubObjectCode = wireSubObjectCode;
     }
 
-    /**
-	 * Gets the adjustmentFinancialObject attribute.
-	 * 
-	 * @return Returns the adjustmentFinancialObject
-	 * 
-	 */
-	public ObjectCode getAdjustmentFinancialObject() { 
-		return adjustmentFinancialObject;
-	}
-
-	/**
-	 * Sets the adjustmentFinancialObject attribute.
-	 * 
-	 * @param adjustmentFinancialObject The adjustmentFinancialObject to set.
-	 * @deprecated
-	 */
-	public void setAdjustmentFinancialObject(ObjectCode adjustmentFinancialObject) {
-		this.adjustmentFinancialObject = adjustmentFinancialObject;
-	}
-
 	/**
 	 * Gets the salesTaxFinancialObject attribute.
 	 * 
@@ -786,26 +719,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	 */
 	public void setProcessingChartOfAccount(Chart processingChartOfAccount) {
 		this.processingChartOfAccount = processingChartOfAccount;
-	}
-
-	/**
-	 * Gets the salesTaxAccount attribute.
-	 * 
-	 * @return Returns the salesTaxAccount
-	 * 
-	 */
-	public Account getSalesTaxAccount() { 
-		return salesTaxAccount;
-	}
-
-	/**
-	 * Sets the salesTaxAccount attribute.
-	 * 
-	 * @param salesTaxAccount The salesTaxAccount to set.
-	 * @deprecated
-	 */
-	public void setSalesTaxAccount(Account salesTaxAccount) {
-		this.salesTaxAccount = salesTaxAccount;
 	}
 
 	/**

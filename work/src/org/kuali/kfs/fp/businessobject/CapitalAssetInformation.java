@@ -22,30 +22,30 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    private String campusCode;
-    private String buildingCode;
-    private String buildingRoomNumber;
-    private String buildingSubRoomNumber;
+    @Deprecated private String campusCode;
+    @Deprecated private String buildingCode;
+    @Deprecated private String buildingRoomNumber;
+    @Deprecated private String buildingSubRoomNumber;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
-    private String vendorNumber;
+    @Deprecated private String vendorNumber;
     private String vendorName;
     private Long capitalAssetNumber;
-    private String capitalAssetTagNumber;
+    @Deprecated private String capitalAssetTagNumber;
     private Integer capitalAssetQuantity;
     private String capitalAssetTypeCode;
     private String capitalAssetManufacturerName;
     private String capitalAssetDescription;
     private String capitalAssetManufacturerModelNumber;
-    private String capitalAssetSerialNumber;
+    @Deprecated private String capitalAssetSerialNumber;
 
     private CapitalAssetManagementAsset capitalAssetManagementAsset;
     private CapitalAssetManagementAssetType capitalAssetManagementAssetType;
     private List<CapitalAssetInformationDetail> capitalAssetInformationDetails;
 
-    private Campus campus;
-    private Building building;
-    private Room room;
+    @Deprecated private Campus campus;
+    @Deprecated private Building building;
+    @Deprecated private Room room;
     private VendorDetail vendorDetail;
 
     /**

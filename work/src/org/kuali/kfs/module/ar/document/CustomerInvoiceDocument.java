@@ -74,11 +74,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	private Date billingDateForDisplay;
 	private String invoiceTermsText;
 	private String organizationInvoiceNumber;
-	private boolean writeoffIndicator;
 	private String customerPurchaseOrderNumber;
 	private String printInvoiceIndicator;
-	private KualiDecimal invoiceWriteoffAmount;
-	private String invoiceDescription;
 	private Date customerPurchaseOrderDate;
 	private String billByChartOfAccountCode;
 	private String billedByOrganizationCode;
@@ -95,8 +92,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private String paymentProjectCode;
     private String paymentOrganizationReferenceIdentifier;
     private Date printDate;
-    private KualiDecimal stateTaxPercent;
-    private KualiDecimal localTaxPercent;
     private Integer age;
     private  String customerName;
     private  String billingAddressName;
@@ -328,28 +323,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 		this.organizationInvoiceNumber = organizationInvoiceNumber;
 	}
 
-
-	/**
-	 * Gets the writeoffIndicator attribute.
-	 *
-	 * @return Returns the writeoffIndicator
-	 *
-	 */
-	public boolean isWriteoffIndicator() {
-		return writeoffIndicator;
-	}
-
-	/**
-	 * Sets the writeoffIndicator attribute.
-	 *
-	 * @param writeoffIndicator The writeoffIndicator to set.
-	 *
-	 */
-	public void setWriteoffIndicator(boolean writeoffIndicator) {
-		this.writeoffIndicator = writeoffIndicator;
-	}
-
-
 	/**
 	 * Gets the customerPurchaseOrderNumber attribute.
 	 *
@@ -385,48 +358,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void setPrintInvoiceIndicator(String printInvoiceIndicator) {
         this.printInvoiceIndicator = printInvoiceIndicator;
     }
-
-    /**
-	 * Gets the invoiceWriteoffAmount attribute.
-	 *
-	 * @return Returns the invoiceWriteoffAmount
-	 *
-	 */
-	public KualiDecimal getInvoiceWriteoffAmount() {
-		return invoiceWriteoffAmount;
-	}
-
-	/**
-	 * Sets the invoiceWriteoffAmount attribute.
-	 *
-	 * @param invoiceWriteoffAmount The invoiceWriteoffAmount to set.
-	 *
-	 */
-	public void setInvoiceWriteoffAmount(KualiDecimal invoiceWriteoffAmount) {
-		this.invoiceWriteoffAmount = invoiceWriteoffAmount;
-	}
-
-
-	/**
-	 * Gets the invoiceDescription attribute.
-	 *
-	 * @return Returns the invoiceDescription
-	 *
-	 */
-	public String getInvoiceDescription() {
-		return invoiceDescription;
-	}
-
-	/**
-	 * Sets the invoiceDescription attribute.
-	 *
-	 * @param invoiceDescription The invoiceDescription to set.
-	 *
-	 */
-	public void setInvoiceDescription(String invoiceDescription) {
-		this.invoiceDescription = invoiceDescription;
-	}
-
 
 	/**
 	 * Gets the customerPurchaseOrderDate attribute.
@@ -725,38 +656,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public void setPrintDate(Date printDate) {
         this.printDate = printDate;
-    }
-
-    /**
-     * Gets the localTaxPercent attribute.
-     * @return Returns the localTaxPercent.
-     */
-    public KualiDecimal getLocalTaxPercent() {
-        return localTaxPercent;
-    }
-
-    /**
-     * Sets the localTaxPercent attribute value.
-     * @param localTaxPercent The localTaxPercent to set.
-     */
-    public void setLocalTaxPercent(KualiDecimal localTaxPercent) {
-        this.localTaxPercent = localTaxPercent;
-    }
-
-    /**
-     * Gets the stateTaxPercent attribute.
-     * @return Returns the stateTaxPercent.
-     */
-    public KualiDecimal getStateTaxPercent() {
-        return stateTaxPercent;
-    }
-
-    /**
-     * Sets the stateTaxPercent attribute value.
-     * @param stateTaxPercent The stateTaxPercent to set.
-     */
-    public void setStateTaxPercent(KualiDecimal stateTaxPercent) {
-        this.stateTaxPercent = stateTaxPercent;
     }
 
     /**

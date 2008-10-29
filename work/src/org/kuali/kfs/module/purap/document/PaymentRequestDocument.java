@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.purap.document;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,6 +105,19 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
+    
+    // TAX ROUTING FIELDS
+    private String taxClassificationCode;
+    private BigDecimal federalTaxPercent;       // number is in whole form so 5% is 5.00
+    private BigDecimal stateTaxPercent;         // number is in whole form so 5% is 5.00
+    private String taxCountryCode;
+    private Boolean grossUpIndicator;
+    private Boolean taxExemptTreatyIndicator;
+    private Boolean foreignSourceIndicator;
+    private KualiDecimal taxSpecialW4Amount;
+    private Boolean taxUSAIDPerDiemIndicator;
+    private Boolean otherTaxExemptIndicator;
+    private String taxNQIId;
     
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
@@ -1070,6 +1084,94 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public Date getTransactionTaxDate() {
         return getInvoiceDate();
+    }
+
+    public String getTaxClassificationCode() {
+        return taxClassificationCode;
+    }
+
+    public void setTaxClassificationCode(String taxClassificationCode) {
+        this.taxClassificationCode = taxClassificationCode;
+    }
+
+    public BigDecimal getFederalTaxPercent() {
+        return federalTaxPercent;
+    }
+
+    public void setFederalTaxPercent(BigDecimal federalTaxPercent) {
+        this.federalTaxPercent = federalTaxPercent;
+    }
+
+    public BigDecimal getStateTaxPercent() {
+        return stateTaxPercent;
+    }
+
+    public void setStateTaxPercent(BigDecimal stateTaxPercent) {
+        this.stateTaxPercent = stateTaxPercent;
+    }
+
+    public String getTaxCountryCode() {
+        return taxCountryCode;
+    }
+
+    public void setTaxCountryCode(String taxCountryCode) {
+        this.taxCountryCode = taxCountryCode;
+    }
+
+    public Boolean getGrossUpIndicator() {
+        return grossUpIndicator;
+    }
+
+    public void setGrossUpIndicator(Boolean grossUpIndicator) {
+        this.grossUpIndicator = grossUpIndicator;
+    }
+
+    public Boolean getTaxExemptTreatyIndicator() {
+        return taxExemptTreatyIndicator;
+    }
+
+    public void setTaxExemptTreatyIndicator(Boolean taxExemptTreatyIndicator) {
+        this.taxExemptTreatyIndicator = taxExemptTreatyIndicator;
+    }
+
+    public Boolean getForeignSourceIndicator() {
+        return foreignSourceIndicator;
+    }
+
+    public void setForeignSourceIndicator(Boolean foreignSourceIndicator) {
+        this.foreignSourceIndicator = foreignSourceIndicator;
+    }
+
+    public KualiDecimal getTaxSpecialW4Amount() {
+        return taxSpecialW4Amount;
+    }
+
+    public void setTaxSpecialW4Amount(KualiDecimal taxSpecialW4Amount) {
+        this.taxSpecialW4Amount = taxSpecialW4Amount;
+    }
+
+    public Boolean getTaxUSAIDPerDiemIndicator() {
+        return taxUSAIDPerDiemIndicator;
+    }
+
+    public void setTaxUSAIDPerDiemIndicator(Boolean taxUSAIDPerDiemIndicator) {
+        this.taxUSAIDPerDiemIndicator = taxUSAIDPerDiemIndicator;
+    }
+
+    public Boolean getOtherTaxExemptIndicator() {
+        return otherTaxExemptIndicator;
+    }
+
+    public void setOtherTaxExemptIndicator(Boolean otherTaxExemptIndicator) {
+        this.otherTaxExemptIndicator = otherTaxExemptIndicator;
+    }
+
+    public String getTaxNQIId() {
+        return taxNQIId;
+    }
+
+    public void setTaxNQIId(String taxNQIId) {
+        this.taxNQIId = taxNQIId;
     }
 }
 

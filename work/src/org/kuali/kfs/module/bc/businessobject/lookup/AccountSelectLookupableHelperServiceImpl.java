@@ -54,7 +54,7 @@ public class AccountSelectLookupableHelperServiceImpl extends SelectLookupableHe
         //TODO: title...
         //AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.BC_DOCUMENT_METHOD, "Load Document", "Load Document");
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.BC_DOCUMENT_METHOD, "Load Document");
-        anchorHtmlData.setTarget("blank");
+        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         anchorHtmlDataList.add(anchorHtmlData);
         return anchorHtmlDataList;
     }

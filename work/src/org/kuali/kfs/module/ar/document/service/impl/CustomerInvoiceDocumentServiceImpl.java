@@ -418,7 +418,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());
         }
         document.setInvoiceDueDate(getDefaultInvoiceDueDate());
-        document.setWriteoffIndicator(false);
         document.setOpenInvoiceIndicator(true);
     }
 

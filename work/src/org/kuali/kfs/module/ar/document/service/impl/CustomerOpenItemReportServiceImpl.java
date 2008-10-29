@@ -164,16 +164,12 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
 
             // Document Description
-            String documentDescription = invoice.getInvoiceDescription();
-            if (ObjectUtils.isNotNull(documentDescription) && StringUtils.isNotEmpty(documentDescription))
+            String documentDescription = invoice.getDocumentHeader().getDocumentDescription();
+            if (ObjectUtils.isNotNull(documentDescription))
                 detail.setDocumentDescription(documentDescription);
-            else {
-                documentDescription = invoice.getDocumentHeader().getDocumentDescription();
-                if (ObjectUtils.isNotNull(documentDescription))
-                    detail.setDocumentDescription(documentDescription);
-                else
-                    detail.setDocumentDescription("");
-            }
+            else
+                detail.setDocumentDescription("");
+
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
 
@@ -500,16 +496,11 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // Document Number
             detail.setDocumentNumber(documentNumber);
             // Document Description
-            String documentDescription = invoice.getInvoiceDescription();
-            if (ObjectUtils.isNotNull(documentDescription) && StringUtils.isNotEmpty(documentDescription))
+            String  documentDescription = invoice.getDocumentHeader().getDocumentDescription();
+            if (ObjectUtils.isNotNull(documentDescription))
                 detail.setDocumentDescription(documentDescription);
-            else {
-                documentDescription = invoice.getDocumentHeader().getDocumentDescription();
-                if (ObjectUtils.isNotNull(documentDescription))
-                    detail.setDocumentDescription(documentDescription);
-                else
-                    detail.setDocumentDescription("");
-            }
+            else
+                detail.setDocumentDescription("");
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
             // Due Date
@@ -530,16 +521,11 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // Document Number
             detail.setDocumentNumber(invoice.getDocumentNumber());
             // Document Description
-            String documentDescription = invoice.getInvoiceDescription();
-            if (ObjectUtils.isNotNull(documentDescription) && StringUtils.isNotEmpty(documentDescription))
+            String documentDescription = invoice.getDocumentHeader().getDocumentDescription();
+            if (ObjectUtils.isNotNull(documentDescription))
                 detail.setDocumentDescription(documentDescription);
-            else {
-                documentDescription = invoice.getDocumentHeader().getDocumentDescription();
-                if (ObjectUtils.isNotNull(documentDescription))
-                    detail.setDocumentDescription(documentDescription);
-                else
-                    detail.setDocumentDescription("");
-            }
+            else
+                detail.setDocumentDescription("");
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
             // Due Date

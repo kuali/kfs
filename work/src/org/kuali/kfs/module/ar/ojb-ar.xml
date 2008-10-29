@@ -228,11 +228,8 @@
 	<field-descriptor name="billingDate" column="AR_BILLING_DT" jdbc-type="DATE"/>
 	<field-descriptor name="invoiceTermsText" column="AR_INV_TERMS_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationInvoiceNumber" column="ORG_INV_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="writeoffIndicator" column="AR_WRITEOFF_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="customerPurchaseOrderNumber" column="CUST_PO_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="printInvoiceIndicator" column="AR_PRN_INV_IND" jdbc-type="VARCHAR"/>
-	<field-descriptor name="invoiceWriteoffAmount" column="AR_INV_WRTOFF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="invoiceDescription" column="AR_INV_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerPurchaseOrderDate" column="CUST_PO_DT" jdbc-type="DATE"/>
 	<field-descriptor name="billByChartOfAccountCode" column="AR_BILL_BY_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="billedByOrganizationCode" column="AR_BILL_BY_ORG_CD" jdbc-type="VARCHAR"/>
@@ -249,8 +246,6 @@
 	<field-descriptor name="paymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="printDate" column="AR_PRNT_DT" jdbc-type="DATE"/>	
-	<field-descriptor name="stateTaxPercent" column="AR_ST_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="localTaxPercent" column="AR_LOC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	
 	<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR" />
 	<field-descriptor name="billingAddressName" column="BILL_ADDR_NM" jdbc-type="VARCHAR" />
@@ -892,10 +887,8 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="universityFederalEmployerIdentificationNumber" column="UNIV_FEIN_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="salesTaxAccountNumber" column="SALESTAX_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salesTaxFinancialObjectCode" column="SALESTAX_FINOBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="discountObjectCode" column="REFUND_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="adjustmentObjectCode" column="DBTEXP_FIN_OBJ_CD" jdbc-type="VARCHAR"/>adjustmentObjectCode
 	<field-descriptor name="universityClearingChartOfAccountsCode" column="UNIV_CLR_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingAccountNumber" column="UNIV_CLR_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingSubAccountNumber" column="UNIV_CLR_SUBAC_NBR" jdbc-type="VARCHAR"/>
@@ -919,11 +912,13 @@
 	<field-descriptor name="wireSubObjectCode" column="WIRE_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashControlWorkgroup" column="CSH_CTRL_WRKGRP_NM" jdbc-type="VARCHAR"/>
 
+	<!--
 	<reference-descriptor name="adjustmentFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="adjustmentObjectCode" />
 	</reference-descriptor>
+	-->
 	<reference-descriptor name="salesTaxFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
@@ -968,10 +963,12 @@
 	<reference-descriptor name="processingChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="processingChartOfAccountCode" />
 	</reference-descriptor>
+	<!--
 	<reference-descriptor name="salesTaxAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="salesTaxAccountNumber" />
 	</reference-descriptor>
+	-->
 	<reference-descriptor name="universityClearingAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityClearingChartOfAccountsCode" />
 		<foreignkey field-ref="universityClearingAccountNumber" />

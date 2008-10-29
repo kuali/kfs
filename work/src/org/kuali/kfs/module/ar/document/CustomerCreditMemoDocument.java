@@ -2,7 +2,6 @@ package org.kuali.kfs.module.ar.document;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -70,8 +69,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     
-    private TaxService taxService;
-    private AccountsReceivableTaxService arTaxService;
+    private transient TaxService taxService;
+    private transient AccountsReceivableTaxService arTaxService;
 
     public CustomerCreditMemoDocument() {
         super();
@@ -302,9 +301,9 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
         // substract the 'old' item amount, tax amount, and total amount accordingly from totals
         if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount))
-            prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount,arTaxService.isCustomerInvoiceDetailTaxable(getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail()));
+            prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount,getArTaxService().isCustomerInvoiceDetailTaxable(getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail()));
 
-        recalculateTotals(creditMemoItemTotalAmount,arTaxService.isCustomerInvoiceDetailTaxable(getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail()));
+        recalculateTotals(creditMemoItemTotalAmount,getArTaxService().isCustomerInvoiceDetailTaxable(getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail()));
 
         // update duplicate credit memo item amount with 'new' value
         customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemTotalAmount);
@@ -315,7 +314,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
         // substract the 'old' item amount, tax amount, and total amount accordingly from totals
         if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount)) {
-            prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount,arTaxService.isCustomerInvoiceDetailTaxable(getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail()));
+            prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount,getArTaxService().isCustomerInvoiceDetailTaxable(getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail()));
             customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(null);
         }
     }
@@ -323,7 +322,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     private void prepareTotalsForUpdate(KualiDecimal oldItemAmount, boolean isTaxableItemFlag) {
         KualiDecimal oldItemTaxAmount = KualiDecimal.ZERO;
         if (isTaxableItemFlag)
-            oldItemTaxAmount = taxService.getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), oldItemAmount);
+            oldItemTaxAmount = getTaxService().getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), oldItemAmount);
 
         crmTotalItemAmount = crmTotalItemAmount.subtract(oldItemAmount);
         crmTotalTaxAmount = crmTotalTaxAmount.subtract(oldItemTaxAmount);
@@ -339,7 +338,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public void recalculateTotals(KualiDecimal itemAmount, boolean isTaxableItemFlag) {
         crmTotalItemAmount = crmTotalItemAmount.add(itemAmount);
         if (isTaxableItemFlag)
-            crmTotalTaxAmount = crmTotalTaxAmount.add(taxService.getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), itemAmount));
+            crmTotalTaxAmount = crmTotalTaxAmount.add(getTaxService().getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), itemAmount));
         crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
     }
 
@@ -406,8 +405,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             creditMemoItemAmount = creditMemoDetail.getCreditMemoItemTotalAmount();
             creditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemAmount);
             if (ObjectUtils.isNotNull(creditMemoItemAmount)) {
-                if( arTaxService.isCustomerInvoiceDetailTaxable(invoice, customerInvoiceDetail) )
-                    creditMemoTaxAmount = taxService.getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), creditMemoItemAmount);
+                if( getArTaxService().isCustomerInvoiceDetailTaxable(invoice, customerInvoiceDetail) )
+                    creditMemoTaxAmount = getTaxService().getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), creditMemoItemAmount);
                 else
                     creditMemoTaxAmount = KualiDecimal.ZERO;
                 creditMemoDetail.setCreditMemoItemTaxAmount(creditMemoTaxAmount);
@@ -565,7 +564,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         
         //if sales tax is enabled generate GLPEs
         CustomerInvoiceDetail invoiceDetail = ((CustomerCreditMemoDetail) glpeSourceDetail).getCustomerInvoiceDetail();
-        if( arTaxService.isCustomerInvoiceDetailTaxable(getInvoice(), invoiceDetail) )
+        if( getArTaxService().isCustomerInvoiceDetailTaxable(getInvoice(), invoiceDetail) )
             addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset );
 
         return true;
@@ -622,7 +621,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         String postalCode = getPostalCode();
         Date dateOfTransaction = getInvoice().getBillingDate();
         
-        List<TaxDetail> salesTaxDetails = SpringContext.getBean(TaxService.class).getSalesTaxDetails(dateOfTransaction, postalCode, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+        List<TaxDetail> salesTaxDetails = getTaxService().getSalesTaxDetails(dateOfTransaction, postalCode, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
         SalesTaxCustomerCreditMemoDetail salesTaxCustomerCreditMemoDetail;
@@ -654,7 +653,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
     
     public String getPostalCode() {
-        String postalCode = arTaxService.getPostalCodeForTaxation(getInvoice());
+        String postalCode = getArTaxService().getPostalCodeForTaxation(getInvoice());
         return postalCode;
     }
 
@@ -663,6 +662,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
      * @return Returns the taxService.
      */
     public TaxService getTaxService() {
+        //  lazy init the service if its been nullified by session-izing the document
+        if (taxService == null) taxService = SpringContext.getBean(TaxService.class); 
         return taxService;
     }
 
@@ -671,6 +672,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
      * @return Returns the arTaxService.
      */
     public AccountsReceivableTaxService getArTaxService() {
+        //  lazy init the service if its been nullified by session-izing the document
+        if (arTaxService == null) arTaxService = SpringContext.getBean(AccountsReceivableTaxService.class);
         return arTaxService;
     }
 

@@ -275,10 +275,10 @@
 	<field-descriptor name="shippingInternationalMailCode" column="SHIP_INTL_MAIL_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="shippingEmailAddress" column="SHIP_EMAIL_ADDR" jdbc-type="VARCHAR" />
 	<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+    <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 	<reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -334,10 +334,10 @@
 	</reference-descriptor>
 	-->		
 	
-	<reference-descriptor name="printInvoiceOption" class-ref="org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	<reference-descriptor name="printInvoiceOption" class-ref="org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
 		<foreignkey field-ref="printInvoiceIndicator" />
 	</reference-descriptor>	
-	<reference-descriptor name="customerInvoiceRecurrenceDetails" class-ref="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+	<reference-descriptor name="customerInvoiceRecurrenceDetails" class-ref="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>	
 	

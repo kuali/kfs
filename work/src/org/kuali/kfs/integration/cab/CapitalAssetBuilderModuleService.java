@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -85,14 +86,13 @@ public interface CapitalAssetBuilderModuleService {
     public boolean validateAccounts(List<SourceAccountingLine> accountingLines, String transactionType);
 
     /**
-     * Takes a list of accountingLines for which the capitalAssetManagementAsset data should be validated. Places any errors found
-     * on the global error map and returns false.
+     * validate the capitalAssetManagementAsset data associated with the given accounting document
      * 
-     * @param accountingLines for which the data applies
+     * @param accountingDocument the given accounting document
      * @param capitalAssetManagementAsset data to be validated
      * @return validation succeeded or errors present
      */
-    public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation);
+    public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation);
 
     // Methods moved from PurchasingDocumentRuleBase
 
@@ -139,7 +139,7 @@ public interface CapitalAssetBuilderModuleService {
      * @return true if there is at least one object code of the given source accounting lines with a capital asset object sub type;
      *         otherwise, false
      */
-    public boolean hasCapitalAssetObjectSubType(List<SourceAccountingLine> accountingLines);
+    public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument);
 
     public boolean doesUnitCostExceedThreshold(BigDecimal unitCost);
 }

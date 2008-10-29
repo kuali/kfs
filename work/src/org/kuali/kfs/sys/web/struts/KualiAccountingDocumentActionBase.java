@@ -44,7 +44,6 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
-import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -1468,13 +1467,13 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         LOG.debug("applyCapitalAssetInformation() - start");
 
         // do nothing if the given document is not required to have capital asset collection
-        AccountingDocument financialDocument = kualiAccountingDocumentFormBase.getFinancialDocument();
-        if (!(financialDocument instanceof CapitalAssetEditable)) {
+        AccountingDocument document = kualiAccountingDocumentFormBase.getFinancialDocument();
+        if (!(document instanceof CapitalAssetEditable)) {
             return;
         }
 
         // do nothing if there exists capital asset information associated with the current document
-        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) financialDocument;
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) document;
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
         if (capitalAssetInformation != null || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
             return;
@@ -1482,13 +1481,12 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable) kualiAccountingDocumentFormBase;
         CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();
-        List<SourceAccountingLine> sourceAccountingLines = financialDocument.getSourceAccountingLines();
         CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
         // apply capitalAsset information if there is at least one movable object code associated with the source accounting lines
-        boolean isCapitalAssetInformationNeeded = capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(sourceAccountingLines);
+        boolean isCapitalAssetInformationNeeded = capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(document);        
         if (isCapitalAssetInformationNeeded) {
-            newCapitalAssetInformation.setDocumentNumber(financialDocument.getDocumentNumber());
+            newCapitalAssetInformation.setDocumentNumber(document.getDocumentNumber());
             capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
         }
     }

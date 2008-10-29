@@ -77,6 +77,7 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Campus;
@@ -909,14 +910,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List,
-     *      org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation) {
+    public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
 
         // Check if we need to collect cams data
-        boolean dataEntryExpected = this.hasCapitalAssetObjectSubType(accountingLines);
+        boolean dataEntryExpected = this.hasCapitalAssetObjectSubType(accountingDocument);
 
         CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
         if (!dataEntryExpected) {
@@ -961,12 +961,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(java.util.List)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(org.kuali.kfs.sys.document.AccountingDocument)
      */
-    public boolean hasCapitalAssetObjectSubType(List<SourceAccountingLine> accountingLines) {
+    public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument) {
         List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
         boolean hasCapitalAssetObjectSubType = false;
 
+        List<SourceAccountingLine> accountingLines = accountingDocument.getSourceAccountingLines();
         for (SourceAccountingLine sourceAccountingLine : accountingLines) {
             String objectSubTypeCode = sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode();
             if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {

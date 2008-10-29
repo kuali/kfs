@@ -245,8 +245,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 ProcurementCardDocument pcardDocument = (ProcurementCardDocument)documentService.getByDocumentHeaderId(pcardDocumentId);
                 
                 // prevent PCard documents from auto approving if they have capital asset info to collect
-                List<SourceAccountingLine> accountingLines = pcardDocument.getSourceAccountingLines();
-                if(capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(accountingLines)) {
+                if(capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(pcardDocument)) {
                     continue;
                 }
 

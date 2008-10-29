@@ -47,15 +47,14 @@ public class CapitalAssetInformationValidation extends GenericValidation {
     }
 
     // determine whehter the given document has valid capital asset information if any
-    private boolean hasValidCapitalAssetInformation(AccountingDocument financialDocument) {
+    private boolean hasValidCapitalAssetInformation(AccountingDocument accountingDocument) {
         LOG.debug("hasValidCapitalAssetInformation(Document) - start");
 
-        if (financialDocument instanceof CapitalAssetEditable == false) {
+        if (accountingDocument instanceof CapitalAssetEditable == false) {
             return true;
         }
 
-        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();
-        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) financialDocument;
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
 
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
@@ -63,7 +62,7 @@ public class CapitalAssetInformationValidation extends GenericValidation {
             errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             errors.addToErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
             
-            boolean isValid = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, capitalAssetInformation);
+            boolean isValid = capitalAssetBuilderModuleService.validateFinancialProcessingData(accountingDocument, capitalAssetInformation);
             
             errors.removeFromErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
             errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);

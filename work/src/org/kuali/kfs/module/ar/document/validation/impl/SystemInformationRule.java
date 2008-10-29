@@ -42,7 +42,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         newSystemInformation = (SystemInformation) super.getNewBo();
     }
-
+/*
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
@@ -51,13 +51,16 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
+*/
 
+ /*
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         // always return true even if there are business rule failures.
-        processCustomRouteDocumentBusinessRules(document);
+        //processCustomRouteDocumentBusinessRules(document);
         return true;
     }
+*/
     
     /**
      * 
@@ -70,6 +73,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
      * </ul>
      * @return true if it is an income object
      */
+/*
     protected boolean checkSalesTaxObjectValidCode(SystemInformation document) {
         boolean success = true;
         Integer universityFiscalYear = document.getUniversityFiscalYear();
@@ -84,6 +88,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
+*/
 
 
     public ObjectTypeService getObjectTypeService() {

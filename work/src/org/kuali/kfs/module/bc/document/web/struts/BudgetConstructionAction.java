@@ -150,7 +150,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocument().getDocumentNumber());
 
                     BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-                    if (budgetConstructionHeader == null) {
+                    if (budgetConstructionHeader != null) {
                         // BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader,
                         // GlobalVariables.getUserSession().getPerson().getPrincipalId());
                         BudgetConstructionLockStatus bcLockStatus = lockService.lockAccountAndCommit(budgetConstructionHeader, GlobalVariables.getUserSession().getPerson().getPrincipalId());

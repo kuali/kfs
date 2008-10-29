@@ -135,7 +135,10 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_itm_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_acct_t.sql", connection);
-
+        executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_cptl_ast_sys_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_cptl_ast_itm_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_cptl_ast_itm_ast_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_cptl_ast_loc_t.sql", connection);
         // preq
         executeSqls("org/kuali/kfs/module/cab/sql/preq/en_doc_hdr_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/preq/fp_doc_header_t.sql", connection);

@@ -706,12 +706,20 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processSplit(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
      */
-    public PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset currentItemAsset, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory) {
+    public PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset currentItemAsset, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, PurchasingAccountsPayableDocument purApDoc) {
         // create a new item asset from the current item asset.
         PurchasingAccountsPayableItemAsset newItemAsset = new PurchasingAccountsPayableItemAsset(currentItemAsset);
+        
+        // Get the max cab line #. It should be the max value among the current item list and DB. Otherwise, it will fail when save back to DB.
+        Integer maxDBCabLineNbr = purApLineDao.getMaxCabLineNumber(currentItemAsset.getDocumentNumber(), currentItemAsset.getAccountsPayableLineItemIdentifier());
+        int maxCurrentCabLineNbr = getMaxCurrentCabLineNbrForItem(purApDoc, currentItemAsset);
+        
+        if (maxDBCabLineNbr.intValue() > maxCurrentCabLineNbr) {
+            maxCurrentCabLineNbr = maxDBCabLineNbr.intValue();
+        }
+        
+        newItemAsset.setCapitalAssetBuilderLineNumber(maxCurrentCabLineNbr + 1);
 
-        Integer maxCabLineNbr = purApLineDao.getMaxCabLineNumber(currentItemAsset.getDocumentNumber(), currentItemAsset.getAccountsPayableLineItemIdentifier());
-        newItemAsset.setCapitalAssetBuilderLineNumber(maxCabLineNbr);
         newItemAsset.setAccountsPayableItemQuantity(currentItemAsset.getSplitQty());
 
         // Set account list for new item asset and update current account amount value.
@@ -726,6 +734,17 @@ public class PurApLineServiceImpl implements PurApLineService {
         // Add to action history
         addSplitHistory(currentItemAsset, newItemAsset, actionsTakeHistory);
         return newItemAsset;
+    }
+
+    private int getMaxCurrentCabLineNbrForItem(PurchasingAccountsPayableDocument purApDoc, PurchasingAccountsPayableItemAsset currentItemAsset) {
+        int maxCabLineNbr = 0;
+        for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+            if (item.getAccountsPayableLineItemIdentifier().equals(currentItemAsset.getAccountsPayableLineItemIdentifier()) && item.getCapitalAssetBuilderLineNumber().intValue() > maxCabLineNbr) {
+                maxCabLineNbr = item.getCapitalAssetBuilderLineNumber().intValue();
+            }
+
+        }
+        return maxCabLineNbr;
     }
 
     /**

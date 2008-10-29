@@ -180,7 +180,7 @@ public class PurApLineAction extends KualiAction {
         checkSplitQty(selectedLineItem, errorPath);
         if (GlobalVariables.getErrorMap().isEmpty() && selectedLineItem != null) {
             PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
-            PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory());
+            PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory(), purApDoc);
             if (newItemAsset != null) {
                 purApDoc.getPurchasingAccountsPayableItemAssets().add(newItemAsset);
                 Collections.sort(purApDoc.getPurchasingAccountsPayableItemAssets());

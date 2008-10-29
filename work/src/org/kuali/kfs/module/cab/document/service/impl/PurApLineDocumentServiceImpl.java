@@ -157,7 +157,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
 
         // pretag looks go into an infinite loop at OJB ??
-        if (ObjectUtils.isNotNull(preTag)) {
+        if (isItemPretagged(preTag)) {
             businessObjectService.save(preTag);
         }
         return newDocument.getDocumentNumber();
@@ -262,7 +262,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         }
 
         // feeding data from pre-tag details into shared location details list and unique detail list
-        if (ObjectUtils.isNotNull(preTag)) {
+        if (isItemPretagged(preTag)) {
             setAssetDetailFromPreTag(preTag, sharedDetails, assetDetailsList);
         }
         else if (ObjectUtils.isNotNull(capitalAssetSystem)) {
@@ -498,7 +498,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         PurchaseOrderCapitalAssetSystem capitalAssetSystem = null;
         // feeding data from pre-asset tagging table.
-        if (ObjectUtils.isNotNull(preTag)) {
+        if (isItemPretagged(preTag)) {
             setAssetGlobalFromPreTag(preTag, assetGlobal);
         }
         else if (selectedItem.getCapitalAssetSystemIdentifier() != null) {
@@ -521,6 +521,11 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         setAssetGlobalOrgOwnerAccount(assetGlobal);
 
         return assetGlobal;
+    }
+
+
+    private boolean isItemPretagged(Pretag preTag) {
+        return ObjectUtils.isNotNull(preTag) && ObjectUtils.isNotNull(preTag.getPretagDetails()) && !preTag.getPretagDetails().isEmpty();
     }
 
 

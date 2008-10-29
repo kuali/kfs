@@ -1183,43 +1183,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     }
 
-    /**
-     * Update Purchase order document notes to include the asset numbers.
-     * 
-     * @param purchaseOrderNumber
-     * @param assetNumbers
-     */
-    private void updatePurchaseOrderNotes(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType) {
-        PurchaseOrderDocument document = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
-        String noteText = null;
-
-        // Create and add the note.
-        if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
-            noteText = "Asset Numbers have been created for this document: ";
-        }
-        else {
-            noteText = "Existing Asset Numbers have been applied for this document: ";
-        }
-
-        for (int i = 0; i < assetNumbers.size(); i++) {
-            noteText += assetNumbers.get(i).toString();
-            if (i < assetNumbers.size() - 1) {
-                noteText += ", ";
-            }
-        }
-        try {
-            Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
-            // set the initiator user info to the new note
-            Person initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authorId);
-            assetNote.setAuthorUniversalIdentifier(initiator.getPrincipalId());
-            document.addNote(assetNote);
-            KNSServiceLocator.getNoteService().save(assetNote);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     /**
      * Acquire asset numbers from CAMS asset payment document.
@@ -1526,4 +1489,3 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 }
-

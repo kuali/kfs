@@ -45,7 +45,7 @@ public class PreAssetTaggingExtractStepTest extends BatchTestBase {
         java.sql.Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         preAssetTaggingExtractStep.execute("testPreAssetTaggingExtractStep", new Date());
         Collection<Pretag> match = findByPO("21");
-        assertEquals(2, match.size());
+        assertEquals(0, match.size());
 
         match = findByPO("22");
         assertEquals(2, match.size());

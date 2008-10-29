@@ -71,7 +71,7 @@ public class ReconciliationServiceTest extends BatchTestBase {
         Collection<GlAccountLineGroup> validEntries = service.getMatchedGroups();
 
         assertEquals(0, ignoredEntries.size());
-        assertEquals(10, validEntries.size());
+        assertEquals(11, validEntries.size());
         assertEquals(0, mismatchedEntries.size());
 
         // assert if result amounts are reconciled correctly

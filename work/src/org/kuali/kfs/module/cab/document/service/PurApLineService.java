@@ -46,7 +46,7 @@ public interface PurApLineService {
      * @param actionsTaken Action taken history.
      * @return
      */
-    PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset itemAsset, List<PurchasingAccountsPayableActionHistory> actionsTake);
+    PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset itemAsset, List<PurchasingAccountsPayableActionHistory> actionsTake, PurchasingAccountsPayableDocument purApDoc);
 
     /**
      * Save purApDoc, item assets and account lines for persistence

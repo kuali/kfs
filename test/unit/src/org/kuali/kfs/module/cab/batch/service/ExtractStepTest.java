@@ -44,9 +44,9 @@ public class ExtractStepTest extends BatchTestBase {
         public File generateStatusReportPDF(ExtractProcessLog extractProcessLog) {
             assertNotNull(extractProcessLog);
             assertTrue(extractProcessLog.isSuccess());
-            assertEquals(Integer.valueOf(12), extractProcessLog.getTotalGlCount());
+            assertEquals(Integer.valueOf(13), extractProcessLog.getTotalGlCount());
             assertEquals(Integer.valueOf(2), extractProcessLog.getNonPurApGlCount());
-            assertEquals(Integer.valueOf(10), extractProcessLog.getPurApGlCount());
+            assertEquals(Integer.valueOf(11), extractProcessLog.getPurApGlCount());
             assertNotNull(extractProcessLog.getStartTime());
             assertNotNull(extractProcessLog.getFinishTime());
             assertNotNull(extractProcessLog.getLastExtractTime());
@@ -86,7 +86,7 @@ public class ExtractStepTest extends BatchTestBase {
 
         // Count of GL lines
         Collection<GeneralLedgerEntry> gls = boService.findAll(GeneralLedgerEntry.class);
-        assertEquals(12, gls.size());
+        assertEquals(13, gls.size());
 
         // Count of purap docs
         Collection<PurchasingAccountsPayableDocument> allCabDocs = boService.findAll(PurchasingAccountsPayableDocument.class);
@@ -94,11 +94,11 @@ public class ExtractStepTest extends BatchTestBase {
 
         // Count of purap items
         Collection<PurchasingAccountsPayableItemAsset> allCabItems = boService.findAll(PurchasingAccountsPayableItemAsset.class);
-        assertEquals(13, allCabItems.size());
+        assertEquals(14, allCabItems.size());
 
         // Count of purap account lines
         Collection<PurchasingAccountsPayableLineAssetAccount> allCabAccts = boService.findAll(PurchasingAccountsPayableLineAssetAccount.class);
-        assertEquals(16, allCabAccts.size());
+        assertEquals(17, allCabAccts.size());
 
         // assert the extract date value
         SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");

@@ -555,9 +555,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (StringUtils.isNotBlank(acquisitionTypeCode) && StringUtils.isNotBlank(statusCode)) {
-                // TODO: once system parameters created, we should apply this rule.
                 // check if status code and acquisition type code combination is valid
-                //success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_STATUSES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE, acquisitionTypeCode, statusCode).evaluateAndAddError(AssetGlobal.class, CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE);
+                success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_STATUSES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE, acquisitionTypeCode, statusCode).evaluateAndAddError(AssetGlobal.class, CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE);
             }
             success &= validateAssetType(assetGlobal);
             if (isCapitalStatus(assetGlobal)) {
@@ -675,4 +674,3 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
 
 }
-

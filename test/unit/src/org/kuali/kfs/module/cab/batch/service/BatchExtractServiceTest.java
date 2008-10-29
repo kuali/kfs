@@ -58,12 +58,12 @@ public class BatchExtractServiceTest extends BatchTestBase {
         ExtractProcessLog processLog = new ExtractProcessLog();
         Collection<Entry> glEntries = batchExtractService.findElgibleGLEntries(processLog);
         assertNotNull(glEntries);
-        assertEquals(12, glEntries.size());
+        assertEquals(13, glEntries.size());
         List<Entry> fpLines = new ArrayList<Entry>();
         List<Entry> purapLines = new ArrayList<Entry>();
         // Test separation of lines
         batchExtractService.separatePOLines(fpLines, purapLines, glEntries);
-        assertEquals(10, purapLines.size());
+        assertEquals(11, purapLines.size());
         assertEquals(2, fpLines.size());
         // Test saving of FP lines
         batchExtractService.saveFPLines(fpLines, processLog);
@@ -84,15 +84,15 @@ public class BatchExtractServiceTest extends BatchTestBase {
 
         // After saving PO lines asset count of records
         Collection<GeneralLedgerEntry> gls = boService.findAll(GeneralLedgerEntry.class);
-        assertEquals(12, gls.size());
+        assertEquals(13, gls.size());
         Collection<PurchasingAccountsPayableDocument> allCabDocs = boService.findAll(PurchasingAccountsPayableDocument.class);
         assertEquals(7, allCabDocs.size());
 
         Collection<PurchasingAccountsPayableItemAsset> allCabItems = boService.findAll(PurchasingAccountsPayableItemAsset.class);
-        assertEquals(13, allCabItems.size());
+        assertEquals(14, allCabItems.size());
 
         Collection<PurchasingAccountsPayableLineAssetAccount> allCabAccts = boService.findAll(PurchasingAccountsPayableLineAssetAccount.class);
-        assertEquals(16, allCabAccts.size());
+        assertEquals(17, allCabAccts.size());
 
 
     }
@@ -101,7 +101,7 @@ public class BatchExtractServiceTest extends BatchTestBase {
     public void testFindPreTaggablePOAccounts() throws Exception {
         Collection<PurchaseOrderAccount> preTaggablePOAccounts = batchExtractService.findPreTaggablePOAccounts();
         batchExtractService.savePreTagLines(preTaggablePOAccounts);
-        assertEquals(9, preTaggablePOAccounts.size());
+        assertEquals(6, preTaggablePOAccounts.size());
     }
 }
 

@@ -33,6 +33,14 @@ public class BCKeyConstants {
     public static final String MESSAGE_BENEFITS_MONTHLY_CALCULATED = "message.budget.benefitsMonthlyCalculated";
     public static final String MESSAGE_SALARY_SETTING_SAVED = "message.budget.salarySettingSaved";
     public static final String MESSAGE_SALARY_SETTING_SAVED_AND_CLOSED = "message.budget.salarySettingSavedAndClosed";
+
+    public static final String ERROR_BUDGET_USER_NOT_ORG_APPROVER = "error.budget.userNotOrgApprover";
+    public static final String ERROR_BUDGET_USER_BELOW_DOCLEVEL = "error.budget.userBelowDocLevel";
+    public static final String ERROR_BUDGET_USER_NOT_IN_HIERARCHY = "error.budget.userNotInHierarchy";
+    public static final String ERROR_BUDGET_DOCUMENT_LOCKED = "error.budget.documentLocked";
+    public static final String ERROR_BUDGET_FUNDING_LOCKED = "error.budget.fundingLocked";
+    public static final String ERROR_BUDGET_DOCUMENT_OTHER = "error.budget.documentOther";
+
     public static final String ERROR_BUDGET_AUTHORIZATION_DOCUMENT = "error.budget.authorization.document";
     public static final String ERROR_BUDGET_PULLUP_DOCUMENT = "error.budget.pullup.document";
     public static final String ERROR_BUDGET_PUSHDOWN_DOCUMENT = "error.budget.pushdown.document";

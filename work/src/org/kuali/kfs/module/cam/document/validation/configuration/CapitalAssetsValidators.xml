@@ -53,8 +53,11 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>	
 
-	<bean id="AssetPayment-assetValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAssetValidation" abstract="true">
+	<bean id="AssetPayment-addAssetValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAddAssetValidation" abstract="true">
 		<property name="assetService" ref="assetService" />
 	</bean>
-	
+
+	<bean id="AssetPayment-assetValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAssetValidation" abstract="true">
+		<property name="assetService" ref="assetService" />
+	</bean>	
 </beans>

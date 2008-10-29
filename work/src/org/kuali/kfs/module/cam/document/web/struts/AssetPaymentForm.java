@@ -28,6 +28,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.ld.document.web.struts.LaborDocumentFormBase;
+import org.kuali.kfs.module.ld.document.web.struts.MultipleValueLookupBroker;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -40,13 +42,20 @@ import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
+public class AssetPaymentForm extends KualiAccountingDocumentFormBase { 
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
     private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
     private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
+
+    private String lookupResultsSequenceNumber; // Indicates which result set we are using when refreshing/returning from a
+                                                    // multi-value lookup.
+    private String lookupResultsBOClassName; // Type of result returned by the multi-value lookup. ?to be persisted in the lookup
+                                                    // results service instead?
+    private String lookedUpCollectionName; // The name of the collection looked up (by a multiple value lookup)
+    
     
     String capitalAssetNumber = "";
-    AssetPaymentAssetDetail newAssetPaymentAssetDetail;
+    //AssetPaymentAssetDetail newAssetPaymentAssetDetail;
     
     /**
      * 
@@ -167,7 +176,36 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
             assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);            
         }        
     }
-    
+
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public String getLookedUpCollectionName() {
+        return lookedUpCollectionName;
+    }
+
+    public void setLookedUpCollectionName(String lookedUpCollectionName) {
+        this.lookedUpCollectionName = lookedUpCollectionName;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.AccountingDocumentFormBase#getRefreshCaller()
+     */
+    @Override
+    public String getRefreshCaller() {
+        return KFSConstants.MULTIPLE_VALUE;
+    }
 }
-
-

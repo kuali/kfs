@@ -24,7 +24,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -35,8 +34,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * This class validates if asset is locked by other document, if so return false
  */
-public class AssetPaymentAssetValidation extends GenericValidation {
+public class AssetPaymentAddAssetValidation extends GenericValidation {
+
     private AssetService assetService;
+    private AssetPaymentAssetDetail assetPaymentAssetDetailForValidation;
+    
     /**
      * Validates asset to ensure it is not locked by any other document
      * 
@@ -46,45 +48,35 @@ public class AssetPaymentAssetValidation extends GenericValidation {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails =assetPaymentDocument.getAssetPaymentAssetDetail(); 
 
-        //Validating the asset doesn't already exists in the doc
-        boolean valid=true;
-        int position_a=-1;
-        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
-            position_a++;
-            String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "."+CamsPropertyConstants.AssetPaymentDocument.ASSET_PAYMENT_ASSET_DETAIL + "["+position_a+"]."+ CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
-
-            //Validating the asset exists in the asset table.
-            if (ObjectUtils.isNull(assetPaymentAssetDetail.getAsset())) {
-                GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, assetPaymentAssetDetail.getCapitalAssetNumber().toString());
-                valid &= false;
-            }
-
-            //Validating the asset is a capital asset
-            if (!this.getAssetService().isCapitalAsset(assetPaymentAssetDetail.getAsset())) {
-                GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_NON_CAPITAL_ASSET, assetPaymentAssetDetail.getCapitalAssetNumber().toString());
-                valid &= false;          
-            }
-
-            //Validating the asset hasn't been retired
-            if (this.getAssetService().isAssetRetired(assetPaymentAssetDetail.getAsset())) {
-                GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, assetPaymentAssetDetail.getCapitalAssetNumber().toString());
-                valid &= false;
-            }
-
-//            int position_b=-1;
-//            //Checking for duplicated assets. Just in case.
-//            for(AssetPaymentAssetDetail assetPaymentAssetDetail2:assetPaymentAssetDetails) {
-//                position_b++;
-//                if (position_a == position_b)
-//                    continue;
-//                
-//                if (assetPaymentAssetDetail.getCapitalAssetNumber().compareTo(assetPaymentAssetDetail2.getCapitalAssetNumber()) == 0) {
-//                    GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_ASSET_EXISTS_IN_DOCUMENT, assetPaymentAssetDetail.getCapitalAssetNumber().toString());                
-//                    valid &= false;
-//                }
-//            }
+        String errorPath = event.getErrorPathPrefix();
+        
+        //Validating the asset exists in the asset table.
+        if (ObjectUtils.isNull(this.getAssetPaymentAssetDetailForValidation().getAsset())) {
+            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, this.getAssetPaymentAssetDetailForValidation().getCapitalAssetNumber().toString());
+            return false;
         }
-        return valid;
+
+        /*
+        //Validating the asset is a capital asset
+        if (!this.getAssetService().isCapitalAsset(this.getAssetPaymentAssetDetailForValidation().getAsset())) {
+            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_NON_CAPITAL_ASSET, this.getAssetPaymentAssetDetailForValidation().getCapitalAssetNumber().toString());
+            return false;            
+        }
+        
+        //Validating the asset hasn't been retired
+        if (this.getAssetService().isAssetRetired(this.getAssetPaymentAssetDetailForValidation().getAsset())) {
+            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, this.getAssetPaymentAssetDetailForValidation().getCapitalAssetNumber().toString());
+            return false;
+        }*/
+        
+        //Validating the asset doesn't already exists in the doc
+        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
+            if (assetPaymentAssetDetail.getCapitalAssetNumber().compareTo(this.getAssetPaymentAssetDetailForValidation().getCapitalAssetNumber()) == 0) {
+                GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_ASSET_EXISTS_IN_DOCUMENT, this.getAssetPaymentAssetDetailForValidation().getCapitalAssetNumber().toString());                
+                return false;
+            }
+        }
+        return true;
     }
 
     public AssetService getAssetService() {
@@ -93,5 +85,13 @@ public class AssetPaymentAssetValidation extends GenericValidation {
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
+    }
+
+    public AssetPaymentAssetDetail getAssetPaymentAssetDetailForValidation() {
+        return assetPaymentAssetDetailForValidation;
+    }
+
+    public void setAssetPaymentAssetDetailForValidation(AssetPaymentAssetDetail assetPaymentAssetDetailForValidation) {
+        this.assetPaymentAssetDetailForValidation = assetPaymentAssetDetailForValidation;
     }
 }

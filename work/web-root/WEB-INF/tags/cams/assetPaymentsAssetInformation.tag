@@ -22,7 +22,7 @@
 		<c:set var="newTotal" value="${0.00}"/>
 		<c:set var="previousCost" value="${KualiForm.document.assetPaymentAssetDetail[ctr].previousTotalCostAmount}"/>
 				
-		<c:if test="${totalHistoricalAmount > 0 }">
+		<c:if test="${totalHistoricalAmount != 0 }">
 	        <c:set var="percentage" value="${previousCost / totalHistoricalAmount }"/>
 	        <c:set var="totalAllocated" value="${documentTotal * percentage}"/>
 		 	<fmt:formatNumber var="newTotal" value="${totalAllocated + previousCost }" maxFractionDigits="2" minFractionDigits="2"/>			 		 	
@@ -77,7 +77,7 @@
 		<c:set var="globalTotalAllocated"	   value="${globalTotalAllocated + totalAllocated}"/>
 		<c:set var="globalTotalHistoricalCost" value="${globalTotalHistoricalCost + previousCost}"/>
 
-		<kul:tab tabTitle="Asset Information" defaultOpen="false" useCurrentTabIndexAsKey="true"> 		    
+		<kul:tab tabTitle="Asset Information" defaultOpen="false" useCurrentTabIndexAsKey="true" tabErrorKey="document.assetPaymentAssetDetail[${ctr}].capitalAssetNumber*"> 		    
 			<div class="tab-container" align="center" id="tab-AssetInformation-div">
 				<table cellpadding="0" cellspacing="0" class="datatable" summary="Asset">
 						<tr>

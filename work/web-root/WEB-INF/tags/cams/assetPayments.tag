@@ -16,6 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="viewOnly" value="${!empty KualiForm.editingMode['viewOnly']}"/>
+<c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
 
 <kul:tab tabTitle="Assets" defaultOpen="true" tabErrorKey="document.capitalAssetNumber*">
 	<div class="tab-container" id="assets" align="center">
@@ -30,8 +31,9 @@
 				    <th width="10%"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
 					<td class="infoline" valign="top" width="84%">															   
 						<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
-						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" fieldConversions="capitalAssetNumber:capitalAssetNumber"
-						lookupParameters="capitalAssetNumber:capitalAssetNumber" />					
+						<!--  >kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" fieldConversions="capitalAssetNumber:capitalAssetNumber"
+						lookupParameters="capitalAssetNumber:capitalAssetNumber" /-->
+						<kul:multipleValueLookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" lookedUpCollectionName="assetPaymentAssetDetail"/>
 					</td>
 					<td class="infoline" width="6%" align="center">
 					    <input name="methodToCall.insertAssetPaymentAssetDetail" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" class="tinybutton" title="Add an asset" alt="Add an asset" type="image">

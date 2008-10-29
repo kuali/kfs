@@ -298,7 +298,7 @@ financialObjectCode and financialSubObjectCode??
 						<c:when	test="${!empty column.propertyURL}">
 							<display:column class="${colClass}" sortable="${column.sortable}"
 								title="${column.columnTitle}" comparator="${column.comparator}">
-								<a href="<c:out value="${column.propertyURL}"/>" target="blank" title="${column.propertyValue}"><c:out
+								<a href="<c:out value="${column.propertyURL}"/>" target="_blank" title="${column.propertyValue}"><c:out
 									value="${fn:substring(column.propertyValue, 0, column.maxLength)}"
 									/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if></a> &nbsp;
                             </display:column>

@@ -39,6 +39,7 @@
         </bean>
       </list>
     </property>
+    <property name="allowsNewOrCopy" value="false" />
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -51,7 +52,9 @@
     <property name="title" value="Edit Payee Type" />
     <property name="maintainableItems" >
       <list>
-       
+       <bean parent="MaintainableFieldDefinition"
+              p:name="payeeTypeCode"
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="description"
               p:required="true" />

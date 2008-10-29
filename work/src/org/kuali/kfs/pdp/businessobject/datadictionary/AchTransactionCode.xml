@@ -31,8 +31,8 @@
   <bean id="AchTransactionCode-transactionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ach Transaction Code" />
-    <property name="shortLabel" value="Ach Transaction Type" />
+    <property name="label" value="ACH Transaction Code" />
+    <property name="shortLabel" value="ACH Transaction Type" />
     <property name="maxLength" value="2" />
     <property name="required" value="true" />
     <property name="control" >
@@ -45,8 +45,8 @@
   <bean id="AchTransactionCode-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ach Transaction Code description" />
-    <property name="shortLabel" value="Ach Transaction Code description" />
+    <property name="label" value="ACH Transaction Code description" />
+    <property name="shortLabel" value="ACH Transaction Code description" />
     <property name="maxLength" value="100" />
     <property name="required" value="true" />
     <property name="control" >
@@ -62,7 +62,7 @@
   <bean id="AchTransactionCode-inquiryDefinition" parent="AchTransactionCode-inquiryDefinition-parentBean" />
 
   <bean id="AchTransactionCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Ach Transaction Code Inquiry" />
+    <property name="title" value="ACH Transaction Code Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -85,8 +85,8 @@
   <bean id="AchTransactionCode-lookupDefinition" parent="AchTransactionCode-lookupDefinition-parentBean" />
 
   <bean id="AchTransactionCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Ach Transaction Code Lookup" />
-    <property name="instructions" value="Lookup an Ach Transaction Code" />
+    <property name="title" value="ACH Transaction Code Lookup" />
+    <property name="instructions" value="Lookup an ACH Transaction Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
         <property name="attributeNames" >

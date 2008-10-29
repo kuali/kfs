@@ -51,7 +51,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="PayeeType-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Paye Type Description" />
+    <property name="label" value="Payee Type Description" />
     <property name="shortLabel" value="Payee Type Description" />
     <property name="maxLength" value="200" />
     <property name="required" value="true" />

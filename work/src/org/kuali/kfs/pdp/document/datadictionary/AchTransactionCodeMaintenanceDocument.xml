@@ -20,9 +20,9 @@
         <value>transactionCode</value>
       </list>
     </property>
-    <property name="label" value="Payee Type" />
-    <property name="shortLabel" value="Payee Type" />
-    <property name="summary" value="Payee Type Maintenance Document" />
+    <property name="label" value="ACH Transaction Code" />
+    <property name="shortLabel" value="ACH Transaction Code" />
+    <property name="summary" value="ACH Transaction Code Maintenance Document" />
     <property name="description" value="Document used to create or update Payee Type Descriptions" />
     <property name="documentTypeName" value="AchTransactionCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
@@ -48,8 +48,8 @@
   <bean id="AchTransactionCodeMaintenanceDocument-EditAchTransactionCode" parent="AchTransactionCodeMaintenanceDocument-EditAchTransactionCode-parentBean" />
 
   <bean id="AchTransactionCodeMaintenanceDocument-EditAchTransactionCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Payee Type" />
-    <property name="title" value="Edit Payee Type" />
+    <property name="id" value="Edit ACH Transaction Code" />
+    <property name="title" value="Edit ACH Transaction Code" />
     <property name="maintainableItems" >
       <list>
        <bean parent="MaintainableFieldDefinition"

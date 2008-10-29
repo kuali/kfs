@@ -624,6 +624,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber()));
         assetNumberRoutingSet.add(new RoutingAssetNumber(assetGlobal.getSeparateSourceCapitalAssetNumber().toString())); 
         assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetGlobal.getSeparateSourceCapitalAsset().getCampusTagNumber()));
+ 
         // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());

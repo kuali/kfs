@@ -24,6 +24,8 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
+import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.module.cam.fixture.AssetMaintainableFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -50,6 +52,8 @@ public class AssetMaintainableImplTest extends KualiTestBase {
         RoutingData accountRoutingData_a = new RoutingData();
         Set organizationRoutingSet_a  = new HashSet();        
         Set accountRoutingSet_a       = new HashSet();
+        Set assetNumberRoutineSet_a   = new HashSet();
+        Set assetTagNumberRoutineSet_a= new HashSet();
         
         AssetMaintainableImpl assetMaintainableImpl = new AssetMaintainableImpl();
         assetMaintainableImpl.setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
@@ -71,7 +75,11 @@ public class AssetMaintainableImplTest extends KualiTestBase {
                 organizationRoutingSet_a =routingData.getRoutingSet();            
             } else if (routingData.getRoutingTypes().contains(KualiAccountAttribute.class.getSimpleName())) {
                 accountRoutingSet_a = routingData.getRoutingSet();
-            }
+            } else if (routingData.getRoutingTypes().contains(RoutingAssetNumber.class.getSimpleName())) {
+                assetNumberRoutineSet_a = routingData.getRoutingSet();
+            } else if (routingData.getRoutingTypes().contains(RoutingAssetTagNumber.class.getSimpleName())) {
+                assetTagNumberRoutineSet_a = routingData.getRoutingSet();        
+            }            
         }
         
         //Asset global information
@@ -81,6 +89,12 @@ public class AssetMaintainableImplTest extends KualiTestBase {
         RoutingAccount routingAccount_b = new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber());
         assertTrue(accountRoutingSet_a.contains(routingAccount_b));
                
+        RoutingAssetNumber routingAssetNumber_b = new RoutingAssetNumber(asset.getCapitalAssetNumber().toString());
+        assertTrue(assetNumberRoutineSet_a.contains(routingAssetNumber_b));
+                      
+        RoutingAssetTagNumber routingAssetTagNumber_b = new RoutingAssetTagNumber(asset.getCampusTagNumber());
+        assertTrue(assetTagNumberRoutineSet_a.contains(routingAssetTagNumber_b));
+        
         // assert False
         
         //Asset global information
@@ -88,6 +102,12 @@ public class AssetMaintainableImplTest extends KualiTestBase {
         assertFalse(organizationRoutingSet_a.contains(orgReviewRoutingData_b));
         
         routingAccount_b = new RoutingAccount("??", asset.getOrganizationOwnerAccountNumber());
-        assertFalse(accountRoutingSet_a.contains(routingAccount_b));               
+        assertFalse(accountRoutingSet_a.contains(routingAccount_b));
+        
+        routingAssetNumber_b = new RoutingAssetNumber("??");
+        assertFalse(assetNumberRoutineSet_a.contains(routingAssetNumber_b));
+                      
+        routingAssetTagNumber_b = new RoutingAssetTagNumber("??");
+        assertFalse(assetTagNumberRoutineSet_a.contains(routingAssetTagNumber_b));        
     }
 }

@@ -887,7 +887,6 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="universityFederalEmployerIdentificationNumber" column="UNIV_FEIN_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="salesTaxFinancialObjectCode" column="SALESTAX_FINOBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="discountObjectCode" column="REFUND_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingChartOfAccountsCode" column="UNIV_CLR_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingAccountNumber" column="UNIV_CLR_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -919,11 +918,13 @@
 		<foreignkey field-ref="adjustmentObjectCode" />
 	</reference-descriptor>
 	-->
+	<!--
 	<reference-descriptor name="salesTaxFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="salesTaxFinancialObjectCode" />
 	</reference-descriptor>
+	-->
 	<reference-descriptor name="creditCardFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />

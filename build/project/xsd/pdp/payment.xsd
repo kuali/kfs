@@ -22,24 +22,13 @@
     <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
         
     <!-- simple data types -->
-    <xsd:simpleType name="idTypeType">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="E"/>
-            <xsd:enumeration value="V"/>
-            <xsd:enumeration value="F"/>
-            <xsd:enumeration value="S"/>
-            <xsd:enumeration value="P"/>
-            <xsd:enumeration value="X"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
     <xsd:simpleType name="versionType">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="1.0"/>
         </xsd:restriction>
     </xsd:simpleType>
-    <!-- definition of simple type elements -->
     
+    <!-- definition of simple type elements -->
     <xsd:element name="chart" type="kfs:twoCharType"/>
     <xsd:element name="organization" type="kfs:oneToFourCharType"/>
     <xsd:element name="sub_unit" type="kfs:oneToFourAlphaType"/>
@@ -90,9 +79,6 @@
     <xsd:element name="fdoc_typ_cd" type="kfs:zeroToFourCharType"/> 
     
     <!-- definition of attributes -->
-    
-    <xsd:attribute name="id_type" type="idTypeType"/>
-    <xsd:attribute name="version" type="xsd:string"/>
     
     <!-- definition of complex type elements -->
     <xsd:element name="pdp_file">
@@ -222,7 +208,7 @@
         <xsd:complexType>
             <xsd:simpleContent>
                 <xsd:extension base="kfs:oneToTwentyFiveCharType">
-                    <xsd:attribute name="id_type" type="idTypeType" use="required"/>
+                    <xsd:attribute name="id_type" type="kfs:oneAlphaType" use="required"/>
                 </xsd:extension>
             </xsd:simpleContent>
         </xsd:complexType>

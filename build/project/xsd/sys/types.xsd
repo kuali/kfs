@@ -51,6 +51,12 @@
         </xsd:restriction>
     </xsd:simpleType>
     
+    <xsd:simpleType name="oneAlphaType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
     <xsd:simpleType name="twoAlphaType">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="[A-Z][A-Z]"/>

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -23,14 +22,20 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.document.workflow.FinancialSystemPropertySerializabilityEvaluator;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.datadictionary.WorkflowProperties;
+import org.kuali.rice.kns.datadictionary.WorkflowProperty;
+import org.kuali.rice.kns.datadictionary.WorkflowPropertyGroup;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.documentserializer.AlwaysTruePropertySerializibilityEvaluator;
+import org.kuali.rice.kns.util.documentserializer.PropertySerializabilityEvaluator;
 
 /**
  * This class is used by the system to use financial specific objects and data for maintenance documents
@@ -162,7 +167,6 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
 
     public void populateRoutingInfo() {
-        LOG.error("FSMD.populateRoutingInfo()");
         Maintainable maintainable = getNewMaintainableObject();
         if (maintainable instanceof GenericRoutingInfo) {
           ((GenericRoutingInfo)maintainable).populateRoutingInfo();
@@ -173,5 +177,29 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
 
     public void setRoutingInfo(Set<RoutingData> routingInfo) {
         this.routingInfo = routingInfo;
+    }
+    
+    @Override
+    protected PropertySerializabilityEvaluator createPropertySerializabilityEvaluator(WorkflowProperties workflowProperties) {
+        if (workflowProperties == null) {
+            if (getNewMaintainableObject() instanceof GenericRoutingInfo) {
+                FinancialSystemPropertySerializabilityEvaluator evaluator = new FinancialSystemPropertySerializabilityEvaluator();
+                evaluator.addPropertyPath("routingInfo.routingTypes");
+                evaluator.addPropertyPath("routingInfo.routingSet");
+                evaluator.initializeEvaluator(this);
+                return evaluator;
+            }
+            return new AlwaysTruePropertySerializibilityEvaluator();
+        }
+        else {
+            
+            FinancialSystemPropertySerializabilityEvaluator evaluator = new FinancialSystemPropertySerializabilityEvaluator();
+            if (getNewMaintainableObject() instanceof GenericRoutingInfo) {
+                evaluator.addPropertyPath("routingInfo.routingTypes");
+                evaluator.addPropertyPath("routingInfo.routingSet");
+            }
+            evaluator.initializeEvaluator(this);
+            return evaluator;
+        } 
     }
 }

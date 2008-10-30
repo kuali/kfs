@@ -60,16 +60,16 @@ public class ReportServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
 
         // Empty out the pending entry table & doc header table
-        unitTestSqlDao.sqlCommand("delete from krns_doc_hdr_t where fdoc_nbr in ('1','2','3','4','5','6')");
+        unitTestSqlDao.sqlCommand("delete from krns_doc_hdr_t where doc_hdr_id in ('1','2','3','4','5','6')");
         unitTestSqlDao.sqlCommand("delete from fs_doc_header_t where fdoc_nbr in ('1','2','3','4','5','6')");
         unitTestSqlDao.sqlCommand("delete from gl_pending_entry_t");
 
         // Add a few documents
-        unitTestSqlDao.sqlCommand("insert into krns_doc_hdr_t (fdoc_nbr,obj_id,ver_nbr,fdoc_desc,org_doc_nbr,fdoc_tmpl_nbr) values ('1','" + UUID.randomUUID().toString() + "',1,'a','OA',null)");
+        unitTestSqlDao.sqlCommand("insert into krns_doc_hdr_t (doc_hdr_id,obj_id,ver_nbr,fdoc_desc,org_doc_hdr_id,TMPL_DOC_HDR_ID) values ('1','" + UUID.randomUUID().toString() + "',1,'a','OA',null)");
         unitTestSqlDao.sqlCommand("insert into fs_doc_header_t (fdoc_nbr,fdoc_status_cd,fdoc_total_amt,fdoc_in_err_nbr) values ('1','A',100,null)");
-        unitTestSqlDao.sqlCommand("insert into krns_doc_hdr_t (fdoc_nbr,obj_id,ver_nbr,fdoc_desc,org_doc_nbr,fdoc_tmpl_nbr) values ('2','" + UUID.randomUUID().toString() + "',1,'b','OB',null)");
+        unitTestSqlDao.sqlCommand("insert into krns_doc_hdr_t (doc_hdr_id,obj_id,ver_nbr,fdoc_desc,org_doc_hdr_id,TMPL_DOC_HDR_ID) values ('2','" + UUID.randomUUID().toString() + "',1,'b','OB',null)");
         unitTestSqlDao.sqlCommand("insert into fs_doc_header_t (fdoc_nbr,fdoc_status_cd,fdoc_total_amt,fdoc_in_err_nbr) values ('2','A',100,null)");
-        unitTestSqlDao.sqlCommand("insert into krns_doc_hdr_t (fdoc_nbr,obj_id,ver_nbr,fdoc_desc,org_doc_nbr,fdoc_tmpl_nbr) values ('3','" + UUID.randomUUID().toString() + "',1,'c','OC',null)");
+        unitTestSqlDao.sqlCommand("insert into krns_doc_hdr_t (doc_hdr_id,obj_id,ver_nbr,fdoc_desc,org_doc_hdr_id,TMPL_DOC_HDR_ID) values ('3','" + UUID.randomUUID().toString() + "',1,'c','OC',null)");
         unitTestSqlDao.sqlCommand("insert into fs_doc_header_t (fdoc_nbr,fdoc_status_cd,fdoc_total_amt,fdoc_in_err_nbr) values ('3','A',100,null)");
 
         unitTestSqlDao.sqlCommand("insert into gl_pending_entry_t (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','1',1,'" + UUID.randomUUID().toString() + "',1,'BA','123456'," + "null,'4161',null,'AC','EX',2004,'01','Description',100,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',11,null,null,null,null,null,null,' ','A','4166',null,null)");

@@ -55,8 +55,8 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND head.fin_coa_cd = hier2.fin_coa_cd \n");
         sqlText.append("  AND head.account_nbr = hier2.account_nbr \n");
         sqlText.append("  AND head.org_level_cd = hier2.org_level_cd \n");
-        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr \n");
-        sqlText.append("  AND fphd.fdoc_nbr = fshd.fdoc_nbr \n");
+        sqlText.append("  AND fphd.doc_hdr_id = head.fdoc_nbr \n");
+        sqlText.append("  AND fphd.doc_hdr_id = fshd.fdoc_nbr \n");
         sqlText.append("UNION \n");
         sqlText.append("SELECT pull.person_unvl_id, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, head.sub_acct_nbr, head.fdoc_nbr, \n");
         sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd, fshd.temp_doc_fnl_dt \n");
@@ -75,8 +75,8 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND head.fin_coa_cd = hier2.fin_coa_cd \n");
         sqlText.append("  AND head.account_nbr = hier2.account_nbr \n");
         sqlText.append("  AND head.org_level_cd = 0 \n");
-        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr\n");
-        sqlText.append("  AND fphd.fdoc_nbr = fshd.fdoc_nbr \n");
+        sqlText.append("  AND fphd.doc_hdr_id = head.fdoc_nbr\n");
+        sqlText.append("  AND fphd.doc_hdr_id = fshd.fdoc_nbr \n");
         buildAccountSelectPullListTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
@@ -115,8 +115,8 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append(" AND head.fin_coa_cd = ph.fin_coa_cd \n");
         sqlText.append(" AND head.account_nbr = ph.account_nbr \n");
         sqlText.append(" AND head.org_level_cd > ph.org_level_cd \n");
-        sqlText.append(" AND fphd.fdoc_nbr = head.fdoc_nbr \n");
-        sqlText.append(" AND fphd.fdoc_nbr = fshd.fdoc_nbr \n");
+        sqlText.append(" AND fphd.doc_hdr_id = head.fdoc_nbr \n");
+        sqlText.append(" AND fphd.doc_hdr_id = fshd.fdoc_nbr \n");
         sqlText.append(" AND ah.univ_fiscal_yr = head.univ_fiscal_yr \n");
         sqlText.append(" AND ah.fin_coa_cd = head.fin_coa_cd \n");
         sqlText.append(" AND ah.account_nbr = head.account_nbr \n");

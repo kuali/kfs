@@ -125,6 +125,7 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_USER_GROUP_FOR_NON_MOVEABLE_ASSET = "error.invalid.user.group.for.nonmoveable.asset";
         public static final String ERROR_BLANK_CAPITAL_ASSET_NUMBER = "error.blank.capital.asset.number";
         public static final String ERROR_ASSET_RETIREMENT_GLOBAL_NO_ASSET = "error.asset.retirement.global.no.asset";
+        public static final String ERROR_DISALLOWED_MERGE_RETIREMENT_REASON_CODE = "error.disallowed.merge.retirement.reason.code";
         public static final String ERROR_DISALLOWED_RETIREMENT_REASON_CODE = "error.disallowed.retirement.reason.code";
         
         public static final String ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE = "error.disallowed.merge.separate.reason.code";

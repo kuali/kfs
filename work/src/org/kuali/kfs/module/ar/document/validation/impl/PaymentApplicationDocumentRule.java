@@ -61,7 +61,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         
         // Check for full amount not being applied only when there's a related cash control document
         if (!containsCashControlDocument(doc)) {
-            return true;
+            return false;
         }
         
         KualiDecimal totalToBeApplied;

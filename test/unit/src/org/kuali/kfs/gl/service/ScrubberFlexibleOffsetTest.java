@@ -179,8 +179,8 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     private void updateDocTypeForScrubberOffsetGeneration() {
 //        unitTestSqlDao.sqlCommand("update fp_doc_type_t set TRN_SCRBBR_OFST_GEN_IND = 'Y' where fdoc_typ_cd = 'DI'");
         String docTypeCode = "DI";
-        unitTestSqlDao.sqlCommand("delete from fp_doc_type_attr_t where fdoc_typ_cd = '" + docTypeCode + "' and DOC_TYP_ATTR_CD = '" + KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY + "'");
-        unitTestSqlDao.sqlCommand("insert into fp_doc_type_attr_t (DOC_TYP_ATTR_VAL,DOC_TYP_ATTR_CD,ID,OBJ_ID,VER_NBR,ACTIVE_IND,FDOC_TYP_CD) values ('" + KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE + "','" + KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY + "',1,'" + new Guid().toString() + "',1,'Y','" + docTypeCode + "')");
+        unitTestSqlDao.sqlCommand("delete from krns_doc_typ_attr_t where doc_typ_cd = '" + docTypeCode + "' and CD = '" + KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY + "'");
+        unitTestSqlDao.sqlCommand("insert into krns_doc_typ_attr_t (VAL,CD,DOC_TYP_ATTR_ID,OBJ_ID,VER_NBR,ACTV_IND,DOC_TYP_CD) values ('" + KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE + "','" + KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY + "',1,'" + new Guid().toString() + "',1,'Y','" + docTypeCode + "')");
     }
 
     /**

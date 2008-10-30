@@ -284,8 +284,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
         invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
-        KualiDecimal taxPercentage = new KualiDecimal(6.85);
-        invoiceMap.put("taxPercentage", "*** "+taxPercentage.toString()+"%");
+        invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
         invoiceMap.put("invoiceAmountDue", invoice.getSourceTotal().toString());
 
         OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);

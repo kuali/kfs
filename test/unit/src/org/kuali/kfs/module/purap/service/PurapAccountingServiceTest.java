@@ -17,36 +17,60 @@ package org.kuali.kfs.module.purap.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.fixture.PurapAccountingServiceFixture;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
 public class PurapAccountingServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceTest.class);
 
+    private PurapAccountingService purapAccountingService;
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        // Stub method; add initiations of services in here.
+        if(purapAccountingService == null) {
+            purapAccountingService = SpringContext.getBean(PurapAccountingService.class);
+        }
     }
     
     @Override
     protected void tearDown() throws Exception {
-        // Stub method; null out services here.
+        purapAccountingService = null;
         super.tearDown();
     }
-    
+        
     /*
      * Tests of generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale, Class clazz)
      */
+    
+    private void comparePercentages(List<PurApAccountingLine> distributedAccounts, List<BigDecimal> correctPercents) {
+        for(int i = 0; i < distributedAccounts.size(); i++) {
+            PurApAccountingLine line = distributedAccounts.get(i);
+            BigDecimal percent = line.getAccountLinePercent();
+            assertTrue(percent.equals(correctPercents.get(i)));
+        }
+    }
+    
+    public void testGenerateAccountDistributionForProration_OneAcctGood() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_ONE_ACCOUNT;
+        List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProration(
+                                                                                fixture.getAccountingLineList(),
+                                                                                fixture.getTotalAmount(),
+                                                                                fixture.getPercentScale(),
+                                                                                fixture.getAccountClass());
+        List<BigDecimal> correctPercents = new ArrayList<BigDecimal>();
+        correctPercents.add(0,new BigDecimal("100"));
+        assertEquals(distributedAccounts.size(),correctPercents.size());
+        comparePercentages(distributedAccounts, correctPercents);
+    }
     
     /*
      * Tests of generateAccountDistributionForProrationWithZeroTotal(PurchasingAccountsPayableDocument purapdoc)

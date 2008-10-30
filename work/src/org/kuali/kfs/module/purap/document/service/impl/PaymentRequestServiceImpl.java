@@ -76,14 +76,15 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1379,49 +1380,59 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
     
     public void processPaymentRequestInReceivingStatus() {
-        /**
-         * FIXME:Have to remove the comment once we get the correct status  - vpc
-         */
-//        List<PaymentRequestDocument> docs = paymentRequestDao.getPaymentRequestInReceivingStatus();
-//        if (docs != null) {
-//            for (PaymentRequestDocument paymentRequestDocument : docs) {
-//                processPaymentRequestInReceivingStatus(paymentRequestDocument);
-//            }
-//        }
+        List<PaymentRequestDocument> docs = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        if (docs != null) {
+            for (PaymentRequestDocument preqDoc : docs) {
+                
+                boolean changeStatus = determineReceivingRequirements(preqDoc);
+                
+                if (changeStatus){
+                    try{
+                        KNSServiceLocator.getDocumentService().routeDocument(preqDoc, "Routed by Receiving Required PREQ job", null);
+                    }
+                    catch (WorkflowException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
     
-    public void processPaymentRequestInReceivingStatus(PaymentRequestDocument preqDoc) {
+    /**
+     * Returns true, if it's needed to route the doc to the receiving required route level 
+     */
+    public boolean determineReceivingRequirements(Integer preqDocId) {
+        PaymentRequestDocument preqDoc = getPaymentRequestById(preqDocId);
+        if (preqDoc.isReceivingDocumentRequiredIndicator()){
+            return !determineReceivingRequirements(preqDoc);
+        }else{
+            return false;
+        }
+    }
+    
+    private boolean determineReceivingRequirements(PaymentRequestDocument preqDoc) {
         
         boolean changeStatus = false;
         PurchaseOrderDocument poDoc = preqDoc.getPurchaseOrderDocument();
-        
+
         List<PaymentRequestItem> preqItems = preqDoc.getItems();
         for (PaymentRequestItem preqItem : preqItems) {
-            if(!StringUtils.equalsIgnoreCase(preqItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
-                    PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
-                    KualiDecimal preqItemQuantity = preqItem.getItemQuantity() == null ? KualiDecimal.ZERO : preqItem.getItemQuantity(); 
-                    KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemReceivedTotalQuantity();                                
-                    KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemInvoicedTotalQuantity();
-                    
-                    if (preqItemQuantity.isLessEqual((poItemReceivedQty.subtract(
-                                                           poItemInvoicedQty.subtract(
-                                                                   preqItemQuantity))))){
-                        
-                        changeStatus = true;
-                    }else{
-                        changeStatus = false;
-                        break;
-                    }
+            if(StringUtils.equalsIgnoreCase(preqItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)){
+                PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
+                KualiDecimal preqItemQuantity = preqItem.getItemQuantity() == null ? KualiDecimal.ZERO : preqItem.getItemQuantity();
+                KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemReceivedTotalQuantity();                                
+                KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemInvoicedTotalQuantity();
+        
+                if(KualiDecimal.ZERO.isLessEqual((poItemReceivedQty.subtract(poItemInvoicedQty)).subtract(preqItemQuantity))){
+                    changeStatus = true;
+                }else{
+                    changeStatus = false;
+                    break;
+                }
             }
         }
-        
-        if (changeStatus){
-            /**
-             * FIXME: Have to change this status - vpc
-             */
-            purapService.updateStatus(preqDoc, PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
-            saveDocumentWithoutValidation(preqDoc);
-        }
+       
+        return changeStatus;
     }
     
     /**

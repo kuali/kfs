@@ -6,7 +6,7 @@
     <property name="dataSource" ref="dataSource" />
 	<property name="transactionManager" ref="jotm" />
 	<property name="userTransaction" ref="jotm" />
-    <property name="messageEntity" value="KFS" />
+    <property name="serviceNamespace" value="KFS" />
     <property name="environment">
       <value>${build.environment}</value>
     </property>

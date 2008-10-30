@@ -363,5 +363,12 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      */
     public boolean isAwaitingReceiving(Integer paymentRequestIdentifier);
     
+    /**
+     * Determines if the payment request should be routed to the receiving required route level.
+     *   
+     * @param preqDocId
+     * @return true if PREQ should be routed to the receiving required level
+     */
+    public boolean determineReceivingRequirements(Integer preqDocId);
 }
 

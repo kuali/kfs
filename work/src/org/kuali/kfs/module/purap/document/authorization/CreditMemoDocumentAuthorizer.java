@@ -93,10 +93,11 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         }
 
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+
         if (user.isMember(apGroup) && 
                 (creditMemoDocument.getExtractedDate() == null) && 
                 (! workflowDocument.isAdHocRequested()) &&
-                (! creditMemoDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled())) {
+                (! PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(creditMemoDocument.getStatusCode()))) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
         }
 

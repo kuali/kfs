@@ -911,20 +911,6 @@
 	<field-descriptor name="wireSubObjectCode" column="WIRE_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashControlWorkgroup" column="CSH_CTRL_WRKGRP_NM" jdbc-type="VARCHAR"/>
 
-	<!--
-	<reference-descriptor name="adjustmentFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="processingChartOfAccountCode" />
-		<foreignkey field-ref="adjustmentObjectCode" />
-	</reference-descriptor>
-	-->
-	<!--
-	<reference-descriptor name="salesTaxFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="processingChartOfAccountCode" />
-		<foreignkey field-ref="salesTaxFinancialObjectCode" />
-	</reference-descriptor>
-	-->
 	<reference-descriptor name="creditCardFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
@@ -964,12 +950,6 @@
 	<reference-descriptor name="processingChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="processingChartOfAccountCode" />
 	</reference-descriptor>
-	<!--
-	<reference-descriptor name="salesTaxAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="processingChartOfAccountCode" />
-		<foreignkey field-ref="salesTaxAccountNumber" />
-	</reference-descriptor>
-	-->
 	<reference-descriptor name="universityClearingAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityClearingChartOfAccountsCode" />
 		<foreignkey field-ref="universityClearingAccountNumber" />

@@ -25,16 +25,14 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -95,7 +93,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
                     setupFYIs(dvDoc, priorApprovers, finSysUser.getPrincipalName());
                 } catch(WorkflowException we) {
                     LOG.error("Exception while attempting to retrieve all prior approvers from workflow: "+we);
-                } catch(UserNotFoundException unfe) {
+                } catch(Exception unfe) {
                     LOG.error("Exception while attempting to retrieve all prior approvers for a disbursement voucher: "+unfe);
                 }
             }

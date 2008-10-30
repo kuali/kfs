@@ -1,7 +1,7 @@
 package org.kuali.kfs.module.ar.document;
 
-import java.sql.Timestamp;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,7 +50,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -1127,9 +1126,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 } 
                 catch (WorkflowException e){
                     throw new RuntimeException("Cannot find Invoice Recurrence Maintenance Document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
-                }
-                catch (UserNotFoundException e) {
-//                    throw new RuntimeException(e);
                 }
             }
         }

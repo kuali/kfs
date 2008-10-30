@@ -23,11 +23,9 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -147,11 +145,10 @@ public interface PurapService {
      * @param logicToRun
      * @param objects
      * @return
-     * @throws UserNotFoundException
      * @throws WorkflowException
      * @throws Exception
      */
-    public Object performLogicWithFakedUserSession(String requiredPersonPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
+    public Object performLogicWithFakedUserSession(String requiredPersonPersonUserId, LogicContainer logicToRun, Object... objects) throws WorkflowException, Exception;
 
     /**
      * Sort the below the line elements of the given document

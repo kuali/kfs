@@ -35,7 +35,6 @@ import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -74,9 +73,6 @@ public class LockboxServiceImpl implements LockboxService {
             }
             catch (WorkflowException wfex) {
                 LOG.warn(String.format("\nworkflow exception on fetching session %s", wfex.getMessage()));
-            }
-            catch (UserNotFoundException nfex) {
-                LOG.warn(String.format("\nuser not found on fetching session %s", nfex.getMessage()));
             }
 
             if (lockbox.compareTo(ctrlLockbox) != 0) {

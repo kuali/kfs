@@ -33,8 +33,6 @@ import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
@@ -469,7 +467,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     private String getContractManagerEmail(ContractManager cm) {
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
         if (contractManager == null) {
-            LOG.error("getContractManagerEmail(): caught UserNotFoundException, returning null.");
+            LOG.error("getContractManagerEmail(): returning null.");
             //FIXME (hjs) fix me when KIM is back (this isn't workign right now)
             return "test@email.com";
         } else {

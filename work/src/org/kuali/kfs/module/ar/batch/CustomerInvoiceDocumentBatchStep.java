@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -68,8 +67,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             GlobalVariables.setUserSession(new UserSession("khuntley"));
         }
         catch (WorkflowException wfex) {
-        }
-        catch (UserNotFoundException nfex) {
         } 
         
         Date billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();

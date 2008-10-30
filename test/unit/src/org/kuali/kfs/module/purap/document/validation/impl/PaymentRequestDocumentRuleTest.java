@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMessage;
@@ -214,7 +213,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
                 return false;
             }
 
-            public Set<Person> getAllPriorApprovers() throws WorkflowException, UserNotFoundException {
+            public Set<Person> getAllPriorApprovers() throws WorkflowException {
                 return null;
             }
         };
@@ -296,7 +295,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
                 return false;
             }
             
-            public Set<Person> getAllPriorApprovers() throws WorkflowException, UserNotFoundException {
+            public Set<Person> getAllPriorApprovers() throws WorkflowException {
                 return null;
             }
         };

@@ -29,10 +29,9 @@ import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
@@ -118,7 +117,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      * Sets the employee ID retrieved from the universal user service
      * 
      * @param emplid The emplid to set.
-     * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
     public void setEmplid(String id) {
         getSalaryExpenseTransferDocument().setEmplid(id);
@@ -132,9 +130,8 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      * Returns the employee ID from the Person table.
      * 
      * @return Returns the personPayrollIdentifier
-     * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
-    public String getEmplid() throws UserNotFoundException {
+    public String getEmplid() {
         if (user == null) {
             setUser((Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, getSalaryExpenseTransferDocument().getEmplid()).get(0));
         }

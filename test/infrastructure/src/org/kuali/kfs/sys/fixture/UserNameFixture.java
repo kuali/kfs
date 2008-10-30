@@ -17,8 +17,6 @@ package org.kuali.kfs.sys.fixture;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kim.service.PersonService;
 
 public enum UserNameFixture {
 
@@ -33,7 +31,7 @@ public enum UserNameFixture {
         // Assert.assertEquals(KualiUser.SYSTEM_USER, kuluser.toString());
     }
 
-    public Person getPerson() throws UserNotFoundException {
+    public Person getPerson() {
         return SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(toString());
     }
 }

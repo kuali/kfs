@@ -30,7 +30,6 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -52,9 +51,6 @@ public class PurapMassRequisitionStep extends AbstractStep {
             catch (WorkflowException e) {
                 e.printStackTrace();
             }
-            catch (UserNotFoundException e) {
-                e.printStackTrace();
-            }
             Thread.sleep(5000);
         }
 
@@ -67,9 +63,6 @@ public class PurapMassRequisitionStep extends AbstractStep {
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
             }
             catch (WorkflowException e) {
-                e.printStackTrace();
-            }
-            catch (UserNotFoundException e) {
                 e.printStackTrace();
             }
             Thread.sleep(5000);

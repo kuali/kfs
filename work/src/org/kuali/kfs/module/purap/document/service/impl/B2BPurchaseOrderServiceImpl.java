@@ -35,9 +35,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
@@ -433,7 +431,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     private String getContractManagerEmail(ContractManager cm) {
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
         if (contractManager == null) {
-            LOG.error("getContractManagerEmail(): caught UserNotFoundException, returning null.");
+            LOG.error("getContractManagerEmail(): returning null.");
             return null;
         } else {
             return contractManager.getEmailAddress();

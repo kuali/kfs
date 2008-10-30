@@ -86,7 +86,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
             if (person != null) {
                 assetTransferDocument.setAssetRepresentative(person);
             } else {
-                LOG.error("org.kuali.rice.kim.service.PersonService returned with UserNotFoundException for uuid " + assetTransferDocument.getRepresentativeUniversalIdentifier());
+                LOG.error("org.kuali.rice.kim.service.PersonService returned null for uuid " + assetTransferDocument.getRepresentativeUniversalIdentifier());
             }
         }
     }

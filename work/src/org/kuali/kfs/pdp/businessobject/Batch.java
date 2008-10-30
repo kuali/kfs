@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -183,7 +182,7 @@ public class Batch extends TimestampedBusinessObjectBase {
     }
 
 
-    public void updateUser(org.kuali.rice.kim.service.PersonService userService) throws UserNotFoundException {
+    public void updateUser(org.kuali.rice.kim.service.PersonService userService) {
         Person u = userService.getPerson(submiterUserId);
         if (u == null) {
             setSubmiterUser(null);

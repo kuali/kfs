@@ -94,7 +94,6 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.DocumentBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -307,11 +306,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.error(errorMsg, e);
             throw new RuntimeException(errorMsg, e);
         }
-        catch (UserNotFoundException e) {
-            String errorMsg = "User not found for PersonUserIdentifier '" + newSessionUserId + "'";
-            LOG.error(errorMsg, e);
-            throw new RuntimeException(errorMsg, e);
-        }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -337,11 +331,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         catch (WorkflowException e) {
             String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
-            LOG.error(errorMsg, e);
-            throw new RuntimeException(errorMsg, e);
-        }
-        catch (UserNotFoundException e) {
-            String errorMsg = "User not found for PersonUserIdentifier '" + newSessionUserId + "'";
             LOG.error(errorMsg, e);
             throw new RuntimeException(errorMsg, e);
         }

@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -488,7 +487,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
         this.paymentGroupId = paymentGroupId;
     }
 
-    public void updateUser(org.kuali.rice.kim.service.PersonService userService) throws UserNotFoundException {
+    public void updateUser(org.kuali.rice.kim.service.PersonService userService) {
         Person u = userService.getPerson(changeUserId);
         setChangeUser(u);
     }

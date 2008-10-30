@@ -26,7 +26,6 @@ import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.impl.KimPrincipalImpl;
 import org.kuali.rice.kim.service.AuthenticationService;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
@@ -49,7 +48,7 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                     criteria.put("principalName", username);
                     Collection principals = KNSServiceLocator.getBusinessObjectService().findMatching(KimPrincipalImpl.class, criteria);
                     if (principals.isEmpty() || principals.size() > 1) {
-                        throw new UserNotFoundException("User " + username + " was not found in the KIM Principal table.");
+                        throw new Exception("User " + username + " was not found in the KIM Principal table.");
                     } else {
                         principal = (KimPrincipal) principals.iterator().next();
                     }
@@ -77,7 +76,7 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                 LOG.error("Error validating password", ex);
                 return false; // fail if the hash function fails
             }
-            catch (UserNotFoundException ex) {
+            catch (Exception ex) {
                 LOG.info("User " + username + " was not found in the Person table.");
                 return false; // fail if user does not exist
             }

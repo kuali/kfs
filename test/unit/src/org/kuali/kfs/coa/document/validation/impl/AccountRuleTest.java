@@ -411,9 +411,6 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        try {
 //            user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(userId);
 //        }
-//        catch (UserNotFoundException e) {
-//            assertTrue("An Exception should not be thrown.", false);
-//        }
 //        return user;
 //    }
 //

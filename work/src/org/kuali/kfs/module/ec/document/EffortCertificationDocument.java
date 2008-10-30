@@ -39,11 +39,9 @@ import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -266,9 +264,6 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
                 GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
                 SpringContext.getBean(EffortCertificationDocumentService.class).generateSalaryExpenseTransferDocument(this);
             }
-        }
-        catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
         }
         catch (WorkflowException e) {
             throw new RuntimeException(e);

@@ -26,7 +26,6 @@ import org.kuali.rice.kew.engine.node.SplitNode;
 import org.kuali.rice.kew.engine.node.SplitResult;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -45,7 +44,7 @@ public class DoEffortCertificationAwardRoutingSplitNode implements SplitNode {
         }
         return new SplitResult(branchNames);
     }
-    protected void establishGlobalVariables() throws WorkflowException, UserNotFoundException {
+    protected void establishGlobalVariables() throws WorkflowException {
         if (GlobalVariables.getUserSession() == null) {
             GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
         }

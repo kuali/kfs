@@ -26,7 +26,6 @@ import org.kuali.kfs.sys.fixture.SubAccountFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
@@ -193,7 +192,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     /**
      * This method simulates a user that has permission to deal with CG accounts
      */
-    public void testIsCgAuthorized_goodUser() throws UserNotFoundException {
+    public void testIsCgAuthorized_goodUser() {
         SubAccountRule rule = new SubAccountRule();
         Person user = GOOD_CG_USERID.getPerson();
         // setup rule, document, and bo
@@ -209,7 +208,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     /**
      * This method simulates a user that does not have permission to deal with CG accounts
      */
-    public void testIsCgAuthorized_badUser() throws UserNotFoundException {
+    public void testIsCgAuthorized_badUser() {
         SubAccountRule rule = new SubAccountRule();
         Person user = BAD_CG_USERID.getPerson();
         // setup rule, document, and bo

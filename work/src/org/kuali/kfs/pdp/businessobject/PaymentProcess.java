@@ -22,14 +22,9 @@ package org.kuali.kfs.pdp.businessobject;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -49,7 +44,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
         this.setExtractedInd(false);
     }
 
-    public void updateUser(org.kuali.rice.kim.service.PersonService userService) throws UserNotFoundException {
+    public void updateUser(org.kuali.rice.kim.service.PersonService userService) {
         Person u = userService.getPerson(processUserId);
         setProcessUser(u);
     }

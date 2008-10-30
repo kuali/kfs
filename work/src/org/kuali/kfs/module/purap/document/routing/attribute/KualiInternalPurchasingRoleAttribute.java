@@ -39,9 +39,7 @@ import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RuleExtension;
 import org.kuali.rice.kew.rule.UnqualifiedRoleAttribute;
 import org.kuali.rice.kew.workgroup.GroupNameId;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 

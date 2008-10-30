@@ -123,14 +123,14 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("org/kuali/kfs/module/cab/sql/cleanup.sql", connection);
         // reqs
         executeSqls("org/kuali/kfs/module/cab/sql/reqs/en_doc_hdr_t.sql", connection);
-        executeSqls("org/kuali/kfs/module/cab/sql/reqs/fp_doc_header_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/reqs/krns_doc_hdr_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/reqs/fs_doc_header_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/reqs/pur_reqs_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/reqs/pur_reqs_itm_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/reqs/pur_reqs_acct_t.sql", connection);
         // po
         executeSqls("org/kuali/kfs/module/cab/sql/po/en_doc_hdr_t.sql", connection);
-        executeSqls("org/kuali/kfs/module/cab/sql/po/fp_doc_header_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/po/krns_doc_hdr_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/po/fs_doc_header_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_itm_t.sql", connection);
@@ -141,7 +141,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("org/kuali/kfs/module/cab/sql/po/pur_po_cptl_ast_loc_t.sql", connection);
         // preq
         executeSqls("org/kuali/kfs/module/cab/sql/preq/en_doc_hdr_t.sql", connection);
-        executeSqls("org/kuali/kfs/module/cab/sql/preq/fp_doc_header_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/preq/krns_doc_hdr_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/preq/fs_doc_header_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/preq/ap_pmt_rqst_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/preq/ap_pmt_rqst_itm_t.sql", connection);
@@ -150,7 +150,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("org/kuali/kfs/module/cab/sql/preq/gl_entry_t.sql", connection);
         // cm
         executeSqls("org/kuali/kfs/module/cab/sql/cm/en_doc_hdr_t.sql", connection);
-        executeSqls("org/kuali/kfs/module/cab/sql/cm/fp_doc_header_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/cm/krns_doc_hdr_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/cm/fs_doc_header_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/cm/ap_crdt_memo_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/cm/ap_crdt_memo_itm_t.sql", connection);
@@ -159,7 +159,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("org/kuali/kfs/module/cab/sql/cm/gl_entry_t.sql", connection);
 
         executeSqls("org/kuali/kfs/module/cab/sql/ar/en_doc_hdr_t.sql", connection);
-        executeSqls("org/kuali/kfs/module/cab/sql/ar/fp_doc_header_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/ar/krns_doc_hdr_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/ar/gl_entry_t.sql", connection);
         connection.close();
     }

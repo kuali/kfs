@@ -1202,7 +1202,7 @@
 </class-descriptor>
 
 <!-- The following seven views contain commented-out field descriptors for derived columns based on fdoc_approved_dt and fdoc_typ_cd
-that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed for them.
+that no longer exist in the KRNS_DOC_HDR_T table.  A solution will be needed for them.
 -->
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.OpenInvoiceDetail" table="AR_OPEN_INV_DTL_V">

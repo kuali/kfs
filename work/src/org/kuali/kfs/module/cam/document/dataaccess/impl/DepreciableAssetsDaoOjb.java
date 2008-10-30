@@ -992,6 +992,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
  * 'AF', 'LA', 'BY' ) ) and
  * 
  * **** Excluding retired and transferd assets ************* P.cptlast_nbr + cptlast_origin_cd not in ( Select c.cptlast_nbr +
- * c.cptlast_origin_cd FROM fp_doc_header_t, H cm_cptlast_hdr_t T WHERE H.fs_origin_cd = C.fs_origin_cd and H.fdoc_nbr = C.fdoc_nbr
+ * c.cptlast_origin_cd FROM krns_doc_hdr_t, H cm_cptlast_hdr_t T WHERE H.fs_origin_cd = C.fs_origin_cd and H.fdoc_nbr = C.fdoc_nbr
  * and H.fdoc_typ_cd IN ('AR', 'AT') AND H.fdoc_status_cd NOT IN ('A', 'C') GROUP BY P.cptlast_nbr, P.cptlast_origin_cd )
  */

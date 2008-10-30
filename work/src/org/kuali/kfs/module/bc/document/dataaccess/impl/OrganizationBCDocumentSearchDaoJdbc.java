@@ -42,7 +42,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("SELECT pull.person_unvl_id, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, head.sub_acct_nbr,head.fdoc_nbr, \n");
         sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd, fshd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcn_pullup_t pull, ld_bcn_acct_org_hier_t hier,  ld_bcn_acct_org_hier_t hier2, \n");
-        sqlText.append("     ld_bcnstr_hdr_t head, fp_doc_header_t fphd, fs_doc_header_t fshd \n");
+        sqlText.append("     ld_bcnstr_hdr_t head, krns_doc_hdr_t fphd, fs_doc_header_t fshd \n");
         sqlText.append("WHERE pull.pull_flag > 0 \n");
         sqlText.append("  AND pull.person_unvl_id = ? \n");
         sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
@@ -61,7 +61,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("SELECT pull.person_unvl_id, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, head.sub_acct_nbr, head.fdoc_nbr, \n");
         sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd, fshd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcn_pullup_t pull, ld_bcn_acct_org_hier_t hier, ld_bcn_acct_org_hier_t hier2, \n");
-        sqlText.append("     ld_bcnstr_hdr_t head, fp_doc_header_t fphd, fs_doc_header_t fshd \n");
+        sqlText.append("     ld_bcnstr_hdr_t head, krns_doc_hdr_t fphd, fs_doc_header_t fshd \n");
         sqlText.append("WHERE pull.pull_flag > 0 \n");
         sqlText.append("  AND pull.person_unvl_id = ? \n");
         sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
@@ -96,7 +96,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append(" fshd.TEMP_DOC_FNL_DT \n");
         sqlText.append("FROM ld_bcn_pullup_t pull, \n");
         sqlText.append(" LD_BCNSTR_HDR_T head, \n");
-        sqlText.append(" fp_doc_header_t fphd, \n");
+        sqlText.append(" krns_doc_hdr_t fphd, \n");
         sqlText.append(" fs_doc_header_t fshd, \n");
         sqlText.append(" LD_BCN_ACCT_ORG_HIER_T sh, \n");
         sqlText.append(" LD_BCN_ACCT_ORG_HIER_T ph, \n");

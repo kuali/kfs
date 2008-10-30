@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -130,12 +129,15 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        String id = StringUtils.upperCase(initiatorID);
         Person user = null;
         try {
-            user = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(id);
+            user = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(initiatorID);
         } catch (Exception e) {
-            LOG.error( e );
+            LOG.error("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
+            throw new RuntimeException("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
+        }
+        if (user == null) {
+            throw new RuntimeException("User '" + initiatorID + "' could not be retrieved from PersonService.");
         }
 
         invoiceMap.put("invoicePreparer", user.getFirstName()+" "+user.getLastName() );
@@ -260,7 +262,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         if(invoice.getCustomerPurchaseOrderDate() != null) {
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
-        org.kuali.rice.kim.service.PersonService userService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         Person user = null;

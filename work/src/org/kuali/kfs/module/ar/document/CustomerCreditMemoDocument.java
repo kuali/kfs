@@ -631,7 +631,9 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         for( TaxDetail salesTaxDetail : salesTaxDetails ){
             
             salesTaxCustomerCreditMemoDetail = new SalesTaxCustomerCreditMemoDetail( salesTaxDetail, customerCreditMemoDetail );
+            salesTaxCustomerCreditMemoDetail.setCustomerInvoiceDetail(customerCreditMemoDetail.getCustomerInvoiceDetail());
             receivableCustomerCreditMemoDetail = new ReceivableCustomerCreditMemoDetail(salesTaxCustomerCreditMemoDetail, this);
+            receivableCustomerCreditMemoDetail.setCustomerInvoiceDetail(customerCreditMemoDetail.getCustomerInvoiceDetail());
             
             sequenceHelper.increment();
             service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerCreditMemoDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());

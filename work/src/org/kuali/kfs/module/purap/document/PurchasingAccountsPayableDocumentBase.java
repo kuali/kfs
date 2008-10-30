@@ -107,9 +107,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     // workaround for purapOjbCollectionHelper - remove when merged into rice
     public boolean allowDeleteAwareCollection = true;
     
-    // only populate accounts for routing once while in memory
-    private transient boolean populatedAccountsForRouting;
-    
 
     /**
      * Default constructor to be overridden.
@@ -214,7 +211,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public void populateDocumentForRouting() {
-        populateAccountsForRouting();
+        if (getAccountsForRouting() == null || getAccountsForRouting().size() == 0) {
+            populateAccountsForRouting();
+        }
         super.populateDocumentForRouting();
     }
 
@@ -225,7 +224,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public void populateRoutingInfo() {
         //use the accounts for routing to generate routing info
-        populateAccountsForRouting();
+        if (getAccountsForRouting() == null || getAccountsForRouting().size() == 0) {
+            populateAccountsForRouting();
+        }
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountsToReview = new HashSet<RoutingAccount>();
@@ -242,16 +243,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Makes sure that accounts for routing has been generated, so that other information can be retrieved from that
      */
     protected void populateAccountsForRouting() {
-        if (!populatedAccountsForRouting) {
-            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
-            setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-            // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
-            // objects) -hjs
-            refreshNonUpdateableReferences();
-            for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
-                sourceLine.refreshNonUpdateableReferences();
-            }
-            populatedAccountsForRouting = true;
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+        setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
+        // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
+        // objects) -hjs
+        refreshNonUpdateableReferences();
+        for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
+            sourceLine.refreshNonUpdateableReferences();
         }
     }
 

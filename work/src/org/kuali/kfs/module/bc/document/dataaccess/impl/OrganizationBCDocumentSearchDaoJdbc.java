@@ -42,7 +42,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("SELECT pull.person_unvl_id, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, head.sub_acct_nbr,head.fdoc_nbr, \n");
         sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd, fshd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcn_pullup_t pull, ld_bcn_acct_org_hier_t hier,  ld_bcn_acct_org_hier_t hier2, \n");
-        sqlText.append("     ld_bcnstr_hdr_t head, krns_doc_hdr_t fphd, fs_doc_header_t fshd \n");
+        sqlText.append("     ld_bcnstr_hdr_t head, fs_doc_header_t fshd \n");
         sqlText.append("WHERE pull.pull_flag > 0 \n");
         sqlText.append("  AND pull.person_unvl_id = ? \n");
         sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
@@ -55,13 +55,12 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND head.fin_coa_cd = hier2.fin_coa_cd \n");
         sqlText.append("  AND head.account_nbr = hier2.account_nbr \n");
         sqlText.append("  AND head.org_level_cd = hier2.org_level_cd \n");
-        sqlText.append("  AND fphd.doc_hdr_id = head.fdoc_nbr \n");
-        sqlText.append("  AND fphd.doc_hdr_id = fshd.fdoc_nbr \n");
+        sqlText.append("  AND fshd.fdoc_nbr = head.fdoc_nbr \n");
         sqlText.append("UNION \n");
         sqlText.append("SELECT pull.person_unvl_id, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, head.sub_acct_nbr, head.fdoc_nbr, \n");
         sqlText.append(" head.org_level_cd, hier2.org_fin_coa_cd, hier2.org_cd, fshd.fdoc_status_cd, fshd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcn_pullup_t pull, ld_bcn_acct_org_hier_t hier, ld_bcn_acct_org_hier_t hier2, \n");
-        sqlText.append("     ld_bcnstr_hdr_t head, krns_doc_hdr_t fphd, fs_doc_header_t fshd \n");
+        sqlText.append("     ld_bcnstr_hdr_t head, fs_doc_header_t fshd \n");
         sqlText.append("WHERE pull.pull_flag > 0 \n");
         sqlText.append("  AND pull.person_unvl_id = ? \n");
         sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
@@ -75,8 +74,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND head.fin_coa_cd = hier2.fin_coa_cd \n");
         sqlText.append("  AND head.account_nbr = hier2.account_nbr \n");
         sqlText.append("  AND head.org_level_cd = 0 \n");
-        sqlText.append("  AND fphd.doc_hdr_id = head.fdoc_nbr\n");
-        sqlText.append("  AND fphd.doc_hdr_id = fshd.fdoc_nbr \n");
+        sqlText.append("  AND fshd.fdoc_nbr = head.fdoc_nbr\n");
         buildAccountSelectPullListTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
@@ -96,7 +94,6 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append(" fshd.TEMP_DOC_FNL_DT \n");
         sqlText.append("FROM ld_bcn_pullup_t pull, \n");
         sqlText.append(" LD_BCNSTR_HDR_T head, \n");
-        sqlText.append(" krns_doc_hdr_t fphd, \n");
         sqlText.append(" fs_doc_header_t fshd, \n");
         sqlText.append(" LD_BCN_ACCT_ORG_HIER_T sh, \n");
         sqlText.append(" LD_BCN_ACCT_ORG_HIER_T ph, \n");
@@ -115,8 +112,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append(" AND head.fin_coa_cd = ph.fin_coa_cd \n");
         sqlText.append(" AND head.account_nbr = ph.account_nbr \n");
         sqlText.append(" AND head.org_level_cd > ph.org_level_cd \n");
-        sqlText.append(" AND fphd.doc_hdr_id = head.fdoc_nbr \n");
-        sqlText.append(" AND fphd.doc_hdr_id = fshd.fdoc_nbr \n");
+        sqlText.append(" AND fshd.fdoc_nbr = head.fdoc_nbr \n");
         sqlText.append(" AND ah.univ_fiscal_yr = head.univ_fiscal_yr \n");
         sqlText.append(" AND ah.fin_coa_cd = head.fin_coa_cd \n");
         sqlText.append(" AND ah.account_nbr = head.account_nbr \n");
@@ -136,19 +132,19 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    head.org_level_cd, \n");
         sqlText.append("    NULL, \n");
         sqlText.append("    NULL, \n");
-        sqlText.append("    fphd.fdoc_status_cd, \n");
+        sqlText.append("    fshd.fdoc_status_cd, \n");
         sqlText.append("    '', \n");
-        sqlText.append("    fphd.temp_doc_fnl_dt \n");
+        sqlText.append("    fshd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
         sqlText.append("    ca_acct_delegate_t adel, \n");
-        sqlText.append("    fs_doc_header_t fphd \n");
+        sqlText.append("    fs_doc_header_t fshd \n");
         sqlText.append("WHERE head.univ_fiscal_yr = ? \n");
         sqlText.append("  AND adel.acct_dlgt_unvl_id = ? \n");
         sqlText.append("  AND adel.acct_dlgt_actv_cd = 'Y' \n");
         sqlText.append("  AND adel.fdoc_typ_cd in (?, ?)  \n");
         sqlText.append("  AND head.fin_coa_cd = adel.fin_coa_cd \n");
         sqlText.append("  AND head.account_nbr = adel.account_nbr \n");
-        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+        sqlText.append("  AND fshd.fdoc_nbr = head.fdoc_nbr \n");
         sqlText.append("UNION \n");
         sqlText.append("SELECT ?, \n");
         sqlText.append("    head.univ_fiscal_yr, \n");
@@ -160,17 +156,17 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    head.org_level_cd, \n");
         sqlText.append("    NULL, \n");
         sqlText.append("    NULL, \n");
-        sqlText.append("    fphd.fdoc_status_cd, \n");
+        sqlText.append("    fshd.fdoc_status_cd, \n");
         sqlText.append("    '', \n");
-        sqlText.append("    fphd.temp_doc_fnl_dt \n");
+        sqlText.append("    fshd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
         sqlText.append("    ca_account_t acct, \n");
-        sqlText.append("    fs_doc_header_t fphd \n");
+        sqlText.append("    fs_doc_header_t fshd \n");
         sqlText.append("WHERE head.univ_fiscal_yr = ? \n");
         sqlText.append("  AND acct.acct_fsc_ofc_uid = ? \n");
         sqlText.append("  AND head.fin_coa_cd = acct.fin_coa_cd \n");
         sqlText.append("  AND head.account_nbr = acct.account_nbr \n");
-        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+        sqlText.append("  AND fshd.fdoc_nbr = head.fdoc_nbr \n");
 
         buildAccountManagerDelegateListTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());

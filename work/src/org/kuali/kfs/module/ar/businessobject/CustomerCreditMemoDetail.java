@@ -233,7 +233,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     public void recalculateBasedOnEnteredItemAmount(CustomerCreditMemoDocument customerCreditMemoDocument) {
         BigDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
         
-        creditMemoItemQuantity = creditMemoItemTotalAmount.bigDecimalValue().divide(invItemUnitPrice);
+        creditMemoItemQuantity = creditMemoItemTotalAmount.divide(new KualiDecimal(invItemUnitPrice), true).bigDecimalValue();
         
         if (customerCreditMemoDocument.getArTaxService().isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), getCustomerInvoiceDetail()))
             creditMemoItemTaxAmount = customerCreditMemoDocument.getTaxService().getTotalSalesTaxAmount(customerCreditMemoDocument.getInvoice().getBillingDate(), customerCreditMemoDocument.getPostalCode(), creditMemoItemTotalAmount);

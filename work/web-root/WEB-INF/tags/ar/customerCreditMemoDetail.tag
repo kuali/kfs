@@ -86,7 +86,7 @@
 	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.amount}"
-			property="${invPropertyName}.amount"
+			property="${invPropertyName}.invoiceItemPreTaxAmount"
 			readOnly="true" />
 			
 	<!--  Hidden Duplicate Item Amount -->

@@ -365,7 +365,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             if(ObjectUtils.isNull(customerInvoiceDetail.getInvoiceItemTaxAmount())){
                 customerInvoiceDetail.setInvoiceItemTaxAmount(KualiDecimal.ZERO);
             }
-            customerCreditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getAmount());
+            customerCreditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getInvoiceItemPreTaxAmount());
             customerCreditMemoDetail.setReferenceInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
             openInvoiceAmount = customerInvoiceDetailService.getOpenAmount( customerInvoiceDetail);
 
@@ -400,7 +400,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             if(ObjectUtils.isNull(customerInvoiceDetail.getInvoiceItemTaxAmount())){
                 customerInvoiceDetail.setInvoiceItemTaxAmount(KualiDecimal.ZERO);
             }
-            creditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getAmount());
+            creditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getInvoiceItemPreTaxAmount());
 
             creditMemoItemAmount = creditMemoDetail.getCreditMemoItemTotalAmount();
             creditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemAmount);
@@ -426,6 +426,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             invoiceOpenItemQuantity = KualiDecimal.ZERO;
         else {
             BigDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount().bigDecimalValue();
+            // subtract out the tax, otherwise the quantity calculations are off 
+            invoiceOpenItemAmount = invoiceOpenItemAmount.subtract(customerInvoiceDetail.getInvoiceItemTaxAmount().bigDecimalValue());
             invoiceOpenItemQuantity = new KualiDecimal(invoiceOpenItemAmount.divide(invoiceItemUnitPrice, 4));
         }
         return invoiceOpenItemQuantity;

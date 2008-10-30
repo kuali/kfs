@@ -26,12 +26,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -81,42 +83,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
-    @Override
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-        PaymentApplicationDocumentForm form = (PaymentApplicationDocumentForm) kualiDocumentFormBase;
-        PaymentApplicationDocument document = form.getPaymentApplicationDocument();
-
-        // create new accounts receivable header and set it to the payment application document
-        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-        accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
-        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
-    @Override
-    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.loadDocument(kualiDocumentFormBase);
-        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) kualiDocumentFormBase;
-        loadInvoices(pform);
-    }
-
-    private void addFieldError(String propertyName, String errorKey) {
-        GlobalVariables.getErrorMap().putError(propertyName, errorKey);
-    }
-    
-    private void addGlobalError(String errorKey) {
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, errorKey);
-    }
-    
-    /**
-     * This method applies detail amounts
+     * This method applies detail amounts.
      * 
      * @param mapping action mapping
      * @param form action form
@@ -126,7 +93,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @throws Exception
      */
     public ActionForward apply(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        
         PaymentApplicationDocumentForm applicationDocumentForm = (PaymentApplicationDocumentForm) form;
         PaymentApplicationDocument applicationDocument = applicationDocumentForm.getPaymentApplicationDocument();
         String applicationDocNbr = applicationDocument.getDocumentNumber();
@@ -134,30 +101,36 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         Integer universityFiscalYear = applicationDocument.getAccountingPeriod().getUniversityFiscalYear();
         String universityFiscalPeriodCode = applicationDocument.getAccountingPeriod().getUniversityFiscalPeriodCode();
 
-        // get the list of customer invoice details to apply full amounts
-        Object applyToInvoiceItems = request.getParameter("fullApply");
         List<String> invoiceItemNumbers = new ArrayList<String>();
 
-        if (applyToInvoiceItems != null) {
-            if (!applyToInvoiceItems.getClass().isArray()) {
-                invoiceItemNumbers.add((String) applyToInvoiceItems);
+        // get the list of customer invoice details to apply full amounts
+        Object fullApply = request.getParameter("fullApply");
+        if (fullApply != null) {
+            if (!fullApply.getClass().isArray()) {
+                invoiceItemNumbers.add((String) fullApply);
             } else {
-                invoiceItemNumbers.addAll(Arrays.asList((String[]) applyToInvoiceItems));
+                invoiceItemNumbers.addAll(Arrays.asList((String[]) fullApply));
             }
         }
 
-        Collection<CustomerInvoiceDetail> customerInvoiceDetails = applicationDocumentForm.getCustomerInvoiceDetails();
-            //new ArrayList<CustomerInvoiceDetail>(applicationDocumentForm.getCustomerInvoiceDetails());
+        // Set the amount to be applied to the amount of the detail for each detail if fullyApply is set for the detail.
+        List<CustomerInvoiceDetail> customerInvoiceDetails = applicationDocumentForm.getCustomerInvoiceDetails();
+        for(CustomerInvoiceDetail detail : customerInvoiceDetails) {
+            if(invoiceItemNumbers.contains(detail.getSequenceNumber().toString())) {
+                detail.setAmountToBeApplied(detail.getAmount());
+            }
+        }
+        
         PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
         
         // KULAR-414
-        boolean amountToBeAppliedIsValid =
-            PaymentApplicationDocumentRuleUtil.validateAmountToBeApplied(customerInvoiceDetails);
+        boolean appliedsAreValid =
+            PaymentApplicationDocumentRuleUtil.validateApplieds(customerInvoiceDetails, applicationDocument);
         
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
             paymentApplicationDocumentService.updateCustomerInvoiceDetailInfo(
                 applicationDocumentForm.getPaymentApplicationDocument(), customerInvoiceDetail);
-            Integer invoicePaidAppliedItemNbr = applicationDocument.getAppliedPayments().size() + 1;
+            Integer invoicePaidAppliedItemNbr = applicationDocument.getInvoicePaidApplieds().size() + 1;
             // if the customer invoice detail number is in the list of selected details to apply full amounts
             if (invoiceItemNumbers.indexOf(customerInvoiceDetail.getSequenceNumber().toString()) != -1) {
                 // apply full amount for the detail
@@ -169,8 +142,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 // detail then invoicePaidApplied will not be null
                 if (invoicePaidApplied != null) {
                     // add it to the payment application document list of applied payments
-                    if(amountToBeAppliedIsValid) {
-                        applicationDocument.getAppliedPayments().add(invoicePaidApplied);
+                    if(appliedsAreValid) {
+                        applicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
                     }
                     customerInvoiceDetail.setAmountToBeApplied(customerInvoiceDetail.getAmount());
                 }
@@ -180,19 +153,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 
                 boolean invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount =
                     invoiceDetailAmountToBeApplied.isLessEqual(invoiceDetailOpenAmount);
-//                if(!invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount) {
-//                    addFieldError(
-//                        ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
-//                        ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_OPEN_INVOICE_DETAIL_AMOUNT);
-//                }
-//
 //                // TODO This validation should happen when saving, not when adding
                 boolean invoiceDetailAmountToBeAppliedIsPositive = invoiceDetailAmountToBeApplied.isGreaterEqual(KualiDecimal.ZERO);
-//                if(!invoiceDetailAmountToBeAppliedIsPositive) {
-//                    addFieldError(
-//                        ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
-//                        ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE);
-//                }
                 
                 // if the detail was not selected to apply full amount than check 
                 // if amount to be applied is not zero and less than or equal to the total applied amount
@@ -206,8 +168,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     // detail then invoicePaidApplied will not be null
                     if (invoicePaidApplied != null) {
                         // add the new invoice paid applied to the payment application document list of applied payments
-                        if(amountToBeAppliedIsValid) {
-                            applicationDocument.getAppliedPayments().add(invoicePaidApplied);
+                        if(appliedsAreValid) {
+                            applicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
                         }
                     }
                 }
@@ -230,12 +192,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward quickApply(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         PaymentApplicationDocumentForm applicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        PaymentApplicationDocument pAppDoc = (PaymentApplicationDocument) applicationDocumentForm.getDocument();
-        String paymentApplicationDocumentNbr = pAppDoc.getDocumentNumber();
+        PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) applicationDocumentForm.getDocument();
+        String applicationDocumentNumber = applicationDocument.getDocumentNumber();
 
         // get the university fiscal year and fiscal period code
-        Integer universityFiscalYear = pAppDoc.getAccountingPeriod().getUniversityFiscalYear();
-        String universityFiscalPeriodCode = pAppDoc.getAccountingPeriod().getUniversityFiscalPeriodCode();
+        Integer universityFiscalYear = applicationDocument.getAccountingPeriod().getUniversityFiscalYear();
+        String universityFiscalPeriodCode = applicationDocument.getAccountingPeriod().getUniversityFiscalPeriodCode();
 
         // get the list of invoices that were selected for quick invoice
         Object applyToInvoices = request.getParameter("quickApply");
@@ -250,29 +212,59 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
         }
 
-        PaymentApplicationDocumentService service = SpringContext.getBean(PaymentApplicationDocumentService.class);
+        // Check to be sure that we have enough to fully-apply the amount of each selected invoice
+        KualiDecimal totalNeeded = new KualiDecimal(0);
         // go over the selected invoices and apply full amount to each of their details
         for (String invoiceNbr : invoiceNumbers) {
             // get the customer invoice details for the current invoice number
             Collection<CustomerInvoiceDetail> customerInvoiceDetails = getCustomerInvoiceDetailsForInvoice(applicationDocumentForm, invoiceNbr);
-            for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-                service.updateCustomerInvoiceDetailInfo(applicationDocumentForm.getPaymentApplicationDocument(), customerInvoiceDetail);
-                // next invoice paid applied number is the size of the appliedPayments list + 1
-                Integer invoicePaidAppliedItemNbr = pAppDoc.getAppliedPayments().size() + 1;
-                // apply the full amount for this detail
-                InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, paymentApplicationDocumentNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getOpenAmount(), invoicePaidAppliedItemNbr);
-                // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will
-                // not be null
-                if (invoicePaidApplied != null) {
-                    // add it to the payment application document list of applied payments
-                    pAppDoc.getAppliedPayments().add(invoicePaidApplied);
-                    // set the new applied amount for the customer invoice detail
-                    customerInvoiceDetail.setAmountToBeApplied(customerInvoiceDetail.getAmount());
-                }
-
+            for (CustomerInvoiceDetail invoiceDetail : customerInvoiceDetails) {
+                totalNeeded = totalNeeded.add(invoiceDetail.getAmount());
             }
-            if (invoiceNbr.equals(applicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
-                loadInvoice(applicationDocumentForm, invoiceNbr);
+        }
+        
+        KualiDecimal cashControlTotalAmount = applicationDocument.getCashControlTotalAmount();
+        PaymentApplicationDocumentService applicationDocumentService = getPaymentApplicationDocumentService();
+        
+        // If we don't have enough in the cash control document to cover fully-applying to all of the selected
+        // invoices, throw an error and return.
+        if(null != cashControlTotalAmount && totalNeeded.isGreaterThan(cashControlTotalAmount)) {
+            availableBalanceExceeded();
+        } else {
+            // go over the selected invoices and apply full amount to each of their details
+            for (String invoiceNbr : invoiceNumbers) {
+                // get the customer invoice details for the current invoice number
+                Collection<CustomerInvoiceDetail> customerInvoiceDetails = getCustomerInvoiceDetailsForInvoice(applicationDocumentForm, invoiceNbr);
+                for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
+                    // Apply the full amount of the invoice detail, do so.
+                    KualiDecimal amountToApply = customerInvoiceDetail.getAmount();
+                    
+                    applicationDocumentService.updateCustomerInvoiceDetailInfo(
+                        applicationDocumentForm.getPaymentApplicationDocument(), customerInvoiceDetail);
+                    
+                    // next invoice paid applied number is the size of the appliedPayments list + 1
+                    Integer invoicePaidAppliedItemNbr = applicationDocument.getInvoicePaidApplieds().size() + 1;
+                    
+                    // apply the full amount for this detail
+                    InvoicePaidApplied invoicePaidApplied = 
+                        paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(
+                            customerInvoiceDetail, applicationDocumentNumber, universityFiscalYear, 
+                            universityFiscalPeriodCode, amountToApply, invoicePaidAppliedItemNbr);
+                    
+                    // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
+                    if (invoicePaidApplied != null) {
+                        
+                        // add it to the payment application document list of applied payments
+                        applicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
+
+                        // set the new applied amount for the customer invoice detail
+                        customerInvoiceDetail.setAmountToBeApplied(amountToApply);
+                    }
+                }
+                
+                if (invoiceNbr.equals(applicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
+                    loadInvoice(applicationDocumentForm, invoiceNbr);
+                }
             }
         }
 
@@ -280,6 +272,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     }
 
     /**
+     * Add a non-ar item to the document from the UI.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -288,27 +282,34 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @throws Exception
      */
     public ActionForward addNonAr(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        boolean trap = true;
-        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
-        PaymentApplicationDocument pAppDoc = (PaymentApplicationDocument) pform.getDocument();
-        NonInvoiced nonInvoiced = pform.getNonInvoicedAddLine();
-        nonInvoiced.setDocumentNumber(pAppDoc.getDocumentNumber());
-        nonInvoiced.setFinancialDocumentLineNumber(pform.getNextNonInvoicedLineNumber());
-        KualiDecimal selectedInvoiceBalance = pform.getSelectedInvoiceBalance();
+        PaymentApplicationDocumentForm applicationForm = (PaymentApplicationDocumentForm) form;
+        PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) applicationForm.getDocument();
+        NonInvoiced nonInvoiced = applicationForm.getNonInvoicedAddLine();
+        nonInvoiced.setDocumentNumber(applicationDocument.getDocumentNumber());
+        nonInvoiced.setFinancialDocumentLineNumber(applicationForm.getNextNonInvoicedLineNumber());
         
-        // advanceDeposit business rules
-        boolean rulePassed = validateNewNonInvoiced(nonInvoiced, selectedInvoiceBalance);
-        if (rulePassed) {
+        if(PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationForm.getSelectedInvoiceBalance())) {
             // add advanceDeposit
-            pAppDoc.getNonInvoicedPayments().add(nonInvoiced);
+            applicationDocument.getNonInvoiceds().add(nonInvoiced);
 
             // clear the used advanceDeposit
-            pform.setNonInvoicedAddLine(new NonInvoiced());
+            applicationForm.setNonInvoicedAddLine(new NonInvoiced());
         }
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * This method checks to be sure that allowing a payment won't over-apply the open amount.
+     * 
+     * @param document
+     * @param amount
+     * @return
+     * @throws WorkflowException
+     */
+    public boolean paymentWouldOverApply(PaymentApplicationDocument document, KualiDecimal amount) throws WorkflowException {
+        return document.getBalanceToBeApplied().subtract(amount).isLessThan(KualiDecimal.ZERO);
+    }
+    
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -448,22 +449,18 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     }
 
     /**
-     * This method computes the amount applied to invoice
+     * This method computes the amount applied to invoice.
      * 
      * @param pform
      * @param currentInvoiceNumber
      * @return
      */
     private KualiDecimal computeAmountAppliedToInvoice(PaymentApplicationDocumentForm applicationDocumentForm, String currentInvoiceNumber) {
-
         KualiDecimal amountAppliedDirectlyToInvoice = KualiDecimal.ZERO;
-
         Collection<InvoicePaidApplied> invoicePaidAppliedsForInvoice = getInvoicePaidAppliedsForInvoice(applicationDocumentForm, currentInvoiceNumber);
-
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidAppliedsForInvoice) {
             amountAppliedDirectlyToInvoice = amountAppliedDirectlyToInvoice.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
-
         return amountAppliedDirectlyToInvoice;
 
     }
@@ -519,16 +516,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     }
 
     /**
-     * Validate a new non-invoiced line.
-     *
-     * @param nonInvoiced
-     * @return
-     */
-    public boolean validateNewNonInvoiced(NonInvoiced nonInvoiced, KualiDecimal selectedInvoiceBalance) {
-        return PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, selectedInvoiceBalance);
-    }
-
-    /**
      * Set the customer so we can pull up invoices for that customer.
      * 
      * @param mapping
@@ -544,6 +531,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     }
 
     /**
+     * Retrieve all invoices for the selected customer.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -591,7 +580,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     private Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(PaymentApplicationDocumentForm applicationDocumentForm, String invoiceNumber) {
         //get the invoice paid applieds from the form
-        Collection<InvoicePaidApplied> invPaidAppliedsForm = applicationDocumentForm.getPaymentApplicationDocument().getAppliedPayments();
+        Collection<InvoicePaidApplied> invPaidAppliedsForm = applicationDocumentForm.getPaymentApplicationDocument().getInvoicePaidApplieds();
         Collection<InvoicePaidApplied> invPaidAppliedsFormForThisInvoice = new ArrayList<InvoicePaidApplied>();
 
         // get the invoice paid applieds from the form for this detail
@@ -603,6 +592,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invPaidAppliedsFormForThisInvoice;
     }
 
+    /**
+     * Cancel the document.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm _form = (PaymentApplicationDocumentForm) form;
@@ -612,8 +606,84 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Record the unapplied amount entered into the UI.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward commitUnapplied(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentApplicationDocumentForm applicationDocumentForm = (PaymentApplicationDocumentForm) form;
+        PaymentApplicationDocument applicationDocument = applicationDocumentForm.getPaymentApplicationDocument();
+        PaymentApplicationDocumentRuleUtil.validateUnapplied(applicationDocument);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        PaymentApplicationDocumentForm form = (PaymentApplicationDocumentForm) kualiDocumentFormBase;
+        PaymentApplicationDocument document = form.getPaymentApplicationDocument();
+
+        // create new accounts receivable header and set it to the payment application document
+        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+        accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
+        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) kualiDocumentFormBase;
+        loadInvoices(pform);
+    }
+
+    /**
+     * Get an error to display in the UI for a certain field.
+     * 
+     * @param propertyName
+     * @param errorKey
+     */
+    private void addFieldError(String propertyName, String errorKey) {
+        GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+    }
+
+    /**
+     * Get an error to display at the global level, for the whole document.
+     * 
+     * @param errorKey
+     */
+    private void addGlobalError(String errorKey) {
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, errorKey);
+    }
+    
+    /**
+     * Show an error in the UI when too much money is applied.
+     */
+    private void availableBalanceExceeded() {
+        addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
+    }
+    
+    /**
+     * This method returns a handle to the PaymentApplicationDocumentService.
+     * 
+     * @return
+     */
+    private PaymentApplicationDocumentService getPaymentApplicationDocumentService() {
+        PaymentApplicationDocumentService applicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
+        return applicationDocumentService;
+    }
+    
 }

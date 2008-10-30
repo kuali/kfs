@@ -1407,11 +1407,11 @@ that no longer exist in the KRNS_DOC_HDR_T table.  A solution will be needed for
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-    <collection-descriptor name="appliedPayments" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <collection-descriptor name="invoicePaidApplieds" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="nonInvoicedPayments" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonInvoiced" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <collection-descriptor name="nonInvoiceds" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonInvoiced" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
@@ -1423,7 +1423,7 @@ that no longer exist in the KRNS_DOC_HDR_T table.  A solution will be needed for
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.kfs.module.ar.businessobject.NonAppliedHolding" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.kfs.module.ar.businessobject.NonAppliedHolding" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
@@ -1432,4 +1432,3 @@ that no longer exist in the KRNS_DOC_HDR_T table.  A solution will be needed for
 
 </class-descriptor>
 </descriptor-repository>
-

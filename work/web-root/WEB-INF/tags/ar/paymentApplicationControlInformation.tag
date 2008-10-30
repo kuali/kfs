@@ -59,11 +59,11 @@
               </tr>
               <tr>
                 <th>Balance</th>
-                <td><c:out value="${KualiForm.document.totalToBeApplied}" /></td>
+                <td><c:out value="${KualiForm.document.balanceToBeApplied}" /></td>
               </tr>
               <tr>
                 <th>Payment #</th>
-                <td>TODO</td>
+                <td><c:out value="${KualiForm.document.paymentNumber}" />&nbsp;</td>
               </tr>
             </table>
           </div>

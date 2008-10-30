@@ -41,11 +41,12 @@
     <property name="name" value="accountNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Account Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Account" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="9" />
@@ -59,11 +60,12 @@
     <property name="name" value="chartOfAccountsCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Chart" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="4" />
@@ -77,7 +79,7 @@
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="DocNumber" />
     <property name="maxLength" value="14" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -91,20 +93,13 @@
   </bean>
   <bean id="NonInvoiced-financialDocumentLineAmount" parent="NonInvoiced-financialDocumentLineAmount-parentBean" />
 
-  <bean id="NonInvoiced-financialDocumentLineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonInvoiced-financialDocumentLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialDocumentLineAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Document Line Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
-    <property name="summary" value="financialDocumentLineAmount" />
     <property name="description" value="financialDocumentLineAmount description..." />
   </bean>
   <bean id="NonInvoiced-financialDocumentLineNumber" parent="NonInvoiced-financialDocumentLineNumber-parentBean" />
@@ -113,14 +108,15 @@
     <property name="name" value="financialDocumentLineNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Document Line Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="LineNumber" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="26"
+            p:size="10" />
     </property>
     <property name="summary" value="financialDocumentLineNumber" />
     <property name="description" value="financialDocumentLineNumber description..." />
@@ -131,7 +127,7 @@
     <property name="name" value="financialDocumentOverrideCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Document Override Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="DocOverrideCode" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -149,7 +145,7 @@
     <property name="name" value="financialDocumentPostingYear" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Document Posting Year" />
-    <property name="shortLabel" value="Year" />
+    <property name="shortLabel" value="PostingYear" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -167,11 +163,12 @@
     <property name="name" value="financialObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Object" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="6" />
@@ -185,7 +182,7 @@
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Sub Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="SubObject" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -203,7 +200,7 @@
     <property name="name" value="projectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Project Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Project" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -221,7 +218,7 @@
     <property name="name" value="subAccountNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub Account Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="SubAccount" />
     <property name="maxLength" value="5" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

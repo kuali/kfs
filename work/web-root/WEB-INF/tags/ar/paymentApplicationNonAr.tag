@@ -23,7 +23,7 @@
 <%@ attribute name="customerAttributes" required="true"
     description="Attributes of Customer according to the data dictionary" %>
     
-<c:set var="nonInvoicedPaymentAttributes" value="${DataDictionary['NonInvoiced'].attributes}" scope="request" />
+<c:set var="nonInvoicedAttributes" value="${DataDictionary['NonInvoiced'].attributes}" scope="request" />
 <c:set var="nonInvoicedAddLine" value="${KualiForm.nonInvoicedAddLine}" scope="request" />
 
     <kul:tab tabTitle="Non-AR" defaultOpen="true"
@@ -46,13 +46,20 @@
             <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>
                     <kul:htmlAttributeHeaderCell literalLabel=" "/>             
-                    <kul:htmlAttributeHeaderCell literalLabel="Chart"/>
-                    <kul:htmlAttributeHeaderCell literalLabel="Account"/>
-                    <kul:htmlAttributeHeaderCell literalLabel="Sacc"/>
-                    <kul:htmlAttributeHeaderCell literalLabel="Object"/>
-                    <kul:htmlAttributeHeaderCell literalLabel="Sobj"/>
-                    <kul:htmlAttributeHeaderCell literalLabel="Project"/>
-                    <kul:htmlAttributeHeaderCell literalLabel="Amount"/>
+                    <kul:htmlAttributeHeaderCell
+	                    attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}" />
+                    <kul:htmlAttributeHeaderCell 
+	                    attributeEntry="${nonInvoicedAttributes.accountNumber}" />
+                    <kul:htmlAttributeHeaderCell
+						attributeEntry="${nonInvoicedAttributes.subAccountNumber}" />
+                    <kul:htmlAttributeHeaderCell 
+						attributeEntry="${nonInvoicedAttributes.financialObjectCode}" />
+                    <kul:htmlAttributeHeaderCell 
+						attributeEntry="${nonInvoicedAttributes.financialSubObjectCode}" />
+                    <kul:htmlAttributeHeaderCell 
+						attributeEntry="${nonInvoicedAttributes.projectCode}" />
+                    <kul:htmlAttributeHeaderCell 
+						attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}" />
                     <kul:htmlAttributeHeaderCell literalLabel="Action"/>
                 </tr>
                 <tr>
@@ -62,7 +69,7 @@
                     <td>
                         <kul:htmlControlAttribute
                             onblur="loadChartInfo(this.name, 'nonInvoicedAddLine.chart.name')"
-                            attributeEntry="${nonInvoicedPaymentAttributes.chartOfAccountsCode}"
+                            attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}"
                             property="nonInvoicedAddLine.chartOfAccountsCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"
                             autoSearch="true"
@@ -73,7 +80,7 @@
                     <td>
                         <kul:htmlControlAttribute
                             onblur="loadAccountInfo(this.name, 'nonInvoicedAddLine.account.name')"
-                            attributeEntry="${nonInvoicedPaymentAttributes.accountNumber}"
+                            attributeEntry="${nonInvoicedAttributes.accountNumber}"
                             property="nonInvoicedAddLine.accountNumber"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" 
                             autoSearch="true"
@@ -84,7 +91,7 @@
                     <td>
                         <kul:htmlControlAttribute
                             onblur="loadSubAccountInfo(this.name, 'nonInvoicedAddLine.subAccount.name')"
-                            attributeEntry="${nonInvoicedPaymentAttributes.subAccountNumber}"
+                            attributeEntry="${nonInvoicedAttributes.subAccountNumber}"
                             property="nonInvoicedAddLine.subAccountNumber"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubAccount" 
                             autoSearch="true"
@@ -95,7 +102,7 @@
                     <td>
                         <kul:htmlControlAttribute
                             onblur="loadObjectInfo('${KualiForm.document.postingYear}', '', '', this.name, 'nonInvoicedAddLine.objectCode.name')"
-                            attributeEntry="${nonInvoicedPaymentAttributes.financialObjectCode}"
+                            attributeEntry="${nonInvoicedAttributes.financialObjectCode}"
                             property="nonInvoicedAddLine.financialObjectCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" 
                             autoSearch="true"
@@ -106,7 +113,7 @@
                     <td>
                         <kul:htmlControlAttribute
                             onblur="loadSubObjectInfo('${KualiForm.document.postingYear}', this.name, 'nonInvoicedAddLine.subObjectCode.name')"
-                            attributeEntry="${nonInvoicedPaymentAttributes.financialSubObjectCode}"
+                            attributeEntry="${nonInvoicedAttributes.financialSubObjectCode}"
                             property="nonInvoicedAddLine.financialSubObjectCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" 
                             autoSearch="true"
@@ -117,7 +124,7 @@
                     <td>
                         <kul:htmlControlAttribute
                             onblur="loadProjectInfo(this.name, 'nonInvoicedAddLine.projectCode.name')"
-                            attributeEntry="${nonInvoicedPaymentAttributes.projectCode}"
+                            attributeEntry="${nonInvoicedAttributes.projectCode}"
                             property="nonInvoicedAddLine.projectCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" 
                             autoSearch="true"
@@ -127,7 +134,7 @@
                     </td>
                     <td>
                         <kul:htmlControlAttribute
-                            attributeEntry="${nonInvoicedPaymentAttributes.financialDocumentLineAmount}"
+                            attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
                             property="nonInvoicedAddLine.financialDocumentLineAmount"/>
                     </td>
                     <td><html:image property="methodToCall.addNonAr"
@@ -135,50 +142,50 @@
                         alt="Add" title="Add" styleClass="tinybutton" /></td>
                 </tr>
                 
-                <logic:iterate id="nonInvoicedPayment" name="KualiForm"
-	                   property="paymentApplicationDocument.nonInvoicedPayments" indexId="ctr">
-                    <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].financialDocumentLineNumber" />
-	                <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].documentNumber" />
-	                <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].versionNumber" />
-	                <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].objectId" />
+                <logic:iterate id="nonInvoiced" name="KualiForm"
+	                   property="paymentApplicationDocument.nonInvoiceds" indexId="ctr">
+                    <html:hidden property="paymentApplicationDocument.nonInvoiced[${ctr}].financialDocumentLineNumber" />
+	                <html:hidden property="paymentApplicationDocument.nonInvoiced[${ctr}].documentNumber" />
+	                <html:hidden property="paymentApplicationDocument.nonInvoiced[${ctr}].versionNumber" />
+	                <html:hidden property="paymentApplicationDocument.nonInvoiced[${ctr}].objectId" />
                     <tr>
                         <td>
                             ${nonInvoicedPayment.financialDocumentLineNumber}
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedPaymentAttributes.chartOfAccountsCode}"
-                                property="document.nonInvoicedPayment[${ctr }].chartOfAccountsCode"/>
+                                attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}"
+                                property="document.nonInvoiced[${ctr }].chartOfAccountsCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedPaymentAttributes.accountNumber}"
-                                property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].accountNumber"/>
+                                attributeEntry="${nonInvoicedAttributes.accountNumber}"
+                                property="paymentApplicationDocument.nonInvoiced[${ctr }].accountNumber"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedPaymentAttributes.subAccountNumber}"
-                                property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].subAccountNumber"/>
+                                attributeEntry="${nonInvoicedAttributes.subAccountNumber}"
+                                property="paymentApplicationDocument.nonInvoiced[${ctr }].subAccountNumber"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedPaymentAttributes.financialObjectCode}"
-                                property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].financialObjectCode"/>
+                                attributeEntry="${nonInvoicedAttributes.financialObjectCode}"
+                                property="paymentApplicationDocument.nonInvoiced[${ctr }].financialObjectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedPaymentAttributes.financialSubObjectCode}"
-                                property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].financialSubObjectCode"/>
+                                attributeEntry="${nonInvoicedAttributes.financialSubObjectCode}"
+                                property="paymentApplicationDocument.nonInvoiced[${ctr }].financialSubObjectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedPaymentAttributes.projectCode}"
-                                property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].projectCode"/>
+                                attributeEntry="${nonInvoicedAttributes.projectCode}"
+                                property="paymentApplicationDocument.nonInvoiced[${ctr }].projectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedPaymentAttributes.financialDocumentLineAmount}"
-                                property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].financialDocumentLineAmount"/>
+                                attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
+                                property="paymentApplicationDocument.nonInvoiced[${ctr }].financialDocumentLineAmount"/>
                         </td>
                         <td>&nbsp;</td>
                     </tr>

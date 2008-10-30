@@ -29,6 +29,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentRule.class);
+
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         
@@ -46,34 +48,19 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
-        //  dont let PayApp docs started from CashControl docs through if not all funds are applied
-        if (isSelectedInvoiceUnderApplied(paymentApplicationDocument)) {
-            isValid &= false;
-            errorMap.putError(
+        try {
+            //  dont let PayApp docs started from CashControl docs through if not all funds are applied
+            if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getBalanceToBeApplied())) {
+                isValid &= false;
+                errorMap.putError(
                     KNSConstants.GLOBAL_ERRORS,
                     ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
+            }
+        } catch(WorkflowException w) {
+            LOG.error("Exception encountered while validating PaymentApplicationDocument against business rules during routing", w);
         }
         
         return isValid;
-    }
-    
-    protected boolean isSelectedInvoiceUnderApplied(PaymentApplicationDocument doc) {
-        
-        // Check for full amount not being applied only when there's a related cash control document
-        if (!containsCashControlDocument(doc)) {
-            return false;
-        }
-        
-        KualiDecimal totalToBeApplied;
-        try {
-            totalToBeApplied = doc.getTotalToBeApplied();
-        }
-        catch (WorkflowException e) {
-            return false;
-        }
-        
-        // KULAR-451
-        return totalToBeApplied.isGreaterThan(KualiDecimal.ZERO);
     }
     
     protected boolean containsCashControlDocument(PaymentApplicationDocument doc) {

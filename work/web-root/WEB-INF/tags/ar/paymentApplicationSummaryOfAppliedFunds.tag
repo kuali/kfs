@@ -35,7 +35,7 @@
 					<tr>
 						<td style='vertical-align: top;' colspan='2'>
 							<c:choose>
-								<c:when test="${empty KualiForm.document.appliedPayments}">
+								<c:when test="${empty KualiForm.document.invoicePaidApplieds}">
 								   		No applied payments.
 								   	</c:when>
 								<c:otherwise>
@@ -60,44 +60,44 @@
 												Applied Amount
 											</th>
 										</tr>
-										<logic:iterate id="appliedPayment" name="KualiForm"
-											property="document.appliedPayments" indexId="ctr">
+										<logic:iterate id="invoicePaidApplied" name="KualiForm"
+											property="document.invoicePaidApplieds" indexId="ctr">
 											<tr>
 												<html:hidden
-													property="document.appliedPayment[${ctr}].documentNumber" />
+													property="document.invoicePaidApplied[${ctr}].documentNumber" />
 												<html:hidden
-													property="document.appliedPayment[${ctr}].versionNumber" />
+													property="document.invoicePaidApplied[${ctr}].versionNumber" />
 												<html:hidden
-													property="document.appliedPayment[${ctr}].objectId" />
+													property="document.invoicePaidApplied[${ctr}].objectId" />
 												<html:hidden
-													property="document.appliedPayment[${ctr}].paidAppliedItemNumber" />
+													property="document.invoicePaidApplied[${ctr}].paidAppliedItemNumber" />
 												<html:hidden
-													property="document.appliedPayment[${ctr}].universityFiscalYear" />
+													property="document.invoicePaidApplied[${ctr}].universityFiscalYear" />
 												<html:hidden
-													property="document.appliedPayment[${ctr}].universityFiscalPeriodCode" />
+													property="document.invoicePaidApplied[${ctr}].universityFiscalPeriodCode" />
 												<td>
 													<c:out
-														value="${appliedPayment.financialDocumentReferenceInvoiceNumber}" />
+														value="${invoicePaidApplied.financialDocumentReferenceInvoiceNumber}" />
 													<html:hidden
-														property="document.appliedPayment[${ctr}].financialDocumentReferenceInvoiceNumber" />
+														property="document.invoicePaidApplied[${ctr}].financialDocumentReferenceInvoiceNumber" />
 												</td>
 												<td>
 													<kul:htmlControlAttribute
 														attributeEntry="${invoicePaidAppliedAttributes.invoiceItemNumber}"
-														property="document.appliedPayment[${ctr}].invoiceItemNumber"
+														property="document.invoicePaidApplied[${ctr}].invoiceItemNumber"
 														readOnly="true" />
 												</td>
 												<td>
 													<c:out
-														value="${appliedPayment.invoiceItem.financialDocumentLineDescription}" />&nbsp;
+														value="${invoicePaidApplied.invoiceItem.financialDocumentLineDescription}" />&nbsp;
 													<html:hidden
-														property="document.appliedPayment[${ctr}].invoiceItem.financialDocumentLineDescription" />
+														property="document.invoicePaidApplied[${ctr}].invoiceItem.financialDocumentLineDescription" />
 												</td>
 												<td>
 													$
-													<c:out value="${appliedPayment.invoiceItemAppliedAmount}" />
+													<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />
 													<html:hidden
-														property="document.appliedPayment[${ctr}].invoiceItemAppliedAmount" />
+														property="document.invoicePaidApplied[${ctr}].invoiceItemAppliedAmount" />
 												</td>
 											</tr>
 										</logic:iterate>
@@ -108,7 +108,7 @@
 						</td>
 						<td valign='top'>
                             <c:set var="showTUFAndBtbA"
-                               value="${!hasRelatedCashControlDocument and (0 lt KualiForm.document.totalUnappliedFunds or 0 lt KualiForm.document.nonInvoicedTotalAmount)}" />
+                               value="${!hasRelatedCashControlDocument and (0 lt KualiForm.document.totalUnapplied or 0 lt KualiForm.document.nonInvoicedTotalAmount)}" />
                             <c:set var="showCCAndBtbA" value="${hasRelatedCashControlDocument}"/>
                             <table class='datatable'>
 								<tr>
@@ -135,10 +135,10 @@
 								<tr>
 									<c:if test="${showTUFAndBtbA}">
 										<td>
-											$<c:out value="${KualiForm.document.totalUnappliedFunds}" />
+											$<c:out value="${KualiForm.document.totalUnapplied}" />
 										</td>
 										<td>
-											$<c:out value="${KualiForm.document.totalUnappliedFundsToBeApplied}" />
+											$<c:out value="${KualiForm.document.totalBalanceToBeApplied}" />
 										</td>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
@@ -146,11 +146,11 @@
 											$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />
 										</td>
 										<td>
-											$<c:out value="${KualiForm.document.totalToBeApplied}" />
+											$<c:out value="${KualiForm.document.balanceToBeApplied}" />
 										</td>
 									</c:if>
 									<td>
-										$<c:out value="${KualiForm.document.totalAppliedAmount}" />
+										$<c:out value="${KualiForm.document.totalApplied}" />
 									</td>
 								</tr>
 							</table>

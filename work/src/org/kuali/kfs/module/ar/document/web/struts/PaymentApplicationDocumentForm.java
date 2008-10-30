@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -29,7 +30,6 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
-import org.kuali.kfs.module.ar.document.service.impl.PaymentApplicationDocumentServiceImpl;
 import org.kuali.kfs.module.ar.util.CustomerInvoiceBalanceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -82,7 +82,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public KualiDecimal getNonArTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         if(null != getPaymentApplicationDocument()) {
-            Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoicedPayments();
+            Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoiceds();
             for(NonInvoiced item : items) {
                 total = total.add(item.getFinancialDocumentLineAmount());
             }
@@ -129,7 +129,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         this.unappliedCustomerAmount = unappliedCustomerAmount;
     }
 
-    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetails() {
+    public List<CustomerInvoiceDetail> getCustomerInvoiceDetails() {
         return customerInvoiceDetails;
     }
 
@@ -321,7 +321,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public Integer getNonInvoicedAddLineItemNumber() {
         Integer number = new Integer(0);
         if(null != getPaymentApplicationDocument()) {
-            Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoicedPayments();
+            Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoiceds();
             for(NonInvoiced item : items) {
                 Integer i = item.getFinancialDocumentLineNumber();
                 if(i > number) {

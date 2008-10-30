@@ -77,7 +77,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         // This code is basically copied from PaymentApplicationDocumentAction.quickApply
         for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
             updateCustomerInvoiceDetailInfo(applicationDocument, customerInvoiceDetail);
-            Integer invoicePaidAppliedItemNbr = applicationDocument.getAppliedPayments().size() + 1;
+            Integer invoicePaidAppliedItemNbr = applicationDocument.getInvoicePaidApplieds().size() + 1;
             InvoicePaidApplied invoicePaidApplied = 
                 createInvoicePaidAppliedForInvoiceDetail(
                     customerInvoiceDetail, applicationDocument.getDocumentNumber(), universityFiscalYear, 
@@ -85,7 +85,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
             if (invoicePaidApplied != null) {
                 // add it to the payment application document list of applied payments
-                applicationDocument.getAppliedPayments().add(invoicePaidApplied);
+                applicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
                 customerInvoiceDetail.setAmountToBeApplied(customerInvoiceDetail.getAmount());
             }
             updateCustomerInvoiceDetailInfo(applicationDocument, customerInvoiceDetail);
@@ -129,7 +129,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(PaymentApplicationDocument document) {
         KualiDecimal total = KualiDecimal.ZERO;
-        Collection<InvoicePaidApplied> invoicePaidApplieds = document.getAppliedPayments();
+        Collection<InvoicePaidApplied> invoicePaidApplieds = document.getInvoicePaidApplieds();
 
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             total = total.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
@@ -137,21 +137,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         // Include non-ar funds as well
         total = total.add(document.getNonInvoicedTotalAmount());
-
-        return total;
-    }
-
-    /**
-     *
-     * @param paymentApplicationDocumentNumber
-     * @return
-     */
-    public KualiDecimal getTotalToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
-        KualiDecimal total = KualiDecimal.ZERO;
-
-        // TODO Auto-generated method stub
-        // for test purpose only
-        total = total.add(new KualiDecimal(1100));
 
         return total;
     }
@@ -338,7 +323,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         InvoicePaidAppliedService invoicePaidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
         Collection<InvoicePaidApplied> detailInvPaidApplieds = invoicePaidAppliedService.getInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail, applicationDocNumber);
 
-        Collection<InvoicePaidApplied> invPaidAppliedsFormForThisDetail = getInvoicePaidAppliedsForDetail(applicationDocument.getAppliedPayments(), customerInvoiceDetail);
+        Collection<InvoicePaidApplied> invPaidAppliedsFormForThisDetail = getInvoicePaidAppliedsForDetail(applicationDocument.getInvoicePaidApplieds(), customerInvoiceDetail);
 
         Collection<InvoicePaidApplied> invPaidAppliedsToBeAdded = new ArrayList<InvoicePaidApplied>();
 
@@ -395,7 +380,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * @param applicationDocumentForm
      */
     public void updateAmountAppliedOnDetail(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail) {
-        Collection<InvoicePaidApplied> paidAppliedsFromDocument = applicationDocument.getAppliedPayments();
+        Collection<InvoicePaidApplied> paidAppliedsFromDocument = applicationDocument.getInvoicePaidApplieds();
         Collection<InvoicePaidApplied> invoicePaidApplieds = getInvoicePaidAppliedsForDetail(paidAppliedsFromDocument, customerInvoiceDetail);
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             customerInvoiceDetail.setAmountToBeApplied(invoicePaidApplied.getInvoiceItemAppliedAmount());

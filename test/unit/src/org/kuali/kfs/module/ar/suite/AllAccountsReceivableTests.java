@@ -56,7 +56,6 @@ import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivabl
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffDocumentRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRuleTest;
-import org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRuleTest;
 
 /**
  * Runs all the tests in the AR test suite.
@@ -76,7 +75,6 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(CustomerInvoiceItemCodeRuleTest.class);
         suite.addTestSuite(CustomerRuleTest.class);
         suite.addTestSuite(OrganizationAccountingDefaultRuleTest.class);
-        suite.addTestSuite(SystemInformationRuleTest.class);
         suite.addTestSuite(CashControlDocumentServiceTest.class);
         suite.addTestSuite(CustomerInvoiceDetailServiceTest.class);
         suite.addTestSuite(CustomerInvoiceDocumentGeneralLedgerPostingTest.class);

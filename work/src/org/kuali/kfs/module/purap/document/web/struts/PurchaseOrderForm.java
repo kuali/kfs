@@ -464,9 +464,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         // Resend PO Cxml button
         ExtraButton resendPoCxmlButton = new ExtraButton();
-        removeHoldButton.setExtraButtonProperty("methodToCall.resendPoCxml");
-        removeHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_resendpo.gif");
-        removeHoldButton.setExtraButtonAltText("Resend PO CXML");
+        resendPoCxmlButton.setExtraButtonProperty("methodToCall.resendPoCxml");
+        resendPoCxmlButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_resendpo.gif");
+        resendPoCxmlButton.setExtraButtonAltText("Resend PO CXML");
 
         // Receiving button
         ExtraButton receivingButton = new ExtraButton();

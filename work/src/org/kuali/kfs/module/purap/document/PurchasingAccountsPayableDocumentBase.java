@@ -18,9 +18,11 @@ package org.kuali.kfs.module.purap.document;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +46,9 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -101,6 +106,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // workaround for purapOjbCollectionHelper - remove when merged into rice
     public boolean allowDeleteAwareCollection = true;
+    
+    // only populate accounts for routing once while in memory
+    private transient boolean populatedAccountsForRouting;
     
 
     /**
@@ -206,15 +214,45 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public void populateDocumentForRouting() {
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
-        setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-        // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
-        // objects) -hjs
-        refreshNonUpdateableReferences();
-        for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
-            sourceLine.refreshNonUpdateableReferences();
-        }
+        populateAccountsForRouting();
         super.populateDocumentForRouting();
+    }
+
+    /**
+     * Uses accountsForRouting to generate account and org review data
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#populateRoutingInfo()
+     */
+    @Override
+    public void populateRoutingInfo() {
+        //use the accounts for routing to generate routing info
+        populateAccountsForRouting();
+        routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountsToReview = new HashSet<RoutingAccount>();
+        
+        if (getAccountsForRouting() != null && getAccountsForRouting().size() > 0) {
+            collectAccountsAndOrganizationsFromAccountingLines(getAccountsForRouting(), accountsToReview, orgsToReview);
+        }
+        
+        routingInfo.add(getAccountReviewRoutingData(accountsToReview));
+        routingInfo.add(getOrgReviewRoutingData(orgsToReview));
+    }
+    
+    /**
+     * Makes sure that accounts for routing has been generated, so that other information can be retrieved from that
+     */
+    protected void populateAccountsForRouting() {
+        if (!populatedAccountsForRouting) {
+            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+            setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
+            // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
+            // objects) -hjs
+            refreshNonUpdateableReferences();
+            for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
+                sourceLine.refreshNonUpdateableReferences();
+            }
+            populatedAccountsForRouting = true;
+        }
     }
 
     /**

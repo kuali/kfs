@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -37,7 +38,6 @@ import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
@@ -100,36 +100,28 @@ public class GlLineServiceImpl implements GlLineService {
     protected void updatePreTagInformation(GeneralLedgerEntry entry, MaintenanceDocument document, AssetGlobal assetGlobal) {
         CapitalAssetInformation assetInformation = findCapitalAssetInformation(entry);
         if (ObjectUtils.isNotNull(assetInformation) && assetInformation.getCapitalAssetNumber() == null) {
-            AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
-            assetGlobalDetail.setDocumentNumber(document.getDocumentNumber());
-            assetGlobalDetail.setCampusCode(assetInformation.getCampusCode());
-            assetGlobalDetail.setBuildingCode(assetInformation.getBuildingCode());
-            assetGlobalDetail.setBuildingRoomNumber(assetInformation.getBuildingRoomNumber());
-            assetGlobalDetail.setBuildingSubRoomNumber(assetInformation.getBuildingSubRoomNumber());
-            assetGlobalDetail.setSerialNumber(assetInformation.getCapitalAssetSerialNumber());
-
-            Integer capitalAssetQuantity = assetInformation.getCapitalAssetQuantity() == null ? 1 : assetInformation.getCapitalAssetQuantity();
-
-            for (int i = 0; i < capitalAssetQuantity; i++) {
+            List<CapitalAssetInformationDetail> capitalAssetInformationDetails = assetInformation.getCapitalAssetInformationDetails();
+            for (CapitalAssetInformationDetail capitalAssetInformationDetail : capitalAssetInformationDetails) {
+                AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
+                assetGlobalDetail.setDocumentNumber(document.getDocumentNumber());
+                assetGlobalDetail.setCampusCode(capitalAssetInformationDetail.getCampusCode());
+                assetGlobalDetail.setBuildingCode(capitalAssetInformationDetail.getBuildingCode());
+                assetGlobalDetail.setBuildingRoomNumber(capitalAssetInformationDetail.getBuildingRoomNumber());
+                assetGlobalDetail.setBuildingSubRoomNumber(capitalAssetInformationDetail.getBuildingSubRoomNumber());
+                assetGlobalDetail.setSerialNumber(capitalAssetInformationDetail.getCapitalAssetSerialNumber());
+                assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+                assetGlobalDetail.setCampusTagNumber(capitalAssetInformationDetail.getCapitalAssetTagNumber());
                 AssetGlobalDetail uniqueAsset = new AssetGlobalDetail();
                 ObjectValueUtils.copySimpleProperties(assetGlobalDetail, uniqueAsset);
-                uniqueAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-                if (i == 0) {
-                    // set tag number only for the first one in the list
-                    uniqueAsset.setCampusTagNumber(assetInformation.getCapitalAssetTagNumber());
-                }
                 assetGlobalDetail.getAssetGlobalUniqueDetails().add(uniqueAsset);
+                assetGlobal.getAssetSharedDetails().add(assetGlobalDetail);
             }
-            VendorDetail vendorDetail = assetInformation.getVendorDetail();
-            if (ObjectUtils.isNotNull(vendorDetail)) {
-                assetGlobal.setVendorName(vendorDetail.getVendorName());
-            }
+            assetGlobal.setVendorName(assetInformation.getVendorName());
             assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
             assetGlobal.setCapitalAssetTypeCode(assetInformation.getCapitalAssetTypeCode());
             assetGlobal.setManufacturerName(assetInformation.getCapitalAssetManufacturerName());
             assetGlobal.setManufacturerModelNumber(assetInformation.getCapitalAssetManufacturerModelNumber());
             assetGlobal.setCapitalAssetDescription(assetInformation.getCapitalAssetDescription());
-            assetGlobal.getAssetSharedDetails().add(assetGlobalDetail);
         }
     }
 

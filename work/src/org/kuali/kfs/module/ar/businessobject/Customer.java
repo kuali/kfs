@@ -17,6 +17,7 @@ public class Customer extends PersistableBusinessObjectBase {
     private String customerName;
     private String customerParentCompanyNumber;
     private String customerTypeCode;
+    private String customerTypeDescription;
     private Date customerAddressChangeDate;
     private Date customerRecordAddDate;
     private Date customerLastActivityDate;
@@ -121,6 +122,22 @@ public class Customer extends PersistableBusinessObjectBase {
         this.customerTypeCode = customerTypeCode;
     }
 
+
+    /**
+     * Gets the customerTypeDescription attribute. 
+     * @return Returns the customerTypeDescription.
+     */
+    public String getCustomerTypeDescription() {
+        return customerTypeDescription;
+    }
+
+    /**
+     * Sets the customerTypeDescription attribute value.
+     * @param customerTypeDescription The customerTypeDescription to set.
+     */
+    public void setCustomerTypeDescription(String customerTypeDescription) {
+        this.customerTypeDescription = customerTypeDescription;
+    }
 
     /**
      * Gets the customerAddressChangeDate attribute.

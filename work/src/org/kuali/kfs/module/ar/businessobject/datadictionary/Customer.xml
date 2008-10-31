@@ -38,6 +38,7 @@
 				<ref bean="Customer-customerRecordAddDate" />
 				<ref bean="Customer-customerTaxExemptIndicator" />
 				<ref bean="Customer-customerTypeCode" />
+				<ref bean="Customer-customerTypeDescription" />
 				<ref bean="Customer-customerAddresses.customerAddressName" />
 			 	<ref bean="Customer-customerAddresses.customerLine1StreetAddress" />
 				<ref bean="Customer-customerAddresses.customerLine2StreetAddress" />
@@ -415,6 +416,24 @@
 			value="customerTypeCode description..." />
 	</bean>
 	
+	<bean id="Customer-customerTypeDescription"
+		parent="Customer-customerTypeDescription-parentBean" />
+	<bean id="Customer-customerTypeDescription-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="customerTypeDescription" />
+		<property name="label" value="Customer Type Description" />
+		<property name="shortLabel" value="Type Desc" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="32" />
+		</property>
+		<property name="summary" value="customerTypeDescription" />
+		<property name="description" value="customerTypeDescription description..." />
+	</bean>
+		
 	<bean id="Customer-customerAddresses.customerAddressName" parent="Customer-customerAddresses.customerAddressName-parentBean" />
 
     <bean id="Customer-customerAddresses.customerAddressName-parentBean" abstract="true" parent="CustomerAddress-customerAddressName">
@@ -668,7 +687,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="customerTypeCode" />
+					p:attributeName="customerTypeDescription" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerName" />
 				<bean parent="FieldDefinition"

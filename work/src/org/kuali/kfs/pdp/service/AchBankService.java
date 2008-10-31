@@ -18,12 +18,6 @@ package org.kuali.kfs.pdp.service;
 import org.kuali.kfs.pdp.businessobject.AchBank;
 
 public interface AchBankService {
-    /**
-     * Save a bank
-     * 
-     * @param ab
-     */
-    public void save(AchBank ab);
 
     /**
      * Read the bank data from a text file and reset table to match this file. The format of the file comes from here:

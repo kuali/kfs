@@ -910,12 +910,6 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-              		p:attributeName="chartCode" />
-        	  <bean parent="FieldDefinition"
-              		p:attributeName="orgCode" />
-        	  <bean parent="FieldDefinition"
-              		p:attributeName="subUnitCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="adviceCreate" />
               <bean parent="FieldDefinition"
                     p:attributeName="defaultChartCode" />

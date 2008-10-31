@@ -18,10 +18,7 @@
  */
 package org.kuali.kfs.pdp.document.service;
 
-import org.kuali.kfs.pdp.businessobject.SecurityRecord;
-import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.rice.kim.bo.Person;
-
 
 /**
  * This class has methods for payment maintenance.

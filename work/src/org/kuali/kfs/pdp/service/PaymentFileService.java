@@ -18,7 +18,6 @@ package org.kuali.kfs.pdp.service;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
-import org.kuali.kfs.pdp.exception.PaymentLoadException;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;

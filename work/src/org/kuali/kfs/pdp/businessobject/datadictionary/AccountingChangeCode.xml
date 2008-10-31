@@ -47,7 +47,7 @@
 
   <bean id="AccountingChangeCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Accounting Change Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />

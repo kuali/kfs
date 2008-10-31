@@ -140,7 +140,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
             params.put(KNSConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.MAPPING_PORTAL + ".do");
+            params.put(KFSConstants.BACK_LOCATION, configurationService.getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
             params.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP_BATCH_ID, UrlFactory.encode(String.valueOf(batch.getId())));
             String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
             inquiryUrl.setHref(url);

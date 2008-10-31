@@ -99,12 +99,6 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
             putFieldError("bankDataViewCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_DATA_VIEW_CODE);
             validEntry = false;
         }
-        
-        String stateCode = newAchBank.getBankStateCode();
-        if (stateCode != null && newAchBank.getBankState() == null) {
-            putFieldError("bankStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);
-            validEntry = false;
-        }
 
         return validEntry;
     }
@@ -112,6 +106,7 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
     /**
      * An AchBank record can only be set to inactive if no PayeeAchAccount record with the same bank routing number can be found
      * 
+     * TODO: remove once inactive blocking is defined in data dictionary
      * @param document
      * @return
      */

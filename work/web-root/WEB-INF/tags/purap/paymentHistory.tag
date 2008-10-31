@@ -95,7 +95,7 @@
 		        			    <c:param name="sourceDocNbr" value="${preqHistory.documentNumber}"/>
 		        			    <c:param name="docTypeCode" value="PREQ"/>
 		        			  </c:url>
-		        			  <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>
+		        			  <c:url var="image" value="${ConfigProperties.externalizable.images.url}tinybutton-disbursinfo.gif"/>
 							  &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>
 		        			</c:if>
 			        		</td>
@@ -178,7 +178,7 @@
 		        			        <c:param name="sourceDocNbr" value="${cmHistory.documentNumber}"/>
 		        			        <c:param name="docTypeCode" value="CM"/>
 	                 			  </c:url>
-		        			      <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>
+		        			      <c:url var="image" value="${ConfigProperties.externalizable.images.url}tinybutton-disbursinfo.gif"/>
 						          &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>
 		        			    </c:if>
 			        		</td>

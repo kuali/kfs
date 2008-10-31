@@ -35,15 +35,6 @@ public class AchBankServiceImpl implements AchBankService {
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.kfs.pdp.service.AchBankService#save(org.kuali.kfs.pdp.businessobject.AchBank)
-     */
-    public void save(AchBank ab) {
-        LOG.debug("save() started");
-
-        this.businessObjectService.save(ab);
-    }
-    
-    /**
      * @see org.kuali.kfs.pdp.service.AchBankService#getByPrimaryId(java.lang.String)
      */
     public AchBank getByPrimaryId(String bankRoutingNumber) {
@@ -69,7 +60,7 @@ public class AchBankServiceImpl implements AchBankService {
                 String bankRoutingNumber = getField(str, 1, 9);
 
                 Map fieldValues = new HashMap();
-                fieldValues.put("bankRoutingNumber", bankRoutingNumber);
+                fieldValues.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, bankRoutingNumber);
                 AchBank tableBank = (AchBank) this.businessObjectService.findMatching(AchBank.class, fieldValues);
                 
                 AchBank ab = new AchBank(str);

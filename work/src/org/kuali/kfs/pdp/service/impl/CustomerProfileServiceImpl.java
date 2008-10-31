@@ -29,25 +29,11 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
-
-/**
- * @author jsissom
- */
 @Transactional
 public class CustomerProfileServiceImpl implements CustomerProfileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    
-    public List getAll() {
-        return (List) this.businessObjectService.findAll(CustomerProfile.class);
-    }
-
-    public CustomerProfile get(Integer id) {
-        Map primaryKeys = new HashMap();
-        primaryKeys.put("id", id);
-        return (CustomerProfile) this.businessObjectService.findByPrimaryKey(CustomerProfile.class, primaryKeys);
-    }
 
     public CustomerProfile get(String chartCode, String orgCode, String subUnitCode) {
         Map fieldValues = new HashMap();
@@ -59,27 +45,6 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         if (customerProfileList.isEmpty()) return null;
         
         return (CustomerProfile) customerProfileList.get(0);
-    }
-
-    public void save(CustomerProfile cp) {
-        this.businessObjectService.save(cp);
-    }
-
-    public void saveCustomerBank(CustomerBank cb) {
-        this.businessObjectService.save(cb);
-    }
-
-    public void deleteCustomerBank(CustomerBank cb) {
-        this.businessObjectService.delete(cb);
-    }
-
-    /**
-     * Gets the business object service
-     * 
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
     
     /**

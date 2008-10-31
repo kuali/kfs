@@ -38,7 +38,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     private static final long serialVersionUID = 2882277719647128949L;
 
     @Deprecated
-    public static final String KFS_GROUP_NAMESPACE = org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE;
+    public static final String KFS_GROUP_NAMESPACE = "KFS";
     
     public static class Modules {
         public static final String KFS = "kfs";

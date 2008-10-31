@@ -87,13 +87,13 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String cutoffdate30Label;
     private String cutoffdate60Label;
     private String cutoffdate90Label;
-    
+
     private KualiDecimal total0to30 = KualiDecimal.ZERO;
     private KualiDecimal total31to60 = KualiDecimal.ZERO;
     private KualiDecimal total61to90 = KualiDecimal.ZERO;
     private KualiDecimal total91toSYSPR = KualiDecimal.ZERO;
     private KualiDecimal totalSYSPRplus1orMore = KualiDecimal.ZERO;
-    
+
     private Date reportRunDate;
     private String reportOption;
     private String accountNumber;
@@ -103,7 +103,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String cutoffdate91toSYSPRlabel = "91-"+nbrDaysForLastBucket+" days"; 
     private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket))+1)+"+ days";
 
-             
+
     /**
      * Get the search results that meet the input search criteria.
      * 
@@ -115,14 +115,14 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        
+
         reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
-        
+
         Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
-        
+
         Collection<CustomerInvoiceDetail> invoiceDetailsSubset = null;
         Collection<CustomerInvoiceDocument> invoices = null;
         Collection invoiceTotalsRow = null;
@@ -132,12 +132,16 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         total61to90 = KualiDecimal.ZERO;
         total91toSYSPR = KualiDecimal.ZERO;
         totalSYSPRplus1orMore = KualiDecimal.ZERO;
-        
+
         if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
             invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
                 invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));                             
-//                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString());
+                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString()+chartCode+"\t"+orgCode);
+                for (CustomerInvoiceDetail cidetail : customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci)) {
+                    LOG.info("\t** invoicedetail30\t"+cidetail.getAmount()); 
+                }
+
             }
         }
         if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
@@ -147,23 +151,22 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             }   
         }
         if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length()!=0) {
-            if ((accountNumber.length() <=8 ) && (accountNumber.length() >= 4)) {
+            if ((accountNumber.length() == 7 ) && (StringUtils.isNumeric(accountNumber))) {
+                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
+            }
+            else {               
                 CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
                 try {
                     newbatch.execute(accountNumber, new Date());
                 }
                 catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    // do nada
                 }
-            }
-            else {
-                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
             }          
         }
-        
+
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-      
+
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         //Date reportRunDate;
         try {
@@ -180,11 +183,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         //Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
         Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1*Integer.parseInt(nbrDaysForLastBucket));
 
-//        LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
-//        LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
-//        LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
-//        LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
-//        LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
+        //        LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
 
         Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
 
@@ -199,95 +202,95 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             Date approvalDate;
             detailnum++;
             //if (custInvoice.getCustomerPurchaseOrderDate()!=null) {
-              //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
+            //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
             //}else {
-                approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
-                //LOG.info("\t\t\t\t\t\t\t\t"+detailnum+" approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
-                // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
+            approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
+            //LOG.info("\t\t\t\t\t\t\t\t"+detailnum+" approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
+            // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
             //}
-         // ok
-         if (ObjectUtils.isNull(approvalDate))
-             continue;
-            
-         if(custInvoice!=null && customerInvoiceDetailService.getOpenAmount(cid).isNonZero()) {   
-            
-            Customer customerobj = custInvoice.getCustomer();                        
-            String customerNumber = customerobj.getCustomerNumber();    // tested and works
-            String customerName = customerobj.getCustomerName();  // tested and works
-            
-            
-if (knownCustomers.containsKey(customerNumber)) { 
-    custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
-//    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
-} else {
-    custDetail = new CustomerAgingReportDetail();
-    custDetail.setCustomerName(customerName);
-    custDetail.setCustomerNumber(customerNumber);
-    knownCustomers.put(customerNumber, custDetail);
-//    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
-}
-//LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
-//LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
-            if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {                                
-                custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
-//                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
-                total0to30 = total0to30.add(cid.getAmount());
-//                LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
-//                LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
-                //LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
-            }
-            if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
-                custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
-                total31to60 = total31to60.add(cid.getAmount());
-                //LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
-            }
-            if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
-                custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90())); 
-                total61to90 = total61to90.add(cid.getAmount());
-                //LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
-            }
-            if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
-                custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR())); 
-                total91toSYSPR = total91toSYSPR.add(cid.getAmount());
-                //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
-            }
-            if (approvalDate.before(cutoffdate120)) {
-                custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
-                totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getAmount());
-                //LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
-            }            
-            
-}        
+            // ok
+            if (ObjectUtils.isNull(approvalDate))
+                continue;
+
+            if(custInvoice!=null && customerInvoiceDetailService.getOpenAmount(cid).isNonZero()) {   
+
+                Customer customerobj = custInvoice.getCustomer();                        
+                String customerNumber = customerobj.getCustomerNumber();    // tested and works
+                String customerName = customerobj.getCustomerName();  // tested and works
+
+
+                if (knownCustomers.containsKey(customerNumber)) { 
+                    custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
+                    //    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
+                } else {
+                    custDetail = new CustomerAgingReportDetail();
+                    custDetail.setCustomerName(customerName);
+                    custDetail.setCustomerNumber(customerNumber);
+                    knownCustomers.put(customerNumber, custDetail);
+                    //    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
+                }
+                //LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
+                //LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
+                if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {                                
+                    custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
+                    //                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
+                    total0to30 = total0to30.add(cid.getAmount());
+                    LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
+                    LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
+                    //LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
+                }
+                if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
+                    custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
+                    total31to60 = total31to60.add(cid.getAmount());
+                    //LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
+                }
+                if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
+                    custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90())); 
+                    total61to90 = total61to90.add(cid.getAmount());
+                    //LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
+                }
+                if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
+                    custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR())); 
+                    total91toSYSPR = total91toSYSPR.add(cid.getAmount());
+                    //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
+                }
+                if (approvalDate.before(cutoffdate120)) {
+                    custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                    totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getAmount());
+                    //LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
+                }            
+
+            }        
 
         } // end for loop
-       
-//     LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
-//     LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
 
-//     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");        
-//     for (Object obj : knownCustomers.values().toArray()) {
-//        CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;        
-//        LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());       
-//     } 
+        //     LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
+        //     LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
 
-        
+        //     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");        
+        //     for (Object obj : knownCustomers.values().toArray()) {
+        //        CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;        
+        //        LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());       
+        //     } 
+
+
         List results = new ArrayList();
         for (Object detail : knownCustomers.values()) {
             results.add(detail);
         }
-        
-//        if(knownCustomers.size() > 0) {
-//        results.add(total0to30);
-//        results.add(total31to60);
-//        results.add(total61to90);
-//        results.add(total91toSYSPR);
-//        results.add(totalSYSPRplus1orMore);
-//        }
 
-//        LOG.info("\t\t sending results back... \n\n\n");
+        //        if(knownCustomers.size() > 0) {
+        //        results.add(total0to30);
+        //        results.add(total31to60);
+        //        results.add(total61to90);
+        //        results.add(total91toSYSPR);
+        //        results.add(totalSYSPRplus1orMore);
+        //        }
+
+        //        LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
     }
-    
+
     /**
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number
      */
@@ -297,7 +300,7 @@ if (knownCustomers.containsKey(customerNumber)) {
         args.put("accountNumber", accountNumber);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
     }      
-   
+
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
@@ -319,6 +322,7 @@ if (knownCustomers.containsKey(customerNumber)) {
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
+    @SuppressWarnings("deprecation")
     @Override
     protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl, List pkNames) {
         Properties parameters = new Properties();
@@ -379,7 +383,7 @@ if (knownCustomers.containsKey(customerNumber)) {
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList;
-        //LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (performLookup)... \n\n\n");
+
         // call search method to get results
         if (bounded) {
             displayList = getSearchResults(lookupForm.getFieldsForLookup());
@@ -393,118 +397,129 @@ if (knownCustomers.containsKey(customerNumber)) {
 
         boolean hasReturnableRow = false;
 
-        // iterate through result list and wrap rows with return url and action urls
-        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
-            BusinessObject element = (BusinessObject) iter.next();
+        try {
+            // iterate through result list and wrap rows with return url and action urls
+            for (Iterator iter = displayList.iterator(); iter.hasNext();) {
+                BusinessObject element = (BusinessObject) iter.next();
 
-            // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(),
-            // lookupForm.getLookupableImplServiceName());
-            // String actionUrls = getActionUrls(element);
-            String returnUrl = "www.bigfrickenRETURNurl";
-            String actionUrls = "www.someACTIONurl";
+                // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(),
+                // lookupForm.getLookupableImplServiceName());
+                // String actionUrls = getActionUrls(element);
+                String returnUrl = "www.bigfrickenRETURNurl";
+                String actionUrls = "www.someACTIONurl";
 
-            List<Column> columns = getColumns();
-            populateCutoffdateLabels();
-            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
+ 
+                    if (ObjectUtils.isNotNull(getColumns())) {
+                        List<Column> columns = getColumns();
+                        populateCutoffdateLabels();
+                        for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 
-                Column col = (Column) iterator.next();
-                Formatter formatter = col.getFormatter();
+                            Column col = (Column) iterator.next();
+                            Formatter formatter = col.getFormatter();
 
-                // pick off result column from result list, do formatting
-                String propValue = KNSConstants.EMPTY_STRING;
-                Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                            // pick off result column from result list, do formatting
+                            String propValue = KNSConstants.EMPTY_STRING;
+                            Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
 
-                // set comparator and formatter based on property type
-                Class propClass = propertyTypes.get(col.getPropertyName());
-                // if ( propClass == null ) {
-                // try {
-                // propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
-                // propertyTypes.put( col.getPropertyName(), propClass );
-                // } catch (Exception e) {
-                // throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " +
-                // " on an instance of '" + element.getClass().getName() + "'.", e);
-                // }
-                // }
+                            // set comparator and formatter based on property type
+                            Class propClass = propertyTypes.get(col.getPropertyName());
+                            // if ( propClass == null ) {
+                            // try {
+                            // propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
+                            // propertyTypes.put( col.getPropertyName(), propClass );
+                            // } catch (Exception e) {
+                            // throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " +
+                            // " on an instance of '" + element.getClass().getName() + "'.", e);
+                            // }
+                            // }
 
-                // formatters
-                if (prop != null) {
-                    // for Booleans, always use BooleanFormatter
-                    if (prop instanceof Boolean) {
-                        formatter = new BooleanFormatter();
+                            // formatters
+                            if (prop != null) {
+                                // for Booleans, always use BooleanFormatter
+                                if (prop instanceof Boolean) {
+                                    formatter = new BooleanFormatter();
+                                }
+
+                                // for Dates, always use DateFormatter
+                                if (prop instanceof Date) {
+                                    formatter = new DateFormatter();
+                                }
+
+                                // for collection, use the list formatter if a formatter hasn't been defined yet
+                                if (prop instanceof Collection && formatter == null) {
+                                    formatter = new CollectionFormatter();
+                                }
+
+                                if (formatter != null) {
+                                    propValue = (String) formatter.format(prop);
+                                }
+                                else {
+                                    propValue = prop.toString();
+                                }
+                            }
+
+                            // comparator
+                            col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                            col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+
+                            // check security on field and do masking if necessary
+                            boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getPerson(), element.getClass().getName(), col.getPropertyName());
+                            if (!viewAuthorized) {
+                                Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
+                                propValue = displayMask.maskValue(propValue);
+                            }
+                            col.setPropertyValue(propValue);
+
+                            // add correct label for sysparam
+                            if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
+                                col.setColumnTitle(cutoffdate91toSYSPRlabel);
+                            if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
+                                col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
+
+                            if (StringUtils.isNotBlank(propValue)) {
+                                // do not add link to the values in column "Customer Name"
+                                if (StringUtils.equals(customerNameLabel, col.getColumnTitle()))
+                                    col.setPropertyURL("");
+                                else
+                                    col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
+                            }
+
+                        }
+
+                        ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+                        if (element instanceof PersistableBusinessObject) {
+                            row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                        }
+
+                        boolean rowReturnable = isResultReturnable(element);
+                        row.setRowReturnable(rowReturnable);
+                        if (rowReturnable) {
+                            hasReturnableRow = true;
+                        }
+                        resultTable.add(row);
                     }
-
-                    // for Dates, always use DateFormatter
-                    if (prop instanceof Date) {
-                        formatter = new DateFormatter();
-                    }
-
-                    // for collection, use the list formatter if a formatter hasn't been defined yet
-                    if (prop instanceof Collection && formatter == null) {
-                        formatter = new CollectionFormatter();
-                    }
-
-                    if (formatter != null) {
-                        propValue = (String) formatter.format(prop);
-                    }
-                    else {
-                        propValue = prop.toString();
-                    }
-                }
-
-                // comparator
-                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-
-                // check security on field and do masking if necessary
-                boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getPerson(), element.getClass().getName(), col.getPropertyName());
-                if (!viewAuthorized) {
-                    Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
-                    propValue = displayMask.maskValue(propValue);
-                }
-                col.setPropertyValue(propValue);
+                    
                 
-                // add correct label for sysparam
-                if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
-                    col.setColumnTitle(cutoffdate91toSYSPRlabel);
-                if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
-                    col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
-
-                if (StringUtils.isNotBlank(propValue)) {
-                    // do not add link to the values in column "Customer Name"
-                    if (StringUtils.equals(customerNameLabel, col.getColumnTitle()))
-                        col.setPropertyURL("");
-                    else
-                        col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
+                    lookupForm.setHasReturnableRow(hasReturnableRow);
                 }
-                
-            }
-
-            ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-            if (element instanceof PersistableBusinessObject) {
-                row.setObjectId(((PersistableBusinessObject) element).getObjectId());
-            }
-
-            boolean rowReturnable = isResultReturnable(element);
-            row.setRowReturnable(rowReturnable);
-            if (rowReturnable) {
-                hasReturnableRow = true;
-            }
-            resultTable.add(row);
         }
-        
-        lookupForm.setHasReturnableRow(hasReturnableRow);
+        catch (Exception e) {
+            // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
+           // e.printStackTrace();
+        }
+    
 
         if (displayList.size() != 0) {
-        ((CustomerAgingReportForm) lookupForm).setTotal0to30(total0to30.toString());
-        ((CustomerAgingReportForm) lookupForm).setTotal31to60(total31to60.toString());
-        ((CustomerAgingReportForm) lookupForm).setTotal61to90(total61to90.toString());
-        ((CustomerAgingReportForm) lookupForm).setTotal91toSYSPR(total91toSYSPR.toString());
-        ((CustomerAgingReportForm) lookupForm).setTotalSYSPRplus1orMore(totalSYSPRplus1orMore.toString());
+            ((CustomerAgingReportForm) lookupForm).setTotal0to30(total0to30.toString());
+            ((CustomerAgingReportForm) lookupForm).setTotal31to60(total31to60.toString());
+            ((CustomerAgingReportForm) lookupForm).setTotal61to90(total61to90.toString());
+            ((CustomerAgingReportForm) lookupForm).setTotal91toSYSPR(total91toSYSPR.toString());
+            ((CustomerAgingReportForm) lookupForm).setTotalSYSPRplus1orMore(totalSYSPRplus1orMore.toString());
         }
-        
+
         return displayList;
     }
-    
+
     private void populateCutoffdateLabels() {
         customerNameLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.CUSTOMER_NAME).getLabel();
         customerNumberLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER).getLabel();
@@ -518,7 +533,7 @@ if (knownCustomers.containsKey(customerNumber)) {
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
         String href = "arCustomerOpenItemReportLookup.do" + "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" + "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" + "&methodToCall=search&reportName=" + KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME + "&docFormKey=88888888&customerNumber=" +
         // Customer Name, Customer Number
-                detail.getCustomerNumber() + "&customerName=" + detail.getCustomerName();
+        detail.getCustomerNumber() + "&customerName=" + detail.getCustomerName();
         // Report Option
         href += "&reportOption=" + reportOption;
         if (reportOption.equals(ArConstants.CustomerAgingReportFields.ACCT))

@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -92,7 +92,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
                   
                 billingDate = DateUtils.addDays(billingDate, -30);
                   
-                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate);
+                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, -1, null, null);
                 Thread.sleep(5000);
     
             }
@@ -149,7 +149,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
        return (pkMapForParameter);
     }
     
-    public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate) {
+    public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         
         CustomerInvoiceDocument customerInvoiceDocument;
@@ -166,12 +166,18 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
         
-        int accountlines = (int) (Math.random()*9); // add up to 9
-        if (accountlines==0) accountlines=1; // add at least one
-        for (int i = 0; i < accountlines; i++) { 
-            customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
-        }              
         
+        if (ObjectUtils.isNotNull(nonrandomquantity)&&ObjectUtils.isNotNull(nonrandomunitprice)&&numinvoicedetails>=1) {
+            for (int i = 0; i < numinvoicedetails; i++) { 
+                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, nonrandomquantity, nonrandomunitprice));
+            }  
+        } else {       
+            int randomnuminvoicedetails = (int) (Math.random()*9); // add up to 9
+            if (randomnuminvoicedetails==0) randomnuminvoicedetails=1; // add at least one
+            for (int i = 0; i < randomnuminvoicedetails; i++) { 
+                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, null, null));
+            }              
+        }
         try {
             documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
             LOG.info("Submitted customer invoice document " + customerInvoiceDocument.getDocumentNumber()+" for "+customerNumber+" - "+sdf.format(billingDate)+"\n\n");
@@ -180,11 +186,24 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
     }
     
-    protected CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument){
-        KualiDecimal quantity = new KualiDecimal(100*Math.random()); // random number 0 to 100 total items      // TODO FIXME  <-- InvoiceItemQuantities of more than 2 decimal places cause rule errors; BigDecimal values such as 5.3333333333 should be valid InvoiceItemQuantities
-        BigDecimal unitprice = new BigDecimal(1); // 0.00 to 100.00 dollars per item
+    public CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice){
+        
+        KualiDecimal quantity;
+        BigDecimal unitprice;
+        
+        if (ObjectUtils.isNull(nonrandomquantity)) {
+            quantity = new KualiDecimal(100*Math.random()); // random number 0 to 100 total items      // TODO FIXME  <-- InvoiceItemQuantities of more than 2 decimal places cause rule errors; BigDecimal values such as 5.3333333333 should be valid InvoiceItemQuantities
+        } else {
+            quantity = nonrandomquantity;
+        }
+        if (ObjectUtils.isNull(nonrandomunitprice)) {    
+        unitprice = new BigDecimal(1); // 0.00 to 100.00 dollars per item
+        } else {
+            unitprice = nonrandomunitprice;
+        }                
+        
         KualiDecimal amount = quantity.multiply(new KualiDecimal(unitprice)); // setAmount has to be set explicitly below; so we calculate it here
-        LOG.info("\n\n\n\n\t\t\t\t randomquantity="+quantity.toString()+"\t\t\t\tunitprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString()+"\t\t\t\t"+customerInvoiceDocument.getCustomerName());
+        LOG.info("\n\n\n\n\t\t\t\t quantity="+quantity.toString()+"\t\t\t\tprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString()+"\t\t\t\t"+customerInvoiceDocument.getCustomerName());
         
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());

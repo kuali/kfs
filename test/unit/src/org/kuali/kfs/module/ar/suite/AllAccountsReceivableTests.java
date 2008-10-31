@@ -22,6 +22,7 @@ import org.kuali.kfs.module.ar.batch.CustomerLoadBusinessRulesTest;
 import org.kuali.kfs.module.ar.batch.CustomerLoadDigesterTest;
 import org.kuali.kfs.module.ar.batch.CustomerLoadXMLSchemaTest;
 import org.kuali.kfs.module.ar.batch.vo.CustomerLoadDigesterConverterTest;
+import org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImplTest;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocumentGeneralLedgerPostingTest;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocumentTest;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentServiceTest;
@@ -104,6 +105,7 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(CustomerCreditMemoDocumentServiceTest.class);
         suite.addTestSuite(CustomerCreditMemoDocumentRuleTest.class);
         suite.addTestSuite(CustomerInvoiceWriteoffDocumentRuleTest.class);
+        suite.addTestSuite(CustomerAgingReportLookupableHelperServiceImplTest.class);
 
         //  customer batch load tests
         suite.addTestSuite(CustomerLoadDigesterTest.class);

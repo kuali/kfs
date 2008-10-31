@@ -188,7 +188,7 @@ public class PurapAccountRevisionServiceImpl implements PurapAccountRevisionServ
      * @return Map of account history groups
      */
     private Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> buildAccountHistoryGroups(AccountsPayableItemBase item, Integer postingYear, String postingPeriodCode, Class<? extends PurApAccountingLineBase> clazz) {
-        Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> map = new HashMap<PurapAccountRevisionGroup, PurapAccountRevisionGroup>();
+        Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> historyGroups = new HashMap<PurapAccountRevisionGroup, PurapAccountRevisionGroup>();
         // find the current sum value from history table and adjusts the amount
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("itemIdentifier", item.getItemIdentifier());
@@ -198,16 +198,15 @@ public class PurapAccountRevisionServiceImpl implements PurapAccountRevisionServ
                 PurapAccountRevisionGroup historyGroup = new PurapAccountRevisionGroup(existAcct);
                 historyGroup.setPostingYear(postingYear);
                 historyGroup.setPostingPeriodCode(postingPeriodCode);
-                if ((map.get(historyGroup)) == null) {
-                    map.put(historyGroup, historyGroup);
+                if ((historyGroups.get(historyGroup)) == null) {
+                    historyGroups.put(historyGroup, historyGroup);
                 }
                 else {
-                    map.get(historyGroup).combineEntry((PaymentRequestAccount) existAcct);
+                    historyGroups.get(historyGroup).combineEntry((PaymentRequestAccount) existAcct);
                 }
-                map.put(historyGroup, historyGroup);
             }
         }
-        return map;
+        return historyGroups;
     }
 
     /**

@@ -22,13 +22,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -63,6 +67,31 @@ public class GlLineServiceTest extends KualiTestBase {
         this.entries = new ArrayList<GeneralLedgerEntry>();
         entries.add(entry);
         entries.add(entry2);
+    }
+
+    private CapitalAssetInformationDetail createNewCapitalAssetInformationDetail() {
+        CapitalAssetInformationDetail assetInformationDetail = new CapitalAssetInformationDetail();
+        assetInformationDetail.setDocumentNumber("1001");
+        assetInformationDetail.setItemLineNumber(1);
+        assetInformationDetail.setCampusCode("BL");
+        assetInformationDetail.setBuildingCode("BL001");
+        assetInformationDetail.setBuildingRoomNumber("001");
+        assetInformationDetail.setBuildingSubRoomNumber("23");
+        assetInformationDetail.setCapitalAssetTagNumber("TGX");
+        assetInformationDetail.setCapitalAssetSerialNumber("SER");
+        return assetInformationDetail;
+    }
+
+    private CapitalAssetInformation createNewCapitalAssetInformation() {
+        CapitalAssetInformation assetInformation = new CapitalAssetInformation();
+        assetInformation.setDocumentNumber("1001");
+        assetInformation.setVendorHeaderGeneratedIdentifier(1000);
+        assetInformation.setVendorDetailAssignedIdentifier(0);
+        assetInformation.setCapitalAssetTypeCode("07009");
+        assetInformation.setCapitalAssetManufacturerName("MFR");
+        assetInformation.setCapitalAssetDescription("DESC");
+        assetInformation.setCapitalAssetManufacturerModelNumber("MDL");
+        return assetInformation;
     }
 
     private GeneralLedgerEntry createCABGLEntry(String accountNumber, int seqNumber, KualiDecimal amount) throws ParseException {
@@ -119,12 +148,58 @@ public class GlLineServiceTest extends KualiTestBase {
         assertTrue(assetGlobalDetails.isEmpty());
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
         assertEquals(2, assetPaymentDetails.size());
-        assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
-        assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(1), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+        if ("1023200".equals(assetPaymentDetails.get(0).getAccountNumber())) {
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(1), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+        }
+        else {
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(1), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+        }
     }
 
-    private void assertAssetPaymentDetail(MaintenanceDocument assetGlobalDocument, AssetPaymentDetail detail, String accountNumber, KualiDecimal amount, Integer seqNo) {
-        assertEquals(assetGlobalDocument.getDocumentNumber(), detail.getDocumentNumber());
+    public void testCreateAssetGlobalDocument_FPData() throws Exception {
+        CapitalAssetInformation assetInformation = createNewCapitalAssetInformation();
+        assetInformation.getCapitalAssetInformationDetails().add(createNewCapitalAssetInformationDetail());
+        businessObjectService.save(assetInformation);
+        assetInformation.refreshNonUpdateableReferences();
+        MaintenanceDocument assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(entries, primary);
+        assertNotNull(assetGlobalDocument);
+        AssetGlobal assetGlobal = (AssetGlobal) assetGlobalDocument.getNewMaintainableObject().getBusinessObject();
+        // assert here
+        assertEquals("BL", assetGlobal.getOrganizationOwnerChartOfAccountsCode());
+        assertEquals("1023200", assetGlobal.getOrganizationOwnerAccountNumber());
+        assertEquals(CamsConstants.ACQUISITION_TYPE_CODE_N, assetGlobal.getAcquisitionTypeCode());
+        assertEquals("A", assetGlobal.getInventoryStatusCode());
+        assertEquals("07009", assetGlobal.getCapitalAssetTypeCode());
+        assertEquals("MFR", assetGlobal.getManufacturerName());
+        assertEquals("MDL", assetGlobal.getManufacturerModelNumber());
+        assertEquals("DESC", assetGlobal.getCapitalAssetDescription());
+        assertEquals("ABC CLEANING SERVICES", assetGlobal.getVendorName());
+
+        List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetSharedDetails();
+        assertEquals(1, assetGlobalDetails.size());
+        AssetGlobalDetail assetGlobalDetail = assetGlobalDetails.get(0);
+        assertEquals("BL", assetGlobalDetail.getCampusCode());
+        assertEquals("BL001", assetGlobalDetail.getBuildingCode());
+        assertEquals("001", assetGlobalDetail.getBuildingRoomNumber());
+        assertEquals("23", assetGlobalDetail.getBuildingSubRoomNumber());
+        assertEquals("TGX", assetGlobalDetail.getCampusTagNumber());
+        assertEquals("SER", assetGlobalDetail.getSerialNumber());
+        List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
+        assertEquals(2, assetPaymentDetails.size());
+        if ("1023200".equals(assetPaymentDetails.get(0).getAccountNumber())) {
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(1), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+        }
+        else {
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+            assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(1), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+        }
+    }
+
+    private void assertAssetPaymentDetail(Document document, AssetPaymentDetail detail, String accountNumber, KualiDecimal amount, Integer seqNo) {
+        assertEquals(document.getDocumentNumber(), detail.getDocumentNumber());
         assertEquals(seqNo, detail.getSequenceNumber());
         assertEquals(Integer.valueOf(2008), detail.getPostingYear());
         assertEquals("10", detail.getPostingPeriodCode());
@@ -141,5 +216,44 @@ public class GlLineServiceTest extends KualiTestBase {
         assertEquals("04/23/2008", new SimpleDateFormat("MM/dd/yyyy").format(detail.getExpenditureFinancialDocumentPostedDate()));
         assertEquals("", detail.getPurchaseOrderNumber());
         assertEquals(false, detail.isTransferPaymentIndicator());
+    }
+
+    public void testCreateAssetPaymentDocument_noFPData() throws Exception {
+        AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);
+        assertNotNull(document);
+        // assert here
+        List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
+        assertEquals(2, assetPaymentDetails.size());
+        if ("1023200".equals(assetPaymentDetails.get(0).getAccountNumber())) {
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(1), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+        }
+        else {
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(1), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+        }
+    }
+
+    public void testCreateAssetPaymentDocument_FPData() throws Exception {
+        CapitalAssetInformation assetInformation = new CapitalAssetInformation();
+        assetInformation.setDocumentNumber("1001");
+        assetInformation.setCapitalAssetNumber(1594L);
+        businessObjectService.save(assetInformation);
+        AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);
+        assertNotNull(document);
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
+        assertEquals(1, assetPaymentAssetDetails.size());
+        assertEquals(Long.valueOf(1594), assetPaymentAssetDetails.get(0).getCapitalAssetNumber());
+        // assert here
+        List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
+        assertEquals(2, assetPaymentDetails.size());
+        if ("1023200".equals(assetPaymentDetails.get(0).getAccountNumber())) {
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(1), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+        }
+        else {
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(3300.50), Integer.valueOf(2));
+            assertAssetPaymentDetail(document, assetPaymentDetails.get(1), "1023200", new KualiDecimal(5200.50), Integer.valueOf(1));
+        }
     }
 }

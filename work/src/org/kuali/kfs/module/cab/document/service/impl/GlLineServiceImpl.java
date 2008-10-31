@@ -179,7 +179,7 @@ public class GlLineServiceImpl implements GlLineService {
         // Asset Payment Detail
         int seq = 0;
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
-            AssetPaymentDetail detail = createAssetPaymentDetail(primaryGlEntry, document, ++seq);
+            AssetPaymentDetail detail = createAssetPaymentDetail(generalLedgerEntry, document, ++seq);
             document.getSourceAccountingLines().add(detail);
         }
         // Asset payment asset detail

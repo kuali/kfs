@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -231,7 +232,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
 
         String authorizedWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(batchInputFileSetType.getUploadWorkgroupParameterComponent(), KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME);
 
-        return user.isMember(authorizedWorkgroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroupName);
     }
 
     /**

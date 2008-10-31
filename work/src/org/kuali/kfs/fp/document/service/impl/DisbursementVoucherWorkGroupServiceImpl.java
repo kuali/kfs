@@ -18,8 +18,9 @@ package org.kuali.kfs.fp.document.service.impl;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 
 public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVoucherWorkGroupService {
     public ParameterService parameterService;
@@ -37,7 +38,7 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
         if (taxGroupName == null) {
             taxGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
-        return financialSystemUser.isMember(taxGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, taxGroupName);
     }
 
     /**
@@ -47,7 +48,7 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
         if (travelGroupName == null) {
             travelGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
-        return financialSystemUser.isMember(travelGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, travelGroupName);
     }
 
     /**
@@ -57,7 +58,7 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
         if (frnGroupName == null) {
             frnGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
-        return financialSystemUser.isMember(frnGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, frnGroupName);
     }
 
     /**
@@ -67,7 +68,7 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
         if (wireTransferGroupName == null) {
             wireTransferGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
-        return financialSystemUser.isMember(wireTransferGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, wireTransferGroupName);
     }
 
     /**
@@ -77,7 +78,7 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
         if (adminGroupName == null) {
             adminGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
-        return financialSystemUser.isMember(adminGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
     }
 
     /**

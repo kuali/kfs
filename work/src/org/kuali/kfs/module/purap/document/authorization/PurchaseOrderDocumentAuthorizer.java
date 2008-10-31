@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -55,7 +56,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
     @Override
     public boolean hasInitiateAuthorization(Document document, Person user) {
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
         if (group == null) {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
         }
@@ -116,7 +117,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             }
             
             String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-            if (user.isMember(purchasingGroup)) {
+            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
                 // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
                 // for ex, contract manager, manual status change, and quote etc
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE, "TRUE");
@@ -131,7 +132,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             // Unlock Capital Assets tag during Amendment.
             if (PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
                 String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-                if (user.isMember(purchasingGroup)) {
+                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
                     editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
                 }
             }
@@ -147,7 +148,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
 
                 //if user is part of the purchasing group, allow edit while awaiting internal purchasing review
                 String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-                if (user.isMember(purchasingGroup)) {
+                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
                     editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
                 }
             }

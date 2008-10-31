@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.rice.kew.dto.ValidActionsDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
@@ -60,7 +61,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
         // update editMode if possible
         CashManagementDocument cmDoc = (CashManagementDocument) document;
 
-        if (org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", cmDoc.getWorkgroupName()).getGroupId())) {
+        if (org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, cmDoc.getWorkgroupName()).getGroupId())) {
             editModeMap.clear();
 
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -160,7 +161,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
             super.canInitiate(documentTypeName, user);
             // to initiate, you have to be a member of the bursar's group for your campus
             String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
-            if (!user.isMember(unitName)) {
+            if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, unitName)) {
                 throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
             }
         }

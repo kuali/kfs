@@ -25,11 +25,11 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
@@ -279,7 +279,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
         if (field.isSecure()) {
             String workgroupName = boDDEntry.getAttributeDefinition(field.getPropertyName()).getDisplayWorkgroup();
         
-            if (GlobalVariables.getUserSession().getPerson().isMember(workgroupName)) {
+            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, workgroupName)) {
                 field.setDisplayMaskValue(field.getPropertyValue());
             }
         }

@@ -29,10 +29,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -538,7 +538,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         // attempt to get the group name that grants access to the CG fields
         String allowedCgWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(SubAccount.class, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
 
-        if (user.isMember(allowedCgWorkgroup)) {
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, allowedCgWorkgroup)) {
             LOG.info("User '" + user.getPrincipalName() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;
         }

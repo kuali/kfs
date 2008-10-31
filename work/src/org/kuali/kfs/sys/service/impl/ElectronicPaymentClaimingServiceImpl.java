@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStra
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -182,14 +183,14 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isUserMemberOfClaimingGroup(org.kuali.rice.kim.bo.Person)
      */
     public boolean isUserMemberOfClaimingGroup(Person user) {
-        return user.isMember(parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER)) || isElectronicPaymentAdministrator(user);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER)) || isElectronicPaymentAdministrator(user);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isElectronicPaymentAdministrator(org.kuali.rice.kim.bo.Person)
      */
     public boolean isElectronicPaymentAdministrator(Person user) {
-        return user.isMember(parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME));
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME));
     }
 
     /**

@@ -48,7 +48,7 @@ public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocu
         }
         else {
             String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
-            KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+            KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
             if (group == null) {
                 throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
             }

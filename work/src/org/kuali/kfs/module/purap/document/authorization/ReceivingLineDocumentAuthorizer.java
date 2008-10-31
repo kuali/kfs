@@ -43,7 +43,7 @@ public class ReceivingLineDocumentAuthorizer extends FinancialSystemTransactiona
     @Override
     public boolean hasInitiateAuthorization(Document document, Person user) {
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
         if (group == null) {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
         }

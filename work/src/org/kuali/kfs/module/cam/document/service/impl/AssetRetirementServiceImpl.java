@@ -43,8 +43,9 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.exception.ReferentialIntegrityException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -285,7 +286,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      */
     public boolean isAllowedRetireMultipleAssets(String retirementReasonCode) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        return currentUser.isMember(CamsConstants.Workgroups.WORKGROUP_MULTIPLE_ASSET_RETIREMENT_WORKGROUP);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_MULTIPLE_ASSET_RETIREMENT_WORKGROUP);
     }
 
     /**

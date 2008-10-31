@@ -58,7 +58,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -75,6 +74,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -396,7 +396,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
                     isAccessible = false;
                 }
                 else {
-                    if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(currentUser, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
+                    if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                         isAccessible = true;
                     }
                 }
@@ -439,7 +439,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             hasLines = (accessibleLines >= min);
         }
         else {
-            if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(currentUser, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
+            if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                 hasLines = true;
             }
             else {

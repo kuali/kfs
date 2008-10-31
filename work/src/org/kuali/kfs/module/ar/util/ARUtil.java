@@ -26,7 +26,7 @@ public class ARUtil {
      * @return true is user is AR supervisor, false otherwise
      */
     public static boolean isUserInArSupervisorGroup(Person user) {
-        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", ArConstants.AR_SUPERVISOR_GROUP_NAME).getGroupId());
+        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, ArConstants.AR_SUPERVISOR_GROUP_NAME).getGroupId());
     }
 
 }

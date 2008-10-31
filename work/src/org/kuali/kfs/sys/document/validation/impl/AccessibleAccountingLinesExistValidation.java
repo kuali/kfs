@@ -22,10 +22,11 @@ import java.util.Iterator;
 
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -81,7 +82,7 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
             hasLines = (accessibleLines >= min);
         }
         else {
-            if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(currentUser, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
+            if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                 hasLines = true;
             }
             else {

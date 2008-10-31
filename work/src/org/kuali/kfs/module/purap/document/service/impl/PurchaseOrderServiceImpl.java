@@ -88,6 +88,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Note;
@@ -1455,7 +1456,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return false;
         }
         String purchasingGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-        if (!personService.isMemberOfGroup(user, "KFS", purchasingGroup)) {
+        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, actionType, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
         }        

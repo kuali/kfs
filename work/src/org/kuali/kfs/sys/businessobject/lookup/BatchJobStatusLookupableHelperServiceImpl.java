@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -104,7 +105,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
             StringBuffer sb = new StringBuffer();
             if (parameterService.parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP)) {
                 String adminWorkgroup = parameterService.getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
-                if (!GlobalVariables.getUserSession().getPerson().isMember(adminWorkgroup)) {
+                if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminWorkgroup)) {
                     linkText = "View";
                 }
             }

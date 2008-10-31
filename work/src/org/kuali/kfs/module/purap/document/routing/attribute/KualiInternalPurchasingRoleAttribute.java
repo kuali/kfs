@@ -39,6 +39,7 @@ import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RuleExtension;
 import org.kuali.rice.kew.rule.UnqualifiedRoleAttribute;
 import org.kuali.rice.kew.workgroup.GroupNameId;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -87,7 +88,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
             authenticationId = docContent.getRouteContext().getDocument().getRoutedByUser().getAuthenticationUserId().getAuthenticationId();
             if (StringUtils.isNotEmpty(authenticationId)) {
                 String contractManagersGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CONTRACT_MANAGERS_WORKGROUP_NAME);
-                if (!SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authenticationId.toLowerCase()).isMember(contractManagersGroupName)) {
+                if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authenticationId.toLowerCase()).getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, contractManagersGroupName)) {
                     // get the document id number from the routeContext doc content
                     PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
                     document.refreshNonUpdateableReferences();

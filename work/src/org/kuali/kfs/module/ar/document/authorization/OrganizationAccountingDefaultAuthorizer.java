@@ -55,7 +55,7 @@ public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMain
     * @return true if user is in group
     */
    private boolean isUserInArSupervisorGroup(Person user) {
-       return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", ArConstants.AR_SUPERVISOR_GROUP_NAME).getGroupId());
+       return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, ArConstants.AR_SUPERVISOR_GROUP_NAME).getGroupId());
    }
 
    

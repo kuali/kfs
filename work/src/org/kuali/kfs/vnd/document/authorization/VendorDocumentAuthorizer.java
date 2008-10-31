@@ -34,8 +34,9 @@ import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -129,7 +130,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
         VendorDetail vendor = (VendorDetail) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
         String taxNbrAccessibleWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE);
 
-        if (user.isMember(taxNbrAccessibleWorkgroup)) {
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, taxNbrAccessibleWorkgroup)) {
             editMode.put(VendorAuthorizationConstants.VendorEditMode.TAX_ENTRY, "TRUE");
         }
 
@@ -159,7 +160,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
      */
     private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
-        if (!user.isMember(purchasingWorkgroup)) {
+        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingWorkgroup)) {
             List<VendorContract> contracts = vendor.getVendorContracts();
             int i = 0;
             for (VendorContract contract : contracts) {
@@ -207,7 +208,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
     private void setVendorCommodityCodeFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
         //If the user is not in purchasing workgroup, we need to set the includeAddLine to false for vendorCommodities collection
         //and set the commodity default indicator and active indicator to be read only.
-        if (!user.isMember(purchasingWorkgroup)) {
+        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingWorkgroup)) {
             MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
             collDef.setIncludeAddLine(false);
             

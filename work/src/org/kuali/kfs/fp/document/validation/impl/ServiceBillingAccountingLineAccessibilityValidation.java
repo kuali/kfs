@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLin
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -83,7 +84,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
             return false;
         }
 
-        if (user.isMember(control.getWorkgroupName())) {
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, control.getWorkgroupName())) {
             return true;
         }
         else {

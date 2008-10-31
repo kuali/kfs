@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -59,7 +60,7 @@ public class SalaryExpenseTransferAdminWorkGroupValidation extends GenericValida
         String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         
         try {
-            isAdmin = GlobalVariables.getUserSession().getPerson().isMember(adminGroupName);
+            isAdmin = KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
         }
         catch (Exception e) {
                 throw new RuntimeException ("Workgroup " + LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM + " not found", e) ;

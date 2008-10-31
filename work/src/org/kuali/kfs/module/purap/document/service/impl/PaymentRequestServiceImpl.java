@@ -77,6 +77,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -857,7 +858,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is an approver of the document, The user is a member of the Accounts Payable group
          */
-        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (user.isMember(accountsPayableGroup) && document.getExtractedDate() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
+        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && document.getExtractedDate() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
 
             canHold = true;
         }
@@ -877,7 +878,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is the person who put the preq on hold The user is a member of the AP Supervisor group
          */
-        if (document.isHoldIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains(document.getStatusCode()))) {
+        if (document.isHoldIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains(document.getStatusCode()))) {
 
             canRemoveHold = true;
         }
@@ -973,7 +974,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is the person who requested a cancel on the preq The user is a member of the AP Supervisor group
          */
-        if (document.getPaymentRequestedCancelIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
+        if (document.getPaymentRequestedCancelIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
             return true;
         }
         return false;

@@ -50,6 +50,7 @@ import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
@@ -158,7 +159,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; continue with cancel.");
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (user.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP) || user.isMember(PdpConstants.Groups.SYSADMIN_GROUP)) {
+                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
 
@@ -183,7 +184,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 }
             }
             else if (PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus) || PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
-                if (user.isMember(PdpConstants.Groups.CANCEL_GROUP)) {
+                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP)) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
 
@@ -282,7 +283,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; continue with hold removal.");
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (user.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP) || user.isMember(PdpConstants.Groups.SYSADMIN_GROUP)) {
+                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
                     LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
@@ -295,7 +296,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 }
             }
             else if (PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
-                if (user.isMember(PdpConstants.Groups.HOLD_GROUP)) {
+                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
 

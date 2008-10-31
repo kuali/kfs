@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.AuthenticationService;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.ksb.service.AuthorizationService;
 
 public class ServiceBusAuthorizationService implements AuthorizationService {
@@ -33,7 +34,7 @@ public class ServiceBusAuthorizationService implements AuthorizationService {
         if (user == null) {
             throw new RuntimeException("Failed to fetch user " + networkId);
         }
-        return user.isMember(getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.SERVICE_BUS_ACCESS_GROUP_PARM));
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.SERVICE_BUS_ACCESS_GROUP_PARM));
     }
 
     private ParameterService getParameterService() {

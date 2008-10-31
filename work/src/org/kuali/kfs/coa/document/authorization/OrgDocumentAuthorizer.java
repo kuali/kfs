@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 
@@ -52,7 +53,7 @@ public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAut
 
         // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
-        if (org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE,  org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
             return auths;
         }
 
@@ -60,7 +61,7 @@ public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAut
 
         // if the user is NOT a member of the special group, then mark all the
         // ICR & CS fields read-only.
-        if (!user.isMember(groupName)) {
+        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, groupName)) {
             auths.addReadonlyAuthField("organizationPlantChartCode");
             auths.addReadonlyAuthField("organizationPlantAccountNumber");
             auths.addReadonlyAuthField("campusPlantChartCode");

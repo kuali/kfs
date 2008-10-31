@@ -76,7 +76,7 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
         // check user can edit bank and set flag accordingly
         if (flags.getCanViewBank()) {
             String editBankGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.BANK_EDITABLE_GROUP);
-            KimGroup editBankGroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", editBankGroupName);
+            KimGroup editBankGroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, editBankGroupName);
             if (editBankGroup != null) {
                 flags.setCanEditBank(org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), editBankGroup.getGroupId()));
             } else {

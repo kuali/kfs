@@ -47,6 +47,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
@@ -344,7 +345,7 @@ if (knownCustomers.containsKey(customerNumber)) {
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (StringUtils.isNotBlank(displayWorkgroup) && !GlobalVariables.getUserSession().getPerson().isMember(displayWorkgroup)) {
+            if (StringUtils.isNotBlank(displayWorkgroup) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, displayWorkgroup)) {
                 // try {
                 // fieldVal = encryptionService.encrypt(fieldVal);
                 // }

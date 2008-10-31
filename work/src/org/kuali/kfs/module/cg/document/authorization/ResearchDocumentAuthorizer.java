@@ -35,12 +35,12 @@ import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.dto.WorkgroupDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowGroupService;
@@ -73,7 +73,8 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         // check ad-hoc workgroup permissions
         List<AdhocWorkgroup> adhocWorkgroups = permissionsService.getAllAdHocWorkgroups(researchDocument.getDocumentNumber());
         WorkflowInfo info2 = new WorkflowInfo();
-        List<KimGroup> personGroups = (List<KimGroup>)org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonGroups(u, "KFS");
+
+        List<? extends KimGroup> personGroups = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupsForPrincipal(u.getPrincipalId());
 
         for (AdhocWorkgroup adhocWorkgroup : adhocWorkgroups) {
             WorkgroupDTO workgroup;
@@ -174,7 +175,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         return editModeMap;
     }
 
-    private boolean kimGroupsContainWorkgroup(String workgroupId, List<KimGroup> groups) {
+    private boolean kimGroupsContainWorkgroup(String workgroupId, List<? extends KimGroup> groups) {
         for (KimGroup group : groups) {
             if (group.getGroupName().equals(workgroupId)) {
                 return true;

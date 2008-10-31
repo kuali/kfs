@@ -57,7 +57,7 @@ public class CfdaBatchStep extends AbstractStep {
         try {
             CfdaUpdateResults results = cfdaService.update();
 
-            KimGroup workgroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", MAIL_RECIPIENTS_GROUP_NAME);
+            KimGroup workgroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, MAIL_RECIPIENTS_GROUP_NAME);
             if (workgroup == null) {
                 LOG.fatal("Couldn't find workgroup to send notification to.");
                 return true;

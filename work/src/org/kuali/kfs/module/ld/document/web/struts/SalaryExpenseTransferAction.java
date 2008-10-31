@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMessage;
@@ -164,7 +165,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
         SalaryExpenseTransferDocument salaryExpenseDocument = (SalaryExpenseTransferDocument) ((KualiDocumentFormBase) form).getDocument();
 
         String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.EFFORT_ADMIN_WORKGROUP_PARM_NM);
-        boolean isAdmin = GlobalVariables.getUserSession().getPerson().isMember(adminGroupName);
+        boolean isAdmin = KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
 
         if (isAdmin && !questionAsked) {
             // error found, ask admin user if they want to override

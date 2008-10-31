@@ -61,8 +61,9 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -348,7 +349,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canHold = false;
 
         String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ((!cmDocument.isHoldIndicator()) && user.isMember(accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode()))) {
+        if ((!cmDocument.isHoldIndicator()) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode()))) {
             canHold = true;
         }
 
@@ -386,7 +387,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canRemoveHold = false;
 
         String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-        if (cmDocument.isHoldIndicator() && (user.getPrincipalId().equals(cmDocument.getLastActionPerformedByPersonId()) || user.isMember(accountsPayableSupervisorGroup))) {
+        if (cmDocument.isHoldIndicator() && (user.getPrincipalId().equals(cmDocument.getLastActionPerformedByPersonId()) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableSupervisorGroup))) {
             canRemoveHold = true;
         }
 
@@ -425,7 +426,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canCancel = false;
 
         String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ((!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && user.isMember(accountsPayableGroup)) {
+        if ((!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup)) {
             canCancel = true;
         }
 

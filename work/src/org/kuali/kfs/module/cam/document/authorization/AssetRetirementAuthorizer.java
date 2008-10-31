@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -104,10 +105,10 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
         else if (assetRetirementReason != null && assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE, new String[]{reasonCode,  "AssetRetirementGlobal"});
         }
-        else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
+        else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE, new String[]{reasonCode, "AssetRetirementGlobal"});
         }
-        else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
+        else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RAZE_REASON_CODE, new String[]{reasonCode, "AssetRetirementGlobal"});
         }
     }

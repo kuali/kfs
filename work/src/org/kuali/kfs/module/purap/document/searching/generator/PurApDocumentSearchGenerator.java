@@ -33,6 +33,7 @@ import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
 import org.kuali.rice.kew.exception.WorkflowServiceError;
 import org.kuali.rice.kew.user.WorkflowUser;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 
 /**
  * This class...
@@ -75,7 +76,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
         String searchSpecialAccess = getSpecialAccessSearchUserWorkgroupName();
         Person currentUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(workflowUser.getWorkflowId());
         if (currentUser != null) {
-            return currentUser.isMember(searchSpecialAccess);
+            return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, searchSpecialAccess);
         } else {
             String errorMessage = "Error attempting to find user with UUID '" + workflowUser.getUuId() + "'";
             LOG.error(errorMessage);

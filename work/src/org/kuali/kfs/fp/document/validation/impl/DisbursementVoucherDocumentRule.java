@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -1179,7 +1180,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (taxGroupName == null) {
             taxGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getPerson().isMember(taxGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, taxGroupName);
     }
 
     /**
@@ -1191,7 +1192,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (travelGroupName == null) {
             travelGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getPerson().isMember(travelGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, travelGroupName);
     }
 
     /**
@@ -1203,7 +1204,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (frnGroupName == null) {
             frnGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getPerson().isMember(frnGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, frnGroupName);
     }
 
     /**
@@ -1215,7 +1216,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (wireTransferGroupName == null) {
             wireTransferGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getPerson().isMember(wireTransferGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, wireTransferGroupName);
     }
 
     /**
@@ -1227,7 +1228,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (adminGroupName == null) {
             adminGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getPerson().isMember(adminGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
     }
 
     /**

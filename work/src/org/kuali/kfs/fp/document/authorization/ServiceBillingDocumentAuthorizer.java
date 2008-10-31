@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
@@ -82,7 +83,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
         boolean canInitiate = false;
         ServiceBillingControl[] controls = SpringContext.getBean(ServiceBillingControlService.class).getAll();
         for (int i = 0; i < controls.length; i++) {
-            if (user.isMember(controls[i].getWorkgroupName())) {
+            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, controls[i].getWorkgroupName())) {
                 canInitiate = true;
             }
         }

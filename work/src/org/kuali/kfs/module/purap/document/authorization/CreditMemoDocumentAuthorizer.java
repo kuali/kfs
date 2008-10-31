@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -50,7 +51,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
     @Override
     public boolean hasInitiateAuthorization(Document document, Person user) {
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
         if (group == null) {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
         }
@@ -94,7 +95,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
 
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
 
-        if (user.isMember(apGroup) && 
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) && 
                 (creditMemoDocument.getExtractedDate() == null) && 
                 (! workflowDocument.isAdHocRequested()) &&
                 (! PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(creditMemoDocument.getStatusCode()))) {
@@ -103,7 +104,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
 
         if (!creditMemoDocument.isUseTaxIndicator() &&
             !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((CreditMemoDocument) document) &&   
-            user.isMember(apGroup) ) {
+            KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) ) {
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES, "TRUE");
         }
         
@@ -142,7 +143,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         }
         else {
             String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-            if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS) && user.isMember(apGroup)) {
+            if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup)) {
                 flags.setCanSave(true);
             }
             else {

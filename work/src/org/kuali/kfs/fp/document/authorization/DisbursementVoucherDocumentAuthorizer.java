@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -135,7 +136,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         if (taxGroupName == null) {
             taxGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
-        return user.isMember(taxGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, taxGroupName);
     }
 
     /**
@@ -147,7 +148,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         if (travelGroupName == null) {
             travelGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
-        return user.isMember(travelGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, travelGroupName);
     }
 
     /**
@@ -159,7 +160,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         if (frnGroupName == null) {
             frnGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
-        return user.isMember(frnGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, frnGroupName);
     }
 
     /**
@@ -171,7 +172,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         if (wireTransferGroupName == null) {
             wireTransferGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
-        return user.isMember(wireTransferGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, wireTransferGroupName);
     }
 
     /**
@@ -183,7 +184,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         if (adminGroupName == null) {
             adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
-        return user.isMember(adminGroupName);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
     }
 
     /**

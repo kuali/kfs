@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.pdp.businessobject.lookup;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -34,18 +31,15 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.impl.util.PdpDataaccessUtil;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -164,7 +158,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             String url = KFSConstants.EMPTY_STRING;
             String basePath = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.BATCH_SEARCH_DETAIL_ACTION;
 
-            if (person.isMember(PdpConstants.Groups.CANCEL_GROUP) && batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(batchId)) {
+            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) && batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(batchId)) {
 
                 Properties params = new Properties();
                 params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION);
@@ -176,7 +170,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
             }
-            else if (person.isMember(PdpConstants.Groups.HOLD_GROUP)) {
+            else if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) {
 
                 if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(batchId)) {
 

@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -606,7 +607,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         // attempt to get the group name that grants access to the Plant fields
         String allowedPlantWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
 
-        if (user.isMember(allowedPlantWorkgroup)) {
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, allowedPlantWorkgroup)) {
             LOG.info("User '" + user.getPrincipalName() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
             return true;
         }

@@ -20,6 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 
 
@@ -38,7 +39,7 @@ public class PayeeAchAccountDocumentAuthorizer extends FinancialSystemMaintenanc
         // PdpConstants.Groups.VIEWALL_GROUP);
         String viewAllWorkgroup = "PD_VIEW_ACH";
 
-        if (user.isMember(viewAllWorkgroup)) {
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, viewAllWorkgroup)) {
             editMode.put(PdpConstants.PDPEditMode.ENTRY, "TRUE");
         }
 

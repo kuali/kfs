@@ -25,10 +25,10 @@ import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.util.spring.Cached;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -155,7 +155,7 @@ public class AccountServiceImpl implements AccountService {
                     isAccessible = false;
                 }
                 else {
-                    if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
+                    if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                         isAccessible = true;
                     }
                 }

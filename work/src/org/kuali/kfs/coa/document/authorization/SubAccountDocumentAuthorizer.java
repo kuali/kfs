@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kim.service.GroupService;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -52,7 +53,7 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
 
         // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
-        if (org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
             return new MaintenanceDocumentAuthorizations();
         }
 
@@ -60,7 +61,7 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
 
         // create a new KimGroup instance with that name
         GroupService groupService = SpringContext.getBean(GroupService.class);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", groupName);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, groupName);
         if (group == null) {
             throw new RuntimeException("The group by name '" + groupName + "' was not " + "found in the GroupService.  This is a configuration error, and " + "authorization/business-rules cannot be processed without this.");
         }
@@ -68,7 +69,7 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
         // if the user is NOT a member of the special group, then mark all the
         // ICR & CS fields read-only.
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
-        if (!org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, group.getGroupId())) {
+        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId())) {
             auths.addReadonlyAuthField("a21SubAccount.subAccountTypeCode");
             auths.addReadonlyAuthField("a21SubAccount.costShareChartOfAccountCode");
             auths.addReadonlyAuthField("a21SubAccount.costShareSourceAccountNumber");

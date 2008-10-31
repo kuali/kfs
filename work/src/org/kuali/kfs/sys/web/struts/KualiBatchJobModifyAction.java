@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -96,9 +97,9 @@ public class KualiBatchJobModifyAction extends KualiAction {
         if (getParameterService().parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX)) {
             String jobSpecificAdminWorkgroup = getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX);
             System.out.println("Job Specific Admin Work Group: "+adminWorkgroup);
-            if (!(GlobalVariables.getUserSession().getPerson().isMember(adminWorkgroup) || GlobalVariables.getUserSession().getPerson().isMember(jobSpecificAdminWorkgroup))) {
-                System.out.println("I'm in Admin Work Group: "+GlobalVariables.getUserSession().getPerson().isMember(adminWorkgroup));
-                System.out.println("I'm in Job Specific Admin Work Group: "+GlobalVariables.getUserSession().getPerson().isMember(jobSpecificAdminWorkgroup));
+            if (!(KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminWorkgroup) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, jobSpecificAdminWorkgroup))) {
+                System.out.println("I'm in Admin Work Group: "+KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminWorkgroup));
+                System.out.println("I'm in Job Specific Admin Work Group: "+KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, jobSpecificAdminWorkgroup));
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), actionType, job.getFullName());
             }
         }

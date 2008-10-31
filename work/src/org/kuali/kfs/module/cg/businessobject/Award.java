@@ -1076,7 +1076,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * @return KimGroup defined by workgroupName
      */
     public KimGroup getWorkgroup() {
-        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", workgroupName);
+        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, workgroupName);
     }
 
     /**

@@ -90,7 +90,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
         vunit = parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX")+campusCode;
         
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", vunit);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, vunit);
         if (group == null) {
             throw new IllegalArgumentException(vunit+" does not have a corresponding workgroup");
         }

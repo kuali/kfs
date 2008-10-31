@@ -27,11 +27,11 @@ import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
@@ -122,7 +122,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
         boolean authorized = false;
         String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
         if (unitName != null) {
-            authorized = !user.isMember(unitName);
+            authorized = !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, unitName);
         }
         if (!authorized) {
             // TODO: customize message indicating the required unitName using DocumentInitiationAuthorizationException

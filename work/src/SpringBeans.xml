@@ -14,8 +14,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
 	<bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
 
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
@@ -138,8 +148,17 @@
 		</property>
 	</bean>
 
-  <bean id="identityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl" />
-
+  <bean id="identityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl"
+    p:entityPrincipalCacheMaxSize="200"
+    p:entityPrincipalCacheMaxAge="1000"
+    p:groupCacheMaxSize="200"
+    p:groupCacheMaxAge="1000"
+    p:permissionCacheMaxSize="200"
+    p:permissionCacheMaxAge="1000"
+    p:responsibilityCacheMaxSize="200"
+    p:responsibilityCacheMaxAge="1000"
+  />
+  
   <bean id="personService" class="org.kuali.rice.kim.service.impl.PersonServiceImpl">
     <property name="personDao" ref="personDao" />
     <property name="identityManagementService" ref="identityManagementService" />
@@ -294,7 +313,7 @@
 		</property>
 	</bean>
 
-	<bean id="workflowLookupable" class="org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl" singleton="false">
+	<bean id="workflowLookupable" class="org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl" scope="prototype">
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -642,13 +661,13 @@
 		</property>
 	</bean>
 
-	<bean id="kualiLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="kualiLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="lookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" singleton="false">
+	<bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -735,9 +754,9 @@
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 
-	<bean id="kualiInquirable" class="org.kuali.rice.kns.inquiry.KualiInquirableImpl" singleton="false" />
+	<bean id="kualiInquirable" class="org.kuali.rice.kns.inquiry.KualiInquirableImpl" scope="prototype" />
 
-	<bean id="confirmationQuestion" class="org.kuali.rice.kns.question.ConfirmationQuestion" singleton="false" />
+	<bean id="confirmationQuestion" class="org.kuali.rice.kns.question.ConfirmationQuestion" scope="prototype" />
     
 	<bean id="documentDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
 		<property name="businessObjectDao">

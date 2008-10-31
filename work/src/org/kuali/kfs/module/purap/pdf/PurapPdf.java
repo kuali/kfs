@@ -17,10 +17,12 @@ package org.kuali.kfs.module.purap.pdf;
 
 import java.io.File;
 
+import org.apache.struts.taglib.tiles.GetAttributeTag;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -54,6 +56,7 @@ public class PurapPdf extends PdfPageEventHelper {
     public String logoImage;
     public BaseFont helv;
     public String environment;
+    public boolean isPreview = false;
     public boolean isRetransmit = false;
 
     Font ver_4_normal = FontFactory.getFont("VERDANA", 4, 0);
@@ -105,6 +108,17 @@ public class PurapPdf extends PdfPageEventHelper {
             cb.beginText();
             cb.setFontAndSize(helv, 48);
             String watermarkText = "Test document (" + environment + ")";
+            cb.showTextAligned(Element.ALIGN_CENTER, watermarkText, document.getPageSize().width() / 2, document.getPageSize().height() / 2, 45);
+            cb.endText();
+            cb.restoreState();
+        }
+        if(GlobalVariables.getUserSession().retrieveObject("isPreview") != null) {
+            GlobalVariables.getUserSession().removeObject("isPreview");
+            PdfContentByte cb = writer.getDirectContentUnder();
+            cb.saveState();
+            cb.beginText();
+            cb.setFontAndSize(helv, 48);
+            String watermarkText = "DRAFT";
             cb.showTextAligned(Element.ALIGN_CENTER, watermarkText, document.getPageSize().width() / 2, document.getPageSize().height() / 2, 45);
             cb.endText();
             cb.restoreState();

@@ -1146,6 +1146,51 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return returnToPreviousPage(mapping, kualiDocumentFormBase);
     }
 
+
+    /**
+     * Is invoked when the user clicks on the Retransmit button on both the PO tabbed page and on the Purchase Order
+     * Retransmit Document page, which is essentially a PO tabbed page with the other irrelevant tabs being hidden. If it was
+     * invoked from the PO tabbed page, if the PO's pending indicator is false, this method will invoke a method in the
+     * PurchaseOrderService to update the flags, create the PurchaseOrderRetransmitDocument and route it. If the routing was
+     * successful, we'll display the Purchase Order Retransmit Document page to the user, containing the newly created and routed
+     * PurchaseOrderRetransmitDocument and a retransmit button as well as a list of items that the user can select to be
+     * retransmitted. If it was invoked from the Purchase Order Retransmit Document page, we'll invoke the
+     * retransmitPurchaseOrderPDF method to create a PDF document based on the PO information and the items that were selected by
+     * the user on the Purchase Order Retransmit Document page to be retransmitted, then display the PDF to the browser.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    public ActionForward printingPreviewPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String poDocId = ((PurchaseOrderForm)form).getDocId();
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            SpringContext.getBean(PurchaseOrderService.class).performPurchaseOrderPreviewPrinting(poDocId, baosPDF);
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+        String basePath = getBasePath(request);
+        String docId = ((PurchaseOrderForm) form).getDocId();
+        String methodToCallPrintPurchaseOrderPDF = "printPurchaseOrderPDFOnly";
+        String methodToCallDocHandler = "docHandler";
+        String printPOPDFUrl = getUrlForPrintPO(basePath, docId, methodToCallPrintPurchaseOrderPDF);
+        String displayPOTabbedPageUrl = getUrlForPrintPO(basePath, docId, methodToCallDocHandler);
+        request.setAttribute("printPOPDFUrl", printPOPDFUrl);
+        request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        request.setAttribute("purchaseOrderLabel", label);
+        GlobalVariables.getUserSession().addObject("isPreview", new Boolean(true));
+
+        return mapping.findForward("printPurchaseOrderPDF");
+    }
+
     /**
      * Forwards to the RetransmitForward.jsp page so that we could open 2 windows for retransmit,
      * one is to display the PO tabbed page and the other one display the pdf document.

@@ -335,6 +335,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(printingRetransmitButton);
         }
 
+        ExtraButton printingPreviewButton = (ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo");
+        extraButtons.add(printingPreviewButton);
+
         if (auth.canFirstTransmitPrintPo()) {
             ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
             extraButtons.add(printButton);
@@ -420,6 +423,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         printingRetransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
         printingRetransmitButton.setExtraButtonAltText("PrintingRetransmit");
 
+        // Printing Retransmit button
+        ExtraButton printingPreviewButton = new ExtraButton();
+        printingRetransmitButton.setExtraButtonProperty("methodToCall.printingPreviewPo");
+        printingRetransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_previewpf.gif");
+        printingRetransmitButton.setExtraButtonAltText("PrintingPreview");
+        
         // Print button
         ExtraButton printButton = new ExtraButton();
         printButton.setExtraButtonProperty("methodToCall.firstTransmitPrintPo");
@@ -512,6 +521,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
         result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
+        result.put(printingPreviewButton.getExtraButtonProperty(), printingPreviewButton);
         result.put(printButton.getExtraButtonProperty(), printButton);
         result.put(reopenButton.getExtraButtonProperty(), reopenButton);
         result.put(closeButton.getExtraButtonProperty(), closeButton);

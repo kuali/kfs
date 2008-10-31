@@ -123,6 +123,15 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     public void performPurchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF);
 
     /**
+     * Creates and displays the pdf document for the purchase order with a draft watermark
+     * 
+     * @param documentNumber The document number of the purchase order document that we want to perform the first transmit.
+     * @param baosPDF The ByteArrayOutputStream object that was passed in from the struts action so that we could display the pdf on
+     *        the browser.
+     */
+    public void performPurchaseOrderPreviewPrinting(String documentNumber, ByteArrayOutputStream baosPDF);
+
+    /**
      * Generates and displays the purchase order pdf by invoking the generatePurchaseOrderPdf method of the PrintService.
      * 
      * @param documentNumber The document number of the purchase order document that we want to print the pdf.

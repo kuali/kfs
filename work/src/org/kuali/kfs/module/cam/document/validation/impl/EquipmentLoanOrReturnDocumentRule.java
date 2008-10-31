@@ -19,18 +19,21 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -85,7 +88,8 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     protected boolean processValidation(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
         // validate campus tag number
-        // valid &= validateTagNumber(equipmentLoanOrReturnDocument);
+        //Asset asset = SpringContext.getBean(Asset.class);
+        valid &= validateTagNumber(equipmentLoanOrReturnDocument);
 
         // validate both loan return date and expected loan return date
         valid &= validateLoanDate(equipmentLoanOrReturnDocument);
@@ -96,16 +100,26 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         return valid;
     }
 
+    /**
+     * Validate that the campus tag number exists prior to submitting a loan.
+     * 
+     * @param equipmentLoanOrReturnDocument
+     * @return boolean false if the campus tag number does not exist
+     */
+    protected boolean validateTagNumber(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+        boolean valid = true;
+        
+        HashMap<String, Long> map = new HashMap<String, Long>();
+        map.put(CamsPropertyConstants.EquipmentLoanOrReturnDocument.CAPITAL_ASSET_NUMBER, equipmentLoanOrReturnDocument.getCapitalAssetNumber());
+        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
+        
+        if (asset.getCampusTagNumber() == null) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_CAMPUS_TAG_NUMBER_REQUIRED);
+        }
 
-//    protected boolean validateTagNumber(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
-//        boolean valid = true;
-//        if (equipmentLoanOrReturnDocument.getCampusTagNumber() == null) {
-//            valid &= false;
-//            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.CAMPUS_TAG_NUMBER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_CAMPUS_TAG_NUMBER_REQUIRED);
-//        }
-//        
-//        return valid;
-//    }
+        return valid;
+    }
 
     /**
      * Implementation of the rule that if a document has a valid expect loan date and loan return date, the both dates should come

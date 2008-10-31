@@ -96,8 +96,8 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
           *  the alias "makeUnique" for the in-line view is required by MySQL (but not by Oracle).
           */
          sqlBuilder.append("INSERT INTO LD_BCN_INTINCBNT_T\n");
-         sqlBuilder.append("(EMPLID, PERSON_NM, SETID_SALARY, SAL_ADMIN_PLAN, GRADE, IU_CLASSIF_LEVEL)\n");
-         sqlBuilder.append("(SELECT EMPLID, PERSON_NM, BUSINESS_UNIT, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, ?\n"); 
+         sqlBuilder.append("(EMPLID, PERSON_NM, SETID_SALARY, SAL_ADMIN_PLAN, GRADE, IU_CLASSIF_LEVEL, ACTV_IND)\n");
+         sqlBuilder.append("(SELECT EMPLID, PERSON_NM, BUSINESS_UNIT, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, ?, 'Y'\n"); 
          sqlBuilder.append("FROM\n");
          sqlBuilder.append("(SELECT DISTINCT csf.EMPLID,\n");
          sqlBuilder.append("        FS_UNIVERSAL_USR_T.PERSON_NM,\n");

@@ -29,6 +29,8 @@
     
     <bean id="AccountingLineView-actions" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionsDefinition" />
     
+    <bean id="AccountingLineView-action" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition" />
+    
     <bean id="AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">
 		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase" />
     </bean>

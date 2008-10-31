@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,9 @@ import javax.servlet.jsp.tagext.Tag;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupTotalDefinition;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition;
 import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
+import org.kuali.kfs.sys.document.web.renderers.ActionsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.ImportLineRenderer;
@@ -136,9 +139,11 @@ public class AccountingLineGroup {
             importLineRenderer.setEditModes(editModes);
             importLineRenderer.setLineCollectionProperty(collectionPropertyName);
             importLineRenderer.setAccountingDocument(accountingDocument);
-            if (groupDefinition.getAccountingLineAuthorizer().isGroupReadOnly(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getPerson(), editModes)) {
-                importLineRenderer.overrideCanUpload(false); // we're read only - so we can't upload
-            }
+
+            boolean isReadOnly = groupDefinition.getAccountingLineAuthorizer().isGroupReadOnly(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getPerson(), editModes);            
+            importLineRenderer.overrideCanUpload(!isReadOnly); // we're read only - so we can't upload
+            importLineRenderer.setGroupActionsRenderred(!isReadOnly);
+
             importLineRenderer.render(pageContext, parentTag);
             importLineRenderer.clear();
         }
@@ -185,17 +190,17 @@ public class AccountingLineGroup {
 
         List<? extends TotalDefinition> groupTotals = groupDefinition.getTotals();
         for (TotalDefinition definition : groupTotals) {
-            if(definition instanceof NestedFieldTotaling) {
-                NestedFieldTotaling nestedFieldTotaling = (NestedFieldTotaling)definition;
-                
-                if(nestedFieldTotaling.isNestedProperty()) {
+            if (definition instanceof NestedFieldTotaling) {
+                NestedFieldTotaling nestedFieldTotaling = (NestedFieldTotaling) definition;
+
+                if (nestedFieldTotaling.isNestedProperty()) {
                     int index = groupTotals.indexOf(definition);
                     RenderableAccountingLineContainer container = this.containers.get(index);
-                    String containingObjectPropertyName = container.getAccountingLineContainingObjectPropertyName();                    
+                    String containingObjectPropertyName = container.getAccountingLineContainingObjectPropertyName();
                     nestedFieldTotaling.setContainingPropertyName(containingObjectPropertyName);
-                }                
+                }
             }
-            
+
             Renderer renderer = definition.getTotalRenderer();
             if (renderer instanceof CellCountCurious) {
                 ((CellCountCurious) renderer).setCellCount(cellCount);
@@ -221,10 +226,10 @@ public class AccountingLineGroup {
     protected int getRepresentedColumnNumber(String propertyName) {
         for (RenderableAccountingLineContainer container : containers) {
             List<AccountingLineTableRow> tableRows = container.getRows();
-            
+
             for (AccountingLineTableRow row : tableRows) {
                 List<AccountingLineTableCell> tableCells = row.getCells();
-                
+
                 for (AccountingLineTableCell cell : tableCells) {
                     List<RenderableElement> fields = cell.getRenderableElement();
 
@@ -290,4 +295,3 @@ public class AccountingLineGroup {
     }
 
 }
-

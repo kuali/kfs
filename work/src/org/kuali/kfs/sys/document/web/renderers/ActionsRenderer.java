@@ -35,6 +35,9 @@ public class ActionsRenderer implements Renderer {
     private List<AccountingLineViewAction> actions;
     private ImageTag actionButton = new ImageTag();
     private int tabIndex;
+    private String postButtonSpacing;
+    private String tagBeginning;
+    private String tagEnding;
     
     /**
      * Constructs a ActionsRenderer, which sets values on the actionButton tag that never change
@@ -77,12 +80,12 @@ public class ActionsRenderer implements Renderer {
         
         try {
             if (actions != null && actions.size() > 0) {
-                out.write(buildCenteringDivBeginning());
+                out.write(this.getTagBeginning());
                 for (AccountingLineViewAction action : actions) {
                     renderAction(action);
-                    out.write(buildPostButtonSpacing());
+                    out.write(this.getPostButtonSpacing());
                 }
-                out.write(buildCenteringDivEnding());
+                out.write(this.getTagEnding());
             } 
             else {
                 out.write(buildNonBreakingSpace());
@@ -131,8 +134,16 @@ public class ActionsRenderer implements Renderer {
      * Builds spacing for after the button is displayed
      * @return a String of HTML that will space after the button
      */
-    protected String buildPostButtonSpacing() {
-        return "<br />";
+    public String getPostButtonSpacing() {
+        return postButtonSpacing == null ? "<br />" : postButtonSpacing;
+    }
+    
+    /**
+     * Sets the postButtonSpacing attribute value.
+     * @param postButtonSpacing The postButtonSpacing to set.
+     */
+    public void setPostButtonSpacing(String postButtonSpacing) {
+        this.postButtonSpacing = postButtonSpacing;
     }
 
     /**
@@ -173,5 +184,37 @@ public class ActionsRenderer implements Renderer {
      */
     protected String buildNonBreakingSpace() {
         return "&nbsp;";
+    }
+
+    /**
+     * Gets the tagBeginning attribute. 
+     * @return Returns the tagBeginning.
+     */
+    public String getTagBeginning() {
+        return tagBeginning == null ? this.buildCenteringDivBeginning() : tagBeginning;
+    }
+
+    /**
+     * Sets the tagBeginning attribute value.
+     * @param tagBeginning The tagBeginning to set.
+     */
+    public void setTagBeginning(String tagBeginning) {
+        this.tagBeginning = tagBeginning;
+    }
+
+    /**
+     * Gets the tagEnding attribute. 
+     * @return Returns the tagEnding.
+     */
+    public String getTagEnding() {
+        return tagEnding == null ? this.buildCenteringDivEnding() : tagEnding;
+    }
+
+    /**
+     * Sets the tagEnding attribute value.
+     * @param tagEnding The tagEnding to set.
+     */
+    public void setTagEnding(String tagEnding) {
+        this.tagEnding = tagEnding;
     }
 }

@@ -16,6 +16,8 @@
 package org.kuali.kfs.sys.document.web.renderers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
@@ -30,6 +32,8 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition;
+import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -49,7 +53,9 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     private ImageTag uploadButtonTag = new ImageTag();
     private ImageTag cancelButtonTag = new ImageTag();
     private boolean shouldUpload = true;
-    
+
+    private boolean groupActionsRenderred = false;
+
     /**
      * Constructs a ImportLineRenderer, setting defaults on the tags that will always exist
      */
@@ -57,10 +63,10 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
         scriptFileTag.setSize("30");
         noscriptFileTag.setSize("30");
         noscriptFileTag.setStyle("font:10px;height:16px;");
-        uploadButtonTag.setSrc(KNSServiceLocator.getKualiConfigurationService().getPropertyString("externalizable.images.url")+"tinybutton-add1.gif");
+        uploadButtonTag.setSrc(KNSServiceLocator.getKualiConfigurationService().getPropertyString("externalizable.images.url") + "tinybutton-add1.gif");
         uploadButtonTag.setStyleClass("tinybutton");
         cancelButtonTag.setProperty("methodToCall.cancel");
-        cancelButtonTag.setSrc(KNSServiceLocator.getKualiConfigurationService().getPropertyString("externalizable.images.url")+"tinybutton-cancelimport.gif");
+        cancelButtonTag.setSrc(KNSServiceLocator.getKualiConfigurationService().getPropertyString("externalizable.images.url") + "tinybutton-cancelimport.gif");
         cancelButtonTag.setStyleClass("tinybutton");
     }
 
@@ -75,24 +81,24 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
         lineCollectionProperty = null;
         accountingDocument = null;
         shouldUpload = true;
-        
+
         // clean script file tag
         scriptFileTag.setPageContext(null);
         scriptFileTag.setParent(null);
         scriptFileTag.setProperty(null);
-        
+
         // clean noscript file tag
         noscriptFileTag.setPageContext(null);
         noscriptFileTag.setParent(null);
         noscriptFileTag.setProperty(null);
-        
+
         // clean upload button tag
         uploadButtonTag.setPageContext(null);
         uploadButtonTag.setParent(null);
         uploadButtonTag.setProperty(null);
         uploadButtonTag.setAlt(null);
         uploadButtonTag.setTitle(null);
-        
+
         // clean cancel import tag
         cancelButtonTag.setPageContext(null);
         cancelButtonTag.setParent(null);
@@ -102,235 +108,308 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag,
+     *      org.kuali.core.bo.BusinessObject)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         try {
             pageContext.getOut().write(buildRowBeginning());
+            
             pageContext.getOut().write(buildTitleCell());
-            renderUploadCell(pageContext, parentTag);
+            this.renderGroupLevelActions(pageContext, parentTag);
+            
             pageContext.getOut().write(buildRowEnding());
         }
         catch (IOException ioe) {
             throw new JspException("Difficulty in rendering import/group header line", ioe);
         }
     }
-    
+
     /**
      * Builds a tag for the row beginning
+     * 
      * @returns the String with the HTML for the row opening
      */
     protected String buildRowBeginning() {
         return "<tr>";
     }
-    
+
     /**
      * Builds the tag for the row beginning
+     * 
      * @returns the String with the HTML for the row beginning
      */
     protected String buildRowEnding() {
         return "</tr>";
     }
     
+    protected void renderGroupLevelActions(PageContext pageContext, Tag parentTag) throws JspException {
+        JspWriter out = pageContext.getOut();
+        
+        try {
+            out.write(this.buildGroupActionsBeginning());
+            
+            this.renderGroupActions(pageContext, parentTag);
+            
+            this.renderUploadCell(pageContext, parentTag);
+            
+            out.write(this.buildGroupActionsColumnEnding());
+        }
+        catch (IOException ioe) {
+            throw new JspException("Difficulty rendering group level actions", ioe);
+        }
+    }
+
+    /**
+     * Builds a tag for the row beginning
+     * 
+     * @returns the String with the HTML for the row opening
+     */
+    protected String buildGroupActionsBeginning() { 
+        if (this.canUpload() || this.isGroupActionsRenderred()) { 
+            StringBuilder groupActionsBeginning = new StringBuilder();
+            final int width = cellCount - titleCellSpan;
+            
+            groupActionsBeginning.append("<td ");
+            groupActionsBeginning.append("colspan=\"");
+            groupActionsBeginning.append(Integer.toString(width));
+            groupActionsBeginning.append("\" ");
+
+            groupActionsBeginning.append("class=\"tab-subhead-import\" ");
+            groupActionsBeginning.append("align=\"right\" ");
+            groupActionsBeginning.append("nowrap=\"nowrap\" ");
+            groupActionsBeginning.append("style=\"border-right: none;\"");
+            groupActionsBeginning.append(">");
+            
+            return groupActionsBeginning.toString();
+        }
+
+        return null;
+    }
+
+    /**
+     * Builds the tag for the row beginning
+     * 
+     * @returns the String with the HTML for the row beginning
+     */
+    protected String buildGroupActionsColumnEnding() {
+        return this.canUpload() || this.isGroupActionsRenderred() ? "</td>" : "";
+    }
+
     /**
      * Builds the tags for the title cell of the import line
+     * 
      * @return the String with the HTML for the title cell
      */
     protected String buildTitleCell() {
         StringBuilder titleCell = new StringBuilder();
         int colSpan = canUpload() ? titleCellSpan : cellCount;
-        
+
         titleCell.append("<td ");
-        
+
         titleCell.append("colspan=\"");
         titleCell.append(colSpan);
         titleCell.append("\" ");
-        
+
         titleCell.append("class=\"tab-subhead\" ");
-        
+
         titleCell.append("style=\"border-right: none;\"");
-        
+
         titleCell.append(">");
-        
+
         titleCell.append(buildGroupAnchor());
-        
+
         titleCell.append(accountingLineGroupDefinition.getGroupLabel());
-        
+
         titleCell.append("</td>");
-        
+
         return titleCell.toString();
     }
-    
+
     /**
      * Builds the unique anchor for this group
+     * 
      * @return the unique anchor for this group
      */
     protected String buildGroupAnchor() {
-        return "<a name=\"accounting"+getGroupInfix()+"Anchor\"></a>";
+        return "<a name=\"accounting" + getGroupInfix() + "Anchor\"></a>";
     }
-    
+
+    protected void renderGroupActions(PageContext pageContext, Tag parentTag) throws JspException {
+        List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions = accountingLineGroupDefinition.getAccountingLineGroupActions();        
+        if (!this.isGroupActionsRenderred() || accountingLineGroupActions == null || accountingLineGroupActions.isEmpty()) {
+            return;
+        }
+
+        List<AccountingLineViewAction> viewActions = new ArrayList<AccountingLineViewAction>();
+        for (AccountingLineViewActionDefinition action : accountingLineGroupActions) {
+            String actionMethod = action.getActionMethod();
+            String actionLabel = action.getActionLabel();
+            String imageName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + action.getImageName();
+
+            AccountingLineViewAction viewAction = new AccountingLineViewAction(actionMethod, actionLabel, imageName);
+            viewActions.add(viewAction);
+        }
+
+        if (!viewActions.isEmpty()) {
+            ActionsRenderer actionsRenderer = new ActionsRenderer();
+            actionsRenderer.setTagBeginning(" ");
+            actionsRenderer.setTagEnding(" ");
+            actionsRenderer.setPostButtonSpacing(" ");
+            actionsRenderer.setActions(viewActions);
+            actionsRenderer.render(pageContext, parentTag);
+            actionsRenderer.clear();
+        }
+    }
+
     /**
      * A dumb way to get the group infix that tries to figure out if it's dealing with a source or target line
+     * 
      * @return the String "source" or "target" to populate the buildGroupAnchor
      */
     protected String getGroupInfix() {
         Class accountingLineClass = accountingLineGroupDefinition.getAccountingLineClass();
         return (accountingLineClass.isAssignableFrom(SourceAccountingLine.class) ? "source" : "target");
     }
-    
+
     /**
-     * Oy, the big one...this one actually renders instead of returning the HTML in a String.  This is because it's kind of complex (and a likely target for future refactoring)
+     * Oy, the big one...this one actually renders instead of returning the HTML in a String. This is because it's kind of complex
+     * (and a likely target for future refactoring)
+     * 
      * @param pageContext the page contex to render to
      * @param parentTag the tag that is requesting all the rendering
      * @throws JspException thrown if something goes wrong
      */
     protected void renderUploadCell(PageContext pageContext, Tag parentTag) throws JspException {
         JspWriter out = pageContext.getOut();
-        
+
         if (canUpload()) {
             try {
-                out.write("<td ");
-                
-                out.write("colspan=\"");
-                final int width = cellCount - titleCellSpan;
-                out.write(Integer.toString(width));
-                out.write("\" ");
-                
-                out.write("class=\"tab-subhead-import\" ");
-                
-                out.write("align=\"right\" ");
-                
-                out.write("nowrap=\"nowrap\" ");
-                
-                out.write("style=\"border-right: none;\"");
-                
-                out.write(">");
-                
                 String hideImport = getHideImportName();
                 String showImport = getShowImportName();
                 String showLink = getShowLinkName();
                 String uploadDiv = getUploadDivName();
-                
+
                 out.write("\n<SCRIPT type=\"text/javascript\">\n");
                 out.write("<!--\n");
-                out.write("\tfunction "+hideImport+"() {\n");
-                out.write("\t\tdocument.getElementById(\""+showLink+"\").style.display=\"inline\";\n");
-                out.write("\t\tdocument.getElementById(\""+uploadDiv+"\").style.display=\"none\";\n");
+                out.write("\tfunction " + hideImport + "() {\n");
+                out.write("\t\tdocument.getElementById(\"" + showLink + "\").style.display=\"inline\";\n");
+                out.write("\t\tdocument.getElementById(\"" + uploadDiv + "\").style.display=\"none\";\n");
                 out.write("\t}\n");
-                out.write("\tfunction "+showImport+"() {\n");
-                out.write("\t\tdocument.getElementById(\""+showLink+"\").style.display=\"none\";\n");
-                out.write("\t\tdocument.getElementById(\""+uploadDiv+"\").style.display=\"inline\";\n");
+                out.write("\tfunction " + showImport + "() {\n");
+                out.write("\t\tdocument.getElementById(\"" + showLink + "\").style.display=\"none\";\n");
+                out.write("\t\tdocument.getElementById(\"" + uploadDiv + "\").style.display=\"inline\";\n");
                 out.write("\t}\n");
                 out.write("\tdocument.write(\n");
-                out.write("\t\t'<a id=\""+showLink+"\" href=\"#\" onclick=\""+showImport+"();return false;\">' +\n");
-                out.write("\t\t'<img src=\""+SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url")+"tinybutton-importlines.gif\" title=\"import file\" alt=\"import file\"' +\n");
-                out.write("\t\t'width=\"72\" height=\"15\" border=\"0\" align=\"middle\" class=\"det-button\">' +\n");
+                out.write("\t\t'<a id=\"" + showLink + "\" href=\"#\" onclick=\"" + showImport + "();return false;\">' +\n");
+                out.write("\t\t'<img src=\"" + SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + "tinybutton-importlines.gif\" title=\"import file\" alt=\"import file\"' +\n");
+                out.write("\t\t'width=\"72\" border=\"0\">' +\n");
                 out.write("\t\t'</a>' +\n");
-                out.write("\t\t'<div id=\""+uploadDiv+"\" style=\"display:none;\" >' +\n");
-                
+                out.write("\t\t'<div id=\"" + uploadDiv + "\" style=\"display:none;\" >' +\n");
+
                 out.write("\t\t'");
-                
+
                 scriptFileTag.setPageContext(pageContext);
                 scriptFileTag.setParent(parentTag);
-                scriptFileTag.setProperty(accountingLineGroupDefinition.getImportedLinePropertyPrefix()+"File");
+                scriptFileTag.setProperty(accountingLineGroupDefinition.getImportedLinePropertyPrefix() + "File");
                 scriptFileTag.doStartTag();
                 scriptFileTag.doEndTag();
-                
+
                 out.write("' +\n");
                 out.write("\t\t'");
-                
+
                 uploadButtonTag.setPageContext(pageContext);
                 uploadButtonTag.setParent(parentTag);
-                uploadButtonTag.setProperty("methodToCall.upload"+StringUtils.capitalize(accountingLineGroupDefinition.getImportedLinePropertyPrefix())+"Lines");
-                uploadButtonTag.setAlt("insert "+accountingLineGroupDefinition.getGroupLabel()+" accounting lines");
-                uploadButtonTag.setTitle("insert "+accountingLineGroupDefinition.getGroupLabel()+" accounting lines");
+                uploadButtonTag.setProperty("methodToCall.upload" + StringUtils.capitalize(accountingLineGroupDefinition.getImportedLinePropertyPrefix()) + "Lines");
+                uploadButtonTag.setAlt("insert " + accountingLineGroupDefinition.getGroupLabel() + " accounting lines");
+                uploadButtonTag.setTitle("insert " + accountingLineGroupDefinition.getGroupLabel() + " accounting lines");
                 uploadButtonTag.doStartTag();
                 uploadButtonTag.doEndTag();
-                
+
                 out.write("' +\n");
-                
+
                 out.write("\t\t'");
-                
+
                 cancelButtonTag.setPageContext(pageContext);
                 cancelButtonTag.setParent(parentTag);
-                cancelButtonTag.setAlt("Cancel import of "+accountingLineGroupDefinition.getGroupLabel()+" accounting lines");
-                cancelButtonTag.setTitle("Cancel import of "+accountingLineGroupDefinition.getGroupLabel()+" accounting lines");
-                cancelButtonTag.setOnclick(getHideImportName()+"();return false;");
+                cancelButtonTag.setAlt("Cancel import of " + accountingLineGroupDefinition.getGroupLabel() + " accounting lines");
+                cancelButtonTag.setTitle("Cancel import of " + accountingLineGroupDefinition.getGroupLabel() + " accounting lines");
+                cancelButtonTag.setOnclick(getHideImportName() + "();return false;");
                 cancelButtonTag.doStartTag();
                 cancelButtonTag.doEndTag();
-                
+
                 out.write("' +\n");
-                
+
                 out.write("\t'</div>');\n");
                 out.write("\t//-->\n");
                 out.write("</SCRIPT>\n");
                 out.write("<NOSCRIPT>\n");
-                out.write("\tImport "+accountingLineGroupDefinition.getGroupLabel()+" lines\n");
-                
+                out.write("\tImport " + accountingLineGroupDefinition.getGroupLabel() + " lines\n");
+
                 noscriptFileTag.setPageContext(pageContext);
                 noscriptFileTag.setParent(parentTag);
-                noscriptFileTag.setProperty(accountingLineGroupDefinition.getImportedLinePropertyPrefix()+"File");
+                noscriptFileTag.setProperty(accountingLineGroupDefinition.getImportedLinePropertyPrefix() + "File");
                 noscriptFileTag.doStartTag();
                 noscriptFileTag.doEndTag();
-                
+
                 uploadButtonTag.doStartTag();
                 uploadButtonTag.doEndTag();
-                                
+
                 out.write("</NOSCRIPT>\n");
-                
-                out.write("</td>");
             }
             catch (IOException ioe) {
                 throw new JspException("Difficulty rendering accounting lines import upload", ioe);
             }
         }
     }
-    
+
     /**
      * @return the name of the line collection property, but in a form that is okay for javascript variable/function naming
      */
     protected String getVariableFriendlyLineCollectionProperty() {
         return lineCollectionProperty.replaceAll("[^A-Za-z]", "_");
     }
-    
+
     /**
      * @return the name of the hide import function
      */
     protected String getHideImportName() {
-        return "hide"+getVariableFriendlyLineCollectionProperty()+"Import";
+        return "hide" + getVariableFriendlyLineCollectionProperty() + "Import";
     }
-    
+
     /**
      * @return the name of the show import function
      */
     protected String getShowImportName() {
-        return "show"+getVariableFriendlyLineCollectionProperty()+"Import";
+        return "show" + getVariableFriendlyLineCollectionProperty() + "Import";
     }
-    
+
     /**
      * @return the name of the show link element
      */
     protected String getShowLinkName() {
-        return lineCollectionProperty+"ShowLink";
+        return lineCollectionProperty + "ShowLink";
     }
-    
+
     /**
      * @return the name of the upload div
      */
     protected String getUploadDivName() {
-        return "upload"+lineCollectionProperty+"Div";
+        return "upload" + lineCollectionProperty + "Div";
     }
-    
+
     /**
      * Determines if an upload can proceed for the accounting line group
+     * 
      * @return true if upload is possible, false otherwise
      */
     protected boolean canUpload() {
         return (getEditModes().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && accountingDocument.getAccountingLineParser() != null && shouldUpload);
     }
-    
+
     /**
      * Allows overriding of whether something can be uploaded - though this serves only to turn uploading more off, never more on
+     * 
      * @param allowUpload should we be allowed to upload?
      */
     public void overrideCanUpload(boolean allowUpload) {
@@ -338,7 +417,8 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the cellCount attribute. 
+     * Gets the cellCount attribute.
+     * 
      * @return Returns the cellCount.
      */
     public int getCellCount() {
@@ -347,6 +427,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
 
     /**
      * Sets the cellCount attribute value.
+     * 
      * @param cellCount The cellCount to set.
      */
     public void setCellCount(int cellCount) {
@@ -354,7 +435,8 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the accountingDocument attribute. 
+     * Gets the accountingDocument attribute.
+     * 
      * @return Returns the accountingDocument.
      */
     public AccountingDocument getAccountingDocument() {
@@ -363,6 +445,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
 
     /**
      * Sets the accountingDocument attribute value.
+     * 
      * @param accountingDocument The accountingDocument to set.
      */
     public void setAccountingDocument(AccountingDocument accountingDocument) {
@@ -370,7 +453,8 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the accountingLineGroupDefinition attribute. 
+     * Gets the accountingLineGroupDefinition attribute.
+     * 
      * @return Returns the accountingLineGroupDefinition.
      */
     public AccountingLineGroupDefinition getAccountingLineGroupDefinition() {
@@ -379,6 +463,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
 
     /**
      * Sets the accountingLineGroupDefinition attribute value.
+     * 
      * @param accountingLineGroupDefinition The accountingLineGroupDefinition to set.
      */
     public void setAccountingLineGroupDefinition(AccountingLineGroupDefinition accountingLineGroupDefinition) {
@@ -386,7 +471,8 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the titleCellSpan attribute. 
+     * Gets the titleCellSpan attribute.
+     * 
      * @return Returns the titleCellSpan.
      */
     public int getTitleCellSpan() {
@@ -395,6 +481,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
 
     /**
      * Sets the titleCellSpan attribute value.
+     * 
      * @param titleCellSpan The titleCellSpan to set.
      */
     public void setTitleCellSpan(int titleCellSpan) {
@@ -402,7 +489,8 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the editModes attribute. 
+     * Gets the editModes attribute.
+     * 
      * @return Returns the editModes.
      */
     public Map getEditModes() {
@@ -411,6 +499,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
 
     /**
      * Sets the editModes attribute value.
+     * 
      * @param editModes The editModes to set.
      */
     public void setEditModes(Map editModes) {
@@ -418,7 +507,8 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the lineCollectionProperty attribute. 
+     * Gets the lineCollectionProperty attribute.
+     * 
      * @return Returns the lineCollectionProperty.
      */
     public String getLineCollectionProperty() {
@@ -427,10 +517,29 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
 
     /**
      * Sets the lineCollectionProperty attribute value.
+     * 
      * @param lineCollectionProperty The lineCollectionProperty to set.
      */
     public void setLineCollectionProperty(String lineCollectionProperty) {
         this.lineCollectionProperty = lineCollectionProperty;
     }
-    
+
+    /**
+     * Gets the groupActionsRenderred attribute.
+     * 
+     * @return Returns the groupActionsRenderred.
+     */
+    public boolean isGroupActionsRenderred() {
+        return groupActionsRenderred;
+    }
+
+    /**
+     * Sets the groupActionsRenderred attribute value.
+     * 
+     * @param groupActionsRenderred The groupActionsRenderred to set.
+     */
+    public void setGroupActionsRenderred(boolean groupActionsRenderred) {
+        this.groupActionsRenderred = groupActionsRenderred;
+    }
+
 }

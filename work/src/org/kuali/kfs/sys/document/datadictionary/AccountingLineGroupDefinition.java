@@ -39,6 +39,8 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
     private boolean topHeadersAfterFirstLineHiding = true;
     private boolean headerRendering = true;
     
+    private List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions;
+    
     private AccountingLineAuthorizer accountingLineAuthorizer;
 
     /**
@@ -244,5 +246,21 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      */
     public void setHeaderRendering(boolean headerRendering) {
         this.headerRendering = headerRendering;
+    }
+
+    /**
+     * Gets the accountingLineGroupActions attribute. 
+     * @return Returns the accountingLineGroupActions.
+     */
+    public List<? extends AccountingLineViewActionDefinition> getAccountingLineGroupActions() {
+        return accountingLineGroupActions;
+    }
+
+    /**
+     * Sets the accountingLineGroupActions attribute value.
+     * @param accountingLineGroupActions The accountingLineGroupActions to set.
+     */
+    public void setAccountingLineGroupActions(List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions) {
+        this.accountingLineGroupActions = accountingLineGroupActions;
     }
 }

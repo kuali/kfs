@@ -37,6 +37,14 @@
         </bean>
       </list>
     </property>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
     <property name="attributes" >
       <list>
         <ref bean="PurchaseOrderAmendmentDocument-newUnorderedItem" />
@@ -103,4 +111,5 @@
       </list>
     </property>
   </bean>
+
 </beans>

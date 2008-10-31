@@ -24,6 +24,14 @@
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderPaymentHoldDocument-workflowProperties" />
     </property>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>    
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

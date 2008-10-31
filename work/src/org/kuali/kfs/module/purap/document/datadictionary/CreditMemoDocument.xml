@@ -34,6 +34,14 @@
         </bean>
       </list>
     </property>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="CreditMemoDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>       
     <property name="attributes" >
       <list>
         <ref bean="CreditMemoDocument-statusDescription" />
@@ -476,4 +484,36 @@
       </list>
     </property>
   </bean>
+  
+    <!-- accounting line groups -->
+  <bean id="CreditMemoDocument-sourceAccountingLineGroup" parent="CreditMemoDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="CreditMemoDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="PaymentRequestDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+  </bean>
+  
+  <bean id="CreditMemoDocument-accountingLineView" parent="CreditMemoDocument-accountingLineView-parent" />
+
+  <bean id="CreditMemoDocument-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+  </bean>
+      
 </beans>

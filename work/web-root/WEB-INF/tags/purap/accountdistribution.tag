@@ -109,14 +109,11 @@
         </tr>
     </table>
 
-	<purap:puraccountingLines editingMode="${accountingLineEditingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		sourceAccountingLinesOnly="true"
-		optionalFields="accountLinePercent"
-		accountingLineAttributes="${accountingLineAttributes}"
-		accountPrefix="accountDistribution" hideTotalLine="true"
-		hideFields="amount" accountingAddLineIndex="-2" suppressBaseline="true"/>
 
+    <sys:accountingLines>
+        <sys:accountingLineGroup newLinePropertyName="accountDistributionnewSourceLine" collectionPropertyName="accountDistributionsourceAccountingLines" collectionItemPropertyName="accountDistributionsourceAccountingLine" attributeGroupName="source" />
+    </sys:accountingLines>
+		        
 	<div align="center">
 		<html:image
 		property="methodToCall.doDistribution"

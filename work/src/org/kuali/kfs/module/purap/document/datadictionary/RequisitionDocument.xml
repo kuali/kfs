@@ -35,6 +35,16 @@
         </bean>
       </list>
     </property>
+
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="RequisitionDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
+  
     <property name="attributes" >
       <list>
         <ref bean="RequisitionDocument-statusDescription" />
@@ -937,4 +947,38 @@
       </list>
     </property>
   </bean>
+  
+  <!-- accounting line groups -->
+
+  <bean id="RequisitionDocument-sourceAccountingLineGroup" parent="RequisitionDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="RequisitionDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="RequisitionDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />	  
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+  </bean>
+
+  <bean id="RequisitionDocument-accountingLineView" parent="RequisitionDocument-accountingLineView-parent" />
+
+  <bean id="RequisitionDocument-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="accountLinePercent"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+  </bean>
+
+  	
 </beans>

@@ -136,11 +136,10 @@
 	<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 	    <tr style="display: none;"  id="tab-${tabKey}-div">
 	</c:if>   
-        <th colspan="${columnCount}" style="padding:0;">
-        	<purap:puraccountingLines editingMode="${editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="${sourceAccountingLinesOnly}" optionalFields="${optionalFields}"
-                accountingLineAttributes="${accountingLineAttributes}" accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}" hideFields="${hideFields}" accountingAddLineIndex="${accountingAddLineIndex}" >
-                <jsp:attribute name="importRowOverride"/>
-            </purap:puraccountingLines>
+        <th colspan="${columnCount}" style="padding:0;">              
+            <sys:accountingLines>
+			    <sys:accountingLineGroup newLinePropertyName="${accountPrefix}newSourceLine" collectionPropertyName="${accountPrefix}sourceAccountingLines" collectionItemPropertyName="${accountPrefix}sourceAccountingLine" attributeGroupName="source" />
+		    </sys:accountingLines>
         </th>
     
 	<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">

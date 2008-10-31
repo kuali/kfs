@@ -526,6 +526,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(assignSensitiveDataButton.getExtraButtonProperty(), assignSensitiveDataButton);
         result.put(submitSensitiveDataButton.getExtraButtonProperty(), submitSensitiveDataButton);
         result.put(cancelSensitiveDataButton.getExtraButtonProperty(), cancelSensitiveDataButton);
+        result.put(resendPoCxmlButton.getExtraButtonProperty(), resendPoCxmlButton);
         
         return result;
     }

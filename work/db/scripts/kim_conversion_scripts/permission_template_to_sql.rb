@@ -20,17 +20,17 @@ end
 def retrieve_types_map()
 	types = {}
 	db_connect("sample_db") do |con|
-		con.query("select kim_type_id, type_nm from kr_kim_type_t") do |row|
-			types[row.getString("type_nm")] = row.getString("kim_type_id")
+		con.query("select KIM_TYP_ID, NM from KR_KIM_TYPE_T") do |row|
+			types[row.getString("NM")] = row.getString("KIM_TYP_ID")
 		end
 	end
 	types
 end
 
 def generate_permission_template_sql(id_count, template_name, description, type_id, namespace_cd)
-	table_name = "kr_kim_perm_tmpl_t"
+	table_name = "KRIM_PERM_TMPL_T"
 	obj_id = generate_obj_id(table_name, template_name)
-	"insert into #{table_name} (perm_tmpl_id, obj_id, ver_nbr, name, description, kim_type_id, actv_ind, namespace_cd)\n\tvalues ('#{generate_template_id(id_count)}', '#{obj_id}', 0, '#{template_name.gsub(/'/,"''")}', '#{description[0..36].gsub(/'/,"''")}', '#{type_id}', 'Y', #{namespace_cd})\n/\n"
+	"insert into #{table_name} (PERM_TMPL_ID, OBJ_ID, VER_NBR, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND, NMSPC_CD)\n\tvalues ('#{generate_template_id(id_count)}', '#{obj_id}', 0, '#{template_name.gsub(/'/,"''")}', '#{description[0..36].gsub(/'/,"''")}', '#{type_id}', 'Y', #{namespace_cd})\n/\n"
 end
 
 permission_types = retrieve_types_map

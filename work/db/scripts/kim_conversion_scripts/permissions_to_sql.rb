@@ -33,9 +33,9 @@ class PermissionAttribute
 	end
 	
 	def generate_sql()
-		table_name = "kr_kim_perm_attr_data_t"
+		table_name = "KRIM_PERM_ATTR_DATA_T"
 		obj_id = generate_obj_id(table_name, @attribute_permission_id)
-		"insert into #{table_name} (attrib_data_id, obj_id, ver_nbr, target_primary_key, kim_type_id, kim_attrib_id, attrib_val)\n\tvalues ('#{@attribute_permission_id}', '#{obj_id}', 0, '#{@permission_id}', '#{@type_id}','#{@attribute_type_id}', '#{@attribute_value.gsub(/'/,"''")}')\n/\n"
+		"insert into #{table_name} (ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_KEY, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)\n\tvalues ('#{@attribute_permission_id}', '#{obj_id}', 0, '#{@permission_id}', '#{@type_id}','#{@attribute_type_id}', '#{@attribute_value.gsub(/'/,"''")}')\n/\n"
 	end
 	
 end
@@ -89,19 +89,19 @@ class Permission
 	end
 	
 	def generate_sql()
-		table_name = "kr_kim_perm_t"
+		table_name = "KRIM_PERM_T"
 		obj_id = generate_obj_id(table_name, @name)
-		permission_insert = "insert into #{table_name} (perm_id, obj_id, ver_nbr, perm_tmpl_id, name, description, actv_ind, namespace_cd)\n\tvalues ('#{@permission_id}', '#{obj_id}', 0, '#{@template_id}', '#{@name.gsub(/'/,"''")}', '#{@description.gsub(/'/,"''")}', 'Y', #{@namespace})\n/\n"
+		permission_insert = "insert into #{table_name} (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD)\n\tvalues ('#{@permission_id}', '#{obj_id}', 0, '#{@template_id}', '#{@name.gsub(/'/,"''")}', '#{@description.gsub(/'/,"''")}', 'Y', #{@namespace})\n/\n"
 		role_count = 0
 		role_sql = @roles.collect {|role_id| role_count += 1; generate_role_sql(role_id, role_count)}.join()
 		"#{permission_insert}#{role_sql}#{@attributes.collect{|attribute|attribute.generate_sql()}.join()}"
 	end
 	
 	def generate_role_sql(role_id, count)
-		table_name = "kr_kim_role_perm_t"
+		table_name = "KRIM_ROLE_PERM_T"
 		obj_id = generate_obj_id(table_name, "#{@permission_id} #{role_id}")
 		role_perm_id = generate_role_permission_id(count)
-		"insert into #{table_name} (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)\n\tvalues('#{role_perm_id}', '#{obj_id}', 0, '#{role_id}', '#{@permission_id}', 'Y')\n/\n"
+		"insert into #{table_name} (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)\n\tvalues('#{role_perm_id}', '#{obj_id}', 0, '#{role_id}', '#{@permission_id}', 'Y')\n/\n"
 	end
 end
 
@@ -118,7 +118,7 @@ end
 def templates_map()
 	templates = nil
 	db_connect("sample_db") do |con|
-		templates = con.table_to_map("kr_kim_perm_tmpl_t","name","perm_tmpl_id")
+		templates = con.table_to_map("KRIM_PERM_TMPL_T","NM","PERM_TMPL_ID")
 	end
 	templates
 end
@@ -126,8 +126,8 @@ end
 def roles_map()
 	roles = {}
 	db_connect("sample_db") do |con|
-		con.query("select nmspc_cd, role_nm, role_id from kr_kim_role_t") do |row|
-			roles["#{row.getString("nmspc_cd")} #{row.getString("role_nm")}"] = row.getString("role_id")
+		con.query("select NMSPC_CD, ROLE_NM, ROLE_ID from KRIM_ROLE_T") do |row|
+			roles["#{row.getString("NMSPC_CD")} #{row.getString("ROLE_NM")}"] = row.getString("ROLE_ID")
 		end
 	end
 	roles
@@ -136,7 +136,7 @@ end
 def attributes_map()
 	attributes = {}
 	db_connect("sample_db") do |con|
-		attributes = con.table_to_map("kr_kim_attribute_t","attrib_nm","kim_attrib_id")
+		attributes = con.table_to_map("KRIM_ATTR_DEFN","NM","KIM_ATTR_DEFN_ID")
 	end
 	attributes
 end
@@ -144,7 +144,7 @@ end
 def template_types_map()
 	template_types = {}
 	db_connect("sample_db") do |con|
-		template_types = con.table_to_map("kr_kim_perm_tmpl_t","perm_tmpl_id","kim_type_id")
+		template_types = con.table_to_map("KRIM_PERM_TMPL_T","PERM_TMPL_ID","KIM_TYP_ID")
 	end
 	template_types
 end

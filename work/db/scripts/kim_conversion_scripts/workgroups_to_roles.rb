@@ -38,13 +38,13 @@ class Member
 	end
 
 	def generate_role_princial_sql(role_id)
-		table_name = "kr_kim_role_principal_t"
+		table_name = "KRIM_ROLE_PRINCIPAL_T"
 		obj_id = generate_obj_id(table_name, "#{role_id} #{@user_id}")
 		"insert into #{table_name} (role_member_id, obj_id, ver_nbr, role_id, prncpl_id)\n\tvalues('#{self.role_member_id(role_id)}','#{obj_id}', 0, '#{role_id}', '#{@user_id}')\n/\n"
 	end
 	
 	def generate_role_princial_attributed_sql(role_member_id, role_id)
-		table_name = "kr_kim_role_principal_t"
+		table_name = "KRIM_ROLE_PRINCIPAL_T"
 		obj_id = generate_obj_id(table_name, "#{role_member_id}")
 		"insert into #{table_name} (role_member_id, obj_id, ver_nbr, role_id, prncpl_id)\n\tvalues('#{role_member_id}','#{obj_id}', 0, '#{role_id}', '#{@user_id}')\n/\n"
 	end
@@ -54,7 +54,7 @@ class Member
 			if @@entities_map.nil?
 				@@entities_map = {}
 				db_connect(DB) do |con|
-					con.query("select prncpl_id, entity_id from kr_kim_principal_t") do |row|
+					con.query("select prncpl_id, entity_id from KRIM_PRINCIPAL_T") do |row|
 						@@entities_map[row.getString("prncpl_id")] = row.getString("entity_id")
 					end
 				end
@@ -82,7 +82,7 @@ class QualificationAttribute
 	
 	def generate_sql(role_member_id, type_id, count, member)
 		attributes = QualificationAttribute.attributes_map()
-		table_name = "kr_kim_role_mbr_attr_data_t"
+		table_name = "KRIM_ROLE_MBR_ATTR_DATA_T"
 		obj_id = generate_obj_id(table_name, "#{role_member_id} #{type_id} #{@name} #{count}")
 		attrib_id = attributes[@name]
 		if attrib_id.nil?
@@ -105,7 +105,7 @@ class QualificationAttribute
 			if @@attributes_map.nil?
 				@@attributes_map = {}
 				db_connect(DB) do |con|
-					con.query("select attrib_lbl, kim_attrib_id from kr_kim_attribute_t") do |row|
+					con.query("select attrib_lbl, kim_attrib_id from KRIM_ATTRIBUTE_T") do |row|
 						@@attributes_map[row.getString("attrib_lbl")] = row.getString("kim_attrib_id")
 					end
 				end
@@ -177,7 +177,7 @@ class Qualification
 			if @@types_map.nil?
 				@@types_map = {}
 				db_connect(DB) do |con|
-					con.query("select type_nm, kim_type_id from kr_kim_type_t") do |row|
+					con.query("select type_nm, kim_type_id from KRIM_TYPE_T") do |row|
 						@@types_map[row.getString("type_nm")] = row.getString("kim_type_id")
 					end
 				end
@@ -198,7 +198,7 @@ end
 
 def role_map(con)
 	roles = {}
-	con.query("select role_id, nmspc_cd, role_nm from kr_kim_role_t") do |row|
+	con.query("select role_id, nmspc_cd, role_nm from KRIM_ROLE_T") do |row|
 		roles["#{row.getString("nmspc_cd")} #{row.getString("role_nm")}"] = row.getString("role_id")
 	end
 	roles
@@ -206,7 +206,7 @@ end
 
 def principals_set(con)
 	principals = Set.new
-	con.query("select prncpl_id from kr_kim_principal_t") do |row|
+	con.query("select prncpl_id from KRIM_PRINCIPAL_T") do |row|
 		principals << row.getString("prncpl_id")
 	end
 	principals

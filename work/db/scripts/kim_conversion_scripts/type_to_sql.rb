@@ -7,8 +7,8 @@ input_file = ARGV[0].nil? ? "permission_types.txt" : ARGV[0]
 def create_attribute_map()
 	attributes = {}
 	db_connect do |con|
-		con.query("select kim_attrib_id, attrib_lbl from kr_kim_attribute_t") do |row|
-			attributes[row.getString("attrib_lbl")] = row.getString("kim_attrib_id")
+		con.query("select KIM_ATTR_DEFN_ID, LBL from KRIM_ATTR_DEFN_T") do |row|
+			attributes[row.getString("LBL")] = row.getString("KIM_ATTR_DEFN_ID")
 		end
 	end
 	attributes
@@ -31,15 +31,15 @@ def generate_type_attribute_id(template_id, template_attribute_count)
 end
 
 def generate_type_sql(template_name, template_id)
-	table_name = "kr_kim_type_t"
+	table_name = "KRIM_TYP_T"
 	obj_id = generate_obj_id(table_name, template_name)
-	"insert into #{table_name} (kim_type_id, obj_id, ver_nbr, type_nm, actv_ind)\n\tvalues ('#{template_id}', '#{obj_id}', 0, '#{template_name}', 'Y')\n/\n"
+	"insert into #{table_name} (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, ACTV_IND)\n\tvalues ('#{template_id}', '#{obj_id}', 0, '#{template_name}', 'Y')\n/\n"
 end
 
 def generate_type_attribute_sql(template_id, attribute_id, template_attribute_id)
-	table_name = "kr_kim_type_attribute_t"
+	table_name = "KRIM_TYP_ATTR_T"
 	obj_id = generate_obj_id(table_name, template_attribute_id)
-	"insert into #{table_name} (kim_type_attrib_id, obj_id, ver_nbr, kim_type_id, kim_attrib_id, actv_ind)\n\tvalues ('#{template_attribute_id}', '#{obj_id}', 0, '#{template_id}', '#{attribute_id}', 'Y')\n/\n"
+	"insert into #{table_name} (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)\n\tvalues ('#{template_attribute_id}', '#{obj_id}', 0, '#{template_id}', '#{attribute_id}', 'Y')\n/\n"
 end
 
 attributes = create_attribute_map

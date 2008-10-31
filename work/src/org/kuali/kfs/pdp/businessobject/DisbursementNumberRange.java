@@ -31,13 +31,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class DisbursementNumberRange extends PersistableBusinessObjectBase implements Inactivateable {
-   
-    private String physCampusProcCode; 
-    private KualiInteger beginDisbursementNbr; 
-    private KualiInteger lastAssignedDisbNbr; 
+
+    private String physCampusProcCode;
+    private KualiInteger beginDisbursementNbr;
+    private KualiInteger lastAssignedDisbNbr;
     private KualiInteger endDisbursementNbr;
-    private Timestamp disbNbrEffectiveDt; 
-    private Timestamp disbNbrExpirationDt; 
+    private Timestamp disbNbrRangeStartDt;
     private String bankCode;
     private String disbursementTypeCode;
     private boolean active;
@@ -85,22 +84,6 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * @return
-     * @hibernate.property column="DISB_NBR_EFF_DT"
-     */
-    public Timestamp getDisbNbrEffectiveDt() {
-        return disbNbrEffectiveDt;
-    }
-
-    /**
-     * @return
-     * @hibernate.property column="DISB_NBR_EXPR_DT"
-     */
-    public Timestamp getDisbNbrExpirationDt() {
-        return disbNbrExpirationDt;
-    }
-
-    /**
-     * @return
      * @hibernate.property column="END_DISB_NBR"
      */
     public KualiInteger getEndDisbursementNbr() {
@@ -136,20 +119,6 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      */
     public void setBeginDisbursementNbr(KualiInteger integer) {
         beginDisbursementNbr = integer;
-    }
-
-    /**
-     * @param timestamp
-     */
-    public void setDisbNbrEffectiveDt(Timestamp timestamp) {
-        disbNbrEffectiveDt = timestamp;
-    }
-
-    /**
-     * @param timestamp
-     */
-    public void setDisbNbrExpirationDt(Timestamp timestamp) {
-        disbNbrExpirationDt = timestamp;
     }
 
     /**
@@ -226,21 +195,37 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     public void setCampus(Campus campus) {
         this.campus = campus;
     }
-    
-     /**
-     * 
+
+    /**
      * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
         return active;
     }
-    
+
     /**
-     * 
      * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /**
+     * Gets the disbNbrRangeStartDt attribute.
+     * 
+     * @return Returns the disbNbrRangeStartDt.
+     */
+    public Timestamp getDisbNbrRangeStartDt() {
+        return disbNbrRangeStartDt;
+    }
+
+    /**
+     * Sets the disbNbrRangeStartDt attribute value.
+     * 
+     * @param disbNbrRangeStartDt The disbNbrRangeStartDt to set.
+     */
+    public void setDisbNbrRangeStartDt(Timestamp disbNbrRangeStartDt) {
+        this.disbNbrRangeStartDt = disbNbrRangeStartDt;
     }
 
     /**
@@ -252,8 +237,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
         m.put(PdpPropertyConstants.PHYS_CAMPUS_PROC_CODE, this.physCampusProcCode);
         m.put(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, this.disbursementTypeCode);
         m.put(KFSPropertyConstants.BANK_CODE, this.bankCode);
-        m.put(PdpPropertyConstants.BEGIN_DISBURSEMENT_NBR, this.beginDisbursementNbr);
-        m.put(PdpPropertyConstants.END_DISBURSEMENT_NBR, this.endDisbursementNbr);
+        m.put(PdpPropertyConstants.DISBURSEMENT_NUMBER_RANGE_START_DATE, this.disbNbrRangeStartDt);
 
         return m;
     }

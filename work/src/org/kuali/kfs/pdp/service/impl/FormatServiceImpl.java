@@ -570,12 +570,10 @@ public class FormatServiceImpl implements FormatService {
             PaymentGroup paymentGroup = (PaymentGroup) payGroupIterator.next();
             LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
 
-            DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode(), dateTimeService.getCurrentDate());
-
+            DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode());
             if (range == null) {
-                String err = "No disbursement range for bank code=" + paymentGroup.getBank().getBankCode() + ", campus Id=" + campus;
-                LOG.error("pass2() " + err);
-                throw new MissingDisbursementRangeException(err);
+                LOG.error("No disbursement range for bank code=" + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
+                throw new MissingDisbursementRangeException("No disbursement range for bank code=" + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
             }
 
             if ("CHCK".equals(paymentGroup.getDisbursementType().getCode())) {
@@ -634,24 +632,37 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
-     * @param ranges
-     * @param bank
-     * @param disbursementTypeCode
-     * @param today
-     * @return
+     * Given the List of disbursement number ranges for the processing campus, finds matches for the bank code and disbursement type
+     * code. If more than one match is found, the range with the latest start date (before or equal to today) will be returned.
+     * 
+     * @param ranges List of disbursement ranges to search (already filtered to processing campus, active, and start date before or
+     *        equal to today)
+     * @param bank bank code to find range for
+     * @param disbursementTypeCode disbursement type code to find range for
+     * @return found <code>DisbursementNumberRange</code or null if one was not found
      */
-    private DisbursementNumberRange getRange(List<DisbursementNumberRange> ranges, Bank bank, String disbursementTypeCode, Date today) {
-        LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " for " + today);
-        for (DisbursementNumberRange range : ranges) {
-            Date disbursementNbrEffectiveDate = range.getDisbNbrEffectiveDt();
-            Date disbursementNbrExpirationDate = range.getDisbNbrExpirationDt();
+    private DisbursementNumberRange getRange(List<DisbursementNumberRange> ranges, Bank bank, String disbursementTypeCode) {
+        LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " and disbursement type " + disbursementTypeCode);
 
-            if (range.getBank().getBankCode().equals(bank.getBankCode()) && range.getDisbursementTypeCode().equals(disbursementTypeCode) && (today.getTime() >= disbursementNbrEffectiveDate.getTime()) && (today.getTime() <= disbursementNbrExpirationDate.getTime())) {
-                LOG.debug("getRange() Found match");
-                return range;
+        List<DisbursementNumberRange> rangeMatches = new ArrayList<DisbursementNumberRange>();
+        for (DisbursementNumberRange range : ranges) {
+            if (range.getBank().getBankCode().equals(bank.getBankCode()) && range.getDisbursementTypeCode().equals(disbursementTypeCode)) {
+                rangeMatches.add(range);
             }
         }
+
+        // if more than one match we need to take the range with the latest start date
+        if (rangeMatches.size() > 0) {
+            DisbursementNumberRange maxStartDateRange = rangeMatches.get(0);
+            for (DisbursementNumberRange range : rangeMatches) {
+                if (range.getDisbNbrRangeStartDt().compareTo(maxStartDateRange.getDisbNbrRangeStartDt()) > 0) {
+                    maxStartDateRange = range;
+                }
+            }
+
+            return maxStartDateRange;
+        }
+
         return null;
     }
 

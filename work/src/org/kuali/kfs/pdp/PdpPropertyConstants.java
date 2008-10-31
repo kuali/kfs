@@ -33,6 +33,7 @@ public class PdpPropertyConstants {
     public static final String CREATION_DATE = "creationDate";
     public static final String LAST_ASSIGNED_DISBURSEMENT_NUMBER = "lastAssignedDisbNbr";
     public static final String SUB_UNIT = "subUnit";
+    public static final String DISBURSEMENT_NUMBER_RANGE_START_DATE = "disbNbrRangeStartDt";    
     
     public static final String PAYEE_IDENTIFIER_TYPE_CODE = "payeeIdentifierTypeCode";
     public static final String ACH_TRANSACTION_TYPE = "achTransactionType";

@@ -303,10 +303,6 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
-	<bean id="pdpDisbursementNumberRangeService" class="org.kuali.kfs.pdp.service.impl.DisbursementNumberRangeServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
-
 	<bean id="pdpFormatService" class="org.kuali.kfs.pdp.service.impl.FormatServiceImpl">
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>

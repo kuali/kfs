@@ -32,6 +32,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
@@ -39,6 +40,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.options.DailyReportComparator;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -199,15 +201,6 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#save(org.kuali.kfs.pdp.businessobject.PaymentDetail)
-     */
-    /*public void save(PaymentDetail pd) {
-        LOG.debug("save(paymentDetail) started... ID: " + pd.getId());
-
-        getPersistenceBrokerTemplate().store(pd);
-    }*/
-
-    /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDetailForEpic(java.lang.String, java.lang.String)
      */
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode) {
@@ -244,24 +237,21 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDisbursementNumberRanges(java.lang.String)
      */
-    public List getDisbursementNumberRanges(String campus) {
+    public List<DisbursementNumberRange> getDisbursementNumberRanges(String campus) {
         LOG.debug("getDisbursementNumberRanges() started");
 
         Date now = new Date();
         Timestamp nowTs = new Timestamp(now.getTime());
 
         Criteria criteria = new Criteria();
-        criteria.addGreaterOrEqualThan("disbNbrExpirationDt", nowTs);
-        criteria.addLessOrEqualThan("disbNbrEffectiveDt", nowTs);
-        criteria.addEqualTo("physCampusProcCode", campus);
-        criteria.addEqualTo("active", true);
+        criteria.addLessOrEqualThan(PdpPropertyConstants.DISBURSEMENT_NUMBER_RANGE_START_DATE, nowTs);
+        criteria.addEqualTo(PdpPropertyConstants.PHYS_CAMPUS_PROC_CODE, campus);
+        criteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
 
         QueryByCriteria qbc = new QueryByCriteria(DisbursementNumberRange.class, criteria);
-        qbc.addOrderBy("bankCode", true);
+        qbc.addOrderBy(KFSPropertyConstants.BANK_CODE, true);
 
-        List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        
-        return l;
+        return (List<DisbursementNumberRange>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
     /**

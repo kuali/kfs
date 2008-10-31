@@ -25,7 +25,14 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 public interface PaymentDetailDao {
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
 
-    public List getDisbursementNumberRanges(String campus);
+    /**
+     * Retrieves list of <code>DisbursementNumberRange</code> records for the given processing campus which are active and have
+     * range start date before or equal to the current date.
+     * 
+     * @param campus processing campus to retrieve ranges for
+     * @return List of <code>DisbursementNumberRange</code> records found
+     */
+    public List<DisbursementNumberRange> getDisbursementNumberRanges(String campus);
 
     /**
      * This returns the data required for the daily report

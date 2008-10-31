@@ -186,15 +186,14 @@
     <field-descriptor name="physCampusProcCode" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" />
-    <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="BIGINT" primarykey="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-    <field-descriptor name="disbNbrEffectiveDt" column="DISB_NBR_EFF_DT" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="disbNbrExpirationDt" column="DISB_NBR_EXPR_DT" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="lastAssignedDisbNbr" column="LST_ASND_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="disbNbrRangeStartDt" column="DISB_NBR_RNG_START_DT" jdbc-type="TIMESTAMP" primarykey="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-      <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    
+    <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="lastAssignedDisbNbr" column="LST_ASND_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        
     <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
       <foreignkey field-ref="physCampusProcCode"/>
     </reference-descriptor>

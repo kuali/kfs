@@ -21,8 +21,7 @@
         <ref bean="DisbursementNumberRange-beginDisbursementNbr" />
         <ref bean="DisbursementNumberRange-lastAssignedDisbNbr" />
         <ref bean="DisbursementNumberRange-endDisbursementNbr" />
-        <ref bean="DisbursementNumberRange-disbNbrEffectiveDt" />
-        <ref bean="DisbursementNumberRange-disbNbrExpirationDt" />
+        <ref bean="DisbursementNumberRange-disbNbrRangeStartDt" />
         <ref bean="DisbursementNumberRange-bankCode" />
         <ref bean="DisbursementNumberRange-disbursementTypeCode" />
         <ref bean="DisbursementNumberRange-active" />
@@ -47,8 +46,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Campus Processing Location" />
-    <property name="description" value="Campus Processing Location" />
   </bean>
   
   <bean id="DisbursementNumberRange-beginDisbursementNbr" parent="DisbursementNumberRange-beginDisbursementNbr-parentBean" />
@@ -66,8 +63,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="Beginning Disbursement Number" />
-    <property name="description" value="Beginning Disbursement Number" />
   </bean>
   
   <bean id="DisbursementNumberRange-endDisbursementNbr" parent="DisbursementNumberRange-endDisbursementNbr-parentBean" />
@@ -85,8 +80,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="End Disbursement Number" />
-    <property name="description" value="End Disbursement Number" />
   </bean> 
   
   <bean id="DisbursementNumberRange-lastAssignedDisbNbr" parent="DisbursementNumberRange-lastAssignedDisbNbr-parentBean" />
@@ -104,27 +97,13 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="Ending Disbursement Number" />
-    <property name="description" value="Ending Disbursement Number" />
   </bean>
   
-  <bean id="DisbursementNumberRange-disbNbrEffectiveDt" parent="DisbursementNumberRange-disbNbrEffectiveDt-parentBean" />
-  <bean id="DisbursementNumberRange-disbNbrEffectiveDt-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="disbNbrEffectiveDt" />
-    <property name="label" value="Effective Date" />
-    <property name="shortLabel" value="Effective Date" />
-    <property name="summary" value="Bank New Routing Number" />
-    <property name="description" value="Effective Date" />
-  </bean>
-  
-  <bean id="DisbursementNumberRange-disbNbrExpirationDt" parent="DisbursementNumberRange-disbNbrExpirationDt-parentBean" />
-  <bean id="DisbursementNumberRange-disbNbrExpirationDt-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="disbNbrExpirationDt" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Expiration Date" />
-    <property name="shortLabel" value="Expiration Date" />
-    <property name="summary" value="Expiration Date" />
-    <property name="description" value="Expiration Date" />
+  <bean id="DisbursementNumberRange-disbNbrRangeStartDt" parent="DisbursementNumberRange-disbNbrRangeStartDt-parentBean" />
+  <bean id="DisbursementNumberRange-disbNbrRangeStartDt-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="disbNbrRangeStartDt" />
+    <property name="label" value="Range Start Date" />
+    <property name="shortLabel" value="Start Dt" />
   </bean>
   
   <bean id="DisbursementNumberRange-bankCode" parent="DisbursementNumberRange-bankCode-parentBean" />
@@ -160,15 +139,13 @@
               <bean parent="FieldDefinition"
                     p:attributeName="disbursementTypeCode" />
               <bean parent="FieldDefinition"
+                    p:attributeName="disbNbrRangeStartDt" />
+              <bean parent="FieldDefinition"
                     p:attributeName="beginDisbursementNbr" />
               <bean parent="FieldDefinition"
                     p:attributeName="endDisbursementNbr" />
               <bean parent="FieldDefinition"
                     p:attributeName="lastAssignedDisbNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbNbrEffectiveDt" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbNbrExpirationDt" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -215,15 +192,13 @@
         <bean parent="FieldDefinition"
               p:attributeName="disbursementTypeCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="disbNbrRangeStartDt" />
+        <bean parent="FieldDefinition"
               p:attributeName="beginDisbursementNbr" />
         <bean parent="FieldDefinition"
               p:attributeName="endDisbursementNbr" />
         <bean parent="FieldDefinition"
               p:attributeName="lastAssignedDisbNbr" />
-        <bean parent="FieldDefinition"
-              p:attributeName="disbNbrEffectiveDt" />
-        <bean parent="FieldDefinition"
-              p:attributeName="disbNbrExpirationDt" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

@@ -53,7 +53,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestPayDate}" property="document.paymentRequestPayDate" datePicker="true" readOnly="${not (fullEntryMode or editPreExtract)}" />
                    &nbsp; &nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" readOnly="${not (fullEntryMode or editPreExtract)}" />
-                   (immediate Pay)
+                   (Immediate Pay)
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderNotes}" /></div>

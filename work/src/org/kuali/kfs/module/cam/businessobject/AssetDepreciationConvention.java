@@ -12,7 +12,8 @@ public class AssetDepreciationConvention extends PersistableBusinessObjectBase {
 
 	private String financialObjectSubTypeCode;
 	private String depreciationConventionCode;
-
+    private boolean active;
+    
     private ObjSubTyp financialObjectSubType;
     
 	/**
@@ -83,9 +84,29 @@ public class AssetDepreciationConvention extends PersistableBusinessObjectBase {
     /**
 	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+	protected LinkedHashMap<String, String> toStringMapper() {
+	    LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();	    
         m.put("financialObjectSubTypeCode", this.financialObjectSubTypeCode);
 	    return m;
+    }
+	
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active
+     * 
+     */
+    public boolean isActive() { 
+        return active;
+    }
+
+    /**
+     * Sets the active attribute.
+     * 
+     * @param active The active to set.
+     * 
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

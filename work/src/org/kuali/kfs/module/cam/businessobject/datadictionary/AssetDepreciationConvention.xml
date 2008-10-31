@@ -19,6 +19,7 @@
       <list>
         <ref bean="AssetDepreciationConvention-financialObjectSubTypeCode" />
         <ref bean="AssetDepreciationConvention-depreciationConventionCode" />
+        <ref bean="AssetDepreciationConvention-active" />
       </list>
     </property>
   </bean>
@@ -51,6 +52,11 @@
     <property name="description" value="depreciationConventionCode description..." />
   </bean>
 
+  <bean id="AssetDepreciationConvention-active" parent="AssetDepreciationConvention-active-parentBean" />
+  <bean id="AssetDepreciationConvention-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -69,6 +75,8 @@
                     p:attributeName="financialObjectSubTypeCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="depreciationConventionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -94,6 +102,9 @@
               p:attributeName="financialObjectSubTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="depreciationConventionCode" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -102,6 +113,8 @@
               p:attributeName="financialObjectSubTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="depreciationConventionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

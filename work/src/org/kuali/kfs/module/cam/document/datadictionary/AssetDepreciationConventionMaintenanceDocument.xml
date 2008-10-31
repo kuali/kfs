@@ -53,9 +53,7 @@
 
 <!-- Maintenance Section Definitions -->
 
-
   <bean id="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention" parent="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention-parentBean" />
-
   <bean id="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Asset Depreciation Convention" />
     <property name="title" value="Edit Asset Depreciation Convention" />
@@ -67,12 +65,13 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="depreciationConventionCode"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
       </list>
     </property>
   </bean>
 
   <bean id="AssetDepreciationConventionMaintenanceDocument-workflowProperties" parent="AssetDepreciationConventionMaintenanceDocument-workflowProperties-parentBean" />
-
   <bean id="AssetDepreciationConventionMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>

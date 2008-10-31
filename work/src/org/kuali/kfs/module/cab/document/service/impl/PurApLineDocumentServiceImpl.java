@@ -490,7 +490,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setDocumentNumber(documentNumber);
         assetGlobal.setCapitalAssetDescription(selectedItem.getAccountsPayableLineItemDescription());
         assetGlobal.setConditionCode(CamsConstants.CONDITION_CODE_E);
-        assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
         assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
         // set origin code in the Asset Payment Document

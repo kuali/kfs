@@ -47,15 +47,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="EquipmentLoanOrReturnDocument-borrowerStorageStateCode" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerStorageZipCode" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerZipCode" />
-        <ref bean="EquipmentLoanOrReturnDocument-campusTagNumber" />
         <ref bean="EquipmentLoanOrReturnDocument-documentNumber" />
         <ref bean="EquipmentLoanOrReturnDocument-expectedReturnDate" />
-        <ref bean="EquipmentLoanOrReturnDocument-insuranceChargeAccountNumber" />
-        <ref bean="EquipmentLoanOrReturnDocument-insuranceChartOfAccountsCode" />
-        <ref bean="EquipmentLoanOrReturnDocument-insuranceCode" />
         <ref bean="EquipmentLoanOrReturnDocument-loanDate" />
         <ref bean="EquipmentLoanOrReturnDocument-loanReturnDate" />
-        <ref bean="EquipmentLoanOrReturnDocument-organizationTagNumber" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.principalName" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.name" />
@@ -311,24 +306,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="summary" value="borrowerZipCode" />
     <property name="description" value="borrowerZipCode description..." />
   </bean>
-  <bean id="EquipmentLoanOrReturnDocument-campusTagNumber" parent="EquipmentLoanOrReturnDocument-campusTagNumber-parentBean" />
-
-  <bean id="EquipmentLoanOrReturnDocument-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusTagNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Campus Tag Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="campusTagNumber" />
-    <property name="description" value="campusTagNumber description..." />
-  </bean>
   <bean id="EquipmentLoanOrReturnDocument-documentNumber" parent="EquipmentLoanOrReturnDocument-documentNumber-parentBean" />
 
   <bean id="EquipmentLoanOrReturnDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
@@ -351,61 +328,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="summary" value="expectedReturnDate" />
     <property name="description" value="expectedReturnDate description..." />
-  </bean>
-  <bean id="EquipmentLoanOrReturnDocument-insuranceChargeAccountNumber" parent="EquipmentLoanOrReturnDocument-insuranceChargeAccountNumber-parentBean" />
-
-  <bean id="EquipmentLoanOrReturnDocument-insuranceChargeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="insuranceChargeAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Insurance Charge Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-    <property name="summary" value="insuranceChargeAccountNumber" />
-    <property name="description" value="insuranceChargeAccountNumber description..." />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-  </bean>
-  <bean id="EquipmentLoanOrReturnDocument-insuranceChartOfAccountsCode" parent="EquipmentLoanOrReturnDocument-insuranceChartOfAccountsCode-parentBean" />
-
-  <bean id="EquipmentLoanOrReturnDocument-insuranceChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="insuranceChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Insurance Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="insuranceChartOfAccountsCode" />
-    <property name="description" value="insuranceChartOfAccountsCode description..." />
-  </bean>
-  <bean id="EquipmentLoanOrReturnDocument-insuranceCode" parent="EquipmentLoanOrReturnDocument-insuranceCode-parentBean" />
-
-  <bean id="EquipmentLoanOrReturnDocument-insuranceCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="insuranceCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Insurance Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-    <property name="summary" value="insuranceCode" />
-    <property name="description" value="insuranceCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-loanDate" parent="EquipmentLoanOrReturnDocument-loanDate-parentBean" />
 
@@ -443,24 +365,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="summary" value="loanReturnDate" />
     <property name="description" value="loanReturnDate description..." />
-  </bean>
-  <bean id="EquipmentLoanOrReturnDocument-organizationTagNumber" parent="EquipmentLoanOrReturnDocument-organizationTagNumber-parentBean" />
-
-  <bean id="EquipmentLoanOrReturnDocument-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationTagNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Tag Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="organizationTagNumber" />
-    <property name="description" value="organizationTagNumber description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" />
 

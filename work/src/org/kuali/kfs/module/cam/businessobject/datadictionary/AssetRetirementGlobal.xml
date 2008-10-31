@@ -18,7 +18,6 @@
     <property name="attributes" >
       <list>
         <ref bean="AssetRetirementGlobal-documentNumber" />
-        <ref bean="AssetRetirementGlobal-inventoryStatusCode" />
         <ref bean="AssetRetirementGlobal-mergedTargetCapitalAssetNumber" />
         <ref bean="AssetRetirementGlobal-retirementDate" />
         <ref bean="AssetRetirementGlobal-retirementReasonCode" />
@@ -77,24 +76,6 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
-  </bean>
-  <bean id="AssetRetirementGlobal-inventoryStatusCode" parent="AssetRetirementGlobal-inventoryStatusCode-parentBean" />
-
-  <bean id="AssetRetirementGlobal-inventoryStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="inventoryStatusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Inventory Status Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
-    <property name="summary" value="inventoryStatusCode" />
-    <property name="description" value="inventoryStatusCode description..." />
   </bean>
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetNumber" parent="AssetRetirementGlobal-mergedTargetCapitalAssetNumber-parentBean" />
 
@@ -297,8 +278,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="documentNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="inventoryStatusCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="mergedTargetCapitalAssetNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="retirementDate" />
@@ -328,8 +307,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="inventoryStatusCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="mergedTargetCapitalAssetNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="retirementDate" />
@@ -341,8 +318,6 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="inventoryStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="mergedTargetCapitalAssetNumber" />
         <bean parent="FieldDefinition"

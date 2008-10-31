@@ -125,8 +125,6 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
                     equipmentLoanOrReturnDocument.setExpectedReturnDate(null);
                 }
                 equipmentLoanOrReturnDocument.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
-                equipmentLoanOrReturnDocument.setCampusTagNumber(newAsset.getCampusTagNumber());
-                equipmentLoanOrReturnDocument.setOrganizationTagNumber(newAsset.getOrganizationTagNumber());
                 equipmentLoanOrReturnDocument.setAsset(newAsset);
             }
         }

@@ -21,21 +21,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -47,7 +38,14 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 @ConfigureContext(session = khuntley)
 //@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -220,7 +218,6 @@ public class AssetPaymentServiceTest extends KualiTestBase {
                     assertEquals(amount, assetPayment.getAccountChargeAmount());
                     assertEquals(assetPaymentDetail.getPostingYear(), assetPayment.getFinancialDocumentPostingYear());
                     assertEquals(assetPaymentDetail.getPostingPeriodCode(), assetPayment.getFinancialDocumentPostingPeriodCode());
-                    assertEquals(assetPaymentDetail.getPaymentApplicationDate(), assetPayment.getFinancialDocumentPostingDate());
                 //}
             }
             assetsNewCost.put(capitalAssetNumber, calculatedAssetNewCost);

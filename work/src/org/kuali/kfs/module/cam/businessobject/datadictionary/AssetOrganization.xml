@@ -19,7 +19,6 @@
       <list>
         <ref bean="AssetOrganization-capitalAssetNumber" />
         <ref bean="AssetOrganization-organizationAssetTypeIdentifier" />
-        <ref bean="AssetOrganization-organizationDescription" />
         <ref bean="AssetOrganization-organizationTagNumber" />
         <ref bean="AssetOrganization-organizationText" />
       </list>
@@ -64,24 +63,6 @@
     </property>
     <property name="summary" value="organizationAssetTypeIdentifier" />
     <property name="description" value="organizationAssetTypeIdentifier description..." />
-  </bean>
-  <bean id="AssetOrganization-organizationDescription" parent="AssetOrganization-organizationDescription-parentBean" />
-
-  <bean id="AssetOrganization-organizationDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
-    </property>
-    <property name="summary" value="organizationDescription" />
-    <property name="description" value="organizationDescription description..." />
   </bean>
   <bean id="AssetOrganization-organizationTagNumber" parent="AssetOrganization-organizationTagNumber-parentBean" />
 
@@ -141,8 +122,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationAssetTypeIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationDescription" />
-              <bean parent="FieldDefinition"
                     p:attributeName="organizationTagNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationText" />
@@ -172,8 +151,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationAssetTypeIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="organizationDescription" />
-        <bean parent="FieldDefinition"
               p:attributeName="organizationTagNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationText" />
@@ -185,8 +162,6 @@
               p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationAssetTypeIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationTagNumber" />
         <bean parent="FieldDefinition"

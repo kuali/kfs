@@ -46,7 +46,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetTransferDocument-offCampusStateCode" />
         <ref bean="AssetTransferDocument-offCampusZipCode" />
         <ref bean="AssetTransferDocument-offCampusCountryCode" />
-        <ref bean="AssetTransferDocument-organizationCode" />
         <ref bean="AssetTransferDocument-organizationInventoryName" />
         <ref bean="AssetTransferDocument-organizationOwnerAccountNumber" />
         <ref bean="AssetTransferDocument-organizationOwnerChartOfAccountsCode" />
@@ -61,7 +60,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetTransferDocument-documentNumber" />
         <ref bean="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" />
         <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber" />
-        <ref bean="AssetTransferDocument-oldOrganizationCode" />
       </list>
     </property>
     <property name="relationships" >
@@ -233,24 +231,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="required" value="false" />
     <property name="summary" value="offCampusZipCode" />
     <property name="description" value="offCampusZipCode description..." />
-  </bean>
-  <bean id="AssetTransferDocument-organizationCode" parent="AssetTransferDocument-organizationCode-parentBean" />
-
-  <bean id="AssetTransferDocument-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
   </bean>
   <bean id="AssetTransferDocument-organizationInventoryName" parent="AssetTransferDocument-organizationInventoryName-parentBean" />
 
@@ -431,16 +411,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="required" value="false" />
     <property name="summary" value="oldOrganizationOwnerAccountNumber" />
     <property name="description" value="oldOrganizationOwnerAccountNumber description..." />
-  </bean>
-  
-  <bean id="AssetTransferDocument-oldOrganizationCode" parent="AssetTransferDocument-oldOrganizationCode-parentBean" />
-
-  <bean id="AssetTransferDocument-oldOrganizationCode-parentBean" abstract="true" parent="AssetTransferDocument-organizationCode">
-    <property name="name" value="oldOrganizationCode" />
-    <property name="label" value="Organization Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="summary" value="oldOrganizationCode" />
-    <property name="description" value="oldOrganizationCode description..." />
   </bean>
   
    <bean id="AssetTransferDocument-offCampusCountryCode" parent="AssetTransferDocument-offCampusCountryCode-parentBean" />

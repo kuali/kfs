@@ -41,35 +41,20 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private String purchaseOrderNumber;
     private String requisitionNumber;
     private KualiDecimal primaryDepreciationBaseAmount;
-    private KualiDecimal secondaryDepreciationBaseAmount;
     private KualiDecimal accumulatedPrimaryDepreciationAmount;
-    private KualiDecimal accumulatedSecondaryDepreciationAmount;
     private KualiDecimal previousYearPrimaryDepreciationAmount;
-    private KualiDecimal previousYearSecondaryDepreciationAmount;
     private KualiDecimal period1Depreciation1Amount;
-    private KualiDecimal period1Depreciation2Amount;
     private KualiDecimal period2Depreciation1Amount;
-    private KualiDecimal period2Depreciation2Amount;
     private KualiDecimal period3Depreciation1Amount;
-    private KualiDecimal period3Depreciation2Amount;
     private KualiDecimal period4Depreciation1Amount;
-    private KualiDecimal period4Depreciation2Amount;
     private KualiDecimal period5Depreciation1Amount;
-    private KualiDecimal period5Depreciation2Amount;
     private KualiDecimal period6Depreciation1Amount;
-    private KualiDecimal period6Depreciation2Amount;
     private KualiDecimal period7Depreciation1Amount;
-    private KualiDecimal period7Depreciation2Amount;
     private KualiDecimal period8Depreciation1Amount;
-    private KualiDecimal period8Depreciation2Amount;
     private KualiDecimal period9Depreciation1Amount;
-    private KualiDecimal period9Depreciation2Amount;
     private KualiDecimal period10Depreciation1Amount;
-    private KualiDecimal period10Depreciation2Amount;
     private KualiDecimal period11Depreciation1Amount;
-    private KualiDecimal period11Depreciation2Amount;
     private KualiDecimal period12Depreciation1Amount;
-    private KualiDecimal period12Depreciation2Amount;
     private String transferPaymentCode;
 
     private Asset asset;
@@ -118,35 +103,20 @@ public class AssetPayment extends PersistableBusinessObjectBase {
         setPurchaseOrderNumber(assetPayment.getPurchaseOrderNumber());
         setRequisitionNumber(assetPayment.getRequisitionNumber());
         setPrimaryDepreciationBaseAmount(assetPayment.getPrimaryDepreciationBaseAmount());
-        setSecondaryDepreciationBaseAmount(assetPayment.getSecondaryDepreciationBaseAmount());
         setAccumulatedPrimaryDepreciationAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
-        setAccumulatedSecondaryDepreciationAmount(assetPayment.getAccumulatedSecondaryDepreciationAmount());
         setPreviousYearPrimaryDepreciationAmount(assetPayment.getPreviousYearPrimaryDepreciationAmount());
-        setPreviousYearSecondaryDepreciationAmount(assetPayment.getPreviousYearSecondaryDepreciationAmount());
         setPeriod1Depreciation1Amount(assetPayment.getPeriod1Depreciation1Amount());
-        setPeriod1Depreciation2Amount(assetPayment.getPeriod1Depreciation2Amount());
         setPeriod2Depreciation1Amount(assetPayment.getPeriod2Depreciation1Amount());
-        setPeriod2Depreciation2Amount(assetPayment.getPeriod2Depreciation2Amount());
         setPeriod3Depreciation1Amount(assetPayment.getPeriod3Depreciation1Amount());
-        setPeriod3Depreciation2Amount(assetPayment.getPeriod3Depreciation2Amount());
         setPeriod4Depreciation1Amount(assetPayment.getPeriod4Depreciation1Amount());
-        setPeriod4Depreciation2Amount(assetPayment.getPeriod4Depreciation2Amount());
         setPeriod5Depreciation1Amount(assetPayment.getPeriod5Depreciation1Amount());
-        setPeriod5Depreciation2Amount(assetPayment.getPeriod5Depreciation2Amount());
         setPeriod6Depreciation1Amount(assetPayment.getPeriod6Depreciation1Amount());
-        setPeriod6Depreciation2Amount(assetPayment.getPeriod6Depreciation2Amount());
         setPeriod7Depreciation1Amount(assetPayment.getPeriod7Depreciation1Amount());
-        setPeriod7Depreciation2Amount(assetPayment.getPeriod7Depreciation2Amount());
         setPeriod8Depreciation1Amount(assetPayment.getPeriod8Depreciation1Amount());
-        setPeriod8Depreciation2Amount(assetPayment.getPeriod8Depreciation2Amount());
         setPeriod9Depreciation1Amount(assetPayment.getPeriod9Depreciation1Amount());
-        setPeriod9Depreciation2Amount(assetPayment.getPeriod9Depreciation2Amount());
         setPeriod10Depreciation1Amount(assetPayment.getPeriod10Depreciation1Amount());
-        setPeriod10Depreciation2Amount(assetPayment.getPeriod10Depreciation2Amount());
         setPeriod11Depreciation1Amount(assetPayment.getPeriod11Depreciation1Amount());
-        setPeriod11Depreciation2Amount(assetPayment.getPeriod11Depreciation2Amount());
         setPeriod12Depreciation1Amount(assetPayment.getPeriod12Depreciation1Amount());
-        setPeriod12Depreciation2Amount(assetPayment.getPeriod12Depreciation2Amount());
         setTransferPaymentCode(assetPayment.getTransferPaymentCode());
     }
     
@@ -165,7 +135,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
         setFinancialDocumentTypeCode(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
         setFinancialDocumentPostingYear(assetPaymentDetail.getPostingYear());
         setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getPostingPeriodCode());
-        setFinancialDocumentPostingDate(assetPaymentDetail.getPaymentApplicationDate());
         setProjectCode(assetPaymentDetail.getProjectCode());
         setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
         setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
@@ -572,27 +541,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the secondaryDepreciationBaseAmount attribute.
-     * 
-     * @return Returns the secondaryDepreciationBaseAmount
-     * 
-     */
-    public KualiDecimal getSecondaryDepreciationBaseAmount() {
-        return secondaryDepreciationBaseAmount;
-    }
-
-    /**
-     * Sets the secondaryDepreciationBaseAmount attribute.
-     * 
-     * @param secondaryDepreciationBaseAmount The secondaryDepreciationBaseAmount to set.
-     * 
-     */
-    public void setSecondaryDepreciationBaseAmount(KualiDecimal secondaryDepreciationBaseAmount) {
-        this.secondaryDepreciationBaseAmount = secondaryDepreciationBaseAmount;
-    }
-
-
-    /**
      * Gets the accumulatedPrimaryDepreciationAmount attribute.
      * 
      * @return Returns the accumulatedPrimaryDepreciationAmount
@@ -610,27 +558,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     public void setAccumulatedPrimaryDepreciationAmount(KualiDecimal accumulatedPrimaryDepreciationAmount) {
         this.accumulatedPrimaryDepreciationAmount = accumulatedPrimaryDepreciationAmount;
-    }
-
-
-    /**
-     * Gets the accumulatedSecondaryDepreciationAmount attribute.
-     * 
-     * @return Returns the accumulatedSecondaryDepreciationAmount
-     * 
-     */
-    public KualiDecimal getAccumulatedSecondaryDepreciationAmount() {
-        return accumulatedSecondaryDepreciationAmount;
-    }
-
-    /**
-     * Sets the accumulatedSecondaryDepreciationAmount attribute.
-     * 
-     * @param accumulatedSecondaryDepreciationAmount The accumulatedSecondaryDepreciationAmount to set.
-     * 
-     */
-    public void setAccumulatedSecondaryDepreciationAmount(KualiDecimal accumulatedSecondaryDepreciationAmount) {
-        this.accumulatedSecondaryDepreciationAmount = accumulatedSecondaryDepreciationAmount;
     }
 
 
@@ -656,27 +583,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the previousYearSecondaryDepreciationAmount attribute.
-     * 
-     * @return Returns the previousYearSecondaryDepreciationAmount
-     * 
-     */
-    public KualiDecimal getPreviousYearSecondaryDepreciationAmount() {
-        return previousYearSecondaryDepreciationAmount;
-    }
-
-    /**
-     * Sets the previousYearSecondaryDepreciationAmount attribute.
-     * 
-     * @param previousYearSecondaryDepreciationAmount The previousYearSecondaryDepreciationAmount to set.
-     * 
-     */
-    public void setPreviousYearSecondaryDepreciationAmount(KualiDecimal previousYearSecondaryDepreciationAmount) {
-        this.previousYearSecondaryDepreciationAmount = previousYearSecondaryDepreciationAmount;
-    }
-
-
-    /**
      * Gets the period1Depreciation1Amount attribute.
      * 
      * @return Returns the period1Depreciation1Amount
@@ -694,27 +600,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     public void setPeriod1Depreciation1Amount(KualiDecimal period1Depreciation1Amount) {
         this.period1Depreciation1Amount = period1Depreciation1Amount;
-    }
-
-
-    /**
-     * Gets the period1Depreciation2Amount attribute.
-     * 
-     * @return Returns the period1Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod1Depreciation2Amount() {
-        return period1Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period1Depreciation2Amount attribute.
-     * 
-     * @param period1Depreciation2Amount The period1Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod1Depreciation2Amount(KualiDecimal period1Depreciation2Amount) {
-        this.period1Depreciation2Amount = period1Depreciation2Amount;
     }
 
 
@@ -740,27 +625,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the period2Depreciation2Amount attribute.
-     * 
-     * @return Returns the period2Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod2Depreciation2Amount() {
-        return period2Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period2Depreciation2Amount attribute.
-     * 
-     * @param period2Depreciation2Amount The period2Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod2Depreciation2Amount(KualiDecimal period2Depreciation2Amount) {
-        this.period2Depreciation2Amount = period2Depreciation2Amount;
-    }
-
-
-    /**
      * Gets the period3Depreciation1Amount attribute.
      * 
      * @return Returns the period3Depreciation1Amount
@@ -778,27 +642,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     public void setPeriod3Depreciation1Amount(KualiDecimal period3Depreciation1Amount) {
         this.period3Depreciation1Amount = period3Depreciation1Amount;
-    }
-
-
-    /**
-     * Gets the period3Depreciation2Amount attribute.
-     * 
-     * @return Returns the period3Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod3Depreciation2Amount() {
-        return period3Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period3Depreciation2Amount attribute.
-     * 
-     * @param period3Depreciation2Amount The period3Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod3Depreciation2Amount(KualiDecimal period3Depreciation2Amount) {
-        this.period3Depreciation2Amount = period3Depreciation2Amount;
     }
 
 
@@ -824,27 +667,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the period4Depreciation2Amount attribute.
-     * 
-     * @return Returns the period4Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod4Depreciation2Amount() {
-        return period4Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period4Depreciation2Amount attribute.
-     * 
-     * @param period4Depreciation2Amount The period4Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod4Depreciation2Amount(KualiDecimal period4Depreciation2Amount) {
-        this.period4Depreciation2Amount = period4Depreciation2Amount;
-    }
-
-
-    /**
      * Gets the period5Depreciation1Amount attribute.
      * 
      * @return Returns the period5Depreciation1Amount
@@ -862,27 +684,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     public void setPeriod5Depreciation1Amount(KualiDecimal period5Depreciation1Amount) {
         this.period5Depreciation1Amount = period5Depreciation1Amount;
-    }
-
-
-    /**
-     * Gets the period5Depreciation2Amount attribute.
-     * 
-     * @return Returns the period5Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod5Depreciation2Amount() {
-        return period5Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period5Depreciation2Amount attribute.
-     * 
-     * @param period5Depreciation2Amount The period5Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod5Depreciation2Amount(KualiDecimal period5Depreciation2Amount) {
-        this.period5Depreciation2Amount = period5Depreciation2Amount;
     }
 
 
@@ -908,27 +709,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the period6Depreciation2Amount attribute.
-     * 
-     * @return Returns the period6Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod6Depreciation2Amount() {
-        return period6Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period6Depreciation2Amount attribute.
-     * 
-     * @param period6Depreciation2Amount The period6Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod6Depreciation2Amount(KualiDecimal period6Depreciation2Amount) {
-        this.period6Depreciation2Amount = period6Depreciation2Amount;
-    }
-
-
-    /**
      * Gets the period7Depreciation1Amount attribute.
      * 
      * @return Returns the period7Depreciation1Amount
@@ -946,27 +726,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     public void setPeriod7Depreciation1Amount(KualiDecimal period7Depreciation1Amount) {
         this.period7Depreciation1Amount = period7Depreciation1Amount;
-    }
-
-
-    /**
-     * Gets the period7Depreciation2Amount attribute.
-     * 
-     * @return Returns the period7Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod7Depreciation2Amount() {
-        return period7Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period7Depreciation2Amount attribute.
-     * 
-     * @param period7Depreciation2Amount The period7Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod7Depreciation2Amount(KualiDecimal period7Depreciation2Amount) {
-        this.period7Depreciation2Amount = period7Depreciation2Amount;
     }
 
 
@@ -992,27 +751,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the period8Depreciation2Amount attribute.
-     * 
-     * @return Returns the period8Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod8Depreciation2Amount() {
-        return period8Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period8Depreciation2Amount attribute.
-     * 
-     * @param period8Depreciation2Amount The period8Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod8Depreciation2Amount(KualiDecimal period8Depreciation2Amount) {
-        this.period8Depreciation2Amount = period8Depreciation2Amount;
-    }
-
-
-    /**
      * Gets the period9Depreciation1Amount attribute.
      * 
      * @return Returns the period9Depreciation1Amount
@@ -1030,27 +768,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     public void setPeriod9Depreciation1Amount(KualiDecimal period9Depreciation1Amount) {
         this.period9Depreciation1Amount = period9Depreciation1Amount;
-    }
-
-
-    /**
-     * Gets the period9Depreciation2Amount attribute.
-     * 
-     * @return Returns the period9Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod9Depreciation2Amount() {
-        return period9Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period9Depreciation2Amount attribute.
-     * 
-     * @param period9Depreciation2Amount The period9Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod9Depreciation2Amount(KualiDecimal period9Depreciation2Amount) {
-        this.period9Depreciation2Amount = period9Depreciation2Amount;
     }
 
 
@@ -1076,27 +793,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the period10Depreciation2Amount attribute.
-     * 
-     * @return Returns the period10Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod10Depreciation2Amount() {
-        return period10Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period10Depreciation2Amount attribute.
-     * 
-     * @param period10Depreciation2Amount The period10Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod10Depreciation2Amount(KualiDecimal period10Depreciation2Amount) {
-        this.period10Depreciation2Amount = period10Depreciation2Amount;
-    }
-
-
-    /**
      * Gets the period11Depreciation1Amount attribute.
      * 
      * @return Returns the period11Depreciation1Amount
@@ -1118,27 +814,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the period11Depreciation2Amount attribute.
-     * 
-     * @return Returns the period11Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod11Depreciation2Amount() {
-        return period11Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period11Depreciation2Amount attribute.
-     * 
-     * @param period11Depreciation2Amount The period11Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod11Depreciation2Amount(KualiDecimal period11Depreciation2Amount) {
-        this.period11Depreciation2Amount = period11Depreciation2Amount;
-    }
-
-
-    /**
      * Gets the period12Depreciation1Amount attribute.
      * 
      * @return Returns the period12Depreciation1Amount
@@ -1156,27 +831,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     public void setPeriod12Depreciation1Amount(KualiDecimal period12Depreciation1Amount) {
         this.period12Depreciation1Amount = period12Depreciation1Amount;
-    }
-
-
-    /**
-     * Gets the period12Depreciation2Amount attribute.
-     * 
-     * @return Returns the period12Depreciation2Amount
-     * 
-     */
-    public KualiDecimal getPeriod12Depreciation2Amount() {
-        return period12Depreciation2Amount;
-    }
-
-    /**
-     * Sets the period12Depreciation2Amount attribute.
-     * 
-     * @param period12Depreciation2Amount The period12Depreciation2Amount to set.
-     * 
-     */
-    public void setPeriod12Depreciation2Amount(KualiDecimal period12Depreciation2Amount) {
-        this.period12Depreciation2Amount = period12Depreciation2Amount;
     }
 
 

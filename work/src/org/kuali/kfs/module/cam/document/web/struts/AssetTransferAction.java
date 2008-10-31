@@ -63,7 +63,6 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         if (KEWConstants.INITIATE_COMMAND.equals(command)) {
             assetTransferDocument.setOldOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
             assetTransferDocument.setOldOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
-            assetTransferDocument.setOldOrganizationCode(asset.getOrganizationOwnerAccount().getOrganizationCode());
         }
         
         return docHandlerForward;

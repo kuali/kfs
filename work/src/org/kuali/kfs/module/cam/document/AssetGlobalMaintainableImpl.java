@@ -46,7 +46,6 @@ import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.module.cam.util.KualiDecimalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
@@ -456,9 +455,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             }
         }
         assetGlobal.getAssetGlobalDetails().clear();
-        assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAssetGlobalDetails(newDetails);
-        assetGlobal.setPrimaryDepreciationBaseAmount(assetGlobalService.totalNonFederalPaymentByAsset(assetGlobal));
     }
 
     /**

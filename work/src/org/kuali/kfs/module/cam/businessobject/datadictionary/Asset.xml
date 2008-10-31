@@ -41,8 +41,6 @@
         <ref bean="Asset-fabricationEstimatedTotalAmount" />
         <ref bean="Asset-financialDocumentPostingPeriodCode" />
         <ref bean="Asset-financialDocumentPostingYear" />
-        <ref bean="Asset-insuranceChargeAccountNumber" />
-        <ref bean="Asset-insuranceChartOfAccountsCode" />
         <ref bean="Asset-inventoryScannedCode" />
         <ref bean="Asset-inventoryStatusCode" />
         <ref bean="Asset-nationalStockNumber" />
@@ -64,9 +62,7 @@
         <ref bean="Asset-retirementReasonCode" />
         <ref bean="Asset-salePrice" />
         <ref bean="Asset-salvageAmount" />
-        <ref bean="Asset-secondaryDepreciationMethodCode" />
         <ref bean="Asset-serialNumber" />
-        <ref bean="Asset-signatureCode" />
         <ref bean="Asset-totalCostAmount" />
         <ref bean="Asset-transferOfFundsFinancialDocumentNumber" />
         <ref bean="Asset-vendorName" />
@@ -491,42 +487,6 @@
     <property name="summary" value="financialDocumentPostingYear" />
     <property name="description" value="financialDocumentPostingYear description..." />
   </bean>
-  <bean id="Asset-insuranceChargeAccountNumber" parent="Asset-insuranceChargeAccountNumber-parentBean" />
-
-  <bean id="Asset-insuranceChargeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="insuranceChargeAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Insurance Charge Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="insuranceChargeAccountNumber" />
-    <property name="description" value="insuranceChargeAccountNumber description..." />
-  </bean>
-  <bean id="Asset-insuranceChartOfAccountsCode" parent="Asset-insuranceChartOfAccountsCode-parentBean" />
-
-  <bean id="Asset-insuranceChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="insuranceChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Insurance Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="insuranceChartOfAccountsCode" />
-    <property name="description" value="insuranceChartOfAccountsCode description..." />
-  </bean>
   <bean id="Asset-inventoryScannedCode" parent="Asset-inventoryScannedCode-parentBean" />
 
   <bean id="Asset-inventoryScannedCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -850,24 +810,6 @@
     <property name="description" value="salvageAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
-  <bean id="Asset-secondaryDepreciationMethodCode" parent="Asset-secondaryDepreciationMethodCode-parentBean" />
-
-  <bean id="Asset-secondaryDepreciationMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="secondaryDepreciationMethodCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Secondary Depreciation Method Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    <property name="summary" value="secondaryDepreciationMethodCode" />
-    <property name="description" value="secondaryDepreciationMethodCode description..." />
-  </bean>
   <bean id="Asset-serialNumber" parent="Asset-serialNumber-parentBean" />
 
   <bean id="Asset-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -887,16 +829,6 @@
     <property name="summary" value="serialNumber" />
     <property name="description" value="serialNumber description..." />
   </bean>
-  <bean id="Asset-signatureCode" parent="Asset-signatureCode-parentBean" />
-
-  <bean id="Asset-signatureCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="signatureCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Signature Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="summary" value="signatureCode" />
-    <property name="description" value="signatureCode description..." />
-  </bean>  
   <bean id="Asset-totalCostAmount" parent="Asset-totalCostAmount-parentBean" />
 
   <bean id="Asset-totalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

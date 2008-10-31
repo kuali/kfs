@@ -120,12 +120,9 @@
 	<field-descriptor name="retirementFiscalYear" column="AST_RETIR_FSCL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="cashReceiptFinancialDocumentNumber" column="CASH_RCPT_FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="primaryDepreciationMethodCode" column="AST_DEPR_MTHD1_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="secondaryDepreciationMethodCode" column="AST_DEPR_MTHD2_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="estimatedFabricationCompletionDate" column="AST_ESTFABRCMPL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="fabricationEstimatedTotalAmount" column="AST_FABRESTTOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="transferOfFundsFinancialDocumentNumber" column="TRNFR_FND_FDOC_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="insuranceChargeAccountNumber" column="AST_INS_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="insuranceChartOfAccountsCode" column="AST_INS_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="lastInventoryDate" column="CPTLAST_LSTINVN_DT" jdbc-type="TIMESTAMP"/>
@@ -138,7 +135,6 @@
 	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_PD_CASE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="inventoryScannedCode" column="AST_INVN_SCAN_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"  conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
@@ -173,13 +169,6 @@
 	</reference-descriptor>
 	<reference-descriptor name="retirementChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="retirementChartOfAccountsCode" />
-	</reference-descriptor>
-	<reference-descriptor name="insuranceChargeAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="insuranceChartOfAccountsCode" />
-		<foreignkey field-ref="insuranceChargeAccountNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="insuranceChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="insuranceChartOfAccountsCode" />
 	</reference-descriptor>
 	<reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="financialDocumentPostingYear" />
@@ -259,13 +248,9 @@
 	<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="conditionCode" column="CPTLAST_COND_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="primaryDepreciationMethodCode" column="AST_DEPR_MTHD1_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="primaryDepreciationBaseAmount" column="AST_DEPR1_BASE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="acquisitionSourceName" column="CPTLAST_ACQ_SRC_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="capitalizationDate" column="CPTLAST_CPTLZTN_DT" jdbc-type="DATE"/>
 	<field-descriptor name="totalCostAmount" column="CPTLAST_TOTCST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="landCountyName" column="CPTL_AST_LAND_CNTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="landAcreageSize" column="CPTL_AST_LAND_ACRG_SZ" jdbc-type="INTEGER"/>
@@ -391,35 +376,20 @@
 	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR"/>
 	<field-descriptor name="requisitionNumber" column="REQUISITION_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="primaryDepreciationBaseAmount" column="AST_DEPR1_BASE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="secondaryDepreciationBaseAmount" column="AST_DEPR2_BASE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="accumulatedPrimaryDepreciationAmount" column="AST_ACUM_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accumulatedSecondaryDepreciationAmount" column="AST_ACUM_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="previousYearPrimaryDepreciationAmount" column="AST_PRVYRDEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="previousYearSecondaryDepreciationAmount" column="AST_PRVYRDEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period1Depreciation1Amount" column="AST_PRD1_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period1Depreciation2Amount" column="AST_PRD1_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period2Depreciation1Amount" column="AST_PRD2_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period2Depreciation2Amount" column="AST_PRD2_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period3Depreciation1Amount" column="AST_PRD3_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period3Depreciation2Amount" column="AST_PRD3_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period4Depreciation1Amount" column="AST_PRD4_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period4Depreciation2Amount" column="AST_PRD4_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period5Depreciation1Amount" column="AST_PRD5_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period5Depreciation2Amount" column="AST_PRD5_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period6Depreciation1Amount" column="AST_PRD6_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period6Depreciation2Amount" column="AST_PRD6_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period7Depreciation1Amount" column="AST_PRD7_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period7Depreciation2Amount" column="AST_PRD7_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period8Depreciation1Amount" column="AST_PRD8_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period8Depreciation2Amount" column="AST_PRD8_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period9Depreciation1Amount" column="AST_PRD9_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period9Depreciation2Amount" column="AST_PRD9_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period10Depreciation1Amount" column="AST_PRD10DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period10Depreciation2Amount" column="AST_PRD10DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period11Depreciation1Amount" column="AST_PRD11DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period11Depreciation2Amount" column="AST_PRD11DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="period12Depreciation1Amount" column="AST_PRD12DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="period12Depreciation2Amount" column="AST_PRD12DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="transferPaymentCode" column="AST_TRNFR_PMT_CD" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -476,7 +446,6 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="organizationAssetTypeIdentifier" column="ORG_CPTLAST_TYP_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationTagNumber" column="CPTLAST_ORGTAG_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationDescription" column="CPTLAST_ORG_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationText" column="ORG_TXT" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -509,7 +478,6 @@
 	<field-descriptor name="sequenceNumber"  column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" 					  column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" 		  		  column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="paymentApplicationDate" 	  column="CPTLAST_PMTAPPL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="postingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="chartOfAccountsCode" 				column="FIN_COA_CD" jdbc-type="VARCHAR"/>
@@ -527,8 +495,6 @@
 	<field-descriptor name="purchaseOrderNumber" 						column="PO_NUMBER" jdbc-type="VARCHAR"/>
 	<field-descriptor name="requisitionNumber" 							column="REQUISITION_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="overrideCode" 				column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="primaryDepreciationPaymentAmount" 			column="AST_PMT_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="secondaryDepreciationPaymentAmount" 		column="AST_PMT_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="transferPaymentIndicator" 					column="AST_TRNFR_PMT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -760,7 +726,6 @@
 	<field-descriptor name="organizationText" column="ORG_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transferOfFundsFinancialDocumentNumber" column="TRNFR_FND_FDOC_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusName" column="AST_OFFCMP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusAddress" column="AST_OFFCMP_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusCityName" column="AST_OFFCMP_CITY_NM" jdbc-type="VARCHAR"/>
@@ -771,7 +736,6 @@
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
 	<field-descriptor name="oldOrganizationOwnerChartOfAccountsCode" column="OLD_ORG_OWNER_COA_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="oldOrganizationOwnerAccountNumber" column="OLD_ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="oldOrganizationCode" column="OLD_ORG_CD" jdbc-type="VARCHAR" />
 
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
@@ -783,12 +747,12 @@
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 		<foreignkey field-ref="organizationOwnerAccountNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="oldOrganizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="oldOrganizationOwnerChartOfAccountsCode" />
+		<foreignkey field-ref="oldOrganizationOwnerAccountNumber" />
+	</reference-descriptor>
 	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
-	</reference-descriptor>
-	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
-		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
 	<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.kfs.fp.document.TransferOfFundsDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="transferOfFundsFinancialDocumentNumber" />
@@ -816,10 +780,6 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationTagNumber" column="CPTLAST_ORGTAG_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="insuranceChartOfAccountsCode" column="AST_INS_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="insuranceChargeAccountNumber" column="AST_INS_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="loanDate" column="CPTLAST_LOAN_DT" jdbc-type="DATE"/>
 	<field-descriptor name="expectedReturnDate" column="AST_EXPCTRETURN_DT" jdbc-type="DATE"/>
 	<field-descriptor name="loanReturnDate" column="CPTLAST_LN_RTRN_DT" jdbc-type="DATE"/>
@@ -836,18 +796,10 @@
 	<field-descriptor name="borrowerStorageZipCode" column="AST_BORWRSTRGZP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="borrowerStorageCountryCode" column="AST_BORWRSTRCNT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="borrowerStoragePhoneNumber" column="AST_BORWRSTRPH_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
 
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="insuranceChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="insuranceChartOfAccountsCode" />
-	</reference-descriptor>
-	<reference-descriptor name="insuranceChargeAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="insuranceChartOfAccountsCode" />
-		<foreignkey field-ref="insuranceChargeAccountNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
@@ -925,7 +877,6 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="mergedTargetCapitalAssetNumber" column="MERGED_TGT_CPTLAST_NBR" jdbc-type="BIGINT"/>
-	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="retirementDate" column="CPTLAST_RETIRE_DT" jdbc-type="DATE"/>
 	<field-descriptor name="mergedTargetCapitalAssetDescription" column="MERGED_TGT_CPTLAST_DESC" jdbc-type="VARCHAR"/>
@@ -938,9 +889,6 @@
 	</reference-descriptor>
 	<reference-descriptor name="retirementReason" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="retirementReasonCode" />
-	</reference-descriptor>
-	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.kfs.module.cam.businessobject.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
 	<collection-descriptor name="assetRetirementGlobalDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
         <orderby name="capitalAssetNumber" sort="ASC" />

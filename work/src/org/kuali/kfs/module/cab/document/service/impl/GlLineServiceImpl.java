@@ -164,7 +164,6 @@ public class GlLineServiceImpl implements GlLineService {
         assetGlobal.setOrganizationOwnerAccountNumber(entry.getAccountNumber());
         assetGlobal.setDocumentNumber(maintDoc.getDocumentNumber());
         assetGlobal.setConditionCode(CamsConstants.CONDITION_CODE_E);
-        assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         return assetGlobal;
     }
 
@@ -228,7 +227,6 @@ public class GlLineServiceImpl implements GlLineService {
         AssetPaymentDetail detail = new AssetPaymentDetail();
         detail.setDocumentNumber(document.getDocumentNumber());
         detail.setSequenceNumber(seqNo);
-        detail.setPaymentApplicationDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         detail.setPostingYear(entry.getUniversityFiscalYear());
         detail.setPostingPeriodCode(entry.getUniversityFiscalPeriodCode());
         detail.setChartOfAccountsCode(entry.getChartOfAccountsCode());

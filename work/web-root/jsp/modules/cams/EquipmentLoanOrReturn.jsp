@@ -28,7 +28,6 @@
 	<c:set var="displayReturnLoanFieldsReadOnly" value="${KualiForm.editingMode['displayReturnLoanFieldsReadOnly']}" scope="request"/>
 	<kfs:hiddenDocumentFields isTransactionalDocument="true" isFinancialDocument="false"/>
 	<html:hidden property="document.capitalAssetNumber" />
-	<html:hidden property="document.campusTagNumber" />
 	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	
 	<html:hidden property="document.newLoan" />	

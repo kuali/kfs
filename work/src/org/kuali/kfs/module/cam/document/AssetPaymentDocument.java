@@ -31,7 +31,6 @@ import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -44,7 +43,6 @@ import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -100,19 +98,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     @Override
     public Class<AssetPaymentDetail> getSourceAccountingLineClass() {
         return AssetPaymentDetail.class;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#addSourceAccountingLine(org.kuali.kfs.sys.businessobject.SourceAccountingLine)
-     */
-    @Override
-    public void addSourceAccountingLine(SourceAccountingLine line) {
-        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
-
-        // Assigning the system date to a field is not being edited on the screen.
-        assetPaymentDetail.setPaymentApplicationDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-
-        super.addSourceAccountingLine(assetPaymentDetail);
     }
 
     /**

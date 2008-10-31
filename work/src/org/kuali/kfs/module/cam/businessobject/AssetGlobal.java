@@ -22,15 +22,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.CAPITAL_ASSETS_BATCH;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -47,13 +46,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String capitalAssetDescription;
     private String inventoryStatusCode;
     private String conditionCode;
-    private String primaryDepreciationMethodCode;
-    private KualiDecimal primaryDepreciationBaseAmount;
-    private String acquisitionSourceName;
     private String capitalAssetTypeCode;
     private String manufacturerName;
     private String manufacturerModelNumber;
-    private Date capitalizationDate;
     private KualiDecimal totalCostAmount;
     private String landCountyName;
     private Integer landAcreageSize;
@@ -208,63 +203,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
 
     /**
-     * Gets the primaryDepreciationMethodCode attribute.
-     * 
-     * @return Returns the primaryDepreciationMethodCode
-     */
-    public String getPrimaryDepreciationMethodCode() {
-        return primaryDepreciationMethodCode;
-    }
-
-    /**
-     * Sets the primaryDepreciationMethodCode attribute.
-     * 
-     * @param primaryDepreciationMethodCode The primaryDepreciationMethodCode to set.
-     */
-    public void setPrimaryDepreciationMethodCode(String primaryDepreciationMethodCode) {
-        this.primaryDepreciationMethodCode = primaryDepreciationMethodCode;
-    }
-
-
-    /**
-     * Gets the primaryDepreciationBaseAmount attribute.
-     * 
-     * @return Returns the primaryDepreciationBaseAmount
-     */
-    public KualiDecimal getPrimaryDepreciationBaseAmount() {
-        return primaryDepreciationBaseAmount;
-    }
-
-    /**
-     * Sets the primaryDepreciationBaseAmount attribute.
-     * 
-     * @param primaryDepreciationBaseAmount The primaryDepreciationBaseAmount to set.
-     */
-    public void setPrimaryDepreciationBaseAmount(KualiDecimal primaryDepreciationBaseAmount) {
-        this.primaryDepreciationBaseAmount = primaryDepreciationBaseAmount;
-    }
-
-
-    /**
-     * Gets the acquisitionSourceName attribute.
-     * 
-     * @return Returns the acquisitionSourceName
-     */
-    public String getAcquisitionSourceName() {
-        return acquisitionSourceName;
-    }
-
-    /**
-     * Sets the acquisitionSourceName attribute.
-     * 
-     * @param acquisitionSourceName The acquisitionSourceName to set.
-     */
-    public void setAcquisitionSourceName(String acquisitionSourceName) {
-        this.acquisitionSourceName = acquisitionSourceName;
-    }
-
-
-    /**
      * Gets the capitalAssetTypeCode attribute.
      * 
      * @return Returns the capitalAssetTypeCode
@@ -318,25 +256,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setManufacturerModelNumber(String manufacturerModelNumber) {
         this.manufacturerModelNumber = manufacturerModelNumber;
-    }
-
-
-    /**
-     * Gets the capitalizationDate attribute.
-     * 
-     * @return Returns the capitalizationDate
-     */
-    public Date getCapitalizationDate() {
-        return capitalizationDate;
-    }
-
-    /**
-     * Sets the capitalizationDate attribute.
-     * 
-     * @param capitalizationDate The capitalizationDate to set.
-     */
-    public void setCapitalizationDate(Date capitalizationDate) {
-        this.capitalizationDate = capitalizationDate;
     }
 
 
@@ -775,7 +694,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
             asset.setConditionCode(conditionCode);
             asset.setAcquisitionTypeCode(acquisitionTypeCode);
-            asset.setPrimaryDepreciationMethodCode(primaryDepreciationMethodCode); // ??
+            asset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
             asset.setManufacturerName(manufacturerName);
             asset.setManufacturerModelNumber(manufacturerModelNumber);
             asset.setLandCountyName(landCountyName);
@@ -881,7 +800,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     assetPayment.setAccountChargeAmount(payment.getAmount().multiply(detail.getSeparateSourceAmount()).divide(separateSourceCapitalAsset.getTotalCostAmount()));
 
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
-                    assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
+                    assetPayment.setPrimaryDepreciationBaseAmount(assetGlobalService.totalNonFederalPaymentByAsset(this));
 
                     targetAssetPayments.add(assetPayment);
                 }

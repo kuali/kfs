@@ -33,7 +33,7 @@
 		sourceAccountingLinesOnly="true"
 		isOptionalFieldsInNewRow="true"		
 		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialDocumentPostedDate,postingYear,postingPeriodCode"		
-		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,sequenceNumber"
+		extraHiddenFields=",transferPaymentIndicator,sequenceNumber"
 		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}">
 	</fin:accountingLines>
 	

@@ -12,17 +12,15 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -62,12 +60,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private Integer retirementFiscalYear;
     private String cashReceiptFinancialDocumentNumber;
     private String primaryDepreciationMethodCode;
-    private String secondaryDepreciationMethodCode;
     private Date estimatedFabricationCompletionDate;
     private KualiDecimal fabricationEstimatedTotalAmount;
     private String transferOfFundsFinancialDocumentNumber;
-    private String insuranceChargeAccountNumber;
-    private String insuranceChartOfAccountsCode;
     private String inventoryStatusCode;
     private String campusTagNumber;
     private Timestamp lastInventoryDate;
@@ -80,7 +75,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private String agencyNumber;
     private String campusPoliceDepartmentCaseNumber;
     private String inventoryScannedCode;
-    private boolean signatureCode;
     private boolean active;
     private Date capitalAssetInServiceDate;
     private String governmentTagNumber;
@@ -99,8 +93,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private Room buildingRoom;
     private Account retirementAccount;
     private Chart retirementChartOfAccounts;
-    private Account insuranceChargeAccount;
-    private Chart insuranceChartOfAccounts;
     private AccountingPeriod financialDocumentPostingPeriod;
     private Building building;
     private AccountingPeriod retirementPeriod;
@@ -795,25 +787,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
 
     /**
-     * Gets the secondaryDepreciationMethodCode attribute.
-     * 
-     * @return Returns the secondaryDepreciationMethodCode
-     */
-    public String getSecondaryDepreciationMethodCode() {
-        return secondaryDepreciationMethodCode;
-    }
-
-    /**
-     * Sets the secondaryDepreciationMethodCode attribute.
-     * 
-     * @param secondaryDepreciationMethodCode The secondaryDepreciationMethodCode to set.
-     */
-    public void setSecondaryDepreciationMethodCode(String secondaryDepreciationMethodCode) {
-        this.secondaryDepreciationMethodCode = secondaryDepreciationMethodCode;
-    }
-
-
-    /**
      * Gets the estimatedFabricationCompletionDate attribute.
      * 
      * @return Returns the estimatedFabricationCompletionDate
@@ -866,44 +839,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      */
     public void setTransferOfFundsFinancialDocumentNumber(String transferOfFundsFinancialDocumentNumber) {
         this.transferOfFundsFinancialDocumentNumber = transferOfFundsFinancialDocumentNumber;
-    }
-
-
-    /**
-     * Gets the insuranceChargeAccountNumber attribute.
-     * 
-     * @return Returns the insuranceChargeAccountNumber
-     */
-    public String getInsuranceChargeAccountNumber() {
-        return insuranceChargeAccountNumber;
-    }
-
-    /**
-     * Sets the insuranceChargeAccountNumber attribute.
-     * 
-     * @param insuranceChargeAccountNumber The insuranceChargeAccountNumber to set.
-     */
-    public void setInsuranceChargeAccountNumber(String insuranceChargeAccountNumber) {
-        this.insuranceChargeAccountNumber = insuranceChargeAccountNumber;
-    }
-
-
-    /**
-     * Gets the insuranceChartOfAccountsCode attribute.
-     * 
-     * @return Returns the insuranceChartOfAccountsCode
-     */
-    public String getInsuranceChartOfAccountsCode() {
-        return insuranceChartOfAccountsCode;
-    }
-
-    /**
-     * Sets the insuranceChartOfAccountsCode attribute.
-     * 
-     * @param insuranceChartOfAccountsCode The insuranceChartOfAccountsCode to set.
-     */
-    public void setInsuranceChartOfAccountsCode(String insuranceChartOfAccountsCode) {
-        this.insuranceChartOfAccountsCode = insuranceChartOfAccountsCode;
     }
 
     /**
@@ -1131,24 +1066,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      */
     public void setInventoryScannedCode(String inventoryScannedCode) {
         this.inventoryScannedCode = inventoryScannedCode;
-    }
-
-    /**
-     * Gets the signatureCode attribute.
-     * 
-     * @return Returns the signatureCode
-     */
-    public boolean isSignatureCode() {
-        return signatureCode;
-    }
-
-    /**
-     * Sets the signatureCode attribute.
-     * 
-     * @param signatureCode The signatureCode to set.
-     */
-    public void setSignatureCode(boolean signatureCode) {
-        this.signatureCode = signatureCode;
     }
 
     /**
@@ -1408,44 +1325,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      */
     public void setRetirementChartOfAccounts(Chart retirementChartOfAccounts) {
         this.retirementChartOfAccounts = retirementChartOfAccounts;
-    }
-
-    /**
-     * Gets the insuranceChargeAccount attribute.
-     * 
-     * @return Returns the insuranceChargeAccount
-     */
-    public Account getInsuranceChargeAccount() {
-        return insuranceChargeAccount;
-    }
-
-    /**
-     * Sets the insuranceChargeAccount attribute.
-     * 
-     * @param insuranceChargeAccount The insuranceChargeAccount to set.
-     * @deprecated
-     */
-    public void setInsuranceChargeAccount(Account insuranceChargeAccount) {
-        this.insuranceChargeAccount = insuranceChargeAccount;
-    }
-
-    /**
-     * Gets the insuranceChartOfAccounts attribute.
-     * 
-     * @return Returns the insuranceChartOfAccounts
-     */
-    public Chart getInsuranceChartOfAccounts() {
-        return insuranceChartOfAccounts;
-    }
-
-    /**
-     * Sets the insuranceChartOfAccounts attribute.
-     * 
-     * @param insuranceChartOfAccounts The insuranceChartOfAccounts to set.
-     * @deprecated
-     */
-    public void setInsuranceChartOfAccounts(Chart insuranceChartOfAccounts) {
-        this.insuranceChartOfAccounts = insuranceChartOfAccounts;
     }
 
     /**

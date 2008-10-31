@@ -58,13 +58,13 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccountNumber" attributeEntry="${assetTransferAttributes.organizationOwnerAccountNumber}" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 						&nbsp;
-		                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" fieldConversions="organizationCode:document.organizationOwnerAccount.organizationCode,accountNumber:document.organizationOwnerAccountNumber,chartOfAccountsCode:document.organizationOwnerChartOfAccountsCode" lookupParameters="document.organizationOwnerAccountNumber:accountNumber,document.organizationOwnerChartOfAccountsCode:chartOfAccountsCode" />
+		                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" fieldConversions="accountNumber:document.organizationOwnerAccountNumber,chartOfAccountsCode:document.organizationOwnerChartOfAccountsCode" lookupParameters="document.organizationOwnerAccountNumber:accountNumber,document.organizationOwnerChartOfAccountsCode:chartOfAccountsCode" />
 	                </c:if>
 				</td>				
 			</tr>
 			<tr>				
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.oldOrganizationCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.oldOrganizationOwnerAccount.organizationCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationCode}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true" /></td>
 			</tr>

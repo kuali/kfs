@@ -12,7 +12,6 @@ public class AssetOrganization extends PersistableBusinessObjectBase {
 	private Long capitalAssetNumber;
 	private String organizationAssetTypeIdentifier;
 	private String organizationTagNumber;
-	private String organizationDescription;
 	private String organizationText;
 
     private Asset asset;
@@ -84,27 +83,6 @@ public class AssetOrganization extends PersistableBusinessObjectBase {
 	 */
 	public void setOrganizationTagNumber(String organizationTagNumber) {
 		this.organizationTagNumber = organizationTagNumber;
-	}
-
-
-	/**
-	 * Gets the organizationDescription attribute.
-	 * 
-	 * @return Returns the organizationDescription
-	 * 
-	 */
-	public String getOrganizationDescription() { 
-		return organizationDescription;
-	}
-
-	/**
-	 * Sets the organizationDescription attribute.
-	 * 
-	 * @param organizationDescription The organizationDescription to set.
-	 * 
-	 */
-	public void setOrganizationDescription(String organizationDescription) {
-		this.organizationDescription = organizationDescription;
 	}
 
 

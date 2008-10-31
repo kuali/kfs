@@ -23,41 +23,38 @@ import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.businessobject.Room;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -74,14 +71,12 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private String organizationText;
     private String organizationInventoryName;
     private String transferOfFundsFinancialDocumentNumber;
-    private String organizationCode;
     private String offCampusAddress;
     private String offCampusCityName;
     private String offCampusStateCode;
     private String offCampusZipCode;
     private String oldOrganizationOwnerChartOfAccountsCode;
     private String oldOrganizationOwnerAccountNumber;
-    private String oldOrganizationCode;
     private String offCampusName;
     private String offCampusCountryCode;
     private boolean interdepartmentalSalesIndicator;
@@ -89,8 +84,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private Person assetRepresentative;
     private Campus campus;
     private Account organizationOwnerAccount;
+    private Account oldOrganizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
-    private Org organization;
     private TransferOfFundsDocument transferOfFundsFinancialDocument;
     private State offCampusState;
     private Country offCampusCountry;
@@ -307,24 +302,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return offCampusCountry;
     }
 
-    /**
-     * Gets the organization attribute.
-     * 
-     * @return Returns the organization
-     */
-    public Org getOrganization() {
-        return organization;
-    }
-
-    /**
-     * Gets the organizationCode attribute.
-     * 
-     * @return Returns the organizationCode
-     */
-    public String getOrganizationCode() {
-        return organizationCode;
-    }
-
 
     /**
      * Gets the organizationInventoryName attribute.
@@ -344,7 +321,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return organizationOwnerAccount;
     }
 
-
+    /**
+     * Gets the oldOrganizationOwnerAccount attribute.
+     * 
+     * @return Returns the oldOrganizationOwnerAccount
+     */
+    public Account getOldOrganizationOwnerAccount() {
+        return oldOrganizationOwnerAccount;
+    }
+    
     /**
      * Gets the organizationOwnerAccountNumber attribute.
      * 
@@ -678,26 +663,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.offCampusCountry = offCampusCountry;
     }
 
-    /**
-     * Sets the organization attribute.
-     * 
-     * @param organization The organization to set.
-     * @deprecated
-     */
-    public void setOrganization(Org organization) {
-        this.organization = organization;
-    }
-
-
-    /**
-     * Sets the organizationCode attribute.
-     * 
-     * @param organizationCode The organizationCode to set.
-     */
-    public void setOrganizationCode(String organizationCode) {
-        this.organizationCode = organizationCode;
-    }
-
 
     /**
      * Sets the organizationInventoryName attribute.
@@ -719,7 +684,16 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.organizationOwnerAccount = organizationOwnerAccount;
     }
 
-
+    /**
+     * Sets the oldOrganizationOwnerAccount attribute.
+     * 
+     * @param oldOrganizationOwnerAccount The oldOrganizationOwnerAccount to set.
+     * @deprecated
+     */
+    public void setOldOrganizationOwnerAccount(Account oldOrganizationOwnerAccount) {
+        this.oldOrganizationOwnerAccount = oldOrganizationOwnerAccount;
+    }
+    
     /**
      * Sets the organizationOwnerAccountNumber attribute.
      * 
@@ -860,16 +834,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     public void setOffCampusName(String offCampusName) {
         this.offCampusName = offCampusName;
-    }
-
-
-    public String getOldOrganizationCode() {
-        return oldOrganizationCode;
-    }
-
-
-    public void setOldOrganizationCode(String oldOrganizationCode) {
-        this.oldOrganizationCode = oldOrganizationCode;
     }
 
 

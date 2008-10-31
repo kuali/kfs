@@ -1,26 +1,14 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectType;
-import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
-import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -33,13 +21,10 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     private String expenditureFinancialSystemOriginationCode;
     private Date expenditureFinancialDocumentPostedDate;
-    private KualiDecimal primaryDepreciationPaymentAmount;
-    private KualiDecimal secondaryDepreciationPaymentAmount;
     private boolean transferPaymentIndicator;
 
     private String expenditureFinancialDocumentNumber;
     private String expenditureFinancialDocumentTypeCode;
-    private Date paymentApplicationDate;
     private String postingPeriodCode;
     private String purchaseOrderNumber;
     private String requisitionNumber;
@@ -89,25 +74,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.expenditureFinancialDocumentPostedDate = expenditureFinancialDocumentPostedDate;
     }
 
-    public KualiDecimal getPrimaryDepreciationPaymentAmount() {
-        return primaryDepreciationPaymentAmount;
-    }
-
-
-    public void setPrimaryDepreciationPaymentAmount(KualiDecimal primaryDepreciationPaymentAmount) {
-        this.primaryDepreciationPaymentAmount = primaryDepreciationPaymentAmount;
-    }
-
-
-    public KualiDecimal getSecondaryDepreciationPaymentAmount() {
-        return secondaryDepreciationPaymentAmount;
-    }
-
-
-    public void setSecondaryDepreciationPaymentAmount(KualiDecimal secondaryDepreciationPaymentAmount) {
-        this.secondaryDepreciationPaymentAmount = secondaryDepreciationPaymentAmount;
-    }
-
 
     public boolean isTransferPaymentIndicator() {
         return transferPaymentIndicator;
@@ -137,16 +103,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     public void setExpenditureFinancialDocumentTypeCode(String expenditureFinancialDocumentTypeCode) {
         this.expenditureFinancialDocumentTypeCode = expenditureFinancialDocumentTypeCode;
     }
-
-
-    public Date getPaymentApplicationDate() {
-        return paymentApplicationDate;
-    }
-
-
-    public void setPaymentApplicationDate(Date paymentApplicationDate) {
-        this.paymentApplicationDate = paymentApplicationDate;
-    }
+    
 
     public String getPostingPeriodCode() {
         return postingPeriodCode;

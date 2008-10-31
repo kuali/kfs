@@ -22,16 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
@@ -40,15 +35,18 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -56,10 +54,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocument.class);
 
     private String documentNumber;
-    private String campusTagNumber;
-    private String organizationTagNumber;
-    private String insuranceChartOfAccountsCode;
-    private String insuranceChargeAccountNumber;
     private Date loanDate;
     private Date expectedReturnDate;
     private Date loanReturnDate;
@@ -76,11 +70,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private String borrowerStorageZipCode;
     private String borrowerStorageCountryCode;
     private String borrowerStoragePhoneNumber;
-    private Integer insuranceCode;
     private Long capitalAssetNumber;
 
-    private Chart insuranceChartOfAccounts;
-    private Account insuranceChargeAccount;
     private State borrowerState;
     private State borrowerStorageState;
     private Country borrowerCountry;
@@ -214,61 +205,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      */
     public void setBorrowerPerson(Person borrowerPerson) {
         this.borrowerPerson = borrowerPerson;
-    }
-
-    /**
-     * Gets the insuranceChargeAccount attribute.
-     * 
-     * @return Returns the insuranceChargeAccount
-     */
-    public Account getInsuranceChargeAccount() {
-        return insuranceChargeAccount;
-    }
-
-    /**
-     * Sets the insuranceChargeAccount attribute.
-     * 
-     * @param insuranceChargeAccount The insuranceChargeAccount to set.
-     */
-    public void setInsuranceChargeAccount(Account insuranceChargeAccount) {
-        this.insuranceChargeAccount = insuranceChargeAccount;
-    }
-
-    /**
-     * Gets the insuranceChartOfAccounts attribute.
-     * 
-     * @return Returns the insuranceChartOfAccounts
-     */
-    public Chart getInsuranceChartOfAccounts() {
-        return insuranceChartOfAccounts;
-    }
-
-    /**
-     * Sets the insuranceChartOfAccounts attribute.
-     * 
-     * @param insuranceChartOfAccounts The insuranceChartOfAccounts to set.
-     */
-    public void setInsuranceChartOfAccounts(Chart insuranceChartOfAccounts) {
-        this.insuranceChartOfAccounts = insuranceChartOfAccounts;
-    }
-
-    /**
-     * Gets the campusTagNumber attribute.
-     * 
-     * @return Returns the campusTagNumber
-     */
-    public String getCampusTagNumber() {
-        return campusTagNumber;
-    }
-
-
-    /**
-     * Sets the campusTagNumber attribute.
-     * 
-     * @param campusTagNumber The campusTagNumber to set.
-     */
-    public void setCampusTagNumber(String campusTagNumber) {
-        this.campusTagNumber = campusTagNumber;
     }
 
     /**
@@ -580,60 +516,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     }
 
     /**
-     * Gets the insuranceChargeAccountNumber attribute.
-     * 
-     * @return Returns the insuranceChargeAccountNumber
-     */
-    public String getInsuranceChargeAccountNumber() {
-        return insuranceChargeAccountNumber;
-    }
-
-    /**
-     * Sets the insuranceChargeAccountNumber attribute.
-     * 
-     * @param insuranceChargeAccountNumber The insuranceChargeAccountNumber to set.
-     */
-    public void setInsuranceChargeAccountNumber(String insuranceChargeAccountNumber) {
-        this.insuranceChargeAccountNumber = insuranceChargeAccountNumber;
-    }
-
-    /**
-     * Gets the insuranceChartOfAccountsCode attribute.
-     * 
-     * @return Returns the insuranceChartOfAccountsCode
-     */
-    public String getInsuranceChartOfAccountsCode() {
-        return insuranceChartOfAccountsCode;
-    }
-
-    /**
-     * Sets the insuranceChartOfAccountsCode attribute.
-     * 
-     * @param insuranceChartOfAccountsCode The insuranceChartOfAccountsCode to set.
-     */
-    public void setInsuranceChartOfAccountsCode(String insuranceChartOfAccountsCode) {
-        this.insuranceChartOfAccountsCode = insuranceChartOfAccountsCode;
-    }
-
-    /**
-     * Gets the insuranceCode attribute.
-     * 
-     * @return Returns the insuranceCode
-     */
-    public Integer getInsuranceCode() {
-        return insuranceCode;
-    }
-
-    /**
-     * Sets the insuranceCode attribute.
-     * 
-     * @param insuranceCode The insuranceCode to set.
-     */
-    public void setInsuranceCode(Integer insuranceCode) {
-        this.insuranceCode = insuranceCode;
-    }
-
-    /**
      * Gets the loanDate attribute.
      * 
      * @return Returns the loanDate
@@ -672,24 +554,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      */
     public void setLoanReturnDate(Date loanReturnDate) {
         this.loanReturnDate = loanReturnDate;
-    }
-
-    /**
-     * Gets the organizationTagNumber attribute.
-     * 
-     * @return Returns the organizationTagNumber
-     */
-    public String getOrganizationTagNumber() {
-        return organizationTagNumber;
-    }
-
-    /**
-     * Sets the organizationTagNumber attribute.
-     * 
-     * @param organizationTagNumber The organizationTagNumber to set.
-     */
-    public void setOrganizationTagNumber(String organizationTagNumber) {
-        this.organizationTagNumber = organizationTagNumber;
     }
 
     /**

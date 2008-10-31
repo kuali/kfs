@@ -33,12 +33,10 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private String documentNumber;
     private Long mergedTargetCapitalAssetNumber;
     private String mergedTargetCapitalAssetDescription;
-    private String inventoryStatusCode;
     private String retirementReasonCode;
     private Date retirementDate;
     private Asset mergedTargetCapitalAsset;
     private AssetRetirementReason retirementReason;
-    private AssetStatus inventoryStatus;
     private FinancialSystemDocumentHeader documentHeader;
     private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
     // non-persistent relation
@@ -222,25 +220,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
 
     /**
-     * Gets the inventoryStatusCode attribute.
-     * 
-     * @return Returns the inventoryStatusCode
-     */
-    public String getInventoryStatusCode() {
-        return inventoryStatusCode;
-    }
-
-    /**
-     * Sets the inventoryStatusCode attribute.
-     * 
-     * @param inventoryStatusCode The inventoryStatusCode to set.
-     */
-    public void setInventoryStatusCode(String inventoryStatusCode) {
-        this.inventoryStatusCode = inventoryStatusCode;
-    }
-
-
-    /**
      * Gets the retirementReasonCode attribute.
      * 
      * @return Returns the retirementReasonCode
@@ -275,26 +254,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      */
     public void setRetirementDate(Date remeretirementDatentDate) {
         this.retirementDate = remeretirementDatentDate;
-    }
-
-
-    /**
-     * Gets the inventoryStatus attribute.
-     * 
-     * @return Returns the inventoryStatus.
-     */
-    public AssetStatus getInventoryStatus() {
-        return inventoryStatus;
-    }
-
-    /**
-     * Sets the inventoryStatus attribute value.
-     * 
-     * @param inventoryStatus The inventoryStatus to set.
-     * @deprecated
-     */
-    public void setInventoryStatus(AssetStatus inventoryStatus) {
-        this.inventoryStatus = inventoryStatus;
     }
 
     /**

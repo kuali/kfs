@@ -2595,6 +2595,18 @@
     <field-descriptor name="paymentRequestPositiveApprovalIndicator" column="PMT_RQST_PSTV_APRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="useTaxIndicator" column="USE_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="taxClassificationCode" column="TAX_CLSIF_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="federalTaxPercent" column="FTX_PCT" jdbc-type="DECIMAL" />
+	<field-descriptor name="stateTaxPercent" column="STX_PCT" jdbc-type="DECIMAL" />
+	<field-descriptor name="taxCountryCode" column="TAX_CNTRY_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="grossUpIndicator " column="GRS_UP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="taxExemptTreatyIndicator" column="TRTY_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="foreignSourceIndicator" column="FRGN_SRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="taxSpecialW4Amount" column="SPCL_W4_INC_AMT" jdbc-type="DECIMAL" />
+	<field-descriptor name="taxUSAIDPerDiemIndicator" column="USAID_DIEM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="otherTaxExemptIndicator" column="INC_TAX_EXMPT_CD_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="taxNQIId" column="NQI_CUST_TAX_ID" jdbc-type="VARCHAR" />
+    
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -2639,8 +2651,11 @@
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="bankCode" />
     </reference-descriptor>
-    
-
+   <!--  
+   <reference-descriptor name="incomeClass" class-ref="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="taxClassificationCode" />
+    </reference-descriptor>
+-->
     <!-- Do not set this collection to auto save or delete; it needs to be saved by a specific process in the GL entry creation (hjs) -->
    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />

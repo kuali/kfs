@@ -111,6 +111,17 @@
         <ref bean="PaymentRequestDocument-awaitingReceiving" />        
         <ref bean="PaymentRequestDocument-useTaxIndicator" />
         <ref bean="PaymentRequestDocument-bankCode" />
+    	<ref bean="taxClassificationCode" />
+    	<ref bean="federalTaxPercent" />      
+    	<ref bean="stateTaxPercent" />         
+    	<ref bean="taxCountryCode" />
+    	<ref bean="grossUpIndicator" />
+    	<ref bean="taxExemptTreatyIndicator" />
+    	<ref bean="foreignSourceIndicator" />
+    	<ref bean="taxSpecialW4Amount" />
+    	<ref bean="taxUSAIDPerDiemIndicator" />
+    	<ref bean="otherTaxExemptIndicator" />
+    	<ref bean="taxNQIId" />        
       </list>
     </property>
   </bean>
@@ -700,6 +711,107 @@
   <bean id="PaymentRequestDocument-bankCode" parent="PaymentRequestDocument-bankCode-parentBean" />
   
   <bean id="PaymentRequestDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
+
+<!--  tax related properties -->
+
+  <bean id="PaymentRequestDocument-taxClassificationCode" parent="PaymentRequestDocument-taxClassificationCode-parentBean" />
+  
+  <bean id="PaymentRequestDocument-taxClassificationCode-parentBean" abstract="true" parent="TaxIncomeClassCode-code" >
+  	<property name="name" value="taxClassificationCode" />
+    <property name="label" value="Income Class" />
+    <property name="shortLabel" value="Income Class" />
+    <property name="required" value="true" />     
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.TaxIncomeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentRequestDocument-federalTaxPercent" parent="PaymentRequestDocument-federalTaxPercent-parentBean" />
+  
+  <bean id="PaymentRequestDocument-federalTaxPercent-parentBean" abstract="true" parent="NonResidentAlienTaxPercent-incomeTaxPercent" >
+    <property name="name" value="federalTaxPercent" />
+    <property name="label" value="Federal Tax Percent" />
+    <property name="shortLabel" value="Federal Percent" />
+    <property name="required" value="true" />     
+  </bean>
+  <bean id="PaymentRequestDocument-stateTaxPercent" parent="PaymentRequestDocument-stateTaxPercent-parentBean" />
+  
+  <bean id="PaymentRequestDocument-stateTaxPercent-parentBean" abstract="true" parent="NonResidentAlienTaxPercent-incomeTaxPercent" >
+    <property name="name" value="stateTaxPercent" />
+    <property name="label" value="State Tax Percent" />
+    <property name="shortLabel" value="State Percent" />
+    <property name="required" value="true" />     
+  </bean>
+  <bean id="PaymentRequestDocument-taxCountryCode" parent="PaymentRequestDocument-taxCountryCode-parentBean" />
+
+  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
+	p:sourceAttributeName="postalCountryCode">
+    <property name="name" value="taxCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentRequestDocument-grossUpIndicator" parent="PaymentRequestDocument-grossUpIndicator-parentBean" />
+       
+  <bean id="PaymentRequestDocument-grossUpIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="grossUpIndicator" />
+  	<property name="label" value="Gross Up Payment" />
+  	<property name="shortLabel" value="Gross Up" />
+  </bean>
+  <bean id="PaymentRequestDocument-taxExemptTreatyIndicator" parent="PaymentRequestDocument-taxExemptTreatyIndicator-parentBean" />
+       
+  <bean id="PaymentRequestDocument-taxExemptTreatyIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="taxExemptTreatyIndicator" />
+  	<property name="label" value="Treaty Exempt" />
+  	<property name="shortLabel" value="Treaty Exempt" />
+  </bean>
+  <bean id="PaymentRequestDocument-foreignSourceIndicator" parent="PaymentRequestDocument-foreignSourceIndicator-parentBean" />
+       
+  <bean id="PaymentRequestDocument-foreignSourceIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="foreignSourceIndicator" />
+  	<property name="label" value="Foreign Source" />
+  	<property name="shortLabel" value="Foreign Source" />
+  </bean>
+  <bean id="PaymentRequestDocument-taxSpecialW4Amount" parent="PaymentRequestDocument-taxSpecialW4Amount-parentBean" />
+
+  <bean id="PaymentRequestDocument-taxSpecialW4Amount-parentBean" parent="GenericAttributes-genericAmount">
+    <property name="name" value="taxSpecialW4Amount" />
+    <property name="label" value="Special W-4 Amount" />
+    <property name="shortLabel" value="W4 Amount" />
+  </bean>  
+  <bean id="PaymentRequestDocument-taxUSAIDPerDiemIndicator" parent="PaymentRequestDocument-taxUSAIDPerDiemIndicator-parentBean" />
+       
+  <bean id="PaymentRequestDocument-taxUSAIDPerDiemIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="taxUSAIDPerDiemIndicator" />
+  	<property name="label" value="USAID Per Diem" />
+  	<property name="shortLabel" value="USAID Per Diem" />
+  </bean>
+  <bean id="PaymentRequestDocument-otherTaxExemptIndicator" parent="PaymentRequestDocument-otherTaxExemptIndicator-parentBean" />
+       
+  <bean id="PaymentRequestDocument-otherTaxExemptIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="otherTaxExemptIndicator" />
+  	<property name="label" value="Exempt Under Other Code" />
+  	<property name="shortLabel" value="Other Exempt" />
+  </bean>
+  <bean id="PaymentRequestDocument-taxNQIId" parent="PaymentRequestDocument-taxNQIId-parentBean" />
+
+  <bean id="PaymentRequestDocument-taxNQIId-parentBean" parent="GenericAttributes-genericSystemId">
+    <property name="name" value="taxNQIId" />
+    <property name="label" value="NQI Id" />
+    <property name="shortLabel" value="NQI Id" />
+  </bean>  
+
 
 <!-- Exported Workflow Properties -->
 

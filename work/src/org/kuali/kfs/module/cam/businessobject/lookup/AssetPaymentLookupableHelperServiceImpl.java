@@ -25,6 +25,8 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -33,6 +35,7 @@ import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class overrides the base getActionUrls method for Asset Payment. Even though it's a payment lookup screen we are maintaining
@@ -72,6 +75,23 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
         // return assetLookupableHelperService.getCustomActionUrls(asset, assetPrimaryKey);
     }
 
+    /**
+     * Returns the url for any drill down links within the lookup. Override so that documentNumber is not an inquiry if it doesn't exist.
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     */
+    @Override
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
+        if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
+            AssetPayment assetPayment = (AssetPayment) businessObject;
+            
+            if (ObjectUtils.isNull(assetPayment.getDocumentHeader())) {
+                // If the document isn't found, don't show the inquirable
+                return new AnchorHtmlData(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
+            }
+        }
+        return super.getInquiryUrl(businessObject, propertyName);
+    }
+    
     private HtmlData getPaymentUrl(Asset asset) {
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData("", "", CamsConstants.AssetActions.PAYMENT);
 

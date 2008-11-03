@@ -43,10 +43,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-accountExpirationDate" />
         <ref bean="Account-continuationFinChrtOfAcctCd" />
         <ref bean="Account-continuationAccountNumber" />
-        <ref bean="Account-awardPeriodEndYear" />
-        <ref bean="Account-awardPeriodEndMonth" />
-        <ref bean="Account-awardPeriodBeginYear" />
-        <ref bean="Account-awardPeriodBeginMonth" />
         <ref bean="Account-endowmentIncomeAcctFinCoaCd" />
         <ref bean="Account-endowmentIncomeAccountNumber" />
         <ref bean="Account-contractControlFinCoaCode" />
@@ -419,70 +415,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="ContAcct" />
     <property name="required" value="false" />
   </bean>
-  <bean id="Account-awardPeriodEndYear" parent="Account-awardPeriodEndYear-parentBean" />
-
-  <bean id="Account-awardPeriodEndYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodEndYear" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Period End Year" />
-    <property name="shortLabel" value="AwrdEndYear" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="YearValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-  </bean>
-  <bean id="Account-awardPeriodEndMonth" parent="Account-awardPeriodEndMonth-parentBean" />
-
-  <bean id="Account-awardPeriodEndMonth-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodEndMonth" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Period End Month" />
-    <property name="shortLabel" value="AwrdEndMnth" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="MonthValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
-  </bean>
-  <bean id="Account-awardPeriodBeginYear" parent="Account-awardPeriodBeginYear-parentBean" />
-
-  <bean id="Account-awardPeriodBeginYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodBeginYear" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Period Begin Year" />
-    <property name="shortLabel" value="AwrdBegnYear" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="YearValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-  </bean>
-  <bean id="Account-awardPeriodBeginMonth" parent="Account-awardPeriodBeginMonth-parentBean" />
-
-  <bean id="Account-awardPeriodBeginMonth-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodBeginMonth" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Period Begin Month" />
-    <property name="shortLabel" value="AwrdBegnMnth" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="MonthValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
-  </bean>
+  
   <bean id="Account-endowmentIncomeAcctFinCoaCd" parent="Account-endowmentIncomeAcctFinCoaCd-parentBean" />
 
   <bean id="Account-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">

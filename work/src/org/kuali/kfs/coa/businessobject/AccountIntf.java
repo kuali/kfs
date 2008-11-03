@@ -224,62 +224,6 @@ public interface AccountIntf {
     public boolean isExpired(Date testDate);
 
     /**
-     * Gets the awardPeriodEndYear attribute.
-     * 
-     * @return Returns the awardPeriodEndYear
-     */
-    public Integer getAwardPeriodEndYear();
-
-    /**
-     * Sets the awardPeriodEndYear attribute.
-     * 
-     * @param awardPeriodEndYear The awardPeriodEndYear to set.
-     */
-    public void setAwardPeriodEndYear(Integer awardPeriodEndYear);
-
-    /**
-     * Gets the awardPeriodEndMonth attribute.
-     * 
-     * @return Returns the awardPeriodEndMonth
-     */
-    public String getAwardPeriodEndMonth();
-
-    /**
-     * Sets the awardPeriodEndMonth attribute.
-     * 
-     * @param awardPeriodEndMonth The awardPeriodEndMonth to set.
-     */
-    public void setAwardPeriodEndMonth(String awardPeriodEndMonth);
-
-    /**
-     * Gets the awardPeriodBeginYear attribute.
-     * 
-     * @return Returns the awardPeriodBeginYear
-     */
-    public Integer getAwardPeriodBeginYear();
-
-    /**
-     * Sets the awardPeriodBeginYear attribute.
-     * 
-     * @param awardPeriodBeginYear The awardPeriodBeginYear to set.
-     */
-    public void setAwardPeriodBeginYear(Integer awardPeriodBeginYear);
-
-    /**
-     * Gets the awardPeriodBeginMonth attribute.
-     * 
-     * @return Returns the awardPeriodBeginMonth
-     */
-    public String getAwardPeriodBeginMonth();
-
-    /**
-     * Sets the awardPeriodBeginMonth attribute.
-     * 
-     * @param awardPeriodBeginMonth The awardPeriodBeginMonth to set.
-     */
-    public void setAwardPeriodBeginMonth(String awardPeriodBeginMonth);
-
-    /**
      * Gets the acctIndirectCostRcvyTypeCd attribute.
      * 
      * @return Returns the acctIndirectCostRcvyTypeCd

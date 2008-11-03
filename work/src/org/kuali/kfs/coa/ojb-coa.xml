@@ -41,10 +41,6 @@
     <field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="TIMESTAMP" />
     <field-descriptor name="continuationFinChrtOfAcctCd" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="continuationAccountNumber" column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardPeriodEndYear" column="AWRD_PERIOD_END_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="awardPeriodEndMonth" column="AWRD_PERIOD_END_MO" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardPeriodBeginYear" column="AWRD_PERIOD_BEG_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="awardPeriodBeginMonth" column="AWRD_PERIOD_BEG_MO" jdbc-type="VARCHAR" />
     <field-descriptor name="endowmentIncomeAcctFinCoaCd" column="ENDOW_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="endowmentIncomeAccountNumber" column="ENDOW_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="contractControlFinCoaCode" column="CONTR_CTRL_FCOA_CD" jdbc-type="VARCHAR" />
@@ -860,10 +856,6 @@
     <field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="TIMESTAMP" />
     <field-descriptor name="continuationFinChrtOfAcctCd" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="continuationAccountNumber" column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardPeriodEndYear" column="AWRD_PERIOD_END_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="awardPeriodEndMonth" column="AWRD_PERIOD_END_MO" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardPeriodBeginYear" column="AWRD_PERIOD_BEG_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="awardPeriodBeginMonth" column="AWRD_PERIOD_BEG_MO" jdbc-type="VARCHAR" />
     <field-descriptor name="endowmentIncomeAcctFinCoaCd" column="ENDOW_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="endowmentIncomeAccountNumber" column="ENDOW_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="contractControlFinCoaCode" column="CONTR_CTRL_FCOA_CD" jdbc-type="VARCHAR" />

@@ -68,10 +68,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private Timestamp accountCreateDate;
     private Timestamp accountEffectiveDate;
     private Timestamp accountExpirationDate;
-    private Integer awardPeriodEndYear;
-    private String awardPeriodEndMonth;
-    private Integer awardPeriodBeginYear;
-    private String awardPeriodBeginMonth;
     private String acctIndirectCostRcvyTypeCd;
     private String acctCustomIndCstRcvyExclCd;
     private String financialIcrSeriesIdentifier;
@@ -460,78 +456,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         Calendar acctDate = Calendar.getInstance();
         acctDate.setTime(testDate);
         return isExpired(acctDate);
-    }
-
-    /**
-     * Gets the awardPeriodEndYear attribute.
-     * 
-     * @return Returns the awardPeriodEndYear
-     */
-    public Integer getAwardPeriodEndYear() {
-        return awardPeriodEndYear;
-    }
-
-    /**
-     * Sets the awardPeriodEndYear attribute.
-     * 
-     * @param awardPeriodEndYear The awardPeriodEndYear to set.
-     */
-    public void setAwardPeriodEndYear(Integer awardPeriodEndYear) {
-        this.awardPeriodEndYear = awardPeriodEndYear;
-    }
-
-    /**
-     * Gets the awardPeriodEndMonth attribute.
-     * 
-     * @return Returns the awardPeriodEndMonth
-     */
-    public String getAwardPeriodEndMonth() {
-        return awardPeriodEndMonth;
-    }
-
-    /**
-     * Sets the awardPeriodEndMonth attribute.
-     * 
-     * @param awardPeriodEndMonth The awardPeriodEndMonth to set.
-     */
-    public void setAwardPeriodEndMonth(String awardPeriodEndMonth) {
-        this.awardPeriodEndMonth = awardPeriodEndMonth;
-    }
-
-    /**
-     * Gets the awardPeriodBeginYear attribute.
-     * 
-     * @return Returns the awardPeriodBeginYear
-     */
-    public Integer getAwardPeriodBeginYear() {
-        return awardPeriodBeginYear;
-    }
-
-    /**
-     * Sets the awardPeriodBeginYear attribute.
-     * 
-     * @param awardPeriodBeginYear The awardPeriodBeginYear to set.
-     */
-    public void setAwardPeriodBeginYear(Integer awardPeriodBeginYear) {
-        this.awardPeriodBeginYear = awardPeriodBeginYear;
-    }
-
-    /**
-     * Gets the awardPeriodBeginMonth attribute.
-     * 
-     * @return Returns the awardPeriodBeginMonth
-     */
-    public String getAwardPeriodBeginMonth() {
-        return awardPeriodBeginMonth;
-    }
-
-    /**
-     * Sets the awardPeriodBeginMonth attribute.
-     * 
-     * @param awardPeriodBeginMonth The awardPeriodBeginMonth to set.
-     */
-    public void setAwardPeriodBeginMonth(String awardPeriodBeginMonth) {
-        this.awardPeriodBeginMonth = awardPeriodBeginMonth;
     }
 
     /**

@@ -42,10 +42,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="PriorYearAccount-accountsSupervisorySystemsIdentifier" />
         <ref bean="PriorYearAccount-acctCustomIndCstRcvyExclCd" />
         <ref bean="PriorYearAccount-acctIndirectCostRcvyTypeCd" />
-        <ref bean="PriorYearAccount-awardPeriodBeginMonth" />
-        <ref bean="PriorYearAccount-awardPeriodBeginYear" />
-        <ref bean="PriorYearAccount-awardPeriodEndMonth" />
-        <ref bean="PriorYearAccount-awardPeriodEndYear" />
         <ref bean="PriorYearAccount-budgetRecordingLevelCode" />
         <ref bean="PriorYearAccount-accountCfdaNumber" />
         <ref bean="PriorYearAccount-chartOfAccountsCode" />
@@ -506,70 +502,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="4" />
     </property>
   </bean>
-  <bean id="PriorYearAccount-awardPeriodBeginMonth" parent="PriorYearAccount-awardPeriodBeginMonth-parentBean" />
-
-  <bean id="PriorYearAccount-awardPeriodBeginMonth-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodBeginMonth" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Award Period Begin Month" />
-    <property name="shortLabel" value="Month" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-  </bean>
-  <bean id="PriorYearAccount-awardPeriodBeginYear" parent="PriorYearAccount-awardPeriodBeginYear-parentBean" />
-
-  <bean id="PriorYearAccount-awardPeriodBeginYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodBeginYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Award Period Begin Year" />
-    <property name="shortLabel" value="Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-  </bean>
-  <bean id="PriorYearAccount-awardPeriodEndMonth" parent="PriorYearAccount-awardPeriodEndMonth-parentBean" />
-
-  <bean id="PriorYearAccount-awardPeriodEndMonth-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodEndMonth" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Award Period End Month" />
-    <property name="shortLabel" value="Month" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-  </bean>
-  <bean id="PriorYearAccount-awardPeriodEndYear" parent="PriorYearAccount-awardPeriodEndYear-parentBean" />
-
-  <bean id="PriorYearAccount-awardPeriodEndYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPeriodEndYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Award Period End Year" />
-    <property name="shortLabel" value="Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-  </bean>
+  
   <bean id="PriorYearAccount-budgetRecordingLevelCode" parent="PriorYearAccount-budgetRecordingLevelCode-parentBean" />
 
   <bean id="PriorYearAccount-budgetRecordingLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -1026,14 +959,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="acctIndirectCostRcvyTypeCd" />
               <bean parent="FieldDefinition"
-                    p:attributeName="awardPeriodBeginMonth" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="awardPeriodBeginYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="awardPeriodEndMonth" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="awardPeriodEndYear" />
-              <bean parent="FieldDefinition"
                     p:attributeName="budgetRecordingLevelCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="accountCfdaNumber" />
@@ -1159,14 +1084,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="acctIndirectCostRcvyTypeCd" />
         <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodBeginMonth" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodBeginYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodEndMonth" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodEndYear" />
-        <bean parent="FieldDefinition"
               p:attributeName="budgetRecordingLevelCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountCfdaNumber" />
@@ -1274,14 +1191,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="acctCustomIndCstRcvyExclCd" />
         <bean parent="FieldDefinition"
               p:attributeName="acctIndirectCostRcvyTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodBeginMonth" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodBeginYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodEndMonth" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPeriodEndYear" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetRecordingLevelCode" />
         <bean parent="FieldDefinition"

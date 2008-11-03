@@ -1263,7 +1263,8 @@
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field" p:name="accountLinePercent"
-					p:required="true" />
+					p:required="true" 
+					p:useShortLabel="true" />
 				<bean parent="AccountingLineView-actions" />
 			</list>
 		</property>

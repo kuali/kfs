@@ -39,7 +39,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Business Prerules applicable to purchase order document.
  */
-public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
+public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBase {
 
     /**
      * Overrides the method in PreRulesContinuationBase to also invoke the confirmNotToExceedOverride if the PreRulesCheckEvent is
@@ -72,40 +72,6 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         return preRulesOK;
     }
     
-    private boolean checkForTaxRecalculation(PurchasingAccountsPayableDocument purapDocument){
-        
-        PurchaseOrderDocument poDoc = (PurchaseOrderDocument)purapDocument;
-
-        String initialZipCode = ((PurchasingFormBase)form).getInitialZipCode();
-        if (StringUtils.isNotEmpty(initialZipCode) && !StringUtils.equals(initialZipCode,poDoc.getDeliveryPostalCode())){
-            for (PurApItem purApItem : purapDocument.getItems()) {
-                PurchasingItemBase item = (PurchasingItemBase)purApItem;
-                
-                if (item.getItemTaxAmount() != null){
-                    
-                    StringBuffer questionTextBuffer = new StringBuffer("");        
-                    questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.msgTd {padding:3px; width:600px; } </style>" );
-                    questionTextBuffer.append("<br/><br/><table class=\"questionTable\" align=\"center\">");
-                    questionTextBuffer.append("<tr><td class=\"msgTd\">" + PurapConstants.TAX_RECALCULATION_QUESTION + "</td></tr></table>");
-                    
-                    Boolean proceed = super.askOrAnalyzeYesNoQuestion(PurapConstants.TAX_RECALCULATION_INFO, questionTextBuffer.toString());
-                   
-                    //Set a marker to record that this method has been used.
-                    if (proceed && StringUtils.isBlank(event.getQuestionContext())) {
-                        event.setQuestionContext(PurapConstants.TAX_RECALCULATION_INFO);
-                    }
-
-                    if (!proceed) {
-                        event.setActionForwardName(KFSConstants.MAPPING_BASIC);
-                        return false;
-                    }
-                }
-            }
-        }
-       
-        return true;
-    }
-
     /**
      * Give next FY warning if the PO status is "In Process" or "Awaiting Purchasing Review"
      * 

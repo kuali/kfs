@@ -43,7 +43,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Business PreRules applicable to Purchasing documents
  */
-public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
+public class RequisitionDocumentPreRules extends PurchasingDocumentPreRulesBase {
 
     /**
      * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
@@ -51,7 +51,7 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
     @Override
     public boolean doRules(Document document) {
         boolean preRulesOK = true;
-        
+
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
         
         if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
@@ -63,39 +63,6 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
         }
         
         return preRulesOK;
-    }
-    
-    private boolean checkForTaxRecalculation(PurchasingAccountsPayableDocument purapDocument){
-        
-        RequisitionDocument reqDoc = (RequisitionDocument)purapDocument;
-       
-        String initialZipCode = ((PurchasingFormBase)form).getInitialZipCode();
-        if (StringUtils.isNotEmpty(initialZipCode) && !StringUtils.equals(initialZipCode,reqDoc.getDeliveryPostalCode())){
-            for (PurApItem purApItem : purapDocument.getItems()) {
-                PurchasingItemBase item = (PurchasingItemBase)purApItem;
-                if (item.getItemTaxAmount() != null){
-                
-                    StringBuffer questionTextBuffer = new StringBuffer("");        
-                    questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.msgTd {padding:3px; width:600px; } </style>" );
-                    questionTextBuffer.append("<br/><br/><table class=\"questionTable\" align=\"center\">");
-                    questionTextBuffer.append("<tr><td class=\"msgTd\">" + PurapConstants.TAX_RECALCULATION_QUESTION + "</td></tr></table>");
-                
-                    Boolean proceed = super.askOrAnalyzeYesNoQuestion(PurapConstants.TAX_RECALCULATION_INFO, questionTextBuffer.toString());
-                   
-                    //Set a marker to record that this method has been used.
-                    if (proceed && StringUtils.isBlank(event.getQuestionContext())) {
-                        event.setQuestionContext(PurapConstants.TAX_RECALCULATION_INFO);
-                    }
-
-                    if (!proceed) {
-                        event.setActionForwardName(KFSConstants.MAPPING_BASIC);
-                        return false;
-                    }
-                }
-            }
-        }
-       
-        return true;
     }
     
     /**

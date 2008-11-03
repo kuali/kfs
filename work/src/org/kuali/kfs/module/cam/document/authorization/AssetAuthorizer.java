@@ -104,12 +104,12 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         // Apply the rule, when tag number exists and user is not a member of WORKGROUP_CM_SUPER_USERS &
         // WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
         if (asset.isTagged() & !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-            // Set the Tag Number as view only
-            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
-            // if was created in a prior fiscal year, set asset type code and description as view only
+            // if tag was created in a prior fiscal year, set tag number, asset type code and description as view only
             if (assetService.isAssetTaggedInPriorFiscalYear(asset)) {
-                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
-                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
+                makeReadOnlyFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR ));
+            } else {
+                // Set the Tag Number as view only
+                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);                
             }
         }
     }

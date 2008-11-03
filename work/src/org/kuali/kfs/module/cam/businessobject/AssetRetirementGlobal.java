@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
@@ -20,8 +21,10 @@ import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -110,8 +113,12 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         Asset asset = detail.getAsset();
         asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED);
         asset.setRetirementReasonCode(retirementReasonCode);
-        if (retirementDate != null) {
-            asset.setRetirementFiscalYear(universityDateService.getFiscalYear(retirementDate));
+        
+        // set retirement fiscal year and period code into asset
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        if (ObjectUtils.isNotNull(currentUniversityDate)) {
+            asset.setRetirementFiscalYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
+            asset.setRetirementPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
         }
 
 
@@ -128,11 +135,42 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         else if (retirementService.isAssetRetiredByMerged(this)) {
             asset.setTotalCostAmount(KualiDecimal.ZERO);
             asset.setSalvageAmount(KualiDecimal.ZERO);
+        }else if (retirementService.isAssetRetiredByExternalTransferOrGift(this)) {
+            persistables.add(setOffCampusLocationObjectsForPersist(detail, asset));
         }
         asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
         persistables.add(asset);
     }
 
+    /**
+     * This method set off campus location for persist
+     * 
+     * @param AssetGlobalDetail and Asset to populate AssetLocation
+     * @return Returns the AssetLocation.
+     */
+    private AssetLocation setOffCampusLocationObjectsForPersist(AssetRetirementGlobalDetail detail, Asset asset) {
+        AssetLocation offCampusLocation = new AssetLocation();
+        offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+        offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.RETIREMENT);
+        offCampusLocation = (AssetLocation) SpringContext.getBean(BusinessObjectService.class).retrieve(offCampusLocation);
+        if (offCampusLocation == null) {
+            offCampusLocation = new AssetLocation();
+            offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+            offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.RETIREMENT);
+            asset.getAssetLocations().add(offCampusLocation);
+        }
+
+        offCampusLocation.setAssetLocationContactName(detail.getRetirementContactName());
+        offCampusLocation.setAssetLocationInstitutionName(detail.getRetirementInstitutionName());
+        offCampusLocation.setAssetLocationPhoneNumber(detail.getRetirementPhoneNumber());
+        offCampusLocation.setAssetLocationStreetAddress(detail.getRetirementStreetAddress());
+        offCampusLocation.setAssetLocationCityName(detail.getRetirementCityName());
+        offCampusLocation.setAssetLocationStateCode(detail.getRetirementStateCode());
+        offCampusLocation.setAssetLocationCountryCode(detail.getRetirementCountryCode());
+        offCampusLocation.setAssetLocationZipCode(detail.getRetirementZipCode());
+
+        return offCampusLocation;
+    }
 
     /**
      * 
@@ -168,6 +206,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         mergedTargetCapitalAsset.setTotalCostAmount(totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(mergedTargetCapitalAsset)));
         mergedTargetCapitalAsset.setSalvageAmount(salvageAmount.add(mergedTargetSalvageAmount));
         mergedTargetCapitalAsset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
+        mergedTargetCapitalAsset.setCapitalAssetDescription(this.getMergedTargetCapitalAssetDescription());
         persistables.add(mergedTargetCapitalAsset);
     }
 

@@ -188,6 +188,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String OFF_CAMPUS = "O";
         public static final String BORROWER = "B";
         public static final String BORROWER_STORAGE = "BS";
+        public static final String RETIREMENT = "R";
     }
 
     public static final String RETIREMENT_REASON_CODE_M = "M";

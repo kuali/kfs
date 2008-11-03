@@ -64,7 +64,7 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
 
         if (!assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
-            auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC);            
+            auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC);
         }
 
         return auths;
@@ -77,7 +77,7 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
      * @param actionFlags
      */
     private void hideActions(DocumentActionFlags actionFlags) {
-       actionFlags.setCanAdHocRoute(false);
+        actionFlags.setCanAdHocRoute(false);
         actionFlags.setCanApprove(false);
         actionFlags.setCanBlanketApprove(false);
         actionFlags.setCanRoute(false);
@@ -94,24 +94,23 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
 
         super.canInitiate(documentTypeName, user);
         String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
-        String reasonCode = StringUtils.substringAfter(refreshCaller, "::");  
+        String reasonCode = StringUtils.substringAfter(refreshCaller, "::");
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(CamsPropertyConstants.AssetRetirementReason.RETIREMENT_REASON_CODE, reasonCode);
 
         AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObjectService.findByPrimaryKey(AssetRetirementReason.class, pkMap);
-        if (reasonCode.equals("M")){
-            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_RETIREMENT_REASON_CODE, new String[]{reasonCode, "AssetRetirementGlobal"});
+        if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(reasonCode)) {
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_RETIREMENT_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
         else if (assetRetirementReason != null && assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
-            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE, new String[]{reasonCode,  "AssetRetirementGlobal"});
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
         else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
-            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE, new String[]{reasonCode, "AssetRetirementGlobal"});
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
         else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
-            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RAZE_REASON_CODE, new String[]{reasonCode, "AssetRetirementGlobal"});
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RAZE_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
     }
 
 }
-

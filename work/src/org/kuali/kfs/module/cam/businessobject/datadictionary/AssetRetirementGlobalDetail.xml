@@ -70,6 +70,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetRetirementGlobalDetail-asset.assetOrganization.organizationText" />                
       </list>
     </property>
+    <!-- need review for following settings since they cause console exceptions 
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="postalZipCode">
@@ -84,6 +85,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
       </list>
     </property>
+     -->
   </bean>
 
 <!-- Attribute Definitions -->

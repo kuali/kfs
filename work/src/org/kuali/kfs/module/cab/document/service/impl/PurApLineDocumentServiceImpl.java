@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -191,7 +192,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         setFormActiveItemIndicator(purApForm);
         // persistent to the table
         purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
-        // In-activate general ledger afterwards because we need to persistent account changes first. 
+        // In-activate general ledger afterwards because we need to persistent account changes first.
         List<GeneralLedgerEntry> glEntryUpdatesList = getGlEntryInActivedList(selectedItem);
         if (glEntryUpdatesList != null && !glEntryUpdatesList.isEmpty()) {
             businessObjectService.save(glEntryUpdatesList);
@@ -265,11 +266,24 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         if (isItemPretagged(preTag)) {
             setAssetDetailFromPreTag(preTag, sharedDetails, assetDetailsList);
         }
-        else if (ObjectUtils.isNotNull(capitalAssetSystem)) {
-            // feeding data from PurAp user input into assetGlobalDetail List (the list of asset global unique details reference)
+
+        // feeding location data from PurAp into assetGlobalDetail List.
+        if (!isItemFullyPretagged(preTag, assetGlobal) && ObjectUtils.isNotNull(capitalAssetSystem)) {
             setAssetGlobalDetailFromPurAp(capitalAssetSystem, sharedDetails);
         }
     }
+
+    /**
+     * Check if the all new assets get pre-tagged by pre-tagging.
+     * 
+     * @param preTag
+     * @param assetGlobal
+     * @return
+     */
+    private boolean isItemFullyPretagged(Pretag preTag, AssetGlobal assetGlobal) {
+        return isItemPretagged(preTag) && preTag.getPretagDetails().size() >= assetGlobal.getAssetSharedDetails().size();
+    }
+
 
     /**
      * Set asset global detail location information from PurAp input. In this method, no grouping for shared location because
@@ -287,6 +301,11 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             int locationQuantity = 0;
             CapitalAssetLocation assetLocation = null;
             for (AssetGlobalDetail assetDetail : assetSharedDetail) {
+                // if it's already pre-tagged, pre-tagging, skip it.
+                if (StringUtils.isNotEmpty(assetDetail.getCampusCode())) {
+                    continue;
+                }
+
                 // Each line item can have multiple locations and each location can have a quantity value with it.
                 if (locationQuantity <= 0 && locationIterator.hasNext()) {
                     assetLocation = locationIterator.next();
@@ -332,8 +351,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetDetailsList
      */
     private void setAssetDetailFromPreTag(Pretag preTag, List<AssetGlobalDetail> assetSharedDetails, List<AssetGlobalDetail> assetUniqueDetails) {
-        // preTag.refreshReferenceObject(CabPropertyConstants.Pretag.PRE_TAG_DETAIS);
-
         Iterator<AssetGlobalDetail> sharedDetailsIterator = assetSharedDetails.iterator();
         Iterator<AssetGlobalDetail> uniqueDetailsIterator = assetUniqueDetails.iterator();
         for (PretagDetail preTagDetail : preTag.getPretagDetails()) {
@@ -442,7 +459,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     }
 
     /**
-     * Update GL Entry active indicator to false if all its amount are consumed by submit CAMs document.Return the general ledger entry changes as a list.
+     * Update GL Entry active indicator to false if all its amount are consumed by submit CAMs document.Return the general ledger
+     * entry changes as a list.
      * 
      * @param glEntryList
      * @param selectedAccount

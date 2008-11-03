@@ -720,7 +720,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     public boolean validateLevelCapitalAssetIndication(KualiDecimal itemQuantity, KualiDecimal extendedPrice, ObjectCode objectCode, String itemIdentifier) {
         boolean valid = true;
         if ((itemQuantity != null) && (itemQuantity.isGreaterThan(KualiDecimal.ZERO))) {
-            String capitalAssetPriceThreshold = this.getParameterService().getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
+            String capitalAssetPriceThreshold = this.getParameterService().getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITALIZATION_LIMIT_AMOUNT);
             if ((extendedPrice != null) && (StringUtils.isNotEmpty(capitalAssetPriceThreshold)) && (extendedPrice.isGreaterEqual(new KualiDecimal(capitalAssetPriceThreshold)))) {
 
                 String possiblyCapitalAssetObjectCodeLevels = "";

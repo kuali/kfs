@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -74,6 +75,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     }
 
     public Person getProcessUser() {
+        processUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(processUserId, processUser);
         return processUser;
     }
 

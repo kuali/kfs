@@ -372,7 +372,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
 
-                    if ((element.getDisbursementType() != null) && (element.getDisbursementType().getCode().equals("CHCK"))) {
+                    if ((element.getDisbursementType() != null) && (element.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
                         pgh.setPmtCancelExtractStat(new Boolean("False"));
                     }
 
@@ -432,7 +432,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 for (PaymentGroup pg : allDisbursementPaymentGroups) {
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
 
-                    if ((pg.getDisbursementType() != null) && (pg.getDisbursementType().getCode().equals("CHCK"))) {
+                    if ((pg.getDisbursementType() != null) && (pg.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
                         pgh.setPmtCancelExtractStat(new Boolean("False"));
                     }
 

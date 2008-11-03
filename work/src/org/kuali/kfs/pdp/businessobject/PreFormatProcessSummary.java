@@ -65,7 +65,7 @@ public class PreFormatProcessSummary extends TransientBusinessObjectBase{
             ps.setProcess(pg.getProcess());
             ps.setProcessTotalAmount(KualiDecimal.ZERO);
             ps.setProcessTotalCount(KualiInteger.ZERO);
-            ps.setSortGroupId(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)));
+            ps.setSortGroupId(new KualiInteger(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)));
             processSummary.add(ps);
         }
 
@@ -93,7 +93,7 @@ public class PreFormatProcessSummary extends TransientBusinessObjectBase{
         for (Iterator iter = processSummary.iterator(); iter.hasNext();) {
             ProcessSummary ps = (ProcessSummary) iter.next();
 
-            if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && ps.getSortGroupId().equals(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg))) && ps.getProcess().equals(pg.getProcess())) {
+            if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && (ps.getSortGroupId().intValue()== SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)) && ps.getProcess().equals(pg.getProcess())) {
                 return ps;
             }
         }

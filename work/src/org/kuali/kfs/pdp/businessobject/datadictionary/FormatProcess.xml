@@ -51,6 +51,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="beginFormat" />
     <property name="label" value="Begin Process Date" />
     <property name="shortLabel" value="Begin Process Date" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
   
   <bean id="FormatProcess-paymentProcIdentifier" parent="FormatProcess-paymentProcIdentifier-parentBean" />

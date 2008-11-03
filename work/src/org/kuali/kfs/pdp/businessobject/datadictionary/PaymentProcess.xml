@@ -8,13 +8,19 @@
 
   <bean id="PaymentProcess-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentProcess" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentProcess-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PaymentProcess-lookupDefinition" />
+    </property>
     <property name="objectLabel" value="Payment Process" />
     <property name="attributes" >
       <list>
         <ref bean="PaymentProcess-id" />
         <ref bean="PaymentProcess-campus" />
         <ref bean="PaymentProcess-processTimestamp" />
-        <ref bean="PaymentProcess-processUserId" />        
+        <ref bean="PaymentProcess-processUser.name" />        
       </list>
     </property>
   </bean>
@@ -63,24 +69,82 @@
     <property name="name" value="processTimestamp" />
     <property name="label" value="Process Timestamp" />
     <property name="shortLabel" value="Timestamp" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>  
-  <bean id="PaymentProcess-processUserId" parent="PaymentProcess-processUserId-parentBean" />
+  <bean id="PaymentProcess-processUser.name" parent="PaymentProcess-processUser.name-parentBean" />
+
+  <bean id="PaymentProcess-processUser.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="processUser.name" />
+    <property name="label" value="Process User Name" />
+    <property name="shortLabel" value="Name" />
+  </bean>    
   
-  <bean id="PaymentProcess-processUserId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="processUserId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Process User ID" />
-    <property name="shortLabel" value="User ID" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PaymentProcess-inquiryDefinition" parent="PaymentProcess-inquiryDefinition-parentBean" />
+
+  <bean id="PaymentProcess-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Process Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id" />    
+              <bean parent="FieldDefinition"
+                    p:attributeName="campus" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="processUser.name" />                                                                                           
+              <bean parent="FieldDefinition"
+                    p:attributeName="processTimestamp" />          
+            </list>
+          </property>
+        </bean>
+      </list>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
-    </property>
-    <property name="summary" value="processUserId" />
-    <property name="description" value="Process User ID." />
   </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PaymentProcess-lookupDefinition" parent="PaymentProcess-lookupDefinition-parentBean" />
+
+  <bean id="PaymentProcess-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Process Lookup" />
+    <property name="lookupableID" value="paymentProcessLookupable" />
+    <property name="instructions" value="Look up a Payment Process" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>id</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true" />
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>     
+              <bean parent="FieldDefinition"
+                    p:attributeName="id" />      
+              <bean parent="FieldDefinition"
+                    p:attributeName="campus" />    
+              <bean parent="FieldDefinition"
+                    p:attributeName="processUser.name" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="processTimestamp" />                                                                                                           
+      </list>
+    </property>
+  </bean>  
 
 </beans>

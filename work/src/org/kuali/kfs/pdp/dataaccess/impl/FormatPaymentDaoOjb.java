@@ -106,7 +106,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         Iterator groupIterator = getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
         while (groupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
-            paymentGroup.setLastUpdate(paydateTs);
+            paymentGroup.setLastUpdate(paydateTs);// delete this one
             paymentGroup.setPaymentStatus(format);
             paymentGroup.setProcess(proc);
             getPersistenceBrokerTemplate().store(paymentGroup);

@@ -24,8 +24,10 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**
@@ -42,7 +44,7 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
     private DisbursementType disbursementType;
     private int beginDisbursementNbr;
     private int endDisbursementNbr;
-    private String sortGroup = null;
+    private KualiInteger sortGroup;
 
     public FormatResult() {
         super();
@@ -57,16 +59,16 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
         payments = 0;
     }
 
-    public String getSortGroupId() {
+    public KualiInteger getSortGroupId() {
         
         return sortGroup;
     }
 
-    public String getSortGroupOverride() {
+    public KualiInteger getSortGroupOverride() {
         return sortGroup;
     }
 
-    public void setSortGroupOverride(String sortGroup) {
+    public void setSortGroupOverride(KualiInteger sortGroup) {
         this.sortGroup = sortGroup;
     }
 
@@ -153,7 +155,7 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
     public String getSortString() {
         StringBuffer sb = new StringBuffer();
         if (getDisbursementType() != null) {
-            if ("CHCK".equals(getDisbursementType().getCode())) {
+            if (PdpConstants.DisbursementTypeCodes.CHECK.equals(getDisbursementType().getCode())) {
                 sb.append("B");
             }
             else {

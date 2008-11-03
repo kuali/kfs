@@ -22,13 +22,14 @@
         <ref bean="ProcessSummary-disbursementTypeCode" />
         <ref bean="ProcessSummary-processId" />
         <ref bean="ProcessSummary-sortGroupId" />
+        <ref bean="ProcessSummary-sortGroupName" />
         <ref bean="ProcessSummary-beginDisbursementNbr" />
         <ref bean="ProcessSummary-endDisbursementNbr" />
         <ref bean="ProcessSummary-processTotalAmount" />
         <ref bean="ProcessSummary-processTotalCount" />
         <ref bean="ProcessSummary-process.campus" />
         <ref bean="ProcessSummary-process.processTimestamp" />
-        <ref bean="ProcessSummary-process.processUserId" />
+        <ref bean="ProcessSummary-process.processUser.name" />
         <ref bean="ProcessSummary-customer.chartCode" />
         <ref bean="ProcessSummary-customer.orgCode" />
         <ref bean="ProcessSummary-customer.subUnitCode" />
@@ -92,12 +93,28 @@
     <property name="summary" value="id" />
     <property name="description" value="Sort Group Id." />
   </bean>
+  <bean id="ProcessSummary-sortGroupName" parent="ProcessSummary-sortGroupName-parentBean" />
+
+  <bean id="ProcessSummary-sortGroupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sortGroupName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sort Group Name" />
+    <property name="shortLabel" value="Group Name" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+       <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
   <bean id="ProcessSummary-beginDisbursementNbr" parent="ProcessSummary-beginDisbursementNbr-parentBean" />
 
   <bean id="ProcessSummary-beginDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="beginDisbursementNbr" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Begin Disbursement Nymber" />
+    <property name="label" value="Begin Disbursement Number" />
     <property name="shortLabel" value="Begin Disbursement Nbr" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
@@ -166,10 +183,10 @@
     <property name="label" value="Format Date" />
     <property name="shortLabel" value="Format Date" />
   </bean>
-  <bean id="ProcessSummary-process.processUserId" parent="ProcessSummary-process.processUserId-parentBean" />
+  <bean id="ProcessSummary-process.processUser.name" parent="ProcessSummary-process.processUser.name-parentBean" />
   
-  <bean id="ProcessSummary-process.processUserId-parentBean" abstract="true" parent="PaymentProcess-processUserId">
-    <property name="name" value="process.processUserId" />
+  <bean id="ProcessSummary-process.processUser.name-parentBean" abstract="true" parent="PaymentProcess-processUser.name">
+    <property name="name" value="process.processUser.name" />
     <property name="label" value="Format User" />
     <property name="shortLabel" value="Format User" />
   </bean>
@@ -265,15 +282,15 @@
               <bean parent="FieldDefinition"
                     p:attributeName="process.campus" />
               <bean parent="FieldDefinition"
-                    p:attributeName="process.processUserId" />
+                    p:attributeName="process.processUser.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="process.processTimestamp" />
       </list>
     </property>
     <property name="resultFields" >
-      <list>     
+      <list>         
               <bean parent="FieldDefinition"
-                    p:attributeName="sortGroupId" />    
+                    p:attributeName="sortGroupName" />    
               <bean parent="FieldDefinition"
                     p:attributeName="customer.chartCode" />  
               <bean parent="FieldDefinition"

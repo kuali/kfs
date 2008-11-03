@@ -52,7 +52,7 @@
             <th>Payment Details</th>
             <th>Amount</th>
          </tr>
-         <c:forEach var="item" items="${KualiForm.formatResultList}">
+         <c:forEach var="item" items="${KualiForm.results}">
          <tr>
             <td><c:out value="${item.sortGroupName}"/></td>
             <td><c:out value="${item.cust.chartCode}/${item.cust.orgCode}/${item.cust.subUnitCode} ${item.cust.customerDescription}"/></td>
@@ -69,8 +69,9 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td align="right"><b><fmt:formatNumber value="${KualiForm.totalPaymentCount}"/></b></td>
-            <td align="right"><b><fmt:formatNumber value="${KualiForm.totalAmount}" type="currency"/></b></td>
+            <html:hidden property="totalPaymentCount" />
+            <td align="right"><b>${KualiForm.totalPaymentCount}</b></td>
+            <td align="right"><b><${KualiForm.currencyFormattedTotalAmount}</b></td>
          </tr>
         </tbody>
       </table>

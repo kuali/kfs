@@ -25,8 +25,11 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.pdp.service.FormatService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -38,7 +41,7 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
     private KualiInteger customerId;
     private String disbursementTypeCode;
     private KualiInteger processId;
-    private String sortGroupId;
+    private KualiInteger sortGroupId;
     private KualiInteger beginDisbursementNbr;
     private KualiInteger endDisbursementNbr;
     private KualiDecimal processTotalAmount;
@@ -49,14 +52,6 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
     private CustomerProfile customer;
     
     public ProcessSummary() {
-    }
-
-    public String getSortGroupId() {
-        return sortGroupId;
-    }
-
-    public void setSortGroupId(String sortGroupId) {
-        this.sortGroupId = sortGroupId;
     }
 
     public KualiInteger getBeginDisbursementNbr() {
@@ -146,8 +141,18 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
     public void setProcessId(KualiInteger processId) {
         this.processId = processId;
     }
-
-    /**
+    
+    public String getSortGroupName(){
+       PaymentGroupService paymentGroupService = SpringContext.getBean(PaymentGroupService.class);
+       String sortGroupName = paymentGroupService.getSortGroupName(sortGroupId.intValue());
+       return sortGroupName;
+    }
+    
+    public void setSortGroupName(){
+        
+    }
+    
+      /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
@@ -157,6 +162,14 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         m.put(KFSPropertyConstants.ID, this.id);
 
         return m;
+    }
+
+    public KualiInteger getSortGroupId() {
+        return sortGroupId;
+    }
+
+    public void setSortGroupId(KualiInteger sortGroupId) {
+        this.sortGroupId = sortGroupId;
     }
 
 }

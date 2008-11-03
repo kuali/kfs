@@ -68,7 +68,7 @@ public class PostFormatProcessSummary extends TransientBusinessObjectBase {
             ps.setProcess(pg.getProcess());
             ps.setProcessTotalAmount(KualiDecimal.ZERO);
             ps.setProcessTotalCount(KualiInteger.ZERO);
-            ps.setSortGroupId(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)));
+            ps.setSortGroupId(new KualiInteger(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)));
             processSummary.add(ps);
         }
 
@@ -99,7 +99,7 @@ public class PostFormatProcessSummary extends TransientBusinessObjectBase {
 
             DisbursementType dt = pg.getDisbursementType();
             
-            if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && ps.getDisbursementType().equals(dt) && ps.getSortGroupId().equals(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg))) && ps.getProcess().equals(pg.getProcess())) {
+            if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && ps.getDisbursementType().equals(dt) && (ps.getSortGroupId().intValue()==SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)) && ps.getProcess().equals(pg.getProcess())) {
                 return ps;
             }
         }

@@ -336,7 +336,7 @@ public class FormatServiceImpl implements FormatService {
         // determine whether payment should be ACH or Check
         PayeeAchAccount payeeAchAccount = null;
         boolean isCheck = true;
-        if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(paymentGroup.getPayeeIdTypeCd())) {
+          if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(paymentGroup.getPayeeIdTypeCd())) {
             if (StringUtils.isNotBlank(paymentGroup.getPayeeId()) && !paymentGroup.getPymtAttachment() && !paymentGroup.getProcessImmediate() && !paymentGroup.getPymtSpecialHandling() && (customer.getAchTransactionType() != null) && noNegativeDetails) {
                 LOG.debug("performFormat() Checking ACH");
                 payeeAchAccount = achService.getAchInformation(paymentGroup.getPayeeIdTypeCd(), paymentGroup.getPayeeId(), customer.getAchTransactionType());
@@ -576,7 +576,7 @@ public class FormatServiceImpl implements FormatService {
                 throw new MissingDisbursementRangeException("No disbursement range for bank code=" + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
             }
 
-            if ("CHCK".equals(paymentGroup.getDisbursementType().getCode())) {
+            if (PdpConstants.DisbursementTypeCodes.CHECK.equals(paymentGroup.getDisbursementType().getCode())) {
                 if ((paymentGroup.getDisbursementNbr() != null) && (paymentGroup.getDisbursementNbr().intValue() == PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE)) {
                     paymentGroup.setDisbursementNbr(new KualiInteger(checkNumber));
                 }
@@ -596,7 +596,7 @@ public class FormatServiceImpl implements FormatService {
                     postFormatProcessSummary.setDisbursementNumber(paymentGroup, new Integer(number));
                 }
             }
-            else if ("ACH".equals(paymentGroup.getDisbursementType().getCode())) {
+            else if (PdpConstants.DisbursementTypeCodes.ACH.equals(paymentGroup.getDisbursementType().getCode())) {
                 int number = 1 + range.getLastAssignedDisbNbr().intValue();
                 if (number > range.getEndDisbursementNbr().intValue()) {
                     String err = "No more disbursement numbers for bank code=" + paymentGroup.getBank().getBankCode() + ", campus Id=" + campus;

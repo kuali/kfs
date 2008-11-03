@@ -17,6 +17,7 @@ package org.kuali.kfs.pdp.document.web.struts;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class FormatForm extends KualiForm {
     
     private String campus;
-    private Timestamp paymentDate;
+    private Date paymentDate;
     private Integer procId;
     private String paymentTypes;
     private KualiDecimal totalAmount;
@@ -168,24 +169,6 @@ public class FormatForm extends KualiForm {
     }
 
     /**
-     * This method gets the paymentDate
-     * 
-     * @return the paymentDate
-     */
-    public Timestamp getPaymentDate() {
-        return paymentDate;
-    }
-
-    /**
-     * This method sets the paymentDate
-     * 
-     * @param paymentDate
-     */
-    public void setPaymentDate(Timestamp paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    /**
      * This method gets the process id.
      * 
      * @return procId
@@ -289,5 +272,13 @@ public class FormatForm extends KualiForm {
      */
     public String getCurrencyFormattedTotalAmount() {
         return (String) new CurrencyFormatter().format(totalAmount);
+    }
+
+    public Date getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
     }
 }

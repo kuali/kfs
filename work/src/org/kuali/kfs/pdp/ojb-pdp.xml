@@ -518,7 +518,7 @@
     <field-descriptor name="customerId" column="CUST_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="processId" column="PROC_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-    <field-descriptor name="sortGroupId" column="PMT_SORT_ORD_VAL" jdbc-type="VARCHAR"/>
+    <field-descriptor name="sortGroupId" column="PMT_SORT_ORD_VAL" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
     <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="processTotalAmount" column="PROC_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />

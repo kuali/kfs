@@ -19,18 +19,14 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpParameterConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -485,14 +481,29 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setFinancialSystemOriginCode(String financialSystemOriginCode) {
         this.financialSystemOriginCode = financialSystemOriginCode;
     }
-    
+
     /**
      * Returns the value of the system parameter that contains the disbursement cancellation email address
      */
     public String getDisbursementCancellationEmailAddress() {
         return SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES);
     }
-
+    
+    /**
+     * This method returns a String representation of the payment detail notes
+     * @return the String representation of the payment detail notes
+     */
+    public String getNotesText(){
+        StringBuffer notes = new StringBuffer();
+        List<PaymentNoteText> notesList = getNotes();
+        for(PaymentNoteText note : notesList)
+        {
+            notes.append(note.getCustomerNoteText());
+            notes.append(KFSConstants.NEWLINE);
+        }
+        return notes.toString();
+    }
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

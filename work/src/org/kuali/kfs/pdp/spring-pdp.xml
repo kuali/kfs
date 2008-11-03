@@ -537,7 +537,34 @@
 		<property name="lookupableHelperService">
 			<ref bean="formatProcessLookupableHelperService" />
 		</property>
-	</bean>		
+	</bean>	
+	
+	<bean id="paymentProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" singleton="false">
+	    <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>        
+	</bean>
+
+	<bean id="paymentProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="paymentProcessLookupableHelperService" />
+		</property>
+	</bean>			
 	
 	<bean id="dailyReportComparator" class="org.kuali.kfs.pdp.businessobject.options.DailyReportComparator" singleton="false">
 		<property name="paymentGroupService">

@@ -77,6 +77,7 @@
 		<ref bean="PaymentDetail-paymentGroup.achAccountNumber.achBankAccountNbr" />
 		<ref bean="PaymentDetail-paymentGroup.paymentStatus.name" />
 		<ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" />
+		<ref bean="PaymentDetail-notesText" />
       </list>
     </property>
     <property name="collections" >
@@ -90,12 +91,7 @@
               p:name="paymentGroup.paymentGroupHistory"
               p:label="Payment Group History"
               p:shortLabel="History"
-              p:elementLabel="History" />    
-        <bean parent="CollectionDefinition"
-              p:name="notes"
-              p:label="Notes"
-              p:shortLabel="Notes"
-              p:elementLabel="Note" />                        
+              p:elementLabel="History" />                           
       </list>
     </property>
   </bean>
@@ -478,6 +474,13 @@
   <bean id="PaymentDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
+  <bean id="PaymentDetail-notesText" parent="PaymentDetail-notesText-parentBean" />
+   
+  <bean id="PaymentDetail-notesText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="notesText" />
+    <property name="label" value="Payment Notes" />
+    <property name="shortLabel" value="Payment Notes" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -507,7 +510,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="invoiceDate" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="custPaymentDocNbr" />                 
+                    p:attributeName="custPaymentDocNbr" p:noInquiry="true"/>                 
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.paymentDate" />    
               <bean parent="FieldDefinition"
@@ -752,19 +755,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="notes" />
-                <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentNoteText" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
-                  <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="customerNoteLineNbr" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="customerNoteText" />                                                                                                                                                                               
-                  </list>
-                </property>
-              </bean>
+              <bean parent="FieldDefinition"
+                    p:attributeName="notesText" />  
             </list>
           </property>
         </bean>

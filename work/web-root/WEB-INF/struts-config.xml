@@ -721,11 +721,13 @@
 
 		<!-- These are PDP items -->
 		<action path="/pdp/paymentdetailrice"
+		    name="KualiForm"
 			type="org.kuali.kfs.pdp.document.web.struts.PaymentDetailAction"
 			scope="request" parameter="methodToCall" validate="false"
 			attribute="KualiForm" />
 		
 		<action path="/batchsearchDetail"
+		    name="KualiForm"
 		    type="org.kuali.kfs.pdp.document.web.struts.BatchAction"
 			scope="request" parameter="methodToCall" validate="false"
             attribute="KualiForm" />

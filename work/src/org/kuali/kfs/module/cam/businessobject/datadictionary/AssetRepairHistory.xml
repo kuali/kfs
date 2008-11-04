@@ -74,8 +74,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="problemDescription" />
-    <property name="description" value="problemDescription description..." />
   </bean>
   
   <bean id="AssetRepairHistory-repairAmount" parent="AssetRepairHistory-repairAmount-parentBean" />
@@ -101,8 +99,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="repairContactName" />
-    <property name="description" value="repairContactName description..." />
   </bean>
   
   <bean id="AssetRepairHistory-repairNoteText" parent="AssetRepairHistory-repairNoteText-parentBean" />
@@ -121,8 +117,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="repairNoteText" />
-    <property name="description" value="repairNoteText description..." />
   </bean>
   
   <bean id="AssetRepairHistory-repairSolutionDescription" parent="AssetRepairHistory-repairSolutionDescription-parentBean" />
@@ -141,8 +135,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="repairSolutionDescription" />
-    <property name="description" value="repairSolutionDescription description..." />
   </bean>
   
   <bean id="AssetRepairHistory-newCollectionRecord" parent="AssetRepairHistory-newCollectionRecord-parentBean" />

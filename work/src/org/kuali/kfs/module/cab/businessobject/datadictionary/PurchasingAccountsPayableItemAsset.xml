@@ -63,8 +63,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean" />
@@ -81,8 +79,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="accountsPayableLineItemIdentifier" />
-    <property name="description" value="accountsPayableLineItemIdentifier description..." />
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean" />
@@ -99,8 +95,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="capitalAssetBuilderLineNumber" />
-    <property name="description" value="capitalAssetBuilderLineNumber description..." />
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" />
@@ -118,8 +112,6 @@
             p:rows="2"
             p:cols="20" />
     </property>
-    <property name="summary" value="capitalAssetDescription" />
-    <property name="description" value="capitalAssetDescription description..." />    
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" parent="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" />
@@ -139,8 +131,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="accountsPayableItemQuantity" />
-    <property name="description" value="accountsPayableItemQuantity description..." />
   </bean>
 
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean" />
@@ -157,8 +147,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="capitalAssetManagementDocumentNumber" />
-    <property name="description" value="capitalAssetManagementDocumentNumber description..." />
   </bean>
 
   <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber" parent="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" />

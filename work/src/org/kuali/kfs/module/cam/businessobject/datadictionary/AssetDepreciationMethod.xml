@@ -40,8 +40,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="depreciationMethodCode" />
-    <property name="description" value="depreciationMethodCode description..." />
   </bean>
   
   <bean id="AssetDepreciationMethod-depreciationMethodName" parent="AssetDepreciationMethod-depreciationMethodName-parentBean" />
@@ -59,8 +57,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="depreciationMethodName" />
-    <property name="description" value="depreciationMethodName description..." />
   </bean>
   
   <bean id="AssetDepreciationMethod-active" parent="AssetDepreciationMethod-active-parentBean" />

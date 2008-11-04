@@ -148,8 +148,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="purchaseOrderNumber" />
-    <property name="description" value="purchaseOrderNumber description..." />
   </bean>
 
   <bean id="Pretag-pretagCreateDate" parent="Pretag-pretagCreateDate-parentBean" />
@@ -176,8 +174,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="assetTopsDescription" />
-    <property name="description" value="assetTopsDescription description..." />
   </bean>
   <bean id="Pretag-itemLineNumber" parent="Pretag-itemLineNumber-parentBean" />
 
@@ -194,8 +190,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="litemLineNumber" />
-    <property name="description" value="itemLineNumber description..." />
   </bean>
   <bean id="Pretag-manufacturerModelNumber" parent="Pretag-manufacturerModelNumber-parentBean" />
 
@@ -213,8 +207,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="manufacturerModelNumber" />
-    <property name="description" value="manufacturerModelNumber description..." />
   </bean>
   <bean id="Pretag-manufacturerName" parent="Pretag-manufacturerName-parentBean" />
 
@@ -232,8 +224,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="manufacturerName" />
-    <property name="description" value="manufacturerName description..." />
   </bean>
   <bean id="Pretag-organizationInventoryName" parent="Pretag-organizationInventoryName-parentBean" />
 
@@ -251,8 +241,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="organizationInventoryName" />
-    <property name="description" value="organizationInventoryName description..." />
   </bean>
   <bean id="Pretag-organizationText" parent="Pretag-organizationText-parentBean" />
 
@@ -271,8 +259,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="organizationText" />
-    <property name="description" value="organizationText description..." />
   </bean>
   <bean id="Pretag-quantityInvoiced" parent="Pretag-quantityInvoiced-parentBean" />
 
@@ -289,8 +275,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="quantityInvoiced" />
-    <property name="description" value="quantityInvoiced description..." />
   </bean>
   <bean id="Pretag-vendorName" parent="Pretag-vendorName-parentBean" />
 
@@ -308,8 +292,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="vendorName" />
-    <property name="description" value="vendorName description..." />
   </bean>
   <bean id="Pretag-campusTagNumbers" parent="Pretag-campusTagNumbers-parentBean" />
 
@@ -326,8 +308,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="campusTagNumber" />
-    <property name="description" value="campusTagNumber description..." />
   </bean>
   <bean id="Pretag-serialNumbers" parent="Pretag-serialNumbers-parentBean" />
 
@@ -344,8 +324,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="serialNumber" />
-    <property name="description" value="serialNumber description..." />
   </bean>
   <bean id="Pretag-pretagDetails.campusTagNumber" parent="Pretag-pretagDetails.campusTagNumber-parentBean" />
 

@@ -42,8 +42,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="capitalAssetTypeCode" />
-    <property name="description" value="Capital Asset type" />
   </bean>
   
   <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean" />
@@ -61,8 +59,6 @@
       <bean parent="TextControlDefinition"
             p:size="72" />
     </property>
-    <property name="summary" value="capitalAssetTypeDescription" />
-    <property name="description" value="Capital Asset type description." />
   </bean>
   
   <bean id="AssetType-depreciableLifeLimit" parent="AssetType-depreciableLifeLimit-parentBean" />
@@ -79,8 +75,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="depreciableLifeLimit" />
-    <property name="description" value="Depreciable life limit description." />
   </bean>
   
   <bean id="AssetType-movingIndicator" parent="AssetType-movingIndicator-parentBean" />
@@ -93,8 +87,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="movingIndicator" />
-    <property name="description" value="Moving indicator description." />
   </bean>
   
   <bean id="AssetType-requiredBuildingIndicator" parent="AssetType-requiredBuildingIndicator-parentBean" />
@@ -107,8 +99,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="requiredBuildingIndicator" />
-    <property name="description" value="Required building indicator description." />
   </bean>
   
   <bean id="AssetType-active" parent="AssetType-active-parentBean" />

@@ -92,8 +92,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="buildingSubRoomNumber" />
-    <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
   
   <bean id="PretagDetail-campusTagNumber" parent="PretagDetail-campusTagNumber-parentBean" />
@@ -110,8 +108,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="campusTagNumber" />
-    <property name="description" value="campusTagNumber description..." />
   </bean>
   
   <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean" />
@@ -128,8 +124,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="organizationTagNumber" />
-    <property name="description" value="organizationTagNumber description..." />
   </bean>
   
   <bean id="PretagDetail-governmentTagNumber" parent="PretagDetail-governmentTagNumber-parentBean" />
@@ -146,8 +140,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="governmentTagNumber" />
-    <property name="description" value="governmentTagNumber description..." />
   </bean>
   
   <bean id="PretagDetail-nationalStockNumber" parent="PretagDetail-nationalStockNumber-parentBean" />
@@ -164,8 +156,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="nationalStockNumber" />
-    <property name="description" value="nationalStockNumber description..." />
   </bean>
   
   <bean id="PretagDetail-serialNumber" parent="PretagDetail-serialNumber-parentBean" />
@@ -182,8 +172,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="serialNumber" />
-    <property name="description" value="serialNumber description..." />
   </bean>
   
   <bean id="PretagDetail-newCollectionRecord" parent="PretagDetail-newCollectionRecord-parentBean" />

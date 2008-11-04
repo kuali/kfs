@@ -64,8 +64,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="warrantyContactName" />
-    <property name="description" value="warrantyContactName description..." />
   </bean>
   
   <bean id="AssetWarranty-warrantyNumber" parent="AssetWarranty-warrantyNumber-parentBean" />
@@ -83,8 +81,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="warrantyNumber" />
-    <property name="description" value="warrantyNumber description..." />
   </bean>
   
   <bean id="AssetWarranty-warrantyPhoneNumber" parent="AssetWarranty-warrantyPhoneNumber-parentBean" />
@@ -102,8 +98,6 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="warrantyPhoneNumber" />
-    <property name="description" value="warrantyPhoneNumber description..." />
   </bean>
   
   <bean id="AssetWarranty-warrantyPurchaseOrderNumber" parent="AssetWarranty-warrantyPurchaseOrderNumber-parentBean" />
@@ -121,8 +115,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="warrantyPurchaseOrderNumber" />
-    <property name="description" value="warrantyPurchaseOrderNumber description..." />
   </bean>
   
   <bean id="AssetWarranty-warrantyText" parent="AssetWarranty-warrantyText-parentBean" />
@@ -140,8 +132,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="warrantyText" />
-    <property name="description" value="warrantyText description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -74,8 +74,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetNumber" parent="AssetRetirementGlobal-mergedTargetCapitalAssetNumber-parentBean" />
@@ -92,8 +90,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="mergedTargetCapitalAssetNumber" />
-    <property name="description" value="mergedTargetCapitalAssetNumber description..." />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementDate" parent="AssetRetirementGlobal-retirementDate-parentBean" />
@@ -109,8 +105,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="retirementDate" />
-    <property name="description" value="retirementDate description..." />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementReasonCode" parent="AssetRetirementGlobal-retirementReasonCode-parentBean" />
@@ -131,8 +125,6 @@
             p:keyAttribute="retirementReasonCode"
             p:labelAttribute="retirementReasonName" />
     </property>
-    <property name="summary" value="retirementReasonCode" />
-    <property name="description" value="retirementReasonCode description..." />
   </bean>
 
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode" parent="AssetRetirementGlobal-mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode-parentBean" />

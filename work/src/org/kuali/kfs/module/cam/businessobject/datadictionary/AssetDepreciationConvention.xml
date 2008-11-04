@@ -46,8 +46,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.AssetDepreciationConventionValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="depreciationConventionCode" />
-    <property name="description" value="depreciationConventionCode description..." />
   </bean>
   
   <bean id="AssetDepreciationConvention-active" parent="AssetDepreciationConvention-active-parentBean" />

@@ -34,8 +34,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
 
 
@@ -50,8 +48,6 @@
     <property name="name" value="previousTotalCostAmount" />
     <property name="label" value="Previous Cost" />
     <property name="shortLabel" value="Previous Cost" />
-    <property name="summary" value="previousTotalCostAmount" />
-    <property name="description" value="previousTotalCostAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   
   </bean>    

@@ -41,8 +41,6 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="acquisitionTypeCode" />
-    <property name="description" value="Acquisition type code." />
   </bean>
   
   <bean id="AssetAcquisitionType-acquisitionTypeName" parent="AssetAcquisitionType-acquisitionTypeName-parentBean" />
@@ -60,8 +58,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="acquisitionTypeName" />
-    <property name="description" value="Acquisition type name." />
   </bean>
   
   <bean id="AssetAcquisitionType-incomeAssetObjectCode" parent="AssetAcquisitionType-incomeAssetObjectCode-parentBean" />
@@ -78,8 +74,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="incomeAssetObjectCode" />
-    <property name="description" value="Income asset object code." />
   </bean>
   
   <bean id="AssetAcquisitionType-active" parent="AssetAcquisitionType-active-parentBean" />

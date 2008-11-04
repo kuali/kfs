@@ -65,8 +65,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="assetLocationCityName" />
-    <property name="description" value="assetLocationCityName description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationContactIdentifier" parent="AssetLocation-assetLocationContactIdentifier-parentBean" />
@@ -83,8 +81,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="assetLocationContactIdentifier" />
-    <property name="description" value="assetLocationContactIdentifier description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationContactName" parent="AssetLocation-assetLocationContactName-parentBean" />
@@ -101,8 +97,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="assetLocationContactName" />
-    <property name="description" value="assetLocationContactName description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationCountryCode" parent="AssetLocation-assetLocationCountryCode-parentBean" />
@@ -121,8 +115,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
-    <property name="summary" value="assetLocationCountryCode" />
-    <property name="description" value="assetLocationCountryCode description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationInstitutionName" parent="AssetLocation-assetLocationInstitutionName-parentBean" />
@@ -139,8 +131,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="assetLocationInstitutionName" />
-    <property name="description" value="assetLocationInstitutionName description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationPhoneNumber" parent="AssetLocation-assetLocationPhoneNumber-parentBean" />
@@ -157,8 +147,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="assetLocationPhoneNumber" />
-    <property name="description" value="assetLocationPhoneNumber description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationStateCode" parent="AssetLocation-assetLocationStateCode-parentBean" />
@@ -169,8 +157,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="false" />
     <property name="label" value="Asset Location State Code" />
     <property name="shortLabel" value="Code" />
-    <property name="summary" value="assetLocationStateCode" />
-    <property name="description" value="assetLocationStateCode description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationStreetAddress" parent="AssetLocation-assetLocationStreetAddress-parentBean" />
@@ -187,8 +173,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="assetLocationStreetAddress" />
-    <property name="description" value="assetLocationStreetAddress description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationTypeCode" parent="AssetLocation-assetLocationTypeCode-parentBean" />
@@ -205,8 +189,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="assetLocationTypeCode" />
-    <property name="description" value="assetLocationTypeCode description..." />
   </bean>
   
   <bean id="AssetLocation-assetLocationZipCode" parent="AssetLocation-assetLocationZipCode-parentBean" />
@@ -216,8 +198,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="assetLocationZipCode" />
     <property name="label" value="Asset Location Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="summary" value="assetLocationZipCode" />
-    <property name="description" value="assetLocationZipCode description..." />
   </bean>
   
   <bean id="AssetLocation-capitalAssetNumber" parent="AssetLocation-capitalAssetNumber-parentBean" />
@@ -234,8 +214,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="capitalAssetNumber" />
-    <property name="description" value="capitalAssetNumber description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

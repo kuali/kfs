@@ -47,8 +47,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="inventoryStatusCode" />
-    <property name="description" value="inventoryStatusCode description..." />
   </bean>
   <bean id="AssetStatus-inventoryStatusName" parent="AssetStatus-inventoryStatusName-parentBean" />
 
@@ -66,8 +64,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="inventoryStatusName" />
-    <property name="description" value="inventoryStatusName description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

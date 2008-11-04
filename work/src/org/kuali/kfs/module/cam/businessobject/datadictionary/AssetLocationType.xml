@@ -42,8 +42,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="assetLocationTypeCode" />
-    <property name="description" value="assetLocationTypeCode description..." />
   </bean>
   <bean id="AssetLocationType-assetLocationTypeName" parent="AssetLocationType-assetLocationTypeName-parentBean" />
 
@@ -61,8 +59,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="assetLocationTypeName" />
-    <property name="description" value="assetLocationTypeName description..." />
   </bean>
   <bean id="AssetLocationType-active" parent="AssetLocationType-active-parentBean" />
 

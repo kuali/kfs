@@ -41,8 +41,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="capitalAssetNumber" />
-    <property name="description" value="capitalAssetNumber description..." />
   </bean>
   
   <bean id="AssetOrganization-organizationAssetTypeIdentifier" parent="AssetOrganization-organizationAssetTypeIdentifier-parentBean" />
@@ -59,8 +57,6 @@
       <bean parent="TextControlDefinition"
             p:size="22" />
     </property>
-    <property name="summary" value="organizationAssetTypeIdentifier" />
-    <property name="description" value="organizationAssetTypeIdentifier description..." />
   </bean>
   
   <bean id="AssetOrganization-organizationTagNumber" parent="AssetOrganization-organizationTagNumber-parentBean" />
@@ -77,8 +73,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="organizationTagNumber" />
-    <property name="description" value="organizationTagNumber description..." />
   </bean>
   
   <bean id="AssetOrganization-organizationText" parent="AssetOrganization-organizationText-parentBean" />
@@ -97,8 +91,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="organizationText" />
-    <property name="description" value="organizationText description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

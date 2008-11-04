@@ -48,8 +48,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="retirementReasonCode" />
-    <property name="description" value="retirementReasonCode description..." />
   </bean>
   <bean id="AssetRetirementReason-retirementReasonName" parent="AssetRetirementReason-retirementReasonName-parentBean" />
 
@@ -67,8 +65,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="retirementReasonName" />
-    <property name="description" value="retirementReasonName description..." />
   </bean>
   <bean id="AssetRetirementReason-retirementReasonRestrictionIndicator" parent="AssetRetirementReason-retirementReasonRestrictionIndicator-parentBean" />
 
@@ -81,8 +77,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="retirementReasonRestrictionIndicator" />
-    <property name="description" value="retirementReasonRestrictionIndicator description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

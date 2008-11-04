@@ -249,8 +249,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="acquisitionTypeCode" />
-    <property name="description" value="acquisitionTypeCode description..." />
   </bean>
   
   <bean id="Asset-agencyNumber" parent="Asset-agencyNumber-parentBean" />
@@ -267,8 +265,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="agencyNumber" />
-    <property name="description" value="agencyNumber description..." />
   </bean>
   
   <bean id="Asset-buildingSubRoomNumber" parent="Asset-buildingSubRoomNumber-parentBean" />
@@ -285,8 +281,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="buildingSubRoomNumber" />
-    <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
   
   <bean id="Asset-campusPoliceDepartmentCaseNumber" parent="Asset-campusPoliceDepartmentCaseNumber-parentBean" />
@@ -303,8 +297,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="campusPoliceDepartmentCaseNumber" />
-    <property name="description" value="campusPoliceDepartmentCaseNumber description..." />
   </bean>
   
   <bean id="Asset-campusTagNumber" parent="Asset-campusTagNumber-parentBean" />
@@ -321,8 +313,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="campusTagNumber" />
-    <property name="description" value="campusTagNumber description..." />
   </bean>
   
   <bean id="Asset-capitalAssetDescription" parent="Asset-capitalAssetDescription-parentBean" />
@@ -341,8 +331,6 @@
             p:rows="10"
             p:cols="40" />
     </property>
-    <property name="summary" value="capitalAssetDescription" />
-    <property name="description" value="capitalAssetDescription description..." />    
   </bean>
   
   <bean id="Asset-capitalAssetNumber" parent="Asset-capitalAssetNumber-parentBean" />
@@ -359,8 +347,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="capitalAssetNumber" />
-    <property name="description" value="capitalAssetNumber description..." />
   </bean>
   
   <bean id="Asset-cashReceiptFinancialDocumentNumber" parent="Asset-cashReceiptFinancialDocumentNumber-parentBean" />
@@ -377,8 +363,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="cashReceiptFinancialDocumentNumber" />
-    <property name="description" value="cashReceiptFinancialDocumentNumber description..." />
   </bean>
   
   <bean id="Asset-createDate" parent="Asset-createDate-parentBean" />
@@ -430,8 +414,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="fabricationEstimatedRetentionYears" />
-    <property name="description" value="fabricationEstimatedRetentionYears description..." />
   </bean>
   
   <bean id="Asset-estimatedSellingPrice" parent="Asset-estimatedSellingPrice-parentBean" />
@@ -439,8 +421,6 @@
     <property name="name" value="estimatedSellingPrice" />
     <property name="label" value="Estimated Sale Price" />
     <property name="shortLabel" value="Est. Sales Price" />
-    <property name="summary" value="estimatedSellingPrice" />
-    <property name="description" value="estimatedSellingPrice description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -456,8 +436,6 @@
     <property name="name" value="fabricationEstimatedTotalAmount" />
     <property name="label" value="Fabrication Estimated Total Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="summary" value="fabricationEstimatedTotalAmount" />
-    <property name="description" value="fabricationEstimatedTotalAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -475,16 +453,12 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialDocumentPostingPeriodCode" />
-    <property name="description" value="financialDocumentPostingPeriodCode description..." />
   </bean>
   
   <bean id="Asset-financialDocumentPostingYear" parent="Asset-financialDocumentPostingYear-parentBean" />
   <bean id="Asset-financialDocumentPostingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="label" value="Fiscal Year" />
-    <property name="summary" value="financialDocumentPostingYear" />
-    <property name="description" value="financialDocumentPostingYear description..." />
   </bean>
   
   <bean id="Asset-inventoryScannedCode" parent="Asset-inventoryScannedCode-parentBean" />
@@ -501,8 +475,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="inventoryScannedCode" />
-    <property name="description" value="inventoryScannedCode description..." />
   </bean>
   
   <bean id="Asset-inventoryStatusCode" parent="Asset-inventoryStatusCode-parentBean" />
@@ -533,8 +505,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="nationalStockNumber" />
-    <property name="description" value="nationalStockNumber description..." />
   </bean>
   
   <bean id="Asset-governmentTagNumber" parent="Asset-governmentTagNumber-parentBean" />
@@ -552,8 +522,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="governmentTagNumber" />
-    <property name="description" value="governmentTagNumber description..." />
   </bean>
   
   <bean id="Asset-lastInventoryDate" parent="Asset-lastInventoryDate-parentBean" />
@@ -592,8 +560,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="manufacturerModelNumber" />
-    <property name="description" value="manufacturerModelNumber description..." />
   </bean>
   
   <bean id="Asset-manufacturerName" parent="Asset-manufacturerName-parentBean" />
@@ -611,8 +577,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="manufacturerName" />
-    <property name="description" value="manufacturerName description..." />
   </bean>
   
   <bean id="Asset-oldTagNumber" parent="Asset-oldTagNumber-parentBean" />
@@ -629,8 +593,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="oldTagNumber" />
-    <property name="description" value="oldTagNumber description..." />
   </bean>
   
   <bean id="Asset-organizationInventoryName" parent="Asset-organizationInventoryName-parentBean" />
@@ -648,8 +610,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="organizationInventoryName" />
-    <property name="description" value="organizationInventoryName description..." />
   </bean>
   
   <bean id="Asset-primaryDepreciationMethodCode" parent="Asset-primaryDepreciationMethodCode-parentBean" />
@@ -670,8 +630,6 @@
             p:keyAttribute="depreciationMethodCode"
             p:labelAttribute="depreciationMethodName" />
     </property>
-    <property name="summary" value="primaryDepreciationMethodCode" />
-    <property name="description" value="primaryDepreciationMethodCode description..." />
   </bean>
   
   <bean id="Asset-receiveDate" parent="Asset-receiveDate-parentBean" />
@@ -686,8 +644,6 @@
     <property name="name" value="replacementAmount" />
     <property name="label" value="Replacement Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="summary" value="replacementAmount" />
-    <property name="description" value="replacementAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -705,8 +661,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="retirementAccountNumber" />
-    <property name="description" value="retirementAccountNumber description..." />
   </bean>
   
   <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountCode-parentBean" />
@@ -723,8 +677,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="retirementChartOfAccountsCode" />
-    <property name="description" value="retirementChartOfAccountsCode description..." />
   </bean>
   
   <bean id="Asset-retirementFiscalYear" parent="Asset-retirementFiscalYear-parentBean" />
@@ -741,8 +693,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="retirementFiscalYear" />
-    <property name="description" value="retirementFiscalYear description..." />
   </bean>
   
   <bean id="Asset-retirementPeriodCode" parent="Asset-retirementPeriodCode-parentBean" />
@@ -759,8 +709,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="retirementPeriodCode" />
-    <property name="description" value="retirementPeriodCode description..." />
   </bean>
   
   <bean id="Asset-financialObjectSubTypeCode" parent="Asset-financialObjectSubTypeCode-parentBean" />
@@ -768,8 +716,6 @@
     <property name="name" value="financialObjectSubTypeCode" />
     <property name="label" value="Financial Object Subtype Code" />
     <property name="shortLabel" value="Code" />
-    <property name="summary" value="financialObjectSubTypeCode" />
-    <property name="description" value="financialObjectSubTypeCode description..." />
   </bean>
   
   <bean id="Asset-retirementReasonCode" parent="Asset-retirementReasonCode-parentBean" />
@@ -786,8 +732,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="retirementReasonCode" />
-    <property name="description" value="retirementReasonCode description..." />
   </bean>
   
   <bean id="Asset-salePrice" parent="Asset-salePrice-parentBean" />
@@ -795,8 +739,6 @@
     <property name="name" value="salePrice" />
     <property name="label" value="Sale Price" />
     <property name="shortLabel" value="Price" />
-    <property name="summary" value="salePrice" />
-    <property name="description" value="salePrice description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -805,8 +747,6 @@
     <property name="name" value="salvageAmount" />
     <property name="label" value="Salvage Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="summary" value="salvageAmount" />
-    <property name="description" value="salvageAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -825,8 +765,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="serialNumber" />
-    <property name="description" value="serialNumber description..." />
   </bean>
   
   <bean id="Asset-totalCostAmount" parent="Asset-totalCostAmount-parentBean" />
@@ -834,8 +772,6 @@
     <property name="name" value="totalCostAmount" />
     <property name="label" value="Total Cost" />
     <property name="shortLabel" value="Total Cost" />
-    <property name="summary" value="totalCostAmount" />
-    <property name="description" value="totalCostAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -853,8 +789,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="transferOfFundsFinancialDocumentNumber" />
-    <property name="description" value="transferOfFundsFinancialDocumentNumber description..." />
   </bean>
   
   <bean id="Asset-vendorName" parent="Asset-vendorName-parentBean" />
@@ -872,8 +806,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="vendorName" />
-    <property name="description" value="vendorName description..." />
   </bean>
   
   <bean id="Asset-capitalAssetType.depreciableLifeLimit" parent="Asset-capitalAssetType.depreciableLifeLimit-parentBean" />
@@ -983,8 +915,6 @@
       <bean parent="TextControlDefinition"
             p:size="22" />
     </property>
-    <property name="summary" value="landCountyName" />
-    <property name="description" value="Land country name." />
   </bean>
   
   <bean id="Asset-landAcreageSize" parent="Asset-landAcreageSize-parentBean" />
@@ -1002,8 +932,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="landAcreageSize" />
-    <property name="description" value="Land acreage size." />
   </bean>
   
   <bean id="Asset-landParcelNumber" parent="Asset-landParcelNumber-parentBean" />
@@ -1021,8 +949,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="landParcelNumber" />
-    <property name="description" value="Land parcel number." />
   </bean>
 
   <bean id="Asset-quantity" parent="Asset-quantity-parentBean" />
@@ -1039,8 +965,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="quantity" />
-    <property name="description" value="quantity description..." />
   </bean>
 
   <bean id="Asset-accumulatedDepreciation" parent="Asset-accumulatedDepreciation-parentBean" />
@@ -1048,8 +972,6 @@
     <property name="name" value="accumulatedDepreciation" />
     <property name="label" value="Accumulated Depreciation" />
     <property name="shortLabel" value="Accumulated" />
-    <property name="summary" value="Accumulated Depreciation" />
-    <property name="description" value="Accumulated Depreciation Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -1058,8 +980,6 @@
     <property name="name" value="baseAmount" />
     <property name="label" value="Base Amount" />
     <property name="shortLabel" value="Base" />
-    <property name="summary" value="Base Amount" />
-    <property name="description" value="Base Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -1068,8 +988,6 @@
     <property name="name" value="bookValue" />
     <property name="label" value="Book Value" />
     <property name="shortLabel" value="Book Value" />
-    <property name="summary" value="Book Value" />
-    <property name="description" value="Book Value" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -1078,8 +996,6 @@
     <property name="name" value="prevYearDepreciation" />
     <property name="label" value="Previous Year" />
     <property name="shortLabel" value="Previous Year" />
-    <property name="summary" value="Previous Year Depreciation" />
-    <property name="description" value="Previous Year Depreciation" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -1088,8 +1004,6 @@
     <property name="name" value="yearToDateDepreciation" />
     <property name="label" value="Year To Date" />
     <property name="shortLabel" value="Year To Date" />
-    <property name="summary" value="Year To Date Depreciation" />
-    <property name="description" value="Year To Date Depreciation" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -1098,8 +1012,6 @@
     <property name="name" value="currentMonthDepreciation" />
     <property name="label" value="Current Month" />
     <property name="shortLabel" value="Current Month" />
-    <property name="summary" value="Current Month Depreciation" />
-    <property name="description" value="Current Month Depreciation" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -1344,8 +1256,6 @@
     <property name="name" value="offCampusLocation.assetLocationContactName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Name" />
-    <property name="summary" value="Asset Off Campus Name" />
-    <property name="description" value="Asset Off Campus Name description..." />
   </bean>
   
   <bean id="Asset-offCampusLocation.assetLocationStreetAddress" parent="Asset-offCampusLocation.assetLocationStreetAddress-parentBean" />
@@ -1353,8 +1263,6 @@
     <property name="name" value="offCampusLocation.assetLocationStreetAddress" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Address" />
-    <property name="summary" value="Asset Off Campus Address" />
-    <property name="description" value="Asset Off Campus Address description..." />
   </bean>
   
   <bean id="Asset-offCampusLocation.assetLocationCityName" parent="Asset-offCampusLocation.assetLocationCityName-parentBean" />
@@ -1363,8 +1271,6 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="City" />
     <property name="shortLabel" value="City" />
-    <property name="summary" value="Asset Off Campus City" />
-    <property name="description" value="Asset Off Campus City description..." />
   </bean>
   
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean" />
@@ -1374,8 +1280,6 @@
     <property name="name" value="offCampusLocation.assetLocationStateCode" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
-    <property name="summary" value="Asset Off Campus State" />
-    <property name="description" value="Asset Off Campus State description..." />
   </bean>
   
   <bean id="Asset-offCampusLocation.assetLocationZipCode" parent="Asset-offCampusLocation.assetLocationZipCode-parentBean" />
@@ -1383,8 +1287,6 @@
     <property name="name" value="offCampusLocation.assetLocationZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="summary" value="Asset Off Campus Zip" />
-    <property name="description" value="Asset Off Campus Zip description..." />
    </bean>
    
   <bean id="Asset-offCampusLocation.assetLocationCountryCode" parent="Asset-offCampusLocation.assetLocationCountryCode-parentBean" />
@@ -1402,8 +1304,6 @@
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
-    <property name="summary" value="Asset Off Campus Country" />
-    <property name="description" value="Asset Off Campus Country description..." />
   </bean>
   
   <bean id="Asset-assetStatus.inventoryStatusCode" parent="Asset-assetStatus.inventoryStatusCode-parentBean" />

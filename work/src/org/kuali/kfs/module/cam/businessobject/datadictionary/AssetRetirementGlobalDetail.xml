@@ -110,8 +110,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="buyerDescription" />
-    <property name="description" value="buyerDescription description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber" parent="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber-parentBean" />
@@ -119,8 +117,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="cashReceiptFinancialDocumentNumber" />
     <property name="label" value="Cash Receipt Financial Document Number" />
     <property name="shortLabel" value="Number" />
-    <property name="summary" value="cashReceiptFinancialDocumentNumber" />
-    <property name="description" value="cashReceiptFinancialDocumentNumber description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-capitalAssetNumber" parent="AssetRetirementGlobalDetail-capitalAssetNumber-parentBean" />
@@ -141,8 +137,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="estimatedSellingPrice" />
     <property name="label" value="Estimated Selling Price" />
     <property name="shortLabel" value="Price" />
-    <property name="summary" value="estimatedSellingPrice" />
-    <property name="description" value="estimatedSellingPrice description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -151,8 +145,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="handlingFeeAmount" />
     <property name="label" value="Handling Fee Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="summary" value="handlingFeeAmount" />
-    <property name="description" value="handlingFeeAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -161,8 +153,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="preventiveMaintenanceAmount" />
     <property name="label" value="Preventive Maintenance Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="summary" value="preventiveMaintenanceAmount" />
-    <property name="description" value="preventiveMaintenanceAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -171,8 +161,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="calculatedTotal" />
     <property name="label" value="Calculated Total" />
     <property name="shortLabel" value="Amount" />
-    <property name="summary" value="calculatedTotal" />
-    <property name="description" value="calculatedTotal description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean> 
    
@@ -190,8 +178,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="retirementAccountNumber" />
-    <property name="description" value="retirementAccountNumber description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementChartOfAccountsCode" parent="AssetRetirementGlobalDetail-retirementChartOfAccountsCode-parentBean" />
@@ -208,8 +194,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="retirementChartOfAccountsCode" />
-    <property name="description" value="retirementChartOfAccountsCode description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementCityName" parent="AssetRetirementGlobalDetail-retirementCityName-parentBean" />
@@ -226,8 +210,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="retirementCityName" />
-    <property name="description" value="retirementCityName description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementContactName" parent="AssetRetirementGlobalDetail-retirementContactName-parentBean" />
@@ -245,8 +227,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="retirementContactName" />
-    <property name="description" value="retirementContactName description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementCountryCode" parent="AssetRetirementGlobalDetail-retirementCountryCode-parentBean" />
@@ -265,8 +245,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
-    <property name="summary" value="retirementCountryCode" />
-    <property name="description" value="retirementCountryCode description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementInstitutionName" parent="AssetRetirementGlobalDetail-retirementInstitutionName-parentBean" />
@@ -284,8 +262,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="retirementInstitutionName" />
-    <property name="description" value="retirementInstitutionName description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementPhoneNumber" parent="AssetRetirementGlobalDetail-retirementPhoneNumber-parentBean" />
@@ -303,8 +279,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="retirementPhoneNumber" />
-    <property name="description" value="retirementPhoneNumber description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementStateCode" parent="AssetRetirementGlobalDetail-retirementStateCode-parentBean" />
@@ -323,8 +297,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder" />
     </property>
-    <property name="summary" value="retirementStateCode" />
-    <property name="description" value="retirementStateCode description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementStreetAddress" parent="AssetRetirementGlobalDetail-retirementStreetAddress-parentBean" />
@@ -342,8 +314,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="retirementStreetAddress" />
-    <property name="description" value="retirementStreetAddress description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementZipCode" parent="AssetRetirementGlobalDetail-retirementZipCode-parentBean" />
@@ -353,8 +323,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="retirementZipCode" />
     <property name="label" value="Retirement Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="summary" value="retirementZipCode" />
-    <property name="description" value="retirementZipCode description..." />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-salePrice" parent="AssetRetirementGlobalDetail-salePrice-parentBean" />
@@ -371,8 +339,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="salePrice" />
-    <property name="description" value="salePrice description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   

@@ -174,8 +174,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="accountChargeAmount" />
-    <property name="description" value="accountChargeAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -193,8 +191,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
   </bean>
   
   <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount" parent="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" />
@@ -211,8 +207,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="accumulatedPrimaryDepreciationAmount" />
-    <property name="description" value="accumulatedPrimaryDepreciationAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -230,8 +224,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="capitalAssetNumber" />
-    <property name="description" value="capitalAssetNumber description..." />
   </bean>
   
   <bean id="AssetPayment-chartOfAccountsCode" parent="AssetPayment-chartOfAccountsCode-parentBean" />
@@ -254,8 +246,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   
   <bean id="AssetPayment-financialDocumentPostingDate" parent="AssetPayment-financialDocumentPostingDate-parentBean" />
@@ -279,8 +269,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialDocumentPostingPeriodCode" />
-    <property name="description" value="financialDocumentPostingPeriodCode description..." />
   </bean>
   
   <bean id="AssetPayment-financialDocumentPostingYear" parent="AssetPayment-financialDocumentPostingYear-parentBean" />
@@ -297,8 +285,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialDocumentPostingYear" />
-    <property name="description" value="financialDocumentPostingYear description..." />
   </bean>
   
   <bean id="AssetPayment-financialDocumentTypeCode" parent="AssetPayment-financialDocumentTypeCode-parentBean" />
@@ -315,8 +301,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialDocumentTypeCode" />
-    <property name="description" value="financialDocumentTypeCode description..." />
   </bean>
   
   <bean id="AssetPayment-financialObjectCode" parent="AssetPayment-financialObjectCode-parentBean" />
@@ -333,8 +317,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
   </bean>
   
   <bean id="AssetPayment-financialSubObjectCode" parent="AssetPayment-financialSubObjectCode-parentBean" />
@@ -351,8 +333,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
   </bean>
   
   <bean id="AssetPayment-financialSystemOriginationCode" parent="AssetPayment-financialSystemOriginationCode-parentBean" />
@@ -369,8 +349,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialSystemOriginationCode" />
-    <property name="description" value="financialSystemOriginationCode description..." />
   </bean>
   
   <bean id="AssetPayment-organizationReferenceId" parent="AssetPayment-organizationReferenceId-parentBean" />
@@ -387,8 +365,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="organizationReferenceId" />
-    <property name="description" value="organizationReferenceId description..." />
   </bean>
   
   <bean id="AssetPayment-paymentSequenceNumber" parent="AssetPayment-paymentSequenceNumber-parentBean" />
@@ -405,8 +381,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="paymentSequenceNumber" />
-    <property name="description" value="paymentSequenceNumber description..." />
   </bean>
   
   <bean id="AssetPayment-period10Depreciation1Amount" parent="AssetPayment-period10Depreciation1Amount-parentBean" />
@@ -423,8 +397,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period10Depreciation1Amount" />
-    <property name="description" value="period10Depreciation1Amount description..." />
   </bean>
   
   <bean id="AssetPayment-period11Depreciation1Amount" parent="AssetPayment-period11Depreciation1Amount-parentBean" />
@@ -441,8 +413,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period11Depreciation1Amount" />
-    <property name="description" value="period11Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -460,8 +430,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period12Depreciation1Amount" />
-    <property name="description" value="period12Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -479,8 +447,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period1Depreciation1Amount" />
-    <property name="description" value="period1Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -498,8 +464,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period2Depreciation1Amount" />
-    <property name="description" value="period2Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -517,8 +481,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period3Depreciation1Amount" />
-    <property name="description" value="period3Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -536,8 +498,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period4Depreciation1Amount" />
-    <property name="description" value="period4Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -555,8 +515,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period5Depreciation1Amount" />
-    <property name="description" value="period5Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -574,8 +532,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period6Depreciation1Amount" />
-    <property name="description" value="period6Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -593,8 +549,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period7Depreciation1Amount" />
-    <property name="description" value="period7Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -612,8 +566,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period8Depreciation1Amount" />
-    <property name="description" value="period8Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -631,8 +583,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="period9Depreciation1Amount" />
-    <property name="description" value="period9Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -650,8 +600,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="previousYearPrimaryDepreciationAmount" />
-    <property name="description" value="previousYearPrimaryDepreciationAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -669,8 +617,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="primaryDepreciationBaseAmount" />
-    <property name="description" value="primaryDepreciationBaseAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -688,8 +634,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="projectCode" />
-    <property name="description" value="projectCode description..." />
   </bean>
   
   <bean id="AssetPayment-purchaseOrderNumber" parent="AssetPayment-purchaseOrderNumber-parentBean" />
@@ -706,8 +650,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="purchaseOrderNumber" />
-    <property name="description" value="purchaseOrderNumber description..." />
   </bean>
   
   <bean id="AssetPayment-requisitionNumber" parent="AssetPayment-requisitionNumber-parentBean" />
@@ -724,8 +666,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="requisitionNumber" />
-    <property name="description" value="requisitionNumber description..." />
   </bean>
   
   <bean id="AssetPayment-subAccountNumber" parent="AssetPayment-subAccountNumber-parentBean" />
@@ -742,8 +682,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
   </bean>
   
   <bean id="AssetPayment-transferPaymentCode" parent="AssetPayment-transferPaymentCode-parentBean" />
@@ -760,8 +698,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="transferPaymentCode" />
-    <property name="description" value="transferPaymentCode description..." />
   </bean>
   
   <bean id="AssetPayment-yearToDate" parent="AssetPayment-yearToDate-parentBean" />
@@ -769,8 +705,6 @@
     <property name="name" value="yearToDate" />
     <property name="label" value="Year to Date" />
     <property name="shortLabel" value="yearToDate" />
-    <property name="summary" value="Year to Date" />
-    <property name="description" value="Year to Date" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
 

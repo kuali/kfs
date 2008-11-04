@@ -45,8 +45,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="assetConditionCode" />
-    <property name="description" value="assetConditionCode description..." />
   </bean>
   
   <bean id="AssetCondition-assetConditionName" parent="AssetCondition-assetConditionName-parentBean" />
@@ -64,8 +62,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="assetConditionName" />
-    <property name="description" value="assetConditionName description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

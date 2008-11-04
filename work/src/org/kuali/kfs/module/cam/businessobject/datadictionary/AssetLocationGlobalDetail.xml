@@ -45,8 +45,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="buildingCode" />
-    <property name="description" value="buildingCode description..." />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-buildingRoomNumber" parent="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" />
@@ -63,8 +61,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="buildingRoomNumber" />
-    <property name="description" value="buildingRoomNumber description..." />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber" parent="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" />
@@ -81,8 +77,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="buildingSubRoomNumber" />
-    <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-campusCode" parent="AssetLocationGlobalDetail-campusCode-parentBean" />
@@ -99,8 +93,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="campusCode" />
-    <property name="description" value="campusCode description..." />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-campusTagNumber" parent="AssetLocationGlobalDetail-campusTagNumber-parentBean" />
@@ -117,8 +109,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="campusTagNumber" />
-    <property name="description" value="campusTagNumber description..." />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-capitalAssetNumber" parent="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" />
@@ -135,8 +125,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="capitalAssetNumber" />
-    <property name="description" value="capitalAssetNumber description..." />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-documentNumber" parent="AssetLocationGlobalDetail-documentNumber-parentBean" />
@@ -153,8 +141,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-newCollectionRecord" parent="AssetLocationGlobalDetail-newCollectionRecord-parentBean" />

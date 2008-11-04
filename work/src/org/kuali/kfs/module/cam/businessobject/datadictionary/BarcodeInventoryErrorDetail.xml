@@ -52,8 +52,6 @@
       <bean parent="TextControlDefinition"
           p:size="40"/>
     </property>
-    <property name="summary" value="Error" />
-    <property name="description" value="error description..." />
   </bean>
 
   <bean id="BarcodeInventoryErrorDetail-assetConditionCode" parent="BarcodeInventoryErrorDetail-assetConditionCode-parentBean" />
@@ -71,8 +69,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="assetConditionCode" />
-    <property name="description" value="assetConditionCode description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-assetTagNumber" parent="BarcodeInventoryErrorDetail-assetTagNumber-parentBean" />
@@ -90,8 +86,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="assetTagNumber" />
-    <property name="description" value="assetTagNumber description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingCode" parent="BarcodeInventoryErrorDetail-buildingCode-parentBean" />
@@ -109,8 +103,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="buildingCode" />
-    <property name="description" value="buildingCode description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber" parent="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" />
@@ -128,8 +120,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="buildingRoomNumber" />
-    <property name="description" value="buildingRoomNumber description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber" parent="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean" />
@@ -146,8 +136,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="buildingSubRoomNumber" />
-    <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-campusCode" parent="BarcodeInventoryErrorDetail-campusCode-parentBean" />
@@ -165,8 +153,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="campusCode" />
-    <property name="description" value="campusCode description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-correctorUniversalIdentifier" parent="BarcodeInventoryErrorDetail-correctorUniversalIdentifier-parentBean" />
@@ -183,8 +169,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="correctorUniversalIdentifier" />
-    <property name="description" value="correctorUniversalIdentifier description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-documentNumber" parent="BarcodeInventoryErrorDetail-documentNumber-parentBean" />
@@ -201,8 +185,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-errorCorrectionStatusCode" parent="BarcodeInventoryErrorDetail-errorCorrectionStatusCode-parentBean" />
@@ -219,8 +201,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="errorCorrectionStatusCode" />
-    <property name="description" value="errorCorrectionStatusCode description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-inventoryCorrectionTimestamp" parent="BarcodeInventoryErrorDetail-inventoryCorrectionTimestamp-parentBean" />
@@ -237,8 +217,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="inventoryCorrectionTimestamp" />
-    <property name="description" value="inventoryCorrectionTimestamp description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-uploadRowNumber" parent="BarcodeInventoryErrorDetail-uploadRowNumber-parentBean" />
@@ -255,8 +233,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="uploadRowNumber" />
-    <property name="description" value="uploadRowNumber description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-uploadScanIndicator" parent="BarcodeInventoryErrorDetail-uploadScanIndicator-parentBean" />
@@ -270,8 +246,6 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="uploadScanIndicator" />
-    <property name="description" value="uploadScanIndicator description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-uploadScanTimestamp" parent="BarcodeInventoryErrorDetail-uploadScanTimestamp-parentBean" />
@@ -288,8 +262,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="uploadScanTimestamp" />
-    <property name="description" value="uploadScanTimestamp description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

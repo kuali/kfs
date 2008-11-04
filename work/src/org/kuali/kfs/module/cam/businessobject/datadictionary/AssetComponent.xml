@@ -69,8 +69,6 @@
             p:keyAttribute="assetConditionCode"
             p:labelAttribute="assetConditionName" />
     </property>
-    <property name="summary" value="componentConditionCode" />
-    <property name="description" value="componentConditionCode description..." />
   </bean>
   
   <bean id="AssetComponent-componentContactPhoneNumber" parent="AssetComponent-componentContactPhoneNumber-parentBean" />
@@ -88,8 +86,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="componentContactPhoneNumber" />
-    <property name="description" value="componentContactPhoneNumber description..." />
   </bean>
   
   <bean id="AssetComponent-componentDescription" parent="AssetComponent-componentDescription-parentBean" />
@@ -108,8 +104,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="componentDescription" />
-    <property name="description" value="componentDescription description..." />
   </bean>
   
   <bean id="AssetComponent-componentEstimatedLifetimeLimit" parent="AssetComponent-componentEstimatedLifetimeLimit-parentBean" />
@@ -126,8 +120,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="componentEstimatedLifetimeLimit" />
-    <property name="description" value="componentEstimatedLifetimeLimit description..." />
   </bean>
   
   <bean id="AssetComponent-componentManufacturerModelNumber" parent="AssetComponent-componentManufacturerModelNumber-parentBean" />
@@ -145,8 +137,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="componentManufacturerModelNumber" />
-    <property name="description" value="componentManufacturerModelNumber description..." />
   </bean>
   
   <bean id="AssetComponent-componentManufacturerName" parent="AssetComponent-componentManufacturerName-parentBean" />
@@ -164,8 +154,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="componentManufacturerName" />
-    <property name="description" value="componentManufacturerName description..." />
   </bean>
   
   <bean id="AssetComponent-componentNumber" parent="AssetComponent-componentNumber-parentBean" />
@@ -182,8 +170,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="componentNumber" />
-    <property name="description" value="componentNumber description..." />
   </bean>
   
   <bean id="AssetComponent-componentOrganizationTagNumber" parent="AssetComponent-componentOrganizationTagNumber-parentBean" />
@@ -201,8 +187,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="componentOrganizationTagNumber" />
-    <property name="description" value="componentOrganizationTagNumber description..." />
   </bean>
   
   <bean id="AssetComponent-componentOrganizationText" parent="AssetComponent-componentOrganizationText-parentBean" />
@@ -221,8 +205,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="componentOrganizationText" />
-    <property name="description" value="componentOrganizationText description..." />
   </bean>
   
   <bean id="AssetComponent-componentReplacementAmount" parent="AssetComponent-componentReplacementAmount-parentBean" />
@@ -248,8 +230,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="componentSerialNumber" />
-    <property name="description" value="componentSerialNumber description..." />
   </bean>
   
   <bean id="AssetComponent-componentVendorName" parent="AssetComponent-componentVendorName-parentBean" />
@@ -267,8 +247,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="componentVendorName" />
-    <property name="description" value="componentVendorName description..." />
   </bean>
   
   <bean id="AssetComponent-componentWarrantyBeginningDate" parent="AssetComponent-componentWarrantyBeginningDate-parentBean" />
@@ -300,8 +278,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="componentWarrantyContactName" />
-    <property name="description" value="componentWarrantyContactName description..." />
   </bean>
   
   <bean id="AssetComponent-componentWarrantyNumber" parent="AssetComponent-componentWarrantyNumber-parentBean" />
@@ -319,8 +295,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="componentWarrantyNumber" />
-    <property name="description" value="componentWarrantyNumber description..." />
   </bean>
   
   <bean id="AssetComponent-componentWarrantyPurchaseOrderNumber" parent="AssetComponent-componentWarrantyPurchaseOrderNumber-parentBean" />
@@ -338,8 +312,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="componentWarrantyPurchaseOrderNumber" />
-    <property name="description" value="componentWarrantyPurchaseOrderNumber description..." />
   </bean>
   
   <bean id="AssetComponent-componentWarrantyText" parent="AssetComponent-componentWarrantyText-parentBean" />
@@ -357,8 +329,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="componentWarrantyText" />
-    <property name="description" value="componentWarrantyText description..." />
   </bean>
   
   <bean id="AssetComponent-componentWarrantyPhoneNumber" parent="AssetComponent-componentWarrantyPhoneNumber-parentBean" />
@@ -376,8 +346,6 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="componentWarrantyPhoneNumber" />
-    <property name="description" value="componentWarrantyPhoneNumber description..." />
   </bean>
   
   <bean id="AssetComponent-governmentTagNumber" parent="AssetComponent-governmentTagNumber-parentBean" />
@@ -395,8 +363,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="governmentTagNumber" />
-    <property name="description" value="governmentTagNumber description..." />
   </bean>
   
   <bean id="AssetComponent-nationalStockNumber" parent="AssetComponent-nationalStockNumber-parentBean" />
@@ -414,8 +380,6 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="nationalStockNumber" />
-    <property name="description" value="nationalStockNumber description..." />
   </bean>
 
   <bean id="AssetComponent-newCollectionRecord" parent="AssetComponent-newCollectionRecord-parentBean" />

@@ -70,7 +70,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="description" value="Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />    
   </bean>
   
@@ -87,8 +86,6 @@
     <property name="label" value="Posted Date" />
     <property name="shortLabel" value="Posted Date" />
      <property name="required" value="true" />
-    <property name="summary" value="expenditureFinancialDocumentPostedDate" />
-    <property name="description" value="expenditureFinancialDocumentPostedDate description..." />
   </bean>
   
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" parent="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" />
@@ -106,8 +103,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="expenditureFinancialDocumentTypeCode" />
-    <property name="description" value="expenditureFinancialDocumentTypeCode description..." />
   </bean>
   
   <bean id="AssetPaymentDetail-expenditureFinancialSystemOriginationCode" parent="AssetPaymentDetail-expenditureFinancialSystemOriginationCode-parentBean" />
@@ -124,8 +119,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="expenditureFinancialSystemOriginationCode" />
-    <property name="description" value="expenditureFinancialSystemOriginationCode description..." />
   </bean>
 
   <bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean" />
@@ -142,8 +135,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="overrideCode" />
-    <property name="description" value="overrideCode description..." />
   </bean>
   
   <bean id="AssetPaymentDetail-postingPeriodCode" parent="AssetPaymentDetail-postingPeriodCode-parentBean" />
@@ -161,8 +152,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="postingPeriodCode" />
-    <property name="description" value="postingPeriodCode description..." />
   </bean>
 
   <bean id="AssetPaymentDetail-postingYear" parent="AssetPaymentDetail-postingYear-parentBean"/>
@@ -185,8 +174,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="purchaseOrderNumber" />
-    <property name="description" value="purchaseOrderNumber description..." />
   </bean>
   
   <bean id="AssetPaymentDetail-requisitionNumber" parent="AssetPaymentDetail-requisitionNumber-parentBean" />
@@ -203,8 +190,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="requisitionNumber" />
-    <property name="description" value="requisitionNumber description..." />
   </bean>
 
   <bean id="AssetPaymentDetail-transferPaymentIndicator" parent="AssetPaymentDetail-transferPaymentIndicator-parentBean" />
@@ -218,8 +203,6 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="transferPaymentIndicator" />
-    <property name="description" value="transferPaymentIndicator description..." />
   </bean>
   
   <bean id="AssetPaymentDetail-objectCode.financialObjectTypeCode" parent="AssetPaymentDetail-objectCode.financialObjectTypeCode-parentBean" />
@@ -273,8 +256,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
   </bean>
   
   <bean id="AssetPaymentDetail-sequenceNumber" parent="AssetPaymentDetail-sequenceNumber-parentBean" />
@@ -285,7 +266,6 @@
   
   <bean id="AssetPaymentDetail-financialObjectCode" parent="AssetPaymentDetail-financialObjectCode-parentBean" />
   <bean id="AssetPaymentDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
   </bean>
   
   <bean id="AssetPaymentDetail-accountNumber" parent="AssetPaymentDetail-accountNumber-parentBean" />
@@ -307,8 +287,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
   </bean>
     
   <bean id="AssetPaymentDetail-chartOfAccountsCode" parent="AssetPaymentDetail-chartOfAccountsCode-parentBean" />
@@ -318,7 +296,6 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
   </bean>
   
   <bean id="AssetPaymentDetail-referenceOriginCode" parent="AssetPaymentDetail-referenceOriginCode-parentBean" />
@@ -336,8 +313,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
   </bean>
   
   <!-- bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean" />
@@ -356,16 +331,12 @@
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
   </bean-->
   
   <bean id="AssetPaymentDetail-subAccountNumber" parent="AssetPaymentDetail-subAccountNumber-parentBean" />
   <bean id="AssetPaymentDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub Account Number" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
   </bean>
   
   <bean id="AssetPaymentDetail-referenceTypeCode" parent="AssetPaymentDetail-referenceTypeCode-parentBean" />
@@ -374,23 +345,18 @@
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
   </bean>
   
   <bean id="AssetPaymentDetail-projectCode" parent="AssetPaymentDetail-projectCode-parentBean" />
   <bean id="AssetPaymentDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The title of the project." />
   </bean>
   
   <bean id="AssetPaymentDetail-financialSubObjectCode" parent="AssetPaymentDetail-financialSubObjectCode-parentBean" />
   <bean id="AssetPaymentDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="label" value="Sub Object Code" />    
-    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
   </bean>
   
   <bean id="AssetPaymentDetail-documentNumber" parent="AssetPaymentDetail-documentNumber-parentBean" />
@@ -414,8 +380,6 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
   </bean>
   
   <bean id="AssetPaymentDetail-encumbranceUpdateCode" parent="AssetPaymentDetail-encumbranceUpdateCode-parentBean" />
@@ -433,8 +397,6 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
   </bean>
   
   <bean id="AssetPaymentDetail-objectTypeCode" parent="AssetPaymentDetail-objectTypeCode-parentBean" />
@@ -454,8 +416,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
   </bean>
   
   <bean id="AssetPaymentDetail-nonFringeAccountOverride" parent="AssetPaymentDetail-nonFringeAccountOverride-parentBean" />
@@ -469,8 +429,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
   </bean>
   
   <bean id="AssetPaymentDetail-objectBudgetOverride" parent="AssetPaymentDetail-objectBudgetOverride-parentBean" />
@@ -484,8 +442,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
   </bean>
   
   <bean id="AssetPaymentDetail-financialDocumentLineDescription" parent="AssetPaymentDetail-financialDocumentLineDescription-parentBean" />
@@ -500,8 +456,6 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
   </bean>
   
   <bean id="AssetPaymentDetail-salesTaxRequired" parent="AssetPaymentDetail-salesTaxRequired-parentBean" />
@@ -515,8 +469,6 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
   </bean>
   
   <bean id="AssetPaymentDetail-salesTax.chartOfAccountsCode" parent="AssetPaymentDetail-salesTax.chartOfAccountsCode-parentBean" />
@@ -524,8 +476,6 @@
     <property name="name" value="salesTax.chartOfAccountsCode" />
     <property name="label" value="Sales Tax Chart of Accounts Code" />
     <property name="shortLabel" value="Sales Tax Chart" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
   </bean>
   
   <bean id="AssetPaymentDetail-salesTax.accountNumber" parent="AssetPaymentDetail-salesTax.accountNumber-parentBean" />
@@ -533,8 +483,6 @@
     <property name="name" value="salesTax.accountNumber" />
     <property name="label" value="Sales Tax Account Number" />
     <property name="shortLabel" value="Sales Tax Account" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Account Number that Sales Tax is collected against" />
   </bean>
   
   <bean id="AssetPaymentDetail-salesTax.financialDocumentGrossSalesAmount" parent="AssetPaymentDetail-salesTax.financialDocumentGrossSalesAmount-parentBean" />
@@ -542,7 +490,6 @@
     <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
     <property name="label" value="Gross Sales Amount" />
     <property name="shortLabel" value="Gross Sales Amt." />
-    <property name="description" value="Gross Sales Amount to be taxed" />
   </bean>
   
   <bean id="AssetPaymentDetail-salesTax.financialDocumentTaxableSalesAmount" parent="AssetPaymentDetail-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
@@ -550,14 +497,12 @@
     <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
     <property name="label" value="Taxable Sales Amount" />
     <property name="shortLabel" value="Taxable Sales Amt." />
-    <property name="description" value="Taxable Sales Amount to be taxed" />
   </bean>
   
   <bean id="AssetPaymentDetail-salesTax.financialDocumentSaleDate" parent="AssetPaymentDetail-salesTax.financialDocumentSaleDate-parentBean" />
   <bean id="AssetPaymentDetail-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
     <property name="name" value="salesTax.financialDocumentSaleDate" />
     <property name="label" value="Sale Date" />
-    <property name="description" value="Date of Sale" />
   </bean>
   
   <bean id="AssetPaymentDetail-newCollectionRecord" parent="AssetPaymentDetail-newCollectionRecord-parentBean" />

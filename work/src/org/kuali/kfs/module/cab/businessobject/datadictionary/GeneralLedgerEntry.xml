@@ -64,8 +64,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="generalLedgerAccountIdentifier" />
-    <property name="description" value="generalLedgerAccountIdentifier description..." />
   </bean>
   
   <bean id="GeneralLedgerEntry-universityFiscalYear" parent="GeneralLedgerEntry-universityFiscalYear-parentBean" />

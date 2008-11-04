@@ -44,12 +44,14 @@
 				<value>lockboxJob</value>
 				<value>customerInvoiceDocumentBatchJob</value>
 				<value>customerLoadJob</value>
+				<value>invoiceRecurrenceJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
 			<list>
 				<value>lockboxJobTrigger</value>
 				<value>customerInvoiceDocumentBatchJobTrigger</value>
+				<value>invoiceRecurrenceJobTrigger</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
@@ -73,6 +75,7 @@
 	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDocumentDaoOjb" />
 	<bean id="accountsReceivableDocumentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.AccountsReceivableDocumentHeaderDaoOjb" />
 	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />	
+	<bean id="invoiceRecurrenceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.InvoiceRecurrenceDaoOjb" />
 	
 	<!--  AR Services  -->
 	<bean id="systemInformationService" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl">
@@ -138,6 +141,12 @@
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>	
+	
+	<bean id="invoiceRecurrenceService" class="org.kuali.kfs.module.ar.batch.service.impl.InvoiceRecurrenceServiceImpl">
+		<property name="invoiceRecurrenceDao">
+			<ref bean="invoiceRecurrenceDao" />
+		</property>
+	</bean>
 	
 	<!-- Used for DWR call to get Customer Name -->
 	<bean id="customerService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerServiceImpl">
@@ -310,6 +319,25 @@
 		<property name="steps">
 			<list>
 				<ref bean="lockboxStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="invoiceRecurrenceJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="lockboxJob" />
+		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
+	</bean>
+	
+	<bean id="invoiceRecurrenceStep" class="org.kuali.kfs.module.ar.batch.InvoiceRecurrenceStep" parent="step">
+		<property name="invoiceRecurrenceService">
+			<ref bean="invoiceRecurrenceService" />
+		</property>
+	</bean>
+	
+	<bean id="invoiceRecurrenceJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="invoiceRecurrenceStep" />
 			</list>
 		</property>
 	</bean>

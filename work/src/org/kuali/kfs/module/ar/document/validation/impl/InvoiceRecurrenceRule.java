@@ -52,7 +52,9 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         success &= checkIfRecurrenceMaintenanceAlreadyExists(newInvoiceRecurrence);
         success &= validateDocumentRecurrenceBeginDate(newInvoiceRecurrence, new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
 */
+/*
         success &= validateDocumentRecurrenceBeginDate(newInvoiceRecurrence);
+*/
         success &= validateDocumentRecurrenceEndDate(newInvoiceRecurrence);
         success &= validateIfBothEndDateAndTotalRecurrenceNumberAreEntered(newInvoiceRecurrence);
         success &= validateEndDateOrTotalNumberofRecurrences(newInvoiceRecurrence);   

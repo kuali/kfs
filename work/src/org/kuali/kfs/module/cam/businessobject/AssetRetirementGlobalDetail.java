@@ -4,15 +4,15 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -64,7 +64,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -74,7 +73,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -85,7 +83,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the capitalAssetNumber attribute.
      * 
      * @return Returns the capitalAssetNumber
-     * 
      */
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
@@ -95,7 +92,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the capitalAssetNumber attribute.
      * 
      * @param capitalAssetNumber The capitalAssetNumber to set.
-     * 
      */
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
@@ -106,7 +102,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementChartOfAccountsCode attribute.
      * 
      * @return Returns the retirementChartOfAccountsCode
-     * 
      */
     public String getRetirementChartOfAccountsCode() {
         return retirementChartOfAccountsCode;
@@ -116,7 +111,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementChartOfAccountsCode attribute.
      * 
      * @param retirementChartOfAccountsCode The retirementChartOfAccountsCode to set.
-     * 
      */
     public void setRetirementChartOfAccountsCode(String retirementChartOfAccountsCode) {
         this.retirementChartOfAccountsCode = retirementChartOfAccountsCode;
@@ -127,7 +121,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementAccountNumber attribute.
      * 
      * @return Returns the retirementAccountNumber
-     * 
      */
     public String getRetirementAccountNumber() {
         return retirementAccountNumber;
@@ -137,7 +130,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementAccountNumber attribute.
      * 
      * @param retirementAccountNumber The retirementAccountNumber to set.
-     * 
      */
     public void setRetirementAccountNumber(String retirementAccountNumber) {
         this.retirementAccountNumber = retirementAccountNumber;
@@ -148,7 +140,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementContactName attribute.
      * 
      * @return Returns the retirementContactName
-     * 
      */
     public String getRetirementContactName() {
         return retirementContactName;
@@ -158,7 +149,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementContactName attribute.
      * 
      * @param retirementContactName The retirementContactName to set.
-     * 
      */
     public void setRetirementContactName(String retirementContactName) {
         this.retirementContactName = retirementContactName;
@@ -169,7 +159,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementInstitutionName attribute.
      * 
      * @return Returns the retirementInstitutionName
-     * 
      */
     public String getRetirementInstitutionName() {
         return retirementInstitutionName;
@@ -179,7 +168,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementInstitutionName attribute.
      * 
      * @param retirementInstitutionName The retirementInstitutionName to set.
-     * 
      */
     public void setRetirementInstitutionName(String retirementInstitutionName) {
         this.retirementInstitutionName = retirementInstitutionName;
@@ -190,7 +178,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementStreetAddress attribute.
      * 
      * @return Returns the retirementStreetAddress
-     * 
      */
     public String getRetirementStreetAddress() {
         return retirementStreetAddress;
@@ -200,7 +187,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementStreetAddress attribute.
      * 
      * @param retirementStreetAddress The retirementStreetAddress to set.
-     * 
      */
     public void setRetirementStreetAddress(String retirementStreetAddress) {
         this.retirementStreetAddress = retirementStreetAddress;
@@ -211,7 +197,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementCityName attribute.
      * 
      * @return Returns the retirementCityName
-     * 
      */
     public String getRetirementCityName() {
         return retirementCityName;
@@ -221,7 +206,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementCityName attribute.
      * 
      * @param retirementCityName The retirementCityName to set.
-     * 
      */
     public void setRetirementCityName(String retirementCityName) {
         this.retirementCityName = retirementCityName;
@@ -232,7 +216,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementStateCode attribute.
      * 
      * @return Returns the retirementStateCode
-     * 
      */
     public String getRetirementStateCode() {
         return retirementStateCode;
@@ -242,7 +225,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementStateCode attribute.
      * 
      * @param retirementStateCode The retirementStateCode to set.
-     * 
      */
     public void setRetirementStateCode(String retirementStateCode) {
         this.retirementStateCode = retirementStateCode;
@@ -253,7 +235,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementZipCode attribute.
      * 
      * @return Returns the retirementZipCode
-     * 
      */
     public String getRetirementZipCode() {
         return retirementZipCode;
@@ -263,7 +244,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementZipCode attribute.
      * 
      * @param retirementZipCode The retirementZipCode to set.
-     * 
      */
     public void setRetirementZipCode(String retirementZipCode) {
         this.retirementZipCode = retirementZipCode;
@@ -274,7 +254,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the postalZipCode attribute.
      * 
      * @return Returns the postalZipCode
-     * 
      */
     public PostalCode getPostalZipCode() {
         postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, retirementCountryCode, retirementZipCode, postalZipCode);
@@ -285,7 +264,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the postalZipCode attribute.
      * 
      * @param postalZipCode The postalZipCode to set.
-     * 
      */
     public void setPostalZipCode(PostalCode postalZipCode) {
         this.postalZipCode = postalZipCode;
@@ -295,7 +273,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementCountryCode attribute.
      * 
      * @return Returns the retirementCountryCode
-     * 
      */
     public String getRetirementCountryCode() {
         return retirementCountryCode;
@@ -305,7 +282,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementCountryCode attribute.
      * 
      * @param retirementCountryCode The retirementCountryCode to set.
-     * 
      */
     public void setRetirementCountryCode(String retirementCountryCode) {
         this.retirementCountryCode = retirementCountryCode;
@@ -316,7 +292,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementPhoneNumber attribute.
      * 
      * @return Returns the retirementPhoneNumber
-     * 
      */
     public String getRetirementPhoneNumber() {
         return retirementPhoneNumber;
@@ -326,7 +301,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the retirementPhoneNumber attribute.
      * 
      * @param retirementPhoneNumber The retirementPhoneNumber to set.
-     * 
      */
     public void setRetirementPhoneNumber(String retirementPhoneNumber) {
         this.retirementPhoneNumber = retirementPhoneNumber;
@@ -337,7 +311,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the estimatedSellingPrice attribute.
      * 
      * @return Returns the estimatedSellingPrice
-     * 
      */
     public KualiDecimal getEstimatedSellingPrice() {
         return estimatedSellingPrice;
@@ -347,11 +320,9 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the estimatedSellingPrice attribute.
      * 
      * @param estimatedSellingPrice The estimatedSellingPrice to set.
-     * 
      */
     public void setEstimatedSellingPrice(KualiDecimal estimatedSellingPrice) {
         this.estimatedSellingPrice = estimatedSellingPrice;
-        setCalculatedTotal();
     }
 
 
@@ -359,7 +330,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the salePrice attribute.
      * 
      * @return Returns the salePrice
-     * 
      */
     public KualiDecimal getSalePrice() {
         return salePrice;
@@ -369,7 +339,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the salePrice attribute.
      * 
      * @param salePrice The salePrice to set.
-     * 
      */
     public void setSalePrice(KualiDecimal salePrice) {
         this.salePrice = salePrice;
@@ -380,7 +349,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the cashReceiptFinancialDocumentNumber attribute.
      * 
      * @return Returns the cashReceiptFinancialDocumentNumber
-     * 
      */
     public String getCashReceiptFinancialDocumentNumber() {
         return cashReceiptFinancialDocumentNumber;
@@ -390,7 +358,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the cashReceiptFinancialDocumentNumber attribute.
      * 
      * @param cashReceiptFinancialDocumentNumber The cashReceiptFinancialDocumentNumber to set.
-     * 
      */
     public void setCashReceiptFinancialDocumentNumber(String cashReceiptFinancialDocumentNumber) {
         this.cashReceiptFinancialDocumentNumber = cashReceiptFinancialDocumentNumber;
@@ -401,7 +368,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the handlingFeeAmount attribute.
      * 
      * @return Returns the handlingFeeAmount
-     * 
      */
     public KualiDecimal getHandlingFeeAmount() {
         return handlingFeeAmount;
@@ -411,11 +377,9 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the handlingFeeAmount attribute.
      * 
      * @param handlingFeeAmount The handlingFeeAmount to set.
-     * 
      */
     public void setHandlingFeeAmount(KualiDecimal handlingFeeAmount) {
         this.handlingFeeAmount = handlingFeeAmount;
-        setCalculatedTotal();
     }
 
 
@@ -423,7 +387,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the preventiveMaintenanceAmount attribute.
      * 
      * @return Returns the preventiveMaintenanceAmount
-     * 
      */
     public KualiDecimal getPreventiveMaintenanceAmount() {
         return preventiveMaintenanceAmount;
@@ -433,11 +396,9 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the preventiveMaintenanceAmount attribute.
      * 
      * @param preventiveMaintenanceAmount The preventiveMaintenanceAmount to set.
-     * 
      */
     public void setPreventiveMaintenanceAmount(KualiDecimal preventiveMaintenanceAmount) {
         this.preventiveMaintenanceAmount = preventiveMaintenanceAmount;
-        setCalculatedTotal();
     }
 
 
@@ -445,7 +406,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the buyerDescription attribute.
      * 
      * @return Returns the buyerDescription
-     * 
      */
     public String getBuyerDescription() {
         return buyerDescription;
@@ -455,7 +415,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the buyerDescription attribute.
      * 
      * @param buyerDescription The buyerDescription to set.
-     * 
      */
     public void setBuyerDescription(String buyerDescription) {
         this.buyerDescription = buyerDescription;
@@ -466,7 +425,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the paidCaseNumber attribute.
      * 
      * @return Returns the paidCaseNumber
-     * 
      */
     public String getPaidCaseNumber() {
         return paidCaseNumber;
@@ -476,7 +434,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Sets the paidCaseNumber attribute.
      * 
      * @param paidCaseNumber The paidCaseNumber to set.
-     * 
      */
     public void setPaidCaseNumber(String paidCaseNumber) {
         this.paidCaseNumber = paidCaseNumber;
@@ -486,7 +443,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementChartOfAccounts attribute.
      * 
      * @return Returns the retirementChartOfAccounts
-     * 
      */
     public Chart getRetirementChartOfAccounts() {
         return retirementChartOfAccounts;
@@ -506,7 +462,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the retirementAccount attribute.
      * 
      * @return Returns the retirementAccount
-     * 
      */
     public Account getRetirementAccount() {
         return retirementAccount;
@@ -601,28 +556,25 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
         this.retirementState = retirementState;
     }
 
-    public void setCalculatedTotal() {
-
-        this.calculatedTotal = KualiDecimal.ZERO;
-        if (ObjectUtils.isNotNull(this.handlingFeeAmount)){
-            this.calculatedTotal = this.handlingFeeAmount; 
-        }
-        if (ObjectUtils.isNotNull(this.preventiveMaintenanceAmount)){
-            this.calculatedTotal = calculatedTotal.add(this.preventiveMaintenanceAmount); 
-        }
-        if (ObjectUtils.isNotNull(this.estimatedSellingPrice)){
-            this.calculatedTotal = calculatedTotal.add(this.estimatedSellingPrice); 
-        }
-    }
-
-    
+    /**
+     * Gets the calculatedTotal attribute.
+     * 
+     * @return Returns the calculatedTotal.
+     */
     public KualiDecimal getCalculatedTotal() {
+        this.calculatedTotal = KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(this.handlingFeeAmount)) {
+            this.calculatedTotal = this.handlingFeeAmount;
+        }
+        if (ObjectUtils.isNotNull(this.preventiveMaintenanceAmount)) {
+            this.calculatedTotal = calculatedTotal.add(this.preventiveMaintenanceAmount);
+        }
+        if (ObjectUtils.isNotNull(this.estimatedSellingPrice)) {
+            this.calculatedTotal = calculatedTotal.add(this.estimatedSellingPrice);
+        }
         return calculatedTotal;
     }
 
-    public void setCalculatedTotal(KualiDecimal calculatedTotal) {
-        this.calculatedTotal = calculatedTotal;
-    }
 
     public AssetRetirementGlobal getAssetRetirementGlobal() {
         return assetRetirementGlobal;

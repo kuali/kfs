@@ -87,6 +87,7 @@ import org.springframework.dao.DataAccessException;
 
 public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GenesisDao {
     /*
+     *   December, 2006:
      *   These routines are written to try to mitigate the performance hit that
      *   comes from using OJB as opposed to JDBC (pass-through SQL).  Pass-through
      *   SQL in Kuali could lead to database-dependencies in the code, and tie Kuali
@@ -114,7 +115,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *        So where in Oracle we would do an UPDATE A.. WHERE (EXISTS (SELECT 1 FROM B
      *        WHERE A matches B) or an INSERT A (SELECT ... FROM A, B WHERE A = B), we will 
      *        get all the candidate rows from both A and B, and store individually to do
-     *        INSERT or UPDATE.  (There seems to be now way in OJB to store more than
+     *        INSERT or UPDATE.  (There seems to be no way in OJB to store more than
      *        one row at a time.)  This may lead to a lot of database calls that operate
      *        on a single row.  We can only try to minimize this problem.  We can't
      *        get around it.  
@@ -131,6 +132,15 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *    fields could also be made in one place.  The foreignkey field-ref tag B fields
      *    are repeated in every description anyway, so things aren't always in one place
      *    to begin with.)
+     *    November, 2008:
+     *    JOINs (especially those using one-to-many relationships) are problematic in OJB, as the admit in their docmentation.
+     *    But, it is possible, using ReportQuery and qualifiers, to tell OJB how to build efficient JOIN SQL correctly.  The code
+     *    below, however, seems to be efficient as well.  The only disadvantage it has is that it requires additional memory.  Based
+     *    on tests against realistic data sets (over 400,000 rows written), the OJB cache is a far greater memory hog--and itself uses
+     *    hashmaps--than these hashmaps.  If you are running batch in your own container with no other threads active, it is easy to
+     *    turn off the OJB cache dynamically.  This code doesn't really make use of the OJB cache.  It attempts to avoid reading the
+     *    same row repeatedly.  It also uses report queries extensively, and those do not cache results.
+     *    
      */
 
     private FiscalYearFunctionControl fiscalYearFunctionControl;
@@ -139,25 +149,15 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     /*  turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
 
-
-    // @@TODO maybe it isn't worth moving these home-coming queen values somewhere else
-    //        maybe we don't need the second one at all
-    public final static Long DEFAULT_VERSION_NUMBER = new Long(1);
-    public final static Integer MAXIMUM_ORGANIZATION_TREE_DEPTH = new Integer(1000);
-
     /*
-     *  this is old stuff which we may not use--we'll see
+     *   version number for new rows
      */
-
-    /*  these constants should be in KFSPropertyConstants */
-    public final static String BUDGET_FLAG_PROPERTY_NAME = "financialSystemFunctionControlCode";
-    public final static String BUDGET_FLAG_VALUE = "financialSystemFunctionActiveIndicator";
-    public final static String BUDGET_CZAR_CHART = "UA";
-    public final static String FINANCIAL_CHART_PROPERTY = "chartOfAccountsCode";
-    public final static String BUDGET_CZAR_ORG = "BUDU";
-    public final static String ORG_CODE_PROPERTY = "organizationCode";
-    public final static String FISCAL_OFFICER_ID_PROPERTY = "accountFiscalOfficerSystemIdentifier";
-    public final static String ACCOUNT_CLOSED_INDICATOR_PROPERTY = "active";
+    public final static Long DEFAULT_VERSION_NUMBER = new Long(1);
+    /*
+     *   code a high value for the limit of the organization reporting chain.  we limit this to avoid
+     *   infinite loops when for some reason there is a circular reporting chain in the DB
+     */
+    public final static Integer MAXIMUM_ORGANIZATION_TREE_DEPTH = new Integer(1000);
 
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
@@ -177,7 +177,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         Map<String, String> controlFlags = new HashMap();
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        String[] queryAttr = { BUDGET_FLAG_PROPERTY_NAME, BUDGET_FLAG_VALUE };
+        String[] queryAttr = { KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(FiscalYearFunctionControl.class, queryAttr, criteriaID);
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         /* fill in the map */
@@ -194,8 +194,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         Boolean Result;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        criteriaID.addEqualTo(BUDGET_FLAG_PROPERTY_NAME, FlagID);
-        String[] queryAttr = { BUDGET_FLAG_VALUE };
+        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, FlagID);
+        String[] queryAttr = { KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(FiscalYearFunctionControl.class, queryAttr, criteriaID, true);
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         // TODO@ we need to create an exception, put a try around this block, and log errors
@@ -236,7 +236,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     /*
      * ******************************************************************************  
      *   (1) these routines are used to create and set the control flags for budget *
-     *   construction                                                               *
+     *   construction.  Genesis sets flags for both the current fiscal year and the *
+     *   fiscal year to be budgeted to a fixed set of initial values.  The flags    *
+     *   are changed after that using maintenance screens.                          *
      * ******************************************************************************  
      */
 
@@ -570,37 +572,36 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *  (3) BC Document Creation                                                   *
      *  ****************************************************************************
      */
+    /*
+     *  A document number is created for each account/sub-account involved in budgdet construction.  
+     *  These "documents" are not routed.  They are created and finalized in workflow in a single step. 
+     *  They serve two purposes.  First, the budget construction tool can use the workflow action tables to 
+     *  track the people who have edited each account/sub-account, and use the workflow notes tables to allow 
+     *  these editors to leave whatever comments they may wish to make.  Second, the general ledger entry 
+     *  table requires that every entry have a document number attached.  Assigning a document number to 
+     *  each account/sub-account in the budget allows us to load the budget to the general ledger with 
+     *  a document number that can be tracked in workflow as outlined above.
+     *  
+     *  An account/subaccount can get into budget construction in three ways.
+     *  (1)  Someone can create a budget for it using the budget construction on-line tool.  Neither genesis nor 
+     *  the batch update process cares about this case, so it is irrelevant here.
+     *  (2)  There is an existing base budget in the current fiscal year for the account/subaccount.  In this case,
+     *  genesis and the batch update process will create a document for it in budget construction if one does not already 
+     *  exist (much of the code below involves looking at the GL and checking for existing documents for account/subaccounts with 
+     *  base budget in the GL.
+     *  (3) There is no base budget in the GL, but for some reason there is a person in a budgeted position drawing pay in 
+     *  payroll.  In this case, if no document number exists, we will create one.  It will point to budget construction CSF tracker 
+     *  (i.e., payroll) base, but it will not have any base budget amounts in the budget construction general ledger.
+     *
+     *  NOTE: Kuali workflow went through a lot of iterations since this code was written.  I have tried to remove any comments 
+     *  that pertain to iterations other than the stable release 3 configuration, but I may have missed something.  Earlier iterations
+     *  (a) used a lot of memory and (b) were at one point in a separate transaction.
+     *  Because this code will have to deal with a remote workflow server in real life, it will be the slowest part of genesis.  We did 
+     *  not have a good test bed for thoroughly researching this issue, but based on extrapolation I believe the solution we came up with 
+     *  (going to "complete" status immediately in order to by-pass routing, then using workflow routines to read the actual workflow
+     *  document tables and set all the dates to final and save the initial "action taken") will give acceptable performance.  
+     */
 
-    //
-    //  these methods are used to create BC documents outside of transactional
-    //  control.  we will create all the needed documents based on what needs to be done,
-    //  and route them.
-    //
-    //
-    //  this is convoluted, but we are trying to minimize database calls
-    //  (1) The GL BALANCE is joined to 8 other tables, so each GL BALANCE row that
-    //      we select in a "persistable" query requires 9 data base calls
-    //  (2) A report query can return the keys and the amounts we need in a single call
-    //  (3) The persistence broker access we are allowed on this project will only allow
-    //      a report query to return an iterator.  One cannot return an iterator in a 
-    //      non-transactional context.
-    //  (4) Because workflow is a remote transaction, and must read what we write, we
-    //      cannot call workflow in the middle of a transaction--we must commit first.
-    //  (5) Each BC Header row is unique by fiscal year, chart, account, sub account.
-    //
-    //   So, since we are trying to minimize data base calls, we will do the following
-    //   Transactional:
-    //      * Read the GL with an iterator and decide which keys require a new header.
-    //      * Store the new header with a proxy document number (just the header, not
-    //        the Kuali document header that accompanies it).
-    //   Non-transactional:
-    //      * Read all the headers with proxy document numbers into a collection.
-    //      * Delete all the headers with proxy document numbers.
-    //      * Create a new Budget Construction Document for each header in the collection,
-    //        and store and route it.
-    //   Transactional:
-    //      * We are now assured that all required documents exist.  We will now do the
-    //        actual data processing to create the PBGL rows.
     private HashSet<String> currentBCHeaderKeys = new HashSet<String>(1);
     // these routines are used to merge CSF and CSF Override
     private HashMap<String, String[]> CSFTrackerKeys = new HashMap<String, String[]>(1);
@@ -641,11 +642,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //  field list when we only need a few fields.
         if (GLUpdatesAllowed) {
             getAndStoreCurrentGLBCHeaderCandidates(BaseYear);
-            //@@TODO:  added this in hopes of solving the memory problem
-            //         (we probably can't clear the cache if we have an iterator in a loop)
-            // (02/23/2007)  this failed--the workflow thread is way behind ours, and we
-            //               killed it after it had only processed 16 of 73 documents.
-            // getPersistenceBrokerTemplate().clearCache();
         }
         //  we also have to read CSF for any accounts with no base budget in GL BALANCE
         //  but which pay people in budgeted positions
@@ -658,21 +654,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
         createNewDocumentsCleanUp();
     }
-
-    /*  @@TODO:  this is prior to October, 2007, when calling complete stopped running in finite time   
-       private void finalizeBCDocument(BudgetConstructionDocument bcDoc) throws WorkflowException
-       {
-           // this routine reads the actual workflow tables to set the status dates and the final status code
-           // going through the routing procedure took far too much time per document
-           DocumentRouteHeaderValue routeHeader =
-               routeHeaderService.getRouteHeader(bcDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-           routeHeader.markDocumentEnroute();
-           routeHeader.markDocumentApproved();
-           routeHeader.markDocumentProcessed();
-           routeHeader.markDocumentFinalized();
-           routeHeaderService.saveRouteHeader(routeHeader);
-       }
-     */
 
     //  here are the private methods that go with it      
     private void getAndStoreCurrentCSFBCHeaderCandidates(Integer BaseYear) {
@@ -709,9 +690,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             }
             documentsCSFCreatedinNTS = documentsCSFCreatedinNTS + 1;
             documentsCreatedinNTS = documentsCreatedinNTS + 1;
-            //  add this header to the current BC Header map
-            // String testKey = Results[0]+Results[1]+Results[2];
-            // currentBCHeaderKeys.add(testKey);
         }
     }
 
@@ -921,10 +899,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // using workflowDocumentService routines
         saveBCDocumentInWorkflow(newBCHdr);
         //@@TODO: end October 2007 additions
-        //@@TODO: October 2007 deletion
-        // finalizeBCDocument(newBCHdr);
-        //        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
-        //                                      "created by Genesis",null);
     }
 
 
@@ -952,12 +926,10 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         killOrgQuery.setCriteria(criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(killOrgQuery);
         getPersistenceBrokerTemplate().clearCache();
-        // this has moved temporarily until the data model is fixed (8/8/2007)  
+        // build the organization table  
         buildNewOrganizationReportsTo();
         // build the account table
         buildNewAccountReportsTo();
-        // build the organization table  
-        // buildNewOrganizationReportsTo();
     }
 
     //  private working methods for the BC chart update
@@ -976,8 +948,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         Criteria criteriaID = new Criteria();
         /*  current IU genesis does NOT check for closed accounts--it loads all accounts
          *  it is possible that an account which has been closed still has base budget 
-        criteriaID.addNotEqualTo(KFSPropertyConstants.ACCOUNT_CLOSED_INDICATOR,
-                              KFSConstants.ParameterValues.YES);
          */
         criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.ORGANIZATION_CODE };
@@ -986,7 +956,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         while (Results.hasNext()) {
             Object[] ReturnList = (Object[]) Results.next();
             // just save this stuff, one at a time
-            // it isn't needed for anything else
+            // it isn't needed for anything else, so we don't need to store it in memory in a map
             BudgetConstructionAccountReports acctRpts = new BudgetConstructionAccountReports();
             acctRpts.setChartOfAccountsCode((String) ReturnList[sqlChartOfAccountsCode]);
             acctRpts.setAccountNumber((String) ReturnList[sqlAccountNumber]);
@@ -1017,8 +987,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
          *  IU genesis takes all organizations, not just active ones
          *  the reason is that a closed account which still has a base budget
          *  might report to one of these organizations 
-        criteriaID.addEqualTo(KFSPropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
-                              KFSConstants.ParameterValues.YES);
          */
         criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ORGANIZATION_CODE, KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.REPORTS_TO_ORGANIZATION_CODE, KFSPropertyConstants.RESPONSIBILITY_CENTER_CODE };
@@ -1051,7 +1019,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *      header.  for a header at the level of an organization that is no longer valid,
      *      the level will return to the account manager level.  for a header at the level
      *      of an organization that has changed its location in the hierarchy, the new
-     *      level will be added to the header
+     *      level will be replace the former one in the header
      *   -- this process only affects accounts in the budget construction pending
      *      general ledger, and it is assumed that all updates to the PBGL have been
      *      finished when this process runs.       
@@ -1136,7 +1104,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *  genesis initially inserts all accounts in the chart of accounts table into the budget construction accounting table.
      *  after genesis, the budget construction accounting and organization tables must be maintained separately, to allow changes for the coming fiscal year to be made without changing the current account/organization structure.
      *  this means that accounts can come into budget construction via the general ledger or via payroll (CSF) which were created after genesis but for some reason not entered into the budget construction accounting tables.
-     *  there is no good way for a program to decide why this happened and what to do about it.  so, check for this situation and print a log message if it occurs. 
+     *  there is no good way for a program to decide why this happened and what to do about it.  (For instance, it could be that the payroll account is not supposed to exist in the coming year, and the account should not be
+     *  in budget construction.  It could also be that some base budget GL was not transferred out of an account which is going away in the new fiscal year.  or, it could be that the chart manager missed something and the account
+     *  should be in the budget construction accounting table.  A real live person needs to decide what happened and what to do.) so, check for this situation and print a log message if it occurs. 
      */
     
     public Map verifyAccountsAreAccessible(Integer requestFiscalYear)
@@ -1177,8 +1147,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     private void buildAcctOrgHierFromAcctRpts(BudgetConstructionAccountReports acctRpts, Integer RequestYear) {
         // part of the key of the budget construction header is a sub account
-        // so, our algorithm could visit the same account more than once
-        // if the hierarchy for this account is already built, we skip this routine
+        // so, our algorithm could visit the same account more than once if the account has more than one subaccount.
+        // if the hierarchy for this account is already built, we skip this routine.
         String inKey = getOrgHierarchyKeyFromAcctRpts(acctRpts);
         if (acctOrgHierMap.get(inKey) != null) {
             return;
@@ -1202,9 +1172,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         acctOrgHierMap.put(mapKey, acctOrgHier);
         // now we have to loop to assign the hierarchy
         // (especially before testing, we need to be on the look out for infinite
-        //@@TODO:
         //  loops.  assertions are verboten, so we'll just code a high value for
-        //  the level limit, instead of using a potentially infinite while loop)
+        //  the level limit, instead of using a potentially infinite while loop.  we have no control over the DB, and there could be a circular reporting loop in the DB.)
         while (orgLevel < MAXIMUM_ORGANIZATION_TREE_DEPTH) {
             // find the current organization in the BC organization reports to table
             String orgKey = getOrgRptsToKeyFromAcctOrgHier(acctOrgHier);
@@ -1285,6 +1254,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // no new entry is needed if either the chart or the organization 
         // which this organization reports to is null
         // or if the organization reports to itself
+        // this check is here in case the chart/org reporting hierarchy is not set up properly in the DB, and some organizations do not 
+        // ultimately report to a single root of the organization tree.
         String rptsToChart = orgRpts.getReportsToChartOfAccountsCode();
         if (rptsToChart.length() == 0) {
             LOG.warn(String.format("\n(%s, %s) reports to a null chart", thisChart, thisOrg));
@@ -1303,7 +1274,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     private void readAcctReportsTo() {
-        // we will use a report query, to bypass the "persistence" bureaucracy
+        // we will use a report query, to bypass the "persistence" bureaucracy and its cache, saving memory and time
         // we will use the OJB class as a convenient container object in the hashmap
         Integer sqlChartOfAccountsCode = 0;
         Integer sqlAccountNumber = 1;
@@ -1330,7 +1301,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     private void readOrgReportsTo() {
-        // we will use a report query, to bypass the "persistence" bureaucracy
+        // we will use a report query, to bypass the "persistence" bureaucracy and its cache, saving memory and time
         // we will use the OJB class as a convenient container object in the hashmap
         Integer sqlChartOfAccountsCode = 0;
         Integer sqlOrganizationCode = 1;
@@ -1431,9 +1402,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     public void clearHangingBCLocks(Integer BaseYear) {
         // this routine cleans out any locks that might remain from people leaving
-        // the application abnormally (for example, Fire! Fire!).  it assumes that
+        // the application abnormally (for example, Fire! Fire! Leave your computer and get out now!).  it assumes that
         // people are shut out of the application during a batch run, and that all
-        // work prior to the batch run has either been committed or lost.
+        // work prior to the batch run has either been committed, or lost because the connection was broken before a save.
         BudgetConstructionHeader lockedDocuments;
         //
         Integer RequestYear = BaseYear + 1;
@@ -1606,8 +1577,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         /*  
          * the document number will be set later if we have to store this in a new document
          * a new row in an existing document will take it's document number from the existing document
-         * otherwise (existing document, existing row), the only field in this that will be
-         * the beginning balance amount
+         * otherwise (existing document, existing row), the only field in this that will be different from
+         * the existing row is the beginning balance amount
          */
         PBGLObj.setUniversityFiscalYear(RequestYear);
         PBGLObj.setChartOfAccountsCode((String) sqlResult[sqlChartOfAccountsCode]);
@@ -1660,9 +1631,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // we only pick up a single balance type
         // we also use an integer fiscal year
         // *** this is a point of change if either of these criteria change ***
-        // @@TODO We should regularize the sources for these constants
-        // they should probably all come from GL (although UNIV_FISCAL_YR is generic)
-        // we should add the two hard-wired strings at the bottom to GeneralLedgerConstants
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         //  we'll estimate the size of the PBGL map from the number of
@@ -1673,9 +1641,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //
         // set up the hashmaps by iterating through the results
 
-        // @@TODO this should be in a try/catch structure.  We should catch a 
-        //        SQL error, write it to the log, and raise a more generic error
-        //        ("error reading GL Balance Table in BC batch"), and throw that
         LOG.info("\nGL Query started: " + String.format("%tT", dateTimeService.getCurrentDate()));
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         LOG.info("\nGL Query finished: " + String.format("%tT", dateTimeService.getCurrentDate()));
@@ -1696,8 +1661,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             //  
             //  we always need to build a new PGBL object
             //  we have selected the entire key from GL_BALANCE_T
-            //  @@TODO we should throw an exception if the key already exists
-            //  this means the table has changed and this code needs to be re-written
             String GLTestKey = buildGLTestKeyFromSQLResults(ReturnList);
             pBGLFromGL.put(GLTestKey, newPBGLBusinessObject(RequestYear, ReturnList));
             //  we need to add a document number to the PBGL object
@@ -1942,10 +1905,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private HashSet<String> csfOverrideKeys = new HashSet<String>(1);;
     // EMPLID's in CSF which have more than one active row
     // we budget in whole dollars, while payroll deals in pennies
-    // we will use this for our complicated rounding algorithm, to prevent
-    // to keep the total budget base salary within a dollar of the payroll salary
+    // we will use this for our complicated rounding algorithm, to keep the total budget base salary within a dollar of the payroll salary
     private HashMap<String, roundMechanism> keysNeedingRounding = new HashMap<String, roundMechanism>(1);
-    // we need the position normal work months to write a new appointment funding row
+    // we need the position normal work months to write a new appointment funding row: the normal work months is the "months appointment"
     private HashMap<String, Integer> positionNormalWorkMonths = new HashMap<String, Integer>(1);
 
     private void buildAppointmentFundingCleanUp() {
@@ -1987,10 +1949,10 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
          * that budget construction documents for every accounting key in the
          * CSF tables have been created 
          **********************************************************************/
-        // budget construction CSF tracker is always rebuilt from scratch
+        // budget construction CSF tracker is always rebuilt from scratch from the CSF Tracker
         // (it doesn't make sense to carry a base salary line that has 
-        //  has disappeared from the system--hence the current base--from
-        //  one run to the next.)
+        //  has disappeared from the CSF Tracker--hence from the payroll system, hence the current base--from
+        //  one run of the batch update process to the next.)
         clearBCCSF(BaseYear);
         clearBCCSF(BaseYear + 1);
         // build the new BC CSF objects in memory
@@ -2001,14 +1963,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         readCSF(BaseYear);
         CSFForBCSF = bCSF.size();
         adjustCSFRounding();
-        // at this point we should clear the cache
-        // any objects fetched from the database (CSF and CSF Override) will not
-        // be written back, and we may need the memory.
-        //getPersistenceBrokerTemplate().clearCache();
         //  store bCSF rows matching current appointment funding
         readExistingAppointmentFunding(BaseYear);
-        //  if all of the bCSF rows have been stored (they all already eixst in
-        //  PBGL), we can quit here
+        //  if all of the bCSF rows have been stored (they all already exist in PBGL, so we don't have to worry about PBLG), we can quit here
         if (bCSF.size() == 0) {
             buildAppointmentFundingCleanUp();
             return;
@@ -2020,8 +1977,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //  -- we need to create new GL (if the accounting key is not yet in GL).
         //     this requires that we have a document number, so we need to read those.
         //     this happens regardless of whether GL updates are allowed, because we
-        //     will only be adding GL rows with 0 amounts.  there is only base in CSF,
-        //     no request.
+        //     will only be adding GL rows with 0 amounts when an account not yet in budget construction comes in from payroll.
+        //     there is only base in CSF, no request, and obviously no base budget in the GL exists for an account that isn't in GL.
         //
         //  >> RI requires that data is stored in the order indicated.
         //  -- we will also have to create new appointment funding rows (again, with
@@ -2030,11 +1987,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         setUpbcHdrDocNumbers(BaseYear);
         setUpCurrentPBGLKeys(BaseYear);
         setUpPositionNormalWorkMonths(BaseYear);
-        // we should be able to clear the cache again
-        // nothing that has been written needs to persist
-        // all that exists at this point is a set of BCSF rows that have never
-        // been in the database
-        //getPersistenceBrokerTemplate().clearCache();
         readAndWriteBCSFAndNewAppointmentFundingAndNewPBGL(BaseYear);
         CSFDiagnostics();
         buildAppointmentFundingCleanUp();
@@ -2054,9 +2006,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //   amounts and effort  
         BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF = bCSF.get(csfKey);
         // first round the amount to whole dollars
-        // KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
-        // this is after the change to KualiInteger from KualiDecimal in the BCSF table
-        // (June 1, 2007)
         KualiInteger roundedAmount = new KualiInteger(csf.getCsfAmount(), RoundingMode.valueOf(KualiInteger.ROUND_BEHAVIOR));
         nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
         // increase the percent time (maximum of 100)
@@ -2089,9 +2038,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //   amounts and effort  
         BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF = bCSF.get(csfKey);
         // first round the amount to whole dollars
-        // KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
-        // this is after the change to KualiInteger from KualiDecimal in the BCSF table
-        // (June 1, 2007)
         KualiInteger roundedAmount = new KualiInteger(csf.getCsfAmount(), RoundingMode.valueOf(KualiInteger.ROUND_BEHAVIOR));
         nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
         // increase the percent time (maximum of 100)
@@ -2255,27 +2201,21 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         if (currentPBGLKeys.contains(testKey)) {
             return true;
         }
-        // Budget construction cannot show detailed salary lines unless the object code
-        // support "detailed positions".   But, the CSF is a plug-in, so Kuali cannot
-        // assume that the CSF enforces this rule.  Here, we test whether the object
-        // class is valid.  if it is not, we write a message and skip the row
-        // we do this before the GL check, so we can be sure we write all the rows
-        // that have problems
+        // Budget construction cannot show detailed salary lines unless the object code supports "detailed positions".   But, the CSF is a plug-in, so Kuali cannot assume that the CSF enforces this rule.  
+        // Here, we test whether the object class is valid.  if it is not, we write a message and skip the row.
+        // we do this before the GL check, so we can be sure we log all the rows that have problems instead of requiring multiple runs to find them all.
         String objectType = detailedPositionObjectTypes.get(bcsf.getChartOfAccountsCode() + bcsf.getFinancialObjectCode());
         if (objectType == null) {
             LOG.warn(String.format("\nthis row has an object class which does not support" + " detailed positions (skipped):\n" + "position: %s, EMPLID: %s, accounting string =" + "(%s,%s,%s,%s,%s", bcsf.getPositionNumber(), bcsf.getEmplid(), bcsf.getChartOfAccountsCode(), bcsf.getAccountNumber(), bcsf.getSubAccountNumber(), bcsf.getFinancialObjectCode(), bcsf.getFinancialSubObjectCode()));
             CSFBadObjectsSkipped = CSFBadObjectsSkipped + 1;
             return false;
         }
-        // we need a new row
-        // store the key so we won't try to add another row from a different
-        // person's bcsf which has the same key
+        // we need a new row.  
+        // store the key so we won't try to add another row from a different person's bcsf which has the same key.
         currentPBGLKeys.add(testKey);
         String docKey = buildDocKeyFromBCSF(bcsf);
-        // we never have to build a new document header
-        // createNewBCDocumentsFromGLCSF is always called earlier in the step
-        // containing this routine
-        // fill in the fields
+        // we never have to build a new document header because createNewBCDocumentsFromGLCSF is always called earlier in the step containing this routine. 
+        // fill in the fields.
         PendingBudgetConstructionGeneralLedger pbGL = new PendingBudgetConstructionGeneralLedger();
         pbGL.setDocumentNumber(bcHdrDocNumbers.get(docKey));
         pbGL.setUniversityFiscalYear(bcsf.getUniversityFiscalYear());
@@ -2320,8 +2260,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, FiscalYear);
         QueryByCriteria queryID = new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class, criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
-        // as always, we should clear the cache after a delete,
-        // even though in this case we haven't yet fetched much
+        // as always, we should clear the cache after a bulk delete, even though in this case we haven't yet fetched much
         getPersistenceBrokerTemplate().clearCache();
     }
 
@@ -2342,12 +2281,10 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     private ArrayList<String> findPositionRequiredObjectCodes(Integer BaseYear) {
-        // we want to build an SQL IN criteria to filter a return set
-        // we will find distinct objects only, regardless of chart
-        // this will not be a concern--it will make the return set bigger,but
-        // include every case we want
-        // the result will be used to build a list to check for missing PBGL rows,
-        // so having more PBGL rows than we need will not cause us to miss any
+        // we want to build an SQL IN criteria to filter a return set. 
+        // we will find distinct objects only, regardless of chart, so OJB can build the SQL instead of our having to concatenate the chart and object code fields.  
+        // this will not be a concern--it will make the return set bigger,but include every case we want. 
+        // the result will be used to build a list to check for missing PBGL rows, so having more PBGL rows than we need will not cause us to miss any.
         Integer RequestYear = BaseYear + 1;
         ArrayList<String> objectCodesWithIndividualPositions = new ArrayList<String>(10);
         
@@ -2376,14 +2313,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     // here are the routines to build BCSF
 
     private void readAndWriteBCSFAndNewAppointmentFundingAndNewPBGL(Integer BaseYear) {
-        // read through the remaining BCSF objects (those that do not presently exist
-        // in appointment funding (BCAF)
-        // we will check whether they exist in Pending GL (PBGL), and, if not, write
-        // a new GL line.  Then, we will write a PBGL row and a BCSF row (in that order,
-        // because of referential integrity.  The PBGL and BCAF rows will have 0 amounts.
-        // people will have to fill in the budgets (or mark the funding deleted) to cover
-        // people in the payroll in budgeted positions, but not funding in the base 
-        // budget.
+        // read through the remaining BCSF objects (those that do not presently exist in appointment funding (BCAF).
+        // we will check whether they exist in Pending GL (PBGL), and, if not, write a new GL line.  
+        // Then, we will write a PBGL row and a BCSF row (in that order, because of referential integrity.  
+        // The PBGL and BCAF rows will have 0 amounts.
+        // People will have to fill in the budgets (or mark the funding deleted) to cover people in the payroll in budgeted positions, but not funding in the base budget in GL.
         CSFNewBCAFRows = bCSF.size();
         for (Map.Entry<String, BudgetConstructionCalculatedSalaryFoundationTracker> orphanBCSF : bCSF.entrySet()) {
             BudgetConstructionCalculatedSalaryFoundationTracker bcsf = orphanBCSF.getValue();
@@ -2447,17 +2381,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     private void readExistingAppointmentFunding(Integer BaseYear) {
-        // we will read all existing appointment funding
-        // -- if an AF object matches with a BCSF row, we will store and
-        //    remove the BCSF row, and ignore the AF object
-        // -- if an AF object does NOT match with a BCSF row, we will
-        //    check to see if it has been altered by a user.  if not, we
-        //    will mark it deleted and store it.
+        // we will read all existing appointment funding (BCAF).
+        // -- if a BCAF object matches with a BCSF row, we will store and remove the BCSF row, and ignore the AF object
+        // -- if a BCAF object does NOT match with a BCSF row, we will check to see if it has been altered by a user.  if not, we will mark it deleted and store it as such.
         //
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaID = new Criteria();
-        // we add this criterion so that it is possible to have more than
-        // one year at a time in budget construction
+        // we add this criterion so that it is possible to have more than one year at a time in budget construction if an institution wants to do that.
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
         QueryByCriteria queryID = new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class, criteriaID);
         Iterator bcafResults = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
@@ -2466,16 +2396,16 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             PendingBudgetConstructionAppointmentFunding bcaf = (PendingBudgetConstructionAppointmentFunding) bcafResults.next();
             String testKey = buildAppointmentFundingKey(bcaf);
             if (bCSF.containsKey(testKey)) {
-                // the new BCSF row is already in appointment funding
-                // we store the BCSF row, delete it from the hash map, and go on
+                // the new BCSF row is already in appointment funding. 
+                // we store the BCSF row, delete it from the hash map, and go on.
                 BudgetConstructionCalculatedSalaryFoundationTracker bCSFRow = bCSF.get(testKey);
                 getPersistenceBrokerTemplate().store(bCSFRow);
                 bCSF.remove(testKey);
             }
             else {
-                // the current funding row is NOT in the new base set
-                // we will mark it deleted if it came in from CSF and has not
-                // been altered by a user
+                // the current funding row is NOT in the new base set. 
+                // we will mark it deleted if it came in from CSF and has not been altered by a user.
+                // we never remove any existing rows from BCAF in batch.
                 untouchedAppointmentFunding(bcaf);
             }
         }
@@ -2483,9 +2413,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     // set up the hash objects   
     private void setUpBCSFMap(Integer BaseYear) {
-        // we'll just overestimate, making the size equal to active override 
-        // rows and active CSF rows, even though the former might replace some
-        // of the latter
+        // we'll just overestimate, making the size equal to active override rows and active CSF rows, even though the former might replace some of the latter
         Integer bCSFSize = new Integer(0);
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
@@ -2515,18 +2443,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     private void setUpCSFOverrideKeys(Integer BaseYear) {
-        //  these are rows in CSF Override--they should take precedence
-        //  over what is in CSF
+        //  these are rows in CSF Override--they should take precedence over what is in CSF
         //  the idea is this:
-        //  (1) we build BCSF from CSF Override first.  so, when we read CSF, 
-        //      we will not create a new BCSF entry if the override already has
-        //      created one.
-        //  (2) the override will create an entry with the same key as CSF unless
-        //      (a) the override has a deleted row or (b) the override has a 
-        //      vacant row so that the EMPLID is changed to the vacant EMPLID
-        //      in BCSF.
-        //   So, we create a list of override keys possibly missing in BCSF
-        //   which can be used to eliminate CSF candidates for BCSF.    
+        //  (1) we build BCSF from CSF Override first.  so, when we read CSF, we will not create a new BCSF entry if the override already has created one.
+        //  (2) the override will create an entry with the same key as CSF unless (a) the override has a deleted row or (b) the override has a vacant row so that the EMPLID is changed to the vacant EMPLID in BCSF.
+        //   So, we create a list of override keys possibly missing in BCSF which can be used to eliminate CSF candidates for BCSF.    
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
@@ -2544,28 +2465,21 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             csfOverrideKeys.add(buildCSFKey((CalculatedSalaryFoundationTrackerOverride) csfOvrd.next()));
         }
         CSFOverrideDeletesRead = csfOverrideKeys.size();
-        // the hashset of override keys must exist before BCSF can be built
-        // so, we should be able to clear the cache to save on memory
-        //    getPersistenceBrokerTemplate().clearCache();
     }
 
     private void setUpCurrentPBGLKeys(Integer BaseYear) {
-        // this will actually set up two maps
-        // both will be used in the same routine to build the PBGL for BCSF 
-        // keys not in the base budget (someone is being paid from an account,
-        // but no one has yet bothered to move base budget funding into the 
-        // account to cover the expense).
+        // this will actually set up two maps. 
+        // both will be used in the same routine to build the PBGL for BCSF.  
+        // keys not in the base budget (someone is being paid from an account, but no one has yet bothered to move base budget funding into the account to cover the expense).
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
         criteriaID.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.findPositionRequiredObjectCodes(BaseYear));
         currentPBGLKeys = new HashSet<String>(hashObjectSize(PendingBudgetConstructionGeneralLedger.class, criteriaID));
-        // now do the same for the detailed position object code--> object type
-        // map (object codes that are allowed to fund individual HR positions)
+        // now do the same for the detailed position object code--> object type map (object codes that are allowed to fund individual HR positions)
         detailedPositionObjectTypes = new HashMap<String, String>(hashObjectSize(ObjectCode.class, criteriaID));
-        // the PBGL has already been built
-        // we will get business objects so we can use an overloaded method that
-        // will be easy to change in order to extract the key
+        // the PBGL has already been built.
+        // we will get business objects so we can use an overloaded method that will be easy to change in order to extract the key.
         // the objects are of no further use, and will disappear when we clear the cache
         QueryByCriteria pbGLQuery = new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class, criteriaID);
         Iterator pbGLObjects = getPersistenceBrokerTemplate().getIteratorByQuery(pbGLQuery);
@@ -2599,8 +2513,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaIDCSF.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         criteriaIDCSF.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         keysNeedingRounding = new HashMap<String, roundMechanism>(hashObjectSize(CalculatedSalaryFoundationTrackerOverride.class, criteriaID, KFSPropertyConstants.EMPLID) + hashObjectSize(CalculatedSalaryFoundationTracker.class, criteriaIDCSF, KFSPropertyConstants.EMPLID));
-        //     now fill the hashmap
-        //     there will be one rounding bucket for each EMPLID
+        //     now fill the hashmap: there will be one rounding bucket for each EMPLID
         String[] columnList = { KFSPropertyConstants.EMPLID };
         //     first use CSF Override
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class, columnList, criteriaID, true);
@@ -2610,7 +2523,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             keysNeedingRounding.put(newKey, new roundMechanism());
         }
         LOG.info(String.format("\nEMPLID's from CSF override: %d", keysNeedingRounding.size()));
-        //     now add the EMPLID's from CSF itself (the crieteria differs because of the active code on CSF override--CSF override *must* precede CSF here)
+        //     now add the EMPLID's from CSF itself (the criterion differs because of the active code on CSF override--CSF override *must* precede CSF here)
         queryID = new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class, columnList, criteriaIDCSF, true);
         Iterator emplidIter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (emplidIter.hasNext()) {
@@ -2633,24 +2546,21 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(BudgetConstructionPosition.class, fieldList, criteriaID);
         Iterator positionRows = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (positionRows.hasNext()) {
-            // apparently, numbers come back from report queries in DB-specific ways.  use Number to be safe (as OJB itself does)
-            // the results do not go through the business object
+            // apparently, numbers come back from report queries in DB-specific ways.  use Number to be safe (as OJB itself does) since the results do not go through the business object
             Object[] positionRow = (Object[]) positionRows.next();
             positionNormalWorkMonths.put((String) positionRow[0], (Integer) ((Number) positionRow[1]).intValue());
         }
     }
 
-    //     decide whether the current appointment funding row, missing from BCSF, has
-    //     been entered by a user or is due to a CSF row that has since gone away
+    //     these are the four values used to decide whether the current appointment funding row, missing from BCSF, has been entered by a user or is due to a CSF row that has since gone away
     String notOnLeave = new String(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
     KualiInteger rqstAmount = new KualiInteger(0);
     BigDecimal pctTime = new BigDecimal(0);
     BigDecimal FTE = new BigDecimal(0);
 
     private void untouchedAppointmentFunding(PendingBudgetConstructionAppointmentFunding bcaf) {
-        //     this checks to see whether the missing row could have come in from CSF 
-        //     if they did not come in from CSF, then it follows that someone entered them
-        //     and we should not touch them  
+        //     this checks to see whether the missing row could have come in from CSF.  
+        //     if they did not come in from CSF, then it follows that someone entered them and we should not touch them.  
         CSFBCAFRowsMissing = CSFBCAFRowsMissing + 1;
         if ((!bcaf.getAppointmentRequestedAmount().equals(rqstAmount)) || (!bcaf.getAppointmentFundingDurationCode().equals(notOnLeave)) || (bcaf.isAppointmentFundingDeleteIndicator())) {
             return;
@@ -2696,8 +2606,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class, selectList, criteriaID);
         Iterator resultSet = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         if (!resultSet.hasNext()) {
-            // the line did not come from CSF, so it must have been added by a user
-            // therefore, we should not mark it deleted  
+            // the line did not come from CSF, so it must have been added by a user. 
+            // therefore, we should *not* mark it deleted  
             return;
         }
         //     we need to mark this bcaf line deleted
@@ -2710,13 +2620,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         TransactionalServiceUtils.exhaustIterator(resultSet);
     }
 
-    //     this is an inner class which will store the data we need to perform the rounding,
-    //     and supply the methods as well    
+    //     this is an inner class which will store the data we need to perform the rounding, and supply the methods as well    
     KualiDecimal shavePennies = new KualiDecimal(100);
 
     private class roundMechanism {
-        //     the idea here is that people split over many lines could lose or gain several
-        //     dollars if we rounded each salary line individually.  so, we do the following.
+        //     the idea here is that people split over many lines could lose or gain several dollars if we rounded each salary line individually.  so, we do the following.
         //     (1) assume that all the amounts are positive
         //     (2) truncate the actual amount to the next lowest integer (round floor)
         //     (3) accumulate the difference in a running total to two decimal places
@@ -2724,8 +2632,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //         difference to the next whole integer.
         //     (5) add the difference in dollar increments to each of the lines until the
         //         difference amount is exhausted  
-        //     In otherwords, we only use "bankers rounding" at the end.  We truncate by 
-        //     converting to an int, which calls BigDecimal.intvalue.        
+        //     In other words, we only use "bankers rounding" at the end.  We truncate by converting to an int, which calls BigDecimal.intvalue.        
         private KualiDecimal diffAmount = new KualiDecimal(0);
         private ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker> candidateBCSFRows = new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
 
@@ -2736,42 +2643,28 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             bCSF.setCsfAmount(wholeDollarsCSFAmount);
             // find the pennies that were shaved off
             KualiDecimal penniesFromCSFAmount = amountFromCSFToSet;
-            // BigDecimal values are immutable.  So, we have to reset the pointer 
-            // after the subtract
+            // BigDecimal values are immutable.  So, we have to reset the pointer  after the subtract
             penniesFromCSFAmount = penniesFromCSFAmount.subtract(wholeDollarsCSFAmount.kualiDecimalValue());
-            //  just round negative amounts and return
-            //  this is only a safety measure.  negative salaries are illegal in 
-            //  budget construction 
+            //  just round negative amounts and return.
+            //  this is only a safety measure.  negative salaries are illegal in budget construction. 
             if (wholeDollarsCSFAmount.isNegative()) {
                 return;
             }
-            // save the difference
-            // (KualiDecimal values are immutable, so we need to redirect the diffAmount
-            //  pointer to a new one.)
+            // save the difference. (KualiDecimal values are immutable, so we need to redirect the diffAmount pointer to a new one.)
             diffAmount = diffAmount.add(penniesFromCSFAmount);
-            // store the budget construction CSF row with the truncated amount for
-            // possible adjustment later
+            // store the budget construction CSF row with the truncated amount for possible adjustment later
             candidateBCSFRows.add(bCSF);
         }
 
         public void fixRoundErrors() {
-            // this routine adjusts the BCSF values so that the total for each
-            // EMPLID round to the nearest whole dollar amount
+            // this routine adjusts the BCSF values so that the total for each EMPLID round to the nearest whole dollar amount
             if (!diffAmount.isGreaterThan(KualiDecimal.ZERO)) {
                 return;
             }
             KualiDecimal adjustAmount = new KualiDecimal(1);
-            // @@TODO: test code
-            //       if (candidateBCSFRows.size() > 1)
-            //       {
-            //           LOG.info(String.format("\n\nrounding amount = %f for %d rows for %s",
-            //                    diffAmount.floatValue(),candidateBCSFRows.size(),
-            //                    candidateBCSFRows.get(0).getEmplid()));
-            //       }
-            // @@TODO: end test code 
-            // no rounding is necessary if the difference is less than a half a buck
-            // this will also prevent our accessing an empty array list
-            // we should adjust things with only one row if the pennies were >= .5, though
+            // no rounding is necessary if the difference is less than a half a buck. 
+            // this will also prevent our accessing an empty array list. 
+            // we should adjust things with only one row if the pennies were >= .5, though. 
             //
             // now we use "banker's rounding" on the adjustment amount
             if (diffAmount.multiply(shavePennies).mod(shavePennies).isGreaterEqual(new KualiDecimal(50))) {
@@ -2781,25 +2674,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
                 return;
             }
             for (BudgetConstructionCalculatedSalaryFoundationTracker rCSF : candidateBCSFRows) {
-                // @@TODO: test code
-                //LOG.info(String.format("\n%s %s (%s,%s,%s,%s,%s)",
-                //          rCSF.getEmplid(), 
-                //          rCSF.getPositionNumber(),
-                //          rCSF.getChartOfAccountsCode(),
-                //          rCSF.getAccountNumber(),
-                //          rCSF.getSubAccountNumber(),
-                //          rCSF.getFinancialObjectCode(),
-                //          rCSF.getFinancialSubObjectCode()));
-                // LOG.info(String.format("\n       before %f",
-                //         rCSF.getCsfAmount().floatValue()));
-                // @@TODO: end test code 
                 KualiInteger fixBCSFAmount = rCSF.getCsfAmount();
                 rCSF.setCsfAmount(fixBCSFAmount.add(new KualiInteger(adjustAmount.intValue())));
                 diffAmount = diffAmount.subtract(adjustAmount);
-                // @@TODO: test code
-                //LOG.info(String.format("\n       after %f",
-                //        rCSF.getCsfAmount().floatValue()));
-                // @@TODO: end test code 
                 if (diffAmount.isLessThan(adjustAmount)) {
                     break;
                 }
@@ -2820,7 +2697,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     
     public void setBudgetConstructionHumanResourcesPayrollInterfaceDao(BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao) {
         // at IU, some of the tables in Genesis take data from base tables (not budget tables) in the Human Resources/payroll system.
-        // (specifically, the months appointment in appointment funding is set from the position table, and some budget construction CSF tracker rows are set to vacant based on attributes of the appointment--the incumbent's position does not match the appointments "grandfathered" attribute.)  
+        // (specifically, the months appointment in appointment funding is set from the position table, and some budget construction CSF tracker rows are set to vacant based on attributes of the appointment--the incumbent's position does not match the appointment's "grandfathered" attribute.)  
         // these cases are particular to IU, so are not included in Kuali.  but, the idea that budget tables built with this Dao may need to interact with HR/payroll is accommodated with the injection of this service.
         this.budgetConstructionHumanResourcesPayrollInterfaceDao = budgetConstructionHumanResourcesPayrollInterfaceDao;
     }

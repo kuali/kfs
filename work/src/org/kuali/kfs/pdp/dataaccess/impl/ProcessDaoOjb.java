@@ -72,7 +72,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         Criteria c = new Criteria();
         c.addEqualTo(PdpPropertyConstants.PaymentProcess.EXTRACTED_IND, false);
         c.addEqualTo(PdpPropertyConstants.PaymentProcess.FORMATTED_IND, true);
-        return (List<PaymentProcess>) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentProcess.class, c));
+        return (List<PaymentProcess>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentProcess.class, c));
     }
     
     public void setExtractProcessAsComplete(PaymentProcess paymentProcess) {

@@ -33,20 +33,29 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class VendorOwnershipCodeValuesFinder extends KeyValuesBase {
 
-    /*
+    /***
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
+        return getKeyValues(true);
+    }
 
+    /***
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase#getKeyValues(boolean)
+     */
+    public List getKeyValues(boolean active){
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(OwnershipType.class);
+        Collection codes;
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        if(active){
+            codes = boService.findAll(OwnershipType.class);
+            labels.add(new KeyLabelPair("", ""));
+        } else
+            codes = boService.findAllInactive(OwnershipType.class);
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             OwnershipType ot = (OwnershipType) iter.next();
             labels.add(new KeyLabelPair(ot.getVendorOwnershipCode(), ot.getVendorOwnershipDescription()));
         }
-
         return labels;
     }
 

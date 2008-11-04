@@ -3,7 +3,7 @@ require 'digest/sha1'
 require 'set'
 
 INPUT_FILE = "workgroups_to_roles.txt"
-DB = "local_dev"
+DB = "sample_db"
 
 def generate_obj_id(table_name, unique_name)
 	Digest::SHA1.hexdigest("#{table_name}:#{unique_name}")[0..32]

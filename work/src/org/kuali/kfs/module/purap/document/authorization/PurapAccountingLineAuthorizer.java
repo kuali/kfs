@@ -102,17 +102,6 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
     }
     
-    /**
-     * The reason we need to override this method is so that the page won't error out when it's in read only mode.
-     * If we use the superclass's isGroupReadOnly method, it's currently going to throw error when the document
-     * is in read only mode.
-     * 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#isGroupReadOnly(org.kuali.kfs.sys.document.AccountingDocument, java.lang.String, org.kuali.rice.kim.bo.Person, java.util.Map)
-     */
-    @Override
-    public boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, Person currentUser, Map<String, String> editModesForDocument) {
-        return false;
-    }
     
 }
 

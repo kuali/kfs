@@ -127,8 +127,8 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     @Override
     protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
         PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;
-        PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase)purapForm.getFinancialDocument();
-        PurApAccountingLineParser accountingLineParser = (PurApAccountingLineParser)purapDocument.getAccountingLineParser();
+        PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase)purapForm.getFinancialDocument();        
+        PurApAccountingLineParser accountingLineParser = new PurApAccountingLineParser();
         List importedLines = null;
         String errorPathPrefix = PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY;
         //String errorPathPrefix = "accountDistributionnewSourceLine";

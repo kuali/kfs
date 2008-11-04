@@ -333,7 +333,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {
-        return new PurApAccountingLineParser();
+        //Returning null so that the framework would not try to display the import lines button for each accounting line, since
+        //for PURAP we use the import lines for the line items, not for each accounting line.
+        return null;
     }
     
     /**

@@ -184,7 +184,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
             return groupActionsBeginning.toString();
         }
 
-        return null;
+        return StringUtils.EMPTY;
     }
 
     /**
@@ -193,7 +193,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
      * @returns the String with the HTML for the row beginning
      */
     protected String buildGroupActionsColumnEnding() {
-        return this.canUpload() || this.isGroupActionsRenderred() ? "</td>" : "";
+        return this.canUpload() || this.isGroupActionsRenderred() ? "</td>" : StringUtils.EMPTY;
     }
 
     /**

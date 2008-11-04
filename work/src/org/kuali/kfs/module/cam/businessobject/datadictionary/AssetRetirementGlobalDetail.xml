@@ -27,6 +27,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetRetirementGlobalDetail-estimatedSellingPrice" />
         <ref bean="AssetRetirementGlobalDetail-handlingFeeAmount" />
         <ref bean="AssetRetirementGlobalDetail-preventiveMaintenanceAmount" />
+        <ref bean="AssetRetirementGlobalDetail-calculatedTotal" />
         <ref bean="AssetRetirementGlobalDetail-retirementAccountNumber" />
         <ref bean="AssetRetirementGlobalDetail-retirementChartOfAccountsCode" />
         <ref bean="AssetRetirementGlobalDetail-retirementCityName" />
@@ -165,6 +166,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="description" value="preventiveMaintenanceAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  <bean id="AssetRetirementGlobalDetail-calculatedTotal" parent="AssetRetirementGlobalDetail-calculatedTotal-parentBean" />
+
+  <bean id="AssetRetirementGlobalDetail-calculatedTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="calculatedTotal" />
+    <property name="label" value="Calculated Total" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="calculatedTotal" />
+    <property name="description" value="calculatedTotal description..." />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+  </bean>  
   <bean id="AssetRetirementGlobalDetail-retirementAccountNumber" parent="AssetRetirementGlobalDetail-retirementAccountNumber-parentBean" />
 
   <bean id="AssetRetirementGlobalDetail-retirementAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">

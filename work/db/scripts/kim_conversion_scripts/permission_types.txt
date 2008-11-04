@@ -1,51 +1,51 @@
-Namespace Type
+KR-KNS Namespace Type
 	- Namespace Code
-Document Type
+KR-KNS Document Type
 	- Namespace Code
 	- Document Type Name
-Component Type
+KR-KNS Component Type
 	- Namespace Code
 	- Component
-Document with Routing Type
+KR-KNS Document with Routing Type
 	- Namespace Code
 	- Document Type Name
 	- Route Status Code
 	- Route Node Name
-Document with Action Request
+KR-KNS Document with Action Request
 	- Namespace Code
 	- Document Type Name
 	- Action Request Type Code
-Component with Routing Type
+KR-KNS Component with Routing Type
 	- Namespace Code
 	- Document Type Name
 	- Component
 	- Route Status Code
 	- Route Node Name
-Property with Routing Type
+KR-KNS Property with Routing Type
 	- Namespace Code
 	- Document Type Name
 	- Component
 	- Property Name
 	- Route Status Code
 	- Route Node Name
-Batch Input File Type
+KFS-SYS Batch Input File Type
 	- Namespace Code
 	- Batch Input File Type Class
 	- Batch Job Name
-Batch Job Type
+KFS-SYS Batch Job Type
 	- Namespace Code
 	- Batch Job Name
-Document Action with Routing Type
+KR-KNS Document Action with Routing Type
 	- Namespace Code
 	- Document Type Name
 	- Route Status Code
 	- Route Node Name
 	- Action Name
-Component Action with Routing Type
+KR-KNS Component Action with Routing Type
 	- Namespace Code
 	- Component
 	- Action Name
-Parameter Type
+KR-KNS Parameter Type
 	- Namespace Code
 	- Component
 	- Parameter Name

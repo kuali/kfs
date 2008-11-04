@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
@@ -44,6 +45,7 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,10 +126,27 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocumentsWithOpenBalance);
     }
     
-    public String createCustomerInvoiceWriteoffDocumentsBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) {
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#sendCustomerInvoiceWriteoffDocumentsToBatch(org.kuali.rice.kim.bo.Person, java.util.Collection)
+     */
+    public String sendCustomerInvoiceWriteoffDocumentsToBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) {
         
-        CustomerInvoiceWriteoffBatchVO batch = new CustomerInvoiceWriteoffBatchVO(person.getPrincipalId());
+        CustomerInvoiceWriteoffBatchVO batch = new CustomerInvoiceWriteoffBatchVO(person.getPrincipalName());
         
+        //  add the date
+        batch.setSubmittedOn(dateTimeService.getCurrentTimestamp().toString());
+        
+        //  add the customer note, if one was added
+        String note = null;
+        for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
+            note = customerInvoiceWriteoffLookupResult.getCustomerNote();
+        }
+        if (StringUtils.isNotBlank(note)) {
+            batch.setNote(note);
+        }
+        
+        //  add the document numbers
         for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
             for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments() ){
                 batch.addInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
@@ -138,6 +157,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return invoiceWriteoffBatchService.createBatchDrop(person, batch);
     }
     
+    @Deprecated 
     public void createCustomerInvoiceWriteoffDocuments(String personId, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) throws WorkflowException {
         
         //create customer writeoff documents
@@ -147,18 +167,40 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             customerService.createCustomerNote(customerInvoiceWriteoffLookupResult.getCustomerNumber(), customerInvoiceWriteoffLookupResult.getCustomerNote());
             
             for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments() ){
-                createCustomerInvoiceWriteoffDocument(customerInvoiceDocument);
+                //createCustomerInvoiceWriteoffDocument(customerInvoiceDocument);
             }
         }
     }    
     
-    protected void createCustomerInvoiceWriteoffDocument(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
-        //TODO this needs to be called from the batch service
-        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)documentService.getNewDocument(CustomerInvoiceWriteoffDocument.class);
-        customerInvoiceWriteoffDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
-        setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( customerInvoiceWriteoffDocument );
-        customerInvoiceWriteoffDocument.getDocumentHeader().setDocumentDescription(ArConstants.CUSTOMER_INVOICE_WRITEOFF_DOCUMENT_DESCRIPTION + " " + customerInvoiceDocument.getDocumentNumber());
-        documentService.saveDocument(customerInvoiceWriteoffDocument);        
+    public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException {
+
+        //  force the initiating user into the header
+        GlobalVariables.getUserSession().setBackdoorUser(initiator.getPrincipalName());
+        
+        //  create the new writeoff document
+        CustomerInvoiceWriteoffDocument document = (CustomerInvoiceWriteoffDocument) documentService.getNewDocument(CustomerInvoiceWriteoffDocument.class);
+        
+        //  setup the defaults and tie it to the Invoice document
+        document.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+        setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( document );
+        document.getDocumentHeader().setDocumentDescription(ArConstants.CUSTOMER_INVOICE_WRITEOFF_DOCUMENT_DESCRIPTION + " " + invoiceNumber + ".");
+        
+        //  satisfy silly > 10 chars explanation rule
+        if (StringUtils.isBlank(note)) {
+            note = "Document created by batch process.";
+        }
+        else if (note.length() <= 10) {
+            note = "Document created by batch process.  " + note;
+        }
+        document.getDocumentHeader().setExplanation(note);
+        
+        //  route the document
+        documentService.routeDocument(document, "Routed by Customer Invoice Writeoff Document Batch Service", null);
+
+        //  clear the user overrid
+        GlobalVariables.getUserSession().clearBackdoorUser();
+        
+        return document.getDocumentNumber();
     }
     
     
@@ -239,6 +281,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
 
 }
 

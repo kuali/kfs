@@ -18,34 +18,27 @@ package org.kuali.kfs.module.ar.batch.vo;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-
 public class CustomerInvoiceWriteoffBatchVO {
 
-    private transient DateTimeService dateTimeService;
-    
-    private String submittedByPrincipalId;
-    private java.sql.Date submittedOn;
+    private String submittedByPrincipalName;
+    private String submittedOn;
+    private String note;
     private Set<String> invoiceNumbers;
     
     public CustomerInvoiceWriteoffBatchVO() {
-        getDateTimeService();
-        invoiceNumbers = new HashSet<String>();
-        this.submittedOn = getDateTimeService().getCurrentSqlDate();
+        this.invoiceNumbers = new HashSet<String>();
+        this.submittedOn = "Unknown";
     }
 
-    public CustomerInvoiceWriteoffBatchVO(String submittedByPrincipalId) {
-        getDateTimeService();
+    public CustomerInvoiceWriteoffBatchVO(String submittedByPrincipalName) {
         invoiceNumbers = new HashSet<String>();
-        this.submittedByPrincipalId = submittedByPrincipalId;
-        this.submittedOn = getDateTimeService().getCurrentSqlDate();
+        this.submittedByPrincipalName = submittedByPrincipalName;
+        this.submittedOn = "Unknown";
     }
 
-    public CustomerInvoiceWriteoffBatchVO(String submittedByPrincipalId, java.sql.Date submittedOn) {
-        getDateTimeService();
+    public CustomerInvoiceWriteoffBatchVO(String submittedByPrincipalName, String submittedOn) {
         invoiceNumbers = new HashSet<String>();
-        this.submittedByPrincipalId = submittedByPrincipalId;
+        this.submittedByPrincipalName = submittedByPrincipalName;
         this.submittedOn = submittedOn;
     }
 
@@ -55,26 +48,19 @@ public class CustomerInvoiceWriteoffBatchVO {
         }
     }
     
-    private DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
-        return dateTimeService;
-    }
-    
-    public String getSubmittedByPrincipalId() {
-        return submittedByPrincipalId;
+    public String getSubmittedByPrincipalName() {
+        return submittedByPrincipalName;
     }
 
-    public void setSubmittedByPrincipalId(String submittedByPrincipalId) {
-        this.submittedByPrincipalId = submittedByPrincipalId;
+    public void setSubmittedByPrincipalName(String submittedByPrincipalName) {
+        this.submittedByPrincipalName = submittedByPrincipalName;
     }
 
-    public java.sql.Date getSubmittedOn() {
+    public String getSubmittedOn() {
         return submittedOn;
     }
 
-    public void setSubmittedOn(java.sql.Date submittedOn) {
+    public void setSubmittedOn(String submittedOn) {
         this.submittedOn = submittedOn;
     }
 
@@ -84,6 +70,14 @@ public class CustomerInvoiceWriteoffBatchVO {
 
     public void setInvoiceNumbers(Set<String> invoiceNumbers) {
         this.invoiceNumbers = invoiceNumbers;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
 }

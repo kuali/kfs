@@ -26,8 +26,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -60,11 +63,31 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         //      1. Invoice exists in the system.
         //      2. Invoice doesnt already have a writeoff in progress, either in route or final.
         
-        String filename = service.createCustomerInvoiceWriteoffDocumentsBatch(person, lookupResults);
+        //  make sure no null/blank invoiceNumbers get sent
+        boolean anyFound = false;
+        for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : lookupResults ){
+            for (CustomerInvoiceDocument invoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments()) {
+                if (StringUtils.isNotBlank(invoiceDocument.getDocumentNumber())) {
+                    anyFound = true;
+                }
+            }
+        }
         
-        //  just get the filename
-        filename = filename.substring(filename.lastIndexOf("/") + 1);
+        //  only submit this if there's at least one invoiceNumber in the stack
+        if (!anyFound) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, 
+                    KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, "No invoices were selected to send to writeoff batch.  Please select at least one.");
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
         
+        //  send the batch file off
+        String filename = service.sendCustomerInvoiceWriteoffDocumentsToBatch(person, lookupResults);
+        
+        //  manually fire off the batch job
+        SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
+        schedulerService.runJob("customerInvoiceWriteoffBatchJob", person.getEmailAddress());
+        
+        GlobalVariables.getMessageList().add("Invoice Writeoff batch successfully sent.");
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
     

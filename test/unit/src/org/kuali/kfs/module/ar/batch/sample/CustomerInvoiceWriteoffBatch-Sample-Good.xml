@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoiceWriteoffBatch xmlns="http://www.kuali.org/kfs/ar/customerInvoiceWriteoffBatch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <submittedByPrincipalId><![CDATA[kuluser]]></submittedByPrincipalId>
+    <submittedOn><![CDATA[2008-11-04 07:15:13.439]]></submittedOn>
+    <note><![CDATA[This is the user note added with the batch documents.]]></note>
+    <invoiceNumbers>
+        <invoiceNumber><![CDATA[2222222]]></invoiceNumber>
+        <invoiceNumber><![CDATA[1111111]]></invoiceNumber>
+        <invoiceNumber><![CDATA[3333333]]></invoiceNumber>
+    </invoiceNumbers>
+</invoiceWriteoffBatch>

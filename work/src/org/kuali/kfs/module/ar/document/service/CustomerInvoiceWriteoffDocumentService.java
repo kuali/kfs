@@ -59,6 +59,17 @@ public interface CustomerInvoiceWriteoffDocumentService {
      * @param customerInvoiceWriteoffLookupResults
      * @return filename and path of created batch file
      */
-    public String createCustomerInvoiceWriteoffDocumentsBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults);
+    public String sendCustomerInvoiceWriteoffDocumentsToBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults);
+    
+    /**
+     * 
+     * Creates a new Invoice Writeoff Document based on the indicated Invoice doc number and the initiator.
+     * @param initiator Person who initiated the writeoffs.
+     * @param invoiceNumber Invoice document number to base the writeoff on.
+     * @param note User note to be added to the document.
+     * @return Returns the Document Number of the Invoice Writeoff document created.
+     * @throws WorkflowException
+     */
+    public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException;
     
 }

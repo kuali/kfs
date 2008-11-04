@@ -45,6 +45,7 @@
 				<value>customerInvoiceDocumentBatchJob</value>
 				<value>customerLoadJob</value>
 				<value>invoiceRecurrenceJob</value>
+				<value>customerInvoiceWriteoffBatchJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -489,32 +490,15 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>			
-		<!--
+		<property name="personService">
+			<ref bean="personService" />
+		</property>					
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>					
-		<property name="configService">
-			<ref bean="kualiConfigurationService" />
-		</property>					
-		<property name="docService">
-			<ref bean="documentService" />
-		</property>					
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>					
-		<property name="orgService">
-			<ref bean="organizationService" />
-		</property>					
-		<property name="fsUserService">
-			<ref bean="personService" />
-		</property>					
-		<property name="sysInfoService">
-			<ref bean="systemInformationService" />
-		</property>					
-		<property name="boService">
-			<ref bean="businessObjectService" />
-		</property>					
-		-->
+		<property name="invoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>
 	</bean>
 	
 	<bean id="customerInvoiceWriteoffBatchInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchInputFileType">

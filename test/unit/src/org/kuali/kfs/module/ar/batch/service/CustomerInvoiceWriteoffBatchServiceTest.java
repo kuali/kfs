@@ -24,12 +24,14 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 @ConfigureContext
 public class CustomerInvoiceWriteoffBatchServiceTest extends KualiTestBase {
 
     private static final String PERSON_USERID = "kuluser";
     
+    private DateTimeService dateTimeService;
     private PersonService personService;
     private CustomerInvoiceWriteoffBatchService batchService;
     
@@ -37,11 +39,16 @@ public class CustomerInvoiceWriteoffBatchServiceTest extends KualiTestBase {
         super.setUp();
         personService = SpringContext.getBean(PersonService.class);
         batchService = SpringContext.getBean(CustomerInvoiceWriteoffBatchService.class);
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
     
     public void testFilesDropCorrectly() {
         Person person = personService.getPersonByPrincipalName(PERSON_USERID); 
         CustomerInvoiceWriteoffBatchVO batchVO = createBatchVO(person);
+        
+        batchVO.setSubmittedOn(dateTimeService.getCurrentTimestamp().toString());
+        
+        batchVO.setNote("This is the user note added with the batch documents.");
         
         batchVO.addInvoiceNumber("1111111");
         batchVO.addInvoiceNumber("2222222");

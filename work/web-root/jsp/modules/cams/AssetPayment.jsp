@@ -17,6 +17,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
+<kfs:accountingLineScriptImports />
+
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
   	<html:hidden property="document.capitalAssetNumber"/>
@@ -28,14 +30,14 @@
     
     <cams:assetPayments /> 
 
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		sourceAccountingLinesOnly="true"
-		isOptionalFieldsInNewRow="true"		
-		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialDocumentPostedDate,postingYear,postingPeriodCode"		
-		extraHiddenFields=",transferPaymentIndicator,sequenceNumber"
-		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}">
-	</fin:accountingLines>
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" 
+									 collectionPropertyName="document.sourceAccountingLines" 
+									 collectionItemPropertyName="document.sourceAccountingLine" 
+									 attributeGroupName="source" />
+		</sys:accountingLines>
+	</kul:tab>
 	
 	<cams:viewPaymentInProcessByAsset assetPaymentAssetDetail="${KualiForm.document.assetPaymentAssetDetail}" assetPaymentDetail="${KualiForm.document.sourceAccountingLines}" />
 	

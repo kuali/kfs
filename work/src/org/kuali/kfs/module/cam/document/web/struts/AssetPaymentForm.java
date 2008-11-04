@@ -94,15 +94,15 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
-    @Override
+    //@Override
     //public Map<String, Boolean> getForcedReadOnlyFields() {
-    public Map getForcedReadOnlyFields() {
-        Map forcedReadOnlyFields = super.getForcedReadOnlyFields();
-        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, Boolean.TRUE);
-        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, Boolean.TRUE);
-        
-        return forcedReadOnlyFields;
-    }
+//    public Map getForcedReadOnlyFields() {
+//        Map forcedReadOnlyFields = super.getForcedReadOnlyFields();
+//        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, Boolean.TRUE);
+//        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, Boolean.TRUE);
+//        
+//        return forcedReadOnlyFields;
+//    }
     
     /**
      * 

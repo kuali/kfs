@@ -6,7 +6,7 @@
 
   <bean id="AssetPaymentDocument" parent="AssetPaymentDocument-parentBean" />
 
-  <bean id="AssetPaymentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="AssetPaymentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="label" value="Asset Payments" />
     <property name="shortLabel" value="Asset Payments" />
     <property name="summary" value="&amp;nbsp;" />
@@ -39,6 +39,15 @@
       </list>
     </property>
     <property name="validationMap" ref="AssetPaymentDocument-validations" />
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="AssetPaymentDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />        
   </bean>
 
 <!-- Attribute Definitions -->
@@ -118,5 +127,87 @@
       </list>
     </property>
   </bean>
-  
+
+  <!-- accounting line groups -->
+  <bean id="AssetPaymentDocument-sourceAccountingLineGroup" parent="AssetPaymentDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="AssetPaymentDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="AssetPaymentDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AssetPaymentAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
+  </bean>
+
+	<!--  Defining the view will have two lines of fields  -->
+	<bean id="AssetPaymentDocument-accountingLineView" parent="AssetPaymentDocument-accountingLineView-parent" />	
+	<bean id="AssetPaymentDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="AssetPaymenFields-line-one" />
+							<ref bean="AssetPaymenFields-line-two" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!--  Defining line number one -->
+	<bean id="AssetPaymenFields-line-one" parent="AssetPaymenFields-line-one-parent" />	
+	<bean id="AssetPaymenFields-line-one-parent" parent="AccountingLineView-line" abstract="true">
+		<property name="elementName" value="line-one" />
+		<property name="fields">
+		    <list>
+	           <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription" p:useShortLabel="true"/>
+		           <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName" p:useShortLabel="true">	                  	
+		           <property name="overrideFields">
+	                  		<list>
+	                  			<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride" />
+	                  			<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride" />
+	                  		</list>
+	                  	</property>
+		       </bean>
+		       <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName" p:useShortLabel="true"/>
+		       <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" p:useShortLabel="true">
+	             	<property name="overrideFields">
+	                  		<list>
+	                  			<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" />
+	                  		</list>
+	                </property>
+		       </bean>
+		       <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" p:useShortLabel="true"/>
+		       <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription" p:useShortLabel="true"/>
+		       <bean parent="AccountingLineView-field" p:name="organizationReferenceId" p:useShortLabel="true" />
+		    </list>
+	    </property>
+	</bean>
+
+	<!--  Defining line number two -->
+	<bean id="AssetPaymenFields-line-two" parent="AssetPaymenFields-line-two-parent" />	
+	<bean id="AssetPaymenFields-line-two-parent" parent="AccountingLineView-line" abstract="true">
+		<property name="elementName" value="line-two" />
+		<property name="fields">
+			<list>
+          		<bean parent="AccountingLineView-field" p:name="purchaseOrderNumber" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field" p:name="requisitionNumber" p:useShortLabel="true" />         
+				<bean parent="AccountingLineView-field" p:name="expenditureFinancialSystemOriginationCode" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field" p:name="expenditureFinancialDocumentNumber" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field" p:name="expenditureFinancialDocumentTypeCode" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field" p:name="expenditureFinancialDocumentPostedDate" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field" p:name="postingYear" p:useShortLabel="true" p:readOnly="true"/>          
+				<bean parent="AccountingLineView-field" p:name="postingPeriodCode" p:useShortLabel="true" p:readOnly="true"/>
+				<bean parent="AccountingLineView-field" p:name="transferPaymentIndicator" p:hidden="true" />
+				<bean parent="AccountingLineView-field" p:name="sequenceNumber" p:hidden="true" />
+            </list>
+        </property>
+	</bean>
 </beans>

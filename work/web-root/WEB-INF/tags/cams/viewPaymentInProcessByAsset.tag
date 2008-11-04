@@ -78,10 +78,10 @@
         		        		</kul:inquiry>&nbsp;
             				</kul:htmlControlAttribute>
 		      			</td>
-						<td class="grid"><c:out value="${payment.subAccountNumber}"/></td>								
-						<td class="grid"><c:out value="${payment.financialObjectCode}"/></td>								
-						<td class="grid"><c:out value="${payment.financialSubObjectCode}"/></td>								
-						<td class="grid"><c:out value="${payment.projectCode}"/></td>
+						<td class="grid"><c:out value="${payment.subAccountNumber}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.financialObjectCode}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.financialSubObjectCode}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.projectCode}"/>&nbsp;</td>
 						<td class="grid"><fmt:formatDate value="${payment.expenditureFinancialDocumentPostedDate}" pattern="${dateFormatPattern}"/></td>
 						<td class="grid"><c:out value="${payment.postingYear}"/></td>								
 						<td class="grid"><c:out value="${payment.postingPeriodCode}"/></td>								

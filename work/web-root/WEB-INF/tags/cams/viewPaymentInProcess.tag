@@ -44,7 +44,7 @@
 					<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.requisitionNumber}" readOnly="true" /></th>
 					<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.expenditureFinancialDocumentPostedDate}" readOnly="true" /></th>
 					<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.postingYear}" readOnly="true" /></th>
-					<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true" /></th>
+					<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.postingPeriodCode}" readOnly="true" /></th>
 					<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.transferPaymentIndicator}" readOnly="true" /></th>
 					<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.amount}" readOnly="true" /></th>
 				</tr>
@@ -71,20 +71,20 @@
         		        		</kul:inquiry>&nbsp;
             				</kul:htmlControlAttribute>
 		      			</td>
-						<td class="grid"><c:out value="${payment.subAccountNumber}"/></td>								
-						<td class="grid"><c:out value="${payment.financialObjectCode}"/></td>								
-						<td class="grid"><c:out value="${payment.financialSubObjectCode}"/></td>								
-						<td class="grid"><c:out value="${payment.projectCode}"/></td>
-						<td class="grid"><c:out value="${payment.organizationReferenceId}"/></td>								
-						<td class="grid"><c:out value="${payment.expenditureFinancialDocumentNumber}"/></td>								
-						<td class="grid"><c:out value="${payment.expenditureFinancialDocumentTypeCode}"/></td>								
-						<td class="grid"><c:out value="${payment.purchaseOrderNumber}"/></td>								
-						<td class="grid"><c:out value="${payment.requisitionNumber}"/></td>								
-						<td class="grid"><fmt:formatDate value="${payment.expenditureFinancialDocumentPostedDate}" pattern="${dateFormatPattern}"/></td>
-						<td class="grid"><c:out value="${payment.postingYear}"/></td>								
-						<td class="grid"><c:out value="${payment.postingPeriodCode}"/></td>														
-						<td class="grid"><c:out value="${payment.transferPaymentIndicator}"/></td>
-						<td class="grid"><div align="right"><fmt:formatNumber value="${allocatedAmount}" maxFractionDigits="2" minFractionDigits="2"/></div></td>
+						<td class="grid"><c:out value="${payment.subAccountNumber}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.financialObjectCode}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.financialSubObjectCode}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.projectCode}"/>&nbsp;</td>
+						<td class="grid"><c:out value="${payment.organizationReferenceId}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.expenditureFinancialDocumentNumber}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.expenditureFinancialDocumentTypeCode}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.purchaseOrderNumber}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.requisitionNumber}"/>&nbsp;</td>								
+						<td class="grid"><fmt:formatDate value="${payment.expenditureFinancialDocumentPostedDate}" pattern="${dateFormatPattern}"/>&nbsp;</td>
+						<td class="grid"><c:out value="${payment.postingYear}"/>&nbsp;</td>								
+						<td class="grid"><c:out value="${payment.postingPeriodCode}"/>&nbsp;</td>														
+						<td class="grid"><c:out value="${payment.transferPaymentIndicator}"/>&nbsp;</td>
+						<td class="grid"><div align="right"><fmt:formatNumber value="${allocatedAmount}" maxFractionDigits="2" minFractionDigits="2"/></div>&nbsp;</td>
 					</tr>
 				</c:forEach>
 				

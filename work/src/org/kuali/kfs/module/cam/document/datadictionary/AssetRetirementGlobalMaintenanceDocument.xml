@@ -171,6 +171,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="sharedRetirementInfo.preventiveMaintenanceAmount" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.calculatedTotal" 
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="sharedRetirementInfo.retirementChartOfAccountsCode" />

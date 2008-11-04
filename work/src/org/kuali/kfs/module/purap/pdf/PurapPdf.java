@@ -112,7 +112,7 @@ public class PurapPdf extends PdfPageEventHelper {
             cb.endText();
             cb.restoreState();
         }
-        if(GlobalVariables.getUserSession().retrieveObject("isPreview") != null) {
+        if(GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().retrieveObject("isPreview") != null) {
             GlobalVariables.getUserSession().removeObject("isPreview");
             PdfContentByte cb = writer.getDirectContentUnder();
             cb.saveState();

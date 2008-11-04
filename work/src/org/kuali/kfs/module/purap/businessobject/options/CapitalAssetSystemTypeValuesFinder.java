@@ -40,6 +40,7 @@ public class CapitalAssetSystemTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection types = boService.findAll(CapitalAssetSystemType.class);
         List labels = new ArrayList();
+        labels.add(new KeyLabelPair("", ""));
         for (Object type : types) {
             CapitalAssetSystemType camsType = (CapitalAssetSystemType)type;           
             labels.add(new KeyLabelPair(camsType.getCapitalAssetSystemTypeCode(), camsType.getCapitalAssetSystemTypeDescription()));

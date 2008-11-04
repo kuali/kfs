@@ -35,6 +35,7 @@
 <c:set var="lockCamsEntry"	value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" />
 
 <kul:tab tabTitle="Capital Asset" defaultOpen="false" tabErrorKey="${PurapConstants.CAPITAL_ASSET_TAB_ERRORS}">
+	<c:set var="systemSelectionReadOnly" value="${not empty KualiForm.document.capitalAssetSystemTypeCode && not empty KualiForm.document.capitalAssetSystemStateCode}" />
 	<div class="tab-container" align=center>
 		
     <table cellpadding="0" cellspacing="0" class="datatable" summary="System Selection">
@@ -47,7 +48,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" readOnly="${lockCamsEntry}" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" />
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" readOnly="${lockCamsEntry || systemSelectionReadOnly}" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" />
 		</td>
 	</tr>
 	<tr>
@@ -55,7 +56,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" readOnly="${lockCamsEntry}" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" />
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" readOnly="${lockCamsEntry || systemSelectionReadOnly}" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" />
 		</td>
 	</tr>
 	<tr>

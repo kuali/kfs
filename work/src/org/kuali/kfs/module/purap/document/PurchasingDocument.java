@@ -529,5 +529,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(Integer itemIdentifier);
     
     public abstract PurchasingDocumentSpecificService getDocumentSpecificService();
+
+    public void clearCapitalAssetFields();
     
 }

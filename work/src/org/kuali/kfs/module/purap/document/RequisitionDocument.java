@@ -266,16 +266,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         
         this.refreshNonUpdateableReferences();
     }
-
-    private void clearCapitalAssetFields() {
-        this.setPurchasingCapitalAssetItems(new TypedArrayList(getPurchasingCapitalAssetItemClass()));
-        this.setPurchasingCapitalAssetSystems(new TypedArrayList(getPurchasingCapitalAssetSystemClass()));
-        this.setCapitalAssetSystemStateCode(null);
-        this.setCapitalAssetSystemTypeCode(null);
-        this.setCapitalAssetSystemState(null);
-        this.setCapitalAssetSystemType(null);
-        
-    }
     
     /**
      * Updates status of this document and saves it.

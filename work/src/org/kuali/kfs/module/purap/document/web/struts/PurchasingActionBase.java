@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.KeyConstraintViolatedException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -59,6 +60,7 @@ import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRul
 import org.kuali.kfs.module.purap.exception.ItemParserException;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -917,9 +919,17 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
-        SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
-        SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
-        SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
+        String errorPath = PurapConstants.CAPITAL_ASSET_TAB_ERRORS;
+        // validate entry is selected for each field
+        if (StringUtils.isEmpty(document.getCapitalAssetSystemTypeCode())) {
+            GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_MISSING, "Capital Assets System Type Code");
+        } else if (StringUtils.isEmpty(document.getCapitalAssetSystemStateCode())) {
+                GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_MISSING, "Capital Assets System State Code");
+        } else {
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
+            SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -960,8 +970,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     throw new RuntimeException(e);
                 }
             }
-            SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
-            SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document); 
+            document.clearCapitalAssetFields();
             SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
         }

@@ -40,7 +40,7 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="RadioControlDefinition"
+      <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>

@@ -1232,4 +1232,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
     }
 
+    public void clearCapitalAssetFields() {
+        this.setPurchasingCapitalAssetItems(new TypedArrayList(getPurchasingCapitalAssetItemClass()));
+        this.setPurchasingCapitalAssetSystems(new TypedArrayList(getPurchasingCapitalAssetSystemClass()));
+        this.setCapitalAssetSystemStateCode(null);
+        this.setCapitalAssetSystemTypeCode(null);
+        this.setCapitalAssetSystemState(null);
+        this.setCapitalAssetSystemType(null);
+        
+    }
 }

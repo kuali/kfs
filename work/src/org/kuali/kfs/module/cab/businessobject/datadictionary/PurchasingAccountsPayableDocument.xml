@@ -28,19 +28,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
 
 <!-- Attribute Definitions -->
-  <bean id="PurchasingAccountsPayableDocument-documentNumber" parent="PurchasingAccountsPayableDocument-documentNumber-parentBean" />
 
+  <bean id="PurchasingAccountsPayableDocument-documentNumber" parent="PurchasingAccountsPayableDocument-documentNumber-parentBean" />
   <bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber" >
   	<property name="label" value="Document/Notification Id" />
     <property name="shortLabel" value="Document/Notification Id" />
   </bean>
+  
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" />
-
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition" >
     <property name="name" value="purapDocumentIdentifier" />
   	<property name="label" value="Invoice" />
     <property name="shortLabel" value="Invoice" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -50,34 +50,34 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="10" />
     </property>
   </bean>
+  
   <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" />
-
   <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderIdentifier" />
   	<property name="label" value="Purchase Order Nbr" />
     <property name="shortLabel" value="PO Identifier" />
   </bean>
+  
   <bean id="PurchasingAccountsPayableDocument-active" parent="PurchasingAccountsPayableDocument-active-parentBean" />
-
   <bean id="PurchasingAccountsPayableDocument-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="active" />
   </bean>
+  
   <bean id="PurchasingAccountsPayableDocument-documentTypeCode" parent="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" />
-
   <bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
   	<property name="name" value="documentTypeCode" />
   	<property name="label" value="Doc Typ" />
     <property name="shortLabel" value="Doc Type" />
   </bean>
+  
   <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress" parent="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" />
-
   <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="purApContactEmailAddress" />
     <property name="label" value="Email Address" />
     <property name="shortLabel" value="Address" />
   </bean>
+  
   <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber" parent="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" />
-
   <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="purApContactPhoneNumber" />
     <property name="label" value="Phone" />
@@ -85,8 +85,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
 <!-- Business Object Inquiry Definition -->
-  <bean id="PurchasingAccountsPayableDocument-inquiryDefinition" parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" />
 
+  <bean id="PurchasingAccountsPayableDocument-inquiryDefinition" parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" />
   <bean id="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="CAB Purchasing Accounts Payable Document" />
     <property name="inquirySections" >

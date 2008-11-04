@@ -34,24 +34,22 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="PretagDetail-purchaseOrderNumber" parent="PretagDetail-purchaseOrderNumber-parentBean" />
-
   <bean id="PretagDetail-purchaseOrderNumber-parentBean" abstract="true" parent="Pretag-purchaseOrderNumber">
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
+  
   <bean id="PretagDetail-itemLineNumber" parent="PretagDetail-itemLineNumber-parentBean" />
-
   <bean id="PretagDetail-itemLineNumber-parentBean" abstract="true" parent="Pretag-itemLineNumber">
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
+  
   <bean id="PretagDetail-campusCode" parent="PretagDetail-campusCode-parentBean" />
-
   <bean id="PretagDetail-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -59,31 +57,31 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
+  
   <bean id="PretagDetail-pretagTagCreateDate" parent="PretagDetail-pretagTagCreateDate-parentBean" />
-
   <bean id="PretagDetail-pretagTagCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="pretagTagCreateDate" />
     <property name="label" value="Pretag Tag Create Date" />
     <property name="shortLabel" value="Date" />
   </bean>
+  
   <bean id="PretagDetail-buildingCode" parent="PretagDetail-buildingCode-parentBean" />
-
   <bean id="PretagDetail-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
   </bean>
+  
   <bean id="PretagDetail-buildingRoomNumber" parent="PretagDetail-buildingRoomNumber-parentBean" />
-
   <bean id="PretagDetail-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
   </bean>
+  
   <bean id="PretagDetail-active" parent="PretagDetail-active-parentBean" />
-
   <bean id="PretagDetail-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
+  
   <bean id="PretagDetail-buildingSubRoomNumber" parent="PretagDetail-buildingSubRoomNumber-parentBean" />
-
   <bean id="PretagDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingSubRoomNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Building Sub Room Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -97,8 +95,8 @@
     <property name="summary" value="buildingSubRoomNumber" />
     <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
+  
   <bean id="PretagDetail-campusTagNumber" parent="PretagDetail-campusTagNumber-parentBean" />
-
   <bean id="PretagDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusTagNumber" />
     <property name="forceUppercase" value="true" />
@@ -115,11 +113,11 @@
     <property name="summary" value="campusTagNumber" />
     <property name="description" value="campusTagNumber description..." />
   </bean>
+  
   <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean" />
-
   <bean id="PretagDetail-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationTagNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Organization Tag Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="8" />
@@ -133,8 +131,8 @@
     <property name="summary" value="organizationTagNumber" />
     <property name="description" value="organizationTagNumber description..." />
   </bean>
+  
   <bean id="PretagDetail-governmentTagNumber" parent="PretagDetail-governmentTagNumber-parentBean" />
-
   <bean id="PretagDetail-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="governmentTagNumber" />
     <property name="forceUppercase" value="false" />
@@ -151,8 +149,8 @@
     <property name="summary" value="governmentTagNumber" />
     <property name="description" value="governmentTagNumber description..." />
   </bean>
+  
   <bean id="PretagDetail-nationalStockNumber" parent="PretagDetail-nationalStockNumber-parentBean" />
-
   <bean id="PretagDetail-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nationalStockNumber" />
     <property name="forceUppercase" value="false" />
@@ -169,8 +167,8 @@
     <property name="summary" value="nationalStockNumber" />
     <property name="description" value="nationalStockNumber description..." />
   </bean>
+  
   <bean id="PretagDetail-serialNumber" parent="PretagDetail-serialNumber-parentBean" />
-
   <bean id="PretagDetail-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="serialNumber" />
     <property name="forceUppercase" value="false" />
@@ -187,16 +185,14 @@
     <property name="summary" value="serialNumber" />
     <property name="description" value="serialNumber description..." />
   </bean>
+  
   <bean id="PretagDetail-newCollectionRecord" parent="PretagDetail-newCollectionRecord-parentBean" />
-
   <bean id="PretagDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="PretagDetail-inquiryDefinition" parent="PretagDetail-inquiryDefinition-parentBean" />
-
   <bean id="PretagDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Pretag Detail Inquiry" />
     <property name="inquirySections" >

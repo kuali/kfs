@@ -31,10 +31,11 @@
   </bean>
 
 <!-- Attribute Definitions -->
+
   <bean id="PurchasingAccountsPayableItemAsset-itemTypeCode" parent="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean" />
   <bean id="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Item Type Code" />
     <property name="shortLabel" value="Item Type" />
     <property name="maxLength" value="4" />
@@ -49,7 +50,6 @@
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-documentNumber" parent="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
@@ -68,10 +68,9 @@
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountsPayableLineItemIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Accounts Payable Line Item Identifier" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="3" />
@@ -87,10 +86,9 @@
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetBuilderLineNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Capital Asset Builder Line Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="3" />
@@ -105,9 +103,7 @@
     <property name="description" value="capitalAssetBuilderLineNumber description..." />
   </bean>
   
-  
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountsPayableLineItemDescription" />
     <property name="label" value="Asset Description" />
@@ -125,11 +121,11 @@
     <property name="summary" value="capitalAssetDescription" />
     <property name="description" value="capitalAssetDescription description..." />    
   </bean>
+  
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" parent="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountsPayableItemQuantity" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Accounts Payable Item Quantity" />
     <property name="shortLabel" value="Qty" />
     <property name="exclusiveMin" value="0" />
@@ -148,10 +144,9 @@
   </bean>
 
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetManagementDocumentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Capital Asset Management Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="14" />
@@ -166,9 +161,7 @@
     <property name="description" value="capitalAssetManagementDocumentNumber description..." />
   </bean>
 
-
   <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber" parent="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
    <property name="name" value="itemLineNumber" />
     <property name="label" value="Line #" />
@@ -184,10 +177,9 @@
   </bean>
 
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode" parent="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTransactionTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="CAMS Transaction" />
     <property name="shortLabel" value="CAMS Transaction" />
     <property name="maxLength" value="4" />
@@ -199,11 +191,10 @@
             p:size="6" />
     </property>
   </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="PurchasingAccountsPayableItemAsset-inquiryDefinition" parent="PurchasingAccountsPayableItemAsset-inquiryDefinition-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Purchasing Accounts Payable Item Asset Inquiry" />
     <property name="inquirySections" >
@@ -232,9 +223,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="PurchasingAccountsPayableItemAsset-lookupDefinition" parent="PurchasingAccountsPayableItemAsset-lookupDefinition-parentBean" />
-
   <bean id="PurchasingAccountsPayableItemAsset-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Purchasing Accounts Payable Item Asset Lookup" />
     <property name="instructions" value="Look up an Purchasing Accounts Payable Item Asset" />

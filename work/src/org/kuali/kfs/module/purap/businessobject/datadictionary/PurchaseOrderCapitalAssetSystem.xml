@@ -34,41 +34,20 @@
 
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetManufacturerName" parent="PurchaseOrderCapitalAssetSystem-capitalAssetManufacturerName-parentBean" />
 
-  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetManufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetManufacturerName" />
-    <property name="label" value="Capital Asset Manufacturer Name" />
-    <property name="shortLabel" value="Manufacturer Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      	p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
-    </property>
-    <property name="summary" value="capitalAssetManufacturerName" />
-    <property name="description" value="capitalAssetManufacturerName description..." />
+  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetManufacturerName-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="manufacturerName">
+     <property name="name" value="capitalAssetManufacturerName" />
   </bean>
+
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetModelDescription" parent="PurchaseOrderCapitalAssetSystem-capitalAssetModelDescription-parentBean" />
 
-  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetModelDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetModelDescription" />
-    <property name="label" value="Capital Asset Model Description" />
-    <property name="shortLabel" value="Model" />
-    <property name="maxLength" value="800" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="4"
-            p:cols="60" />
-    </property>
-    <property name="summary" value="capitalAssetModelDescription" />
-    <property name="description" value="capitalAssetModelDescription description..." />
+  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetModelDescription-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="manufacturerModelNumber">
+     <property name="name" value="capitalAssetModelDescription" />
   </bean>
+
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator" parent="PurchaseOrderCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator-parentBean" />
 
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator-parentBean" abstract="true" parent="AttributeDefinition">

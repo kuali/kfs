@@ -21,19 +21,10 @@
   </bean>
 
   <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber" parent="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" />
-  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" parent="AttributeDefinition" abstract="true">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Number" />
-    <property name="shortLabel" value="Capital Asset Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
+  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="capitalAssetNumber">
+     <property name="name" value="capitalAssetNumber" />
   </bean>
 
   <bean id="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier" parent="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier-parentBean" />

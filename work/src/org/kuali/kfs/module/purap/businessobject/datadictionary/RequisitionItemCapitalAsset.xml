@@ -22,21 +22,12 @@
 
   <bean id="RequisitionItemCapitalAsset-capitalAssetNumber" parent="RequisitionItemCapitalAsset-capitalAssetNumber-parentBean" />
 
-  <bean id="RequisitionItemCapitalAsset-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Number" />
-    <property name="shortLabel" value="Capital Asset Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
+  <bean id="RequisitionItemCapitalAsset-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="capitalAssetNumber">
+     <property name="name" value="capitalAssetNumber" />
   </bean>
-
+  
   <bean id="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier" parent="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier-parentBean" />
 
   <bean id="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

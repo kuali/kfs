@@ -287,14 +287,18 @@ public class FormatServiceImpl implements FormatService {
         // step 4 save the summarizing info
         LOG.debug("performFormat() Save summarizing information");
         postFormatProcessSummary.save();
-
-        // step 5 tell the extract batch job to start
-        LOG.debug("performFormat() Start extract batch job");
-        triggerExtract();
-
-        // step 6 end the format process for this campus
+        
+        // set formatted indicator to true and save in the db
+        paymentProcess.setFormattedIndicator(true);
+        businessObjectService.save(paymentProcess);
+        
+        // step 5 end the format process for this campus
         LOG.debug("performFormat() End the format process for this campus");
         endFormatProcess(paymentProcess.getCampus());
+
+        // step 6 tell the extract batch job to start
+        LOG.debug("performFormat() Start extract batch job");
+        triggerExtract();
 
         // step 7 return all the process summaries
         Map fieldValues = new HashMap();

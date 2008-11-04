@@ -147,6 +147,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isPostingYearPrior()
+     */
+    public boolean isPostingYearPrior() {
+        Integer currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        return (getPostingYear().compareTo(currentFY) < 0);
+    }
+    
+    /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPostingYearNextOrCurrent()
      */
     public Integer getPostingYearNextOrCurrent() {

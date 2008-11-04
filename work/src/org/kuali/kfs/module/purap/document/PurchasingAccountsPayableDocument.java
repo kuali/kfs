@@ -41,6 +41,13 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public boolean isPostingYearNext();
 
     /**
+     * Returns true if posting year on document is set to use PRIOR fiscal year. If set to anything besides PRIOR, then return false.
+     * 
+     * @return boolean
+     */
+    public boolean isPostingYearPrior();
+    
+    /**
      * If posting year on document is set to use NEXT fiscal year, then return NEXT. If set to anything besides NEXT, then return
      * CURRENT fiscal year.  This is assuming that the system does not allow the user to set a posting year beyond NEXT. 
      * 

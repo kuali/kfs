@@ -13,22 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.pdp.exception;
+/*
+ * Created on Aug 24, 2004
+ *
+ */
+package org.kuali.kfs.pdp.service.impl.exception;
 
-public class PdpError extends Error {
-    public PdpError() {
+public class FormatException extends RuntimeException {
+    
+    public FormatException() {
         super();
     }
 
-    public PdpError(String message) {
-        super(message);
+    public FormatException(String arg0) {
+        super(arg0);
     }
 
-    public PdpError(String message, Throwable arg1) {
-        super(message, arg1);
+    public FormatException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
     }
 
-    public PdpError(Throwable arg0) {
+    public FormatException(Throwable arg0) {
         super(arg0);
     }
 }

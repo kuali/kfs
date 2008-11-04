@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
@@ -51,13 +52,11 @@ import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
-import org.kuali.kfs.pdp.exception.ConfigurationError;
 import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
-import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
-import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
+import org.kuali.kfs.pdp.service.impl.exception.FormatException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
@@ -69,6 +68,7 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -226,7 +226,7 @@ public class FormatServiceImpl implements FormatService {
         
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
-            throw new ConfigurationError("Invalid proc ID");
+            throw new RuntimeException("Invalid proc ID");
         }
 
         DisbursementType checkDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
@@ -336,7 +336,7 @@ public class FormatServiceImpl implements FormatService {
         // determine whether payment should be ACH or Check
         PayeeAchAccount payeeAchAccount = null;
         boolean isCheck = true;
-          if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(paymentGroup.getPayeeIdTypeCd())) {
+        if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(paymentGroup.getPayeeIdTypeCd())) {
             if (StringUtils.isNotBlank(paymentGroup.getPayeeId()) && !paymentGroup.getPymtAttachment() && !paymentGroup.getProcessImmediate() && !paymentGroup.getPymtSpecialHandling() && (customer.getAchTransactionType() != null) && noNegativeDetails) {
                 LOG.debug("performFormat() Checking ACH");
                 payeeAchAccount = achService.getAchInformation(paymentGroup.getPayeeIdTypeCd(), paymentGroup.getPayeeId(), customer.getAchTransactionType());
@@ -558,7 +558,7 @@ public class FormatServiceImpl implements FormatService {
      * @throws DisbursementRangeExhaustedException
      * @throws MissingDisbursementRangeException
      */
-    private void pass2(String campus, PaymentProcess paymentProcess, PostFormatProcessSummary postFormatProcessSummary) throws DisbursementRangeExhaustedException, MissingDisbursementRangeException {
+    private void pass2(String campus, PaymentProcess paymentProcess, PostFormatProcessSummary postFormatProcessSummary) throws FormatException {
         LOG.debug("pass2() starting");
 
         List<DisbursementNumberRange> disbursementRanges = paymentDetailDao.getDisbursementNumberRanges(campus);
@@ -572,8 +572,8 @@ public class FormatServiceImpl implements FormatService {
 
             DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode());
             if (range == null) {
-                LOG.error("No disbursement range for bank code=" + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
-                throw new MissingDisbursementRangeException("No disbursement range for bank code=" + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+                throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
             }
 
             if (PdpConstants.DisbursementTypeCodes.CHECK.equals(paymentGroup.getDisbursementType().getCode())) {
@@ -584,9 +584,8 @@ public class FormatServiceImpl implements FormatService {
                     int number = 1 + range.getLastAssignedDisbNbr().intValue();
                     checkNumber = number; // Save for next payment
                     if (number > range.getEndDisbursementNbr().intValue()) {
-                        String err = "No more disbursement numbers for bank code=" + paymentGroup.getBank().getBankCode() + ", campus Id=" + campus;
-                        LOG.error("pass2() " + err);
-                        throw new MissingDisbursementRangeException(err);
+                        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+                        throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
                     }
                     paymentGroup.setDisbursementNbr(new KualiInteger(number));
 
@@ -601,7 +600,7 @@ public class FormatServiceImpl implements FormatService {
                 if (number > range.getEndDisbursementNbr().intValue()) {
                     String err = "No more disbursement numbers for bank code=" + paymentGroup.getBank().getBankCode() + ", campus Id=" + campus;
                     LOG.error("pass2() " + err);
-                    throw new MissingDisbursementRangeException(err);
+                    throw new FormatException(err);
                 }
                 paymentGroup.setDisbursementNbr(new KualiInteger(number));
 

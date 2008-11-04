@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,20 +30,18 @@ import org.kuali.kfs.module.purap.exception.FaxServerUnavailableError;
 import org.kuali.kfs.module.purap.exception.FaxSubmissionError;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
-import org.kuali.kfs.module.purap.exception.ServiceError;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdfParameters;
-import org.kuali.kfs.pdp.exception.ConfigurationError;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
@@ -129,12 +126,12 @@ public class FaxServiceImpl implements FaxService {
         String campusName = deliveryCampus.getCampusName();
         if (campusName == null) {
             LOG.debug("faxPurchaseOrderPdf() ended");
-            throw new ConfigurationError("Campus Information is missing - campusName: " + campusName);
+            throw new RuntimeException("Campus Information is missing - campusName: " + campusName);
         }
         String statusInquiryUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
         if (statusInquiryUrl == null) {
             LOG.debug("faxPurchaseOrderPdf() ended");
-            throw new ConfigurationError("Application Setting STATUS_INQUIRY_URL is missing.");
+            throw new RuntimeException("Application Setting STATUS_INQUIRY_URL is missing.");
         }
 
         Map<String, Object> criteria = new HashMap<String, Object>();

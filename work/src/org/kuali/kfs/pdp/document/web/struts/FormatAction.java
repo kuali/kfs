@@ -23,12 +23,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
@@ -36,8 +33,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.FormatResult;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.service.FormatService;
-import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
-import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
+import org.kuali.kfs.pdp.service.impl.exception.FormatException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -190,14 +186,7 @@ public class FormatAction extends KualiAction {
 
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
-        catch (DisbursementRangeExhaustedException dre) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED);
-
-            return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
-        }
-        catch (MissingDisbursementRangeException e) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING);
-
+        catch (FormatException e) {
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
     }

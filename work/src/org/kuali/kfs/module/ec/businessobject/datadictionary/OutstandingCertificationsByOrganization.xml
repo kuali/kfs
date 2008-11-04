@@ -36,7 +36,7 @@
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="emplid"
-                    p:targetName="personPayrollIdentifier" />
+                    p:targetName="employeeId" />
             </list>
           </property>
           <property name="supportAttributes" >

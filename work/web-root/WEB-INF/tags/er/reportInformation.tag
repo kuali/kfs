@@ -33,7 +33,7 @@
 			    <td>
 			    	<kul:inquiry 
 						boClassName="org.kuali.rice.kim.bo.Person" 
-						keyValues="personPayrollIdentifier=${document.emplid}&principalId=${document.employee.principalId}" 
+						keyValues="employeeId=${document.emplid}&principalId=${document.employee.principalId}" 
 						render="true">
 						${document.employee.name}
 					</kul:inquiry>

@@ -29,8 +29,8 @@ import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -476,7 +476,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
     public Person getLedgerPerson() {
         if (ledgerPerson == null) {
             // Try to find a ledger person for this emplid if one exists
-            setLedgerPerson((Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, emplid).get(0));
+            setLedgerPerson((Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid));
         }
 
         return ledgerPerson;

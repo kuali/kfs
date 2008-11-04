@@ -471,7 +471,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
             LOG.info("  user: <null>");
         }
         else {
-            LOG.info("  user: (" + this.user.getExternalId( org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE ) + ")");
+            LOG.info("  user: (" + this.user.getEmployeeId() + ")");
         }
     }
 

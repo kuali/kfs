@@ -23,9 +23,9 @@ import org.kuali.kfs.module.bc.dataaccess.HumanResourcesPayrollDao;
 import org.kuali.kfs.module.bc.exception.IncumbentNotFoundException;
 import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -68,7 +68,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      */
     @Transactional
     public Incumbent getIncumbent(String emplid) throws IncumbentNotFoundException {
-        Person user = (Person) personService.getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, emplid).get(0);
+        Person user = (Person) personService.getPersonByEmployeeId(emplid);
 
         if (user == null) {
             throw new IncumbentNotFoundException(emplid);

@@ -706,11 +706,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        // both users non-null, both populated with same UniversalID
 //        user1.setPrincipalId(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
 //        user1.setPrincipalName(Accounts.User.AhlersEsteban.USER_ID);
-//        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
+//        user1.setEmployeeId(Accounts.User.AhlersEsteban.EMP_ID);
 //        user1.setName(Accounts.User.AhlersEsteban.NAME);
 //        user2.setPrincipalId(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
 //        user2.setPrincipalName(Accounts.User.AhlersEsteban.USER_ID);
-//        user2.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
+//        user2.setEmployeeId(Accounts.User.AhlersEsteban.EMP_ID);
 //        user2.setName(Accounts.User.AhlersEsteban.NAME);
 //        result = rule.areTwoUsersTheSame(user1, user2);
 //        assertEquals("User1 and User2 are same person, diff objects, result true", true, result);
@@ -730,11 +730,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        // both users non-null, each different people
 //        user1.setPrincipalId(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
 //        user1.setPrincipalName(Accounts.User.AhlersEsteban.USER_ID);
-//        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
+//        user1.setEmployeeId(Accounts.User.AhlersEsteban.EMP_ID);
 //        user1.setName(Accounts.User.AhlersEsteban.NAME);
 //        user2.setPrincipalId(Accounts.User.PhamAnibal.UNIVERSAL_ID);
 //        user2.setPrincipalName(Accounts.User.PhamAnibal.USER_ID);
-//        user2.setPersonPayrollIdentifier(Accounts.User.PhamAnibal.EMP_ID);
+//        user2.setEmployeeId(Accounts.User.PhamAnibal.EMP_ID);
 //        user2.setName(Accounts.User.PhamAnibal.NAME);
 //        result = rule.areTwoUsersTheSame(user1, user2);
 //        assertEquals("User1 and User2 are different persons, result should be false", false, result);

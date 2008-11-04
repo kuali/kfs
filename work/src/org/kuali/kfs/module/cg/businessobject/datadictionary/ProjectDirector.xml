@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Project Director" />
     <property name="attributes" >
       <list>
-        <ref bean="ProjectDirector-person.personPayrollIdentifier" />
+        <ref bean="ProjectDirector-person.employeeId" />
         <ref bean="ProjectDirector-principalId" />
         <ref bean="ProjectDirector-person.principalName" />
         <ref bean="ProjectDirector-person.name" />
@@ -63,10 +63,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProjectDirector-person.personPayrollIdentifier" parent="ProjectDirector-person.personPayrollIdentifier-parentBean" />
+  <bean id="ProjectDirector-person.employeeId" parent="ProjectDirector-person.employeeId-parentBean" />
 
-  <bean id="ProjectDirector-person.personPayrollIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="person.personPayrollIdentifier" />
+  <bean id="ProjectDirector-person.employeeId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="person.employeeId" />
   </bean>
   <bean id="ProjectDirector-principalId" parent="ProjectDirector-principalId-parentBean" />
 
@@ -195,7 +195,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="principalId" />
         <bean parent="FieldDefinition"
-              p:attributeName="person.personPayrollIdentifier" />
+              p:attributeName="person.employeeId" />
         <bean parent="FieldDefinition"
               p:attributeName="person.lastName" />
         <bean parent="FieldDefinition"
@@ -218,7 +218,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="principalId" />
         <bean parent="FieldDefinition"
-              p:attributeName="person.personPayrollIdentifier" />
+              p:attributeName="person.employeeId" />
         <bean parent="FieldDefinition"
               p:attributeName="person.name" />
         <bean parent="FieldDefinition"

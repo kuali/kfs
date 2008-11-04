@@ -50,7 +50,7 @@
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="emplid"
-                    p:targetName="personPayrollIdentifier" />
+                    p:targetName="employeeId" />
             </list>
           </property>
         </bean>

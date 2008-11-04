@@ -123,18 +123,18 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         getSalaryExpenseTransferDocument().setEmplid(id);
 
         if (id != null) {
-            setUser((Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, id).get(0));
+            setUser((Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(id));
         }
     }
 
     /**
      * Returns the employee ID from the Person table.
      * 
-     * @return Returns the personPayrollIdentifier
+     * @return Returns the employeeId
      */
     public String getEmplid() {
         if (user == null) {
-            setUser((Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, getSalaryExpenseTransferDocument().getEmplid()).get(0));
+            setUser((Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getSalaryExpenseTransferDocument().getEmplid())); 
         }
 
         return getSalaryExpenseTransferDocument().getEmplid();

@@ -179,7 +179,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * @return Returns the employee.
      */
     public Person getEmployee() {
-        return (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, this.getEmplid()).get(0);
+        return (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
     }
 
     /**

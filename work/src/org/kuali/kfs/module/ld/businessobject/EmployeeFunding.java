@@ -58,7 +58,7 @@ public class EmployeeFunding extends LedgerBalance {
      * @return Returns the PersonName.
      */
     public String getName() {
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, getEmplid()).get(0);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
         if (person == null) {
             return LaborConstants.BalanceInquiries.UnknownPersonName;
         }

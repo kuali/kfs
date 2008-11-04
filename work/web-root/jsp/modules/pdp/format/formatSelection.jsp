@@ -43,9 +43,9 @@
 			styleClass="globalbuttons" property="methodToCall.prepare"
 			title="begin format" alt="begin format" />
 		<html:image
-			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
-			styleClass="globalbuttons" property="methodToCall.cancel"
-			title="cancel" alt="cancel" />
+			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif"
+			styleClass="globalbuttons" property="methodToCall.start"
+			title="clear" alt="clear" />
 	</div>
 
 </kul:page>

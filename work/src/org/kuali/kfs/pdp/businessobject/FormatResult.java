@@ -25,6 +25,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -45,6 +47,7 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
     private int beginDisbursementNbr;
     private int endDisbursementNbr;
     private KualiInteger sortGroup;
+    
 
     public FormatResult() {
         super();
@@ -202,4 +205,14 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
         
         return m;
     }
+    
+    public String getSortGroupName(){
+        PaymentGroupService paymentGroupService = SpringContext.getBean(PaymentGroupService.class);
+        String sortGroupName = paymentGroupService.getSortGroupName(sortGroup.intValue());
+        return sortGroupName;
+     }
+     
+     public void setSortGroupName(){
+         
+     }
 }

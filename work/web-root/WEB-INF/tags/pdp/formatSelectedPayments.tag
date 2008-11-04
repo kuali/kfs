@@ -30,12 +30,13 @@
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Payments Selected for Format Process">
 			<tr>
-				<td colspan="3" class="subhead">
+				<td colspan="4" class="subhead">
 					Your Default Campus Code is <kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.physCampusProcCode}" property="campus" readOnly="true" />
 				</td>
 			</tr>
 			<tr>
-				
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${formatResultAttributes.sortGroupName}" />
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${customerProfileAttributes.customerShortName}" />
 				<kul:htmlAttributeHeaderCell
@@ -54,13 +55,15 @@
                <html:hidden property="result[${ctr}].cust.customerShortName" />
                <html:hidden property="result[${ctr}].payments" />
                <html:hidden property="result[${ctr}].amount" />
+               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.sortGroupName}" property="result[${ctr}].sortGroupName" readOnly="true" /></td>
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${customerProfileAttributes.customerShortName}" property="result[${ctr}].cust.customerShortName" readOnly="true" /></td>
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.payments}" property="result[${ctr}].payments" readOnly="true" /></td>
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.amount}" property="result[${ctr}].amount" readOnly="true" /></td>
             </tr>
             </logic:iterate>
             
-             <tr>
+         <tr>
+            <td class="total-line">&nbsp;</td>
             <td class="total-line">Total</td>
             <html:hidden property="totalPaymentCount" />
             <td class="total-line">${KualiForm.totalPaymentCount}</td>

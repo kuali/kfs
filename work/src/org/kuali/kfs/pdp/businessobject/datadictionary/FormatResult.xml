@@ -18,7 +18,7 @@
         <ref bean="FormatResult-procId" />
         <ref bean="FormatResult-payments" />
         <ref bean="FormatResult-amount" />
-        
+        <ref bean="FormatResult-sortGroupName" />
       </list>
     </property>
   </bean>
@@ -69,6 +69,22 @@
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
   </bean>
+  <bean id="FormatResult-sortGroupName" parent="FormatResult-sortGroupName-parentBean" />
+
+  <bean id="FormatResult-sortGroupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sortGroupName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sort Group Name" />
+    <property name="shortLabel" value="Sort Group" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+       <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
   
 
 <!-- Business Object Inquiry Definition -->
@@ -85,6 +101,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="sortGroupName" />
               <bean parent="FieldDefinition"
                     p:attributeName="procId" />
               <bean parent="FieldDefinition"

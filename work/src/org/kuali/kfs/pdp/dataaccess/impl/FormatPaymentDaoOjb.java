@@ -37,9 +37,10 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatPaymentDaoOjb.class);
 
     private KualiCodeService kualiCodeService;
-    
+
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#markPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess, java.util.List, java.util.Date, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#markPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess,
+     *      java.util.List, java.util.Date, java.lang.String)
      */
     public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes) {
         LOG.debug("markPaymentsForFormat() started");
@@ -68,7 +69,15 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         }
 
         Criteria criteria = new Criteria();
-        criteria.addIn("batch.customerId", customerIds);
+
+        if (customerIds.size() > 0) {
+            criteria.addIn("batch.customerId", customerIds);
+        }
+        else {
+            //no payments to mark as no customer was selected
+            return;
+        }
+
         criteria.addEqualTo("paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
 
         if (PdpConstants.PaymentTypes.DISBURSEMENTS_WITH_SPECIAL_HANDLING.equals(paymentTypes)) {

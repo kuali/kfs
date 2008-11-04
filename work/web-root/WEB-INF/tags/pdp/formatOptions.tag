@@ -35,7 +35,7 @@
             <kul:htmlAttributeLabel attributeEntry="${paymentGroupAttributes.paymentDate}" labelFor="paymentDate" />
             <br><font size="1"> Ex. 11/26/2004</font></th>
             <td class="datacell" align="left">
-            <kul:htmlControlAttribute attributeEntry="${paymentGroupAttributes.paymentDate}" property="paymentDate"/></td>
+            <kul:dateInput attributeEntry="${paymentGroupAttributes.paymentDate}" property="paymentDate"/></td>
           </tr>
          <tr>
             <th align="right" nowrap="nowrap">Only Disbursements Flagged as Immediate:</th>

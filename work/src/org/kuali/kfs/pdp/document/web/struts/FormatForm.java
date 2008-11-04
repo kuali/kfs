@@ -35,7 +35,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class FormatForm extends KualiForm {
     
     private String campus;
-    private Date paymentDate;
+    private String paymentDate;
     private Integer procId;
     private String paymentTypes;
     private KualiDecimal totalAmount;
@@ -274,11 +274,11 @@ public class FormatForm extends KualiForm {
         return (String) new CurrencyFormatter().format(totalAmount);
     }
 
-    public Date getPaymentDate() {
+    public String getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(String paymentDate) {
         this.paymentDate = paymentDate;
     }
 }

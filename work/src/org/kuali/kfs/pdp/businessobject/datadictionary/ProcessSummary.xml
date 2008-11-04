@@ -101,7 +101,7 @@
     <property name="name" value="sortGroupName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sort Group Name" />
-    <property name="shortLabel" value="Group Name" />
+    <property name="shortLabel" value="Sort Group" />
     <property name="maxLength" value="32" />
     <property name="validationPattern" >
        <bean parent="AnyCharacterValidationPattern" />
@@ -266,7 +266,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="processTotalCount" />   
               <bean parent="FieldDefinition"
-                    p:attributeName="processTotalAmount" /> 
+                    p:attributeName="processTotalAmount" />            
               <bean parent="FieldDefinition"
                     p:attributeName="process.id" />                      
               <bean parent="FieldDefinition"
@@ -331,7 +331,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="processTotalCount" />   
               <bean parent="FieldDefinition"
-                    p:attributeName="processTotalAmount" /> 
+                    p:attributeName="processTotalAmount" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="process.id" />                     
               <bean parent="FieldDefinition"

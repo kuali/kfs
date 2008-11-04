@@ -120,7 +120,7 @@ public class AccountingLineValueAllowedValidation extends GenericValidation {
             String currentProperty = path.remove();
             bo.refreshReferenceObject(currentProperty);
             PersistableBusinessObject childBO = (PersistableBusinessObject)ObjectUtils.getPropertyValue(bo, currentProperty);
-            if (childBO != null) {
+            if (!ObjectUtils.isNull(childBO)) {       
                 refreshByQueue(childBO, path);
             }
         }

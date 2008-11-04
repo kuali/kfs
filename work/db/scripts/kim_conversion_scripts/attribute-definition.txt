@@ -1,0 +1,30 @@
+Namespace Code::Namespace Code::
+Component::Component::
+Property Name::Property Name::
+Document Type Name::Document Type Name::
+Route Status Code::Route Status Code::
+Route Node Name::Route Node Name::
+Action Request Type Code::Action Request Type Code::
+From Date::From Date::
+To Date::To Date::
+Batch Input File Type Class::Batch Input File Type Class::
+Batch Job Name::Batch Job Name::
+Campus Code::Campus Code::
+Chart Code::Chart Code::
+Organization Code::Organization Code::
+Descend Hierarchy::Descend Hierarchy::
+Account Number::Account Number::
+From Amount::From Amount::
+To Amount::To Amount::
+Override Code::Override Code::
+Contract Manager Code::Contract Manager Code::
+Customer Identification Number::Customer Identification Number::
+Sub-Fund Group Code::Sub-Fund Group Code::
+Account Responsibility Number::Account Responsibility Number::
+Vendor Type Code::Vendor Type Code::
+Restricted Material Code::Restricted Material Code::
+Commodity Code::Commodity Code::
+Priority Number::Priority Number::
+Action Name::Action Name::
+Parameter Name::Parameter Name::
+principalId::Principal ID::KR-KIM

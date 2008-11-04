@@ -164,6 +164,10 @@ public enum PaymentRequestItemFixture {
     PREQ_WITH_FREIGHT_ITEM_NO_DESC(
             PurApItemFixture.FREIGHT_ITEM_NO_DESC, // purApItemFixture
             new PaymentRequestAccountingLineFixture[] { PaymentRequestAccountingLineFixture.BASIC_PREQ_ACCOUNT_1 } // paymentRequestAccountMultiFixtures
+    ),
+    PREQ_WITH_MISC_ITEM_NO_DESC(
+            PurApItemFixture.MISC_ITEM_NO_DESC, // purApItemFixture
+            new PaymentRequestAccountingLineFixture[] { PaymentRequestAccountingLineFixture.BASIC_PREQ_ACCOUNT_1 } // paymentRequestAccountMultiFixtures
     ),;
     
     private PurApItemFixture purApItemFixture;

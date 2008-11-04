@@ -31,8 +31,6 @@ public enum SystemParameterBelowTheLineItemPaymentRequestFixture {
     PREQ_WITH_VALID_NEGATIVE_BELOW_LINE_ITEMS(
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_WITH_NEGATIVE_MISC_ITEM,
                                              PaymentRequestItemFixture.PREQ_WITH_NEGATIVE_DISC_ITEM,
-                                             PaymentRequestItemFixture.PREQ_WITH_NEGATIVE_RSTO_ITEM,
-                                             PaymentRequestItemFixture.PREQ_WITH_NEGATIVE_MSCR_ITEM,
                                              PaymentRequestItemFixture.PREQ_WITH_NEGATIVE_TRDI_ITEM,
                                              PaymentRequestItemFixture.PREQ_WITH_NEGATIVE_ORDS_ITEM,
                                              PaymentRequestItemFixture.PREQ_WITH_NEGATIVE_FDTX_ITEM,
@@ -47,7 +45,6 @@ public enum SystemParameterBelowTheLineItemPaymentRequestFixture {
     ),    
     PREQ_WITH_VALID_POSITIVE_BELOW_LINE_ITEMS(
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_VALID_FED_GROSS_CODE_ITEM,
-                                             PaymentRequestItemFixture.PREQ_VALID_MISC_ITEM,
                                              PaymentRequestItemFixture.PREQ_VALID_FREIGHT_ITEM,
                                              PaymentRequestItemFixture.PREQ_VALID_MIN_ORDER_ITEM,
                                              PaymentRequestItemFixture.PREQ_VALID_SHIPPING_AND_HANDLING_ITEM,
@@ -57,8 +54,6 @@ public enum SystemParameterBelowTheLineItemPaymentRequestFixture {
             new PaymentRequestItemFixture[] { PaymentRequestItemFixture.PREQ_WITH_POSITIVE_DISC_ITEM,
                                               PaymentRequestItemFixture.PREQ_WITH_POSITIVE_RSTO_ITEM,
                                               PaymentRequestItemFixture.PREQ_WITH_POSITIVE_MSCR_ITEM,
-                                              PaymentRequestItemFixture.PREQ_WITH_POSITIVE_TRDI_ITEM,
-                                              PaymentRequestItemFixture.PREQ_WITH_POSITIVE_ORDS_ITEM,
                                               PaymentRequestItemFixture.PREQ_WITH_POSITIVE_FDTX_ITEM,
                                               PaymentRequestItemFixture.PREQ_WITH_POSITIVE_STTX_ITEM} // requisitionItemMultiFixtures
     ),        
@@ -73,7 +68,7 @@ public enum SystemParameterBelowTheLineItemPaymentRequestFixture {
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_WITH_ZERO_RSTO_ITEM} // requisitionItemMultiFixtures
     ),
     PREQ_WITH_BELOW_LINE_ITEMS_WITHOUT_DESCRIPTION(
-            new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_WITH_FREIGHT_ITEM_NO_DESC} // requisitionItemMultiFixtures
+            new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_WITH_MISC_ITEM_NO_DESC} // requisitionItemMultiFixtures
     ),
     PREQ_WITH_BELOW_LINE_ITEMS_WITH_DESCRIPTION(
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_VALID_MISC_ITEM} // requisitionItemMultiFixtures

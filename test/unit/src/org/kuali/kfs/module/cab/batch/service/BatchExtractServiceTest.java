@@ -93,8 +93,6 @@ public class BatchExtractServiceTest extends BatchTestBase {
 
         Collection<PurchasingAccountsPayableLineAssetAccount> allCabAccts = boService.findAll(PurchasingAccountsPayableLineAssetAccount.class);
         assertEquals(17, allCabAccts.size());
-
-
     }
 
 
@@ -104,4 +102,3 @@ public class BatchExtractServiceTest extends BatchTestBase {
         assertEquals(6, preTaggablePOAccounts.size());
     }
 }
-

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,45 +15,76 @@
  */
 package org.kuali.kfs.module.cab.batch;
 
+import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 
-import org.kuali.kfs.module.cab.batch.service.PreAssetTaggingService;
+import org.apache.log4j.Logger;
+import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.rice.kns.service.DateTimeService;
 
-/**
- * Cams Batch Step.
- */
 public class PreAssetTaggingStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreAssetTaggingStep.class);
-
-    private PreAssetTaggingService preAssetTaggingService;
+    private static final Logger LOG = Logger.getLogger(PreAssetTaggingStep.class);
+    private BatchExtractService batchExtractService;
+    private DateTimeService dateTimeService;
 
     /**
-     * Invokes service that copy flat file to Pre-Tag Temp Table
-     * 
-     * @param String jobName
-     * @return boolean
-     * @see org.kuali.kfs.sys.batch.Step#execute()
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
-    public boolean execute(String jobName, Date jobRunDate) {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         try {
-            preAssetTaggingService.copyPreAssetTaggingEntries();
+            java.sql.Date currentSqlDate = dateTimeService.getCurrentSqlDate();
+            LOG.info("Pre Asset Tagging extract started at " + dateTimeService.getCurrentTimestamp());
+            Collection<PurchaseOrderAccount> preTaggablePOAccounts = batchExtractService.findPreTaggablePOAccounts();
+            if (preTaggablePOAccounts != null && !preTaggablePOAccounts.isEmpty()) {
+                batchExtractService.savePreTagLines(preTaggablePOAccounts);
+            }
+            LOG.info("Pre Asset Tagging extract finished at " + dateTimeService.getCurrentTimestamp());
+            batchExtractService.updateLastExtractDate(currentSqlDate);
         }
-        catch (Exception e) {
-            LOG.fatal(e);
-            return false;
+        catch (Throwable e) {
+            LOG.error("Unexpected error occured during Pre Asset Tagging extract", e);
+            throw new RuntimeException(e);
         }
         return true;
     }
 
     /**
-     * Sets the laborNightlyOutService attribute value.
+     * Gets the batchExtractService attribute.
      * 
-     * @param preAssetTaggingService the preAssetTaggingService to set.
+     * @return Returns the batchExtractService.
      */
-    public void setPreAssetTaggingService(PreAssetTaggingService preAssetTaggingService) {
-        this.preAssetTaggingService = preAssetTaggingService;
+    public BatchExtractService getBatchExtractService() {
+        return batchExtractService;
     }
 
-}
+    /**
+     * Sets the batchExtractService attribute value.
+     * 
+     * @param batchExtractService The batchExtractService to set.
+     */
+    public void setBatchExtractService(BatchExtractService batchExtractService) {
+        this.batchExtractService = batchExtractService;
+    }
 
+    /**
+     * Gets the dateTimeService attribute.
+     * 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+}

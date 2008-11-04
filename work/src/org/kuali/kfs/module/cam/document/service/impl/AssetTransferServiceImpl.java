@@ -118,9 +118,9 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-        postable.setProjectCode(assetPayment.getProjectCode());        
+        postable.setProjectCode(assetPayment.getProjectCode());
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
-        
+
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
         amountCategory.setParams(postable, assetPayment, assetObjectCode, isSource, offsetDefinition);
@@ -398,6 +398,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             maxSequence = createNewPayments(document, persistableObjects, originalPayments, maxSequence);
             updateOriginalPayments(persistableObjects, originalPayments);
         }
+        saveAsset.setTransferOfFundsFinancialDocumentNumber(document.getTransferOfFundsFinancialDocumentNumber());
         // save asset
         persistableObjects.add(saveAsset);
         getBusinessObjectService().save(persistableObjects);

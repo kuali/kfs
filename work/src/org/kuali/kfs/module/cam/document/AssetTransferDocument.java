@@ -16,11 +16,14 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
@@ -28,6 +31,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -46,16 +50,19 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, GenericRoutingInfo {
@@ -86,7 +93,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private Account organizationOwnerAccount;
     private Account oldOrganizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
-    private TransferOfFundsDocument transferOfFundsFinancialDocument;
     private State offCampusState;
     private Country offCampusCountry;
     private Building building;
@@ -329,7 +335,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public Account getOldOrganizationOwnerAccount() {
         return oldOrganizationOwnerAccount;
     }
-    
+
     /**
      * Gets the organizationOwnerAccountNumber attribute.
      * 
@@ -391,7 +397,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the transferOfFundsFinancialDocument.
      */
     public TransferOfFundsDocument getTransferOfFundsFinancialDocument() {
-        return transferOfFundsFinancialDocument;
+        if (StringUtils.isNotBlank(getTransferOfFundsFinancialDocumentNumber())) {
+            Map<String, String> primaryKeys = new HashMap<String, String>();
+            primaryKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, getTransferOfFundsFinancialDocumentNumber());
+            PersistableBusinessObject obj = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TransferOfFundsDocument.class, primaryKeys);
+            if (ObjectUtils.isNotNull(obj)) {
+                return (TransferOfFundsDocument) obj;
+            }
+        }
+        return null;
     }
 
     /**
@@ -693,7 +707,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setOldOrganizationOwnerAccount(Account oldOrganizationOwnerAccount) {
         this.oldOrganizationOwnerAccount = oldOrganizationOwnerAccount;
     }
-    
+
     /**
      * Sets the organizationOwnerAccountNumber attribute.
      * 
@@ -751,17 +765,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
         this.representativeUniversalIdentifier = representativeUniversalIdentifier;
-    }
-
-
-    /**
-     * Sets the transferOfFundsFinancialDocument attribute value.
-     * 
-     * @param transferOfFundsFinancialDocument The transferOfFundsFinancialDocument to set.
-     * @deprecated
-     */
-    public void setTransferOfFundsFinancialDocument(TransferOfFundsDocument transferOfFundsFinancialDocument) {
-        this.transferOfFundsFinancialDocument = transferOfFundsFinancialDocument;
     }
 
 
@@ -856,7 +859,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.oldOrganizationOwnerChartOfAccountsCode = oldOrganizationOwnerChartOfAccountsCode;
     }
 
-    
+
     /**
      * Gets the routingInfo attribute.
      * 
@@ -876,7 +879,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
     public void populateRoutingInfo() {
@@ -884,15 +886,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
 
-        //Asset information
+        // Asset information
         organizationRoutingSet.add(new OrgReviewRoutingData(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccount().getOrganizationCode()));
         accountRoutingSet.add(new RoutingAccount(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccountNumber()));
-        
-        //Asset tranfer information
+
+        // Asset tranfer information
         organizationRoutingSet.add(new OrgReviewRoutingData(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccount().getOrganizationCode()));
         accountRoutingSet.add(new RoutingAccount(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccountNumber()));
 
-        //Storing data
+        // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);

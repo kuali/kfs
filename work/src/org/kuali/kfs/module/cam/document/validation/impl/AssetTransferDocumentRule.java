@@ -193,10 +193,10 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
         // If asset is loaned, ask a confirmation question
         if (assetTransferDocument.getAsset().getExpectedReturnDate() != null && assetTransferDocument.getAsset().getLoanReturnDate() == null) {
-            putError(CamsPropertyConstants.AssetTransferDocument.ASSET+"."+CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Transfer.ERROR_TRFR_LOANED);
+            putError(CamsPropertyConstants.AssetTransferDocument.ASSET + "." + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Transfer.ERROR_TRFR_LOANED);
             valid &= false;
         }
-        
+
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS);
             if (ObjectUtils.isNull(assetTransferDocument.getOrganizationOwnerChartOfAccounts())) {
@@ -213,7 +213,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getTransferOfFundsFinancialDocumentNumber())) {
-            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.TRANSFER_FUND_FINANCIAL_DOC);
             if (ObjectUtils.isNull(assetTransferDocument.getTransferOfFundsFinancialDocument())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.TRANSFER_FUND_FINANCIAL_DOC_NUM, CamsKeyConstants.Transfer.ERROR_TRFR_FDOC_INVALID);
                 valid &= false;
@@ -253,7 +252,8 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             if (person != null) {
                 assetTransferDocument.setAssetRepresentative(person);
                 assetTransferDocument.setRepresentativeUniversalIdentifier(person.getPrincipalId());
-            } else {
+            }
+            else {
                 putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, Transfer.ERROR_INVALID_USER_AUTH_ID, assetTransferDocument.getAssetRepresentative().getPrincipalName());
                 valid &= false;
             }

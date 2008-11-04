@@ -70,49 +70,6 @@
 		<property name="moduleConfiguration" ref="cabModuleConfiguration" />
 	</bean>
 	
-<!-- ********* Begin of pre-asset tagging batch beans ********** -->
-	<bean id="preAssetTaggingService" class="org.kuali.kfs.module.cab.batch.service.impl.PreAssetTaggingServiceImpl">
-      	<property name="preAssetTaggingInputFileType">
-            <ref bean="preAssetTaggingInputFileType" />
-      	</property>
-      	<property name="businessObjectService">
-            <ref bean="businessObjectService" />
-      	</property>
-	</bean>
-
-	<!-- bean id="preAssetTaggingJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="preAssetTaggingStep"/>
-			</list>
-		</property>
-	</bean-->
-
-	<bean id="preAssetTaggingStep" class="org.kuali.kfs.module.cab.batch.PreAssetTaggingStep" parent="step">
-		<property name="preAssetTaggingService">
-			<ref bean="preAssetTaggingService" />
-		</property>
-	</bean>  
-
-    <bean id="preAssetTaggingInputFileType" class="org.kuali.kfs.module.cab.batch.PreAssetTaggingInputFileType">
-    	<property name="directoryPath">
-	       <value>/Documents and Settings/qlai/Desktop/preAssetTagging</value>
-	    </property>
-	    <property name="fileExtension">
-	       <value>csv</value>
-	    </property>
-	    <property name="digestorRulesFileName">
-	       <value>org/kuali/module/capitalAssetBuilder/batch/collector/collectorDigesterRules.xml</value>
-	    </property>
-	    <property name="schemaLocation">
-	       <value>org/kuali/module/capitalAssetBuilder/batch/collector/glCollector.xsd</value>
-	    </property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-	</bean>
-	
-<!-- *********  End of pre-asset tagging batch beans ********** -->	
 <!-- Begin - CAB Batch Beans -->
 	<bean id="extractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.ExtractDaoOjb" />
 	<bean id="purchasingAccountsPayableItemAssetDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.PurchasingAccountsPayableItemAssetDaoOjb" />
@@ -158,14 +115,14 @@
 	<!-- End - CAB Batch Beans -->
 	
 	<!-- START - Pre-Asset tagging extract job beans -->
-	<bean id="preAssetTaggingExtractStep" class="org.kuali.kfs.module.cab.batch.PreAssetTaggingExtractStep" parent="step">
+	<bean id="preAssetTaggingStep" class="org.kuali.kfs.module.cab.batch.PreAssetTaggingStep" parent="step">
 	 	<property name="batchExtractService" ref="batchExtractService" />
 	 	<property name="dateTimeService" ref="dateTimeService" />	 	
 	</bean>
 	<bean id="preAssetTaggingExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="preAssetTaggingExtractStep"/>
+				<ref bean="preAssetTaggingStep"/>
 			</list>
 		</property>
 	</bean>

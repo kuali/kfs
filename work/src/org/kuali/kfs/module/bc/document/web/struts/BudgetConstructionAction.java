@@ -57,6 +57,7 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -65,6 +66,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.SessionDocumentService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -457,6 +459,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // TODO for now just redisplay with a message
             GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             docForm.setPickListClose(true);
+
+// TODO remove when finalized
+//            this.setupDocumentExit();
+            // this is a hack to do our own session document cleanup since refreshCaller=QuestionRefresh
+            // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
+            UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
+            String docFormKey = docForm.getFormKey();
+            SpringContext.getBean(SessionDocumentService.class).purgeDocumentForm(docForm.getDocument().getDocumentNumber(), docFormKey, userSession);
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
         }
@@ -476,6 +487,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
 
                 String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+
+// TODO remove when finalized
+//                this.setupDocumentExit();
+                // this is a hack to do our own session document cleanup since refreshCaller=QuestionRefresh
+                // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
+                UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
+                String docFormKey = docForm.getFormKey();
+                SpringContext.getBean(SessionDocumentService.class).purgeDocumentForm(docForm.getDocument().getDocumentNumber(), docFormKey, userSession);
+
                 return new ActionForward(lookupUrl, true);
             }
         }
@@ -585,6 +605,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put(KNSConstants.LOOKUP_READ_ONLY_FIELDS, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + "," + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + "," + KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME + "," + KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT);
 
         String url = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
+        this.setupDocumentExit();
         return new ActionForward(url, true);
     }
 
@@ -659,6 +680,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, parameters);
 
+        this.setupDocumentExit();
         return new ActionForward(lookupUrl, true);
     }
 
@@ -769,6 +791,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
+        this.setupDocumentExit();
         return new ActionForward(lookupUrl, true);
     }
 
@@ -844,6 +867,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.QUICK_SALARY_SETTING_ACTION, parameters);
+        this.setupDocumentExit();
         return new ActionForward(lookupUrl, true);
     }
 
@@ -1599,6 +1623,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_RUNNER_ACTION, parameters);
+        this.setupDocumentExit();
         return new ActionForward(lookupUrl, true);
     }
 

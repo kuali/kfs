@@ -14,6 +14,7 @@ import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -51,6 +52,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
     private PostalCode postalZipCode;
 
     // Non-persistent
+    private KualiDecimal calculatedTotal;
 
     /**
      * Default constructor.
@@ -349,6 +351,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      */
     public void setEstimatedSellingPrice(KualiDecimal estimatedSellingPrice) {
         this.estimatedSellingPrice = estimatedSellingPrice;
+        setCalculatedTotal();
     }
 
 
@@ -412,6 +415,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      */
     public void setHandlingFeeAmount(KualiDecimal handlingFeeAmount) {
         this.handlingFeeAmount = handlingFeeAmount;
+        setCalculatedTotal();
     }
 
 
@@ -433,6 +437,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      */
     public void setPreventiveMaintenanceAmount(KualiDecimal preventiveMaintenanceAmount) {
         this.preventiveMaintenanceAmount = preventiveMaintenanceAmount;
+        setCalculatedTotal();
     }
 
 
@@ -596,6 +601,28 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
         this.retirementState = retirementState;
     }
 
+    public void setCalculatedTotal() {
+
+        this.calculatedTotal = KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(this.handlingFeeAmount)){
+            this.calculatedTotal = this.handlingFeeAmount; 
+        }
+        if (ObjectUtils.isNotNull(this.preventiveMaintenanceAmount)){
+            this.calculatedTotal = calculatedTotal.add(this.preventiveMaintenanceAmount); 
+        }
+        if (ObjectUtils.isNotNull(this.estimatedSellingPrice)){
+            this.calculatedTotal = calculatedTotal.add(this.estimatedSellingPrice); 
+        }
+    }
+
+    
+    public KualiDecimal getCalculatedTotal() {
+        return calculatedTotal;
+    }
+
+    public void setCalculatedTotal(KualiDecimal calculatedTotal) {
+        this.calculatedTotal = calculatedTotal;
+    }
 
     public AssetRetirementGlobal getAssetRetirementGlobal() {
         return assetRetirementGlobal;

@@ -111,17 +111,17 @@
         <ref bean="PaymentRequestDocument-awaitingReceiving" />        
         <ref bean="PaymentRequestDocument-useTaxIndicator" />
         <ref bean="PaymentRequestDocument-bankCode" />
-    	<ref bean="taxClassificationCode" />
-    	<ref bean="federalTaxPercent" />      
-    	<ref bean="stateTaxPercent" />         
-    	<ref bean="taxCountryCode" />
-    	<ref bean="grossUpIndicator" />
-    	<ref bean="taxExemptTreatyIndicator" />
-    	<ref bean="foreignSourceIndicator" />
-    	<ref bean="taxSpecialW4Amount" />
-    	<ref bean="taxUSAIDPerDiemIndicator" />
-    	<ref bean="otherTaxExemptIndicator" />
-    	<ref bean="taxNQIId" />        
+    	<ref bean="PaymentRequestDocument-taxClassificationCode" />
+    	<ref bean="PaymentRequestDocument-federalTaxPercent" />      
+    	<ref bean="PaymentRequestDocument-stateTaxPercent" />         
+    	<ref bean="PaymentRequestDocument-taxCountryCode" />
+    	<ref bean="PaymentRequestDocument-grossUpIndicator" />
+    	<ref bean="PaymentRequestDocument-taxExemptTreatyIndicator" />
+    	<ref bean="PaymentRequestDocument-foreignSourceIndicator" />
+    	<ref bean="PaymentRequestDocument-taxSpecialW4Amount" />
+    	<ref bean="PaymentRequestDocument-taxUSAIDPerDiemIndicator" />
+    	<ref bean="PaymentRequestDocument-otherTaxExemptIndicator" />
+    	<ref bean="PaymentRequestDocument-taxNQIId" />        
       </list>
     </property>
   </bean>
@@ -723,7 +723,7 @@
     <property name="required" value="true" />     
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.TaxIncomeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TaxIncomeClassValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

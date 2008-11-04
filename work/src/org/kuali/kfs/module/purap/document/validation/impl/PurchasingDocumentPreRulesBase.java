@@ -20,7 +20,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.document.Document;
@@ -35,10 +35,8 @@ public class PurchasingDocumentPreRulesBase extends PreRulesContinuationBase{
     
     protected boolean checkForTaxRecalculation(PurchasingAccountsPayableDocument purapDocument){
         
-        RequisitionDocument reqDoc = (RequisitionDocument)purapDocument;
-       
         String initialZipCode = ((PurchasingFormBase)form).getInitialZipCode();
-        if (StringUtils.isNotEmpty(initialZipCode) && !StringUtils.equals(initialZipCode,reqDoc.getDeliveryPostalCode())){
+        if (StringUtils.isNotEmpty(initialZipCode) && !StringUtils.equals(initialZipCode,((PurchasingDocumentBase)purapDocument).getDeliveryPostalCode())){
             for (PurApItem purApItem : purapDocument.getItems()) {
                 PurchasingItemBase item = (PurchasingItemBase)purApItem;
                 if (item.getItemTaxAmount() != null){

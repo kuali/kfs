@@ -17,12 +17,16 @@
 
 <channel:portalChannelTop channelTitle="Administrative Transactions" />
 <div class="body">
+  <strong>Capital Asset Builder</strong>
+  <ul class="chan">
+  	 <li><portal:portalLink displayTitle="true" title="Non-Purchasing/Accounts Payable General Ledger Transactions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	 <li><portal:portalLink displayTitle="true" title="Purchasing/Accounts Payable Transactions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableProcessingReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+  </ul>
+
   <strong>Capital Asset Management</strong>
   <ul class="chan">
      <li><portal:portalLink displayTitle="true" title="Asset Payment" url="camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument" /></li>
   	 <li><portal:portalLink displayTitle="true" title="Barcode Inventory Process" url="uploadBarcodeInventoryFile.do?methodToCall=start&batchUpload.batchInputTypeName=assetBarcodeInventoryInputFileType" /></li>			 
-  	 <li><portal:portalLink displayTitle="true" title="Non-Purchasing/Accounts Payable General Ledger Transactions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-	 <li><portal:portalLink displayTitle="true" title="Purchasing/Accounts Payable Transactions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableProcessingReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   </ul>
 
   <strong>Effort Certification</strong>

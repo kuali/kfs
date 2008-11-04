@@ -66,6 +66,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.comparator.NumericValueComparator;
 import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
@@ -1245,7 +1246,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
 
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1290,7 +1291,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
 
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1364,7 +1365,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
 
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);

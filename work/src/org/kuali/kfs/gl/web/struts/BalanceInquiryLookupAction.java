@@ -46,6 +46,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
@@ -328,7 +329,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
 
         SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-        String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+        String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);

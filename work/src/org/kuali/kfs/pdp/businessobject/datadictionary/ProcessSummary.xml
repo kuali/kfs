@@ -35,7 +35,9 @@
         <ref bean="ProcessSummary-customer.subUnitCode" />
         <ref bean="ProcessSummary-customer.customerDescription" />
         <ref bean="ProcessSummary-disbursementType.name" />
-        
+        <ref bean="ProcessSummary-process.extractedInd" />
+        <ref bean="ProcessSummary-process.formattedIndicator" />
+        <ref bean="ProcessSummary-process.id" />
       </list>
     </property>
   </bean>
@@ -215,6 +217,21 @@
   <bean id="ProcessSummary-disbursementType.name-parentBean" abstract="true" parent="DisbursementType-name">
     <property name="name" value="disbursementType.name" />
   </bean>
+  <bean id="ProcessSummary-process.extractedInd" parent="ProcessSummary-process.extractedInd-parentBean" />
+
+  <bean id="ProcessSummary-process.extractedInd-parentBean" abstract="true" parent="PaymentProcess-extractedInd">
+    <property name="name" value="process.extractedInd" />
+  </bean>  
+  <bean id="ProcessSummary-process.formattedIndicator" parent="ProcessSummary-process.formattedIndicator-parentBean" />
+
+  <bean id="ProcessSummary-process.formattedIndicator-parentBean" abstract="true" parent="PaymentProcess-formattedIndicator">
+    <property name="name" value="process.formattedIndicator" />
+  </bean>  
+  <bean id="ProcessSummary-process.id" parent="ProcessSummary-process.id-parentBean" />
+
+  <bean id="ProcessSummary-process.id-parentBean" abstract="true" parent="PaymentProcess-id">
+    <property name="name" value="process.id" />
+  </bean>  
 
 <!-- Business Object Inquiry Definition -->
 
@@ -249,7 +266,13 @@
               <bean parent="FieldDefinition"
                     p:attributeName="processTotalCount" />   
               <bean parent="FieldDefinition"
-                    p:attributeName="processTotalAmount" />            
+                    p:attributeName="processTotalAmount" /> 
+              <bean parent="FieldDefinition"
+                    p:attributeName="process.id" />                      
+              <bean parent="FieldDefinition"
+                    p:attributeName="process.extractedInd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="process.formattedIndicator" />                                                  
             </list>
           </property>
         </bean>
@@ -308,7 +331,13 @@
               <bean parent="FieldDefinition"
                     p:attributeName="processTotalCount" />   
               <bean parent="FieldDefinition"
-                    p:attributeName="processTotalAmount" />                    
+                    p:attributeName="processTotalAmount" /> 
+              <bean parent="FieldDefinition"
+                    p:attributeName="process.id" />                     
+              <bean parent="FieldDefinition"
+                    p:attributeName="process.extractedInd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="process.formattedIndicator" />                                        
       </list>
     </property>
   </bean>

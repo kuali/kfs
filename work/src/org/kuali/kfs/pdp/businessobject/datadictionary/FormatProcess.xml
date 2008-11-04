@@ -22,6 +22,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="FormatProcess-physicalCampusProcessCode" />
         <ref bean="FormatProcess-beginFormat" />
         <ref bean="FormatProcess-paymentProcIdentifier" />
+        <ref bean="FormatProcess-paymentProcess.extractedInd" />
+        <ref bean="FormatProcess-paymentProcess.formattedIndicator" />
       </list>
     </property>
   </bean>
@@ -53,13 +55,22 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Begin Process Date" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
-  
   <bean id="FormatProcess-paymentProcIdentifier" parent="FormatProcess-paymentProcIdentifier-parentBean" />
   
   <bean id="FormatProcess-paymentProcIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId" >
   	<property name="name" value="paymentProcIdentifier" />
   	<property name="shortLabel" value="Proc Id" />
   	<property name="label" value="Payment Proc Identifier" />
+  </bean>
+  <bean id="FormatProcess-paymentProcess.extractedInd" parent="FormatProcess-paymentProcess.extractedInd-parentBean" />
+  
+  <bean id="FormatProcess-paymentProcess.extractedInd-parentBean" abstract="true" parent="PaymentProcess-extractedInd" >
+  	<property name="name" value="paymentProcess.extractedInd" />
+  </bean>
+  <bean id="FormatProcess-paymentProcess.formattedIndicator" parent="FormatProcess-paymentProcess.formattedIndicator-parentBean" />
+  
+  <bean id="FormatProcess-paymentProcess.formattedIndicator-parentBean" abstract="true" parent="PaymentProcess-formattedIndicator" >
+  	<property name="name" value="paymentProcess.formattedIndicator" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->
@@ -82,7 +93,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:attributeName="beginFormat" />
               <bean parent="FieldDefinition"
               		p:attributeName="paymentProcIdentifier" />
-              
+              <bean parent="FieldDefinition"
+              		p:attributeName="paymentProcess.extractedInd" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="paymentProcess.formattedIndicator" />              		
             </list>
           </property>
         </bean>
@@ -125,7 +139,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="beginFormat" />             
         <bean parent="FieldDefinition"
-              p:attributeName="paymentProcIdentifier" />            
+              p:attributeName="paymentProcIdentifier" />  
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentProcess.extractedInd" />
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentProcess.formattedIndicator" />                         
       </list>
     </property>
   </bean>

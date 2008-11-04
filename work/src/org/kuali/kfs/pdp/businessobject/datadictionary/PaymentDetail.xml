@@ -548,15 +548,15 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.processId" /> 
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.paymentFileName" />
+                    p:attributeName="paymentGroup.batch.paymentFileName" p:noInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.process.processUser.principalName" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.customerFileCreateTimestamp" />  
+                    p:attributeName="paymentGroup.batch.customerFileCreateTimestamp" p:noInquiry="true" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.process.processTimestamp" />                       
+                    p:attributeName="paymentGroup.process.processTimestamp" p:noInquiry="true" />                       
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.fileProcessTimestamp" />  
+                    p:attributeName="paymentGroup.batch.fileProcessTimestamp" p:noInquiry="true" />  
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.submiterUser.principalName" />                                                                                                                            
             </list>
@@ -737,7 +737,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="origBankCode" />   
                     <bean parent="FieldDefinition"
-                          p:attributeName="origAchBankRouteNbr" />   
+                          p:attributeName="bank.bankRoutingNumber" />   
                     <bean parent="FieldDefinition"
                           p:attributeName="pmtCancelExtractStat" />  
                     <bean parent="FieldDefinition"

@@ -41,7 +41,7 @@
         <ref bean="PaymentGroupHistory-disbursementType.name" />
         <ref bean="PaymentGroupHistory-origPaymentStatus.name" />
         <ref bean="PaymentGroupHistory-origBankCode" />
-        <ref bean="PaymentGroupHistory-origAchBankRouteNbr" />
+        <ref bean="PaymentGroupHistory-bank.bankRoutingNumber" />
         <ref bean="PaymentGroupHistory-pmtCancelExtractStat" />
         <ref bean="PaymentGroupHistory-pmtCancelExtractDate" /> 
         <ref bean="PaymentGroupHistory-changeNoteText" /> 
@@ -129,6 +129,7 @@
 
   <bean id="PaymentGroupHistory-origDisburseDate-parentBean" abstract="true" parent="PaymentGroup-disbursementDate">
     <property name="name" value="origDisburseDate" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
   <bean id="PaymentGroupHistory-paymentGroup.pymtAttachment" parent="PaymentGroupHistory-paymentGroup.pymtAttachment-parentBean" />
 
@@ -144,6 +145,7 @@
 
   <bean id="PaymentGroupHistory-origPaymentDate-parentBean" abstract="true" parent="PaymentGroup-paymentDate">
     <property name="name" value="origPaymentDate" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
   <bean id="PaymentGroupHistory-id" parent="PaymentGroupHistory-id-parentBean" />
 
@@ -179,6 +181,7 @@
     <property name="name" value="changeTime" />
     <property name="label" value="Change Time" />
     <property name="shortLabel" value="Change Time" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
   <bean id="PaymentGroupHistory-paymentChange.code" parent="PaymentGroupHistory-paymentChange.code-parentBean" />
 
@@ -222,23 +225,13 @@
     <property name="label" value="Bank" />
     <property name="shortLabel" value="Bank" />
   </bean>
-  <bean id="PaymentGroupHistory-origAchBankRouteNbr" parent="PaymentGroupHistory-origAchBankRouteNbr-parentBean" />
+  <bean id="PaymentGroupHistory-bank.bankRoutingNumber" parent="PaymentGroupHistory-bank.bankRoutingNumber-parentBean" />
 
-  <bean id="PaymentGroupHistory-origAchBankRouteNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="origAchBankRouteNbr" />
-    <property name="forceUppercase" value="true" />
+  <bean id="PaymentGroupHistory-bank.bankRoutingNumber-parentBean" abstract="true" parent="Bank-bankRoutingNumber">
+    <property name="name" value="bank.bankRoutingNumber" />
+    
     <property name="label" value="Original ACH Bank Routing Number" />
     <property name="shortLabel" value="Original ACH Bank Routing Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
-    </property>
-    <property name="summary" value="origAchBankRouteNbr" />
-    <property name="description" value="Original ACH Bank Routing Number." />
   </bean>
   <bean id="PaymentGroupHistory-pmtCancelExtractStat" parent="PaymentGroupHistory-pmtCancelExtractStat-parentBean" />
 	
@@ -262,6 +255,7 @@
     <property name="name" value="pmtCancelExtractDate" />
     <property name="label" value="Cancel Extract Date" />
     <property name="shortLabel" value="Cancel Extract Date" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
   <bean id="PaymentGroupHistory-changeNoteText" parent="PaymentGroupHistory-changeNoteText-parentBean" />
 

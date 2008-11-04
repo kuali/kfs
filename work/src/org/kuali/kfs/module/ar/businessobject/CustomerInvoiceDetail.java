@@ -217,6 +217,20 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
 
     /**
+     * 
+     * This method...
+     * @param invoiceItemUnitPrice
+     */
+    public void setInvoiceItemUnitPrice(KualiDecimal invoiceItemUnitPrice) {
+        if(ObjectUtils.isNotNull(invoiceItemUnitPrice)) {
+            this.invoiceItemUnitPrice = invoiceItemUnitPrice.bigDecimalValue();
+        }
+        else {
+            this.invoiceItemUnitPrice = BigDecimal.ZERO;
+        }
+    }
+    
+    /**
      * Sets the invoiceItemUnitPrice attribute.
      * 
      * @param invoiceItemUnitPrice The invoiceItemUnitPrice to set.

@@ -31,30 +31,28 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetWarranty-capitalAssetNumber" parent="AssetWarranty-capitalAssetNumber-parentBean" />
-
   <bean id="AssetWarranty-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
+  
   <bean id="AssetWarranty-warrantyBeginningDate" parent="AssetWarranty-warrantyBeginningDate-parentBean" />
-
   <bean id="AssetWarranty-warrantyBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="warrantyBeginningDate" />
     <property name="label" value="Warranty Beginning Date" />
     <property name="shortLabel" value="Date" />
   </bean>
+  
   <bean id="AssetWarranty-warrantyEndingDate" parent="AssetWarranty-warrantyEndingDate-parentBean" />
-
   <bean id="AssetWarranty-warrantyEndingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="warrantyEndingDate" />
     <property name="label" value="Warranty Ending Date" />
     <property name="shortLabel" value="Date" />
   </bean>
+  
   <bean id="AssetWarranty-warrantyContactName" parent="AssetWarranty-warrantyContactName-parentBean" />
-
   <bean id="AssetWarranty-warrantyContactName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="warrantyContactName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Warranty Contact Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -69,11 +67,11 @@
     <property name="summary" value="warrantyContactName" />
     <property name="description" value="warrantyContactName description..." />
   </bean>
+  
   <bean id="AssetWarranty-warrantyNumber" parent="AssetWarranty-warrantyNumber-parentBean" />
-
   <bean id="AssetWarranty-warrantyNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="warrantyNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Warranty Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
@@ -88,11 +86,11 @@
     <property name="summary" value="warrantyNumber" />
     <property name="description" value="warrantyNumber description..." />
   </bean>
+  
   <bean id="AssetWarranty-warrantyPhoneNumber" parent="AssetWarranty-warrantyPhoneNumber-parentBean" />
-
   <bean id="AssetWarranty-warrantyPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="warrantyPhoneNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Warranty Phone Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="13" />
@@ -107,11 +105,11 @@
     <property name="summary" value="warrantyPhoneNumber" />
     <property name="description" value="warrantyPhoneNumber description..." />
   </bean>
+  
   <bean id="AssetWarranty-warrantyPurchaseOrderNumber" parent="AssetWarranty-warrantyPurchaseOrderNumber-parentBean" />
-
   <bean id="AssetWarranty-warrantyPurchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="warrantyPurchaseOrderNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Warranty Purchase Order Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="9" />
@@ -126,11 +124,11 @@
     <property name="summary" value="warrantyPurchaseOrderNumber" />
     <property name="description" value="warrantyPurchaseOrderNumber description..." />
   </bean>
+  
   <bean id="AssetWarranty-warrantyText" parent="AssetWarranty-warrantyText-parentBean" />
-
   <bean id="AssetWarranty-warrantyText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="warrantyText" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Warranty Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="40" />
@@ -148,9 +146,7 @@
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetWarranty-inquiryDefinition" parent="AssetWarranty-inquiryDefinition-parentBean" />
-
   <bean id="AssetWarranty-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Warranty Inquiry" />
     <property name="inquirySections" >
@@ -185,9 +181,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetWarranty-lookupDefinition" parent="AssetWarranty-lookupDefinition-parentBean" />
-
   <bean id="AssetWarranty-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Warranty Lookup" />
     <property name="instructions" value="Look up an Asset Warranty" />

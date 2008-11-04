@@ -226,9 +226,9 @@
     </property -->
   </bean>
 
-<!-- Attribute Definitions -->    
+<!-- Attribute Definitions --> 
+   
   <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
-
   <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
     <property name="name" value="organizationOwnerAccount.organizationCode" />
     <property name="label" value="Organization Owner Organization Code" />
@@ -236,10 +236,9 @@
   </bean>
 
   <bean id="Asset-acquisitionTypeCode" parent="Asset-acquisitionTypeCode-parentBean" />
-
   <bean id="Asset-acquisitionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acquisitionTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Acquisition Type Code" />
     <property name="shortLabel" value="Acquisition Type" />
     <property name="maxLength" value="1" />
@@ -253,11 +252,11 @@
     <property name="summary" value="acquisitionTypeCode" />
     <property name="description" value="acquisitionTypeCode description..." />
   </bean>
+  
   <bean id="Asset-agencyNumber" parent="Asset-agencyNumber-parentBean" />
-
   <bean id="Asset-agencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Owner" />
     <property name="shortLabel" value="Agency" />
     <property name="maxLength" value="5" />
@@ -271,11 +270,11 @@
     <property name="summary" value="agencyNumber" />
     <property name="description" value="agencyNumber description..." />
   </bean>
+  
   <bean id="Asset-buildingSubRoomNumber" parent="Asset-buildingSubRoomNumber-parentBean" />
-
   <bean id="Asset-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingSubRoomNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Sub Room Number" />
     <property name="shortLabel" value="Sub Room" />
     <property name="maxLength" value="2" />
@@ -289,11 +288,11 @@
     <property name="summary" value="buildingSubRoomNumber" />
     <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
+  
   <bean id="Asset-campusPoliceDepartmentCaseNumber" parent="Asset-campusPoliceDepartmentCaseNumber-parentBean" />
-
   <bean id="Asset-campusPoliceDepartmentCaseNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusPoliceDepartmentCaseNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Police Case Number" />
     <property name="shortLabel" value="Case Number" />
     <property name="maxLength" value="14" />
@@ -307,8 +306,8 @@
     <property name="summary" value="campusPoliceDepartmentCaseNumber" />
     <property name="description" value="campusPoliceDepartmentCaseNumber description..." />
   </bean>
+  
   <bean id="Asset-campusTagNumber" parent="Asset-campusTagNumber-parentBean" />
-
   <bean id="Asset-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusTagNumber" />
     <property name="forceUppercase" value="true" />
@@ -325,8 +324,8 @@
     <property name="summary" value="campusTagNumber" />
     <property name="description" value="campusTagNumber description..." />
   </bean>
+  
   <bean id="Asset-capitalAssetDescription" parent="Asset-capitalAssetDescription-parentBean" />
-
   <bean id="Asset-capitalAssetDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetDescription" />
     <property name="forceUppercase" value="false" />
@@ -345,8 +344,8 @@
     <property name="summary" value="capitalAssetDescription" />
     <property name="description" value="capitalAssetDescription description..." />    
   </bean>
+  
   <bean id="Asset-capitalAssetNumber" parent="Asset-capitalAssetNumber-parentBean" />
-
   <bean id="Asset-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
@@ -363,11 +362,11 @@
     <property name="summary" value="capitalAssetNumber" />
     <property name="description" value="capitalAssetNumber description..." />
   </bean>
+  
   <bean id="Asset-cashReceiptFinancialDocumentNumber" parent="Asset-cashReceiptFinancialDocumentNumber-parentBean" />
-
   <bean id="Asset-cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cashReceiptFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Cash Receipt Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="14" />
@@ -381,43 +380,43 @@
     <property name="summary" value="cashReceiptFinancialDocumentNumber" />
     <property name="description" value="cashReceiptFinancialDocumentNumber description..." />
   </bean>
+  
   <bean id="Asset-createDate" parent="Asset-createDate-parentBean" />
-
   <bean id="Asset-createDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="createDate" />
     <property name="label" value="Create Date" />
     <property name="shortLabel" value="Create Date" />
   </bean>
+  
   <bean id="Asset-depreciationDate" parent="Asset-depreciationDate-parentBean" />
-
   <bean id="Asset-depreciationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="depreciationDate" />
     <property name="label" value="Depreciation Date" />
     <property name="shortLabel" value="Depreciation Date" />
   </bean>
+  
   <bean id="Asset-depreciationDateCopy" parent="Asset-depreciationDateCopy-parentBean" />
-
   <bean id="Asset-depreciationDateCopy-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="depreciationDateCopy" />
     <property name="label" value="Depreciation Date" />
     <property name="shortLabel" value="Depreciation Date" />
   </bean>
+  
   <bean id="Asset-capitalAssetInServiceDate" parent="Asset-capitalAssetInServiceDate-parentBean" />
-
   <bean id="Asset-capitalAssetInServiceDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="capitalAssetInServiceDate" />
     <property name="label" value="In-Service Date" />
     <property name="shortLabel" value="In Service Date" />
   </bean>
+  
   <bean id="Asset-estimatedFabricationCompletionDate" parent="Asset-estimatedFabricationCompletionDate-parentBean" />
-
   <bean id="Asset-estimatedFabricationCompletionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="estimatedFabricationCompletionDate" />
     <property name="label" value="Estimated Fabrication Completion Date" />
     <property name="shortLabel" value="Estimated Fabrication Completion Date" />
   </bean>
+  
   <bean id="Asset-fabricationEstimatedRetentionYears" parent="Asset-fabricationEstimatedRetentionYears-parentBean" />
-
   <bean id="Asset-fabricationEstimatedRetentionYears-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fabricationEstimatedRetentionYears" />
     <property name="forceUppercase" value="false" />
@@ -434,8 +433,8 @@
     <property name="summary" value="fabricationEstimatedRetentionYears" />
     <property name="description" value="fabricationEstimatedRetentionYears description..." />
   </bean>
+  
   <bean id="Asset-estimatedSellingPrice" parent="Asset-estimatedSellingPrice-parentBean" />
-
   <bean id="Asset-estimatedSellingPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="estimatedSellingPrice" />
     <property name="label" value="Estimated Sale Price" />
@@ -444,15 +443,15 @@
     <property name="description" value="estimatedSellingPrice description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-expectedReturnDate" parent="Asset-expectedReturnDate-parentBean" />
-
   <bean id="Asset-expectedReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="expectedReturnDate" />
     <property name="label" value="Expected Return Date" />
     <property name="shortLabel" value="Return Date" />
   </bean>
+  
   <bean id="Asset-fabricationEstimatedTotalAmount" parent="Asset-fabricationEstimatedTotalAmount-parentBean" />
-
   <bean id="Asset-fabricationEstimatedTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="fabricationEstimatedTotalAmount" />
     <property name="label" value="Fabrication Estimated Total Amount" />
@@ -461,11 +460,11 @@
     <property name="description" value="fabricationEstimatedTotalAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-financialDocumentPostingPeriodCode" parent="Asset-financialDocumentPostingPeriodCode-parentBean" />
-
   <bean id="Asset-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingPeriodCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Period" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -479,19 +478,19 @@
     <property name="summary" value="financialDocumentPostingPeriodCode" />
     <property name="description" value="financialDocumentPostingPeriodCode description..." />
   </bean>
+  
   <bean id="Asset-financialDocumentPostingYear" parent="Asset-financialDocumentPostingYear-parentBean" />
-
   <bean id="Asset-financialDocumentPostingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="label" value="Fiscal Year" />
     <property name="summary" value="financialDocumentPostingYear" />
     <property name="description" value="financialDocumentPostingYear description..." />
   </bean>
+  
   <bean id="Asset-inventoryScannedCode" parent="Asset-inventoryScannedCode-parentBean" />
-
   <bean id="Asset-inventoryScannedCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="inventoryScannedCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Inventory Scanned Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -505,8 +504,8 @@
     <property name="summary" value="inventoryScannedCode" />
     <property name="description" value="inventoryScannedCode description..." />
   </bean>
+  
   <bean id="Asset-inventoryStatusCode" parent="Asset-inventoryStatusCode-parentBean" />
-
   <bean id="Asset-inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="label" value="Asset Status" />
     <property name="control" >
@@ -518,8 +517,8 @@
             p:labelAttribute="inventoryStatusName" />
     </property>
   </bean>
+  
   <bean id="Asset-nationalStockNumber" parent="Asset-nationalStockNumber-parentBean" />
-
   <bean id="Asset-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nationalStockNumber" />
     <property name="forceUppercase" value="false" />
@@ -537,8 +536,8 @@
     <property name="summary" value="nationalStockNumber" />
     <property name="description" value="nationalStockNumber description..." />
   </bean>
+  
   <bean id="Asset-governmentTagNumber" parent="Asset-governmentTagNumber-parentBean" />
-
   <bean id="Asset-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="governmentTagNumber" />
     <property name="forceUppercase" value="false" />
@@ -556,29 +555,29 @@
     <property name="summary" value="governmentTagNumber" />
     <property name="description" value="governmentTagNumber description..." />
   </bean>
+  
   <bean id="Asset-lastInventoryDate" parent="Asset-lastInventoryDate-parentBean" />
-
   <bean id="Asset-lastInventoryDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="lastInventoryDate" />
     <property name="label" value="Last Inventory Date" />
     <property name="shortLabel" value="Last Inventory Date" />
   </bean>
+  
   <bean id="Asset-loanDate" parent="Asset-loanDate-parentBean" />
-
   <bean id="Asset-loanDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="loanDate" />
     <property name="label" value="Loan Date" />
     <property name="shortLabel" value="Loan Date" />
   </bean>
+  
   <bean id="Asset-loanReturnDate" parent="Asset-loanReturnDate-parentBean" />
-
   <bean id="Asset-loanReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="loanReturnDate" />
     <property name="label" value="Return Date" />
     <property name="shortLabel" value="Loan Return Date" />
   </bean>
+  
   <bean id="Asset-manufacturerModelNumber" parent="Asset-manufacturerModelNumber-parentBean" />
-
   <bean id="Asset-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerModelNumber" />
     <property name="forceUppercase" value="false" />
@@ -596,8 +595,8 @@
     <property name="summary" value="manufacturerModelNumber" />
     <property name="description" value="manufacturerModelNumber description..." />
   </bean>
+  
   <bean id="Asset-manufacturerName" parent="Asset-manufacturerName-parentBean" />
-
   <bean id="Asset-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerName" />
     <property name="forceUppercase" value="false" />
@@ -615,11 +614,11 @@
     <property name="summary" value="manufacturerName" />
     <property name="description" value="manufacturerName description..." />
   </bean>
+  
   <bean id="Asset-oldTagNumber" parent="Asset-oldTagNumber-parentBean" />
-
   <bean id="Asset-oldTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oldTagNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Old Tag Number" />
     <property name="shortLabel" value="Old Tag" />
     <property name="maxLength" value="8" />
@@ -633,8 +632,8 @@
     <property name="summary" value="oldTagNumber" />
     <property name="description" value="oldTagNumber description..." />
   </bean>
+  
   <bean id="Asset-organizationInventoryName" parent="Asset-organizationInventoryName-parentBean" />
-
   <bean id="Asset-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationInventoryName" />
     <property name="forceUppercase" value="false" />
@@ -652,11 +651,11 @@
     <property name="summary" value="organizationInventoryName" />
     <property name="description" value="organizationInventoryName description..." />
   </bean>
+  
   <bean id="Asset-primaryDepreciationMethodCode" parent="Asset-primaryDepreciationMethodCode-parentBean" />
-
   <bean id="Asset-primaryDepreciationMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="primaryDepreciationMethodCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Depreciation Method Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
@@ -674,15 +673,15 @@
     <property name="summary" value="primaryDepreciationMethodCode" />
     <property name="description" value="primaryDepreciationMethodCode description..." />
   </bean>
+  
   <bean id="Asset-receiveDate" parent="Asset-receiveDate-parentBean" />
-
   <bean id="Asset-receiveDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="receiveDate" />
     <property name="label" value="Receive Date" />
     <property name="shortLabel" value="Receive Date" />
   </bean>
+  
   <bean id="Asset-replacementAmount" parent="Asset-replacementAmount-parentBean" />
-
   <bean id="Asset-replacementAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="replacementAmount" />
     <property name="label" value="Replacement Amount" />
@@ -691,11 +690,11 @@
     <property name="description" value="replacementAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-retirementAccountNumber" parent="Asset-retirementAccountNumber-parentBean" />
-
   <bean id="Asset-retirementAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementAccountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Cash Receipt Account" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="7" />
@@ -709,11 +708,11 @@
     <property name="summary" value="retirementAccountNumber" />
     <property name="description" value="retirementAccountNumber description..." />
   </bean>
+  
   <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountCode-parentBean" />
-
   <bean id="Asset-retirementChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Cash Receipt Chart" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -727,11 +726,11 @@
     <property name="summary" value="retirementChartOfAccountsCode" />
     <property name="description" value="retirementChartOfAccountsCode description..." />
   </bean>
+  
   <bean id="Asset-retirementFiscalYear" parent="Asset-retirementFiscalYear-parentBean" />
-
   <bean id="Asset-retirementFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementFiscalYear" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Retirement Fiscal Year" />
     <property name="shortLabel" value="Year" />
     <property name="maxLength" value="4" />
@@ -745,11 +744,11 @@
     <property name="summary" value="retirementFiscalYear" />
     <property name="description" value="retirementFiscalYear description..." />
   </bean>
+  
   <bean id="Asset-retirementPeriodCode" parent="Asset-retirementPeriodCode-parentBean" />
-
   <bean id="Asset-retirementPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementPeriodCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Retirement Period Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -763,8 +762,8 @@
     <property name="summary" value="retirementPeriodCode" />
     <property name="description" value="retirementPeriodCode description..." />
   </bean>
-  <bean id="Asset-financialObjectSubTypeCode" parent="Asset-financialObjectSubTypeCode-parentBean" />
   
+  <bean id="Asset-financialObjectSubTypeCode" parent="Asset-financialObjectSubTypeCode-parentBean" />
   <bean id="Asset-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjSubTyp-code">
     <property name="name" value="financialObjectSubTypeCode" />
     <property name="label" value="Financial Object Subtype Code" />
@@ -772,11 +771,11 @@
     <property name="summary" value="financialObjectSubTypeCode" />
     <property name="description" value="financialObjectSubTypeCode description..." />
   </bean>
+  
   <bean id="Asset-retirementReasonCode" parent="Asset-retirementReasonCode-parentBean" />
-
   <bean id="Asset-retirementReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementReasonCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Retirement Reason" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -790,8 +789,8 @@
     <property name="summary" value="retirementReasonCode" />
     <property name="description" value="retirementReasonCode description..." />
   </bean>
+  
   <bean id="Asset-salePrice" parent="Asset-salePrice-parentBean" />
-
   <bean id="Asset-salePrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="salePrice" />
     <property name="label" value="Sale Price" />
@@ -800,8 +799,8 @@
     <property name="description" value="salePrice description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-salvageAmount" parent="Asset-salvageAmount-parentBean" />
-
   <bean id="Asset-salvageAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="salvageAmount" />
     <property name="label" value="Salvage Amount" />
@@ -810,8 +809,8 @@
     <property name="description" value="salvageAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-serialNumber" parent="Asset-serialNumber-parentBean" />
-
   <bean id="Asset-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="serialNumber" />
     <property name="forceUppercase" value="false" />
@@ -829,8 +828,8 @@
     <property name="summary" value="serialNumber" />
     <property name="description" value="serialNumber description..." />
   </bean>
+  
   <bean id="Asset-totalCostAmount" parent="Asset-totalCostAmount-parentBean" />
-
   <bean id="Asset-totalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCostAmount" />
     <property name="label" value="Total Cost" />
@@ -839,11 +838,11 @@
     <property name="description" value="totalCostAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-transferOfFundsFinancialDocumentNumber" parent="Asset-transferOfFundsFinancialDocumentNumber-parentBean" />
-
   <bean id="Asset-transferOfFundsFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transferOfFundsFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transfer Of Funds Financial Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="14" />
@@ -857,8 +856,8 @@
     <property name="summary" value="transferOfFundsFinancialDocumentNumber" />
     <property name="description" value="transferOfFundsFinancialDocumentNumber description..." />
   </bean>
+  
   <bean id="Asset-vendorName" parent="Asset-vendorName-parentBean" />
-
   <bean id="Asset-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorName" />
     <property name="forceUppercase" value="false" />
@@ -876,13 +875,13 @@
     <property name="summary" value="vendorName" />
     <property name="description" value="vendorName description..." />
   </bean>
+  
   <bean id="Asset-capitalAssetType.depreciableLifeLimit" parent="Asset-capitalAssetType.depreciableLifeLimit-parentBean" />
-
   <bean id="Asset-capitalAssetType.depreciableLifeLimit-parentBean" abstract="true" parent="AssetType-depreciableLifeLimit">
     <property name="name" value="capitalAssetType.depreciableLifeLimit" />
   </bean>
+  
   <bean id="Asset-representativeUniversalIdentifier" parent="Asset-representativeUniversalIdentifier-parentBean" />
-
   <bean id="Asset-representativeUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="representativeUniversalIdentifier" />
     <property name="label" value="Asset Representative ID" />
@@ -891,8 +890,8 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
+  
   <bean id="Asset-assetRepresentative.principalName" parent="Asset-assetRepresentative.principalName-parentBean" />
-
   <bean id="Asset-assetRepresentative.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="assetRepresentative.principalName" />
     <property name="label" value="Asset Representative" />
@@ -905,72 +904,71 @@
             p:userIdAttributeName="assetRepresentative.principalName" />
     </property>
   </bean>
+  
   <bean id="Asset-assetRepresentative.name" parent="Asset-assetRepresentative.name-parentBean" />
-
   <bean id="Asset-assetRepresentative.name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="assetRepresentative.name" />
     <property name="label" value="Asset Representative Name" />
     <property name="shortLabel" value="Representative" />
     <property name="required" value="false" />
   </bean>
+  
   <bean id="Asset-organizationOwnerAccountNumber" parent="Asset-organizationOwnerAccountNumber-parentBean" />
-
   <bean id="Asset-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="organizationOwnerAccountNumber" />
     <property name="label" value="Organization Owner Account Number" />
   </bean>
+  
   <bean id="Asset-organizationOwnerChartOfAccountsCode" parent="Asset-organizationOwnerChartOfAccountsCode-parentBean" />
-
   <bean id="Asset-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
     <property name="name" value="organizationOwnerChartOfAccountsCode" />
     <property name="label" value="Organization Owner Chart Of Accounts Code" />
   </bean>
+  
   <bean id="Asset-capitalAssetTypeCode" parent="Asset-capitalAssetTypeCode-parentBean" />
-
   <bean id="Asset-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
     <property name="label" value="Asset Type Code" />
   </bean>
+  
   <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean" />
-
   <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="label" value="Campus" />
   </bean>
+  
   <bean id="Asset-buildingCode" parent="Asset-buildingCode-parentBean" />
-
   <bean id="Asset-buildingCode-parentBean" abstract="true" parent="Room-buildingCode">
   </bean>
+  
   <bean id="Asset-buildingRoomNumber" parent="Asset-buildingRoomNumber-parentBean" />
-
   <bean id="Asset-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
   </bean>
+  
   <bean id="Asset-assetOrganization.organizationText" parent="Asset-assetOrganization.organizationText-parentBean" />
-
   <bean id="Asset-assetOrganization.organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
     <property name="name" value="assetOrganization.organizationText" />
   </bean>
+  
   <bean id="Asset-assetOrganization.organizationTagNumber" parent="Asset-assetOrganization.organizationTagNumber-parentBean" />
-
   <bean id="Asset-assetOrganization.organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
     <property name="name" value="assetOrganization.organizationTagNumber" />
   </bean>
+  
   <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier" parent="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" />
-
   <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AssetOrganization-organizationAssetTypeIdentifier">
     <property name="name" value="assetOrganization.organizationAssetTypeIdentifier" />
   </bean>
+  
   <bean id="Asset-conditionCode" parent="Asset-conditionCode-parentBean" />
-
   <bean id="Asset-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
     <property name="name" value="conditionCode" />
     <property name="label" value="Asset Condition" />
     <property name="control">
     	<bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetConditionValuesFinder"
-            />
+            p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetConditionValuesFinder" />
     </property>
   </bean>
+  
   <bean id="Asset-landCountyName" parent="Asset-landCountyName-parentBean" />
-
   <bean id="Asset-landCountyName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="landCountyName" />
     <property name="forceUppercase" value="false" />
@@ -988,8 +986,8 @@
     <property name="summary" value="landCountyName" />
     <property name="description" value="Land country name." />
   </bean>
+  
   <bean id="Asset-landAcreageSize" parent="Asset-landAcreageSize-parentBean" />
-
   <bean id="Asset-landAcreageSize-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="landAcreageSize" />
     <property name="forceUppercase" value="false" />
@@ -1007,8 +1005,8 @@
     <property name="summary" value="landAcreageSize" />
     <property name="description" value="Land acreage size." />
   </bean>
+  
   <bean id="Asset-landParcelNumber" parent="Asset-landParcelNumber-parentBean" />
-
   <bean id="Asset-landParcelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="landParcelNumber" />
     <property name="forceUppercase" value="false" />
@@ -1028,10 +1026,9 @@
   </bean>
 
   <bean id="Asset-quantity" parent="Asset-quantity-parentBean" />
-
   <bean id="Asset-quantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="quantity" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Quantity" />
     <property name="shortLabel" value="Quantity" />
     <property name="maxLength" value="2" />
@@ -1047,7 +1044,6 @@
   </bean>
 
   <bean id="Asset-accumulatedDepreciation" parent="Asset-accumulatedDepreciation-parentBean" />
-
   <bean id="Asset-accumulatedDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accumulatedDepreciation" />
     <property name="label" value="Accumulated Depreciation" />
@@ -1056,8 +1052,8 @@
     <property name="description" value="Accumulated Depreciation Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-baseAmount" parent="Asset-baseAmount-parentBean" />
-
   <bean id="Asset-baseAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="baseAmount" />
     <property name="label" value="Base Amount" />
@@ -1066,8 +1062,8 @@
     <property name="description" value="Base Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-bookValue" parent="Asset-bookValue-parentBean" />
-
   <bean id="Asset-bookValue-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="bookValue" />
     <property name="label" value="Book Value" />
@@ -1076,8 +1072,8 @@
     <property name="description" value="Book Value" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-prevYearDepreciation" parent="Asset-prevYearDepreciation-parentBean" />
-
   <bean id="Asset-prevYearDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="prevYearDepreciation" />
     <property name="label" value="Previous Year" />
@@ -1086,8 +1082,8 @@
     <property name="description" value="Previous Year Depreciation" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-yearToDateDepreciation" parent="Asset-yearToDateDepreciation-parentBean" />
-
   <bean id="Asset-yearToDateDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="yearToDateDepreciation" />
     <property name="label" value="Year To Date" />
@@ -1096,8 +1092,8 @@
     <property name="description" value="Year To Date Depreciation" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-currentMonthDepreciation" parent="Asset-currentMonthDepreciation-parentBean" />
-
   <bean id="Asset-currentMonthDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="currentMonthDepreciation" />
     <property name="label" value="Current Month" />
@@ -1106,244 +1102,244 @@
     <property name="description" value="Current Month Depreciation" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-paymentTotalCost" parent="Asset-paymentTotalCost-parentBean" />
-
   <bean id="Asset-paymentTotalCost-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="paymentTotalCost" />
     <property name="label" value="Payments Total" />
     <property name="shortLabel" value="Payments Total" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-federalContribution" parent="Asset-federalContribution-parentBean" />
-
   <bean id="Asset-federalContribution-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="federalContribution" />
     <property name="label" value="Federal Contribution" />
     <property name="shortLabel" value="Contribution" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="Asset-assetWarranty.warrantyNumber" parent="Asset-assetWarranty.warrantyNumber-parentBean" />
-
   <bean id="Asset-assetWarranty.warrantyNumber-parentBean" abstract="true" parent="AssetWarranty-warrantyNumber">
     <property name="name" value="assetWarranty.warrantyNumber" />
   </bean>
+  
   <bean id="Asset-assetWarranty.warrantyContactName" parent="Asset-assetWarranty.warrantyContactName-parentBean" />
-
   <bean id="Asset-assetWarranty.warrantyContactName-parentBean" abstract="true" parent="AssetWarranty-warrantyContactName">
     <property name="name" value="assetWarranty.warrantyContactName" />
     <property name="label" value="Contact Name" />
   </bean>
+  
   <bean id="Asset-assetWarranty.warrantyPhoneNumber" parent="Asset-assetWarranty.warrantyPhoneNumber-parentBean" />
-
   <bean id="Asset-assetWarranty.warrantyPhoneNumber-parentBean" abstract="true" parent="AssetWarranty-warrantyPhoneNumber">
     <property name="name" value="assetWarranty.warrantyPhoneNumber" />
     <property name="label" value="Phone Number" />
   </bean>
+  
   <bean id="Asset-assetWarranty.warrantyPurchaseOrderNumber" parent="Asset-assetWarranty.warrantyPurchaseOrderNumber-parentBean" />
-
   <bean id="Asset-assetWarranty.warrantyPurchaseOrderNumber-parentBean" abstract="true" parent="AssetWarranty-warrantyPurchaseOrderNumber">
     <property name="name" value="assetWarranty.warrantyPurchaseOrderNumber" />
     <property name="label" value="Purchase Order Number" />
   </bean>
+  
   <bean id="Asset-assetWarranty.warrantyBeginningDate" parent="Asset-assetWarranty.warrantyBeginningDate-parentBean" />
-
   <bean id="Asset-assetWarranty.warrantyBeginningDate-parentBean" abstract="true" parent="AssetWarranty-warrantyBeginningDate">
     <property name="name" value="assetWarranty.warrantyBeginningDate" />
     <property name="label" value="Begin Date" />
   </bean>
+  
   <bean id="Asset-assetWarranty.warrantyEndingDate" parent="Asset-assetWarranty.warrantyEndingDate-parentBean" />
-
   <bean id="Asset-assetWarranty.warrantyEndingDate-parentBean" abstract="true" parent="AssetWarranty-warrantyEndingDate">
     <property name="name" value="assetWarranty.warrantyEndingDate" />
     <property name="label" value="End Date" />
   </bean>
+  
   <bean id="Asset-assetWarranty.warrantyText" parent="Asset-assetWarranty.warrantyText-parentBean" />
-
   <bean id="Asset-assetWarranty.warrantyText-parentBean" abstract="true" parent="AssetWarranty-warrantyText">
     <property name="name" value="assetWarranty.warrantyText" />
     <property name="label" value="Description" />
   </bean>
+  
   <bean id="Asset-separateHistory.separateSourceCapitalAssetNumber" parent="Asset-separateHistory.separateSourceCapitalAssetNumber-parentBean" />
-
   <bean id="Asset-separateHistory.separateSourceCapitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
     <property name="name" value="separateHistory.separateSourceCapitalAssetNumber" />
     <property name="label" value="Original Asset Number" />
     <property name="shortLabel" value="OrigAssetNbr" />
   </bean>
+  
   <bean id="Asset-separateHistory.separateDocumentHeaderFinalDate" parent="Asset-separateHistory.separateDocumentHeaderFinalDate-parentBean" />
-
   <bean id="Asset-separateHistory.separateDocumentHeaderFinalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="separateHistory.separateDocumentHeaderFinalDate" />
     <property name="label" value="Separate Date" />
     <property name="shortLabel" value="Date" />
   </bean>
+  
   <bean id="Asset-retirementInfo.documentNumber" parent="Asset-retirementInfo.documentNumber-parentBean" />
-
   <bean id="Asset-retirementInfo.documentNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-documentNumber">
     <property name="name" value="retirementInfo.documentNumber" />
     <property name="label" value="Retirement Document Number" />
     <property name="shortLabel" value="RetireDocNbr" />
   </bean>
+  
   <bean id="Asset-retirementReason.retirementReasonName" parent="Asset-retirementReason.retirementReasonName-parentBean" />
-
   <bean id="Asset-retirementReason.retirementReasonName-parentBean" abstract="true" parent="AssetRetirementReason-retirementReasonName">
     <property name="name" value="retirementReason.retirementReasonName" />
     <property name="label" value="Retirement Reason" />
     <property name="shortLabel" value="Reason" />
   </bean>
+  
   <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementDate" parent="Asset-retirementInfo.assetRetirementGlobal.retirementDate-parentBean" />
-
   <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementDate-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementDate">
     <property name="name" value="retirementInfo.assetRetirementGlobal.retirementDate" />
   </bean>
+  
   <bean id="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" parent="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber-parentBean" />
-
   <bean id="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber-parentBean" abstract="true" parent="AssetRetirementGlobal-mergedTargetCapitalAssetNumber">
     <property name="name" value="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementContactName" parent="Asset-retirementInfo.retirementContactName-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementContactName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementContactName">
     <property name="name" value="retirementInfo.retirementContactName" />
     <property name="label" value="Contact Name" />
     <property name="shortLabel" value="name" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementInstitutionName" parent="Asset-retirementInfo.retirementInstitutionName-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementInstitutionName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementInstitutionName">
     <property name="name" value="retirementInfo.retirementInstitutionName" />
     <property name="label" value="Institution" />
     <property name="shortLabel" value="Institution" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementStreetAddress" parent="Asset-retirementInfo.retirementStreetAddress-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementStreetAddress-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStreetAddress">
     <property name="name" value="retirementInfo.retirementStreetAddress" />
     <property name="label" value="Street" />
     <property name="shortLabel" value="Street" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementCityName" parent="Asset-retirementInfo.retirementCityName-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementCityName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCityName">
     <property name="name" value="retirementInfo.retirementCityName" />
     <property name="label" value="City" />
     <property name="shortLabel" value="City" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementStateCode" parent="Asset-retirementInfo.retirementStateCode-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementStateCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStateCode">
     <property name="name" value="retirementInfo.retirementStateCode" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementZipCode" parent="Asset-retirementInfo.retirementZipCode-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementZipCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementZipCode">
     <property name="name" value="retirementInfo.retirementZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementCountryCode" parent="Asset-retirementInfo.retirementCountryCode-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementCountryCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCountryCode">
     <property name="name" value="retirementInfo.retirementCountryCode" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Country" />
   </bean>
+  
   <bean id="Asset-retirementInfo.retirementPhoneNumber" parent="Asset-retirementInfo.retirementPhoneNumber-parentBean" />
-
   <bean id="Asset-retirementInfo.retirementPhoneNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementPhoneNumber">
     <property name="name" value="retirementInfo.retirementPhoneNumber" />
     <property name="label" value="Phone" />
     <property name="shortLabel" value="Phone" />
   </bean>
+  
   <bean id="Asset-retirementInfo.buyerDescription" parent="Asset-retirementInfo.buyerDescription-parentBean" />
-
   <bean id="Asset-retirementInfo.buyerDescription-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-buyerDescription">
     <property name="name" value="retirementInfo.buyerDescription" />
     <property name="label" value="Buyer" />
     <property name="shortLabel" value="Buyer" />
   </bean>
-  <bean id="Asset-loanOrReturnInfo.borrowerPerson.name" parent="Asset-loanOrReturnInfo.borrowerPerson.name-parentBean" />
-																										
+  
+  <bean id="Asset-loanOrReturnInfo.borrowerPerson.name" parent="Asset-loanOrReturnInfo.borrowerPerson.name-parentBean" />																								
   <bean id="Asset-loanOrReturnInfo.borrowerPerson.name-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPerson.principalName">
     <property name="name" value="loanOrReturnInfo.borrowerPerson.name" />
     <property name="label" value="Name" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerAddress" parent="Asset-loanOrReturnInfo.borrowerAddress-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerAddress">
     <property name="name" value="loanOrReturnInfo.borrowerAddress" />
     <property name="label" value="Street" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerCityName" parent="Asset-loanOrReturnInfo.borrowerCityName-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCityName">
     <property name="name" value="loanOrReturnInfo.borrowerCityName" />
     <property name="label" value="City" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStateCode" parent="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerStateCode" />
     <property name="label" value="State" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerZipCode" parent="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerZipCode">
     <property name="name" value="loanOrReturnInfo.borrowerZipCode" />
     <property name="label" value="Postal Code" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerCountryCode" parent="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCountryCode">
     <property name="name" value="loanOrReturnInfo.borrowerCountryCode" />
     <property name="label" value="Country" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber" parent="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPhoneNumber">
     <property name="name" value="loanOrReturnInfo.borrowerPhoneNumber" />
     <property name="label" value="Phone" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress" parent="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageAddress">
     <property name="name" value="loanOrReturnInfo.borrowerStorageAddress" />
     <property name="label" value="Street" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName" parent="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCityName">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCityName" />
     <property name="label" value="City" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageStateCode" />
     <property name="label" value="State" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode" parent="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageZipCode" />
     <property name="label" value="Postal Code" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode" parent="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCountryCode" />
     <property name="label" value="Country" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber" parent="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber">
     <property name="name" value="loanOrReturnInfo.borrowerStoragePhoneNumber" />
     <property name="label" value="Phone" />
   </bean>
+  
   <bean id="Asset-offCampusLocation.assetLocationContactName" parent="Asset-offCampusLocation.assetLocationContactName-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationContactName-parentBean" abstract="true" parent="AssetLocation-assetLocationContactName">
     <property name="name" value="offCampusLocation.assetLocationContactName" />
     <property name="forceUppercase" value="false" />
@@ -1351,8 +1347,8 @@
     <property name="summary" value="Asset Off Campus Name" />
     <property name="description" value="Asset Off Campus Name description..." />
   </bean>
+  
   <bean id="Asset-offCampusLocation.assetLocationStreetAddress" parent="Asset-offCampusLocation.assetLocationStreetAddress-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationStreetAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
     <property name="name" value="offCampusLocation.assetLocationStreetAddress" />
     <property name="forceUppercase" value="false" />
@@ -1360,8 +1356,8 @@
     <property name="summary" value="Asset Off Campus Address" />
     <property name="description" value="Asset Off Campus Address description..." />
   </bean>
+  
   <bean id="Asset-offCampusLocation.assetLocationCityName" parent="Asset-offCampusLocation.assetLocationCityName-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="offCampusLocation.assetLocationCityName" />
     <property name="forceUppercase" value="false" />
@@ -1370,8 +1366,8 @@
     <property name="summary" value="Asset Off Campus City" />
     <property name="description" value="Asset Off Campus City description..." />
   </bean>
+  
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
@@ -1381,8 +1377,8 @@
     <property name="summary" value="Asset Off Campus State" />
     <property name="description" value="Asset Off Campus State description..." />
   </bean>
+  
   <bean id="Asset-offCampusLocation.assetLocationZipCode" parent="Asset-offCampusLocation.assetLocationZipCode-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode">
     <property name="name" value="offCampusLocation.assetLocationZipCode" />
     <property name="label" value="Postal Code" />
@@ -1390,13 +1386,12 @@
     <property name="summary" value="Asset Off Campus Zip" />
     <property name="description" value="Asset Off Campus Zip description..." />
    </bean>
+   
   <bean id="Asset-offCampusLocation.assetLocationCountryCode" parent="Asset-offCampusLocation.assetLocationCountryCode-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode">
     <property name="name" value="offCampusLocation.assetLocationCountryCode" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Country" />
-    
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern"
@@ -1407,78 +1402,73 @@
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
-    
     <property name="summary" value="Asset Off Campus Country" />
     <property name="description" value="Asset Off Campus Country description..." />
   </bean>
+  
   <bean id="Asset-assetStatus.inventoryStatusCode" parent="Asset-assetStatus.inventoryStatusCode-parentBean" />
-
   <bean id="Asset-assetStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="name" value="assetStatus.inventoryStatusCode" />
   </bean>  
 
   <bean id="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" parent="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode-parentBean" />
-
   <bean id="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode-parentBean" abstract="true" parent="AssetDepreciationMethod-depreciationMethodCode">
     <property name="name" value="assetPrimaryDepreciationMethod.depreciationMethodCode" />
   </bean>
+  
   <bean id="Asset-inventoryStatus.inventoryStatusCode" parent="Asset-inventoryStatus.inventoryStatusCode-parentBean" />
-
   <bean id="Asset-inventoryStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="name" value="inventoryStatus.inventoryStatusCode" />
   </bean>
+  
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusLocation.assetLocationState.postalStateCode" />
   </bean>
+  
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" />
-
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerState.postalStateCode" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="loanOrReturnInfo.borrowerCountry.postalCountryName" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
   </bean>
+  
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" />
-
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
   </bean>
 
   <bean id="Asset-assetPayments.paymentSequenceNumber" parent="Asset-assetPayments.paymentSequenceNumber-parentBean" />
-
   <bean id="Asset-assetPayments.paymentSequenceNumber-parentBean" abstract="true" parent="AssetPayment-paymentSequenceNumber">
     <property name="name" value="assetPayments.paymentSequenceNumber" />
   </bean>
 
   <bean id="Asset-assetPayments.purchaseOrderNumber" parent="Asset-assetPayments.purchaseOrderNumber-parentBean" />
-
   <bean id="Asset-assetPayments.purchaseOrderNumber-parentBean" abstract="true" parent="AssetPayment-purchaseOrderNumber">
     <property name="name" value="assetPayments.purchaseOrderNumber" />
     <property name="label" value="Payment Purchase Order Number" />
   </bean>
 
   <bean id="Asset-assetPayments.documentNumber" parent="Asset-assetPayments.documentNumber-parentBean" />
-
   <bean id="Asset-assetPayments.documentNumber-parentBean" abstract="true" parent="AssetPayment-documentNumber">
     <property name="name" value="assetPayments.documentNumber" />
     <property name="label" value="Payment Document Number" />
@@ -1492,11 +1482,10 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="Asset-inquiryDefinition" parent="Asset-inquiryDefinition-parentBean" />
-
   <bean id="Asset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Inquiry" />
     <property name="inquirySections" >
@@ -2024,9 +2013,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="Asset-lookupDefinition" parent="Asset-lookupDefinition-parentBean" />
-
   <bean id="Asset-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Lookup" />
     <property name="lookupableID" value="assetLookupable" />

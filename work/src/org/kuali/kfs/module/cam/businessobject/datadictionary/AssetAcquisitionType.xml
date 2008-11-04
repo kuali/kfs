@@ -27,9 +27,7 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetAcquisitionType-acquisitionTypeCode" parent="AssetAcquisitionType-acquisitionTypeCode-parentBean" />
-
   <bean id="AssetAcquisitionType-acquisitionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acquisitionTypeCode" />
     <property name="forceUppercase" value="true" />
@@ -46,8 +44,8 @@
     <property name="summary" value="acquisitionTypeCode" />
     <property name="description" value="Acquisition type code." />
   </bean>
+  
   <bean id="AssetAcquisitionType-acquisitionTypeName" parent="AssetAcquisitionType-acquisitionTypeName-parentBean" />
-
   <bean id="AssetAcquisitionType-acquisitionTypeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acquisitionTypeName" />
     <property name="forceUppercase" value="false" />
@@ -65,11 +63,11 @@
     <property name="summary" value="acquisitionTypeName" />
     <property name="description" value="Acquisition type name." />
   </bean>
+  
   <bean id="AssetAcquisitionType-incomeAssetObjectCode" parent="AssetAcquisitionType-incomeAssetObjectCode-parentBean" />
-
   <bean id="AssetAcquisitionType-incomeAssetObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="incomeAssetObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Income Asset Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
@@ -83,17 +81,15 @@
     <property name="summary" value="incomeAssetObjectCode" />
     <property name="description" value="Income asset object code." />
   </bean>
+  
   <bean id="AssetAcquisitionType-active" parent="AssetAcquisitionType-active-parentBean" />
-
   <bean id="AssetAcquisitionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetAcquisitionType-inquiryDefinition" parent="AssetAcquisitionType-inquiryDefinition-parentBean" />
-
   <bean id="AssetAcquisitionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Acquisition Type" />
     <property name="inquirySections" >
@@ -120,9 +116,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetAcquisitionType-lookupDefinition" parent="AssetAcquisitionType-lookupDefinition-parentBean" />
-
   <bean id="AssetAcquisitionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Acquisition Type" />
     <property name="lookupableID" value="assetAcquisitionLookupable" />  

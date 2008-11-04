@@ -81,7 +81,6 @@
     <property name="name" value="asset.campusTagNumber" />
   </bean>
 
-
   <bean id="AssetPayment-asset.totalCostAmount" parent="AssetPayment-asset.totalCostAmount-parentBean" />
   <bean id="AssetPayment-asset.totalCostAmount-parentBean" abstract="true" parent="Asset-totalCostAmount">
     <property name="name" value="asset.totalCostAmount" />
@@ -161,13 +160,10 @@
     <property name="shortLabel" value="Campus Plant Chart Code" />    
   </bean>
 
-
-
   <bean id="AssetPayment-accountChargeAmount" parent="AssetPayment-accountChargeAmount-parentBean" />
-
   <bean id="AssetPayment-accountChargeAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountChargeAmount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="14" />
@@ -186,7 +182,7 @@
   <bean id="AssetPayment-accountNumber" parent="AssetPayment-accountNumber-parentBean" />
   <bean id="AssetPayment-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Account Number" />
     <property name="shortLabel" value="Account Number" />
     <property name="maxLength" value="7" />
@@ -200,11 +196,11 @@
     <property name="summary" value="accountNumber" />
     <property name="description" value="accountNumber description..." />
   </bean>
+  
   <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount" parent="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" />
-
   <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accumulatedPrimaryDepreciationAmount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Accumulated Primary Depreciation Amount" />
     <property name="shortLabel" value="Accum. Depr. Amt." />
     <property name="maxLength" value="19" />
@@ -219,8 +215,8 @@
     <property name="description" value="accumulatedPrimaryDepreciationAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-capitalAssetNumber" parent="AssetPayment-capitalAssetNumber-parentBean" />
-
   <bean id="AssetPayment-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
@@ -245,10 +241,9 @@
   </bean>
   
   <bean id="AssetPayment-documentNumber" parent="AssetPayment-documentNumber-parentBean" />
-
   <bean id="AssetPayment-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Document Number" />
     <property name="shortLabel" value="Doc. #" />
     <property name="maxLength" value="14" />
@@ -262,18 +257,18 @@
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
   </bean>
+  
   <bean id="AssetPayment-financialDocumentPostingDate" parent="AssetPayment-financialDocumentPostingDate-parentBean" />
-
   <bean id="AssetPayment-financialDocumentPostingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="financialDocumentPostingDate" />
     <property name="label" value="Posting Date" />
     <property name="shortLabel" value="Posting Date" />
   </bean>
+  
   <bean id="AssetPayment-financialDocumentPostingPeriodCode" parent="AssetPayment-financialDocumentPostingPeriodCode-parentBean" />
-
   <bean id="AssetPayment-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingPeriodCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Fiscal Period" />
     <property name="shortLabel" value="Period Code" />
     <property name="maxLength" value="2" />
@@ -287,11 +282,11 @@
     <property name="summary" value="financialDocumentPostingPeriodCode" />
     <property name="description" value="financialDocumentPostingPeriodCode description..." />
   </bean>
+  
   <bean id="AssetPayment-financialDocumentPostingYear" parent="AssetPayment-financialDocumentPostingYear-parentBean" />
-
   <bean id="AssetPayment-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingYear" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Posting Year" />
     <property name="maxLength" value="4" />
@@ -305,11 +300,11 @@
     <property name="summary" value="financialDocumentPostingYear" />
     <property name="description" value="financialDocumentPostingYear description..." />
   </bean>
+  
   <bean id="AssetPayment-financialDocumentTypeCode" parent="AssetPayment-financialDocumentTypeCode-parentBean" />
-
   <bean id="AssetPayment-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Document Type Code" />
     <property name="shortLabel" value="Doc. Type" />
     <property name="maxLength" value="4" />
@@ -323,11 +318,11 @@
     <property name="summary" value="financialDocumentTypeCode" />
     <property name="description" value="financialDocumentTypeCode description..." />
   </bean>
+  
   <bean id="AssetPayment-financialObjectCode" parent="AssetPayment-financialObjectCode-parentBean" />
-
   <bean id="AssetPayment-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Object Code" />
     <property name="shortLabel" value="Object Code" />
     <property name="maxLength" value="4" />
@@ -341,11 +336,11 @@
     <property name="summary" value="financialObjectCode" />
     <property name="description" value="financialObjectCode description..." />
   </bean>
+  
   <bean id="AssetPayment-financialSubObjectCode" parent="AssetPayment-financialSubObjectCode-parentBean" />
-
   <bean id="AssetPayment-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Sub-Object" />
     <property name="shortLabel" value="Sub-Obj. Code" />
     <property name="maxLength" value="3" />
@@ -359,11 +354,11 @@
     <property name="summary" value="financialSubObjectCode" />
     <property name="description" value="financialSubObjectCode description..." />
   </bean>
+  
   <bean id="AssetPayment-financialSystemOriginationCode" parent="AssetPayment-financialSystemOriginationCode-parentBean" />
-
   <bean id="AssetPayment-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemOriginationCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Origination Code" />
     <property name="shortLabel" value="Origin. Code" />
     <property name="maxLength" value="2" />
@@ -377,11 +372,11 @@
     <property name="summary" value="financialSystemOriginationCode" />
     <property name="description" value="financialSystemOriginationCode description..." />
   </bean>
+  
   <bean id="AssetPayment-organizationReferenceId" parent="AssetPayment-organizationReferenceId-parentBean" />
-
   <bean id="AssetPayment-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Organization Reference Id" />
     <property name="shortLabel" value="Org. Ref. Id" />
     <property name="maxLength" value="8" />
@@ -395,8 +390,8 @@
     <property name="summary" value="organizationReferenceId" />
     <property name="description" value="organizationReferenceId description..." />
   </bean>
+  
   <bean id="AssetPayment-paymentSequenceNumber" parent="AssetPayment-paymentSequenceNumber-parentBean" />
-
   <bean id="AssetPayment-paymentSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentSequenceNumber" />
     <property name="forceUppercase" value="true" />
@@ -413,11 +408,11 @@
     <property name="summary" value="paymentSequenceNumber" />
     <property name="description" value="paymentSequenceNumber description..." />
   </bean>
+  
   <bean id="AssetPayment-period10Depreciation1Amount" parent="AssetPayment-period10Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period10Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period10Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period10 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -431,11 +426,11 @@
     <property name="summary" value="period10Depreciation1Amount" />
     <property name="description" value="period10Depreciation1Amount description..." />
   </bean>
+  
   <bean id="AssetPayment-period11Depreciation1Amount" parent="AssetPayment-period11Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period11Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period11Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period11 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -450,11 +445,11 @@
     <property name="description" value="period11Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period12Depreciation1Amount" parent="AssetPayment-period12Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period12Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period12Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period12 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -469,11 +464,11 @@
     <property name="description" value="period12Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period1Depreciation1Amount" parent="AssetPayment-period1Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period1Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period1Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period1 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -488,11 +483,11 @@
     <property name="description" value="period1Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period2Depreciation1Amount" parent="AssetPayment-period2Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period2Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period2Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period2 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -507,11 +502,11 @@
     <property name="description" value="period2Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period3Depreciation1Amount" parent="AssetPayment-period3Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period3Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period3Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period3 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -526,11 +521,11 @@
     <property name="description" value="period3Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period4Depreciation1Amount" parent="AssetPayment-period4Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period4Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period4Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period4 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -545,11 +540,11 @@
     <property name="description" value="period4Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period5Depreciation1Amount" parent="AssetPayment-period5Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period5Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period5Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period5 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -564,11 +559,11 @@
     <property name="description" value="period5Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period6Depreciation1Amount" parent="AssetPayment-period6Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period6Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period6Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period6 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -583,11 +578,11 @@
     <property name="description" value="period6Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period7Depreciation1Amount" parent="AssetPayment-period7Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period7Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period7Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period7 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -602,11 +597,11 @@
     <property name="description" value="period7Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period8Depreciation1Amount" parent="AssetPayment-period8Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period8Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period8Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period8 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -621,11 +616,11 @@
     <property name="description" value="period8Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-period9Depreciation1Amount" parent="AssetPayment-period9Depreciation1Amount-parentBean" />
-
   <bean id="AssetPayment-period9Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period9Depreciation1Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period9 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -640,11 +635,11 @@
     <property name="description" value="period9Depreciation1Amount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-previousYearPrimaryDepreciationAmount" parent="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean" />
-
   <bean id="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="previousYearPrimaryDepreciationAmount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Previous Year Primary Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -659,11 +654,11 @@
     <property name="description" value="previousYearPrimaryDepreciationAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-primaryDepreciationBaseAmount" parent="AssetPayment-primaryDepreciationBaseAmount-parentBean" />
-
   <bean id="AssetPayment-primaryDepreciationBaseAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="primaryDepreciationBaseAmount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Primary Depreciation Base Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -678,11 +673,11 @@
     <property name="description" value="primaryDepreciationBaseAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-projectCode" parent="AssetPayment-projectCode-parentBean" />
-
   <bean id="AssetPayment-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="projectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Project Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="10" />
@@ -696,11 +691,11 @@
     <property name="summary" value="projectCode" />
     <property name="description" value="projectCode description..." />
   </bean>
+  
   <bean id="AssetPayment-purchaseOrderNumber" parent="AssetPayment-purchaseOrderNumber-parentBean" />
-
   <bean id="AssetPayment-purchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Purchase Order Number" />
     <property name="shortLabel" value="Purchase Order#" />
     <property name="maxLength" value="9" />
@@ -714,11 +709,11 @@
     <property name="summary" value="purchaseOrderNumber" />
     <property name="description" value="purchaseOrderNumber description..." />
   </bean>
+  
   <bean id="AssetPayment-requisitionNumber" parent="AssetPayment-requisitionNumber-parentBean" />
-
   <bean id="AssetPayment-requisitionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Requisition Number" />
     <property name="shortLabel" value="Req. #" />
     <property name="maxLength" value="8" />
@@ -732,11 +727,11 @@
     <property name="summary" value="requisitionNumber" />
     <property name="description" value="requisitionNumber description..." />
   </bean>
+  
   <bean id="AssetPayment-subAccountNumber" parent="AssetPayment-subAccountNumber-parentBean" />
-
   <bean id="AssetPayment-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAccountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Sub-Account" />
     <property name="shortLabel" value="Sub Accnt No" />
     <property name="maxLength" value="5" />
@@ -750,11 +745,11 @@
     <property name="summary" value="subAccountNumber" />
     <property name="description" value="subAccountNumber description..." />
   </bean>
+  
   <bean id="AssetPayment-transferPaymentCode" parent="AssetPayment-transferPaymentCode-parentBean" />
-
   <bean id="AssetPayment-transferPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transferPaymentCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Transfer Payment Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -768,8 +763,8 @@
     <property name="summary" value="transferPaymentCode" />
     <property name="description" value="transferPaymentCode description..." />
   </bean>
+  
   <bean id="AssetPayment-yearToDate" parent="AssetPayment-yearToDate-parentBean" />
-
   <bean id="AssetPayment-yearToDate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="yearToDate" />
     <property name="label" value="Year to Date" />
@@ -781,9 +776,7 @@
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetPayment-inquiryDefinition" parent="AssetPayment-inquiryDefinition-parentBean" />
-
   <bean id="AssetPayment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Payment Inquiry" />
     <property name="inquirySections" >
@@ -862,9 +855,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetPayment-lookupDefinition" parent="AssetPayment-lookupDefinition-parentBean" />
-
   <bean id="AssetPayment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Payment Lookup" />
     <property name="lookupableID" value="assetPaymentLookupable" />
@@ -945,75 +936,59 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber"
-			  p:useShortLabel="true"/>
+			  p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="paymentSequenceNumber" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingYear" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingPeriodCode" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="asset.capitalAssetDescription"
               p:noInquiry="true" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="account.organizationCode"
-              p:useShortLabel="true"/>                            
+              p:useShortLabel="true" />                            
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" 
-              p:useShortLabel="true"
-              />              
+              p:useShortLabel="true" />              
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="account.subFundGroupCode" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderNumber" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentTypeCode" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingDate" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="accountChargeAmount" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
         <bean parent="FieldDefinition"
               p:attributeName="accumulatedPrimaryDepreciationAmount" 
-              p:useShortLabel="true"
-              />
+              p:useShortLabel="true" />
      </list>
     </property>
   </bean>

@@ -32,10 +32,9 @@
 <!-- Attribute Definitions -->
 
   <bean id="AssetLocationGlobalDetail-buildingCode" parent="AssetLocationGlobalDetail-buildingCode-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Building Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="10" />
@@ -49,11 +48,11 @@
     <property name="summary" value="buildingCode" />
     <property name="description" value="buildingCode description..." />
   </bean>
+  
   <bean id="AssetLocationGlobalDetail-buildingRoomNumber" parent="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingRoomNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Building Room Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="8" />
@@ -67,11 +66,11 @@
     <property name="summary" value="buildingRoomNumber" />
     <property name="description" value="buildingRoomNumber description..." />
   </bean>
+  
   <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber" parent="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingSubRoomNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Building Sub Room Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -85,11 +84,11 @@
     <property name="summary" value="buildingSubRoomNumber" />
     <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
+  
   <bean id="AssetLocationGlobalDetail-campusCode" parent="AssetLocationGlobalDetail-campusCode-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Campus Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -103,11 +102,11 @@
     <property name="summary" value="campusCode" />
     <property name="description" value="campusCode description..." />
   </bean>
+  
   <bean id="AssetLocationGlobalDetail-campusTagNumber" parent="AssetLocationGlobalDetail-campusTagNumber-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusTagNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="true"  />
     <property name="label" value="Tag Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="8" />
@@ -121,8 +120,8 @@
     <property name="summary" value="campusTagNumber" />
     <property name="description" value="campusTagNumber description..." />
   </bean>
+  
   <bean id="AssetLocationGlobalDetail-capitalAssetNumber" parent="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
@@ -139,8 +138,8 @@
     <property name="summary" value="capitalAssetNumber" />
     <property name="description" value="capitalAssetNumber description..." />
   </bean>
+  
   <bean id="AssetLocationGlobalDetail-documentNumber" parent="AssetLocationGlobalDetail-documentNumber-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
@@ -159,13 +158,11 @@
   </bean>
   
   <bean id="AssetLocationGlobalDetail-newCollectionRecord" parent="AssetLocationGlobalDetail-newCollectionRecord-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />
 
 <!-- Business Object Inquiry Definition -->
 
   <bean id="AssetLocationGlobalDetail-inquiryDefinition" parent="AssetLocationGlobalDetail-inquiryDefinition-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Location Global Detail Inquiry" />
     <property name="inquirySections" >
@@ -198,9 +195,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetLocationGlobalDetail-lookupDefinition" parent="AssetLocationGlobalDetail-lookupDefinition-parentBean" />
-
   <bean id="AssetLocationGlobalDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Location Global Detail Lookup" />
     <property name="instructions" value="Look up an Asset Location Global Detail" />

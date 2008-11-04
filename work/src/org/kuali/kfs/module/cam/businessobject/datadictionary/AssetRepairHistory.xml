@@ -33,37 +33,35 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetRepairHistory-capitalAssetNumber" parent="AssetRepairHistory-capitalAssetNumber-parentBean" />
-
   <bean id="AssetRepairHistory-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
+  
   <bean id="AssetRepairHistory-estimatedRepairDate" parent="AssetRepairHistory-estimatedRepairDate-parentBean" />
-
   <bean id="AssetRepairHistory-estimatedRepairDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="estimatedRepairDate" />
     <property name="label" value="Estimated Repair Date" />
     <property name="shortLabel" value="Date" />
   </bean>
+  
   <bean id="AssetRepairHistory-incidentDate" parent="AssetRepairHistory-incidentDate-parentBean" />
-
   <bean id="AssetRepairHistory-incidentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="incidentDate" />
     <property name="label" value="Incident Date" />
     <property name="shortLabel" value="Date" />
   </bean>
+  
   <bean id="AssetRepairHistory-repairDate" parent="AssetRepairHistory-repairDate-parentBean" />
-
   <bean id="AssetRepairHistory-repairDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="repairDate" />
     <property name="label" value="Repair Date" />
     <property name="shortLabel" value="Date" />
   </bean>
+  
   <bean id="AssetRepairHistory-problemDescription" parent="AssetRepairHistory-problemDescription-parentBean" />
-
   <bean id="AssetRepairHistory-problemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="problemDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Problem Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="255" />
@@ -79,19 +77,19 @@
     <property name="summary" value="problemDescription" />
     <property name="description" value="problemDescription description..." />
   </bean>
+  
   <bean id="AssetRepairHistory-repairAmount" parent="AssetRepairHistory-repairAmount-parentBean" />
-
   <bean id="AssetRepairHistory-repairAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="repairAmount" />
     <property name="label" value="Repair Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetRepairHistory-repairContactName" parent="AssetRepairHistory-repairContactName-parentBean" />
-
   <bean id="AssetRepairHistory-repairContactName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="repairContactName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Repair Contact Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -106,11 +104,11 @@
     <property name="summary" value="repairContactName" />
     <property name="description" value="repairContactName description..." />
   </bean>
+  
   <bean id="AssetRepairHistory-repairNoteText" parent="AssetRepairHistory-repairNoteText-parentBean" />
-
   <bean id="AssetRepairHistory-repairNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="repairNoteText" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Repair Note Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="255" />
@@ -126,11 +124,11 @@
     <property name="summary" value="repairNoteText" />
     <property name="description" value="repairNoteText description..." />
   </bean>
+  
   <bean id="AssetRepairHistory-repairSolutionDescription" parent="AssetRepairHistory-repairSolutionDescription-parentBean" />
-
   <bean id="AssetRepairHistory-repairSolutionDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="repairSolutionDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Repair Solution Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="255" />
@@ -146,16 +144,14 @@
     <property name="summary" value="repairSolutionDescription" />
     <property name="description" value="repairSolutionDescription description..." />
   </bean>
+  
   <bean id="AssetRepairHistory-newCollectionRecord" parent="AssetRepairHistory-newCollectionRecord-parentBean" />
-
   <bean id="AssetRepairHistory-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetRepairHistory-inquiryDefinition" parent="AssetRepairHistory-inquiryDefinition-parentBean" />
-
   <bean id="AssetRepairHistory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Repair History Inquiry" />
     <property name="inquirySections" >
@@ -192,9 +188,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetRepairHistory-lookupDefinition" parent="AssetRepairHistory-lookupDefinition-parentBean" />
-
   <bean id="AssetRepairHistory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Repair History Lookup" />
     <property name="instructions" value="Look up an Asset Repair History" />

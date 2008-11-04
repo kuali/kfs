@@ -26,9 +26,7 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetDepreciationMethod-depreciationMethodCode" parent="AssetDepreciationMethod-depreciationMethodCode-parentBean" />
-
   <bean id="AssetDepreciationMethod-depreciationMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="depreciationMethodCode" />
     <property name="forceUppercase" value="true" />
@@ -45,8 +43,8 @@
     <property name="summary" value="depreciationMethodCode" />
     <property name="description" value="depreciationMethodCode description..." />
   </bean>
+  
   <bean id="AssetDepreciationMethod-depreciationMethodName" parent="AssetDepreciationMethod-depreciationMethodName-parentBean" />
-
   <bean id="AssetDepreciationMethod-depreciationMethodName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="depreciationMethodName" />
     <property name="forceUppercase" value="false" />
@@ -64,17 +62,15 @@
     <property name="summary" value="depreciationMethodName" />
     <property name="description" value="depreciationMethodName description..." />
   </bean>
+  
   <bean id="AssetDepreciationMethod-active" parent="AssetDepreciationMethod-active-parentBean" />
-
   <bean id="AssetDepreciationMethod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetDepreciationMethod-inquiryDefinition" parent="AssetDepreciationMethod-inquiryDefinition-parentBean" />
-
   <bean id="AssetDepreciationMethod-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Depreciation Method Inquiry" />
     <property name="inquirySections" >
@@ -99,9 +95,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetDepreciationMethod-lookupDefinition" parent="AssetDepreciationMethod-lookupDefinition-parentBean" />
-
   <bean id="AssetDepreciationMethod-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Depreciation Method Lookup" />
     <property name="instructions" value="Look up an Asset Depreciation Method" />

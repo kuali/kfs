@@ -61,7 +61,6 @@
   </bean>
 
   <bean id="AssetRetirementGlobal-documentNumber" parent="AssetRetirementGlobal-documentNumber-parentBean" />
-
   <bean id="AssetRetirementGlobal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
@@ -78,11 +77,11 @@
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
   </bean>
+  
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetNumber" parent="AssetRetirementGlobal-mergedTargetCapitalAssetNumber-parentBean" />
-
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="mergedTargetCapitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Merged Target Asset Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
@@ -96,8 +95,8 @@
     <property name="summary" value="mergedTargetCapitalAssetNumber" />
     <property name="description" value="mergedTargetCapitalAssetNumber description..." />
   </bean>
+  
   <bean id="AssetRetirementGlobal-retirementDate" parent="AssetRetirementGlobal-retirementDate-parentBean" />
-
   <bean id="AssetRetirementGlobal-retirementDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementDate" />
     <property name="label" value="Retirement Date" />
@@ -113,11 +112,11 @@
     <property name="summary" value="retirementDate" />
     <property name="description" value="retirementDate description..." />
   </bean>
+  
   <bean id="AssetRetirementGlobal-retirementReasonCode" parent="AssetRetirementGlobal-retirementReasonCode-parentBean" />
-
   <bean id="AssetRetirementGlobal-retirementReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementReasonCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement Reason Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -135,8 +134,6 @@
     <property name="summary" value="retirementReasonCode" />
     <property name="description" value="retirementReasonCode description..." />
   </bean>
-
-
 
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode" parent="AssetRetirementGlobal-mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode-parentBean" />
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Asset-organizationOwnerAccount.organizationCode">
@@ -169,37 +166,36 @@
   </bean>
 
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementChartOfAccountsCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementChartOfAccountsCode-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementChartOfAccountsCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementChartOfAccountsCode">
     <property name="name" value="sharedRetirementInfo.retirementChartOfAccountsCode" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementAccountNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementAccountNumber-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementAccountNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementAccountNumber">
     <property name="name" value="sharedRetirementInfo.retirementAccountNumber" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementContactName" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementContactName-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementContactName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementContactName">
     <property name="name" value="sharedRetirementInfo.retirementContactName" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementInstitutionName" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementInstitutionName-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementInstitutionName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementInstitutionName">
     <property name="name" value="sharedRetirementInfo.retirementInstitutionName" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStreetAddress" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementStreetAddress-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStreetAddress-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStreetAddress">
     <property name="name" value="sharedRetirementInfo.retirementStreetAddress" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCityName" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementCityName-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCityName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCityName">
     <property name="name" value="sharedRetirementInfo.retirementCityName" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStateCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementStateCode-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStateCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStateCode">
     <property name="name" value="sharedRetirementInfo.retirementStateCode" />
     <property name="control" >
@@ -207,13 +203,13 @@
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder" />
     </property>
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementZipCode">
     <property name="name" value="sharedRetirementInfo.retirementZipCode" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCountryCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementCountryCode-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCountryCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCountryCode">
     <property name="name" value="sharedRetirementInfo.retirementCountryCode" />
     <property name="control" >
@@ -221,57 +217,55 @@
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementPhoneNumber">
     <property name="name" value="sharedRetirementInfo.retirementPhoneNumber" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.estimatedSellingPrice" parent="AssetRetirementGlobal-sharedRetirementInfo.estimatedSellingPrice-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.estimatedSellingPrice-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-estimatedSellingPrice">
     <property name="name" value="sharedRetirementInfo.estimatedSellingPrice" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.salePrice" parent="AssetRetirementGlobal-sharedRetirementInfo.salePrice-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.salePrice-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-salePrice">
     <property name="name" value="sharedRetirementInfo.salePrice" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.cashReceiptFinancialDocumentNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.cashReceiptFinancialDocumentNumber-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber">
     <property name="name" value="sharedRetirementInfo.cashReceiptFinancialDocumentNumber" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.handlingFeeAmount" parent="AssetRetirementGlobal-sharedRetirementInfo.handlingFeeAmount-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.handlingFeeAmount-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-handlingFeeAmount">
     <property name="name" value="sharedRetirementInfo.handlingFeeAmount" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount" parent="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-preventiveMaintenanceAmount">
     <property name="name" value="sharedRetirementInfo.preventiveMaintenanceAmount" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.calculatedTotal" parent="AssetRetirementGlobal-sharedRetirementInfo.calculatedTotal-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.calculatedTotal-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-calculatedTotal">
     <property name="name" value="sharedRetirementInfo.calculatedTotal" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription" parent="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-buyerDescription">
     <property name="name" value="sharedRetirementInfo.buyerDescription" />
   </bean>
+  
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber-parentBean" />
-
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-paidCaseNumber">
     <property name="name" value="sharedRetirementInfo.paidCaseNumber" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetRetirementGlobal-inquiryDefinition" parent="AssetRetirementGlobal-inquiryDefinition-parentBean" />
-
   <bean id="AssetRetirementGlobal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Retirement Global Inquiry" />
     <property name="inquirySections" >
@@ -298,9 +292,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetRetirementGlobal-lookupDefinition" parent="AssetRetirementGlobal-lookupDefinition-parentBean" />
-
   <bean id="AssetRetirementGlobal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Retirement Global Lookup" />
     <property name="instructions" value="Look up an Asset Retirement Global" />

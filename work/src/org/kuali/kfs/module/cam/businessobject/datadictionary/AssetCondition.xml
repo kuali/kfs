@@ -26,14 +26,12 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetCondition-active" parent="AssetCondition-active-parentBean" />
-
   <bean id="AssetCondition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
+  
   <bean id="AssetCondition-assetConditionCode" parent="AssetCondition-assetConditionCode-parentBean" />
-
   <bean id="AssetCondition-assetConditionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="assetConditionCode" />
     <property name="forceUppercase" value="true" />
@@ -50,8 +48,8 @@
     <property name="summary" value="assetConditionCode" />
     <property name="description" value="assetConditionCode description..." />
   </bean>
+  
   <bean id="AssetCondition-assetConditionName" parent="AssetCondition-assetConditionName-parentBean" />
-
   <bean id="AssetCondition-assetConditionName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="assetConditionName" />
     <property name="forceUppercase" value="false" />
@@ -72,9 +70,7 @@
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetCondition-inquiryDefinition" parent="AssetCondition-inquiryDefinition-parentBean" />
-
   <bean id="AssetCondition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Condition Inquiry" />
     <property name="inquirySections" >
@@ -99,9 +95,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetCondition-lookupDefinition" parent="AssetCondition-lookupDefinition-parentBean" />
-
   <bean id="AssetCondition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Condition Lookup" />
     <property name="instructions" value="Look up an Asset Condition" />

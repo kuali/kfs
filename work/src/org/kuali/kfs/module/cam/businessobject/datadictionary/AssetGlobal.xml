@@ -242,7 +242,7 @@
   <bean id="AssetGlobal-landAcreageSize" parent="AssetGlobal-landAcreageSize-parentBean" />
   <bean id="AssetGlobal-landAcreageSize-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="landAcreageSize" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Land Acreage" />
     <property name="shortLabel" value="Acreage" />
     <property name="maxLength" value="7" />

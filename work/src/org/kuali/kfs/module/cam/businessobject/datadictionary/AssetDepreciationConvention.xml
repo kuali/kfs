@@ -26,19 +26,17 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetDepreciationConvention-financialObjectSubTypeCode" parent="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" />
-
   <bean id="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjSubTyp-code">
     <property name="name" value="financialObjectSubTypeCode" />
     <property name="label" value="Financial Object Sub Type Code" />
     <property name="shortLabel" value="Code" />
   </bean>
+  
   <bean id="AssetDepreciationConvention-depreciationConventionCode" parent="AssetDepreciationConvention-depreciationConventionCode-parentBean" />
-
   <bean id="AssetDepreciationConvention-depreciationConventionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="depreciationConventionCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Depreciation Convention Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -51,7 +49,7 @@
     <property name="summary" value="depreciationConventionCode" />
     <property name="description" value="depreciationConventionCode description..." />
   </bean>
-
+  
   <bean id="AssetDepreciationConvention-active" parent="AssetDepreciationConvention-active-parentBean" />
   <bean id="AssetDepreciationConvention-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
@@ -59,9 +57,7 @@
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetDepreciationConvention-inquiryDefinition" parent="AssetDepreciationConvention-inquiryDefinition-parentBean" />
-
   <bean id="AssetDepreciationConvention-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Depreciation Convention Inquiry" />
     <property name="inquirySections" >
@@ -86,9 +82,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetDepreciationConvention-lookupDefinition" parent="AssetDepreciationConvention-lookupDefinition-parentBean" />
-
   <bean id="AssetDepreciationConvention-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Depreciation Convention Lookup" />
     <property name="instructions" value="Look up an Asset Depreciation Convention" />

@@ -90,7 +90,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-buildingCode" parent="AssetGlobalDetail-buildingCode-parentBean" />
   <bean id="AssetGlobalDetail-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="10" />
@@ -108,7 +108,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-buildingRoomNumber" parent="AssetGlobalDetail-buildingRoomNumber-parentBean" />
   <bean id="AssetGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingRoomNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Room Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="8" />
@@ -126,7 +126,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-buildingSubRoomNumber" parent="AssetGlobalDetail-buildingSubRoomNumber-parentBean" />
   <bean id="AssetGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingSubRoomNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Sub Room Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -144,7 +144,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-campusCode" parent="AssetGlobalDetail-campusCode-parentBean" />
   <bean id="AssetGlobalDetail-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Campus Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -292,7 +292,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="offCampusCountryCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Off Campus Country Code" />
     <property name="shortLabel" value="Code" />
 	<property name="maxLength" value="2" />
@@ -327,12 +327,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusStateCode" parent="AssetGlobalDetail-offCampusStateCode-parentBean" />
-  
   <bean id="AssetGlobalDetail-offCampusStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
+	  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
+		p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusStateCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Off Campus State Code" />
     <property name="shortLabel" value="Code" />
     <property name="summary" value="offCampusStateCode" />
@@ -341,8 +340,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />
   <bean id="AssetGlobalDetail-offCampusZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
+	  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceAttributeName="postalCode">
     <property name="name" value="offCampusZipCode" />
     <property name="label" value="Off Campus Postal Code" />
     <property name="shortLabel" value="Postal Code" />
@@ -430,7 +429,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="representativeUniversalIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Asset Representative ID" />
     <property name="shortLabel" value="representative" />
     <property name="maxLength" value="10" />
@@ -487,8 +486,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <!-- Asset Separate - END -->
-    <bean id="AssetGlobalDetail-hiddenFieldForError" parent="AssetGlobalDetail-hiddenFieldForError-parentBean" />
+  
+  <bean id="AssetGlobalDetail-hiddenFieldForError" parent="AssetGlobalDetail-hiddenFieldForError-parentBean" />
   <bean id="AssetGlobalDetail-hiddenFieldForError-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="hiddenFieldForError" />
     <property name="label" value="hidden field for error" />

@@ -68,7 +68,7 @@
   <bean id="AssetType-depreciableLifeLimit" parent="AssetType-depreciableLifeLimit-parentBean" />
   <bean id="AssetType-depreciableLifeLimit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="depreciableLifeLimit" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Depreciable Life Limit" />
     <property name="shortLabel" value="Limit" />
     <property name="maxLength" value="5" />
@@ -86,7 +86,7 @@
   <bean id="AssetType-movingIndicator" parent="AssetType-movingIndicator-parentBean" />
   <bean id="AssetType-movingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="movingIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Moving Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -100,7 +100,7 @@
   <bean id="AssetType-requiredBuildingIndicator" parent="AssetType-requiredBuildingIndicator-parentBean" />
   <bean id="AssetType-requiredBuildingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requiredBuildingIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Required Building Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />

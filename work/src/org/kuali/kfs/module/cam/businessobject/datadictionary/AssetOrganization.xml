@@ -27,9 +27,7 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetOrganization-capitalAssetNumber" parent="AssetOrganization-capitalAssetNumber-parentBean" />
-
   <bean id="AssetOrganization-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
@@ -46,8 +44,8 @@
     <property name="summary" value="capitalAssetNumber" />
     <property name="description" value="capitalAssetNumber description..." />
   </bean>
+  
   <bean id="AssetOrganization-organizationAssetTypeIdentifier" parent="AssetOrganization-organizationAssetTypeIdentifier-parentBean" />
-
   <bean id="AssetOrganization-organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationAssetTypeIdentifier" />
     <property name="forceUppercase" value="false" />
@@ -64,11 +62,11 @@
     <property name="summary" value="organizationAssetTypeIdentifier" />
     <property name="description" value="organizationAssetTypeIdentifier description..." />
   </bean>
+  
   <bean id="AssetOrganization-organizationTagNumber" parent="AssetOrganization-organizationTagNumber-parentBean" />
-
   <bean id="AssetOrganization-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationTagNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false"  />
     <property name="label" value="Organization Tag Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="8" />
@@ -82,8 +80,8 @@
     <property name="summary" value="organizationTagNumber" />
     <property name="description" value="organizationTagNumber description..." />
   </bean>
+  
   <bean id="AssetOrganization-organizationText" parent="AssetOrganization-organizationText-parentBean" />
-
   <bean id="AssetOrganization-organizationText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationText" />
     <property name="forceUppercase" value="false" />
@@ -105,9 +103,7 @@
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetOrganization-inquiryDefinition" parent="AssetOrganization-inquiryDefinition-parentBean" />
-
   <bean id="AssetOrganization-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Organization Inquiry" />
     <property name="inquirySections" >

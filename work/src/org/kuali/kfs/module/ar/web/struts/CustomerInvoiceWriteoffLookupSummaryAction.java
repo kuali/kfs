@@ -29,9 +29,8 @@ import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLook
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
@@ -51,7 +50,21 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
     public ActionForward createCustomerInvoiceWriteoffs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CustomerInvoiceWriteoffLookupSummaryForm customerInvoiceWriteoffLookupSummaryForm = (CustomerInvoiceWriteoffLookupSummaryForm) form;        
-        SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).createCustomerInvoiceWriteoffDocuments(customerInvoiceWriteoffLookupSummaryForm.getCustomerInvoiceWriteoffLookupResults());
+
+        Person person = GlobalVariables.getUserSession().getPerson();
+
+        CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
+        Collection<CustomerInvoiceWriteoffLookupResult> lookupResults = customerInvoiceWriteoffLookupSummaryForm.getCustomerInvoiceWriteoffLookupResults();
+
+        //TODO Need to check every invoiceNumber submitted and make sure that:
+        //      1. Invoice exists in the system.
+        //      2. Invoice doesnt already have a writeoff in progress, either in route or final.
+        
+        String filename = service.createCustomerInvoiceWriteoffDocumentsBatch(person, lookupResults);
+        
+        //  just get the filename
+        filename = filename.substring(filename.lastIndexOf("/") + 1);
+        
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
     

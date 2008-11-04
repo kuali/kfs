@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
+import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
@@ -37,8 +39,10 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -55,7 +59,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     private CustomerService customerService;
     private DocumentService documentService;
-
+    private CustomerInvoiceWriteoffBatchService invoiceWriteoffBatchService;
+    private DateTimeService dateTimeService;
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
      */
@@ -118,11 +124,26 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocumentsWithOpenBalance);
     }
     
-    public void createCustomerInvoiceWriteoffDocuments(Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) throws WorkflowException {
+    public String createCustomerInvoiceWriteoffDocumentsBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) {
+        
+        CustomerInvoiceWriteoffBatchVO batch = new CustomerInvoiceWriteoffBatchVO(person.getPrincipalId());
+        
+        for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
+            for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments() ){
+                batch.addInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
+            }
+        }
+        
+        // use the batch service to create the XML and drop it in the directory
+        return invoiceWriteoffBatchService.createBatchDrop(person, batch);
+    }
+    
+    public void createCustomerInvoiceWriteoffDocuments(String personId, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) throws WorkflowException {
         
         //create customer writeoff documents
         for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
             
+            //TODO this needs to go in the batch service
             customerService.createCustomerNote(customerInvoiceWriteoffLookupResult.getCustomerNumber(), customerInvoiceWriteoffLookupResult.getCustomerNote());
             
             for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments() ){
@@ -132,6 +153,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     }    
     
     protected void createCustomerInvoiceWriteoffDocument(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
+        //TODO this needs to be called from the batch service
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)documentService.getNewDocument(CustomerInvoiceWriteoffDocument.class);
         customerInvoiceWriteoffDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
         setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( customerInvoiceWriteoffDocument );
@@ -207,5 +229,16 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+
+
+    public void setInvoiceWriteoffBatchService(CustomerInvoiceWriteoffBatchService invoiceWriteoffBatchService) {
+        this.invoiceWriteoffBatchService = invoiceWriteoffBatchService;
+    }
+
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
 }
 

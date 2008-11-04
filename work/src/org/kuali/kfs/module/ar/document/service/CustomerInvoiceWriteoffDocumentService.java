@@ -21,6 +21,7 @@ import java.util.Collection;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 
 public interface CustomerInvoiceWriteoffDocumentService {
     
@@ -47,6 +48,17 @@ public interface CustomerInvoiceWriteoffDocumentService {
      * This method initiates customer invoice writeoff documents based on a collection of customer invoice writeoff lookup results
      * @param customerInvoiceWriteoffLookupResults
      */
-    public void createCustomerInvoiceWriteoffDocuments( Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults ) throws WorkflowException;
+    public void createCustomerInvoiceWriteoffDocuments(String personId, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults ) throws WorkflowException;
 
+    /**
+     * 
+     * Accepts a lookup result and creates a batch file dropped into the batch system for later asynchronous 
+     * processing.
+     * 
+     * @param personId
+     * @param customerInvoiceWriteoffLookupResults
+     * @return filename and path of created batch file
+     */
+    public String createCustomerInvoiceWriteoffDocumentsBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults);
+    
 }

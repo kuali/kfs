@@ -222,6 +222,12 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>		
+		<property name="invoiceWriteoffBatchService">
+			<ref bean="customerInvoiceWriteoffBatchService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>		
 	
 	<bean id="customerInvoiceGLPEService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceGLPEServiceImpl">
@@ -453,6 +459,79 @@
 		</property>					
 		<property name="customerLoadService">
 			<ref bean="customerLoadService" />
+		</property>					
+	</bean>
+		
+	<bean id="customerInvoiceWriteoffBatchJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="customerInvoiceWriteoffBatchStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="customerInvoiceWriteoffBatchStep" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchStep" parent="step">
+		<property name="batchService">
+			<ref bean="customerInvoiceWriteoffBatchService" />
+		</property>					
+	</bean>
+	
+	<bean id="customerInvoiceWriteoffBatchService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerInvoiceWriteoffBatchServiceImpl">
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>					
+		<property name="batchInputFileType">
+			<ref bean="customerInvoiceWriteoffBatchInputFileType" />
+		</property>					
+		<property name="reportsDirectory">
+			<value>${reports.directory}</value>
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>			
+		<!--
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>					
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>					
+		<property name="docService">
+			<ref bean="documentService" />
+		</property>					
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>					
+		<property name="orgService">
+			<ref bean="organizationService" />
+		</property>					
+		<property name="fsUserService">
+			<ref bean="personService" />
+		</property>					
+		<property name="sysInfoService">
+			<ref bean="systemInformationService" />
+		</property>					
+		<property name="boService">
+			<ref bean="businessObjectService" />
+		</property>					
+		-->
+	</bean>
+	
+	<bean id="customerInvoiceWriteoffBatchInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchInputFileType">
+		<property name="directoryPath">
+			<value>${staging.directory}/ar</value>
+		</property>
+		<property name="fileExtension">
+			<value>xml</value>
+		</property>
+		<property name="digestorRulesFileName">
+			<value>org/kuali/kfs/module/ar/batch/digester/customerInvoiceWriteoffBatchDigesterRules.xml</value>
+		</property>
+		<property name="schemaLocation">
+			<value>${externalizable.static.content.url}/xsd/ar/customerInvoiceWriteoffBatch.xsd</value>
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
 		</property>					
 	</bean>
 		

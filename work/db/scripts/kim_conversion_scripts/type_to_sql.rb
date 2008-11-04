@@ -1,12 +1,12 @@
 require 'kfsdb'
-require 'local_dev_connect'
 require 'digest/sha1'
 
 input_file = ARGV[0].nil? ? "permission_types.txt" : ARGV[0]
+DB="sample_db"
 
 def create_attribute_map()
 	attributes = {}
-	db_connect do |con|
+	db_connect(DB) do |con|
 		con.query("select KIM_ATTR_DEFN_ID, LBL from KRIM_ATTR_DEFN_T") do |row|
 			attributes[row.getString("LBL")] = row.getString("KIM_ATTR_DEFN_ID")
 		end
@@ -30,10 +30,18 @@ def generate_type_attribute_id(template_id, template_attribute_count)
 	"#{template_id}-ATTR#{format_count(template_attribute_count)}"
 end
 
+def parse_template_name(template_name)
+    namespace = template_name.strip.match(/^([A-Z\-]+)/)[1]
+    namespace = namespace.strip if !namespace.nil?
+    true_template_name = !namespace.nil? ? template_name.strip.gsub(/^#{namespace}/, "").strip : template_name.strip
+    [namespace, true_template_name]
+end 
+
 def generate_type_sql(template_name, template_id)
 	table_name = "KRIM_TYP_T"
 	obj_id = generate_obj_id(table_name, template_name)
-	"insert into #{table_name} (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, ACTV_IND)\n\tvalues ('#{template_id}', '#{obj_id}', 0, '#{template_name}', 'Y')\n/\n"
+	namespace, true_template_name = parse_template_name(template_name) 
+	"insert into #{table_name} (KIM_TYP_ID, OBJ_ID, VER_NBR, NMSPC_CD, NM, ACTV_IND)\n\tvalues ('#{template_id}', '#{obj_id}', 0, '#{namespace}', '#{true_template_name}', 'Y')\n/\n" 
 end
 
 def generate_type_attribute_sql(template_id, attribute_id, template_attribute_id)

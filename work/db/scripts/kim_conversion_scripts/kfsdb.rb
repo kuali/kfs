@@ -8,7 +8,7 @@ class JdbcConnection
 		def db_connect(url, user, pass, driver, &block)
 			con = nil
 			begin
-			  #java.lang.Class.forName(driver)
+			  	java.lang.Class.forName(driver).newInstance
 				con = java.sql.DriverManager.getConnection(url, user, pass)
 				yield JdbcConnection.new(con)
 			ensure

@@ -3,7 +3,7 @@ require 'digest/sha1'
 require 'set'
 
 INPUT_FILE = "workgroups_to_roles.txt"
-DB = "local_dev"
+DB = "sample_db"
 
 def generate_obj_id(table_name, unique_name)
 	Digest::SHA1.hexdigest("#{table_name}:#{unique_name}")[0..32]
@@ -38,15 +38,15 @@ class Member
 	end
 
 	def generate_role_princial_sql(role_id)
-		table_name = "KRIM_ROLE_PRINCIPAL_T"
+		table_name = "KRIM_ROLE_PRNCPL_T"
 		obj_id = generate_obj_id(table_name, "#{role_id} #{@user_id}")
-		"insert into #{table_name} (role_member_id, obj_id, ver_nbr, role_id, prncpl_id)\n\tvalues('#{self.role_member_id(role_id)}','#{obj_id}', 0, '#{role_id}', '#{@user_id}')\n/\n"
+		"insert into #{table_name} (ROLE_MEMBER_ID, OBJ_ID, VER_NBR, ROLE_ID, PRNCPL_ID)\n\tvalues('#{self.role_member_id(role_id)}','#{obj_id}', 0, '#{role_id}', '#{@user_id}')\n/\n"
 	end
 	
 	def generate_role_princial_attributed_sql(role_member_id, role_id)
-		table_name = "KRIM_ROLE_PRINCIPAL_T"
+		table_name = "KRIM_ROLE_PRNCPL_T"
 		obj_id = generate_obj_id(table_name, "#{role_member_id}")
-		"insert into #{table_name} (role_member_id, obj_id, ver_nbr, role_id, prncpl_id)\n\tvalues('#{role_member_id}','#{obj_id}', 0, '#{role_id}', '#{@user_id}')\n/\n"
+		"insert into #{table_name} (ROLE_MEMBER_ID, OBJ_ID, VER_NBR, ROLE_ID, PRNCPL_ID)\n\tvalues('#{role_member_id}','#{obj_id}', 0, '#{role_id}', '#{@user_id}')\n/\n"
 	end
 	
 	class << self
@@ -54,8 +54,8 @@ class Member
 			if @@entities_map.nil?
 				@@entities_map = {}
 				db_connect(DB) do |con|
-					con.query("select prncpl_id, entity_id from KRIM_PRINCIPAL_T") do |row|
-						@@entities_map[row.getString("prncpl_id")] = row.getString("entity_id")
+					con.query("select PRNCPL_ID, ENTITY_ID from KRIM_PRNCPL_T") do |row|
+						@@entities_map[row.getString("PRNCPL_ID")] = row.getString("ENTITY_ID")
 					end
 				end
 			end
@@ -89,7 +89,7 @@ class QualificationAttribute
 			raise Exception.new, "Could not find attribute named #{@name}"
 		end
 		
-		"insert into #{table_name}(attrib_data_id, obj_id, ver_nbr, target_primary_key, kim_type_id, kim_attrib_id, attrib_val)\n\tvalues('#{generate_id(role_member_id, count)}', '#{obj_id}', 0, '#{role_member_id}', '#{type_id}', '#{attrib_id}', '#{reify_value(member)}')\n/\n"
+		"insert into #{table_name}(ATTRIB_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_KEY, KIM_TYPE_ID, KIM_ATTRIB_ID, ATTRIB_VAL)\n\tvalues('#{generate_id(role_member_id, count)}', '#{obj_id}', 0, '#{role_member_id}', '#{type_id}', '#{attrib_id}', '#{reify_value(member)}')\n/\n"
 	end
 	
 	def reify_value(member)
@@ -105,8 +105,8 @@ class QualificationAttribute
 			if @@attributes_map.nil?
 				@@attributes_map = {}
 				db_connect(DB) do |con|
-					con.query("select attrib_lbl, kim_attrib_id from KRIM_ATTRIBUTE_T") do |row|
-						@@attributes_map[row.getString("attrib_lbl")] = row.getString("kim_attrib_id")
+					con.query("select LBL, KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T") do |row|
+						@@attributes_map[row.getString("LBL")] = row.getString("KIM_ATTR_DEFN_ID")
 					end
 				end
 			end
@@ -177,8 +177,8 @@ class Qualification
 			if @@types_map.nil?
 				@@types_map = {}
 				db_connect(DB) do |con|
-					con.query("select type_nm, kim_type_id from KRIM_TYPE_T") do |row|
-						@@types_map[row.getString("type_nm")] = row.getString("kim_type_id")
+					con.query("select NM, KIM_TYP_ID from KRIM_TYP_T") do |row|
+						@@types_map[row.getString("NM")] = row.getString("KIM_TYP_ID")
 					end
 				end
 			end
@@ -190,24 +190,24 @@ end
 
 def workgroup_map(con)
 	workgroups = {}
-	con.query("select wrkgrp_id, wrkgrp_nm from en_wrkgrp_t where wrkgrp_actv_ind = 1 and wrkgrp_cur_ind = 1") do |row|
-		workgroups[row.getString("wrkgrp_nm")] = row.getString("wrkgrp_id")
+	con.query("select WRKGRP_ID, WRKGRP_NM from EN_WRKGRP_T where WRKGRP_ACTV_IND = 1 and WRKGRP_CUR_IND = 1") do |row|
+		workgroups[row.getString("WRKGRP_NM")] = row.getString("WRKGRP_ID")
 	end
 	workgroups
 end
 
 def role_map(con)
 	roles = {}
-	con.query("select role_id, nmspc_cd, role_nm from KRIM_ROLE_T") do |row|
-		roles["#{row.getString("nmspc_cd")} #{row.getString("role_nm")}"] = row.getString("role_id")
+	con.query("select ROLE_ID, NMSPC_CD, ROLE_NM from KRIM_ROLE_T") do |row|
+		roles["#{row.getString("NMSPC_CD")} #{row.getString("ROLE_NM")}"] = row.getString("ROLE_ID")
 	end
 	roles
 end
 
 def principals_set(con)
 	principals = Set.new
-	con.query("select prncpl_id from KRIM_PRINCIPAL_T") do |row|
-		principals << row.getString("prncpl_id")
+	con.query("select PRNCPL_ID from KRIM_PRNCPL_T") do |row|
+		principals << row.getString("PRNCPL_ID")
 	end
 	principals
 end
@@ -223,8 +223,8 @@ def parse_line(line)
 end
 
 def each_user_member(workgroup_id, con, &block)
-	con.query("select distinct fs_universal_usr_t.person_unvl_id, fs_universal_usr_t.person_user_id, fs_universal_usr_t.campus_cd, fs_universal_usr_t.emp_prm_dept_cd from fs_universal_usr_t join en_wrkgrp_mbr_t on fs_universal_usr_t.person_unvl_id = en_wrkgrp_mbr_t.wrkgrp_mbr_prsn_en_id where en_wrkgrp_mbr_t.wrkgrp_id = ? and en_wrkgrp_mbr_t.wrkgrp_mbr_typ = 'U'",workgroup_id) do |row|
-		yield Member.new(row.getString("person_unvl_id"), row.getString("person_user_id"), row.getString("campus_cd"), row.getString("emp_prm_dept_cd"))
+	con.query("select distinct FS_UNIVERSAL_USR_T.PERSON_UNVL_ID, FS_UNIVERSAL_USR_T.PERSON_USER_ID, FS_UNIVERSAL_USR_T.CAMPUS_CD, FS_UNIVERSAL_USR_T.EMP_PRM_DEPT_CD from FS_UNIVERSAL_USR_T join EN_WRKGRP_MBR_T on FS_UNIVERSAL_USR_T.PERSON_UNVL_ID = EN_WRKGRP_MBR_T.WRKGRP_MBR_PRSN_EN_ID where EN_WRKGRP_MBR_T.WRKGRP_ID = ? and EN_WRKGRP_MBR_T.WRKGRP_MBR_TYP = 'U'",workgroup_id) do |row|
+		yield Member.new(row.getString("PERSON_UNVL_ID"), row.getString("PERSON_USER_ID"), row.getString("CAMPUS_CD"), row.getString("EMP_PRM_DEPT_CD"))
 	end
 end
 

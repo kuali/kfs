@@ -1,7 +1,7 @@
 require 'kfsdb'
 require 'digest/sha1'
 #require 'mysql-connector-java-5.0.5-bin.jar'
-include_class 'com.mysql.jdbc.Driver'
+#include_class 'com.mysql.jdbc.Driver'
 
 INPUT_FILE = "permission_templates.txt"
 
@@ -20,7 +20,7 @@ end
 def retrieve_types_map()
 	types = {}
 	db_connect("sample_db") do |con|
-		con.query("select KIM_TYP_ID, NM from KR_KIM_TYPE_T") do |row|
+		con.query("select KIM_TYP_ID, NM from KRIM_TYP_T") do |row|
 			types[row.getString("NM")] = row.getString("KIM_TYP_ID")
 		end
 	end

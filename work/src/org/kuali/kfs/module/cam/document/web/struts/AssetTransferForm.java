@@ -20,6 +20,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -49,6 +51,11 @@ public class AssetTransferForm extends FinancialSystemTransactionalDocumentFormB
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
     }
 
+    @Override
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        super.reset(mapping, request);
+        getAssetTransferDocument().setInterdepartmentalSalesIndicator(false);
+    }
 
     public boolean isLoanNoteAdded() {
         return loanNoteAdded;

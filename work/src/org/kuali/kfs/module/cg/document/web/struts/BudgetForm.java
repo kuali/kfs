@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -45,11 +46,9 @@ import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -57,9 +56,7 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -72,8 +69,8 @@ public class BudgetForm extends ResearchDocumentFormBase {
 
     private HashMap appointmentTypeGridMappings;
 
-    private String DEFAULT_BUDGET_TASK_NAME;
-    private String TO_BE_NAMED_LABEL;
+    private transient String DEFAULT_BUDGET_TASK_NAME;
+    private transient String TO_BE_NAMED_LABEL;
 
     private BudgetTask newTask;
     private BudgetPeriod newPeriod;
@@ -123,9 +120,6 @@ public class BudgetForm extends ResearchDocumentFormBase {
 
     public BudgetForm() {
         super();
-
-        DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.DEFAULT_BUDGET_TASK_NAME);
-        TO_BE_NAMED_LABEL = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.TO_BE_NAMED_LABEL);
 
         newPeriod = new BudgetPeriod();
         newTask = new BudgetTask();
@@ -286,7 +280,18 @@ public class BudgetForm extends ResearchDocumentFormBase {
         // Integer nextSequenceNumber = new Integer(getBudgetDocument().getBudgetTaskNextSequenceNumber().intValue() + 1);
 
         // Now set the default TaskName for the new task in the addline.
-        newTask.setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " " + getBudgetDocument().getBudgetTaskNextSequenceNumber().toString());
+        newTask.setBudgetTaskName(getDefaultBudgetTaskName() + " " + getBudgetDocument().getBudgetTaskNextSequenceNumber().toString());
+    }
+    
+    /**
+     * Retrieves the default budget task name
+     * @return the default budget task name
+     */
+    protected String getDefaultBudgetTaskName() {
+        if (StringUtils.isBlank(DEFAULT_BUDGET_TASK_NAME)) {
+            DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.DEFAULT_BUDGET_TASK_NAME);
+        }
+        return DEFAULT_BUDGET_TASK_NAME;
     }
 
     /**
@@ -617,17 +622,28 @@ public class BudgetForm extends ResearchDocumentFormBase {
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
-            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", TO_BE_NAMED_LABEL));
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", getToBeNamedLabel()));
         }
         else if (this.getBudgetDocument().getBudget().getProjectDirector() != null && this.getBudgetDocument().getBudget().getProjectDirector().getPerson() != null && this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getPrincipalId() != null) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getName()));
         }
         if (this.getBudgetDocument().getBudget().isAgencyToBeNamedIndicator()) {
-            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", TO_BE_NAMED_LABEL));
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", getToBeNamedLabel()));
         }
         else if (this.getBudgetDocument().getBudget().getBudgetAgency() != null) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", this.getBudgetDocument().getBudget().getBudgetAgency().getFullName()));
         }
+    }
+    
+    /**
+     * Retrieves the "to be named" label
+     * @return the "to be named" label
+     */
+    protected String getToBeNamedLabel() {
+        if (StringUtils.isBlank(TO_BE_NAMED_LABEL)) {
+            TO_BE_NAMED_LABEL = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.TO_BE_NAMED_LABEL);
+        }
+        return TO_BE_NAMED_LABEL;
     }
 
     /**

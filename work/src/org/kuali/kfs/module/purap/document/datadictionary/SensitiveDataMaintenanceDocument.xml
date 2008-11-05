@@ -29,7 +29,7 @@
     <property name="documentTypeName" value="SensitiveDataMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.SensitiveDataRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMRM" />
+    <property name="documentTypeCode" value="PMSN" />
     <property name="workflowProperties" >
       <ref bean="SensitiveDataMaintenanceDocument-workflowProperties" />
     </property>

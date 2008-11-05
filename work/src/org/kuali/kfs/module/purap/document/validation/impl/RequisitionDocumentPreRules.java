@@ -31,13 +31,9 @@ public class RequisitionDocumentPreRules extends PurchasingDocumentPreRulesBase 
      */
     @Override
     public boolean doRules(Document document) {
-        boolean preRulesOK = true;
+        boolean preRulesOK = super.doRules(document);
         
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
-        
-        if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
-            preRulesOK &= confirmFixCapitalAssetWarningConditions(purapDocument);
-        }
         
         if (!purapDocument.isUseTaxIndicator()){
             preRulesOK &= checkForTaxRecalculation(purapDocument);

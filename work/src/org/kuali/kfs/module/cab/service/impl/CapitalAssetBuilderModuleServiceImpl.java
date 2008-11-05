@@ -710,7 +710,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     // }
     public boolean warningObjectLevelCapital(List<PurApItem> items) {
         for (PurApItem item : items) {
-            if(item.getItemType().isLineItemIndicator()) {
+            if(item.getItemType().isLineItemIndicator() && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 List<PurApAccountingLine> accounts = item.getSourceAccountingLines();
                 BigDecimal unitPrice = item.getItemUnitPrice();
                 String itemIdentifier = item.getItemIdentifierString();

@@ -68,7 +68,6 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static class CapitalAsset {
         public static final String ASSET_NUMBER_CAMS_TRAN_TYPES = "CAPITAL_ASSET_TRANSACTION_TYPES_REQUIRING_ASSET_NUMBERS";
         public static final String QUANTITY_OBJECT_CODE_SUBTYPES = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
-        public static final String OVERRIDE_CAPITAL_ASSET_WARNINGS_IND = "OVERRIDE_CAPITAL_ASSET_WARNINGS_IND";
         public static final String CAMS_DOC_ITEM_CREATION_TRAN_TYPES = "CAMS_DOC_ITEM_CREATION_TRAN_TYPES";
         public static final String CAMS_DOC_CAPITAL_OC_SUBTYPES = "CAMS_DOC_CAPITAL_OC_SUBTYPES";
         public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";

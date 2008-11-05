@@ -40,8 +40,16 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurchasingDocumentPreRulesBase extends PreRulesContinuationBase{
 
     @Override
-    public boolean doRules(Document arg0) {
-        return true;
+    public boolean doRules(Document document) {
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
+        
+        boolean preRulesValid=true;
+        
+        if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
+            preRulesValid &= confirmFixCapitalAssetWarningConditions(purapDocument);
+        }
+        
+        return preRulesValid;
     }
     
     protected boolean checkForTaxRecalculation(PurchasingAccountsPayableDocument purapDocument){

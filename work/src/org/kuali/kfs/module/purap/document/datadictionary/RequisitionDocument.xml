@@ -901,13 +901,15 @@
   <bean id="RequisitionDocument-capitalAssetSystemStateCode-parentBean" abstract="true" parent="CapitalAssetSystemState-capitalAssetSystemStateCode">
     <property name="name" value="capitalAssetSystemStateCode" />
     <property name="required" value="false" />
+  	<property name="label" value="Capital Asset System State"/>
+  	<property name="shortLabel" value="System State"/>
   </bean>
 
   <bean id="RequisitionDocument-capitalAssetSystemTypeCode" parent="RequisitionDocument-capitalAssetSystemTypeCode-parentBean" />
   <bean id="RequisitionDocument-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
   	<property name="name" value="capitalAssetSystemTypeCode"/>
-  	<property name="label" value="Capital Asset System Type Code"/>
-  	<property name="shortLabel" value="System Type Code"/>
+  	<property name="label" value="Capital Asset System Type"/>
+  	<property name="shortLabel" value="System Type"/>
   </bean> 
   
   <bean id="RequisitionDocument-useTaxIndicator" parent="RequisitionDocument-useTaxIndicator-parentBean" />

@@ -1128,6 +1128,8 @@
 
   <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
     <property name="name" value="capitalAssetSystemTypeCode" />
+    <property name="label" value="Capital Asset System Type"/>
+    <property name="shortLabel" value="System Type"/>
   </bean>
 
   <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode" parent="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" />
@@ -1135,6 +1137,8 @@
   <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" abstract="true" parent="CapitalAssetSystemState-capitalAssetSystemStateCode">
     <property name="name" value="capitalAssetSystemStateCode" />
     <property name="required" value="false" />
+    <property name="label" value="Capital Asset System State"/>
+    <property name="shortLabel" value="System State"/>
   </bean>
   
   <bean id="PurchaseOrderDocument-vendorCountryCode" parent="PurchaseOrderDocument-vendorCountryCode-parentBean" />

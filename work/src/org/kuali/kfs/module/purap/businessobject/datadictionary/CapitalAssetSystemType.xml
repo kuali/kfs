@@ -33,8 +33,8 @@
   <bean id="CapitalAssetSystemType-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetSystemTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset System Type" />
-    <property name="shortLabel" value="Capital Asset System Type" />
+    <property name="label" value="Capital Asset System Type Code" />
+    <property name="shortLabel" value="Capital Asset System Type Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

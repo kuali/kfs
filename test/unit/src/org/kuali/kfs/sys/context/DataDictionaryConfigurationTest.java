@@ -84,7 +84,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
 
             dbCon = mySource.getConnection();
             Statement dbAsk = dbCon.createStatement();
-            ResultSet dbAnswer = dbAsk.executeQuery("select DOC_TYP_NM from EN_DOC_TYP_T where DOC_TYP_CUR_IND = 1");
+            ResultSet dbAnswer = dbAsk.executeQuery("select DOC_TYP_NM from KREW_DOC_TYP_T where CUR_IND = 1");
             while (dbAnswer.next()) {
                 String docName = dbAnswer.getString(1);
                 if (StringUtils.isNotBlank(docName)) {

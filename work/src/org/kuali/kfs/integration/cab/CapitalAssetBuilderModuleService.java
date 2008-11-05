@@ -74,16 +74,17 @@ public interface CapitalAssetBuilderModuleService {
      */
     public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
 
-    /**
-     * Validates whether transaction type is allowed for the given subtypes. Validates that the object codes must be either all
-     * capital or all expense.
-     * 
-     * @param accountingLines The accounting lines to be validated.
-     * @param transactionType The transaction type to be validated.
-     * @return boolean true if the transaction type is allowed for the given subtypes and the object codes are either all capital or
-     *         expense.
-     */
-    public boolean validateAccounts(List<SourceAccountingLine> accountingLines, String transactionType);
+//FIXME: not called anywhere, is this still needed (was returning false in impl
+//    /**
+//     * Validates whether transaction type is allowed for the given subtypes. Validates that the object codes must be either all
+//     * capital or all expense.
+//     * 
+//     * @param accountingLines The accounting lines to be validated.
+//     * @param transactionType The transaction type to be validated.
+//     * @return boolean true if the transaction type is allowed for the given subtypes and the object codes are either all capital or
+//     *         expense.
+//     */
+//    public boolean validateAccounts(List<SourceAccountingLine> accountingLines, String transactionType);
 
     /**
      * validate the capitalAssetManagementAsset data associated with the given accounting document
@@ -97,16 +98,18 @@ public interface CapitalAssetBuilderModuleService {
     // Methods moved from PurchasingDocumentRuleBase
 
     public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck);
+//FIXME: not needed delete after testing
+//    public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item);
 
-    public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item);
+    public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, String itemIdentifier, ObjectCode objectCode);
 
-    public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, boolean warn, String itemIdentifier, ObjectCode objectCode);
+    public boolean warningObjectLevelCapital(List<PurApItem> items);
+    
+    public boolean validateLevelCapitalAssetIndication(BigDecimal unitPrice, ObjectCode objectCode, String itemIdentifier);
+    
+    public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, String itemIdentifier, boolean quantityBasedItem);
 
-    public boolean validateLevelCapitalAssetIndication(KualiDecimal itemQuantity, KualiDecimal extendedPrice, ObjectCode objectCode, String itemIdentifier);
-
-    public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier, boolean quantityBasedItem);
-
-    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier);
+    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, String itemIdentifier);
 
     public boolean isCapitalAssetObjectCode(ObjectCode oc);
 
@@ -126,7 +129,7 @@ public interface CapitalAssetBuilderModuleService {
 
     public boolean validateUpdateCAMSView(List<PurApItem> purapItems);
 
-    public boolean validateAccountsPayableItems(List<? extends AccountsPayableItem> apItems);
+    public boolean validateAccountsPayableItems(List<PurApItem> apItems);
 
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
 
@@ -141,5 +144,4 @@ public interface CapitalAssetBuilderModuleService {
      */
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument);
 
-    public boolean doesUnitCostExceedThreshold(BigDecimal unitCost);
 }

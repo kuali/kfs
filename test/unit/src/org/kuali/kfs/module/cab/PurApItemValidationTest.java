@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cab;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -60,7 +61,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateAccountingLinesNotCapitalAndExpense_TwoCapital() {
        HashSet<String> set = PurchasingCapitalAssetFixture.TWO_CAPITAL.populateForCapitalAndExpenseCheck();
        ObjectCode objectCode = PurchasingCapitalAssetFixture.TWO_CAPITAL.getObjectCode();
-       assertTrue(cabModuleService.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));
+       assertTrue(cabModuleService.validateAccountingLinesNotCapitalAndExpense(set, "1", objectCode));
     }
     
     /**
@@ -70,7 +71,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateAccountingLinesNotCapitalAndExpense_TwoExpense() {
         HashSet<String> set = PurchasingCapitalAssetFixture.TWO_EXPENSE.populateForCapitalAndExpenseCheck();
         ObjectCode objectCode = PurchasingCapitalAssetFixture.TWO_EXPENSE.getObjectCode();
-        assertTrue(cabModuleService.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));       
+        assertTrue(cabModuleService.validateAccountingLinesNotCapitalAndExpense(set, "1", objectCode));       
     }
     
     /**
@@ -80,7 +81,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateAccountingLinesNotCapitalAndExpense_CapitalExpense() {
         HashSet<String> set = PurchasingCapitalAssetFixture.CAPITAL_EXPENSE.populateForCapitalAndExpenseCheck();
         ObjectCode objectCode = PurchasingCapitalAssetFixture.CAPITAL_EXPENSE.getObjectCode();
-        assertFalse(cabModuleService.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));
+        assertFalse(cabModuleService.validateAccountingLinesNotCapitalAndExpense(set, "1", objectCode));
     }
     
     // Tests of validateLevelCapitalAssetIndication
@@ -101,10 +102,9 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
      */  
     public void testValidateLevelCapitalAssetIndication_HappyPath() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
-        KualiDecimal itemQuantity = fixture.getQuantity();
-        KualiDecimal extendedPrice = fixture.getExtendedPrice();
+        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");
-        assertFalse(cabModuleService.validateLevelCapitalAssetIndication(itemQuantity, extendedPrice, objectCode, "1"));
+        assertFalse(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
     }
     
     /**
@@ -115,9 +115,9 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateLevelCapitalAssetIndication_CapCodeLevel() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_CAP_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
-        KualiDecimal extendedPrice = fixture.getExtendedPrice();
+        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "CAP");
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemQuantity, extendedPrice, objectCode, "1"));
+        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
     }
     
     /**
@@ -128,9 +128,9 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateLevelCapitalAssetIndication_ExpenseCodeLevel() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_EXPENSE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
-        KualiDecimal extendedPrice = fixture.getExtendedPrice();
+        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "DEBT");      
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemQuantity, extendedPrice, objectCode, "1"));
+        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
     }
     
     /**
@@ -141,9 +141,9 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateLevelCapitalAssetIndication_NullQuantity() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NULL_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
-        KualiDecimal extendedPrice = fixture.getExtendedPrice();
+        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");      
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemQuantity, extendedPrice, objectCode, "1"));
+        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
     }
  
     /**
@@ -154,9 +154,9 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateLevelCapitalAssetIndication_NegativeQuantity() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NEGATIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
-        KualiDecimal extendedPrice = fixture.getExtendedPrice();
+        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");    
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemQuantity, extendedPrice, objectCode, "1"));
+        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
     }
     
     /**
@@ -167,9 +167,9 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateLevelCapitalAssetIndication_ZeroQuantity() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ZERO_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
-        KualiDecimal extendedPrice = fixture.getExtendedPrice();
+        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");     
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemQuantity, extendedPrice, objectCode, "1"));
+        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
     }
     
     /**
@@ -180,9 +180,9 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateLevelCapitalAssetIndication_NonCapitalPrice() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_POSITIVE_PRICE_POSSIBLE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
-        KualiDecimal extendedPrice = fixture.getExtendedPrice();
+        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemQuantity, extendedPrice, objectCode, "1"));
+        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
     }
         
     // Tests of validateObjectCodeVersusTransactionType
@@ -239,7 +239,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
         CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
-        assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+        assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, "1"));
     }
     
     /**
@@ -249,28 +249,28 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
         CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
-        assertTrue(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+        assertTrue(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, "1"));
     }
     
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NoTranType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_NO_TRAN_TYPE;
         CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
-        assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+        assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, "1"));
     }
     
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_RecurringTranType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_RECURRING_TRAN_TYPE;
         CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
-        assertTrue(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+        assertTrue(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, "1"));
     }
     
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_RecurringTranTypeAndNoRecurringPaymentType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_RECURRING_TRAN_TYPE;
         CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
-        assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+        assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, "1"));
     }   
     
 }

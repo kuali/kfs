@@ -53,7 +53,7 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
 
         AccountsPayableDocument apDocument = (AccountsPayableDocument) purapDocument;
         valid &= processApprovalAtAccountsPayableReviewAllowed(apDocument);
-//        valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateAccountsPayableItems((List<? extends AccountsPayableItem>)apDocument.getItems());
+        valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateAccountsPayableItems(apDocument.getItems());
 
         return valid;
     }

@@ -133,6 +133,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorCreditCardIndicator" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="taxableIndicator" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="vendorMinimumOrderAmount" />
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorShippingTitleCode" />

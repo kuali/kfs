@@ -99,7 +99,8 @@ public class PurapTestConstants {
     }
     
     static class PurCams {
-        static final KualiDecimal CAPITAL_AMOUNT = new KualiDecimal(6000);
+        static final BigDecimal CAPITAL_AMOUNT = new BigDecimal(6000);
+        static final BigDecimal CAPITAL_POSITIVE_AMOUNT = new BigDecimal(16);
         static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal(16);
         static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
         static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal(-16);

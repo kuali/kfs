@@ -77,7 +77,8 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         List<PurchasingCapitalAssetItem> newCamsItemsList = new TypedArrayList(purDoc.getPurchasingCapitalAssetItemClass());
         
         for (PurApItem purapItem : purDoc.getItems()) {
-            if (purapItem.getItemType().isLineItemIndicator()) {
+            if (purapItem.getItemType().isLineItemIndicator() || 
+                PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(purapItem.getItemTypeCode())) {
                 if (capitalAssetBuilderModuleService.doesItemNeedCapitalAsset(purapItem)) {
                     PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
                     //If either the camsItem is null or if its system is null and the document's system type is IND (this is

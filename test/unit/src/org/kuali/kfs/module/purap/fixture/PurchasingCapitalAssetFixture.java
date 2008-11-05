@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +40,7 @@ public enum PurchasingCapitalAssetFixture {
     ZERO_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE(PurCams.ZERO_AMOUNT,PurCams.CAPITAL_AMOUNT,PurCams.POSSIBLE_OBJECT_CODE),
     NEGATIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE(PurCams.NEGATIVE_AMOUNT,PurCams.CAPITAL_AMOUNT,PurCams.POSSIBLE_OBJECT_CODE),
     NULL_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE(null,PurCams.CAPITAL_AMOUNT,PurCams.POSSIBLE_OBJECT_CODE),
-    POSITIVE_QUANTITY_POSITIVE_PRICE_POSSIBLE_OBJECT_CODE(PurCams.POSITIVE_AMOUNT,PurCams.POSITIVE_AMOUNT,PurCams.POSSIBLE_OBJECT_CODE),
+    POSITIVE_QUANTITY_POSITIVE_PRICE_POSSIBLE_OBJECT_CODE(PurCams.POSITIVE_AMOUNT,PurCams.CAPITAL_POSITIVE_AMOUNT,PurCams.POSSIBLE_OBJECT_CODE),
     
     RECURRING_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE(PurCams.RECURRING_PAYMENT_TYPE, PurCams.NONRECURRING_ASSET_NUMBER_REQUIRING_TRAN_TYPE),
     NO_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE(null, PurCams.NONRECURRING_ASSET_NUMBER_REQUIRING_TRAN_TYPE),
@@ -57,7 +58,7 @@ public enum PurchasingCapitalAssetFixture {
     HashSet<String> capitalOrExpenseSet = new HashSet<String>();
     ObjectCode objectCode;
     KualiDecimal quantity;
-    KualiDecimal extendedPrice;
+    BigDecimal itemUnitPrice;
     CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType = null;
     RecurringPaymentType recurringPaymentType = null;
     List<ItemCapitalAsset> assets = null;
@@ -83,9 +84,9 @@ public enum PurchasingCapitalAssetFixture {
      * @param objectCode
      * @see PurchasingDocumentRuleBase.validateLevelCapitalAssetIndication
      */
-    private PurchasingCapitalAssetFixture(KualiDecimal quantity, KualiDecimal extendedPrice, ObjectCode objectCode) {
+    private PurchasingCapitalAssetFixture(KualiDecimal quantity, BigDecimal itemUnitPrice, ObjectCode objectCode) {
         this.quantity = quantity;
-        this.extendedPrice = extendedPrice;
+        this.itemUnitPrice = itemUnitPrice;
         this.objectCode = objectCode;
     }
     
@@ -132,12 +133,12 @@ public enum PurchasingCapitalAssetFixture {
         this.capitalOrExpenseSet = capitalOrExpenseSet;
     }
 
-    public KualiDecimal getExtendedPrice() {
-        return extendedPrice;
+    public BigDecimal getItemUnitPrice() {
+        return itemUnitPrice;
     }
 
-    public void setExtendedPrice(KualiDecimal extendedPrice) {
-        this.extendedPrice = extendedPrice;
+    public void setItemUnitPrice(BigDecimal itemUnitPrice) {
+        this.itemUnitPrice = itemUnitPrice;
     }
 
     public ObjectCode getObjectCode() {

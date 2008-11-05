@@ -560,7 +560,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
 
         boolean needToDistributeAccount = false;
-        if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
+        List<PurApAccountingLine> distributionsourceAccountingLines = purchasingForm.getAccountDistributionsourceAccountingLines();
+        if (distributionsourceAccountingLines.size() > 0) {
             needToDistributeAccount = true;
         }
         if (needToDistributeAccount || needToDistributeCommodityCode) {
@@ -606,7 +607,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     // but only to the below the line items when there is a unit cost.
                     boolean unitCostNotZeroForBelowLineItems = item.getItemType().isLineItemIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
                     if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && itemIsActive) {
-                        item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
+                        for (PurApAccountingLine purApAccountingLine : distributionsourceAccountingLines) {
+                            item.getSourceAccountingLines().add((PurApAccountingLine)ObjectUtils.deepCopy(purApAccountingLine));                            
+                        }
+
                         performedAccountDistribution = true;
                     }
                 }
@@ -619,7 +623,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 }
                 if (needToDistributeAccount && !foundAccountDistributionError && performedAccountDistribution) {
                     GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);
-                    purchasingForm.getAccountDistributionsourceAccountingLines().clear();
+                    distributionsourceAccountingLines.clear();
                 }
                 purchasingForm.setHideDistributeAccounts(true);
             }

@@ -419,7 +419,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         int count = 0;
         for (PurchasingCapitalAssetItem item : capitalAssetItems) {
-            if (item.getPurchasingItem() != null && item.getPurchasingItem().getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if (item.getPurchasingItem() != null && item.getPurchasingItem().getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                !item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations().isEmpty()) {
                 KualiDecimal total = new KualiDecimal(0);
                 for (CapitalAssetLocation location : item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
                     if(ObjectUtils.isNotNull(location.getItemQuantity())) {

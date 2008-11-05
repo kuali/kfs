@@ -720,7 +720,6 @@
   	<property name="name" value="taxClassificationCode" />
     <property name="label" value="Income Class" />
     <property name="shortLabel" value="Income Class" />
-    <property name="required" value="true" />     
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TaxIncomeClassValuesFinder"
@@ -733,7 +732,6 @@
     <property name="name" value="federalTaxPercent" />
     <property name="label" value="Federal Tax Percent" />
     <property name="shortLabel" value="Federal Percent" />
-    <property name="required" value="true" />     
   </bean>
   <bean id="PaymentRequestDocument-stateTaxPercent" parent="PaymentRequestDocument-stateTaxPercent-parentBean" />
   
@@ -741,7 +739,6 @@
     <property name="name" value="stateTaxPercent" />
     <property name="label" value="State Tax Percent" />
     <property name="shortLabel" value="State Percent" />
-    <property name="required" value="true" />     
   </bean>
   <bean id="PaymentRequestDocument-taxCountryCode" parent="PaymentRequestDocument-taxCountryCode-parentBean" />
 
@@ -806,10 +803,18 @@
   </bean>
   <bean id="PaymentRequestDocument-taxNQIId" parent="PaymentRequestDocument-taxNQIId-parentBean" />
 
-  <bean id="PaymentRequestDocument-taxNQIId-parentBean" parent="GenericAttributes-genericSystemId">
+  <bean id="PaymentRequestDocument-taxNQIId-parentBean" parent="AttributeDefinition">
     <property name="name" value="taxNQIId" />
     <property name="label" value="NQI Id" />
     <property name="shortLabel" value="NQI Id" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
   </bean>  
 
 

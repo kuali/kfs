@@ -57,7 +57,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         setLookupResultsBOClassName(LedgerBalance.class.getName());
-        setUser(new org.kuali.rice.kim.bo.impl.PersonImpl());
         setFormatterType(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.APPROVAL_OBJECT_CODE_BALANCES, CurrencyFormatter.class);
     }
 
@@ -136,7 +135,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         if (user == null) {
             setUser((Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getSalaryExpenseTransferDocument().getEmplid())); 
         }
-
         return getSalaryExpenseTransferDocument().getEmplid();
     }
 

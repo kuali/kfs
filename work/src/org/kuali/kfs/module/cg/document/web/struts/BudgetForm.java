@@ -126,7 +126,6 @@ public class BudgetForm extends ResearchDocumentFormBase {
         newPersonnel = new BudgetUser();
         newFringeRate = new BudgetFringeRate();
         newGraduateAssistantRate = new BudgetGraduateAssistantRate();
-        initiator = new org.kuali.rice.kim.bo.impl.PersonImpl();
         setDocument(new BudgetDocument());
         newInstitutionCostShare = new BudgetInstitutionCostShare();
         newThirdPartyCostShare = new BudgetThirdPartyCostShare();

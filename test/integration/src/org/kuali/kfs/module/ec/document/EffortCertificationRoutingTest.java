@@ -163,8 +163,6 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
 
     public final void testRouting() throws Exception {
         EffortCertificationDocument document = buildDocument();
-        document.serializeDocumentToXml();
-        
         System.out.println("EffortCertificationDocument doc# " + document.getDocumentNumber());
         KualiWorkflowDocument testDoc = document.getDocumentHeader().getWorkflowDocument();
         testDoc.blanketApprove("Approved by unit test");

@@ -33,7 +33,7 @@ import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
 import org.kuali.kfs.sys.document.web.renderers.ActionsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
-import org.kuali.kfs.sys.document.web.renderers.ImportLineRenderer;
+import org.kuali.kfs.sys.document.web.renderers.GroupTitleLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.kfs.sys.document.web.renderers.RepresentedCellCurious;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -133,19 +133,19 @@ public class AccountingLineGroup {
             }
         }
         else {
-            ImportLineRenderer importLineRenderer = new ImportLineRenderer();
-            importLineRenderer.setAccountingLineGroupDefinition(groupDefinition);
-            importLineRenderer.setCellCount(getWidthInCells());
-            importLineRenderer.setEditModes(editModes);
-            importLineRenderer.setLineCollectionProperty(collectionPropertyName);
-            importLineRenderer.setAccountingDocument(accountingDocument);
+            GroupTitleLineRenderer groupTitleLineRenderer = new GroupTitleLineRenderer();
+            groupTitleLineRenderer.setAccountingLineGroupDefinition(groupDefinition);
+            groupTitleLineRenderer.setCellCount(getWidthInCells());
+            groupTitleLineRenderer.setEditModes(editModes);
+            groupTitleLineRenderer.setLineCollectionProperty(collectionPropertyName);
+            groupTitleLineRenderer.setAccountingDocument(accountingDocument);
 
             boolean isReadOnly = groupDefinition.getAccountingLineAuthorizer().isGroupReadOnly(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getPerson(), editModes);            
-            importLineRenderer.overrideCanUpload(!isReadOnly); // we're read only - so we can't upload
-            importLineRenderer.setGroupActionsRenderred(!isReadOnly);
+            groupTitleLineRenderer.overrideCanUpload(groupDefinition.isImportingAllowed() && !isReadOnly);
+            groupTitleLineRenderer.setGroupActionsRenderred(!isReadOnly);
 
-            importLineRenderer.render(pageContext, parentTag);
-            importLineRenderer.clear();
+            groupTitleLineRenderer.render(pageContext, parentTag);
+            groupTitleLineRenderer.clear();
         }
 
         if (errors != null && errors.size() > 0) {

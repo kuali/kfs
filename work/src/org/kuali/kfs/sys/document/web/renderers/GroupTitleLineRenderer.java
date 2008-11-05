@@ -41,7 +41,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 /**
  * Renders the standard group header/import line
  */
-public class ImportLineRenderer implements Renderer, CellCountCurious {
+public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
     private int titleCellSpan = 4;
     private int cellCount = 1;
     private AccountingLineGroupDefinition accountingLineGroupDefinition;
@@ -59,7 +59,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     /**
      * Constructs a ImportLineRenderer, setting defaults on the tags that will always exist
      */
-    public ImportLineRenderer() {
+    public GroupTitleLineRenderer() {
         scriptFileTag.setSize("30");
         noscriptFileTag.setSize("30");
         noscriptFileTag.setStyle("font:10px;height:16px;");
@@ -203,7 +203,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
      */
     protected String buildTitleCell() {
         StringBuilder titleCell = new StringBuilder();
-        int colSpan = canUpload() ? titleCellSpan : cellCount;
+        int colSpan = (this.canUpload() || this.isGroupActionsRenderred()) ? titleCellSpan : cellCount;
 
         titleCell.append("<td ");
 

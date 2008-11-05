@@ -38,6 +38,7 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
     private String errorKey;
     private boolean topHeadersAfterFirstLineHiding = true;
     private boolean headerRendering = true;
+    private boolean importingAllowed = true;
     
     private List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions;
     
@@ -262,5 +263,21 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      */
     public void setAccountingLineGroupActions(List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions) {
         this.accountingLineGroupActions = accountingLineGroupActions;
+    }
+
+    /**
+     * Gets the importingAllowed attribute. 
+     * @return Returns the importingAllowed.
+     */
+    public boolean isImportingAllowed() {
+        return importingAllowed;
+    }
+
+    /**
+     * Sets the importingAllowed attribute value.
+     * @param importingAllowed The importingAllowed to set.
+     */
+    public void setImportingAllowed(boolean importingAllowed) {
+        this.importingAllowed = importingAllowed;
     }
 }

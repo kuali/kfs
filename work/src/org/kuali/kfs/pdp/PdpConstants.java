@@ -58,31 +58,6 @@ public class PdpConstants {
         public static String VIEWIDPARTIALBANK_GROUP = "PD_VIEW_ID_AND PARTIAL_BANK";
     }
 
-    public static class ApplicationParameterKeys {
-        public static String SEARCH_RESULTS_TOTAL = "RESULTS_LIMIT";
-        public static String SEARCH_RESULTS_PER_PAGE = "RESULTS_PER_PAGE";
-
-        public static String CHECK_EXTRACT_FILE = "CHECK_EXTRACT_FILE";
-        public static String ACH_EXTRACT_FILE = "ACH_EXTRACT_FILE";
-        public static String CHECK_CANCEL_EXTRACT_FILE = "CHECK_CANCEL_EXTRACT_FILE";
-        public static String ACH_BANK_INPUT_FILE = "ACH_BANK_INPUT_FILE";
-
-        public static String EXTRACT_PROCESS_ID = "EXTRACT_PROCESS_ID";
-
-        public static String HARD_EDIT_CC = "HARD_EDIT_TO_EMAIL_ADDRESSES";
-        public static String SOFT_EDIT_CC = "SOFT_EDIT_TO_EMAIL_ADDRESSES";
-        public static String NO_PAYMENT_FILE_EMAIL = "NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES";
-        public static String PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL = "PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL_ADDRESSES";
-
-        public static String TAX_GROUP_EMAIL_ADDRESS = "TAX_GROUP_TO_EMAIL_ADDRESSES";
-        public static String TAX_CANCEL_EMAIL_LIST = "TAX_CANCEL_TO_EMAIL_ADDRESSES";
-
-        public static String MAX_NOTE_LINES = "MAX_NOTE_LINES";
-        public static String FORMAT_SUMMARY_ROWS = "FORMAT_SUMMARY_REVIEW_RESULTS_PER_PAGE";
-
-        public static String DISBURSEMENT_ACTION_EXPIRATION_DAYS = "DISBURSEMENT_CANCELLATION_DAYS";
-    }
-
     public static class DisbursementTypeCodes {
         public static String CHECK = "CHCK";
         public static String ACH = "ACH";

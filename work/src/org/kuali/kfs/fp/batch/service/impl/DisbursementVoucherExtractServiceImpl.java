@@ -35,6 +35,7 @@ import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
@@ -42,9 +43,9 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -101,7 +102,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Date processRunDate = dateTimeService.getCurrentDate();
 
-        String noteLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        String noteLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
 
         try {
             maxNoteLines = Integer.parseInt(noteLines);

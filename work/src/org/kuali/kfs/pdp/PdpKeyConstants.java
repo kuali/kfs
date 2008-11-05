@@ -177,20 +177,7 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2 = "message.pdp.paymentMaintenance.email.line2";  
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3 = "message.pdp.paymentMaintenance.email.line3";  
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4 = "message.pdp.paymentMaintenance.email.line4";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYEE_NAME = "message.pdp.paymentMaintenance.email.payeeName";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_NET_PAYMENT_AMOUNT = "message.pdp.paymentMaintenance.email.netPaymentAmount";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_SOURCE_DOCUMENT_NUMBER = "message.pdp.paymentMaintenance.email.sourceDocumentNumber";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_INVOICE_NUMBER = "message.pdp.paymentMaintenance.email.invoiceNumber";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PURCHASE_ORDER_NUMBER = "message.pdp.paymentMaintenance.email.purchaseOrderNumber";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_DETAIL_ID = "message.pdp.paymentMaintenance.email.paymentDetailId";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_INFORMATION_HEADER = "message.pdp.paymentMaintenance.email.batchInformationHeader";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_ID = "message.pdp.paymentMaintenance.email.batchId";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CHART = "message.pdp.paymentMaintenance.email.chart";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_ORGANIZATION = "message.pdp.paymentMaintenance.email.organization";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_SUB_UNIT = "message.pdp.paymentMaintenance.email.subUnit";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CREATION_DATE = "message.pdp.paymentMaintenance.email.creationDate";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_COUNT = "message.pdp.paymentMaintenance.email.paymentCount";
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_TOTAL_AMOUNT = "message.pdp.paymentMaintenance.email.paymentTotalAmount";
     
     public static final String ERROR_ACH_ACCOUNT_NOT_INACTIVABLE = "error.pdp.achAccount.accountNotInactivable";
 

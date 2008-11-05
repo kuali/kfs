@@ -40,8 +40,10 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -84,7 +86,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_FAILURE_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuffer body = new StringBuffer();
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.HARD_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.HARD_EDIT_CC);
 
         if (paymentFile == null) {
             if (ccAddresses.isEmpty()) {
@@ -157,7 +159,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.setFromAddress(mailService.getBatchMailingList());
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME));
 
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.HARD_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.HARD_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
         CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
@@ -254,7 +256,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         StringBuffer body = new StringBuffer();
 
-        String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);
+        String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_GROUP_EMAIL_ADDRESS);
         if (StringUtils.isBlank(taxEmail)) {
             LOG.error("No Tax E-mail Application Setting found to send notification e-mail");
             return;
@@ -296,7 +298,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         StringBuffer body = new StringBuffer();
 
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.HARD_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.HARD_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
         CustomerProfile customer = batch.getCustomerProfile();
@@ -344,11 +346,11 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         }
 
         // Get recipient email address
-        String toAddresses = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL);
+        String toAddresses = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL);
         List<String> toAddressList = Arrays.asList(toAddresses.split(","));
         message.getToAddresses().addAll(toAddressList);
 
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.SOFT_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.SOFT_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
         body.append(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_MESSAGE, StringUtils.join(creditMemos, ","), StringUtils.join(paymentRequests, ","), lineTotal, maxNoteLines));
@@ -539,7 +541,125 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             }
         }
     }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.pdp.service.PdpEmailService#sendCancelEmail(org.kuali.kfs.pdp.businessobject.PaymentGroup, java.lang.String, org.kuali.rice.kim.bo.Person)
+     */
+    public void sendCancelEmail(PaymentGroup paymentGroup, String note, Person user) {
+        LOG.debug("sendCancelEmail() starting");
 
+        MailMessage message = new MailMessage();
+        
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        
+        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            message.setSubject("PDP --- Cancelled Payment by Tax");
+        }
+        else {
+            message.setSubject(environmentCode + "-PDP --- Cancelled Payment by Tax");
+        }
+
+        CustomerProfile cp = paymentGroup.getBatch().getCustomerProfile();
+        String toAddresses = cp.getAdviceReturnEmailAddr();
+        String toAddressList[] = toAddresses.split(",");
+
+        if (toAddressList.length > 0) {
+            for (int i = 0; i < toAddressList.length; i++) {
+                if (toAddressList[i] != null) {
+                    message.addToAddress(toAddressList[i].trim());
+                }
+            }
+        }
+        // message.addToAddress(cp.getAdviceReturnEmailAddr());
+
+        String ccAddresses = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_CANCEL_EMAIL_LIST);
+        String ccAddressList[] = ccAddresses.split(",");
+
+        if (ccAddressList.length > 0) {
+            for (int i = 0; i < ccAddressList.length; i++) {
+                if (ccAddressList[i] != null) {
+                    message.addCcAddress(ccAddressList[i].trim());
+                }
+            }
+        }
+
+        String fromAddressList[] = { mailService.getBatchMailingList() };
+
+        if (fromAddressList.length > 0) {
+            for (int i = 0; i < fromAddressList.length; i++) {
+                if (fromAddressList[i] != null) {
+                    message.setFromAddress(fromAddressList[i].trim());
+                }
+            }
+        }
+
+        StringBuffer body = new StringBuffer();
+
+        String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
+            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+        
+        body.append(note + "\n\n");
+        String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_GROUP_EMAIL_ADDRESS);
+
+        if (StringUtils.isBlank(taxEmail)) {
+            messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2);
+            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+        }
+        else {
+            messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3);
+            body.append(MessageFormat.format(messageKey, new Object[] { taxEmail }) + " \n\n");
+        }
+
+        messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);
+            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+        
+        for (PaymentDetail pd : paymentGroup.getPaymentDetails()) {
+
+            String payeeLabel = dataDictionaryService.getAttributeLabel(PaymentGroup.class, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME);
+            String netPaymentAccountLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_NET_AMOUNT);
+            String sourceDocumentNumberLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR);
+            String invoiceNumberLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_NUMBER);
+            String purchaseOrderNumberLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PURCHASE_ORDER_NUMBER);
+            String paymentDetailIdLabel = dataDictionaryService.getAttributeLabel(PaymentDetail.class, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID);
+            
+            body.append(payeeLabel + ": " + paymentGroup.getPayeeName() + " \n");
+            body.append(netPaymentAccountLabel + ": " + pd.getNetPaymentAmount() + " \n");
+            body.append(sourceDocumentNumberLabel + ": " + pd.getCustPaymentDocNbr() + " \n");
+            body.append(invoiceNumberLabel + ": " + pd.getInvoiceNbr() + " \n");
+            body.append(purchaseOrderNumberLabel + ": " + pd.getPurchaseOrderNbr() + " \n");
+            body.append(paymentDetailIdLabel + ": " + pd.getId() + "\n");
+            
+        }
+
+        body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+        
+        String batchIdLabel = dataDictionaryService.getAttributeLabel(Batch.class, PdpPropertyConstants.BatchConstants.Fields.BATCH_ID);
+        String chartMessageLabel = dataDictionaryService.getAttributeLabel(CustomerProfile.class, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE);
+        String organizationLabel = dataDictionaryService.getAttributeLabel(CustomerProfile.class, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE);
+        String subUnitLabel = dataDictionaryService.getAttributeLabel(CustomerProfile.class, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);
+        String creationDateLabel = dataDictionaryService.getAttributeLabel(Batch.class, PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME);
+        String paymentCountLabel = dataDictionaryService.getAttributeLabel(Batch.class, PdpPropertyConstants.BatchConstants.Fields.PAYMENT_COUNT);
+        String paymentTotalLabel = dataDictionaryService.getAttributeLabel(Batch.class, PdpPropertyConstants.BatchConstants.Fields.PAYMENT_TOTAL_AMOUNT);
+        
+        body.append(batchIdLabel + ": " + paymentGroup.getBatch().getId() + " \n");
+        body.append(chartMessageLabel + ": " + cp.getChartCode() + " \n");
+        body.append(organizationLabel + ": " + cp.getOrgCode() + " \n");
+        body.append(subUnitLabel + ": " + cp.getSubUnitCode() + " \n");
+        body.append(creationDateLabel + ": " + paymentGroup.getBatch().getCustomerFileCreateTimestamp() + " \n\n");
+        body.append(paymentCountLabel + ": " + paymentGroup.getBatch().getPaymentCount() + " \n\n");
+        body.append(paymentTotalLabel + ": " + paymentGroup.getBatch().getPaymentTotalAmount() + " \n\n");
+
+        message.setMessage(body.toString());
+        try {
+            mailService.sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
+    }
+    
     /**
      * Writes out payment file field labels and values to <code>StringBuffer</code>
      * 
@@ -574,7 +694,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      * @return true if email should be sent, false otherwise
      */
     protected boolean isPaymentEmailEnabled() {
-        boolean noEmail = parameterService.getIndicatorParameter(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
+        boolean noEmail = parameterService.getIndicatorParameter(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.NO_PAYMENT_FILE_EMAIL);
         if (noEmail) {
             LOG.debug("sendLoadEmail() sending payment file email is disabled");
             return false;

@@ -23,7 +23,6 @@ import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -74,18 +73,12 @@ public class PaymentReasonValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
 
-        ParameterService paramService = SpringContext.getBean(ParameterService.class);
         for (PaymentReasonCode payReason : boList) {
-            if(payeeSpecificCodes.contains(payReason.getCode())) {
-                // Need to retrieve parameter values for the constraint, so we can check to see if the values collection is empty.  An empty collection assumes the value is allowed by default.
-                List<String> foundParam = paramService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode());
-                if(foundParam.isEmpty() || paramService.getParameterEvaluator(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode(), campusCode).evaluationSucceeds()) { 
-                    if(payReason.isActive()) {
-                        keyValues.add(new KeyLabelPair(payReason.getCode(), payReason.getCodeAndDescription()));
-                    }
-                }
+            if(payeeSpecificCodes.contains(payReason.getCode()) && payReason.isActive()) {
+                keyValues.add(new KeyLabelPair(payReason.getCode(), payReason.getCodeAndDescription()));
             }
         }
+        
         return keyValues;
     }
     

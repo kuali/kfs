@@ -28,16 +28,21 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.batch.CfdaBatchStep;
 import org.kuali.kfs.module.cg.businessobject.Cfda;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.pdp.PdpParameterConstants;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class CfdaServiceImpl implements CfdaService {
 
     private BusinessObjectService businessObjectService;
-    private static String SOURCE_URL = "http://12.46.245.173/pls/portal30/CATALOG.AGY_PROGRAM_LIST_RPT.show";
     private static Comparator cfdaComparator;
 
     static {
@@ -106,8 +111,10 @@ public class CfdaServiceImpl implements CfdaService {
      */
     public SortedMap<String, Cfda> getGovCodes() throws IOException {
         SortedMap<String, Cfda> govMap = new TreeMap<String, Cfda>();
-
-        URL url = new URL(SOURCE_URL);
+        
+        String sourceUrl = SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER);
+        
+        URL url = new URL(sourceUrl);
         InputStream inputStream = url.openStream();
         InputStreamReader screenReader = new InputStreamReader(inputStream);
         BufferedReader screen = new BufferedReader(screenReader);

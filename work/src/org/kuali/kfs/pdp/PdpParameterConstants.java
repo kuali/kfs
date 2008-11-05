@@ -27,6 +27,19 @@ public class PdpParameterConstants {
     public static final String ACH_SUMMARY_EMAIL_SUBJECT_PARAMETER_NAME = "ACH_SUMMARY_EMAIL_SUBJECT";
     public static final String ACH_SUMMARY_TO_EMAIL_ADDRESS_PARMAETER_NAME = "ACH_SUMMARY_TO_EMAIL_ADDRESSES";
     
+    public static String ACH_BANK_INPUT_FILE = "ACH_BANK_INPUT_FILE";
+    
+    public static String HARD_EDIT_CC = "HARD_EDIT_TO_EMAIL_ADDRESSES";
+    public static String SOFT_EDIT_CC = "SOFT_EDIT_TO_EMAIL_ADDRESSES";
+    public static String NO_PAYMENT_FILE_EMAIL = "NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES";
+    public static String PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL = "ERROR_EXCEEDS_NOTE_LIMIT_EMAIL_ADDRESSES";
+
+    public static String TAX_GROUP_EMAIL_ADDRESS = "TAX_GROUP_TO_EMAIL_ADDRESSES";
+    public static String TAX_CANCEL_EMAIL_LIST = "TAX_CANCEL_TO_EMAIL_ADDRESSES";
+
+    public static String MAX_NOTE_LINES = "MAX_NOTE_LINES";
+    public static String FORMAT_SUMMARY_ROWS = "FORMAT_SUMMARY_REVIEW_RESULTS_PER_PAGE";
+
     public static class BatchConstants{
         public static final String BATCH_ID_PARAM = "batchId";
     }

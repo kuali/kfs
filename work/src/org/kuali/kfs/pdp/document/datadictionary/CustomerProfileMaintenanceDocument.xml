@@ -108,9 +108,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="id"
               p:required="true" />
-        <!--bean parent="MaintainableFieldDefinition"
-              p:name="customerShortName"
-              p:required="true" /-->
         <bean parent="MaintainableFieldDefinition"
               p:name="customerDescription"
               p:required="true" />

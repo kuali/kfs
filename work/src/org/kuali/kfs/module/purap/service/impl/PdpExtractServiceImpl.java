@@ -40,6 +40,7 @@ import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.service.PdpExtractService;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
@@ -480,7 +481,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return configured maximum number of note lines allowed
      */
     private int getMaxNoteLines() {
-        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
         }

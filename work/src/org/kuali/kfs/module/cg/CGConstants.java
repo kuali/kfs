@@ -149,7 +149,9 @@ public class CGConstants extends JSTLConstants {
     public static final String PROJECT_TYPE_BUDGET_REVISION_ACTIVE = "PROJECT_TYPE_BUDGET_REVISION_ACTIVE";
     public static final String PROJECT_TYPE_BUDGET_REVISION_PENDING = "PROJECT_TYPE_BUDGET_REVISION_PENDING";
     public static final String PROJECT_TYPE_NEW = "PROJECT_TYPE_NEW";
-
+    
+    public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
+    
     // Research Risks codes (system param names)
     public static final String RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE = "RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE";
     public static final String RESEARCH_RISKS_ANIMALS_ACTIVE_CODE = "RESEARCH_RISKS_ANIMALS_ACTIVE_CODE";

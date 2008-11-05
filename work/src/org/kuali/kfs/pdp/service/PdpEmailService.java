@@ -24,6 +24,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -89,4 +90,13 @@ public interface PdpEmailService {
      * @param customer Pdp Customer profile for payment
      */
     public void sendAchAdviceEmail(PaymentGroup paymentGroup, PaymentDetail paymentDetail, CustomerProfile customer);
+    
+    /**
+     * Sends Payment Cancellation Email
+     * 
+     * @param paymentGroup
+     * @param note
+     * @param user
+     */
+    public void sendCancelEmail(PaymentGroup paymentGroup, String note, Person user);
 }

@@ -68,13 +68,13 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         try {
             dbCon = mySource.getConnection();
             Statement dbAsk = dbCon.createStatement();
-            String query = "select nd.rte_node_nm ";
-            query = query + "from en_rte_node_t nd, en_doc_typ_t doc ";
-            query = query + "where nd.doc_rte_mthd_nm is not null ";
+            String query = "select nd.nm ";
+            query = query + "from krew_rte_node_t nd, krew_doc_typ_t doc ";
+            query = query + "where nd.rte_mthd_nm is not null ";
             query = query + "and doc.doc_typ_id = nd.doc_typ_id ";
             query = query + "and doc.doc_typ_nm = 'EffortCertificationDocument' ";
-            query = query + "and doc.doc_typ_cur_ind = 1 ";
-            query = query + "and exists (select * from en_rte_node_lnk_t ";
+            query = query + "and doc.cur_ind = 1 ";
+            query = query + "and exists (select * from krew_rte_node_lnk_t ";
             query = query + "where to_rte_node_id=nd.rte_node_id) ";
             dbAnswer = dbAsk.executeQuery(query);
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
     private EffortCertificationDocument buildDocument() throws Exception {
         // put accounting lines into document parameter for later
         EffortCertificationDocument document = (EffortCertificationDocument) getDocumentParameterFixture();
-       
+        
         document.setEmplid("0000000060");
         document.setEffortCertificationReportNumber("A03");
         document.setUniversityFiscalYear(2007);// Data only exists for this year
@@ -135,6 +135,8 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         testDetailLine.setEffortCertificationOriginalPayrollAmount(new KualiDecimal(100.00));
         effortCertificationDetailLines.add(testDetailLine);
         document.setEffortCertificationDetailLines(effortCertificationDetailLines);
+        
+        document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(200.00));
         KNSServiceLocator.getDocumentService().saveDocument(document);
         return document;
     }
@@ -161,6 +163,8 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
 
     public final void testRouting() throws Exception {
         EffortCertificationDocument document = buildDocument();
+        document.serializeDocumentToXml();
+        
         System.out.println("EffortCertificationDocument doc# " + document.getDocumentNumber());
         KualiWorkflowDocument testDoc = document.getDocumentHeader().getWorkflowDocument();
         testDoc.blanketApprove("Approved by unit test");

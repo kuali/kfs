@@ -1275,9 +1275,10 @@
   
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean" />
   <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
+	  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
+		p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusLocation.assetLocationStateCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
   </bean>

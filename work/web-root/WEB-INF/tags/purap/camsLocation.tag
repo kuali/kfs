@@ -36,7 +36,7 @@
 <tr>
     <td colspan="4" class="subhead">
         <span class="left">Location</span>
-        <c:if test="${fullEntryMode or amendmentEntry}">
+        <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
         <span class="right">
             <html:image property="${deleteLocationUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a Asset Location" title="Delete a Asset Location" styleClass="tinybutton" />
         </span>
@@ -55,7 +55,7 @@
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingCode}" align="right" />
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingCode}" property="${camsAssetLocationProperty}.buildingCode" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
-        <c:if test="${fullEntryMode or amendmentEntry}">
+        <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
                 lookupParameters="${camsAssetLocationProperty}.campusCode:campusCode" 
                 fieldConversions="buildingCode:locationBuildingFromLookup,campusCode:locationCampusFromLookup,buildingStreetAddress:locationCapitalAssetItemNumber.${ctr}"

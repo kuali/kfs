@@ -22,8 +22,6 @@
 <%@ attribute name="isRequisition" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 
-<c:set var="lockCamsEntry" value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" />
-
 <table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Items">
 	<tr>
 		<td colspan="12" class="subhead">CAMS Items</td>
@@ -141,7 +139,7 @@
 				<tr>
 			    <kul:htmlAttributeHeaderCell attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" align="right" width="250px"/>
 			    <td class="datacell">
-					<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${not itemActive}"/>		
+					<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}"/>		
 				</td>
 				</tr>
 				</table>

@@ -88,9 +88,6 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_B2B_ENTRY, "TRUE");
         }
 
-        //By default lock cams tab
-        editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
-        
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             //users cannot edit vendor name if the vendor has been selected from the database
             if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
@@ -121,22 +118,11 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
                 // for ex, contract manager, manual status change, and quote etc
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE, "TRUE");
-
-                //if user is part of the purchasing group, allow edit while in process
-                editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-            // Unlock Capital Assets tag during Amendment.
-            if (PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
-                String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
-                    editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
-                }
-            }
-            
             /**
              * INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the
              * CHART/ORG.
@@ -145,12 +131,6 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 // FULL_ENTRY allowed; also set internal purchasing lock
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY, "TRUE");
-
-                //if user is part of the purchasing group, allow edit while awaiting internal purchasing review
-                String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
-                    editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
-                }
             }
 
             /**

@@ -70,9 +70,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_B2B_ENTRY, "TRUE");
         }
 
-        //by default lock cams tab
-        editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
-
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             if (ObjectUtils.isNotNull(reqDocument.getVendorHeaderGeneratedIdentifier())) {
                 editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
@@ -87,9 +84,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                     editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
                 }
             }
-            
-            //If not routed, anyone can edit cams data
-            editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
         }
 
         if (workflowDocument.stateIsEnroute()) {
@@ -102,12 +96,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
                 // FULL_ENTRY will be set by super which is fine; also set content lock
                 editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_CONTENT_ENTRY;
-                
-                //if enroute, only content approvers can edit
-                if(workflowDocument.isApprovalRequested()){
-                    editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
-                }
-
             }
 
             /**

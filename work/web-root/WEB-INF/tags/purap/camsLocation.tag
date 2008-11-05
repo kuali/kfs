@@ -58,7 +58,7 @@
         <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
                 lookupParameters="${camsAssetLocationProperty}.campusCode:campusCode" 
-                fieldConversions="buildingCode:locationBuildingFromLookup,campusCode:locationCampusFromLookup,buildingStreetAddress:locationCapitalAssetItemNumber.${ctr}"
+	        	fieldConversions="buildingCode:${camsAssetLocationProperty}.buildingCode,campusCode:${camsAssetLocationProperty}.campusCode"
                 anchor="${currentTabIndex}"/>
         </c:if>
     </td>

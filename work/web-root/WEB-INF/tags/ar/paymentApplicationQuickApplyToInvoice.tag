@@ -49,13 +49,15 @@
                                 <td>
                                     <c:out value="${updatedBalanceInvoice.invoice.documentNumber}" />
                                 </td>
-                                <td>
+                                <td style="text-align: right;">
                                     $
                                     <c:out value="${updatedBalanceInvoice.openAmount}" />
                                 </td>
                                 <td>
-                                    <input type="checkbox" name="quickApply"
-                                        value="${updatedBalanceInvoice.invoice.documentNumber}" />
+                                	<center>
+	                                    <input type="checkbox" name="quickApply"
+	                                        value="${updatedBalanceInvoice.invoice.documentNumber}" />
+	                                </center>
                                 </td>
                             </tr>
                         </c:forEach>

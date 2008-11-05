@@ -134,6 +134,7 @@
                     </td>
                     <td>
                         <kul:htmlControlAttribute
+                        	styleClass="amount"
                             attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
                             property="nonInvoicedAddLine.financialDocumentLineAmount"/>
                     </td>
@@ -184,6 +185,7 @@
                         </td>
                         <td>
                             <kul:htmlControlAttribute
+                            	styleClass="amount"
                                 attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
                                 property="paymentApplicationDocument.nonInvoiced[${ctr }].financialDocumentLineAmount"/>
                         </td>

@@ -41,6 +41,7 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Amount"/>  
                     <td>
                         <kul:htmlControlAttribute
+	                        styleClass="amount"
                             attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
                             property="document.nonAppliedHolding.financialDocumentLineAmount"
                             readOnly="${readOnly}" />

@@ -104,14 +104,11 @@
 												</c:choose>
 											</c:forEach>
 										</select>
-
 										<logic:iterate id="invoices" name="KualiForm"
 											property="invoices" indexId="ctr">
 											<html:hidden
 												property="customerInvoiceDocument[${ctr}].documentNumber" />
 										</logic:iterate>
-
-
 										<html:image property="methodToCall.goToInvoice"
 											src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
 											alt="Go To Invoice" title="Go To Invoice"
@@ -144,25 +141,20 @@
 										<table width='100%' cellpadding='0' cellspacing='0'
 											class='datatable'>
 											<tr>
-
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceDocumentNumber"
 													literalLabel="Invoice Number/Billing Date"
 													horizontal="true" />
-
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName"
 													literalLabel="Invoice Header/Customer Name"
 													horizontal="true" />
-
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceBalance"
 													literalLabel="Balance/Total" horizontal="true" />
-
 												<kul:htmlAttributeHeaderCell
 													labelFor="amountAppliedDirectlyToInvoice"
 													literalLabel="Amount Applied to Invoice" horizontal="true" />
-
 											</tr>
 											<tr>
 												<td>
@@ -176,12 +168,12 @@
 														property="selectedInvoiceDocument.accountsReceivableDocumentHeader.financialDocumentExplanationText"
 														readOnly="true" />
 												</td>
-												<td>
+												<td style="text-align: right;">
 													<kul:htmlControlAttribute
 														attributeEntry="${invoiceAttributes.balance}"
 														property="selectedInvoiceBalance" readOnly="true" />
 												</td>
-												<td rowspan='2' style='vertical-align: top;'>
+												<td rowspan='2' style='vertical-align: top; text-align: right;'>
 													<kul:htmlControlAttribute
 														attributeEntry="${invoiceAttributes.balance}"
 														property="amountAppliedDirectlyToInvoice" readOnly="true" />
@@ -189,24 +181,21 @@
 											</tr>
 											<tr>
 												<td>
-
 													<kul:htmlControlAttribute
 														attributeEntry="${invoiceAttributes.billingDate}"
 														property="selectedInvoiceDocument.billingDate"
 														readOnly="true" />
 												</td>
 												<td>
-
 													<kul:htmlControlAttribute
 														attributeEntry="${customerAttributes.customerNumber}"
 														property="selectedInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName"
 														readOnly="true" />
 												</td>
-												<td>
+												<td style="text-align: right;">
 													<kul:htmlControlAttribute
 														attributeEntry="${invoiceAttributes.sourceTotal}"
 														property="selectedInvoiceTotalAmount" readOnly="true" />
-
 												</td>
 											</tr>
 											<tr>
@@ -258,7 +247,6 @@
 																		attributeEntry="${customerInvoiceDetailAttributes.sequenceNumber}"
 																		property="customerInvoiceDetail[${ctr}].sequenceNumber"
 																		readOnly="true" />
-
 																</td>
 																<td>
 																	<kul:htmlControlAttribute
@@ -278,30 +266,32 @@
 																		property="customerInvoiceDetail[${ctr}].invoiceItemDescription"
 																		readOnly="true" />
 																</td>
-																<td>
+																<td style="text-align: right;">
 																	<kul:htmlControlAttribute
 																		attributeEntry="${customerInvoiceDetailAttributes.amount}"
 																		property="customerInvoiceDetail[${ctr}].amount"
 																		readOnly="true" />
 																</td>
-																<td>
+																<td style="text-align: right;">
 																	<kul:htmlControlAttribute
 																		attributeEntry="${customerInvoiceDetailAttributes.balance}"
 																		property="customerInvoiceDetail[${ctr}].balance"
 																		readOnly="true" />
 																</td>
-																<td>
+																<td style="text-align: right;">
 																	<kul:htmlControlAttribute
+																		styleClass="amount"
 																		attributeEntry="${customerInvoiceDetailAttributes.amountToBeApplied}"
 																		property="customerInvoiceDetail[${ctr}].amountToBeApplied" />
 																</td>
 																<td>
-																	<input type='checkbox' title="Apply Full Amount" name="fullApply"
-																		value="${customerInvoiceDetail.sequenceNumber}">
+																	<center>
+																		<input type='checkbox' title="Apply Full Amount" name="fullApply"
+																			value="${customerInvoiceDetail.sequenceNumber}">
+																	</center>
 																</td>
 															</tr>
 														</logic:iterate>
-
 													</table>
 												</td>
 											</tr>

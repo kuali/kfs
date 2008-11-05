@@ -136,8 +136,8 @@ public enum CustomerInvoiceDetailFixture {
             new BigDecimal(1), // invoiceItemQuantity
             new BigDecimal(1), // invoiceItemUnitPrice
             new KualiDecimal(1), // amount
-            new KualiDecimal(0) // invoiceItemTaxAmount
-            , null);
+            new KualiDecimal(0), // invoiceItemTaxAmount
+            null);
 
     public String documentNumber;
     public String chartOfAccountsCode;

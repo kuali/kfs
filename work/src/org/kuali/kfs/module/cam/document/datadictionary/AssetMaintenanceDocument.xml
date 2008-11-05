@@ -192,8 +192,6 @@
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="On Campus" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="hiddenFieldForError" />             
-        <bean parent="MaintainableFieldDefinition"
               p:name="campusCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"

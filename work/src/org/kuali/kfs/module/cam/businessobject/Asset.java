@@ -28,7 +28,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class Asset extends PersistableBusinessObjectBase implements CapitalAssetManagementAsset {
-    private transient String hiddenFieldForError;
     private Long capitalAssetNumber;
     private String capitalAssetDescription;
     private String capitalAssetTypeCode;
@@ -1805,14 +1804,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
     public void setTagged() {
         this.tagged = (StringUtils.isBlank(campusTagNumber)) ? false : true;
-    }
-
-    public String getHiddenFieldForError() {
-        return hiddenFieldForError;
-    }
-
-    public void setHiddenFieldForError(String hiddenFieldForError) {
-        this.hiddenFieldForError = hiddenFieldForError;
     }
 
 }

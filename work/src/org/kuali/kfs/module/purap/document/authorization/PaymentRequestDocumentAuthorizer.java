@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -173,6 +174,25 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             editModeMap.put(PurapAuthorizationConstants.PURAP_TAX_ENABLED, "TRUE");
         }
 
+        // during Awaiting Tax Approval status, the tax tab is editable to authorized workgroups
+        //TODO fix the workgroups once KIM is done
+        String taxGroup1 = apGroup; //SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, PurapParameterConstants.Workgroups.PA_NONRESIDENT_ALIEN_TAX_REVIEWERS);
+        String taxGroup2 = apGroup; //SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, PurapParameterConstants.Workgroups.PA_EMPLOYEE_VENDOR_REVIEWERS);
+        String taxGroup3 = apGroup; //SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, PurapParameterConstants.Workgroups.PA_EMPLOYEE_AND_NONRESIDENT_ALIEN_VENDOR_TAX_REVIEWERS);
+        IdentityManagementService idService = KIMServiceLocator.getIdentityManagementService();
+        String userId = user.getPrincipalId();
+        boolean authorized = idService.isMemberOfGroup(userId, taxGroup1);
+        authorized |= idService.isMemberOfGroup(userId, taxGroup2);
+        authorized |= idService.isMemberOfGroup(userId, taxGroup3);
+        if (authorized && preq.getStatusCode().equalsIgnoreCase("ATAX")) {
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AREA_EDITABLE, "TRUE");
+        }
+        
+        // after tax is approved, the tax tab is viewable to everyone
+        if (preq.getStatusCode().equalsIgnoreCase("DPTA")) {
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_INFO_VIEWABLE, "TRUE");
+        }
+        
         return editModeMap;
     }
 

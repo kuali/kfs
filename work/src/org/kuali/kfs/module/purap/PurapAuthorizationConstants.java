@@ -61,6 +61,8 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
         public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
+        public static final String TAX_INFO_VIEWABLE = "taxInfoViewable";
+        public static final String TAX_AREA_EDITABLE = "taxAreaEditable";
     }
 
     public static class CreditMemoEditMode extends EditMode {

@@ -24,8 +24,10 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
  
-    <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
-    
+    <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />    
+    <c:set var="taxInfoViewable" value="${KualiForm.editingMode['taxInfoViewable']}" scope="request" />
+    <c:set var="taxAreaEditable" value="${KualiForm.editingMode['taxAreaEditable']}" scope="request" />
+
 	<!--  Display hold message if payment is on hold -->
 	<c:if test="${KualiForm.paymentRequestDocument.holdIndicator}">	
 		<h4>This Payment Request has been Held by <c:out value="${KualiForm.paymentRequestDocument.lastActionPerformedByPersonName}"/></h4>		
@@ -42,25 +44,32 @@
 	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" >
 	        
 	    	<purap:purapDocumentDetail
-	    	documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
-	    	detailSectionLabel="Payment Request Detail"
-	    	paymentRequest="true" />
+	    		documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
+	    		detailSectionLabel="Payment Request Detail"
+	    		paymentRequest="true" />
 	    </kfs:documentOverview>
 	</c:if>
     
     <c:if test="${KualiForm.editingMode['displayInitTab']}" > 
-    	<purap:paymentRequestInit documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
-	 		 displayPaymentRequestInitFields="true" />
+    	<purap:paymentRequestInit 
+    		documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
+	 		displayPaymentRequestInitFields="true" />
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		< purap:vendor
+		<purap:vendor
 	        documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" 
 	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
 		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->		
 	
-		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
-	 		 displayPaymentRequestInvoiceInfoFields="true" />        
+		<purap:paymentRequestInvoiceInfo 
+			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
+	 		displayPaymentRequestInvoiceInfoFields="true" />        
+
+	  <c:if test="${taxInfoViewable || taxAreaEditable}">
+		<purap:paymentRequestTaxInfo 
+			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" />  
+	  </c:if>      
 
 		<purap:paymentRequestProcessItems 
 			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
@@ -78,7 +87,10 @@
     	
         <gl:generalLedgerPendingEntries />
 
-	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/>
+	    <kul:notes 
+	    	notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
+	    	noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  
+	    	allowsNoteFYI="true"/>
 	
 	    <kul:adHocRecipients />
 	    

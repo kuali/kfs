@@ -113,6 +113,12 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         // ACCOUNTS PAYABLE DOCUMENT
         public static final String WORKGROUP_ACCOUNTS_PAYABLE = "ACCOUNTS_PAYABLE_GROUP";
         public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = "ACCOUNTS_PAYABLE_SUPERVISOR_GROUP";
+        
+        // Tax Review Workgroups
+        public static final String PA_NONRESIDENT_ALIEN_TAX_REVIEWERS = "PA_NON-RESIDENT_ALIEN_TAX_REVIEWERS";
+        public static final String PA_EMPLOYEE_VENDOR_REVIEWERS = "PA_EMPLOYEE_VENDOR_REVIEWERS";
+        public static final String PA_EMPLOYEE_AND_NONRESIDENT_ALIEN_VENDOR_TAX_REVIEWERS = "PA_EMPLOYEE_AND_NON-RESIDENT_ALIEN_VENDOR_TAX_REVIEWERS";
+        
     }
 
     public static class WorkflowParameters {

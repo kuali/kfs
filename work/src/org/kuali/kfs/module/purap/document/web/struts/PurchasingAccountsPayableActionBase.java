@@ -292,10 +292,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
         item.getSourceAccountingLines().remove(accountIndex);
 
-        // add it to the baseline, to prevent generation of spurious update events
-        item.getBaselineSourceAccountingLines().remove(accountIndex);
-
-
         // remove the decorator
         // financialDocumentForm.getSourceLineDecorators().remove(decorator);
 

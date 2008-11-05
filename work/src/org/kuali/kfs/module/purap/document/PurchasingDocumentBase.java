@@ -1200,6 +1200,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
             }
             managedLists.add(assetLists);
             managedLists.add(capitalAssetLocationLists);
+            managedLists.add(this.getPurchasingCapitalAssetSystems());
+            managedLists.add(this.getPurchasingCapitalAssetItems());
         }
         return managedLists;
     }

@@ -43,7 +43,7 @@
 										class="datatable">
 										<tr>
 											<td colspan='4' class='tab-subhead'>
-												Unapplied Funds
+												Applied Funds
 											</td>
 										</tr>
 										<tr>

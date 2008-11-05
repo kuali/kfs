@@ -20,8 +20,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -45,10 +47,12 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -308,7 +312,14 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     private Account getUniversityClearingAccount(InvoicePaidApplied ipa) throws WorkflowException {
         SystemInformation systemInformation = getSystemInformation(ipa);
-        Account universityClearingAccount = systemInformation.getUniversityClearingAccount();
+        systemInformation.refresh();
+        Account universityClearingAccount = null;
+        try {
+            universityClearingAccount = systemInformation.getUniversityClearingAccount();
+        } catch(Throwable t) {
+            t.printStackTrace();
+        }
+        universityClearingAccount.refresh();
         return universityClearingAccount;
     }
     
@@ -332,14 +343,20 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public ObjectCode getAccountsReceivableObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
         CustomerInvoiceDetail detail = ipa.getInvoiceItem();
+        detail.refresh();
+        detail.refreshNonUpdateableReferences();
         String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String parameterValue = parameterService.getParameterValue(CustomerInvoiceDocument.class, parameterName);
         
         ObjectCode objectCode = null;
         if("1".equals(parameterValue) || "2".equals(parameterValue)) {
+            detail.refreshReferenceObject("objectCode");
             objectCode = detail.getObjectCode();
         } else if ("3".equals(parameterValue)) {
+            detail.refreshReferenceObject("customerInvoiceDocument");
+            CustomerInvoiceDocument customerInvoiceDocument = detail.getCustomerInvoiceDocument();
+            customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
             objectCode = detail.getCustomerInvoiceDocument().getPaymentFinancialObject();
         }
         
@@ -388,10 +405,18 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
         
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        String documentTypeCode = "APP";
+        DocumentType documentType = null;
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
+        String actualsBalanceTypeCode = "AC";
+        BalanceTypService balanceTypeService = SpringContext.getBean(BalanceTypService.class);
+        BalanceTyp balanceType = balanceTypeService.getBalanceTypByCode(actualsBalanceTypeCode);
         
         List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
         List<InvoicePaidApplied> appliedPayments = getInvoicePaidApplieds();
         for(InvoicePaidApplied ipa : appliedPayments) {
+            ipa.refreshNonUpdateableReferences();
             Account clearingAccount = getUniversityClearingAccount(ipa);
             Account billingOrganizationAccount = getBillingOrganizationAccount(ipa);
             ObjectCode cashObjectCode = getCashObjectCode(ipa);
@@ -401,50 +426,48 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             GeneralLedgerPendingEntry debitGLPE_1 = new GeneralLedgerPendingEntry();
             debitGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             debitGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            debitGLPE_1.setAccount(clearingAccount);
             debitGLPE_1.setAccountNumber(clearingAccount.getAccountNumber());
             debitGLPE_1.setChartOfAccountsCode(clearingAccount.getChartOfAccountsCode());
-            debitGLPE_1.setFinancialObject(unappliedCashObjectCode);
             debitGLPE_1.setFinancialObjectCode(unappliedCashObjectCode.getFinancialObjectCode());
-            debitGLPE_1.setFinancialBalanceTypeCode("AC");
-            debitGLPE_1.setFinancialDocumentTypeCode("APP");
+            debitGLPE_1.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
+            debitGLPE_1.setFinancialDocumentTypeCode(documentTypeCode);
+            debitGLPE_1.setUniversityFiscalYear(getPostingYear());
             entries.add(debitGLPE_1);
             sequenceHelper.increment();
             
             GeneralLedgerPendingEntry creditGLPE_1 = new GeneralLedgerPendingEntry();
             creditGLPE_1.setUniversityFiscalYear(getPostingYear());
             creditGLPE_1.setChartOfAccountsCode(debitGLPE_1.getChartOfAccountsCode());
-            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
             creditGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            creditGLPE_1.setAccount(clearingAccount);
-            creditGLPE_1.setChartOfAccountsCode(clearingAccount.getChartOfAccountsCode());
             creditGLPE_1.setAccountNumber(clearingAccount.getAccountNumber());
-            creditGLPE_1.setFinancialObject(cashObjectCode);
             creditGLPE_1.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
+            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
             entries.add(creditGLPE_1);
             sequenceHelper.increment();
             
             GeneralLedgerPendingEntry debitGLPE_2 = new GeneralLedgerPendingEntry();
             debitGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             debitGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            debitGLPE_2.setAccount(billingOrganizationAccount);
             debitGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
             debitGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
-            debitGLPE_2.setFinancialObject(cashObjectCode);
             debitGLPE_2.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
+            debitGLPE_2.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
+            debitGLPE_2.setFinancialDocumentTypeCode(documentTypeCode);
+            debitGLPE_2.setDocumentType(documentType);
+            debitGLPE_2.setUniversityFiscalYear(getPostingYear());
             entries.add(debitGLPE_2);
             sequenceHelper.increment();
 
             GeneralLedgerPendingEntry creditGLPE_2 = new GeneralLedgerPendingEntry();
-            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_2, sequenceHelper, creditGLPE_2);
             creditGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            creditGLPE_2.setAccount(billingOrganizationAccount);
             creditGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
             creditGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
-            creditGLPE_2.setFinancialObject(accountsReceivableObjectCode);
             creditGLPE_2.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
+            creditGLPE_2.setUniversityFiscalYear(getPostingYear());
+            creditGLPE_2.refreshNonUpdateableReferences();
+            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_2, sequenceHelper, creditGLPE_2);
             entries.add(creditGLPE_2);
             sequenceHelper.increment();
         }

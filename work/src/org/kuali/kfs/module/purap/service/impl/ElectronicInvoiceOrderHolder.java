@@ -311,6 +311,13 @@ public class ElectronicInvoiceOrderHolder {
         }
     }
     
+    public String getTaxDescription(){
+        if (isRejectDocumentHolder()){
+            return rejectDocument.getInvoiceItemTaxDescription();
+        }else{
+            return eInvoice.getInvoiceTaxDescription(invoiceOrder);
+        }
+    }
     public boolean isSpecialHandlingInLine(){
         if (isRejectDocumentHolder()){
             return rejectDocument.isInvoiceFileSpecialHandlingInLineIndicator();

@@ -277,7 +277,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 FileUtils.forceDelete(getInvoiceFile(filesToBeProcessed[i].getName()));
             }catch (IOException e) {
                 throw new PurError(e);
-        }
+            }
         }
 
          StringBuffer summaryText = saveLoadSummary(eInvoiceLoad);
@@ -296,6 +296,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     private boolean addNamespaceDefinition(ElectronicInvoiceLoad eInvoiceLoad, 
                                            File invoiceFile) {
+        
         
         boolean result = true;
         
@@ -316,7 +317,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         
         Document xmlDoc = null;
-        
+
         try {
             xmlDoc = builder.parse(invoiceFile);
         } catch(Exception e) {
@@ -1034,14 +1035,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 mailService.sendMessage(mailMessage);
             }catch (InvalidAddressException e) {
                 LOG.error("Invalid email address. Message not sent", e);
-        }
+            }
         }
         
         /**
          * HAVE TO DELETE THIS CODE....
          */
 
-        /*BufferedWriter bw = null;
+        BufferedWriter bw = null;
 
         try {
             bw = new BufferedWriter(new FileWriter("c:\\test.txt", true));
@@ -1060,7 +1061,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 catch (IOException ioe2) {
                 }
             }
-        }*/
+        }
         
     }
     
@@ -1076,7 +1077,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
 
-//        message.setFromAddress(toAddressList[0]); 
+        message.setFromAddress(toAddressList[0]); 
 
         String mailTitle = "E-Invoice Load Results for " + ElectronicInvoiceUtils.getDateDisplayText(new Date());
         
@@ -1260,22 +1261,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
         
-//        boolean isFakeElectronicInvoicing = false; // USE PARAM 
-//        
-//        if (LOG.isDebugEnabled()){
-//            LOG.debug("Fake electronic invoice flag is set to " + isFakeElectronicInvoicing);
-//        }
-//        
-//        if (isFakeElectronicInvoicing){
-//            if (LOG.isInfoEnabled()){
-//                LOG.info("------------------------------------------------------------------------------");
-//                LOG.info("PAYMENT REQUEST NOT SAVED DUE TO FAKE ELECTRONIC INVOICING FLAG IS SET TO TRUE");
-//                LOG.info("PAYMENT REQUEST FOR PO NUMBER '" + orderHolder.getInvoicePurchaseOrderID() + "' WOULD HAVE SAVED");
-//                LOG.info("------------------------------------------------------------------------------");
-//            }
-//            return preqDoc;
-//        }
-
         addBillToAndShipToNotes(preqDoc,orderHolder);
         
         String routingAnnotation = null;
@@ -1427,40 +1412,40 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void populateItemDetails(PaymentRequestDocument preqDocument, 
-                                     ElectronicInvoiceOrderHolder orderHolder){
-        
-        if (LOG.isDebugEnabled()){
+    private void populateItemDetails(PaymentRequestDocument preqDocument, ElectronicInvoiceOrderHolder orderHolder) {
+
+        if (LOG.isDebugEnabled()) {
             LOG.debug("Populating invoice order items into the payment request document");
         }
-        
+
         List<PurApItem> preqItems = preqDocument.getItems();
-        
+
         boolean hasShippingItem = false;
         for (int i = 0; i < preqItems.size(); i++) {
-            
-            PaymentRequestItem preqItem = (PaymentRequestItem)preqItems.get(i);
-            
-            if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING,orderHolder)){
+
+            PaymentRequestItem preqItem = (PaymentRequestItem) preqItems.get(i);
+
+            if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, orderHolder)) {
+                processTaxItem(preqItem, orderHolder);
+            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING, orderHolder)) {
                 processShippingItem(preqItem, orderHolder);
-            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING,orderHolder)){
+            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING, orderHolder)) {
                 processSpecialHandlingItem(preqItem, orderHolder);
-            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT,orderHolder)){
+            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT, orderHolder)) {
                 processDepositItem(preqItem, orderHolder);
-            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE,orderHolder)){
+            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE, orderHolder)) {
                 processDueItem(preqItem, orderHolder);
-            }else{
-                //These should be only items with line numbers or below the line items we do not care about
-                processAboveTheLineItem(preqItem, orderHolder);
+            }else if (StringUtils.equals(preqItem.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
+                  processAboveTheLineItem(preqItem, orderHolder);
             }
             
             setItemDefaultDescription(preqItem);
         }
-        
-        if (LOG.isDebugEnabled()){
+
+        if (LOG.isDebugEnabled()) {
             LOG.debug("Successfully populated the invoice order items");
         }
-        
+
     }
     
     private void processAboveTheLineItem(PaymentRequestItem purapItem,
@@ -1527,17 +1512,31 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private PaymentRequestItem processShippingItem(PaymentRequestItem preqItem,
+    private void processTaxItem (PaymentRequestItem preqItem,
+                                 ElectronicInvoiceOrderHolder orderHolder){
+        
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Processing Tax Item");
+        }
+        
+        preqItem.addToUnitPrice(orderHolder.getTaxAmount());
+        preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getTaxAmount()));
+        
+        if (StringUtils.isNotEmpty(orderHolder.getTaxDescription())) {
+            if (StringUtils.isEmpty(preqItem.getItemDescription())) {
+                preqItem.setItemDescription(orderHolder.getTaxDescription());
+            } else {
+                preqItem.setItemDescription(preqItem.getItemDescription() + " - " + orderHolder.getTaxDescription());
+            }
+        }
+        
+    }
+    
+    private void processShippingItem(PaymentRequestItem preqItem,
                                                    ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Processing Shipping Item");
-        }
-        
-        if (orderHolder.getInvoiceShippingAmount() == null ||
-            orderHolder.getInvoiceShippingAmount().compareTo(BigDecimal.ZERO) == 0){
-            LOG.debug("Skipping shipping item since shipping amount not available");
-            return null;
         }
         
         preqItem.addToUnitPrice(orderHolder.getInvoiceShippingAmount());
@@ -1551,7 +1550,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
         
-        return preqItem;
     }
     
     private void processDepositItem(PaymentRequestItem preqItem,

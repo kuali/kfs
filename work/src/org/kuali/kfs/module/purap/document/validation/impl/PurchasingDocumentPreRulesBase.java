@@ -78,34 +78,32 @@ public class PurchasingDocumentPreRulesBase extends PreRulesContinuationBase{
     public boolean confirmFixCapitalAssetWarningConditions(PurchasingAccountsPayableDocument purapDocument) {
         boolean proceed = true;
         
-        if (!SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, 
-                PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
-            String questionText = "";
-            if (StringUtils.isBlank(event.getQuestionContext())) {
-                if (!SpringContext.getBean(CapitalAssetBuilderModuleService.class).warningObjectLevelCapital(purapDocument.getItems())) {
-                    proceed &= false;
-                    questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
-                            PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";
-                    List<String> warnings =  (List<String>)GlobalVariables.getMessageList();
-                    if ( !warnings.isEmpty() ) {
-                        questionText += "<table class=\"datatable\">";
-                        for ( String warning :  warnings ) {
-                            questionText += "<tr><td align=left valign=middle class=\"datacell\">"+warning+"</td></tr>";
-                        }
-                        questionText += "</table>";
-                    }                                                        
-                }
-            }
-            if (!proceed || ((ObjectUtils.isNotNull(question)) && (question.equals(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)))) {
-                proceed = askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
-            }
-            // Set a marker to record that this method has been used.
-            event.setQuestionContext(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS);
-            event.setActionForwardName(KFSConstants.MAPPING_BASIC);
-            if (!proceed) {
-                GlobalVariables.getMessageList().clear();
+        String questionText = "";
+        if (StringUtils.isBlank(event.getQuestionContext())) {
+            if (!SpringContext.getBean(CapitalAssetBuilderModuleService.class).warningObjectLevelCapital(purapDocument.getItems())) {
+                proceed &= false;
+                questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
+                        PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";
+                List<String> warnings =  (List<String>)GlobalVariables.getMessageList();
+                if ( !warnings.isEmpty() ) {
+                    questionText += "<table class=\"datatable\">";
+                    for ( String warning :  warnings ) {
+                        questionText += "<tr><td align=left valign=middle class=\"datacell\">"+warning+"</td></tr>";
+                    }
+                    questionText += "</table>";
+                }                                                        
             }
         }
+        if (!proceed || ((ObjectUtils.isNotNull(question)) && (question.equals(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)))) {
+            proceed = askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
+        }
+        // Set a marker to record that this method has been used.
+        event.setQuestionContext(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS);
+        event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+        if (!proceed) {
+            GlobalVariables.getMessageList().clear();
+        }
+
         return proceed;
     }
     

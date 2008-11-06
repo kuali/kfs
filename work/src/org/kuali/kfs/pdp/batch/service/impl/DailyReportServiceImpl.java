@@ -115,7 +115,7 @@ public class DailyReportServiceImpl implements DailyReportService {
             document.add(dataTable);
         }
         catch (DocumentException d) {
-
+            throw new RuntimeException(d);
         }
         document.close();
     }

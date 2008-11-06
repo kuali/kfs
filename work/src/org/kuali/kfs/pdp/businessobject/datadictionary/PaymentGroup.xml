@@ -58,6 +58,7 @@
 				<ref bean="PaymentGroup-paymentStatus.name" />
 				<ref bean="PaymentGroup-payeeIdTypeDesc" />
 				<ref bean="PaymentGroup-nraPayment" />
+				<ref bean="PaymentGroup-id" />
 				
 			</list>
 		</property>
@@ -676,6 +677,22 @@
        	<bean parent="CheckboxControlDefinition"
            	p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
            	p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentGroup-id" parent="PaymentGroup-id-parentBean" />
+
+  <bean id="PaymentGroup-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Group ID" />
+    <property name="shortLabel" value="Payment Group ID" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+       <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
     </property>
   </bean>
 		

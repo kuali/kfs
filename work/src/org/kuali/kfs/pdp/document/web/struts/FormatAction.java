@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.pdp.document.web.struts;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -32,9 +30,8 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.FormatResult;
+import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.service.FormatService;
@@ -47,9 +44,8 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.DateFormatter;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
@@ -65,6 +61,7 @@ public class FormatAction extends KualiAction {
 
     /**
      * This method...
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -75,7 +72,7 @@ public class FormatAction extends KualiAction {
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         FormatForm formatForm = (FormatForm) form;
-        
+
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         FormatSelection formatSelection = formatService.getDataForFormat(kualiUser);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -138,33 +135,20 @@ public class FormatAction extends KualiAction {
         Date paymentDate = dateTimeService.convertToSqlDate(formatForm.getPaymentDate());
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
 
-        List<FormatResult> results = formatService.startFormatProcess(kualiUser, formatForm.getCampus(), selectedCustomers, paymentDate, formatForm.getPaymentTypes());
-        if (results.size() == 0) {
+        FormatProcessSummary formatProcessSummary = formatService.startFormatProcess(kualiUser, formatForm.getCampus(), selectedCustomers, paymentDate, formatForm.getPaymentTypes());
+        if (formatProcessSummary.getProcessSummaryList().size() == 0) {
             GlobalVariables.getMessageList().add(PdpKeyConstants.Format.ERROR_PDP_NO_MATCHING_PAYMENT_FOR_FORMAT);
             return mapping.findForward(PdpConstants.MAPPING_SELECTION);
         }
 
-        // Get the first one to get the process ID out of it
-        FormatResult fr = (FormatResult) results.get(0);
-        formatForm.setProcId(fr.getProcId());
-
-        int count = 0;
-        KualiDecimal amount = KualiDecimal.ZERO;
-
-        for (FormatResult element : results) {
-            count += element.getPayments();
-            amount = amount.add(element.getAmount());
-        }
-
-        formatForm.setTotalAmount(amount);
-        formatForm.setTotalPaymentCount(count);
-        formatForm.setResults(results);
+        formatForm.setFormatProcessSummary(formatProcessSummary);
 
         return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
     }
 
     /**
      * This method...
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -175,36 +159,26 @@ public class FormatAction extends KualiAction {
     public ActionForward continueFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
         try {
-            List<FormatResult> results = formatService.performFormat(formatForm.getProcId());
-            Collections.sort(results);
-            
-            KualiDecimal totalAmount = KualiDecimal.ZERO;
-            int totalPaymentsCount = 0;
-            for (FormatResult element : results) {
-                totalAmount = totalAmount.add(element.getAmount());
-                totalPaymentsCount += element.getPayments();
-            }
-            
-            formatForm.setResults(results);
-            formatForm.setTotalAmount(totalAmount);
-            formatForm.setTotalPaymentCount(totalPaymentsCount);
-            
-            String lookupUrl = buildUrl(String.valueOf(formatForm.getProcId()));
+            KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
+            formatService.performFormat(processId.intValue());
+
+            String lookupUrl = buildUrl(String.valueOf(processId.intValue()));
 
             return new ActionForward(lookupUrl, true);
         }
         catch (NoBankForCustomerException nbfce) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING,  nbfce.getCustomerProfile());
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, nbfce.getCustomerProfile());
 
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
         catch (FormatException e) {
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
-        }
+    }
 
     /**
      * This method...
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -215,9 +189,9 @@ public class FormatAction extends KualiAction {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         FormatForm formatForm = (FormatForm) form;
-
-        if (formatForm.getProcId() != null) {
-            formatService.clearUnfinishedFormat(formatForm.getProcId());
+        KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
+        if (processId != null) {
+            formatService.clearUnfinishedFormat(processId.intValue());
         }
 
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
@@ -236,16 +210,16 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward clearUnfinishedFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
         Integer processId = Integer.parseInt(processIdParam);
-        
+
         formatService.resetFormatPayments(processId);
 
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
     }
-    
+
     /**
      * This method builds the forward url.
      * 
@@ -271,4 +245,3 @@ public class FormatAction extends KualiAction {
         return lookupUrl;
     }
 }
-

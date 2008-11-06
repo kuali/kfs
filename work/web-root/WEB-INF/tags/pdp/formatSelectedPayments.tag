@@ -46,29 +46,29 @@
 				
 			</tr>
 			
-			<logic:iterate id="result" name="KualiForm" property="results" indexId="ctr">
+			<logic:iterate id="result" name="KualiForm" property="formatProcessSummary.processSummaryList" indexId="ctr">
             <tr>
               
-               <html:hidden property="result[${ctr}].cust.chartCode" />
-               <html:hidden property="result[${ctr}].cust.orgCode" />
-               <html:hidden property="result[${ctr}].cust.subUnitCode" />
-               <html:hidden property="result[${ctr}].cust.customerShortName" />
-               <html:hidden property="result[${ctr}].payments" />
-               <html:hidden property="result[${ctr}].amount" />
-               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.sortGroupName}" property="result[${ctr}].sortGroupName" readOnly="true" /></td>
-               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${customerProfileAttributes.customerShortName}" property="result[${ctr}].cust.customerShortName" readOnly="true" /></td>
-               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.payments}" property="result[${ctr}].payments" readOnly="true" /></td>
-               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.amount}" property="result[${ctr}].amount" readOnly="true" /></td>
+               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.chartCode" />
+               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.orgCode" />
+               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.subUnitCode" />
+               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.customerShortName" />
+               <html:hidden property="formatProcessSummary.processSummary[${ctr}].processTotalCount" />
+               <html:hidden property="formatProcessSummary.processSummary[${ctr}].processTotalAmount" />
+               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.sortGroupName}" property="formatProcessSummary.processSummary[${ctr}].sortGroupName" readOnly="true" /></td>
+               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${customerProfileAttributes.customerShortName}" property="formatProcessSummary.processSummary[${ctr}].customer.customerShortName" readOnly="true" /></td>
+               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.payments}" property="formatProcessSummary.processSummary[${ctr}].processTotalCount" readOnly="true" /></td>
+               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.amount}" property="formatProcessSummary.processSummary[${ctr}].processTotalAmount" readOnly="true" /></td>
             </tr>
             </logic:iterate>
             
          <tr>
             <td class="total-line">&nbsp;</td>
             <td class="total-line">Total</td>
-            <html:hidden property="totalPaymentCount" />
-            <td class="total-line">${KualiForm.totalPaymentCount}</td>
+            <html:hidden property="formatProcessSummary.totalCount" />
+            <td class="total-line">${KualiForm.formatProcessSummary.totalCount}</td>
             <td class="total-line"><b>${KualiForm.currencyFormattedTotalAmount}</b></td>
-            <html:hidden property="totalAmount" />
+            <html:hidden property="formatProcessSummary.totalAmount" />
          </tr>
 
 		</table>

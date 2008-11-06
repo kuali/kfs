@@ -29,8 +29,6 @@ import org.kuali.rice.kim.bo.Person;
  * @author jsissom
  */
 public interface ProcessDao {
-
-    public List getMostCurrentProcesses(Integer number);
     
     public PaymentProcess createProcessToRun(Integer procId);
     

@@ -27,6 +27,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
@@ -896,7 +897,35 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     }
 
     public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).toString();
+        StringBuffer buffer= new StringBuffer()  ;
+        CustomerProfile customerProfile = batch.getCustomerProfile();
+        
+        buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE);
+        buffer.append("=");
+        buffer.append(customerProfile.getChartCode());
+        buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE);
+        buffer.append("=");
+        buffer.append(customerProfile.getOrgCode());
+        buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);
+        buffer.append("=");
+        buffer.append(customerProfile.getSubUnitCode());
+        buffer.append(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME);
+        buffer.append("=");
+        buffer.append(payeeName);
+        buffer.append(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_LINE1_ADDRESS);
+        buffer.append("=");
+        buffer.append(line1Address);
+        buffer.append(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_ID);
+        buffer.append("=");
+        buffer.append(payeeId);
+        buffer.append(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_ID_TYPE_CODE);
+        buffer.append("=");
+        buffer.append(payeeIdTypeCd);
+        buffer.append(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BANK_CODE);
+        buffer.append("=");
+        buffer.append(bankCode);
+
+        return buffer.toString();
     }
 
     /**

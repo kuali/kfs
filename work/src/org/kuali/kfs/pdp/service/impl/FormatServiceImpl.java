@@ -17,7 +17,6 @@ package org.kuali.kfs.pdp.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,9 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
@@ -38,7 +34,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
-import org.kuali.kfs.pdp.businessobject.FormatResult;
+import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -46,9 +42,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
-import org.kuali.kfs.pdp.businessobject.PostFormatProcessSummary;
-import org.kuali.kfs.pdp.businessobject.PreFormatProcessSummary;
-import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
@@ -110,7 +103,7 @@ public class FormatServiceImpl implements FormatService {
         formatSelection.setCampus(campusCode);
         formatSelection.setStartDate(formatStartDate);
 
-        //if format process not started yet, populate the other data as well
+        // if format process not started yet, populate the other data as well
         if (formatStartDate == null) {
             formatSelection.setCustomerList(getAllCustomerProfiles());
             formatSelection.setRangeList(getAllDisbursementNumberRanges());
@@ -140,9 +133,10 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.FormatService#startFormatProcess(org.kuali.rice.kim.bo.Person, java.lang.String, java.util.List, java.util.Date, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.FormatService#startFormatProcess(org.kuali.rice.kim.bo.Person, java.lang.String,
+     *      java.util.List, java.util.Date, java.lang.String)
      */
-    public List startFormatProcess(Person user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes) {
+    public FormatProcessSummary startFormatProcess(Person user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes) {
         LOG.debug("startFormatProcess() started");
 
         for (CustomerProfile element : customers) {
@@ -155,44 +149,43 @@ public class FormatServiceImpl implements FormatService {
         paymentProcess.setCampus(campus);
         paymentProcess.setProcessUser(user);
         paymentProcess.setProcessTimestamp(new Timestamp(d.getTime()));
-        
+
         this.businessObjectService.save(paymentProcess);
-        
+
         // add an entry in the format process table (to lock the format process)
         FormatProcess formatProcess = new FormatProcess();
+
         formatProcess.setPhysicalCampusProcessCode(campus);
         formatProcess.setBeginFormat(dateTimeService.getCurrentTimestamp());
         formatProcess.setPaymentProcIdentifier(paymentProcess.getId().intValue());
+
         this.businessObjectService.save(formatProcess);
 
         // Mark all of them ready for format
         formatPaymentDao.markPaymentsForFormat(paymentProcess, customers, paydate, paymentTypes);
 
         // summarize them
-        PreFormatProcessSummary preFormatProcessSummary = new PreFormatProcessSummary();
-        
+        FormatProcessSummary preFormatProcessSummary = new FormatProcessSummary();
         Iterator iterator = this.paymentGroupService.getByProcess(paymentProcess);
-        
-        int count = 0;
+
         while (iterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) iterator.next();
-
-            count++;
             preFormatProcessSummary.add(paymentGroup);
         }
 
-        if (count == 0) {
+        // if no payments found for format clear the format process
+        if (preFormatProcessSummary.getProcessSummaryList().size() == 0) {
             LOG.debug("startFormatProcess() No payments to process.  Format process ending");
-
-            clearUnfinishedFormat(paymentProcess.getId().intValue());
-            // endFormatProcess(campus);
+            clearUnfinishedFormat(paymentProcess.getId().intValue());// ?? maybe call end format process
         }
 
-        return convertProcessSummary2FormatResult(preFormatProcessSummary.getProcessSummaryList());
+        return preFormatProcessSummary;
     }
+
 
     /**
      * This method gets the maximum number of lines in a note.
+     * 
      * @return the maximum number of lines in a note
      */
     private int getMaxNoteLines() {
@@ -205,26 +198,17 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method returns the size of the format summary list.
-     * @return the size of the format summary list
-     */
-    private int getFormatSummaryListSize() {
-        return 0;
-        // TODO: remove the system parameter below
-        //GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_LOOKUP.class, PdpConstants.ApplicationParameterKeys.FORMAT_SUMMARY_ROWS, 40);
-    }
-
-    /**
      * @see org.kuali.kfs.pdp.service.FormatService#performFormat(java.lang.Integer)
      */
-    public List<FormatResult> performFormat(Integer processId) {
+    public void performFormat(Integer processId) {
         LOG.debug("performFormat() started");
-        
+
         // get the PaymentProcess for the given id
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
-        
+        String campus = paymentProcess.getCampus();
+
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new RuntimeException("Invalid proc ID");
@@ -236,11 +220,13 @@ public class FormatServiceImpl implements FormatService {
         PaymentStatus extractedPaymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
         PaymentStatus pendingPaymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.PENDING_ACH);
 
-        // Step one, get ACH or Check, Bank info, ACH info, sorting
+        // step 1 get ACH or Check, Bank info, ACH info, sorting
         Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
-        
-        PostFormatProcessSummary postFormatProcessSummary = new PostFormatProcessSummary();
+
+        FormatProcessSummary postFormatProcessSummary = new FormatProcessSummary();
+
         while (paymentGroupIterator.hasNext()) {
+
             PaymentGroup paymentGroup = (PaymentGroup) paymentGroupIterator.next();
             LOG.debug("performFormat() Step 1 Payment Group ID " + paymentGroup.getId());
 
@@ -272,41 +258,30 @@ public class FormatServiceImpl implements FormatService {
             postFormatProcessSummary.add(paymentGroup);
         }
 
-        // step 2 figure out if we combine checks into one
-        LOG.debug("performFormat() Combining");
+        // step 2 assign disbursement numbers and combine check into one if possible
+        assignDisbursementNumbersAndCombineChecks(campus, paymentProcess, postFormatProcessSummary);
 
-        combineChecksIntoOne(paymentProcess, checkDisbursementType);
-
-        // step 3 now assign disbursement numbers
-        LOG.debug("performFormat() Assigning disbursement numbers");
-        assignDisbursementNumbers(paymentProcess.getCampus(), paymentProcess, postFormatProcessSummary);
-
-        // step 4 save the summarizing info
+        // step 3 save the summarizing info
         LOG.debug("performFormat() Save summarizing information");
         postFormatProcessSummary.save();
 
-        // set formatted indicator to true and save in the db
+        // step 4 set formatted indicator to true and save in the db
         paymentProcess.setFormattedIndicator(true);
         businessObjectService.save(paymentProcess);
 
         // step 5 end the format process for this campus
         LOG.debug("performFormat() End the format process for this campus");
-        endFormatProcess(paymentProcess.getCampus());
+        endFormatProcess(campus);
 
         // step 6 tell the extract batch job to start
         LOG.debug("performFormat() Start extract batch job");
         triggerExtract();
 
-        // step 7 return all the process summaries
-        Map fieldValues = new HashMap();
-        fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, paymentProcess.getId());
-
-        List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
-        return convertProcessSummary2FormatResult(processSummaryResults);
     }
 
     /**
      * This method processes the payment group data.
+     * 
      * @param paymentGroup
      * @param paymentProcess
      * @param checkDisbursementType
@@ -315,6 +290,7 @@ public class FormatServiceImpl implements FormatService {
      * @param pendingPaymentStatus
      */
     private void processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
+
         CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
         // Set the sort field to be saved in the database
@@ -346,7 +322,6 @@ public class FormatServiceImpl implements FormatService {
                 LOG.debug("performFormat() Checking ACH");
                 payeeAchAccount = achService.getAchInformation(paymentGroup.getPayeeIdTypeCd(), paymentGroup.getPayeeId(), customer.getAchTransactionType());
                 isCheck = (payeeAchAccount == null);
-
             }
         }
 
@@ -402,67 +377,123 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
-     * 
+     * This method assigns disbursement numbers and tries to combine payment groups with disbursement type check if possible.
+     * @param campus
      * @param paymentProcess
-     * @param checkDisbursementType
+     * @param postFormatProcessSummary
      */
-    private void combineChecksIntoOne(PaymentProcess paymentProcess, DisbursementType checkDisbursementType) {
-        PaymentInfo lastPaymentInfo = new PaymentInfo();
-        Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
+    private void assignDisbursementNumbersAndCombineChecks(String campus, PaymentProcess paymentProcess, FormatProcessSummary postFormatProcessSummary) {
+        // keep a map with paymentGroupKey and PaymentInfo (disbursementNumber, noteLines)
+        Map<String, PaymentInfo> combinedChecksMap = new HashMap<String, PaymentInfo>();
 
+        List<DisbursementNumberRange> disbursementRanges = paymentDetailDao.getDisbursementNumberRanges(campus);
+        Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
         int maxNoteLines = getMaxNoteLines();
 
         while (paymentGroupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) paymentGroupIterator.next();
+            LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
 
-            // Only look at checks
-            if (checkDisbursementType.equals(paymentGroup.getDisbursementType())) {
-                // Attachments, Special Handling and Immediates don't ever get combined
-                // Also, don't combine if the XML file says not to do so
+            DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode());
+            if (range == null) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+                throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
+            }
+
+            if (PdpConstants.DisbursementTypeCodes.CHECK.equals(paymentGroup.getDisbursementType().getCode())) {
+
+                boolean cannotCombine = paymentGroup.getPymtAttachment().booleanValue() || paymentGroup.getProcessImmediate().booleanValue() || paymentGroup.getPymtSpecialHandling().booleanValue() || (!paymentGroup.getCombineGroups().booleanValue());
                 if (paymentGroup.getPymtAttachment().booleanValue() || paymentGroup.getProcessImmediate().booleanValue() || paymentGroup.getPymtSpecialHandling().booleanValue() || (!paymentGroup.getCombineGroups().booleanValue())) {
-                    // This one doesn't combine with the next one
-                    LOG.debug("performFormat() This payment can't combine " + paymentGroup.getPymtAttachment() + " " + paymentGroup.getProcessImmediate() + " " + paymentGroup.getPymtSpecialHandling() + " " + paymentGroup.getCombineGroups());
-                    lastPaymentInfo = null;
+                    assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
                 }
                 else {
-                    PaymentInfo paymentInfo = new PaymentInfo();
-                    paymentInfo.customer = paymentGroup.getBatch().getCustomerProfile();
-                    paymentInfo.line1Address = paymentGroup.getLine1Address();
-                    paymentInfo.payeeName = paymentGroup.getPayeeName();
-                    paymentInfo.noteLines = paymentGroup.getNoteLines();
-                    paymentInfo.payeeId = paymentGroup.getPayeeId();
-                    paymentInfo.payeeIdType = paymentGroup.getPayeeIdTypeCd();
-                    paymentInfo.bankCode = paymentGroup.getBankCode();
-                    LOG.debug("performFormat() This payment might combine " + paymentInfo);
+                    String paymentGroupKey = paymentGroup.toString();
+                    // check if there was another paymentGroup we can combine with
+                    if (combinedChecksMap.containsKey(paymentGroupKey)) {
+                        PaymentInfo paymentInfo = combinedChecksMap.get(paymentGroupKey);
+                        paymentInfo.noteLines = paymentInfo.noteLines.add(new KualiInteger(paymentGroup.getNoteLines()));
 
-                    boolean combine = false;
-                    if (lastPaymentInfo != null) {
-                        if (lastPaymentInfo.equals(paymentInfo)) {
-                            if (((lastPaymentInfo.noteLines + paymentInfo.noteLines) <= maxNoteLines)) {
-                                LOG.debug("performFormat() Combining");
-                                paymentGroup.setDisbursementNbr(new KualiInteger(PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE)); // Mark it for later                                                                          // later
-                                // save payment group
-                                this.businessObjectService.save(paymentGroup);
-                                lastPaymentInfo.noteLines += paymentInfo.noteLines;
-                                combine = true;
-                            }
+                        // if noteLines don't excede the maximum assign the same disbursementNumber
+                        if (paymentInfo.noteLines.intValue() < maxNoteLines) {
+                            KualiInteger checkNumber = paymentInfo.disbursementNumber;
+                            paymentGroup.setDisbursementNbr(checkNumber);
+                        }
+                        // it noteLines more than maxNoteLines we remove the old entry and get a new disbursement number
+                        else {
+                            //remove old entry for this paymentGroupKey
+                            combinedChecksMap.remove(paymentGroupKey);
+                            // get a new check number and the paymentGroup noteLines
+                            KualiInteger checkNumber = assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
+                            int noteLines = paymentGroup.getNoteLines();
+                            // create new payment info with these two
+                            paymentInfo = new PaymentInfo(checkNumber, new KualiInteger(noteLines));
+                            // add new entry in the map for this paymentGroupKey
+                            combinedChecksMap.put(paymentGroupKey, paymentInfo);
+
                         }
                     }
-
-                    if (!combine) {
-                        LOG.debug("performFormat() Not combining");
-                        lastPaymentInfo = paymentInfo;
+                    // if no entry in the map for this payment group we create a new one
+                    else {
+                        // get a new check number and the paymentGroup noteLines
+                        KualiInteger checkNumber = assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
+                        int noteLines = paymentGroup.getNoteLines();
+                        // create new payment info with these two
+                        PaymentInfo paymentInfo = new PaymentInfo(checkNumber, new KualiInteger(noteLines));
+                        // add new entry in the map for this paymentGroupKey
+                        combinedChecksMap.put(paymentGroupKey, paymentInfo);
                     }
                 }
             }
+            else if (PdpConstants.DisbursementTypeCodes.ACH.equals(paymentGroup.getDisbursementType().getCode())) {
+                assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
+            }
+            else {
+                // if it isn't check or ach, we're in trouble
+                LOG.error("assignDisbursementNumbers() Payment group " + paymentGroup.getId() + " must be CHCK or ACH.  It is: " + paymentGroup.getDisbursementType());
+                throw new IllegalArgumentException("Payment group " + paymentGroup.getId() + " must be Check or ACH");
+            }
+
+            this.businessObjectService.save(paymentGroup);
+
+            // Generate a GL entry for CHCK & ACH
+            glPendingTransactionService.generatePaymentGeneralLedgerPendingEntry(paymentGroup);
+        }
+
+        // Update all the ranges
+        LOG.debug("assignDisbursementNumbers() Save ranges");
+        int savedRangesCount = 0;
+        for (DisbursementNumberRange element : disbursementRanges) {
+            savedRangesCount++;
+            this.businessObjectService.save(element);
         }
     }
 
     /**
-     * This method...
-     * 
-     * @param procId
+     * This method gets a new disbursement number and sets it on the payment group and process summary.
+     * @param campus
+     * @param range
+     * @param paymentGroup
+     * @param postFormatProcessSummary
+     * @return
+     */
+    private KualiInteger assignDisbursementNumber(String campus, DisbursementNumberRange range, PaymentGroup paymentGroup, FormatProcessSummary postFormatProcessSummary) {
+        KualiInteger disbursementNumber = new KualiInteger(1 + range.getLastAssignedDisbNbr().intValue());
+        if (disbursementNumber.isGreaterThan(range.getEndDisbursementNbr())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+            throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
+        }
+        paymentGroup.setDisbursementNbr(disbursementNumber);
+
+        range.setLastAssignedDisbNbr(disbursementNumber);
+
+        // Update the summary information
+        postFormatProcessSummary.setDisbursementNumber(paymentGroup, disbursementNumber.intValue());
+
+        return disbursementNumber;
+    }
+
+    /**
+     * This method triggers the extract process.
      */
     private void triggerExtract() {
         LOG.debug("triggerExtract() started");
@@ -472,32 +503,11 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method converts the ProcessSummary result list in a FormatResult list
-     * @param processSummaryResults
-     * @return
-     */
-    private List<FormatResult> convertProcessSummary2FormatResult(List<ProcessSummary> processSummaryResults) {
-        List<FormatResult> results = new ArrayList();
-        for (ProcessSummary processSummary : processSummaryResults) {
-            FormatResult formatResult = new FormatResult(processSummary.getProcess().getId().intValue(), processSummary.getCustomer());
-            formatResult.setSortGroupOverride(processSummary.getSortGroupId());
-            formatResult.setAmount(processSummary.getProcessTotalAmount());
-            formatResult.setPayments(processSummary.getProcessTotalCount().intValue());
-            formatResult.setBeginDisbursementNbr(processSummary.getBeginDisbursementNbr().intValue());
-            formatResult.setEndDisbursementNbr(processSummary.getEndDisbursementNbr().intValue());
-            formatResult.setDisbursementType(processSummary.getDisbursementType());
-            results.add(formatResult);
-        }
-        Collections.sort(results);
-        return results;
-    }
-
-    /**
      * @see org.kuali.kfs.pdp.service.FormatService#clearUnfinishedFormat(java.lang.Integer)
      */
     public void clearUnfinishedFormat(Integer processId) {
         LOG.debug("clearUnfinishedFormat() started");
-        
+
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
@@ -515,7 +525,6 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("resetFormatPayments() started");
         clearUnfinishedFormat(processId);
     }
-
 
     /**
      * @see org.kuali.kfs.pdp.service.FormatService#endFormatProcess(java.lang.String)
@@ -538,7 +547,7 @@ public class FormatServiceImpl implements FormatService {
         List<CustomerProfile> customerProfileList = (List<CustomerProfile>) this.businessObjectService.findAll(CustomerProfile.class);
 
         DynamicCollectionComparator.sort(customerProfileList, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);
-        
+
         return customerProfileList;
     }
 
@@ -550,91 +559,8 @@ public class FormatServiceImpl implements FormatService {
 
         List<DisbursementNumberRange> disbursementNumberRangeList = (List<DisbursementNumberRange>) this.businessObjectService.findAll(DisbursementNumberRange.class);
         DynamicCollectionComparator.sort(disbursementNumberRangeList, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_PHYS_CAMPUS_PROC_CODE, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_TYPE_CODE);
-        
+
         return disbursementNumberRangeList;
-    }
-
-    /**
-     * This is the second pass. It determines the disbursement number and creates GL entries
-     * 
-     * @param campus
-     * @param disbursementTypes
-     * @param paymentStatusCodes
-     * @param p
-     * @param fps
-     * @throws DisbursementRangeExhaustedException
-     * @throws MissingDisbursementRangeException
-     */
-    private void assignDisbursementNumbers(String campus, PaymentProcess paymentProcess, PostFormatProcessSummary postFormatProcessSummary) throws FormatException {
-        LOG.debug("assignDisbursementNumbers() starting");
-
-        List<DisbursementNumberRange> disbursementRanges = paymentDetailDao.getDisbursementNumberRanges(campus);
-
-        int checkNumber = 0;
-
-        Iterator payGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
-        while (payGroupIterator.hasNext()) {
-            PaymentGroup paymentGroup = (PaymentGroup) payGroupIterator.next();
-            LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
-
-            DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode());
-            if (range == null) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
-                throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
-            }
-
-            if (PdpConstants.DisbursementTypeCodes.CHECK.equals(paymentGroup.getDisbursementType().getCode())) {
-                if ((paymentGroup.getDisbursementNbr() != null) && (paymentGroup.getDisbursementNbr().intValue() == PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE)) {
-                    paymentGroup.setDisbursementNbr(new KualiInteger(checkNumber));
-                }
-                else {
-                    int number = 1 + range.getLastAssignedDisbNbr().intValue();
-                    checkNumber = number; // Save for next payment
-                    if (number > range.getEndDisbursementNbr().intValue()) {
-                      GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
-                        throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
-                    }
-                    paymentGroup.setDisbursementNbr(new KualiInteger(number));
-
-                    range.setLastAssignedDisbNbr(new KualiInteger(number));
-
-                    // Update the summary information
-                    postFormatProcessSummary.setDisbursementNumber(paymentGroup, new Integer(number));
-                }
-            }
-            else if (PdpConstants.DisbursementTypeCodes.ACH.equals(paymentGroup.getDisbursementType().getCode())) {
-                int number = 1 + range.getLastAssignedDisbNbr().intValue();
-                if (number > range.getEndDisbursementNbr().intValue()) {
-                    String err = "No more disbursement numbers for bank code=" + paymentGroup.getBank().getBankCode() + ", campus Id=" + campus;
-                    LOG.error("assignDisbursementNumbers() " + err);
-                     throw new FormatException(err);
-                }
-                paymentGroup.setDisbursementNbr(new KualiInteger(number));
-
-                range.setLastAssignedDisbNbr(new KualiInteger(number));
-
-                // Update the summary information
-                postFormatProcessSummary.setDisbursementNumber(paymentGroup, new Integer(number));
-            }
-            else {
-                // if it isn't check or ach, we're in trouble
-                LOG.error("assignDisbursementNumbers() Payment group " + paymentGroup.getId() + " must be CHCK or ACH.  It is: " + paymentGroup.getDisbursementType());
-                throw new IllegalArgumentException("Payment group " + paymentGroup.getId() + " must be Check or ACH");
-            }
-            this.businessObjectService.save(paymentGroup);
-
-            // Generate a GL entry for CHCK & ACH
-            glPendingTransactionService.generatePaymentGeneralLedgerPendingEntry(paymentGroup);
-        }
-
-        // Update all the ranges
-        LOG.debug("assignDisbursementNumbers() Save ranges");
-        int savedRangesCount = 0;
-        for (DisbursementNumberRange element : disbursementRanges) {
-            savedRangesCount++;
-            this.businessObjectService.save(element);
-        }
-        LOG.debug("assignDisbursementNumbers() " + savedRangesCount + " ranges saved");
     }
 
     /**
@@ -673,28 +599,8 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.FormatService#getFormatSummary(java.lang.Integer)
-     */
-    public List getFormatSummary(Integer procId) {
-        LOG.debug("getFormatSummary() starting");
-        
-        Map fieldValues = new HashMap();
-        fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, procId);
-        
-        List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
-        return convertProcessSummary2FormatResult(processSummaryResults);
-    }
-
-    /**
-     * @see org.kuali.kfs.pdp.service.FormatService#getMostCurrentProcesses()
-     */
-    public List getMostCurrentProcesses() {
-        LOG.debug("getMostCurrent() starting");
-        return processDao.getMostCurrentProcesses(new Integer(getFormatSummaryListSize()));
-    }
-
-    /**
      * This method...
+     * 
      * @param fpd
      */
     public void setFormatPaymentDao(FormatPaymentDao fpd) {
@@ -703,6 +609,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param gs
      */
     public void setGlPendingTransactionService(PendingTransactionService gs) {
@@ -711,6 +618,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param as
      */
     public void setAchService(AchService as) {
@@ -719,6 +627,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param pd
      */
     public void setProcessDao(ProcessDao pd) {
@@ -727,6 +636,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param pgd
      */
     public void setPaymentGroupDao(PaymentGroupDao pgd) {
@@ -735,6 +645,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param pdd
      */
     public void setPaymentDetailDao(PaymentDetailDao pdd) {
@@ -743,6 +654,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param ss
      */
     public void setSchedulerService(SchedulerService ss) {
@@ -751,6 +663,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param parameterService
      */
     public void setParameterService(ParameterService parameterService) {
@@ -759,6 +672,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param bos
      */
     public void setBusinessObjectService(BusinessObjectService bos) {
@@ -767,6 +681,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @return
      */
     public KualiCodeService getKualiCodeService() {
@@ -775,6 +690,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method...
+     * 
      * @param kualiCodeService
      */
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
@@ -792,29 +708,17 @@ public class FormatServiceImpl implements FormatService {
      * This class...
      */
     private class PaymentInfo {
-        public CustomerProfile customer;
-        public String payeeName;
-        public String line1Address;
-        public int noteLines;
-        public String payeeId;
-        public String payeeIdType;
-        public String bankCode;
+        public KualiInteger disbursementNumber;
+        public KualiInteger noteLines;
 
-        public int hashCode() {
-            return new HashCodeBuilder(3, 5).append(customer).append(payeeName).append(line1Address).toHashCode();
+        public PaymentInfo(KualiInteger disbursementNumber, KualiInteger noteLines) {
+            this.disbursementNumber = disbursementNumber;
+            this.noteLines = noteLines;
         }
+    }
 
-        public boolean equals(Object obj) {
-            if (!(obj instanceof PaymentInfo)) {
-                return false;
-            }
-            PaymentInfo o = (PaymentInfo) obj;
-            return new EqualsBuilder().append(customer, o.customer).append(payeeName, o.payeeName).append(line1Address, o.line1Address).append(payeeId, o.payeeId).append(payeeIdType, o.payeeIdType).append(bankCode, o.bankCode).isEquals();
-        }
-
-        public String toString() {
-            return new ToStringBuilder(this).append("customer", this.customer).append("payeeName", this.payeeName).append("line1Address", this.line1Address).append("noteLines", this.noteLines).append("payeeId", this.payeeId).append("payeeIdType", this.payeeIdType).append("bankCode", this.bankCode).toString();
-        }
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {

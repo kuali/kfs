@@ -324,7 +324,7 @@ public class PaymentDetailAction extends KualiAction {
                 return performReIssueDisbursement( paymentDetailId, changeText, user);
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndRemoveHold", callback);
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndReissueCancel", callback);
     }
 
     /**

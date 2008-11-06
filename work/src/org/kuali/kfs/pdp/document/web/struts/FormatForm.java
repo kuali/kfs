@@ -15,17 +15,12 @@
  */
 package org.kuali.kfs.pdp.document.web.struts;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
-import org.kuali.kfs.pdp.businessobject.FormatResult;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -33,17 +28,15 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
  * This class...
  */
 public class FormatForm extends KualiForm {
-    
+
     private String campus;
     private String paymentDate;
-    private Integer procId;
     private String paymentTypes;
-    private KualiDecimal totalAmount;
-    private int totalPaymentCount;
-    
+
+    private FormatProcessSummary formatProcessSummary;
+
     private List<CustomerProfile> customers;
     private List<DisbursementNumberRange> ranges;
-    private List<FormatResult> results;
 
     /**
      * Constructs a FormatForm.
@@ -52,7 +45,6 @@ public class FormatForm extends KualiForm {
         super();
         customers = new ArrayList<CustomerProfile>();
         ranges = new ArrayList<DisbursementNumberRange>();
-        results =  new ArrayList<FormatResult>();
     }
 
     /**
@@ -169,116 +161,47 @@ public class FormatForm extends KualiForm {
     }
 
     /**
-     * This method gets the process id.
-     * 
-     * @return procId
-     */
-    public Integer getProcId() {
-        return procId;
-    }
-
-    /**
-     * This method sets the process id.
-     * 
-     * @param procId
-     */
-    public void setProcId(Integer procId) {
-        this.procId = procId;
-    }
-
-    /**
-     * This method gets the results list.
-     * 
-     * @return the results list
-     */
-    public List<FormatResult> getResults() {
-        return results;
-    }
-
-    /**
-     * This method sets the results list.
-     * 
-     * @param results
-     */
-    public void setResults(List<FormatResult> results) {
-        this.results = results;
-    }
-
-    /**
-     * This method retrieves a specific disbursement number range from the list, by index
-     * 
-     * @param index the index of the results to retrieve the format result from
-     * @return a FormatResult
-     */
-    public FormatResult getResult(int index) {
-        if (index >= results.size()) {
-            for (int i = results.size(); i <= index; i++) {
-                results.add(new FormatResult());
-            }
-        }
-        return (FormatResult) results.get(index);
-    }
-
-    /**
-     * This method sets a format result value at a given index in the results list.
-     * 
-     * @param key the index
-     * @param value the new value
-     */
-    public void setResult(int key, FormatResult value) {
-        results.set(key, value);
-    }
-
-    /**
-     * This method gets the total amount
-     * 
-     * @return
-     */
-    public KualiDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    /**
-     * This method sets the total amount
-     * 
-     * @param totalAmount
-     */
-    public void setTotalAmount(KualiDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    /**
-     * This method gets the total number of payments
-     * 
-     * @return totalPaymentCount
-     */
-    public int getTotalPaymentCount() {
-        return totalPaymentCount;
-    }
-
-    /**
-     * This method sets the total number of payments.
-     * 
-     * @param totalPaymentCount
-     */
-    public void setTotalPaymentCount(int totalPaymentCount) {
-        this.totalPaymentCount = totalPaymentCount;
-    }
-
-    /**
      * This method gets the currency formated value of the total amount.
      * 
      * @return the currency formated value of the total amount
      */
     public String getCurrencyFormattedTotalAmount() {
-        return (String) new CurrencyFormatter().format(totalAmount);
+        return (String) new CurrencyFormatter().format(formatProcessSummary.getTotalAmount());
     }
 
+    /**
+     * This method gets the payment date.
+     * 
+     * @return paymentDate
+     */
     public String getPaymentDate() {
         return paymentDate;
     }
 
+    /**
+     * This method sets the payment date.
+     * 
+     * @param paymentDate
+     */
     public void setPaymentDate(String paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    /**
+     * This method gets the format process summary.
+     * 
+     * @return formatProcessSummary
+     */
+    public FormatProcessSummary getFormatProcessSummary() {
+        return formatProcessSummary;
+    }
+
+    /**
+     * This method sets the format process summary.
+     * 
+     * @param formatProcessSummary
+     */
+    public void setFormatProcessSummary(FormatProcessSummary formatProcessSummary) {
+        this.formatProcessSummary = formatProcessSummary;
     }
 }

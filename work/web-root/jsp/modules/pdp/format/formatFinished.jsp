@@ -30,7 +30,7 @@
           <tbody>
             <tr>
               <td>Payments selected have been formatted and will be extracted for ACH and Check Printing.<br>
-              Your Default Campus Code is <b><c:out value="${KualiForm.campus}"/></b> Process ID: <c:out value="${KualiForm.procId}"/></td>
+              Your Default Campus Code is <b><c:out value="${KualiForm.campus}"/></b> Process ID: <c:out value="${KualiForm.processId}"/></td>
               <td>&nbsp;</td>
            </tr>
           </tbody>

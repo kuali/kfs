@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
+import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.rice.kim.bo.Person;
 
 public interface FormatService {
@@ -43,13 +44,11 @@ public interface FormatService {
      */
     public FormatSelection getDataForFormat(Person user);
 
-    // Actually format the data for check printing.
-    // Return a list of Process Summaries to be displayed
-    public List performFormat(Integer procId);
-
-
-    // Get a list of FormatResults for a format
-    public List getFormatSummary(Integer procId);
+    /**
+     * This method formats the data for check printing.
+     * @param procId
+     */
+    public void performFormat(Integer procId);
 
     /**
      *  If the start format process was run and errored out,
@@ -57,17 +56,6 @@ public interface FormatService {
      * @param procId
      */
     public void resetFormatPayments(Integer procId);
-
-    // Gets the most current Processes for Format Summary Viewing
-    public List getMostCurrentProcesses();
-    
-    /**
-     * Sets the PaymentGroupService
-     * 
-     * @param paymentGroupService
-     */
-    public void setPaymentGroupService(PaymentGroupService paymentGroupService);
-    
 
     /**
      * This method marks the process log so a format only happens once per campus. Mark all the
@@ -78,9 +66,9 @@ public interface FormatService {
      * @param customers
      * @param paydate
      * @param paymentTypes
-     * @return
+     * @return FormatProcessSummary
      */
-    public List startFormatProcess(Person user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes);
+    public FormatProcessSummary startFormatProcess(Person user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes);
 
     /**
      * This method removes the format process from the format process table

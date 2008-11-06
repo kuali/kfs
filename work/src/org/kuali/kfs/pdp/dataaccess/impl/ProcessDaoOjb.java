@@ -96,21 +96,5 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         }
     }
 
-    public List getMostCurrentProcesses(Integer number) {
-        LOG.debug("get() started");
-
-        Criteria c = new Criteria();
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(new Date());
-        gc.add(Calendar.MONTH, -4);
-        c.addGreaterOrEqualThan("processTimestamp", new Timestamp(gc.getTimeInMillis()));
-        QueryByCriteria qbc = new QueryByCriteria(PaymentProcess.class, c);
-        qbc.setEndAtIndex(number.intValue());
-        qbc.addOrderByDescending("processTimestamp");
-        List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        
-        return l;
-    }
-
 }
 

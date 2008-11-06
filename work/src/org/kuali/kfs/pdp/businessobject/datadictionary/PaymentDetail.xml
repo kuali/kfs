@@ -78,6 +78,7 @@
 		<ref bean="PaymentDetail-paymentGroup.paymentStatus.name" />
 		<ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" />
 		<ref bean="PaymentDetail-notesText" />
+		<ref bean="PaymentDetail-paymentGroup.id" />
       </list>
     </property>
     <property name="collections" >
@@ -461,9 +462,13 @@
   <bean id="PaymentDetail-paymentGroup.payeeIdTypeDesc-parentBean" abstract="true" parent="PaymentGroup-payeeIdTypeDesc">
     <property name="name" value="paymentGroup.payeeIdTypeDesc" />
   </bean>
+  <bean id="PaymentDetail-paymentGroup.id" parent="PaymentDetail-paymentGroup.id-parentBean" />
+
+  <bean id="PaymentDetail-paymentGroup.id-parentBean" abstract="true" parent="PaymentGroup-id">
+    <property name="name" value="paymentGroup.id" />
+  </bean>
   
-  
-   <bean id="PaymentDetail-financialSystemOriginCode" parent="PaymentDetail-financialSystemOriginCode-parentBean" />
+  <bean id="PaymentDetail-financialSystemOriginCode" parent="PaymentDetail-financialSystemOriginCode-parentBean" />
 
   <bean id="PaymentDetail-financialSystemOriginCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
     <property name="name" value="financialSystemOriginCode" />
@@ -770,9 +775,9 @@
   <bean id="PaymentDetail-lookupDefinition" parent="PaymentDetail-lookupDefinition-parentBean" />
 
   <bean id="PaymentDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="PaymentDetail Lookup" />
+    <property name="title" value="Payment Detail Lookup" />
     <property name="lookupableID" value="paymentDetailLookupable" />
-    <property name="instructions" value="Look up a PaymentDetail" />
+    <property name="instructions" value="Look up a Payment Detail" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
         <property name="attributeNames" >

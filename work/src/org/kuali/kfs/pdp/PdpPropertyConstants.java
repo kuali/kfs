@@ -109,6 +109,7 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_INVOICE_TOTAL_SHIPPING_AMOUNT = "invTotShipAmount";
             public static final String PAYMENT_INVOICE_TOTAL_OTHER_DEBIT_AMOUNT = "invTotOtherDebitAmount";
             public static final String PAYMENT_INVOICE_TOTAL_OTHER_CREDIT_AMOUNT = "invTotOtherCreditAmount";
+            
         }
     }
     
@@ -145,6 +146,10 @@ public class PdpPropertyConstants {
         public static final String PAYMENT_GROUP_PAYEE_NAME = "payeeName";
         public static final String PAYMENT_GROUP_LINE1_ADDRESS = "line1Address";
         public static final String PAYMENT_GROUP_BATCH_ID = "batchId";
+        public static final String PAYMENT_GROUP_BANK_CODE = "bankCode";
+        public static final String PAYMENT_GROUP_PAYEE_ID = "payeeId";
+        public static final String PAYMENT_GROUP_PAYEE_ID_TYPE_CODE = "payeeIdTypeCd";
+        
     }
     
     public static class PaymentProcess {

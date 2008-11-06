@@ -89,19 +89,6 @@
       </list>
     </property>
     <property name="validationMap" ref="CustomerInvoiceDocument-validations" />
-    <property name="accountingLineGroups">
-    	<map>
-    		<entry>
-    			<key><value>source</value></key>
-	    		<ref bean="InternalBilling-sourceAccountingLineGroup" parent="AccountingLineGroup" />
-	    	</entry>
-	    	<entry>
-	    		<key><value>target</value></key>
-	    		<ref bean="InternalBilling-targetAccountingLineGroup" parent="AccountingLineGroup" />
-	    	</entry>
-    	</map>
-    </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -519,7 +506,7 @@
 					
 	<bean id="CustomerInvoiceDocument-billingInternationalMailCode" parent="CustomerInvoiceDocument-billingInternationalMailCode-parentBean" />
 	
-	<bean id="CustomerInvoiceDocument-billingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode" >
+	<bean id="CustomerInvoiceDocument-billingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode" >
 		<property name="name" value="billingInternationalMailCode" />
 	</bean>
 					
@@ -582,7 +569,7 @@
 					
 	<bean id="CustomerInvoiceDocument-shippingInternationalMailCode" parent="CustomerInvoiceDocument-shippingInternationalMailCode-parentBean" />
 	
-	<bean id="CustomerInvoiceDocument-shippingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode" >
+	<bean id="CustomerInvoiceDocument-shippingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode" >
 		<property name="name" value="shippingInternationalMailCode" />
 	</bean>
 					
@@ -672,30 +659,4 @@
     	</map>
     </property>
   </bean>  
-  
-  <!-- accounting line groups -->
-  <bean id="CustomerInvoice-sourceAccountingLineGroup" parent="CustomerInvoice-sourceAccountingLineGroup-parentBean" />
-  
-  <bean id="CustomerInvoice-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="Income" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
-	</bean>
-	
-	<bean id="CustomerInvoice-targetAccountingLineGroup" parent="CustomerInvoice-targetAccountingLineGroup-parentBean" />
-	
-	<bean id="CustomerInvoice-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
-	  <property name="groupLabel" value="Expense" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="target" />
-	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
-	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
-	</bean>
-	
 </beans>

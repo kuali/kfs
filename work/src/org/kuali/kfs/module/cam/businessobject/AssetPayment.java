@@ -10,8 +10,11 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -121,7 +124,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     }
     
     /**
-     * Constructs a AssetPayment for use with Asset Separate
+     * Constructs a AssetPayment for use with Asset Payment
      * 
      * @param assetPaymentDetail
      */
@@ -139,6 +142,29 @@ public class AssetPayment extends PersistableBusinessObjectBase {
         setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
         setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
         setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
+    }
+    
+    /**
+     * Constructs a AssetPayment for use with Asset Separate
+     * 
+     * @param assetPaymentDetail
+     * @param acquisitionTypeCode
+     */
+    public AssetPayment(AssetPaymentDetail assetPaymentDetail, String acquisitionTypeCode) {
+        this(assetPaymentDetail);
+
+        if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
+            setFinancialDocumentPostingDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
+            setFinancialDocumentPostingYear(assetPaymentDetail.getPostingYear());
+            setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getPostingPeriodCode());
+        }
+        else {
+            UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+
+            setFinancialDocumentPostingDate(universityDateService.getCurrentUniversityDate().getUniversityDate());
+            setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
+            setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+        }
     }
     
     /**

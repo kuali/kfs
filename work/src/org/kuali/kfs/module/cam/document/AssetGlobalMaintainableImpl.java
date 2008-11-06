@@ -43,7 +43,7 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
-import org.kuali.kfs.module.cam.util.KualiDecimalService;
+import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -555,7 +555,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
             // calculate equal source total amounts and set separate source amount fields
             if (customAction != null && "calculateEqualSourceAmountsButton".equals(customAction[0]) && sharedDetailsList.size() >= 1) {
-                KualiDecimalService kualiDecimalService = new KualiDecimalService(assetGlobal.getTotalCostAmount(), Currency.getInstance("USD"));
+                KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetGlobal.getTotalCostAmount(), CamsConstants.CURRENCY_USD);
                 KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal);
                 setEqualSeparateSourceAmounts(equalSourceAmountsArray, assetGlobal);
             }

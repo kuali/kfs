@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam;
 
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -303,4 +304,5 @@ public class CamsConstants extends JSTLConstants {
     public static final String INQUIRY_URL = "inquiry.do";
     public static final int ASSET_DESC_DISPLAY_LENGTH = 39;
 
+    public static final Currency CURRENCY_USD = Currency.getInstance("USD");
 }

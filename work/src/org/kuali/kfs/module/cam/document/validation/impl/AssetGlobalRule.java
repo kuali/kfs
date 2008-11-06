@@ -41,6 +41,7 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationFi
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -395,8 +396,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
         boolean valid = true;
+
         // The acquisition type code of (F, G, N, S, T) requires a capital object code.
-        valid &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, assetGlobal.getAcquisitionTypeCode(), objectCode.getFinancialObjectSubTypeCode()).evaluateAndAddError(ObjectCode.class, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, assetGlobal.getAcquisitionTypeCode(), objectCode.getFinancialObjectSubTypeCode());
+        valid &= parameterEvaluator.evaluateAndAddError(ObjectCode.class, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE);
+        
         return valid;
     }
 

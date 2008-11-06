@@ -15,18 +15,18 @@
  */
 package org.kuali.kfs.module.cam.util;
 
-import java.util.ArrayList;
 import java.util.Currency;
-import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * Utility class that divides currency into equal targets.
+ * Utility class that divides currency into equal targets with remainder to cents in some buckets.<br>
+ * TODO: Would be nice to change this so that it doesn't use a constructor
  */
-public class KualiDecimalService {
+public class KualiDecimalUtils {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiDecimalService.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiDecimalUtils.class);
     private static final int[] cents = new int[] {1, 10, 100, 1000};
 
     private long totalAmount;
@@ -35,7 +35,7 @@ public class KualiDecimalService {
     /**
      * Default constructor.
      */
-    public KualiDecimalService() {}
+    public KualiDecimalUtils() {}
 
     /**
      * Constructs a KualiDecimalService.
@@ -43,11 +43,9 @@ public class KualiDecimalService {
      * @param amount
      * @param currency
      */
-    public KualiDecimalService(KualiDecimal totalAmount, Currency currencyCode) {
+    public KualiDecimalUtils(KualiDecimal totalAmount, Currency currencyCode) {
         this.currencyCode = currencyCode;
-        //LOG.info("this.currency: '" + this.currencyCode + "'");
         this.totalAmount = Math.round(totalAmount.multiply(new KualiDecimal(centFactor())).floatValue());
-        //LOG.info("this.amount: '" + this.totalAmount + "'");
     }
 
     /**
@@ -56,7 +54,6 @@ public class KualiDecimalService {
      * @return int
      */
     private int centFactor() {
-        //LOG.info("cents: '" + cents[currencyCode.getDefaultFractionDigits()] + "'");
         return cents[currencyCode.getDefaultFractionDigits()];
     }
 
@@ -66,8 +63,8 @@ public class KualiDecimalService {
      * @param amount
      * @return KualiDecimalService
      */
-    private KualiDecimalService setNewAmount(long amount) {
-        KualiDecimalService kds = new KualiDecimalService();
+    private KualiDecimalUtils setNewAmount(long amount) {
+        KualiDecimalUtils kds = new KualiDecimalUtils();
         kds.totalAmount = amount;
         return kds;
     }
@@ -80,17 +77,13 @@ public class KualiDecimalService {
      */
     public KualiDecimal[] allocate(int divisor) {
         // calculate lowest and highest amount
-        KualiDecimalService lowAmount = setNewAmount(totalAmount / divisor);
-        KualiDecimalService highAmount = setNewAmount(lowAmount.totalAmount + 1);
-        //LOG.info("lowAmount: '" + lowAmount.totalAmount + "'");
-        //LOG.info("highAmount: '" + highAmount.totalAmount + "'");
+        KualiDecimalUtils lowAmount = setNewAmount(totalAmount / divisor);
+        KualiDecimalUtils highAmount = setNewAmount(lowAmount.totalAmount + 1);
 
         int remainder = (int) totalAmount % divisor;
-        //LOG.info("remainder: '" + remainder + "'");
 
         // allocate amounts into array
         KualiDecimal[] amountsArray = new KualiDecimal[divisor];;
-
 
         // set the lowest amount into array
         KualiDecimal low = new KualiDecimal(lowAmount.totalAmount);
@@ -104,7 +97,8 @@ public class KualiDecimalService {
             amountsArray[i] = high.divide(new KualiDecimal(centFactor()));
         }
 
+        ArrayUtils.reverse(amountsArray);
+        
         return amountsArray;
     }
-
 }

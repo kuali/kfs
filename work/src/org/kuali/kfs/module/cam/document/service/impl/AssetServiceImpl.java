@@ -245,6 +245,21 @@ public class AssetServiceImpl implements AssetService {
         return activeMatches;
     }
 
+
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#findAssetsMatchingTagNumber(java.lang.String)
+     */
+    public Collection<Asset> findAssetsMatchingTagNumber(String campusTagNumber) {
+        // find all assets matching this tag number
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, campusTagNumber);
+        Collection<Asset> tagMatches = SpringContext.getBean(BusinessObjectService.class).findMatching(Asset.class, params);
+
+        return tagMatches;
+    }
+    
     /**
      * 
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isObjectSubTypeCompatible(java.util.List)

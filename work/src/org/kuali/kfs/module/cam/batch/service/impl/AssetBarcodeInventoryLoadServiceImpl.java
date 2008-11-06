@@ -451,6 +451,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 //        LOG.info("Condition Code:"+asset.getConditionCode());
 //        LOG.info("************************************");
          
+        asset.setInventoryScannedCode( (barcodeInventoryErrorDetail.isUploadScanIndicator() ? CamsConstants.BarCodeInventory.BCI_SCANED_INTO_DEVICE : CamsConstants.BarCodeInventory.BCI_MANUALLY_KEYED_CODE));
         asset.setBuildingCode(barcodeInventoryErrorDetail.getBuildingCode());
         asset.setBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber());
         asset.setBuildingSubRoomNumber(barcodeInventoryErrorDetail.getBuildingSubRoomNumber());

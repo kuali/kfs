@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -151,6 +152,14 @@ public interface AssetService {
      * @return List of assets found matching tag number
      */
     public List<Asset> findActiveAssetsMatchingTagNumber(String campusTagNumber);
+
+    /**
+     * This method returns all active and not active assets found matching this tab number
+     * 
+     * @param campusTagNumber Campus Tag Number
+     * @return List of assets found matching tag number
+     */    
+    public Collection<Asset> findAssetsMatchingTagNumber(String campusTagNumber);
     
     /**
      * For the given Asset sets the separateHistory.

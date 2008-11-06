@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -108,7 +109,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 else {
                     if (updateStatus)
                         barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED);
-                    
+
                     barcodeInventoryErrorDetail.setErrorDescription("NONE");
                 }
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
@@ -122,9 +123,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
          * errors from the GlobalVariables object. 
          */         
         deleteLockErrorMessages();
-        
+
         return true;
     }
+
 
     /**
      * validates the asset tag number exists in only one active asset.
@@ -135,15 +137,25 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     private boolean validateTagNumber(String tagNumber) {
         boolean result = true;
         // Getting a list of active assets.
-        List<Asset> assets = assetService.findActiveAssetsMatchingTagNumber(tagNumber);
+        Collection<Asset> assets = assetService.findAssetsMatchingTagNumber(tagNumber);
 
         if (ObjectUtils.isNull(assets) || assets.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_CAPITAL_ASSET_DOESNT_EXISTS);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_CAPITAL_ASSET_DOESNT_EXIST);
             result = false;
         }
-        else if (assets.size() > 1) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_DUPLICATED_TAG_NUMBER);
-            result = false;
+        else {
+            int activeAssets=assets.size();
+            for (Asset asset : assets) {
+               if (assetService.isAssetRetired(asset))
+                  activeAssets--;  
+            }                        
+            if (activeAssets == 0) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_CAPITAL_ASSET_IS_RETIRED);
+                result = false;                
+            } else if (activeAssets > 1) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_DUPLICATED_TAG_NUMBER);
+                result = false;
+            }
         }
         return result;
     }
@@ -295,7 +307,6 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 isAssetLocked = assetService.isAssetLocked("", assets.get(0).getCapitalAssetNumber());
                 if (isAssetLocked) {
                     String lockingDocumentId = assetService.getLockingDocumentId(documentNumber, assets.get(0).getCapitalAssetNumber());
-                    //LOG.info("***** Locking Document: "+lockingDocumentId);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_ASSET_LOCKED, lockingDocumentId);
                     result = false;                    
                 }

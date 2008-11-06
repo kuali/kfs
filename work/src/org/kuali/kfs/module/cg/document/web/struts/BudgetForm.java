@@ -56,6 +56,7 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -623,13 +624,13 @@ public class BudgetForm extends ResearchDocumentFormBase {
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", getToBeNamedLabel()));
         }
-        else if (this.getBudgetDocument().getBudget().getProjectDirector() != null && this.getBudgetDocument().getBudget().getProjectDirector().getPerson() != null && this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getPrincipalId() != null) {
+        else if (!ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector()) && !ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector().getPerson()) && !ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getPrincipalId())) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getName()));
         }
         if (this.getBudgetDocument().getBudget().isAgencyToBeNamedIndicator()) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", getToBeNamedLabel()));
         }
-        else if (this.getBudgetDocument().getBudget().getBudgetAgency() != null) {
+        else if (!ObjectUtils.isNull(this.getBudgetDocument().getBudget().getBudgetAgency())) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", this.getBudgetDocument().getBudget().getBudgetAgency().getFullName()));
         }
     }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cg.document.web.struts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,7 +36,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This is used by the UI to get totals, counts, and other things needed to render nonpersonnel copy over properly.
  */
-public class BudgetNonpersonnelCopyOverFormHelper {
+public class BudgetNonpersonnelCopyOverFormHelper implements Serializable {
 
     // This map holds the individual NonpersonnelCopyOverCategoryHelper objects.
     // The Key is the nonpersonnel category code, the value is the NonpersonnelCopyOverCategoryHelper.

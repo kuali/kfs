@@ -53,7 +53,7 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      */
     public Person getPerson() {
         // If principalName is not set, then fall back to principalId.
-        if (principalName == null) {
+        if (principalName == null && principalId != null) {
             person = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, person);
         }
         return person;

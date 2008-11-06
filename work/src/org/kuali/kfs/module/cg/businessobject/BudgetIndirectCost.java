@@ -67,17 +67,15 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
         // We do this in case we are entering a budget for the first time.
         this.purpose = new Purpose();
         this.baseCode = new BudgetBaseCode();
-        this.setBudgetTaskPeriodIndirectCostItems(new ArrayList());
-        this.setBudgetIndirectCostCostShareIndicator(false);
-        this.setBudgetUnrecoveredIndirectCostIndicator(false);
-        this.setBudgetManualMtdcIndicator(false);
+        this.budgetTaskPeriodIndirectCostItems = new ArrayList();
+        this.budgetIndirectCostCostShareIndicator = false;
+        this.budgetUnrecoveredIndirectCostIndicator = false;
+        this.budgetManualMtdcIndicator = false;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        this.setBudgetPurposeCode(parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_PURPOSE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
-        this.setBudgetBaseCode(parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_BASE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
-        this.setBudgetManualRateIndicator(parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_MANUAL_RATE_INDICATOR_DEFAULT_VALUE_PARAMETER_NAME));
-
-        this.budgetTaskPeriodIndirectCostItems = new ArrayList();
+        this.budgetPurposeCode = parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_PURPOSE_CODE_DEFAULT_VALUE_PARAMETER_NAME);
+        this.budgetBaseCode = parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_BASE_CODE_DEFAULT_VALUE_PARAMETER_NAME);
+        this.budgetManualRateIndicator = parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_MANUAL_RATE_INDICATOR_DEFAULT_VALUE_PARAMETER_NAME);
     }
 
     /**

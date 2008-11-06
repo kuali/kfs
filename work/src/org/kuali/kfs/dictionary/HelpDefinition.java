@@ -20,8 +20,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 
 public class HelpDefinition extends org.kuali.rice.kns.datadictionary.HelpDefinition {
-    String parameterClass;
-    private ParameterService parameterService;
+    private String parameterClass;
+    private transient ParameterService parameterService;
     /**
      * Gets the parameterClass attribute. 
      * @return Returns the parameterClass.

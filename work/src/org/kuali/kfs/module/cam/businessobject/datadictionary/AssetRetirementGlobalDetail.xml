@@ -183,7 +183,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobalDetail-retirementChartOfAccountsCode" parent="AssetRetirementGlobalDetail-retirementChartOfAccountsCode-parentBean" />
   <bean id="AssetRetirementGlobalDetail-retirementChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementChartOfAccountsCode" />
-    <property name="forceUppercase" value="false"  />
+    <property name="forceUppercase" value="true"  />
     <property name="label" value="Retirement Chart Of Accounts Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />

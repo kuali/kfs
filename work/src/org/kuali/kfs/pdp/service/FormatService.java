@@ -24,10 +24,17 @@ import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.rice.kim.bo.Person;
 
 public interface FormatService {
-    // Get the customer profiles to list on the screen
+
+    /**
+     * This method gets all customer profiles
+     * @return
+     */
     public List getAllCustomerProfiles();
 
-    // Get disbursement numbers to list on the screen
+    /**
+     * This method gets all disbursement number ranges
+     * @return
+     */
     public List getAllDisbursementNumberRanges();
 
     /**

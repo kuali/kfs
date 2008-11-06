@@ -402,7 +402,6 @@ public class FormatServiceImpl implements FormatService {
 
             if (PdpConstants.DisbursementTypeCodes.CHECK.equals(paymentGroup.getDisbursementType().getCode())) {
 
-                boolean cannotCombine = paymentGroup.getPymtAttachment().booleanValue() || paymentGroup.getProcessImmediate().booleanValue() || paymentGroup.getPymtSpecialHandling().booleanValue() || (!paymentGroup.getCombineGroups().booleanValue());
                 if (paymentGroup.getPymtAttachment().booleanValue() || paymentGroup.getProcessImmediate().booleanValue() || paymentGroup.getPymtSpecialHandling().booleanValue() || (!paymentGroup.getCombineGroups().booleanValue())) {
                     assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
                 }

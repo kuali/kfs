@@ -490,7 +490,7 @@ public class PurapConstants extends JSTLConstants {
             STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
         }
     }
-
+    
     public static class LineItemReceivingDocumentStrings{
         public static final String DUPLICATE_RECEIVING_LINE_QUESTION = "DuplicateReceivingLine";
         public static final String VENDOR_DATE = "Vendor Date";
@@ -1024,4 +1024,35 @@ public class PurapConstants extends JSTLConstants {
             return result;
         }
     }
+    
+    public static final class CAMSWarningStatuses {
+        public static final Set<String> REQUISITION_STATUS_WARNING_NO_CAMS_DATA = getRequisitionStatusCAMSWarnings();
+        public static final Set<String> PURCHASEORDER_STATUS_WARNING_NO_CAMS_DATA = getPurchaseOrderStatusCAMSWarnings();
+        public static final Set<String> PAYMENT_REQUEST_STATUS_WARNING_NO_CAMS_DATA = getPurchaseOrderStatusCAMSWarnings();
+        public static final Set<String> CREDIT_MEMO_STATUS_WARNING_NO_CAMS_DATA = getPurchaseOrderStatusCAMSWarnings();
+        
+        private static HashSet<String> getRequisitionStatusCAMSWarnings() {
+            HashSet<String> statuses = new HashSet<String>();
+            statuses.add(RequisitionStatuses.IN_PROCESS);
+            statuses.add(RequisitionStatuses.AWAIT_CONTENT_REVIEW);
+            return statuses;
+        }
+        private static HashSet<String> getPurchaseOrderStatusCAMSWarnings() {
+            HashSet<String> statuses = new HashSet<String>();
+            statuses.add(RequisitionStatuses.IN_PROCESS);
+            statuses.add(RequisitionStatuses.AWAIT_CONTENT_REVIEW);
+            return statuses;
+        }
+        private static HashSet<String> getPaymentRequestStatusCAMSWarnings() {
+            HashSet<String> statuses = new HashSet<String>();
+            statuses.add(RequisitionStatuses.IN_PROCESS);
+            return statuses;
+        }
+        private static HashSet<String> getCreditMemoStatusCAMSWarnings() {
+            HashSet<String> statuses = new HashSet<String>();
+            statuses.add(RequisitionStatuses.IN_PROCESS);
+            return statuses;
+        }
+    }
+    
 }

@@ -22,6 +22,7 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -169,6 +170,10 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
                         
         return questionTextBuffer.toString();
         
+    }
+    @Override
+    protected boolean checkCAMSWarningStatus(PurchasingAccountsPayableDocument purapDocument) {
+        return PurapConstants.CAMSWarningStatuses.PAYMENT_REQUEST_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getStatusCode());
     }
 
 }

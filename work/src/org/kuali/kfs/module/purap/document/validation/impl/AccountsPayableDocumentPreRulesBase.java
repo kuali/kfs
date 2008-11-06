@@ -29,7 +29,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 /**
  * Performs prompts and other pre business rule checks for the Accounts Payable Document (and its children).
  */
-public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBase {
+public abstract class AccountsPayableDocumentPreRulesBase extends PurapDocumentPreRulesBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentPreRulesBase.class);
 
     public AccountsPayableDocumentPreRulesBase() {

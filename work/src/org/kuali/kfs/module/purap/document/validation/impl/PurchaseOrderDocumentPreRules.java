@@ -162,4 +162,9 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
         return true;
     }
 
+    @Override
+    protected boolean checkCAMSWarningStatus(PurchasingAccountsPayableDocument purapDocument) {
+        return PurapConstants.CAMSWarningStatuses.PURCHASEORDER_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getStatusCode());
+    }
+    
 }

@@ -27,6 +27,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
@@ -92,8 +93,8 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
         if (fieldValues.containsKey(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE)) {
             String fieldValue = (String) fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE);
             if (StringUtils.isEmpty(fieldValue)) {
-                docTypeCodes.add(new String("PREQ"));
-                docTypeCodes.add(new String("CM"));
+                docTypeCodes.add(CabConstants.PREQ);
+                docTypeCodes.add(CabConstants.CM);
             }
             else {
                 docTypeCodes.add(fieldValue);

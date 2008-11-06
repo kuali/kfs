@@ -157,7 +157,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
 
-        // pretag looks go into an infinite loop at OJB ??
         if (isItemPretagged(preTag)) {
             businessObjectService.save(preTag);
         }
@@ -189,7 +188,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             purApLineService.inActivateDocument(selectedItem.getPurchasingAccountsPayableDocument());
         }
 
-        setFormActiveItemIndicator(purApForm);
         // persistent to the table
         purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
         // In-activate general ledger afterwards because we need to persistent account changes first.
@@ -221,20 +219,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             // add to the session for persistence
             glEntryList.add(glEntry);
         }
-    }
-
-    /**
-     * In-activate form activeItemExist indicator if all items associating with the form are inactive.
-     * 
-     * @param purApForm
-     */
-    private void setFormActiveItemIndicator(PurApLineForm purApForm) {
-        for (PurchasingAccountsPayableDocument document : purApForm.getPurApDocs()) {
-            if (document.isActive()) {
-                purApForm.setActiveItemExist(true);
-            }
-        }
-        purApForm.setActiveItemExist(false);
     }
 
 
@@ -293,7 +277,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetDetailsList
      */
     private void setAssetGlobalDetailFromPurAp(PurchaseOrderCapitalAssetSystem capitalAssetSystem, List<AssetGlobalDetail> assetSharedDetail) {
-        capitalAssetSystem.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_LOCATIONS);
+        // capitalAssetSystem.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_LOCATIONS);
         List<CapitalAssetLocation> capitalAssetLocations = capitalAssetSystem.getCapitalAssetLocations();
 
         if (ObjectUtils.isNotNull(capitalAssetLocations) && !capitalAssetLocations.isEmpty()) {
@@ -301,46 +285,58 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             int locationQuantity = 0;
             CapitalAssetLocation assetLocation = null;
             for (AssetGlobalDetail assetDetail : assetSharedDetail) {
-                // if it's already pre-tagged, pre-tagging, skip it.
+                // if it's already pre-tagged, skip it.
                 if (StringUtils.isNotEmpty(assetDetail.getCampusCode())) {
                     continue;
                 }
 
                 // Each line item can have multiple locations and each location can have a quantity value with it.
                 if (locationQuantity <= 0 && locationIterator.hasNext()) {
+                    // when we consume the current location quantity, we need to move to the next PurAp location.
                     assetLocation = locationIterator.next();
+                    // initialize location quantity by PurAp setting
                     if (assetLocation.getItemQuantity() != null) {
                         locationQuantity = assetLocation.getItemQuantity().intValue();
                     }
                     else {
-                        // if Purap not set item quantity, CAB batch should set it to default value 1. So we set location quantity
-                        // the same value.
+                        // if Purap not set item quantity, we set it to 1.
                         locationQuantity = 1;
                     }
                 }
                 else if (locationQuantity <= 0 && !locationIterator.hasNext()) {
+                    // Consume the current location quantity and no more PurAp locations can be used, stop here. 
                     break;
                 }
-
-                assetDetail.setCampusCode(assetLocation.getCampusCode());
-                if (assetLocation.isOffCampusIndicator()) {
-                    // off-campus
-                    assetDetail.setOffCampusCityName(assetLocation.getCapitalAssetCityName());
-                    assetDetail.setOffCampusAddress(assetLocation.getCapitalAssetLine1Address());
-                    assetDetail.setOffCampusCountryCode(assetLocation.getCapitalAssetCountryCode());
-                    assetDetail.setOffCampusStateCode(assetLocation.getCapitalAssetStateCode());
-                    assetDetail.setOffCampusZipCode(assetLocation.getCapitalAssetPostalCode());
-                }
-                else {
-                    // on-campus
-                    assetDetail.setBuildingCode(assetLocation.getBuildingCode());
-                    assetDetail.setBuildingRoomNumber(assetLocation.getBuildingRoomNumber());
-                }
+                // set PurAp asset location into asset global document
+                setNewAssetByPurApLocation(assetLocation, assetDetail);
 
                 locationQuantity--;
             }
         }
 
+    }
+
+    /**
+     * Set asset global detail by PurAp asset location.
+     * 
+     * @param assetLocation
+     * @param assetDetail
+     */
+    private void setNewAssetByPurApLocation(CapitalAssetLocation assetLocation, AssetGlobalDetail assetDetail) {
+        assetDetail.setCampusCode(assetLocation.getCampusCode());
+        if (assetLocation.isOffCampusIndicator()) {
+            // off-campus
+            assetDetail.setOffCampusCityName(assetLocation.getCapitalAssetCityName());
+            assetDetail.setOffCampusAddress(assetLocation.getCapitalAssetLine1Address());
+            assetDetail.setOffCampusCountryCode(assetLocation.getCapitalAssetCountryCode());
+            assetDetail.setOffCampusStateCode(assetLocation.getCapitalAssetStateCode());
+            assetDetail.setOffCampusZipCode(assetLocation.getCapitalAssetPostalCode());
+        }
+        else {
+            // on-campus
+            assetDetail.setBuildingCode(assetLocation.getBuildingCode());
+            assetDetail.setBuildingRoomNumber(assetLocation.getBuildingRoomNumber());
+        }
     }
 
 
@@ -518,8 +514,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         if (isItemPretagged(preTag)) {
             setAssetGlobalFromPreTag(preTag, assetGlobal);
         }
+        // check and set if purAp has new asset information
         else if (selectedItem.getCapitalAssetSystemIdentifier() != null) {
-            // check and set if purAp has new asset information
             capitalAssetSystem = findCapitalAssetSystem(selectedItem.getCapitalAssetSystemIdentifier());
             if (ObjectUtils.isNotNull(capitalAssetSystem)) {
                 setAssetGlobalFromPurAp(assetGlobal, capitalAssetSystem);
@@ -540,7 +536,12 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         return assetGlobal;
     }
 
-
+    /**
+     * check if item is pre-tagged already.
+     * 
+     * @param preTag
+     * @return
+     */
     private boolean isItemPretagged(Pretag preTag) {
         return ObjectUtils.isNotNull(preTag) && ObjectUtils.isNotNull(preTag.getPretagDetails()) && !preTag.getPretagDetails().isEmpty();
     }
@@ -559,6 +560,12 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     }
 
 
+    /**
+     * Get PurAp PurchaseOrderCapitalAssetSystem Object if exists.
+     * 
+     * @param capitalAssetSystemIdentifier
+     * @return
+     */
     private PurchaseOrderCapitalAssetSystem findCapitalAssetSystem(Integer capitalAssetSystemIdentifier) {
         Map pKeys = new HashMap<String, Object>();
 
@@ -575,7 +582,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      */
     private void setAssetGlobalOrgOwnerAccount(AssetGlobal assetGlobal) {
         AssetPaymentDetail maxCostPayment = null;
-
+        // get the maximum payment cost
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             if (maxCostPayment == null || assetPaymentDetail.getAmount().isGreaterThan(maxCostPayment.getAmount())) {
                 maxCostPayment = assetPaymentDetail;

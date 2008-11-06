@@ -19,7 +19,6 @@
 	transactionalDocument="false" headerDispatch="true" headerTabActive="true"
 	sessionDocument="false" headerMenuBar="" feedbackKey="true" defaultMethodToCall="refresh" >
 	<html:hidden property="requisitionIdentifier" />
-	<html:hidden property="activeItemExist" />
 	<kul:tabTop tabTitle="Purchase Order Processing" defaultOpen="true">
 		<div class="tab-container" align=center>
 			<c:set var="cabPurApDocumentAttributes"	value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
@@ -30,10 +29,12 @@
    				<tr>
    					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true" /></th>
         			<td class="grid" width="75%">
-						<a href="${ConfigProperties.application.url}/${KualiForm.purchaseOrderInquiryUrl }" target="_blank"> 
-        				<kul:htmlControlAttribute property="purchaseOrderIdentifier" attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true"/>
-						&nbsp;
-						</a>
+        				<c:if test="${!empty KualiForm.purchaseOrderInquiryUrl }">
+							<a href="${ConfigProperties.application.url}/${KualiForm.purchaseOrderInquiryUrl }" target="_blank"> 
+        					<kul:htmlControlAttribute property="purchaseOrderIdentifier" attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true"/>
+							&nbsp;
+							</a>
+						</c:if>
         			</td>								
     			</tr>
     			<tr>

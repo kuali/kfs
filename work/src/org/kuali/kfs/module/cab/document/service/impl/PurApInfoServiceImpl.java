@@ -92,15 +92,18 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         PurchaseOrderDocument purApdocument = (PurchaseOrderDocument) purchaseOrderService.getCurrentPurchaseOrder(poId);
         String capitalAssetSystemTypeCode = purApdocument.getCapitalAssetSystemTypeCode();
         String capitalAssetSystemStateCode = purApdocument.getCapitalAssetSystemStateCode();
-
+        
         if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
+            // If PurAp sets the CAMS as INDIVIDUAL system 
             setIndividualAssetsFromPurAp(poId, purApLineForm.getPurApDocs(), capitalAssetSystemStateCode);
         }
         else if (PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
+            // If PurAp sets the CAMS as ONE system 
             setOneSystemFromPurAp(poId, purApLineForm.getPurApDocs(), capitalAssetSystemStateCode);
 
         }
         else if (PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
+            // If PurAp sets the CAMS as MULTIPLE system 
             setMultipleSystemFromPurAp(poId, purApLineForm.getPurApDocs(), capitalAssetSystemStateCode);
         }
     }
@@ -125,17 +128,9 @@ public class PurApInfoServiceImpl implements PurApInfoService {
                 }
 
                 if (StringUtils.isNotBlank(capitalAssetTransactionType) || (purApCapitalAssets != null && !purApCapitalAssets.isEmpty())) {
+                    // set TransactionTypeCode, itemCapitalAssets and system identifier for each item
                     for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-                        for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                            // TODO : Purap will add this field to PREQ/CM item.
-                            item.setCapitalAssetTransactionTypeCode(capitalAssetTransactionType);
-                            // set for item capital assets
-                            if (purApCapitalAssets != null && !purApCapitalAssets.isEmpty()) {
-                                item.getPurApItemAssets().addAll(purApCapitalAssets);
-                            }
-                            // set for capital asset system ID
-                            item.setCapitalAssetSystemIdentifier(capitalAssetSystem.getCapitalAssetSystemIdentifier());
-                        }
+                        setItemAssetsCamsTransaction(capitalAssetSystem.getCapitalAssetSystemIdentifier(), capitalAssetTransactionType, purApCapitalAssets, purApDoc.getPurchasingAccountsPayableItemAssets());
                     }
                 }
             }
@@ -150,26 +145,39 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      */
     private void setOneSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         CapitalAssetSystem capitalAssetSystem = purchaseOrderService.retrieveCapitalAssetSystemForOneSystem(poId);
-        String capitalAssetTransactionType = getCapitalAssetTransTypeForOneSystem(poId);
+        String capitalAssetTransactionTypeCode = getCapitalAssetTransTypeForOneSystem(poId);
         List<ItemCapitalAsset> purApCapitalAssets = null;
         // if modify existing asset, acquire the assets from Purap
         if (PurapConstants.CapitalAssetSystemStates.MODIFY.equalsIgnoreCase(capitalAssetSystemStateCode)) {
             purApCapitalAssets = getAssetsFromItemCapitalAsset(capitalAssetSystem.getItemCapitalAssets());
         }
 
-        if (StringUtils.isNotBlank(capitalAssetTransactionType) || (purApCapitalAssets != null && !purApCapitalAssets.isEmpty())) {
+        if (StringUtils.isNotBlank(capitalAssetTransactionTypeCode) || (purApCapitalAssets != null && !purApCapitalAssets.isEmpty())) {
             for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-                for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                    // TODO : Purap will add this field to PREQ/CM item.
-                    item.setCapitalAssetTransactionTypeCode(capitalAssetTransactionType);
-                    // set for item capital assets
-                    if (purApCapitalAssets != null && !purApCapitalAssets.isEmpty()) {
-                        item.getPurApItemAssets().addAll(purApCapitalAssets);
-                    }
-                    // set for capital asset system ID
-                    item.setCapitalAssetSystemIdentifier(capitalAssetSystem.getCapitalAssetSystemIdentifier());
-                }
+                // set TransactionTypeCode, itemCapitalAssets and system identifier for each item
+                setItemAssetsCamsTransaction(capitalAssetSystem.getCapitalAssetSystemIdentifier(), capitalAssetTransactionTypeCode, purApCapitalAssets, purApDoc.getPurchasingAccountsPayableItemAssets());
             }
+        }
+    }
+
+    /**
+     * Update item assets by PurAp Cams Transaction setting
+     * 
+     * @param capitalAssetSystemIdentifier
+     * @param capitRalAssetTransactionTypeCode
+     * @param purApCapitalAssets
+     * @param itemAssets
+     */
+    private void setItemAssetsCamsTransaction(Integer capitalAssetSystemIdentifier, String capitRalAssetTransactionTypeCode, List<ItemCapitalAsset> purApCapitalAssets, List<PurchasingAccountsPayableItemAsset> itemAssets) {
+        for (PurchasingAccountsPayableItemAsset item : itemAssets) {
+            // TODO : Purap will add this field to PREQ/CM item.
+            item.setCapitalAssetTransactionTypeCode(capitRalAssetTransactionTypeCode);
+            // set for item capital assets
+            if (purApCapitalAssets != null && !purApCapitalAssets.isEmpty()) {
+                item.getPurApItemAssets().addAll(purApCapitalAssets);
+            }
+            // set for capital asset system ID
+            item.setCapitalAssetSystemIdentifier(capitalAssetSystemIdentifier);
         }
     }
 
@@ -202,28 +210,19 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         String capitalAssetTransactionTypeCode = null;
         List<ItemCapitalAsset> purApCapitalAssets = null;
 
+        // For each capitalAssetItem from PurAp, we set it to all matching CAB items
         for (PurchasingCapitalAssetItem purchasingCapitalAssetItem : capitalAssetItems) {
             // TODO: PURAP will add this field into PREQ/CM item.
             capitalAssetTransactionTypeCode = purchasingCapitalAssetItem.getCapitalAssetTransactionTypeCode();
-            // get matching purchasingAccountsPayableItemAssets
+            // get matching CAB items origin from the same PO item.
             List<PurchasingAccountsPayableItemAsset> matchingItems = getMatchingItems(purchasingCapitalAssetItem.getItemIdentifier(), purApDocs);
             // if modify existing asset, acquire the assets from Puraps
             if (PurapConstants.CapitalAssetSystemStates.MODIFY.equalsIgnoreCase(capitalAssetSystemStateCode)) {
                 purApCapitalAssets = getAssetsFromItemCapitalAsset(purchasingCapitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets());
             }
 
-            // set capitalAssetTransactionTypeCode, itemCapitalAssets or locations for each matching item
-            for (PurchasingAccountsPayableItemAsset itemAsset : matchingItems) {
-                itemAsset.setCapitalAssetTransactionTypeCode(capitalAssetTransactionTypeCode);
-
-                // set for item capital assets
-                if (purApCapitalAssets != null && !purApCapitalAssets.isEmpty()) {
-                    itemAsset.getPurApItemAssets().addAll(purApCapitalAssets);
-                }
-
-                // set for capital asset system ID
-                itemAsset.setCapitalAssetSystemIdentifier(purchasingCapitalAssetItem.getCapitalAssetSystemIdentifier());
-            }
+            // set TransactionTypeCode, itemCapitalAssets and system identifier for each matching item
+            setItemAssetsCamsTransaction(purchasingCapitalAssetItem.getCapitalAssetSystemIdentifier(), capitalAssetTransactionTypeCode, purApCapitalAssets, matchingItems);
         }
     }
 
@@ -304,6 +303,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
                 purchasingAccountsPayableItemAsset.setItemTypeCode(item.getItemTypeCode());
             }
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
+            // PurchaseOrderItemIdentifier will be used when populate PurAp asset data
             PurchaseOrderItem poi = item.getPurchaseOrderItem();
             if (poi != null) {
                 purchasingAccountsPayableItemAsset.setPurchaseOrderItemIdentifier(poi.getItemIdentifier());
@@ -319,6 +319,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
                 purchasingAccountsPayableItemAsset.setItemTypeCode(item.getItemTypeCode());
             }
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
+            // PurchaseOrderItemIdentifier will be used when populate PurAp asset data
             PurchaseOrderItem poi = getPurchaseOrderItemfromCreditMemoItem(item);
             if (poi != null) {
                 purchasingAccountsPayableItemAsset.setPurchaseOrderItemIdentifier(poi.getItemIdentifier());

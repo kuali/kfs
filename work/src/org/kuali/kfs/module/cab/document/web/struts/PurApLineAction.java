@@ -63,17 +63,32 @@ public class PurApLineAction extends KualiAction {
     PurApInfoService purApInfoService = SpringContext.getBean(PurApInfoService.class);
     PurApLineDocumentService purApLineDocumentService = SpringContext.getBean(PurApLineDocumentService.class);
 
+    /**
+     * Handle start action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
         if (purApLineForm.getPurchaseOrderIdentifier() == null) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_EMPTY);
         }
         else {
+            // set non-persistent order from PurAp Purchase Order document
             purApInfoService.setPurchaseOrderFromPurAp(purApLineForm);
+
+            // save PurAp document list into form
             buildPurApDocList(purApLineForm);
 
             if (!purApLineForm.getPurApDocs().isEmpty()) {
-                purApLineService.buildPurApItemAssetsList(purApLineForm);
+                // set item pre-populated fields
+                purApLineService.buildPurApItemAssetList(purApLineForm);
+                // create session object for current processing
                 createPurApLineSession(purApLineForm.getPurchaseOrderIdentifier());
             }
         }
@@ -85,7 +100,7 @@ public class PurApLineAction extends KualiAction {
     }
 
     /**
-     * Build PurchasingAccountsPayableDocument list from given PO_ID.
+     * Build PurchasingAccountsPayableDocument list in which all documents have the same PO_ID.
      * 
      * @param purApLineForm
      */
@@ -93,21 +108,23 @@ public class PurApLineAction extends KualiAction {
         Map<String, Object> cols = new HashMap<String, Object>();
         cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
         Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchasingAccountsPayableDocument.class, cols, CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, true);
+
         if (purApDocs == null || purApDocs.isEmpty()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_INVALID, purApLineForm.getPurchaseOrderIdentifier().toString());
         }
         else {
+            boolean existActiveDoc = false;
             for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
                 if (ObjectUtils.isNotNull(purApDoc) && purApDoc.isActive()) {
-                    // If there exists active document, set the activaItemExist indicator.
-                    purApLineForm.setActiveItemExist(true);
+                    // If there exists active document, set the existActiveDoc indicator.
+                    existActiveDoc = true;
                     break;
                 }
             }
             purApLineForm.getPurApDocs().addAll(purApDocs);
-            // If no active item exists or no exist document, bring up a message for the user.
-            if (purApDocs.isEmpty() || !purApLineForm.isActiveItemExist()) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.MESSAGE_NO_ACTIVE_PURAP_DOC);
+            // If no active item exists or no exist document, display a message.
+            if (!existActiveDoc) {
+                GlobalVariables.getMessageList().add(CabKeyConstants.MESSAGE_NO_ACTIVE_PURAP_DOC);
             }
         }
     }
@@ -119,8 +136,9 @@ public class PurApLineAction extends KualiAction {
         PurApLineForm purApLineForm = (PurApLineForm) form;
 
         GlobalVariables.getMessageList().add(CabKeyConstants.MESSAGE_CAB_CHANGES_SAVED_SUCCESS);
+        // get the current processing object from session
         PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
-
+        // persistent changes to CAB tables
         purApLineService.processSaveBusinessObjects(purApLineForm, purApLineSession);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -131,6 +149,7 @@ public class PurApLineAction extends KualiAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
 
+        // Create question page for save before close.
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
 
@@ -145,7 +164,7 @@ public class PurApLineAction extends KualiAction {
             if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 purApLineService.processSaveBusinessObjects(purApLineForm, purApLineSession);
             }
-            // else go to close logic below
+            // remove current processing object from session
             removePurApLineSession(purApLineForm.getPurchaseOrderIdentifier());
         }
 
@@ -163,7 +182,7 @@ public class PurApLineAction extends KualiAction {
 
 
     /**
-     * This method handles split action
+     * This method handles split action. Create one item with split quantity
      * 
      * @param mapping
      * @param form
@@ -173,17 +192,26 @@ public class PurApLineAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward split(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingAccountsPayableDocument purApDoc = getSelectedPurApDoc((PurApLineForm) form);
-        PurchasingAccountsPayableItemAsset selectedLineItem = getSelectedLineItem((PurApLineForm) form);
         PurApLineForm purApLineForm = (PurApLineForm) form;
+
+        // Get the document to which split item and new item belong
+        PurchasingAccountsPayableDocument purApDoc = getSelectedPurApDoc((PurApLineForm) form);
+        // Get the line item for applying split action.
+        PurchasingAccountsPayableItemAsset selectedLineItem = getSelectedLineItem((PurApLineForm) form);
 
         String errorPath = CabPropertyConstants.PurApLineForm.PURAP_DOCS + KFSConstants.SQUARE_BRACKET_LEFT + purApLineForm.getActionPurApDocIndex() + KFSConstants.SQUARE_BRACKET_RIGHT + "." + CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS + KFSConstants.SQUARE_BRACKET_LEFT + purApLineForm.getActionItemAssetIndex() + KFSConstants.SQUARE_BRACKET_RIGHT;
         GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+        // check user input split quantity.
         checkSplitQty(selectedLineItem, errorPath);
+
+        // apply split when error free
         if (GlobalVariables.getErrorMap().isEmpty() && selectedLineItem != null) {
             PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
+            // create a new item with split quantity from selected item
             PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory(), purApDoc);
+
             if (newItemAsset != null) {
+                // add the new item into document and sort.
                 purApDoc.getPurchasingAccountsPayableItemAssets().add(newItemAsset);
                 Collections.sort(purApDoc.getPurchasingAccountsPayableItemAssets());
             }
@@ -208,7 +236,7 @@ public class PurApLineAction extends KualiAction {
     }
 
     /**
-     * Check user input splitQty. It must be required and can't be greater than current quantity.
+     * Check user input splitQty. It must be required and can't be zero or greater than current quantity.
      * 
      * @param itemAsset
      * @param errorPath
@@ -216,11 +244,10 @@ public class PurApLineAction extends KualiAction {
     protected void checkSplitQty(PurchasingAccountsPayableItemAsset itemAsset, String errorPath) {
         KualiDecimal splitQty = itemAsset.getSplitQty();
         KualiDecimal oldQty = itemAsset.getAccountsPayableItemQuantity();
-        // splitQty is required and must be greater than the initial value
         if (splitQty == null) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurchasingAccountsPayableItemAsset.SPLIT_QTY, CabKeyConstants.ERROR_SPLIT_QTY_REQUIRED);
         }
-        else if (splitQty.isGreaterEqual(oldQty)) {
+        else if (splitQty.isLessEqual(KualiDecimal.ZERO) || splitQty.isGreaterEqual(oldQty)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurchasingAccountsPayableItemAsset.SPLIT_QTY, CabKeyConstants.ERROR_SPLIT_QTY_INVALID, oldQty.toString());
         }
         return;
@@ -240,7 +267,6 @@ public class PurApLineAction extends KualiAction {
         PurApLineForm purApForm = (PurApLineForm) form;
         List<PurchasingAccountsPayableItemAsset> mergeLines = purApLineService.getSelectedMergeLines(purApForm);
 
-
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
         // logic for trade-in allowance question
@@ -252,6 +278,29 @@ public class PurApLineAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        // validating...
+        validateMergeAction(purApForm, mergeLines);
+
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            // Display a warning message without blocking the action if TI indicator exists but TI allowance not exist.
+            if (purApLineService.isTradeInIndicatorExist(mergeLines) & !purApLineService.isTradeInAllowanceExist(purApForm)) {
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
+            }
+
+            // handle merging lines including merge all situation.
+            purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Check if the merge action is valid or not.
+     * 
+     * @param purApForm
+     * @param mergeLines
+     */
+    protected void validateMergeAction(PurApLineForm purApForm, List<PurchasingAccountsPayableItemAsset> mergeLines) {
         // check if the user entered merge quantity and merge description
         checkMergeRequiredFields(purApForm);
 
@@ -265,18 +314,6 @@ public class PurApLineAction extends KualiAction {
 
         // Check the associated pre-tagging data entries.
         checkPreTagValidForMerge(mergeLines, purApForm.getPurchaseOrderIdentifier());
-
-        if (GlobalVariables.getErrorMap().isEmpty()) {
-            // Display a warning message without blocking the action if TI indicator exists but TI allowance not exist.
-            if (purApLineService.isTradeInIndicatorExist(mergeLines) & !purApLineService.isTradeInAllowanceExist(purApForm)) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
-            }
-
-            // handle merging lines including merge all situation.
-            purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -316,7 +353,7 @@ public class PurApLineAction extends KualiAction {
      * @param purApForm
      */
     private void checkMergeAllValid(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm) {
-        if (purApLineService.isTradeInAllowanceExist(purApForm)) {
+        if (purApLineService.isTradeInAllowanceExist(purApForm) && purApLineService.isTradeInIndicatorExist(mergeLines)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);
         }
     }
@@ -350,7 +387,7 @@ public class PurApLineAction extends KualiAction {
     /**
      * Check the required fields entered for merge.
      */
-    protected void checkMergeRequiredFields(PurApLineForm purApForm) {
+    private void checkMergeRequiredFields(PurApLineForm purApForm) {
         if (purApForm.getMergeQty() == null) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.MERGE_QTY, CabKeyConstants.ERROR_MERGE_QTY_EMPTY);
         }
@@ -395,8 +432,8 @@ public class PurApLineAction extends KualiAction {
      */
     public ActionForward allocate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
-        PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
-        List<PurchasingAccountsPayableItemAsset> allocateTargetLines = purApLineService.getAllocateTargetLines(selectedLine, purApForm);
+        PurchasingAccountsPayableItemAsset allocateSourceLine = getSelectedLineItem(purApForm);
+        List<PurchasingAccountsPayableItemAsset> allocateTargetLines = purApLineService.getAllocateTargetLines(allocateSourceLine, purApForm);
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
@@ -404,7 +441,7 @@ public class PurApLineAction extends KualiAction {
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                if (!purApLineService.processAllocate(selectedLine, allocateTargetLines, purApForm, purApLineSession)) {
+                if (!purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, purApForm, purApLineSession)) {
                     GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
                 }
             }
@@ -412,14 +449,14 @@ public class PurApLineAction extends KualiAction {
         }
 
         // Check if this allocate is valid.
-        checkAllocateValid(selectedLine, allocateTargetLines, purApForm);
+        validateAllocateAction(allocateSourceLine, allocateTargetLines, purApForm);
         if (GlobalVariables.getErrorMap().isEmpty()) {
-            if (!selectedLine.isAdditionalChargeNonTradeInIndicator() & !selectedLine.isTradeInAllowance() & (selectedLine.isItemAssignedToTradeInIndicator() || purApLineService.isTradeInIndicatorExist(allocateTargetLines)) & purApLineService.isTradeInAllowanceExist(purApForm)) {
+            if (!allocateSourceLine.isAdditionalChargeNonTradeInIndicator() & !allocateSourceLine.isTradeInAllowance() & (allocateSourceLine.isItemAssignedToTradeInIndicator() || purApLineService.isTradeInIndicatorExist(allocateTargetLines)) & purApLineService.isTradeInAllowanceExist(purApForm)) {
                 // TI indicator exists in either source or target lines, but TI allowance not found, bring up a warning message
                 // to confirm this action.
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
             }
-            if (!purApLineService.processAllocate(selectedLine, allocateTargetLines, purApForm, purApLineSession)) {
+            if (!purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, purApForm, purApLineSession)) {
                 GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
             }
         }
@@ -434,19 +471,20 @@ public class PurApLineAction extends KualiAction {
      * @param allocateTargetLines
      * @param purApForm
      */
-    private void checkAllocateValid(PurchasingAccountsPayableItemAsset selectedLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm) {
+    protected void validateAllocateAction(PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm) {
+        // if no target selected...
         if (allocateTargetLines.isEmpty()) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_LINE_SELECTED);
         }
 
-        // Additional charges(no trade-in) must be allocated before allocate trade-in.
-        if (selectedLine.isTradeInAllowance() && purApLineService.isAdditionalChargeExist(purApForm)) {
+        // For allocate trade-in allowance, additional charges(non trade-in) must be allocated before allocate trade-in.
+        if (allocateSourceLine.isTradeInAllowance() && purApLineService.isAdditionalChargeExist(purApForm)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
         }
-
-        if (!selectedLine.isAdditionalChargeNonTradeInIndicator() & !selectedLine.isTradeInAllowance()) {
-            allocateTargetLines.add(selectedLine);
-            // Additional charges(no trade-in) must be allocated before other lines.
+        // For line item, we need to check...
+        if (!allocateSourceLine.isAdditionalChargeNonTradeInIndicator() & !allocateSourceLine.isTradeInAllowance()) {
+            allocateTargetLines.add(allocateSourceLine);
+            // Pending additional charges(non trade-in) can't associate with either source line or target lines.
             if (purApLineService.isAdditionalChargePending(allocateTargetLines)) {
                 GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
             }
@@ -455,7 +493,7 @@ public class PurApLineAction extends KualiAction {
                 // For line item, check if trade-in allowance allocation pending.
                 GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);
             }
-            allocateTargetLines.remove(selectedLine);
+            allocateTargetLines.remove(allocateSourceLine);
         }
 
     }
@@ -484,27 +522,53 @@ public class PurApLineAction extends KualiAction {
         return purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
     }
 
+    /**
+     * Handle apply payment action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward applyPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
-        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
+
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        String documentNumber = null;
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // create CAMS asset payment global document.
-                if ((documentNumber = purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession)) != null) {
-                    String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_PAYMENT_DOCUMENT, documentNumber);
-                    return new ActionForward(forwardUrl, true);
-                }
+                return createApplyPaymentDocument(mapping, purApForm, selectedLine);
             }
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            else {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
         }
         if (selectedLine.isItemAssignedToTradeInIndicator()) {
             // TI indicator exists, bring up a warning message to confirm this action.
             return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.APPLY_PAYMENT, "");
         }
+
+        // create CAMS asset payment global document.
+        return createApplyPaymentDocument(mapping, purApForm, selectedLine);
+    }
+
+    /**
+     * Create CAMS asset payment document.
+     * 
+     * @param mapping
+     * @param purApForm
+     * @param selectedLine
+     * @param purApLineSession
+     * @return
+     * @throws WorkflowException
+     */
+    private ActionForward createApplyPaymentDocument(ActionMapping mapping, PurApLineForm purApForm, PurchasingAccountsPayableItemAsset selectedLine) throws WorkflowException {
+        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
+        String documentNumber;
         // create CAMS asset payment global document.
         if ((documentNumber = purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession)) != null) {
             String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_PAYMENT_DOCUMENT, documentNumber);
@@ -515,53 +579,83 @@ public class PurApLineAction extends KualiAction {
         }
     }
 
+    /**
+     * Handle create asset action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
-        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
+
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        String documentNumber = null;
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-
-                // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message to confirm
-                // using
-                // Asset Global document.
-                if (selectedLine.getPurApItemAssets() != null && !selectedLine.getPurApItemAssets().isEmpty()) {
+                // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message for
+                // confirmation.
+                if (isSettingAssetsInPurAp(selectedLine)) {
                     return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
                 }
-
-                return createAssetGlobalDocument(mapping, purApForm, selectedLine, purApLineSession);
+                else {
+                    return createAssetGlobalDocument(mapping, purApForm, selectedLine);
+                }
             }
             else if (CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                return createAssetGlobalDocument(mapping, purApForm, selectedLine, purApLineSession);
+                return createAssetGlobalDocument(mapping, purApForm, selectedLine);
             }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // validate selected line item
-        checkCreateAssetValid(selectedLine);
+        validateCreateAssetAction(selectedLine);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
             // TI indicator exists, bring up a warning message to confirm this action.
             if (selectedLine.isItemAssignedToTradeInIndicator()) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
             }
-
             // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message to confirm using
             // Asset Global document.
-            if (selectedLine.getPurApItemAssets() != null && !selectedLine.getPurApItemAssets().isEmpty()) {
+            else if (isSettingAssetsInPurAp(selectedLine)) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
             }
-            return createAssetGlobalDocument(mapping, purApForm, selectedLine, purApLineSession);
+            else {
+                return createAssetGlobalDocument(mapping, purApForm, selectedLine);
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private ActionForward createAssetGlobalDocument(ActionMapping mapping, PurApLineForm purApForm, PurchasingAccountsPayableItemAsset selectedLine, PurApLineSession purApLineSession) throws WorkflowException {
-        String documentNumber;
+    /**
+     * check if PurAp set CAMS Assets information
+     * 
+     * @param selectedLine
+     * @return
+     */
+    private boolean isSettingAssetsInPurAp(PurchasingAccountsPayableItemAsset selectedLine) {
+        return selectedLine.getPurApItemAssets() != null && !selectedLine.getPurApItemAssets().isEmpty();
+    }
+
+    /**
+     * Create asset global document
+     * 
+     * @param mapping
+     * @param purApForm
+     * @param selectedLine
+     * @param purApLineSession
+     * @return
+     * @throws WorkflowException
+     */
+    private ActionForward createAssetGlobalDocument(ActionMapping mapping, PurApLineForm purApForm, PurchasingAccountsPayableItemAsset selectedLine) throws WorkflowException {
+        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
+        String documentNumber = null;
         // create CAMS asset global document.
         if ((documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession)) != null) {
             // forward link to asset global
@@ -600,12 +694,16 @@ public class PurApLineAction extends KualiAction {
      * 
      * @param selectedLine
      */
-    private void checkCreateAssetValid(PurchasingAccountsPayableItemAsset selectedLine) {
+    protected void validateCreateAssetAction(PurchasingAccountsPayableItemAsset selectedLine) {
         KualiDecimal integerOne = new KualiDecimal(1);
         KualiDecimal quantity = selectedLine.getAccountsPayableItemQuantity();
         // check if item quantity is a fractional value greater than 1.
         if (quantity.isGreaterThan(integerOne) && quantity.mod(integerOne).isNonZero()) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
+        }
+        // if quantity is between (0,1) , set it to 1. 
+        else if (quantity.isGreaterThan(KualiDecimal.ZERO) && quantity.isLessThan(integerOne)) {
+            selectedLine.setAccountsPayableItemQuantity(integerOne);
         }
 
     }

@@ -68,7 +68,7 @@
 	    	</c:if>
 		</c:forEach>
 	</c:forEach>
-	<c:if test="${KualiForm.activeItemExist && activeIndicator=='true'}">
+	<c:if test="${activeIndicator=='true'}">
 	<tr>
 		<th class="grid" align="right" colspan="6">Merge Qty</th>
 		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>

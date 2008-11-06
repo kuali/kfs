@@ -49,6 +49,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApReportLookupableHelperServiceImpl.class);
 
     private PurchasingAccountsPayableReportService purApReportService;
+
     /**
      * Custom action urls for CAB PurAp lines.
      * 
@@ -78,9 +79,12 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
+        // purapDocumentIdentifier should query PurchasingAccountsPayableDocument
         String purapDocumentIdentifier = getSelectedField(fieldValues, CabPropertyConstants.PurchasingAccountsPayableProcessingReport.PURAP_DOCUMENT_IDENTIFIER);
 
-        // get the user active selection, if the user did not select "active", ignore it as search criteria.
+        // Get the user active/inactive selection and ignore other selections except "active". This is because of the partial
+        // submitted GL
+        // lines.i.e for "inactive", we should check active GL lines as well.
         String active = getSelectedField(fieldValues, CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
         if (!KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
             fieldValues.remove(CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
@@ -98,11 +102,21 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
             Collection purApDocs = purApReportService.findPurchasingAccountsPayableDocuments(purapDocumentLookupFields);
 
-            Map<String, String> purApDocNumbers = buildDocumentNumberMap(purApDocs);
+            Map<String, String> purApDocNumberMap = buildDocumentNumberMap(purApDocs);
 
-            updatePurApReportCollectionByPurApDocs(purApReportCollection, purApDocNumbers);
+            updatePurApReportCollectionByPurApDocs(purApReportCollection, purApDocNumberMap);
         }
 
+        return buildSearchResultList(purApReportCollection);
+    }
+
+    /**
+     * Build the search result list.
+     * 
+     * @param purApReportCollection
+     * @return
+     */
+    private List<? extends BusinessObject> buildSearchResultList(Collection purApReportCollection) {
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(GeneralLedgerEntry.class);
         Long matchingResultsCount = Long.valueOf(purApReportCollection.size());
         if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
@@ -143,17 +157,17 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
 
     /**
-     * Join PurapReportCollection and PurApDocsCollection by documentNumber.
+     * Join PurapReportCollection and PurApDocsCollection by documentNumber and remove from PurapReportCollection for mismatch.
      * 
      * @param purApReportCollection
      * @param purApDocNumbers
      */
-    private void updatePurApReportCollectionByPurApDocs(Collection<PurchasingAccountsPayableProcessingReport> purApReportCollection, Map purApDocNumbers) {
+    private void updatePurApReportCollectionByPurApDocs(Collection<PurchasingAccountsPayableProcessingReport> purApReportCollection, Map purApDocNumberMap) {
         Collection removedReports = new ArrayList<PurchasingAccountsPayableProcessingReport>();
 
         for (Iterator iterator = purApReportCollection.iterator(); iterator.hasNext();) {
             PurchasingAccountsPayableProcessingReport report = (PurchasingAccountsPayableProcessingReport) iterator.next();
-            if (!purApDocNumbers.containsKey(report.getDocumentNumber())) {
+            if (!purApDocNumberMap.containsKey(report.getDocumentNumber())) {
                 removedReports.add(report);
             }
 
@@ -197,15 +211,15 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                 i++;
                 newReport.setTransactionLedgerSubmitAmount(columnValues[i] == null ? null : new KualiDecimal(columnValues[i].toString()));
                 i++;
-                newReport.setActive("true".equalsIgnoreCase(columnValues[i].toString())? true:false);
-                
+                newReport.setActive("true".equalsIgnoreCase(columnValues[i].toString()) ? true : false);
+                // check if the current line should exclude from the search results
                 if (!excludeFromSearchResults(newReport, activeSelection)) {
-                // set report amount
-                if (newReport.getTransactionLedgerEntryAmount() != null) {
+                    // set report amount
+                    if (newReport.getTransactionLedgerEntryAmount() != null) {
                         setReportAmount(activeSelection, newReport);
-                }
+                    }
 
-                purApReportCollection.add(newReport);
+                    purApReportCollection.add(newReport);
                 }
             }
         }
@@ -222,9 +236,9 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     private boolean excludeFromSearchResults(PurchasingAccountsPayableProcessingReport newReport, String activeSelection) {
         // If the user selects active and the generalLedgerEntry is inactive, we should exclude it from search result.
         // Or if the user selects inactive and the generalLedgerEntry has no submit amount, exclude it from search result.
-        if (((KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection)) && !newReport.isActive()) || (KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection) && (newReport.getTransactionLedgerSubmitAmount() == null || newReport.getTransactionLedgerSubmitAmount().isZero()))) {
+        if ((KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection) && (newReport.getTransactionLedgerSubmitAmount() == null || newReport.getTransactionLedgerSubmitAmount().isZero()))) {
             return true;
-    }
+        }
         return false;
     }
 
@@ -236,7 +250,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     private void setReportAmount(String active, PurchasingAccountsPayableProcessingReport newReport) {
         if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
-            // Active: set report amount by transactionLedgerSubmitAmount excluding submitted amount
+            // Active: set report amount by transactionLedgerEntryAmount excluding submitted amount
             KualiDecimal reportAmount = newReport.getAmount();
             if (reportAmount != null && newReport.getTransactionLedgerSubmitAmount() != null) {
                 newReport.setReportAmount(reportAmount.subtract(newReport.getTransactionLedgerSubmitAmount()));
@@ -250,7 +264,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
             newReport.setReportAmount(newReport.getTransactionLedgerSubmitAmount());
         }
         else {
-            // both active and inactive: set report amount as transactional amount
+            // both active and inactive: set report amount by transactional Amount
             newReport.setReportAmount(newReport.getAmount());
         }
     }

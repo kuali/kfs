@@ -60,7 +60,7 @@ public interface PurApLineService {
      * 
      * @param purApLineForm form
      */
-    void buildPurApItemAssetsList(PurApLineForm purApLineForm);
+    void buildPurApItemAssetList(PurApLineForm purApLineForm);
 
     /**
      * Handle additional charge allocate in the same document.

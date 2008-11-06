@@ -581,8 +581,8 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(PurchasingAccountsPayableItemAsset o) {
-        boolean o1ItemTypeBelowTheLine = this.isAdditionalChargeNonTradeInIndicator() | this.isTradeInAllowance();
-        boolean o2ItemTypeBelowTheLine = o.isAdditionalChargeNonTradeInIndicator() | o.isTradeInAllowance();
+        boolean o1ItemTypeBelowTheLine = this.isAdditionalChargeNonTradeInIndicator() || this.isTradeInAllowance();
+        boolean o2ItemTypeBelowTheLine = o.isAdditionalChargeNonTradeInIndicator() || o.isTradeInAllowance();
         if (o1ItemTypeBelowTheLine && !o2ItemTypeBelowTheLine) {
             return 1;
         }

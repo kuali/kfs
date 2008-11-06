@@ -113,7 +113,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
             setPurchaseOrderLastTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

@@ -451,7 +451,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         // do GL entries for document creation
         accountsPayableDocumentSpecificService.generateGLEntriesCreateAccountsPayableDocument(apDocument);
         // save the document
-        accountsPayableDocumentSpecificService.saveDocumentWithoutValidation(apDocument);
+        purapService.saveDocumentNoValidation(apDocument);
     }
 
     /**

@@ -100,14 +100,14 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
 
         SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(requisition);
 
-        SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(requisition);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(requisition);
         
         //now do the deletion
         SpringContext.getBean(PurchasingService.class).deleteCapitalAssetItems(requisition, requisition.getItem(0).getItemIdentifier());
         
         List<PurchasingCapitalAssetItem> afterDeletion = requisition.getPurchasingCapitalAssetItems();
      
-        SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(requisition);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(requisition);
         assertTrue(afterDeletion.size() == 1);
         
         for (PurchasingCapitalAssetItem camsItem : afterDeletion) {

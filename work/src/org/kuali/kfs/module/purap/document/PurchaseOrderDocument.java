@@ -502,7 +502,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
                             SpringContext.getBean(PurapService.class).updateStatus(this, currentNode.getDisapprovedStatusCode());
-                            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                             RequisitionDocument req = getPurApSourceDocumentIfPossible();
                             appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                             return;
@@ -513,7 +513,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 // DOCUMENT CANCELED
                 else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                     SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CANCELLED);
-                    SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                 }
             }
             catch (WorkflowException e) {
@@ -578,7 +578,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                         boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, null, true);
                         PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
                         poService.setupDocumentForPendingFirstTransmission(this, willHaveRequest);
-                        poService.saveDocumentWithoutValidation(this);
+                        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                     }
                     else {
                         String newStatusCode = newNodeDetails.getAwaitingStatusCode();
@@ -587,7 +587,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                                 // if an approve or complete request will be created then we need to set the status as awaiting for
                                 // the new node
                                 SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
-                                SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                             }
                         }
                     }

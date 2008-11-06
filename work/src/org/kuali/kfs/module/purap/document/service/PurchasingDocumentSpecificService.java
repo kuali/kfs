@@ -22,13 +22,6 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public interface PurchasingDocumentSpecificService {
 
-    /**
-     * Saves the document without doing validation by invoking the saveDocument method of documentService.
-     * 
-     * @param requisitionDocument the requisition document to be saved
-     */
-    public void saveDocumentWithoutValidation(PurchasingDocument document);
-    
     public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem);
     
     public CapitalAssetSystem createCapitalAssetSystem();

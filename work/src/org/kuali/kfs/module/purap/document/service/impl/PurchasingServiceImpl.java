@@ -67,10 +67,6 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
 
-    public void saveDocumentWithoutValidation(PurchasingDocument document) {
-        document.getDocumentSpecificService().saveDocumentWithoutValidation(document);
-    }
-
     public void setupCapitalAssetItems(PurchasingDocument purDoc) {
 
         List<PurchasingCapitalAssetItem> camsItemsList = purDoc.getPurchasingCapitalAssetItems();

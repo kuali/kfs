@@ -61,6 +61,7 @@ import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.PurapAccountRevisionService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -1076,7 +1077,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        purchaseOrderService.saveDocumentWithoutValidation(po);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 
         return encumbranceAccounts;
     }
@@ -1211,7 +1212,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        purchaseOrderService.saveDocumentWithoutValidation(po);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 
         List<SourceAccountingLine> encumbranceAccounts = new ArrayList<SourceAccountingLine>();
         for (Iterator<SourceAccountingLine> iter = encumbranceAccountMap.keySet().iterator(); iter.hasNext();) {
@@ -1377,7 +1378,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        purchaseOrderService.saveDocumentWithoutValidation(po);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 
         return encumbranceAccounts;
     }

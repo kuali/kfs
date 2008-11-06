@@ -73,21 +73,6 @@ public class RequisitionServiceImpl implements RequisitionService {
     private UniversityDateService universityDateService;
     private VendorService vendorService;
 
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.PurchasingDocument)
-     */
-    public void saveDocumentWithoutValidation(PurchasingDocument document) {
-        try {
-            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-        }
-        catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
-            LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
-    }
-
     public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         PurchasingCapitalAssetItem camsItem = new RequisitionCapitalAssetItem();
         camsItem.setItemIdentifier(purapItem.getItemIdentifier());

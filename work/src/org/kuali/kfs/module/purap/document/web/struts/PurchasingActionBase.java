@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.KeyConstraintViolatedException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -971,7 +970,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         } else {
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
-            SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1014,7 +1013,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 }
             }
             document.clearCapitalAssetFields();
-            SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
         }
         

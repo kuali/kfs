@@ -552,20 +552,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
-     */
-    public void saveDocumentWithoutValidation(AccountsPayableDocument document) {
-        try {
-            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-        }
-        catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
-            LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer, org.kuali.rice.kns.util.KualiDecimal, java.sql.Date)
      */
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
@@ -815,7 +801,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setHoldIndicator(true);
         preqDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        saveDocumentWithoutValidation(preqDoc);
+        purapService.saveDocumentNoValidation(preqDoc);
 
         // must also save it on the incoming document
         document.setHoldIndicator(true);
@@ -837,7 +823,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setHoldIndicator(false);
         preqDoc.setLastActionPerformedByPersonId(null);
-        saveDocumentWithoutValidation(preqDoc);
+        purapService.saveDocumentNoValidation(preqDoc);
         
         // must also save it on the incoming document
         document.setHoldIndicator(false);
@@ -900,7 +886,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         preqDoc.setPaymentRequestedCancelIndicator(true);
         preqDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         preqDoc.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        saveDocumentWithoutValidation(preqDoc);
+        purapService.saveDocumentNoValidation(preqDoc);
 
         // must also save it on the incoming document
         document.setPaymentRequestedCancelIndicator(true);
@@ -920,7 +906,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // retrieve and save with hold indicator set to false
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         clearRequestCancelFields(preqDoc);
-        saveDocumentWithoutValidation(preqDoc);
+        purapService.saveDocumentNoValidation(preqDoc);
 
         // must also save it on the incoming document
         clearRequestCancelFields(document);
@@ -1027,7 +1013,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         catch (Exception e) {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
         }
-        this.saveDocumentWithoutValidation(paymentRequest);
+        purapService.saveDocumentNoValidation(paymentRequest);
         LOG.debug("resetExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Reset from Extracted status");
     }
 
@@ -1184,7 +1170,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         if (StringUtils.isNotBlank(cancelledStatusCode)) {
             purapService.updateStatus(preqDoc, cancelledStatusCode);
-            saveDocumentWithoutValidation(preqDoc);
+            purapService.saveDocumentNoValidation(preqDoc);
             return cancelledStatusCode;
         }
         else {
@@ -1201,7 +1187,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         LOG.debug("markPaid() started");
 
         pr.setPaymentPaidDate(processDate);
-        saveDocumentWithoutValidation(pr);
+        purapService.saveDocumentNoValidation(pr);
     }
 
     /**

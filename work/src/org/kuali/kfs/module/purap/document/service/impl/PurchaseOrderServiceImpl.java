@@ -218,20 +218,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.PurchasingDocument)
-     */
-    public void saveDocumentWithoutValidation(PurchasingDocument document) {
-        try {
-            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-        }
-        catch (WorkflowException we) {
-            String errorMsg = "Workflow Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
-            LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
-    }
-
-    /**
      * Sets the error map to a new, empty error map before calling saveDocumentNoValidation to save the document.
      * 
      * @param document The purchase order document to be saved.
@@ -240,7 +226,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         ErrorMap errorHolder = GlobalVariables.getErrorMap();
         GlobalVariables.setErrorMap(new ErrorMap());
         try {
-            saveDocumentWithoutValidation(document);
+            purapService.saveDocumentNoValidation(document);
         }
         finally {
             GlobalVariables.setErrorMap(errorHolder);
@@ -324,7 +310,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     PurchaseOrderDocument po = generatePurchaseOrderFromRequisition(doc);
                     Integer cmCode = (Integer) objects[1];
                     po.setContractManagerCode(cmCode);
-                    saveDocumentWithoutValidation(po);
+                    purapService.saveDocumentNoValidation(po);
                     return po;
                 }
             };
@@ -499,7 +485,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
-            saveDocumentWithoutValidation(po);    
+            purapService.saveDocumentNoValidation(po);    
         }
         else {
         attemptSetupOfInitialOpenOfDocument(po);
@@ -601,7 +587,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new ValidationException("found errors while trying to print po with doc id " + po.getDocumentNumber());
         }
         po.setPurchaseOrderLastTransmitDate(dateTimeService.getCurrentSqlDate());
-        saveDocumentWithoutValidation(po);
+        purapService.saveDocumentNoValidation(po);
     }
 
     /**
@@ -836,7 +822,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 //fix references before saving
                 fixItemReferences(newDocument);
                 
-                saveDocumentWithoutValidation(newDocument);
+                purapService.saveDocumentNoValidation(newDocument);
                                    
                 return newDocument;
             }
@@ -995,7 +981,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     try {
                         Note note = documentService.createNoteFromDocument(po, "Unable to automatically update vendor because it is locked");
                         documentService.addNoteToDocument(po, note);
-                        saveDocumentWithoutValidation(po);
+                        purapService.saveDocumentNoValidation(po);
                     }
                     catch (Exception e) {
                         throw new RuntimeException(e);
@@ -1138,7 +1124,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
             LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'");
             purapService.updateStatus(po, PurchaseOrderStatuses.OPEN);
-            saveDocumentWithoutValidation(po);
+            purapService.saveDocumentNoValidation(po);
             documentWasSaved = true;
         }
         else {

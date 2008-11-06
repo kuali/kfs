@@ -200,7 +200,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.fixItemReferences();
             
             // save requisition to database
-            requisitionService.saveDocumentWithoutValidation(req);
+            purapService.saveDocumentNoValidation(req);
 
             // add requisition to List
             requisitions.add(req);

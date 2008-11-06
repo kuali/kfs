@@ -37,6 +37,7 @@ import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.service.PdpExtractService;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.pdp.PdpConstants;
@@ -55,6 +56,7 @@ import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -377,7 +379,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         try {
             CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(creditMemoDocument.getDocumentNumber());
             doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-            creditMemoService.saveDocumentWithoutValidation(doc);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(doc);
         }
         catch (WorkflowException e) {
             throw new IllegalArgumentException("Unable to retrieve credit memo: " + creditMemoDocument.getDocumentNumber());
@@ -395,7 +397,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         try {
             PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(paymentRequestDocument.getDocumentNumber());
             doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-            paymentRequestService.saveDocumentWithoutValidation(doc);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(doc);
         }
         catch (WorkflowException e) {
             throw new IllegalArgumentException("Unable to retrieve payment request: " + paymentRequestDocument.getDocumentNumber());

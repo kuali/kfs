@@ -635,7 +635,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
                     SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
                     populateDocumentForRouting();
-                    SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
+                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                     return;
                 }
             }
@@ -663,7 +663,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                     String cancelledStatusCode = currentNode.getDisapprovedStatusCode();
                     if (StringUtils.isNotBlank(cancelledStatusCode)) {
                         SpringContext.getBean(PurapService.class).updateStatus(this, cancelledStatusCode);
-                        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
+                        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                         return;
                     }
                 }
@@ -730,7 +730,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */
     public void saveDocumentFromPostProcessing() {
-        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
 
         // if we've hit full entry completed then close/reopen po
         if (PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(this.getStatusCode()) && this.isClosePurchaseOrderIndicator()) {

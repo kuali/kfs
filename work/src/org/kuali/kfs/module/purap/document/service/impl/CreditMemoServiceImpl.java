@@ -268,26 +268,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.CreditMemoDocument)
-     */
-    public void saveDocumentWithoutValidation(AccountsPayableDocument document) {
-        try {
-            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-
-        }
-        catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
-            LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
-        catch (RuntimeException re) {
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + re.getMessage();
-            LOG.error(errorMsg, re);
-            throw new RuntimeException(errorMsg, re);
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#saveDocument(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     public void populateAndSaveCreditMemo(CreditMemoDocument document) {
@@ -370,7 +350,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(true);
         cmDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        saveDocumentWithoutValidation(cmDoc);
+        purapService.saveDocumentNoValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(true);
@@ -408,7 +388,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(false);
         cmDoc.setLastActionPerformedByPersonId(null);
-        saveDocumentWithoutValidation(cmDoc);
+        purapService.saveDocumentNoValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(false);
@@ -463,7 +443,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         if (StringUtils.isNotBlank(cancelledStatusCode)) {
             purapService.updateStatus(cmDoc, cancelledStatusCode);
-            saveDocumentWithoutValidation(cmDoc);
+            purapService.saveDocumentNoValidation(cmDoc);
             return cancelledStatusCode;
         }
         else {
@@ -518,7 +498,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-        saveDocumentWithoutValidation(cmDocument);
+        purapService.saveDocumentNoValidation(cmDocument);
 
         LOG.debug("resetExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("resetExtractedCreditMemo() ended");
@@ -612,7 +592,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         LOG.debug("markPaid() started");
 
         cm.setCreditMemoPaidTimestamp(new Timestamp(processDate.getTime()));
-        saveDocumentWithoutValidation(cm);
+        purapService.saveDocumentNoValidation(cm);
     }
 
     /**

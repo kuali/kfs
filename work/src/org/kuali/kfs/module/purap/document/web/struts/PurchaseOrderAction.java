@@ -1041,7 +1041,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
             vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             vendorQuote.setTransmitPrintDisplayed(true);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(po);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         }
         else if (PurapConstants.QuoteTransmitTypes.FAX.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
             // call fax service
@@ -1050,7 +1050,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             faxService.faxPurchaseOrderPdf(po, false);
             if (GlobalVariables.getErrorMap().size() == 0) {
                 vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-                SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(po);
+                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
             }
         }
         else {
@@ -1447,7 +1447,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); // add 10 days - TODO: make this a parameter!!!
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
-        SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(document);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1616,7 +1616,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorFaxNumber(awardedQuote.getVendorFaxNumber());
 
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-                SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(document);
+                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             }
         }
 
@@ -1671,7 +1671,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-                SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(document);
+                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             }
         }
 

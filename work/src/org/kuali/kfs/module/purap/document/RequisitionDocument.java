@@ -274,7 +274,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     private void updateStatusAndSave(String statusCode) {
         SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
-        SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(this);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
 
     /**

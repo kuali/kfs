@@ -189,7 +189,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.CreditMemoStatuses.COMPLETE);
-                SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
 
                 return;
             }
@@ -274,7 +274,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */
     public void saveDocumentFromPostProcessing() {
-        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
 
     /**

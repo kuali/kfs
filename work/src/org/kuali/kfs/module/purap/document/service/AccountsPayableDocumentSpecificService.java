@@ -24,13 +24,6 @@ import org.kuali.rice.kim.bo.Person;
  */
 public interface AccountsPayableDocumentSpecificService {
     
-    /**
-     * Saves the given document without validation.
-     * 
-     * @param apDoc     An AccountsPayableDocument
-     */
-    public void saveDocumentWithoutValidation(AccountsPayableDocument apDoc);
-    
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc);
 
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc);

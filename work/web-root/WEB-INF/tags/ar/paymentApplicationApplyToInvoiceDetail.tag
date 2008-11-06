@@ -235,62 +235,76 @@
 														</tr>
 														<logic:iterate id="customerInvoiceDetail" name="KualiForm"
 															property="customerInvoiceDetails" indexId="ctr">
+															<c:set var="isDiscount" value="${customerInvoiceDetail.amount < 0}" />
 															<html:hidden
 																property="customerInvoiceDetail[${ctr}].documentNumber" />
 															<html:hidden
 																property="customerInvoiceDetail[${ctr}].invoiceItemDescription" />
 															<html:hidden
 																property="customerInvoiceDetail[${ctr}].appliedAmount" />
-															<tr>
-																<td>
-																	<kul:htmlControlAttribute
-																		attributeEntry="${customerInvoiceDetailAttributes.sequenceNumber}"
-																		property="customerInvoiceDetail[${ctr}].sequenceNumber"
-																		readOnly="true" />
-																</td>
-																<td>
-																	<kul:htmlControlAttribute
-																		attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}"
-																		property="customerInvoiceDetail[${ctr}].chartOfAccountsCode"
-																		readOnly="true" />
-																</td>
-																<td>
-																	<kul:htmlControlAttribute
-																		attributeEntry="${customerInvoiceDetailAttributes.accountNumber}"
-																		property="customerInvoiceDetail[${ctr}].accountNumber"
-																		readOnly="true" />
-																</td>
-																<td>
-																	<kul:htmlControlAttribute
-																		attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
-																		property="customerInvoiceDetail[${ctr}].invoiceItemDescription"
-																		readOnly="true" />
-																</td>
-																<td style="text-align: right;">
-																	<kul:htmlControlAttribute
-																		attributeEntry="${customerInvoiceDetailAttributes.amount}"
-																		property="customerInvoiceDetail[${ctr}].amount"
-																		readOnly="true" />
-																</td>
-																<td style="text-align: right;">
-																	<kul:htmlControlAttribute
-																		attributeEntry="${customerInvoiceDetailAttributes.balance}"
-																		property="customerInvoiceDetail[${ctr}].balance"
-																		readOnly="true" />
-																</td>
-																<td style="text-align: right;">
-																	<kul:htmlControlAttribute
-																		styleClass="amount"
-																		attributeEntry="${customerInvoiceDetailAttributes.amountToBeApplied}"
-																		property="customerInvoiceDetail[${ctr}].amountToBeApplied" />
-																</td>
-																<td>
-																	<center>
-																		<input type='checkbox' title="Apply Full Amount" name="fullApply"
-																			value="${customerInvoiceDetail.sequenceNumber}">
-																	</center>
-																</td>
-															</tr>
+															<c:choose>
+																<c:when test="${isDiscount}">
+																	<html:hidden property="customerInvoiceDetail[${ctr}].sequenceNumber" />
+																	<html:hidden property="customerInvoiceDetail[${ctr}].chartOfAccountsCode" />
+																	<html:hidden property="customerInvoiceDetail[${ctr}].accountNumber" />
+																	<html:hidden property="customerInvoiceDetail[${ctr}].invoiceItemDescription" />
+																	<html:hidden property="customerInvoiceDetail[${ctr}].amount" />
+																	<html:hidden property="customerInvoiceDetail[${ctr}].balance" />
+																	<html:hidden property="customerInvoiceDetail[${ctr}].amountToBeApplied" />
+																</c:when>
+																<c:otherwise>
+																	<tr>
+																		<td>
+																			<kul:htmlControlAttribute
+																				attributeEntry="${customerInvoiceDetailAttributes.sequenceNumber}"
+																				property="customerInvoiceDetail[${ctr}].sequenceNumber"
+																				readOnly="true" />
+																		</td>
+																		<td>
+																			<kul:htmlControlAttribute
+																				attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}"
+																				property="customerInvoiceDetail[${ctr}].chartOfAccountsCode"
+																				readOnly="true" />
+																		</td>
+																		<td>
+																			<kul:htmlControlAttribute
+																				attributeEntry="${customerInvoiceDetailAttributes.accountNumber}"
+																				property="customerInvoiceDetail[${ctr}].accountNumber"
+																				readOnly="true" />
+																		</td>
+																		<td>
+																			<kul:htmlControlAttribute
+																				attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
+																				property="customerInvoiceDetail[${ctr}].invoiceItemDescription"
+																				readOnly="true" />
+																		</td>
+																		<td style="text-align: right;">
+																			<kul:htmlControlAttribute
+																				attributeEntry="${customerInvoiceDetailAttributes.amount}"
+																				property="customerInvoiceDetail[${ctr}].amount"
+																				readOnly="true" />
+																		</td>
+																		<td style="text-align: right;">
+																			<kul:htmlControlAttribute
+																				attributeEntry="${customerInvoiceDetailAttributes.balance}"
+																				property="customerInvoiceDetail[${ctr}].balance"
+																				readOnly="true" />
+																		</td>
+																		<td style="text-align: right;">
+																			<kul:htmlControlAttribute
+																				styleClass="amount"
+																				attributeEntry="${customerInvoiceDetailAttributes.amountToBeApplied}"
+																				property="customerInvoiceDetail[${ctr}].amountToBeApplied" />
+																		</td>
+																		<td>
+																			<center>
+																				<input type='checkbox' title="Apply Full Amount" name="fullApply"
+																					value="${customerInvoiceDetail.sequenceNumber}">
+																			</center>
+																		</td>
+																	</tr>
+																</c:otherwise>
+															</c:choose>
 														</logic:iterate>
 													</table>
 												</td>

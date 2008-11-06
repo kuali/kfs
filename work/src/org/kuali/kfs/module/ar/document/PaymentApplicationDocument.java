@@ -429,6 +429,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_1.setAccountNumber(clearingAccount.getAccountNumber());
             debitGLPE_1.setChartOfAccountsCode(clearingAccount.getChartOfAccountsCode());
             debitGLPE_1.setFinancialObjectCode(unappliedCashObjectCode.getFinancialObjectCode());
+            debitGLPE_1.setFinancialObjectTypeCode(unappliedCashObjectCode.getFinancialObjectTypeCode());
             debitGLPE_1.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
             debitGLPE_1.setFinancialDocumentTypeCode(documentTypeCode);
             debitGLPE_1.setUniversityFiscalYear(getPostingYear());
@@ -442,6 +443,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             creditGLPE_1.setAccountNumber(clearingAccount.getAccountNumber());
             creditGLPE_1.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
+            creditGLPE_1.setFinancialObjectTypeCode(cashObjectCode.getFinancialObjectTypeCode());
+            creditGLPE_1.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
+            creditGLPE_1.setFinancialDocumentTypeCode(documentTypeCode);
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
             entries.add(creditGLPE_1);
             sequenceHelper.increment();
@@ -452,6 +456,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
             debitGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
             debitGLPE_2.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
+            debitGLPE_2.setFinancialObjectTypeCode(cashObjectCode.getFinancialObjectTypeCode());
             debitGLPE_2.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
             debitGLPE_2.setFinancialDocumentTypeCode(documentTypeCode);
             debitGLPE_2.setDocumentType(documentType);
@@ -465,7 +470,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
             creditGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
             creditGLPE_2.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
+            creditGLPE_2.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
             creditGLPE_2.setUniversityFiscalYear(getPostingYear());
+            creditGLPE_2.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
+            creditGLPE_2.setFinancialDocumentTypeCode(documentTypeCode);
             creditGLPE_2.refreshNonUpdateableReferences();
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_2, sequenceHelper, creditGLPE_2);
             entries.add(creditGLPE_2);
@@ -522,10 +530,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             for(InvoicePaidApplied ipa : getInvoicePaidApplieds()) {
                 String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
-                CustomerInvoiceDocumentService invoices =
+                CustomerInvoiceDocumentService invoiceService =
                     SpringContext.getBean(CustomerInvoiceDocumentService.class);
                 CustomerInvoiceDocument invoice = 
-                    invoices.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+                    invoiceService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
                 // KULAR-384
                 invoice.setClosedDate(today);
                 invoice.setOpenInvoiceIndicator(false);

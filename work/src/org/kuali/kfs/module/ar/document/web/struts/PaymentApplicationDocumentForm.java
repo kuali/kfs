@@ -132,7 +132,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public List<CustomerInvoiceDetail> getCustomerInvoiceDetails() {
         return customerInvoiceDetails;
     }
-
+    
     public Collection<CustomerInvoiceDocument> getInvoices() {
         return invoices;
     }
@@ -160,7 +160,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public void setCustomerInvoiceDetails(ArrayList<CustomerInvoiceDetail> customerInvoiceDetails) {
         this.customerInvoiceDetails = customerInvoiceDetails;
     }
-
 
     /**
      * This method retrieves a specific customer invoice detail from the list, by array index

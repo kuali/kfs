@@ -92,11 +92,12 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
         ObjLevel objLevel = new ObjLevel();
         objLevel.setFinancialObjectLevelCode(levelCode);
         objectCode.setFinancialObjectLevel(objLevel);
+        objectCode.setFinancialObjectLevelCode(levelCode);
         return objectCode;
     }
     
     /**
-     * Tests that the rule will be failed if given a positive quantity, an extended price above the
+     * Tests that the rule will be failed if given an extended price above the
      * threshold for capital assets, and an object code whose level should be among those listed in 
      * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter.
      */  
@@ -108,7 +109,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     }
     
     /**
-     * Tests that the rule will be passed if given a positive quantity, an extended price above the
+     * Tests that the rule will be passed if given an extended price above the
      * threshold for capital assets, but an object code whose level should not be among those listed in 
      * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, but should indicate a definite capital asset.
      */
@@ -121,7 +122,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     }
     
     /**
-     * Tests that the rule will be passed if given a positive quantity, an extended price above the
+     * Tests that the rule will be passed if given an extended price above the
      * threshold for capital assets, but an object code whose level should not be among those listed in 
      * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, but should indicate an expense.
      */
@@ -131,49 +132,11 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
         BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "DEBT");      
         assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
-    }
+    }    
+
     
     /**
-     * Tests that the rule will be passed if given a null quantity, an extended price above the
-     * threshold for capital assets, but an object code whose level should be among those listed in 
-     * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, due to the null quantity.
-     */
-    public void testValidateLevelCapitalAssetIndication_NullQuantity() {
-        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NULL_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
-        KualiDecimal itemQuantity = fixture.getQuantity();
-        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
-        ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");      
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
-    }
- 
-    /**
-     * Tests that the rule will be passed if given a negative quantity, an extended price above the
-     * threshold for capital assets, but an object code whose level should be among those listed in 
-     * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, due to the negative quantity.
-     */
-    public void testValidateLevelCapitalAssetIndication_NegativeQuantity() {
-        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NEGATIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
-        KualiDecimal itemQuantity = fixture.getQuantity();
-        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
-        ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");    
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
-    }
-    
-    /**
-     * Tests that the rule will be passed if given a zero quantity, an extended price above the
-     * threshold for capital assets, but an object code whose level should be among those listed in 
-     * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, due to the zero quantity.
-     */
-    public void testValidateLevelCapitalAssetIndication_ZeroQuantity() {
-        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ZERO_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
-        KualiDecimal itemQuantity = fixture.getQuantity();
-        BigDecimal itemUnitPrice = fixture.getItemUnitPrice();
-        ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");     
-        assertTrue(cabModuleService.validateLevelCapitalAssetIndication(itemUnitPrice, objectCode, "1"));
-    }
-    
-    /**
-     * Tests that the rule will be passed if given a null quantity, an extended price below the
+     * Tests that the rule will be passed if given a an extended price below the
      * threshold for capital assets, but an object code whose level should be among those listed in 
      * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, due to the lower price.
      */

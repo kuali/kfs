@@ -1040,9 +1040,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
         String vendorName = document.getVendorName();
-        CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
-        if(system != null) {
-            system.setCapitalAssetManufacturerName(vendorName);
+        if (StringUtils.isEmpty(vendorName)) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
+        } else {
+            CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
+            if(system != null) {
+                system.setCapitalAssetManufacturerName(vendorName);
+            }
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1053,12 +1057,15 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
         String vendorName = document.getVendorName();
-        PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
-        CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
-        if(system != null) {
-            system.setCapitalAssetManufacturerName(vendorName);
-        }
-        
+        if (StringUtils.isEmpty(vendorName)) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
+        } else {
+            PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
+            CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+            if(system != null) {
+                system.setCapitalAssetManufacturerName(vendorName);
+            }
+        }        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

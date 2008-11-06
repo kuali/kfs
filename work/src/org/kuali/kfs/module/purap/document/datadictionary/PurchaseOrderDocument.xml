@@ -41,6 +41,10 @@
     			<key><value>source</value></key>
 	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
 	    	</entry>
+	        <entry>
+    			<key><value>distributeSource</value></key>
+	    		<ref bean="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
     	</map>
     </property>
     <property name="attributes" >
@@ -1242,36 +1246,105 @@
     </property>
   </bean>
   
-    <!-- accounting line groups -->
-  <bean id="PurchaseOrderDocument-sourceAccountingLineGroup" parent="PurchaseOrderDocument-sourceAccountingLineGroup-parentBean" />  
-  <bean id="PurchaseOrderDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="PurchaseOrderDocument-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="Source" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
-  </bean>
+  
+    <!-- Purchase Order accountingInformation -->
+    <bean id="purchaseOrderAccountingInformation" parent="purchaseOrderAccountingInformation-parent" />
 
-  <bean id="PurchaseOrderDocument-accountingLineView" parent="PurchaseOrderDocument-accountingLineView-parent" />
-
-  <bean id="PurchaseOrderDocument-accountingLineView-parent"
-		parent="AccountingLineView" abstract="true">
-		<property name="elements">
+	<bean id="purchaseOrderAccountingInformation-parent" parent="AccountingLineView-line" abstract="true">
+		<property name="elementName" value="purchaseOrderAccountingInformation" />
+		<property name="fields">
 			<list>
-				<bean parent="AccountingLineView-lines">
-					<property name="lines">
+				<bean parent="AccountingLineView-field"
+					p:name="chartOfAccountsCode" p:required="true"
+					p:webUILeaveFieldFunction="loadChartInfo"
+					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="accountNumber" p:required="true"
+					p:webUILeaveFieldFunction="loadAccountInfo"
+					p:dynamicLabelProperty="account.accountName">
+					<property name="overrideFields">
 						<list>
-							<ref bean="accountingInformation" />
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="accountExpiredOverride" />
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="nonFringeAccountOverride" />
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="accountLinePercent"
-					p:required="true" 
-					p:useShortLabel="true" />
-				<bean parent="AccountingLineView-actions" />
+				<bean parent="AccountingLineView-field"
+					p:name="subAccountNumber"
+					p:webUILeaveFieldFunction="loadSubAccountInfo"
+					p:dynamicLabelProperty="subAccount.subAccountName"  />
+				<bean parent="AccountingLineView-field"
+					p:name="financialObjectCode" p:required="true"
+					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator"
+					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurchaseOrderAccountingLineViewField">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="objectBudgetOverride" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="financialSubObjectCode"
+					p:webUILeaveFieldFunction="loadSubObjectInfo"
+					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" 
+					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurchaseOrderAccountingLineViewField"/>
+				<bean parent="AccountingLineView-field"
+					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
+					p:dynamicLabelProperty="project.projectDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="organizationReferenceId" />
 			</list>
 		</property>
-  </bean>
+	</bean>  
+	
+    <!-- accounting line groups -->
+    <bean id="PurchaseOrderDocument-sourceAccountingLineGroup" parent="PurchaseOrderDocument-sourceAccountingLineGroup-parentBean" />  
+    <bean id="PurchaseOrderDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	    <property name="accountingLineView" ref="PurchaseOrderDocument-accountingLineView" />
+	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+    	<property name="groupLabel" value="Source" />
+	    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
+	    <property name="importedLinePropertyPrefix" value="source" />
+	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+	    <property name="importingAllowed" value="false" /> 
+    </bean>
+
+    <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean" />  
+    <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	    <property name="accountingLineView" ref="PurchaseOrderDocument-accountingLineView" />
+	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+    	<property name="groupLabel" value="Source" />
+        <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
+	    <property name="importedLinePropertyPrefix" value="source" />	  
+	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+	    <property name="importingAllowed" value="true" /> 
+    </bean>
+  
+    <bean id="PurchaseOrderDocument-accountingLineView" parent="PurchaseOrderDocument-accountingLineView-parent" />
+
+    <bean id="PurchaseOrderDocument-accountingLineView-parent"
+	      parent="AccountingLineView" abstract="true">
+		  <property name="elements">
+			  <list>
+				  <bean parent="AccountingLineView-lines">
+					  <property name="lines">
+						  <list>
+							  <ref bean="purchaseOrderAccountingInformation" />
+    					  </list>
+					  </property>
+				  </bean>
+				  <bean parent="AccountingLineView-field" p:name="accountLinePercent"
+					  p:required="true" 
+					  p:useShortLabel="true" />
+				  <bean parent="AccountingLineView-actions" />
+			  </list>
+		  </property>
+    </bean>
   
 </beans>

@@ -237,8 +237,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                                 location = capitalAssetItem.getPurchasingCapitalAssetSystem().getNewPurchasingCapitalAssetLocationLine();
                             } else {
                                 // no item number
-                                CapitalAssetSystem capitalAssetSystem = document.getPurchasingCapitalAssetSystems().get(0);
-                                location = capitalAssetSystem.getNewPurchasingCapitalAssetLocationLine();
+                                location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
                             }
                             break;
                         } else if(StringUtils.containsIgnoreCase(parameterKey, "purchasingCapitalAssetLocationLine")) {

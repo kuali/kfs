@@ -970,6 +970,12 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         } else {
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
+            if(!document.getPurchasingCapitalAssetItems().isEmpty()) { 
+                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
+            } else {
+                //TODO: extract this and above strings to app resources
+                GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_CUSTOM,"No items were found that met the requirements for Capital Asset data collection");
+            }
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
         }
         

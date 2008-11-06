@@ -726,9 +726,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //no need for error
         return true;
     }
-    //TODO: Chris - rename this method
+    
     public boolean validateLevelCapitalAssetIndication(BigDecimal unitPrice, ObjectCode objectCode, String itemIdentifier) {
-        //TODO: check quantity based here when I add the itemType only give warning if at least one is quantity based and meets criteria
         
         String capitalAssetPriceThresholdParam = this.getParameterService().getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITALIZATION_LIMIT_AMOUNT);
         BigDecimal priceThreshold = null;

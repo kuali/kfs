@@ -1039,18 +1039,18 @@ public class PurapConstants extends JSTLConstants {
         }
         private static HashSet<String> getPurchaseOrderStatusCAMSWarnings() {
             HashSet<String> statuses = new HashSet<String>();
-            statuses.add(RequisitionStatuses.IN_PROCESS);
-            statuses.add(RequisitionStatuses.AWAIT_CONTENT_REVIEW);
+            statuses.add(PurchaseOrderStatuses.IN_PROCESS);
+            statuses.add(PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW);
             return statuses;
         }
         private static HashSet<String> getPaymentRequestStatusCAMSWarnings() {
             HashSet<String> statuses = new HashSet<String>();
-            statuses.add(RequisitionStatuses.IN_PROCESS);
+            statuses.add(PaymentRequestStatuses.IN_PROCESS);
             return statuses;
         }
         private static HashSet<String> getCreditMemoStatusCAMSWarnings() {
             HashSet<String> statuses = new HashSet<String>();
-            statuses.add(RequisitionStatuses.IN_PROCESS);
+            statuses.add(CreditMemoStatuses.IN_PROCESS);
             return statuses;
         }
     }

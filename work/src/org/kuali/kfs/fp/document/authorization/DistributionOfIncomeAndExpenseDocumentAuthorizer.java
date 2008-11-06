@@ -35,10 +35,10 @@ public class DistributionOfIncomeAndExpenseDocumentAuthorizer extends Accounting
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
+    public Map getEditMode(Document document, Person user) {
         DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) document;
         
-        Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
+        Map editModeMap = super.getEditMode(document, user);
         
         List<ElectronicPaymentClaim> epcs = diDoc.getElectronicPaymentClaims();
 

@@ -70,10 +70,10 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
     private List<AccountingLineTableTransformation> postTablificationTransformations;
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#performPreTablificationTransformations(java.util.List, org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.List)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#performPreTablificationTransformations(java.util.List, org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition, org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, java.util.Map, java.lang.String)
      */
-    public void performPreTablificationTransformations(List<TableJoining> elements, AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Map unconvertedValues) {
-        performAuthorizationTransformations(elements, groupDefinition, accountingDocument, accountingLine, newLine);
+    public void performPreTablificationTransformations(List<TableJoining> elements, AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Map unconvertedValues, String accountingLinePropertyName) {
+        performAuthorizationTransformations(elements, groupDefinition, accountingDocument, accountingLine, newLine, accountingLinePropertyName);
         performFieldTransformations(elements, accountingDocument, accountingLine, unconvertedValues);
         for (AccountingLineRenderingTransformation transformation : preTablificationTransformations) {
             transformation.transformElements(elements, accountingLine);
@@ -98,8 +98,8 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @param accountingLine the accounting line we're rendering
      * @param newLine true if the accounting line is not yet on the form yet, false otherwise
      */
-    protected void performAuthorizationTransformations(List<TableJoining> elements, AccountingLineGroupDefinition accountingLineGroupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine) {
-        accountingLineAuthorizationTransformer.transformElements(elements, accountingLine, accountingDocument, accountingLineGroupDefinition.getAccountingLineAuthorizer(), getDocumentAuthorizer(accountingDocument), newLine);
+    protected void performAuthorizationTransformations(List<TableJoining> elements, AccountingLineGroupDefinition accountingLineGroupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, String accountingLinePropertyName) {
+        accountingLineAuthorizationTransformer.transformElements(elements, accountingLine, accountingDocument, accountingLineGroupDefinition.getAccountingLineAuthorizer(), getDocumentAuthorizer(accountingDocument), newLine, accountingLinePropertyName);
     }
     
     /**
@@ -124,7 +124,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
     public Map getEditModes(AccountingDocument document) {
         AccountingDocumentAuthorizer documentAuthorizer = getDocumentAuthorizer(document);
         Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson());
-        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson(), document.getSourceAccountingLines(), document.getTargetAccountingLines()));
+        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson()));
         return editModes;
     }
  

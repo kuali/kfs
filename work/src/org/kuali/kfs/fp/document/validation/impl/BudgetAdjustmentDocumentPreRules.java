@@ -76,7 +76,7 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(BudgetAdjustmentDocument.class);
         BudgetAdjustmentDocumentAuthorizer budgetAdjustmentDocumentAuthorizer = (BudgetAdjustmentDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(documentTypeName);
         Person person = GlobalVariables.getUserSession().getPerson();
-        Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, person, budgetDocument.getSourceAccountingLines(), budgetDocument.getTargetAccountingLines());
+        Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, person);
 
         if (map.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && hasLaborObjectCodes) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);

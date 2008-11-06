@@ -189,8 +189,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
             return AuthorizationConstants.EditMode.FULL_ENTRY;
         }
         
-        boolean isAccountingLineEditable = this.isAccountingLineEditable(accountingDocument, accountingLine, currentUser);        
-        return isAccountingLineEditable ? AuthorizationConstants.EditMode.FULL_ENTRY : AuthorizationConstants.EditMode.VIEW_ONLY;
+        final boolean isAccountingLineEditable = this.isAccountingLineEditable(accountingDocument, accountingLine, currentUser);        
+        return editModesForDocument.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY) || !isAccountingLineEditable ? AuthorizationConstants.EditMode.VIEW_ONLY : AuthorizationConstants.EditMode.FULL_ENTRY;
     }
 
     /**

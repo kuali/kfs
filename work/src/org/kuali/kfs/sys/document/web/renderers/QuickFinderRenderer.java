@@ -87,7 +87,7 @@ public class QuickFinderRenderer extends FieldRendererBase {
         quickFinderHtml.append("\" ");
         
         quickFinderHtml.append("title=\"Search ");
-        quickFinderHtml.append(this.getAccessibleTitle());
+        quickFinderHtml.append(getAccessibleTitle());
         quickFinderHtml.append("\" ");
         
         if (tabIndex > -1) {

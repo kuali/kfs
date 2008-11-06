@@ -196,6 +196,8 @@ public class ReadOnlyRenderer extends FieldRendererBase {
             value = getValueForDropDown();
         }
         else if (getField().isSecure()) {
+            // TODO um...what if you're in the workgroup that gets to see this field?
+            // well, james, it's a KIM perm anyway
             value = getField().getDisplayMaskValue();
         }
         

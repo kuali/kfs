@@ -34,7 +34,8 @@ public interface AccountingLineAuthorizationTransformer {
      * @param lineAuthorizer the authorizer for the accounting line
      * @param documentAuthorizer the authorizer for the document
      * @param newLine is this line a new line or a line already on a document?
+     * @param accountingLinePropertyName the property path to this accounting line
      */
-    public abstract void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, AccountingDocumentAuthorizer documentAuthorizer, boolean newLine);
+    public abstract void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, AccountingDocumentAuthorizer documentAuthorizer, boolean newLine, String accountingLinePropertyName);
 
 }

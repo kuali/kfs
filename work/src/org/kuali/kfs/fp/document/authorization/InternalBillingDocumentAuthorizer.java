@@ -28,7 +28,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     @Override
-    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document document, Person user) {
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

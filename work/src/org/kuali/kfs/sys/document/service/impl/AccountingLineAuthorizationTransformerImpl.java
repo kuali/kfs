@@ -44,17 +44,19 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
      * @param lineAuthorizer the authorizer for the accounting line
      * @param documentAuthorizer the authorizer for the document
      * @param newLine is this line a new line or a line already on a document?
+     * 
      */
-    public void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, AccountingDocumentAuthorizer documentAuthorizer, boolean newLine) {
+    public void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, AccountingDocumentAuthorizer documentAuthorizer, boolean newLine, String accountingLinePropertyName) {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
         removeUnviewableBlocks(elements, lineAuthorizer.getUnviewableBlocks(document, accountingLine, newLine, currentUser));
         
-        Map editModesForDocument = documentAuthorizer.getEditMode(document, currentUser);
-        String editMode = lineAuthorizer.getEditModeForAccountingLine(document, accountingLine, newLine, currentUser, editModesForDocument);
+        final Map editModesForDocument = documentAuthorizer.getEditMode(document, currentUser);
+        final String editMode = lineAuthorizer.getEditModeForAccountingLine(document, accountingLine, newLine, currentUser, editModesForDocument);
+        final boolean lineInError = isLineInError(document, accountingLine, accountingLinePropertyName); // never readonlyize a line which has an error associated with it
         
-        if (!AuthorizationConstants.EditMode.FULL_ENTRY.equals(editMode)) {
+        if (!AuthorizationConstants.EditMode.FULL_ENTRY.equals(editMode) && !lineInError) {
             readOnlyizeAllBlocks(elements);
-            this.setEditableBlocks(elements, lineAuthorizer.getEditableBlocksInReadOnlyLine(document, accountingLine, currentUser));
+            setEditableBlocks(elements, lineAuthorizer.getEditableBlocksInReadOnlyLine(document, accountingLine, currentUser));
         } else {
             readOnlyizeReadOnlyBlocks(elements, lineAuthorizer.getReadOnlyBlocks(document, accountingLine, newLine, currentUser));
         }
@@ -115,6 +117,17 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
                 ((ReadOnlyable)element).readOnlyize();
             }
         }
+    }
+    
+    /**
+     * Determines whether the given line is in error
+     * @param document the accounting document the line will eventually live on if it isn't already
+     * @param line the accounting line itself
+     * @param accountingLinePropertyName the property prefix for all fields within the accounting line
+     * @return true if the accounting line has errors associated with it, false otherwise
+     */
+    protected boolean isLineInError(AccountingDocument document, AccountingLine line, String accountingLinePropertyName) {
+        return GlobalVariables.getErrorMap().containsKeyMatchingPattern(accountingLinePropertyName+"*");
     }
 }
 

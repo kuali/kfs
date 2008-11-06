@@ -52,8 +52,9 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
-        Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
+    @Override
+    public Map getEditMode(Document document, Person user) {
+        Map editModeMap = super.getEditMode(document, user);
         if (SpringContext.getBean(FiscalYearFunctionControlService.class).isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) document).getPostingYear())) {
             editModeMap.put(KfsAuthorizationConstants.BudgetAdjustmentEditMode.BASE_AMT_ENTRY, "TRUE");
         }

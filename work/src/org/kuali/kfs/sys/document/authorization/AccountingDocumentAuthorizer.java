@@ -28,27 +28,6 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer
  * Extension to TransactionalDocumentAuthorizer interface which adds financial-document-specific methods.
  */
 public interface AccountingDocumentAuthorizer extends TransactionalDocumentAuthorizer {
-    /**
-     * @param document
-     * @param user
-     * @return Map with field names as keys that are allowed to be edited in special edit modes.
-     */
-    public Map getAccountingLineEditableFields(Document document, Person user);
-
-    /**
-     * Variant version of getEditMode which uses passed-in sourceAccountingLines and targetAccountingLines instead of getting them
-     * out of the given Document, since the Document may (when this gets called from KualiDocumentActionBase) contain invalid
-     * accountingLines whose invalidity will prevent the editMode from being calculated correctly.
-     * 
-     * @param document
-     * @param user
-     * @param sourceAccountingLines
-     * @param targetAccountingLines
-     * @return Map with keys AuthorizationConstants.EditMode value (String) which indicates what operations the user is currently
-     *         allowed to take on that document.
-     */
-    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines);
-
 
     /**
      * Initially wanted to use a Set, but JSTL doesn't seem to allow me to navigate Sets as easily as Maps. Initially used Account

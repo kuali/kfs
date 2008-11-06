@@ -48,16 +48,6 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     private static Log LOG = LogFactory.getLog(AccountingDocumentAuthorizerBase.class);
 
     protected PersonService personService;
-    
-    
-    /**
-     * @see org.kuali.rice.kns.authorization.FinancialDocumentAuthorizer#getAccountingLineEditableFields(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    public Map getAccountingLineEditableFields(Document document, Person user) {
-        return new HashMap();
-    }
-
 
     /**
      * The Kuali user interface code automatically reconstructs a complete document from a form's contents when a form is submitted,
@@ -76,7 +66,8 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kim.bo.Person, java.util.List, java.util.List)
      */
-    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
+    @Override
+    public Map getEditMode(Document document, Person user) {
         Person financialSystemUser = user;
 
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
@@ -101,8 +92,8 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
             }
             else if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) {
                 List lineList = new ArrayList();
-                lineList.addAll(sourceAccountingLines);
-                lineList.addAll(targetAccountingLines);
+                lineList.addAll(((AccountingDocument)document).getSourceAccountingLines());
+                lineList.addAll(((AccountingDocument)document).getTargetAccountingLines());
 
                 if (workflowDocument.isApprovalRequested() && userOwnsAnyAccountingLine(financialSystemUser, lineList)) {
                     editMode = KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;

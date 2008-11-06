@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.service.impl;
 import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;

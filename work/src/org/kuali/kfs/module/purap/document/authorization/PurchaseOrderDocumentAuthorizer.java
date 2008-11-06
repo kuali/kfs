@@ -77,7 +77,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
      *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Map getEditMode(Document d, Person user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document d, Person user) {
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 

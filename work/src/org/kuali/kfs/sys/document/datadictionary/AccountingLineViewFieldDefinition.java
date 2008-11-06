@@ -43,6 +43,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     private List<AccountingLineViewOverrideFieldDefinition> overrideFields;
     private String dynamicNameLabelGeneratorBeanName;
     private int overrideColSpan = -1;
+    private Class<? extends AccountingLineViewField> accountingLineViewFieldClass = org.kuali.kfs.sys.document.web.AccountingLineViewField.class;
     
     private DynamicNameLabelGenerator dynamicNameLabelGenerator;
 
@@ -143,6 +144,24 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     }
 
     /**
+     * Gets the accountingLineViewFieldClass attribute. 
+     * @return Returns the accountingLineViewFieldClass.
+     */
+    public Class<? extends AccountingLineViewField> getAccountingLineViewFieldClass() {
+        return accountingLineViewFieldClass;
+    }
+
+    /**
+     * Sets the accountingLineViewFieldClass attribute value.
+     * @param accountingLineViewFieldClass The accountingLineViewFieldClass to set.
+     */
+    public void setAccountingLineViewFieldClass(Class<? extends AccountingLineViewField> accountingLineViewFieldClass) {
+        if (accountingLineViewFieldClass != null) {
+            this.accountingLineViewFieldClass = accountingLineViewFieldClass;
+        }
+    }
+
+    /**
      * Returns the dynamicNameLabelGenerator for this field definition, if it has one
      * @return an implementation of DynamicNameLabelGenerator to use for this field
      */
@@ -158,10 +177,28 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
      * @see org.kuali.kfs.sys.document.datadictionary.AccountingLineViewRenderableElementDefinition#createLayoutElement()
      */
     public TableJoining createLayoutElement(Class<? extends AccountingLine> accountingLineClass) {
-        AccountingLineViewField layoutElement = new AccountingLineViewField();
+        AccountingLineViewField layoutElement = getNewAccountingLineViewField();
         layoutElement.setDefinition(this);
         layoutElement.setField(getKNSFieldForDefinition(accountingLineClass));
         layoutElement.setOverrideFields(getFieldsForOverrideFields(layoutElement, accountingLineClass));
+        return layoutElement;
+    }
+    
+    /**
+     * Creates a new instance of the accounting line view field class this definition uses
+     * @return a new AccountingLineViewField instance or child class instance
+     */
+    protected AccountingLineViewField getNewAccountingLineViewField() {
+        AccountingLineViewField layoutElement = null;
+        try {
+            layoutElement = (AccountingLineViewField)getAccountingLineViewFieldClass().newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Could not instantiate instance of class "+getAccountingLineViewFieldClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("IllegalAccessException while attempting to instantiate "+getAccountingLineViewFieldClass().getName(), iae);
+        }
         return layoutElement;
     }
     

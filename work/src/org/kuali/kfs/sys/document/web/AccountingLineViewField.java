@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document.web;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.renderers.DynamicNameLabelRenderer;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
-import org.kuali.kfs.sys.document.web.renderers.ReadOnlyRenderer;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -174,7 +173,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
         FieldRenderer renderer = SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getField(), accountingLine);
         if (renderer != null) {
-            prepareFieldRenderer(renderer, getField(), accountingLine, accountingLineProperty, fieldNames);
+            prepareFieldRenderer(renderer, getField(), renderingContext.getAccountingDocument(), accountingLine, accountingLineProperty, fieldNames);
             if (fieldInError(errors)) {
                 renderer.setShowError(true);
             }
@@ -213,10 +212,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param accountingLine the accounting line that is being rendered
      * @param fieldNames the list of all fields being displayed on this accounting line
      */
-    protected void populateFieldForLookupAndInquiry(AccountingLine accountingLine, List<String> fieldNames) {
+    protected void populateFieldForLookupAndInquiry(AccountingDocument accountingDocument, AccountingLine accountingLine, List<String> fieldNames) {
         if (!isHidden()) {
             LookupUtils.setFieldQuickfinder(accountingLine, getField().getPropertyName(), getField(), fieldNames);
-            if (isReadOnly()) {
+            if (isRenderingInquiry(accountingDocument, accountingLine)) {
                 FieldUtils.setInquiryURL(getField(), accountingLine, getField().getPropertyName());
             }
         }
@@ -240,11 +239,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param accountingLineProperty the property to get the accounting line from the form
      * @param fieldNames the names of all the fields that will be rendered as part of this accounting line
      */
-    protected void prepareFieldRenderer(FieldRenderer fieldRenderer, Field field, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) {
+    protected void prepareFieldRenderer(FieldRenderer fieldRenderer, Field field, AccountingDocument document, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) {
         fieldRenderer.setField(field);
         
         getField().setPropertyPrefix(accountingLineProperty);
-        populateFieldForLookupAndInquiry(accountingLine, fieldNames);
+        populateFieldForLookupAndInquiry(document, accountingLine, fieldNames);
         
         if (definition.getDynamicNameLabelGenerator() != null) {
             fieldRenderer.overrideOnBlur(definition.getDynamicNameLabelGenerator().getDynamicNameLabelOnBlur(accountingLine, accountingLineProperty));
@@ -467,5 +466,15 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         if (!isHidden()) {
             this.field.setReadOnly(false);
         }
+    }
+    
+    /**
+     * Determines whether to render the inquiry for this field
+     * @param document the document which the accounting line is part of or hopefully sometime will be part of
+     * @param line the accounting line being rendered
+     * @return true if inquiry links should be rendered, false otherwise
+     */
+    protected boolean isRenderingInquiry(AccountingDocument document, AccountingLine line) {
+        return isReadOnly();
     }
 }

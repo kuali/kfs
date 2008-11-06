@@ -63,8 +63,8 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
      *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
-        Map<String, String> editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
+    public Map getEditMode(Document document, Person user) {
+        Map<String, String> editModeMap = super.getEditMode(document, user);
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

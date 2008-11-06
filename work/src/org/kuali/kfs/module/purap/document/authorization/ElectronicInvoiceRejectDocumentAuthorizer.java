@@ -59,8 +59,8 @@ public class ElectronicInvoiceRejectDocumentAuthorizer extends AccountingDocumen
      *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
-        Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
+    public Map getEditMode(Document document, Person user) {
+        Map editModeMap = super.getEditMode(document, user);
         ElectronicInvoiceRejectDocument eirDoc = (ElectronicInvoiceRejectDocument) document;
 
 //        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preq);

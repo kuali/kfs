@@ -65,13 +65,9 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
+    public Map getEditMode(Document document, Person user) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         List activeNodes = getCurrentRouteLevels(workflowDocument);
-
-        List lineList = new ArrayList();
-        lineList.addAll(sourceLines);
-        lineList.addAll(targetLines);
 
         Map editModeMap = new HashMap();
         // FULL_ENTRY only if: a) person has an approval request, b) we are at the correct level, c) it's not a correction
@@ -80,7 +76,7 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
             editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY, "TRUE");
         }
         else {
-            editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
+            editModeMap = super.getEditMode(document, user);
         }
 
         return editModeMap;

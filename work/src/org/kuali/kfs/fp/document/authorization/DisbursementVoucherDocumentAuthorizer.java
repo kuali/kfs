@@ -69,10 +69,10 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
+    public Map getEditMode(Document document, Person user) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
+        Map editModeMap = super.getEditMode(document, user);
         
         DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) document;
         
@@ -185,35 +185,6 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
             adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
         return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getAccountingLineEditableFields(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public Map getAccountingLineEditableFields(Document document, Person user) {
-        Map editableFields = new HashMap();
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        // only check special expense edits if we are in special routing
-        if (!workflowDocument.stateIsEnroute() || !workflowDocument.isApprovalRequested() || !isSpecialRouting(document, user)) {
-            return editableFields;
-        }
-
-        if (isUserInDvAdminGroup(user) || isUserInTravelGroup(user)) {
-            // retrieve allow object code edit indicator
-            boolean allowObjectEdits = SpringContext.getBean(ParameterService.class).getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.ALLOW_OBJECT_CODE_EDITS);
-            if (allowObjectEdits) {
-                editableFields.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "TRUE");
-            }
-        }
-
-        if (isUserInTaxGroup(user) || isUserInFRNGroup(user) || isUserInWireGroup(user) || isUserInTravelGroup(user)) {
-            editableFields.put(KFSPropertyConstants.AMOUNT, "TRUE");
-        }
-
-        return editableFields;
     }
 
     /**

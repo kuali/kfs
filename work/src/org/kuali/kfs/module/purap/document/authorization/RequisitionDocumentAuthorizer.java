@@ -60,7 +60,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      org.kuali.rice.kim.bo.Person, java.util.List, java.util.List)
      */
     @Override
-    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document document, Person user) {
         Map editModeMap = super.getEditMode(document, user);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         RequisitionDocument reqDocument = (RequisitionDocument) document;

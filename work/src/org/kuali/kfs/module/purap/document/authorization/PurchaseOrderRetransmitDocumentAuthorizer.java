@@ -81,7 +81,7 @@ public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocu
      *      org.kuali.rice.kim.bo.Person, java.util.List, java.util.List)
      */
     @Override
-    public Map getEditMode(Document d, Person u, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document d, Person u) {
         Map editModeMap = new HashMap();
         String editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB;
         editModeMap.put(editMode, "TRUE");

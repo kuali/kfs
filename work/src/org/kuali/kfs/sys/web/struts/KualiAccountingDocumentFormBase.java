@@ -62,7 +62,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     private TargetAccountingLine newTargetLine;
 
     private Map editableAccounts;
-    private Map accountingLineEditableFields;
     private Map forcedLookupOptionalFields;
 
     // TODO: FormFile isn't Serializable, so mark these fields need as transient or create a Serializable subclass of FormFile
@@ -86,7 +85,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
         // create an empty editableAccounts map, for safety's sake
         editableAccounts = new HashMap();
-        accountingLineEditableFields = new HashMap();
         forcedReadOnlyFields         = new HashMap();
         forcedLookupOptionalFields   = new HashMap();
 
@@ -146,9 +144,8 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         AccountingDocument financialDocument = (AccountingDocument) getDocument();
         AccountingDocumentAuthorizer financialDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizer;
 
-        setEditingMode(financialDocumentAuthorizer.getEditMode(financialDocument, kualiUser, getBaselineSourceAccountingLines(), getBaselineTargetAccountingLines()));
+        setEditingMode(financialDocumentAuthorizer.getEditMode(financialDocument, kualiUser));
 
-        setAccountingLineEditableFields(financialDocumentAuthorizer.getAccountingLineEditableFields(financialDocument, kualiUser));
         setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
 
         setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), kualiUser));
@@ -320,21 +317,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     public void setEditableAccounts(Map editableAccounts) {
         this.editableAccounts = editableAccounts;
     }
-
-    /**
-     * @return Returns the editableFields.
-     */
-    public Map getAccountingLineEditableFields() {
-        return accountingLineEditableFields;
-    }
-
-    /**
-     * @param editableFields The editableFields to set.
-     */
-    public void setAccountingLineEditableFields(Map editableFields) {
-        this.accountingLineEditableFields = editableFields;
-    }
-
 
     /**
      * @return hideDetails attribute

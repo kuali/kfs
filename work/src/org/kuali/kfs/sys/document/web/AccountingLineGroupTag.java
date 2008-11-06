@@ -208,10 +208,10 @@ public class AccountingLineGroupTag extends TagSupport {
      * @param newLine true if the line is new and not added yet to the document, false otherwise
      * @return a List of AccountingLineTableRows to render
      */
-    protected List<AccountingLineTableRow> getRenderableElementsForLine(AccountingLineGroupDefinition groupDefinition, AccountingLine accountingLine, boolean newLine, boolean topLine) {
+    protected List<AccountingLineTableRow> getRenderableElementsForLine(AccountingLineGroupDefinition groupDefinition, AccountingLine accountingLine, boolean newLine, boolean topLine, String accountingLinePropertyName) {
         List<TableJoining> layoutElements = groupDefinition.getAccountingLineView().getAccountingLineLayoutElements(accountingLine.getClass());
         AccountingLineRenderingService renderingService = SpringContext.getBean(AccountingLineRenderingService.class);
-        renderingService.performPreTablificationTransformations(layoutElements, groupDefinition, getDocument(), accountingLine, newLine, getForm().getUnconvertedValues());
+        renderingService.performPreTablificationTransformations(layoutElements, groupDefinition, getDocument(), accountingLine, newLine, getForm().getUnconvertedValues(), accountingLinePropertyName);
         List<AccountingLineTableRow> renderableElements = renderingService.tablify(layoutElements);
         removeTopRowIfNecessary(groupDefinition, topLine, renderableElements);
         renderingService.performPostTablificationTransformations(renderableElements, groupDefinition, getDocument(), accountingLine, newLine);
@@ -291,7 +291,7 @@ public class AccountingLineGroupTag extends TagSupport {
     protected RenderableAccountingLineContainer buildContainerForLine(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser, Integer count, boolean topLine) {
         String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
         boolean newLine = (count == null);
-        List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine);
+        List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine, accountingLinePropertyName);
         List<AccountingLineViewAction> actions = groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (newLine ? -1 : count.intValue()), currentUser, getEditModes(), groupDefinition.getGroupLabel());
 
         return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, count, groupDefinition.getGroupLabel(), getErrors());

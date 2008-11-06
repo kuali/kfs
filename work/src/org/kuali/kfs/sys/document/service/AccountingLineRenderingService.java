@@ -51,8 +51,9 @@ public interface AccountingLineRenderingService {
      * @param accountingLine the line we're rendering
      * @param newLine true if what is being rendered is the new line in the form; false otherwise
      * @param unconvertedValues any unconverted values stored in the form
+     * @param accountingLinePropertyName the property path to this accounting line
      */
-    public abstract void performPreTablificationTransformations(List<TableJoining> elements, AccountingLineGroupDefinition groupDefinition, AccountingDocument document, AccountingLine accountingLine, boolean newLine, Map unconvertedValues);
+    public abstract void performPreTablificationTransformations(List<TableJoining> elements, AccountingLineGroupDefinition groupDefinition, AccountingDocument document, AccountingLine accountingLine, boolean newLine, Map unconvertedValues, String accountingLinePropertyName);
     
     /**
      * Performs any transformations that should happen after tablification

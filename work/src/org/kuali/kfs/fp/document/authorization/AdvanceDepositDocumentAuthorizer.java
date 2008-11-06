@@ -41,8 +41,7 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser, java.util.List, java.util.List)
      */
-    @Override
-    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document document, Person user) {
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

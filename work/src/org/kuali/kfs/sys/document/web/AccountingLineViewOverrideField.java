@@ -23,6 +23,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewOverrideFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.web.renderers.OverrideFieldRenderer;

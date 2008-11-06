@@ -423,11 +423,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         printingRetransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
         printingRetransmitButton.setExtraButtonAltText("PrintingRetransmit");
 
-        // Printing Retransmit button
+        // Printing Preview button
         ExtraButton printingPreviewButton = new ExtraButton();
-        printingRetransmitButton.setExtraButtonProperty("methodToCall.printingPreviewPo");
-        printingRetransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_previewpf.gif");
-        printingRetransmitButton.setExtraButtonAltText("PrintingPreview");
+        printingPreviewButton.setExtraButtonProperty("methodToCall.printingPreviewPo");
+        printingPreviewButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_previewpf.gif");
+        printingPreviewButton.setExtraButtonAltText("PrintingPreview");
         
         // Print button
         ExtraButton printButton = new ExtraButton();

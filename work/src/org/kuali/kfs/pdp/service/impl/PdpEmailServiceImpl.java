@@ -252,7 +252,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         MailMessage message = new MailMessage();
 
         message.setFromAddress(mailService.getBatchMailingList());
-        message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_THRESHOLD_EMAIL_SUBJECT_PARAMETER_NAME));
+        message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_TAX_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuffer body = new StringBuffer();
 

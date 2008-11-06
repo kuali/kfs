@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.math.BigDecimal;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -203,44 +204,85 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 // returning from a chart/org lookup on the document detail tab (update receiving address)
                 document.loadReceivingAddress();
             }
-            else if (request.getParameter("locationBuildingFromLookup") != null) {
-                // returning from a building lookup in a capital asset tab location (update location address)
-                PurchasingFormBase purchasingForm = (PurchasingFormBase)form;       
-                CapitalAssetLocation location = null;
-                                                              
-                if (document.getCapitalAssetSystemType().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+            else {
+                String buildingCodeParam = findBuildingCodeFromCapitalAssetBuildingLookup(request);
+                if (!StringUtils.isEmpty(buildingCodeParam)) {
+                    // returning from a building lookup in a capital asset tab location (update location address)
+                    PurchasingFormBase purchasingForm = (PurchasingFormBase)form;       
+                    CapitalAssetLocation location = null;
+                                                          
+                    // get building code
+                    String buildingCode = request.getParameterValues(buildingCodeParam)[0];
+                    // get campus code
+                    String campusCodeParam = buildingCodeParam.replace("buildingCode", "campusCode");
+                    String campusCode = request.getParameterValues(campusCodeParam)[0];
+                    // lookup building
+                    Building locationBuilding = new Building();
+                    locationBuilding.setCampusCode(campusCode);
+                    locationBuilding.setBuildingCode(buildingCode);
+                    Map<String,String> keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(locationBuilding);
+                    locationBuilding = (Building)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, keys);
+
                     Map<String,String> parameters = request.getParameterMap();
                     Set<String> parameterKeys = parameters.keySet();
+                    String locationCapitalAssetLocationNumber = "";
                     String locationCapitalAssetItemNumber = "";
                     for(String parameterKey : parameterKeys) {
-                        if(StringUtils.containsIgnoreCase(parameterKey, "locationCapitalAssetItemNumber")) {
-                            locationCapitalAssetItemNumber = StringUtils.substringAfter(parameterKey, "locationCapitalAssetItemNumber.");
+                        if(StringUtils.containsIgnoreCase(parameterKey, "newPurchasingCapitalAssetLocationLine")) {
+                            // its the new line
+                            if (document.getCapitalAssetSystemType().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                                // get the item number
+                                locationCapitalAssetItemNumber = getCaptialAssetItemNumberFromParameter(parameterKey); 
+                                PurchasingCapitalAssetItem capitalAssetItem = document.getPurchasingCapitalAssetItems().get(Integer.parseInt(locationCapitalAssetItemNumber));
+                                location = capitalAssetItem.getPurchasingCapitalAssetSystem().getNewPurchasingCapitalAssetLocationLine();
+                            } else {
+                                // no item number
+                                CapitalAssetSystem capitalAssetSystem = document.getPurchasingCapitalAssetSystems().get(0);
+                                location = capitalAssetSystem.getNewPurchasingCapitalAssetLocationLine();
+                            }
+                            break;
+                        } else if(StringUtils.containsIgnoreCase(parameterKey, "purchasingCapitalAssetLocationLine")) {
+                            // its one of the numbererd lines, lets
+                            locationCapitalAssetLocationNumber = getCaptialAssetLocationNumberFromParameter(parameterKey); 
+
+                            if (document.getCapitalAssetSystemType().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                                // get the item number
+                                locationCapitalAssetItemNumber = getCaptialAssetItemNumberFromParameter(parameterKey); 
+                                PurchasingCapitalAssetItem capitalAssetItem = document.getPurchasingCapitalAssetItems().get(Integer.parseInt(locationCapitalAssetItemNumber));
+                                location = capitalAssetItem.getPurchasingCapitalAssetSystem().getCapitalAssetLocations().get(Integer.parseInt(locationCapitalAssetLocationNumber));
+                            }
+                            break;
+                        } else if(StringUtils.containsIgnoreCase(parameterKey, "purchasingCapitalAssetSystems")) {
+                            // its one of the numbererd lines, lets
+                            locationCapitalAssetLocationNumber = getCaptialAssetLocationNumberFromParameter(parameterKey); 
+
+                            if (!document.getCapitalAssetSystemType().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                                CapitalAssetSystem capitalAssetSystem = document.getPurchasingCapitalAssetSystems().get(0);
+                                location = capitalAssetSystem.getCapitalAssetLocations().get(Integer.parseInt(locationCapitalAssetLocationNumber));
+                            }
                             break;
                         }
-                    }                   
-                    Integer capitalAssetItemNumber = new Integer(locationCapitalAssetItemNumber);
-                    PurchasingCapitalAssetItem capitalAssetItem = document.getPurchasingCapitalAssetItems().get(capitalAssetItemNumber);
-                    location = capitalAssetItem.getPurchasingCapitalAssetSystem().getNewPurchasingCapitalAssetLocationLine();
-                }
-                else {
-                    // Assuming for now that there is only one system in either the ONE or MULT case.
-                    CapitalAssetSystem capitalAssetSystem = document.getPurchasingCapitalAssetSystems().get(0);
-                    location = capitalAssetSystem.getNewPurchasingCapitalAssetLocationLine();
-				}
-                String campusCode = purchasingForm.getLocationCampusFromLookup();
-                String buildingCode = purchasingForm.getLocationBuildingFromLookup();
-                
-                Building locationBuilding = new Building();
-                locationBuilding.setCampusCode(campusCode);
-                locationBuilding.setBuildingCode(buildingCode);
-                Map<String,String> keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(locationBuilding);
-                locationBuilding = (Building)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, keys);
-                if((location != null) && (locationBuilding != null)) {
-                    location.templateBuilding(locationBuilding);
+                    }
+
+                    if((location != null) && (locationBuilding != null)) {
+                        location.templateBuilding(locationBuilding);
+                    }
                 }
             }
         }
         return super.refresh(mapping, form, request, response);
+    }
+
+    private String getCaptialAssetLocationNumberFromParameter(String parameterKey) {
+        int beginIndex = parameterKey.lastIndexOf("[") + 1;
+        int endIndex = parameterKey.lastIndexOf("]");
+        return parameterKey.substring(beginIndex, endIndex);
+    }
+
+    private String getCaptialAssetItemNumberFromParameter(String parameterKey) {
+        int beginIndex = parameterKey.indexOf("[") + 1;
+        int endIndex = parameterKey.indexOf("]");
+        return parameterKey.substring(beginIndex, endIndex);
     }
 
     /**
@@ -1055,4 +1097,22 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
        
         return super.clearAllTaxes(mapping, form, request, response);
     }
+    
+    /**
+     * Determine from request parameters if user is returning from capital asset building lookup. Parameter will start with either
+     * document.purchasingCapitalAssetItems or document.purchasingCapitalAssetSystems
+     *
+     * @param request
+     * @return
+     */
+    private String findBuildingCodeFromCapitalAssetBuildingLookup(HttpServletRequest request) {
+        Enumeration anEnum = request.getParameterNames();
+        while (anEnum.hasMoreElements()) {
+            String paramName = (String) anEnum.nextElement();
+            if (paramName.contains("urchasingCapitalAsset") && paramName.contains("buildingCode")) {
+                return paramName;
+            }
+        }
+        return "";
+    } 
 }

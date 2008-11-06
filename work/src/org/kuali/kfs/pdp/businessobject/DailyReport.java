@@ -38,6 +38,7 @@ public class DailyReport extends TransientBusinessObjectBase {
     public DailyReport(DailyReport dr) {
         this();
         customer = dr.customer;
+        paymentGroup = dr.paymentGroup;
     }
 
     public DailyReport(String c, KualiDecimal a, Integer pm, Integer py, PaymentGroup paymentGroup) {

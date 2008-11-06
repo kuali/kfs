@@ -216,7 +216,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      * @return
      */
     protected boolean doesCustomerInvoiceDocumentHaveValidBalance(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument){
-        if( KualiDecimal.ZERO.isGreaterThan(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getOpenAmount())){
+        if( KualiDecimal.ZERO.isGreaterEqual(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getOpenAmount())){
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE);
             return false;
         }

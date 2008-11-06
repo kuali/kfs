@@ -22,37 +22,37 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
-import org.kuali.kfs.module.purap.document.authorization.ReceivingLineDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.authorization.LineItemReceivingDocumentActionAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
-public class ReceivingLineForm extends ReceivingFormBase {
+public class LineItemReceivingForm extends ReceivingFormBase {
     
     private Integer purchaseOrderId;
-    private ReceivingLineItem newReceivingLineItemLine;
+    private LineItemReceivingItem newLineItemReceivingItemLine;
     private boolean fromPurchaseOrder = false;
     
     /**
-     * Constructs a ReceivingLineForm instance and sets up the appropriately casted document.
+     * Constructs a LineItemReceivingForm instance and sets up the appropriately casted document.
      */
-    public ReceivingLineForm() {
+    public LineItemReceivingForm() {
         super();
-        setDocument(new ReceivingLineDocument());
+        setDocument(new LineItemReceivingDocument());
 
-        this.setNewReceivingLineItemLine(setupNewReceivingLineItemLine());
-        newReceivingLineItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
+        this.setNewLineItemReceivingItemLine(setupNewLineItemReceivingItemLine());
+        newLineItemReceivingItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
     }
 
-    public ReceivingLineDocument getReceivingLineDocument() {
-        return (ReceivingLineDocument) getDocument();
+    public LineItemReceivingDocument getLineItemReceivingDocument() {
+        return (LineItemReceivingDocument) getDocument();
     }
 
-    public void setReceivingLineDocument(ReceivingLineDocument receivingLineDocument) {
-        setDocument(receivingLineDocument);
+    public void setLineItemReceivingDocument(LineItemReceivingDocument lineItemReceivingDocument) {
+        setDocument(lineItemReceivingDocument);
     }
 
     public Integer getPurchaseOrderId() {
@@ -63,21 +63,21 @@ public class ReceivingLineForm extends ReceivingFormBase {
         this.purchaseOrderId = purchaseOrderId;
     }
 
-    public ReceivingLineItem setupNewReceivingLineItemLine() {
-        return new ReceivingLineItem();
+    public LineItemReceivingItem setupNewLineItemReceivingItemLine() {
+        return new LineItemReceivingItem();
     }
 
-    public ReceivingLineItem getNewReceivingLineItemLine() {
-        return newReceivingLineItemLine;
+    public LineItemReceivingItem getNewLineItemReceivingItemLine() {
+        return newLineItemReceivingItemLine;
     }
 
-    public void setNewReceivingLineItemLine(ReceivingLineItem newReceivingLineItemLine) {
-        this.newReceivingLineItemLine = newReceivingLineItemLine;
+    public void setNewLineItemReceivingItemLine(LineItemReceivingItem newLineItemReceivingItemLine) {
+        this.newLineItemReceivingItemLine = newLineItemReceivingItemLine;
     }
 
     /**
      * Override the superclass method to add appropriate buttons for
-     * ReceivingLineDocument.
+     * LineItemReceivingDocument.
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
      */
@@ -86,10 +86,10 @@ public class ReceivingLineForm extends ReceivingFormBase {
         extraButtons.clear();
         Map buttonsMap = createButtonsMap();
         
-        ReceivingLineDocumentActionAuthorizer auth = new ReceivingLineDocumentActionAuthorizer(this.getReceivingLineDocument(), getEditingMode());        
+        LineItemReceivingDocumentActionAuthorizer auth = new LineItemReceivingDocumentActionAuthorizer(this.getLineItemReceivingDocument(), getEditingMode());        
 
-        if (this.getEditingMode().containsKey(PurapAuthorizationConstants.ReceivingLineEditMode.DISPLAY_INIT_TAB)) {
-            if (this.getEditingMode().get(PurapAuthorizationConstants.ReceivingLineEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
+        if (this.getEditingMode().containsKey(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB)) {
+            if (this.getEditingMode().get(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
                 ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continueReceivingLine");
                 extraButtons.add(continueButton);                
 
@@ -144,19 +144,19 @@ public class ReceivingLineForm extends ReceivingFormBase {
      * 
      * @return the new Receiving Item Line.
      */
-    public ReceivingLineItem getAndResetNewReceivingItemLine() {
-        ReceivingLineItem receivingItemLine = getNewReceivingLineItemLine();
-        setNewReceivingLineItemLine(setupNewReceivingItemLine());
+    public LineItemReceivingItem getAndResetNewReceivingItemLine() {
+        LineItemReceivingItem receivingItemLine = getNewLineItemReceivingItemLine();
+        setNewLineItemReceivingItemLine(setupNewReceivingItemLine());
         return receivingItemLine;
     }
 
     /**
      * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
      */
-    public ReceivingLineItem setupNewReceivingItemLine() {
-        ReceivingLineItem receivingLineItem = new ReceivingLineItem((ReceivingLineDocument)getDocument());
-        newReceivingLineItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
-        return receivingLineItem;
+    public LineItemReceivingItem setupNewReceivingItemLine() {
+        LineItemReceivingItem lineItemReceivingItem = new LineItemReceivingItem((LineItemReceivingDocument)getDocument());
+        newLineItemReceivingItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
+        return lineItemReceivingItem;
     }
     
     /**
@@ -166,7 +166,7 @@ public class ReceivingLineForm extends ReceivingFormBase {
      * @return
      */
     public boolean isAbleToShowClearAndLoadQtyButtons(){        
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(ReceivingLineDocument.class, PurapParameterConstants.SHOW_CLEAR_AND_LOAD_QTY_BUTTONS);        
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(LineItemReceivingDocument.class, PurapParameterConstants.SHOW_CLEAR_AND_LOAD_QTY_BUTTONS);        
     }
 
     public boolean isFromPurchaseOrder() {

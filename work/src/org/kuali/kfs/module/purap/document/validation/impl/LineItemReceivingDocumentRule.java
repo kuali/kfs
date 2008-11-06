@@ -24,7 +24,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -36,19 +36,19 @@ import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class ReceivingLineDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
+public class LineItemReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {        
         boolean valid = true;
-        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument)document;
+        LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument)document;
         
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= super.processCustomRouteDocumentBusinessRules(document);
-        valid &= canCreateReceivingLineDocument(receivingLineDocument);
-        valid &= isAtLeastOneItemEntered(receivingLineDocument);
+        valid &= canCreateLineItemReceivingDocument(lineItemReceivingDocument);
+        valid &= isAtLeastOneItemEntered(lineItemReceivingDocument);
         
         return valid;
     }
@@ -74,15 +74,15 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
     public boolean processContinuePurapBusinessRules(TransactionalDocument document) {
         
         boolean valid = true;
-        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument)document;
+        LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument)document;
         
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
-        valid &= hasRequiredFieldsForContinue(receivingLineDocument);
+        valid &= hasRequiredFieldsForContinue(lineItemReceivingDocument);
         //only do this if valid
         if(valid){
-            valid &= canCreateReceivingLineDocument(receivingLineDocument);
+            valid &= canCreateLineItemReceivingDocument(lineItemReceivingDocument);
         }
         
         return valid;
@@ -91,20 +91,20 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
     /**
      * Make sure the required fields on the init screen are filled in.
      * 
-     * @param receivingLineDocument
+     * @param lineItemReceivingDocument
      * @return
      */
-    private boolean hasRequiredFieldsForContinue(ReceivingLineDocument receivingLineDocument){
+    private boolean hasRequiredFieldsForContinue(LineItemReceivingDocument lineItemReceivingDocument){
         
         boolean valid = true;
         
-        if (ObjectUtils.isNull(receivingLineDocument.getPurchaseOrderIdentifier())) {
+        if (ObjectUtils.isNull(lineItemReceivingDocument.getPurchaseOrderIdentifier())) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             valid &= false;
         }
 
-        if (ObjectUtils.isNull(receivingLineDocument.getShipmentReceivedDate())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.ReceivingLineDocumentStrings.VENDOR_DATE);
+        if (ObjectUtils.isNull(lineItemReceivingDocument.getShipmentReceivedDate())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.LineItemReceivingDocumentStrings.VENDOR_DATE);
             valid &= false;
         }
 
@@ -115,16 +115,16 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
      * Determines if it is valid to create a receiving line document.  Only one
      * receiving line document can be active at any time per purchase order document.
      * 
-     * @param receivingLineDocument
+     * @param lineItemReceivingDocument
      * @return
      */
-    private boolean canCreateReceivingLineDocument(ReceivingLineDocument receivingLineDocument){
+    private boolean canCreateLineItemReceivingDocument(LineItemReceivingDocument lineItemReceivingDocument){
         
         boolean valid = true;
         
-        if( SpringContext.getBean(ReceivingService.class).canCreateReceivingLineDocument(receivingLineDocument.getPurchaseOrderIdentifier(), receivingLineDocument.getDocumentNumber()) == false){
+        if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(lineItemReceivingDocument.getPurchaseOrderIdentifier(), lineItemReceivingDocument.getDocumentNumber()) == false){
             valid &= false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, receivingLineDocument.getDocumentNumber(), receivingLineDocument.getPurchaseOrderIdentifier().toString());
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, lineItemReceivingDocument.getDocumentNumber(), lineItemReceivingDocument.getPurchaseOrderIdentifier().toString());
         }
          
         return valid;

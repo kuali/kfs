@@ -1904,11 +1904,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingLine);
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "ReceivingLineDocument");        
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "LineItemReceivingDocument");        
         parameters.put("purchaseOrderId", document.getPurapDocumentIdentifier().toString() );
         
         //create url
-        String receivingUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapReceivingLine.do", parameters);
+        String receivingUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapLineItemReceiving.do", parameters);
         
         //create forward
         ActionForward forward = new ActionForward(receivingUrl, true);

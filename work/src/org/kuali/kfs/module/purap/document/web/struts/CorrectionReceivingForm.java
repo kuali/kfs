@@ -15,32 +15,32 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem;
+import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 
-public class ReceivingCorrectionForm extends ReceivingFormBase {
+public class CorrectionReceivingForm extends ReceivingFormBase {
 
     private String receivingLineDocId;
-    private ReceivingCorrectionItem newReceivingCorrectionItemLine;
+    private CorrectionReceivingItem newCorrectionReceivingItemLine;
     
     /**
      * Constructs a ReceivingCorrectionForm instance and sets up the appropriately casted document.
      */
-    public ReceivingCorrectionForm() {
+    public CorrectionReceivingForm() {
         super();
-        setDocument(new ReceivingCorrectionDocument());
+        setDocument(new CorrectionReceivingDocument());
 
-        this.setNewReceivingCorrectionItemLine(setupNewReceivingCorrectionItemLine());
-        newReceivingCorrectionItemLine.setItemTypeCode("ITEM");
+        this.setNewCorrectionReceivingItemLine(setupNewCorrectionReceivingItemLine());
+        newCorrectionReceivingItemLine.setItemTypeCode("ITEM");
     }
 
-    public ReceivingCorrectionDocument getReceivingCorrectionDocument() {
-        return (ReceivingCorrectionDocument) getDocument();
+    public CorrectionReceivingDocument getCorrectionReceivingDocument() {
+        return (CorrectionReceivingDocument) getDocument();
     }
 
-    public void setReceivingCorrectionDocument(ReceivingCorrectionDocument ReceivingCorrectionDocument) {
-        setDocument(ReceivingCorrectionDocument);
+    public void setCorrectionReceivingDocument(CorrectionReceivingDocument CorrectionReceivingDocument) {
+        setDocument(CorrectionReceivingDocument);
     }
 
     public String getReceivingLineDocId() {
@@ -51,15 +51,15 @@ public class ReceivingCorrectionForm extends ReceivingFormBase {
         this.receivingLineDocId = purchaseOrderDocId;
     }
 
-    public ReceivingCorrectionItem setupNewReceivingCorrectionItemLine() {
-        return new ReceivingCorrectionItem();
+    public CorrectionReceivingItem setupNewCorrectionReceivingItemLine() {
+        return new CorrectionReceivingItem();
     }
 
     public ReceivingItem getNewReceivingCorrectionItemLine() {
-        return newReceivingCorrectionItemLine;
+        return newCorrectionReceivingItemLine;
     }
 
-    public void setNewReceivingCorrectionItemLine(ReceivingCorrectionItem newReceivingCorrectionItemLine) {
-        this.newReceivingCorrectionItemLine = newReceivingCorrectionItemLine;
+    public void setNewCorrectionReceivingItemLine(CorrectionReceivingItem newCorrectionReceivingItemLine) {
+        this.newCorrectionReceivingItemLine = newCorrectionReceivingItemLine;
     }
 }

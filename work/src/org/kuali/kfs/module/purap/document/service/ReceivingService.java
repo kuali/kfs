@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.document.service;
 import java.util.HashMap;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface ReceivingService {
@@ -30,14 +30,14 @@ public interface ReceivingService {
      * 
      * @param rlDoc
      */
-    public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc);
+    public void populateReceivingLineFromPurchaseOrder(LineItemReceivingDocument rlDoc);
 
     /**
      * Populates a Receiving Correction Document with information from a Receiving Line.
      * 
      * @param rcDoc
      */
-    public void populateReceivingCorrectionFromReceivingLine(ReceivingCorrectionDocument rcDoc);
+    public void populateCorrectionReceivingFromReceivingLine(CorrectionReceivingDocument rcDoc);
 
     /**
      * A save is done passing the continue purap event so as to call a populate within
@@ -46,14 +46,14 @@ public interface ReceivingService {
      * @param rlDoc
      * @throws WorkflowException
      */
-    public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
+    public void populateAndSaveLineItemReceivingDocument(LineItemReceivingDocument rlDoc) throws WorkflowException;
 
     /**
      * Populates the receiving correction document. 
      *
      * @param rcDoc
      */
-    public void populateReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc);
+    public void populateCorrectionReceivingDocument(CorrectionReceivingDocument rcDoc);
 
     /**
      * Determines if a receiving line document can be created at the time the user requests it.
@@ -65,7 +65,7 @@ public interface ReceivingService {
      * @return
      * @throws RuntimeException
      */
-    public boolean canCreateReceivingLineDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException;
+    public boolean canCreateLineItemReceivingDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException;
     
     /**
      * Determines if a receiving line document can be created at the time the user requests it.
@@ -75,7 +75,7 @@ public interface ReceivingService {
      * @return
      * @throws RuntimeException
      */
-    public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException;
+    public boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po) throws RuntimeException;
     
     /**
      * 
@@ -84,7 +84,7 @@ public interface ReceivingService {
      * @return
      * @throws RuntimeException
      */
-    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl) throws RuntimeException;
+    public boolean canCreateCorrectionReceivingDocument(LineItemReceivingDocument rl) throws RuntimeException;
     
     /**
      * 
@@ -94,7 +94,7 @@ public interface ReceivingService {
      * @return
      * @throws RuntimeException
      */
-    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl, String receivingCorrectionDocNumber) throws RuntimeException;
+    public boolean canCreateCorrectionReceivingDocument(LineItemReceivingDocument rl, String receivingCorrectionDocNumber) throws RuntimeException;
         
     /**
      * Checks for duplicate Receiving Line documents and passes back a list of those found
@@ -104,7 +104,7 @@ public interface ReceivingService {
      * @param rlDoc
      * @return
      */
-    public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc);
+    public HashMap<String, String> receivingLineDuplicateMessages(LineItemReceivingDocument rlDoc);
 
     /**
      * returns true if po is not in a status that can allow amendments
@@ -125,7 +125,7 @@ public interface ReceivingService {
      * This method updates the corrected quantities on the receiving document.
      * @param receivingDocument receivingCorrectionDocument
      */
-    public void completeReceivingCorrectionDocument(ReceivingDocument correctionDocument);
+    public void completeCorrectionReceivingDocument(ReceivingDocument correctionDocument);
     
     /**
      * Adds a note to a receiving document.
@@ -151,7 +151,7 @@ public interface ReceivingService {
      * @return
      * @throws RuntimeException
      */
-    public boolean isReceivingLineDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException;
+    public boolean isLineItemReceivingDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException;
     
     public void createNoteForReturnedAndDamagedItems(ReceivingDocument recDoc);
 }

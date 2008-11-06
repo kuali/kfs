@@ -1,8 +1,8 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -10,7 +10,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ReceivingLineItem extends ReceivingItemBase {
+public class LineItemReceivingItem extends ReceivingItemBase {
 
     private KualiDecimal itemOrderedQuantity;
 
@@ -18,17 +18,17 @@ public class ReceivingLineItem extends ReceivingItemBase {
     private KualiDecimal itemReceivedPriorQuantity;
     private KualiDecimal itemReceivedToBeQuantity;
     
-    private ReceivingLineDocument receivingLineDocument;
+    private LineItemReceivingDocument lineItemReceivingDocument;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
     
     /**
      * Default constructor.
      */
-    public ReceivingLineItem() {
+    public LineItemReceivingItem() {
     }
     
-    public ReceivingLineItem(ReceivingLineDocument rld){
+    public LineItemReceivingItem(LineItemReceivingDocument rld){
         this.setDocumentNumber( rld.getDocumentNumber() );
         this.setItemReceivedTotalQuantity( KualiDecimal.ZERO );
         this.setItemReturnedTotalQuantity( KualiDecimal.ZERO );
@@ -38,7 +38,7 @@ public class ReceivingLineItem extends ReceivingItemBase {
         this.setItemOriginalDamagedTotalQuantity( KualiDecimal.ZERO );
     }
     
-    public ReceivingLineItem(PurchaseOrderItem poi, ReceivingLineDocument rld){
+    public LineItemReceivingItem(PurchaseOrderItem poi, LineItemReceivingDocument rld){
         
         this.setDocumentNumber( rld.getDocumentNumber() );        
         this.setItemTypeCode( poi.getItemTypeCode() );
@@ -80,15 +80,15 @@ public class ReceivingLineItem extends ReceivingItemBase {
      * @return - purchase order item
      */
     public PurchaseOrderItem getPurchaseOrderItem() {
-        if (ObjectUtils.isNotNull(this.getReceivingLineDocument())) {
-            if (ObjectUtils.isNull(this.getReceivingLineDocument())) {
-                this.refreshReferenceObject("receivingLineDocument");
+        if (ObjectUtils.isNotNull(this.getLineItemReceivingDocument())) {
+            if (ObjectUtils.isNull(this.getLineItemReceivingDocument())) {
+                this.refreshReferenceObject("lineItemReceivingDocument");
             }
         }
         // ideally we should do this a different way - maybe move it all into the service or save this info somehow (make sure and
         // update though)
-        if (getReceivingLineDocument() != null) {
-            PurchaseOrderDocument po = getReceivingLineDocument().getPurchaseOrderDocument();
+        if (getLineItemReceivingDocument() != null) {
+            PurchaseOrderDocument po = getLineItemReceivingDocument().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (this.getItemType().isLineItemIndicator()) {
                 poi = (PurchaseOrderItem) po.getItem(this.getItemLineNumber().intValue() - 1);
@@ -129,20 +129,20 @@ public class ReceivingLineItem extends ReceivingItemBase {
     }
 
     /**
-     * Gets the receivingLineDocument attribute. 
-     * @return Returns the receivingLineDocument.
+     * Gets the LineItemReceivingDocument attribute. 
+     * @return Returns the LineItemReceivingDocument.
      */
-    public ReceivingLineDocument getReceivingLineDocument() {
-        return receivingLineDocument;
+    public LineItemReceivingDocument getLineItemReceivingDocument() {
+        return lineItemReceivingDocument;
     }
 
     /**
-     * Sets the receivingLineDocument attribute value.
-     * @param receivingLineDocument The receivingLineDocument to set.
+     * Sets the LineItemReceivingDocument attribute value.
+     * @param LineItemReceivingDocument The LineItemReceivingDocument to set.
      * @deprecated
      */
-    public void setReceivingLineDocument(ReceivingLineDocument receivingLineDocument) {
-        this.receivingLineDocument = receivingLineDocument;
+    public void setLineItemReceivingDocument(LineItemReceivingDocument lineItemReceivingDocument) {
+        this.lineItemReceivingDocument = lineItemReceivingDocument;
     }
 
     public KualiDecimal getItemReceivedPriorQuantity() {

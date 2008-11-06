@@ -22,7 +22,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -213,11 +213,11 @@ public enum LineItemReceivingDocumentFixture {
         this.lineItemReceivingItemFixtures = lineItemReceivingItemFixtures;
     }
 
-    public ReceivingLineDocument createReceivingLineDocument() {
-        ReceivingLineDocument doc = null;
+    public LineItemReceivingDocument createLineItemReceivingDocument() {
+        LineItemReceivingDocument doc = null;
        
         try {
-            doc = (ReceivingLineDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), ReceivingLineDocument.class);
+            doc = (LineItemReceivingDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), LineItemReceivingDocument.class);
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Document creation failed.");

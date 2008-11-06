@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 
 /**
  * Fixture class for Purchase Order Item.
@@ -92,10 +92,10 @@ public enum LineItemReceivingItemFixture {
      * 
      * @param receivingLineDocument the specified Receiving Line Document.
      */
-    public void addTo(ReceivingLineDocument receivingLineDocument) {
-        ReceivingLineItem item = null;
-        item = (ReceivingLineItem) this.createReceivingLineItem();
-        receivingLineDocument.addItem(item);
+    public void addTo(LineItemReceivingDocument lineItemReceivingDocument) {
+        LineItemReceivingItem item = null;
+        item = (LineItemReceivingItem) this.createLineItemReceivingItem();
+        lineItemReceivingDocument.addItem(item);
     }
 
     /**
@@ -104,8 +104,8 @@ public enum LineItemReceivingItemFixture {
      * @param purApItemFixture the specified PurAp Item Fixture.
      * @return the created Purchase Order Item.
      */
-    public ReceivingLineItem createReceivingLineItem() {
-        ReceivingLineItem item = new ReceivingLineItem();
+    public LineItemReceivingItem createLineItemReceivingItem() {
+        LineItemReceivingItem item = new LineItemReceivingItem();
 
         item.setReceivingItemIdentifier(this.receivingLineItemIdentifier);
         item.setDocumentNumber(this.documentNumber);

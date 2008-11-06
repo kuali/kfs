@@ -1443,11 +1443,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         boolean isAwaitingReceiving = false;
         
         PaymentRequestDocument preq = getPaymentRequestById(paymentRequestIdentifier);
-        boolean hasReceivingLineDocument = SpringContext.getBean(ReceivingService.class).isReceivingLineDocumentGeneratedForPurchaseOrder( preq.getPurchaseOrderDocument().getPurapDocumentIdentifier() );
+        boolean hasLineItemReceivingDocument = SpringContext.getBean(ReceivingService.class).isLineItemReceivingDocumentGeneratedForPurchaseOrder( preq.getPurchaseOrderDocument().getPurapDocumentIdentifier() );
                 
         //if receiving document required and a receiving line document hasn't been generated
         // still awaiting receiving
-        if(preq.isReceivingDocumentRequiredIndicator() && hasReceivingLineDocument == false){
+        if(preq.isReceivingDocumentRequiredIndicator() && hasLineItemReceivingDocument == false){
            isAwaitingReceiving = true; 
         }
         

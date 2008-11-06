@@ -19,7 +19,9 @@ import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -32,7 +34,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Document Authorizer for the PREQ document.
  */
-public class ReceivingCorrectionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
+public class LineItemReceivingDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
@@ -52,7 +54,7 @@ public class ReceivingCorrectionDocumentAuthorizer extends FinancialSystemTransa
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kim.bo.Person)
      */
-    @Override
+    @Override    
     public Map getEditMode(Document document, Person user) {
         Map editModeMap = super.getEditMode(document, user);
 
@@ -65,18 +67,46 @@ public class ReceivingCorrectionDocumentAuthorizer extends FinancialSystemTransa
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
+            //List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             // only allow full entry if status allows it
 
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
         }
 
         editModeMap.put(editMode, "TRUE");
-        
-        //lock vendor input
-        editModeMap.put(PurapAuthorizationConstants.ReceivingCorrectionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
-        
+
+        //display init tab
+        LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument) document;
+        if (workflowDocument.stateIsInitiated()) {
+            editModeMap.put(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB, "TRUE");
+        }
+        else {
+            editModeMap.put(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB, "FALSE");
+        }
+
         return editModeMap;
     }
 
-}
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
+        if (workflowDocument.stateIsInitiated()) {
+            flags.setCanSave(false);
+            flags.setCanClose(true);
+            flags.setCanCancel(false);
+            flags.setCanDisapprove(false);
+        }        
+
+        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+        this.setAnnotateFlag(flags);
+
+        return flags;
+    }
+
+}

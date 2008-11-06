@@ -31,15 +31,15 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem;
+import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineView;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
@@ -113,12 +113,12 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     /**
      * 
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateReceivingLineFromPurchaseOrder(org.kuali.kfs.module.purap.document.ReceivingLineDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateReceivingLineFromPurchaseOrder(org.kuali.kfs.module.purap.document.LineItemReceivingDocument)
      */
-    public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc) {
+    public void populateReceivingLineFromPurchaseOrder(LineItemReceivingDocument rlDoc) {
         
         if(rlDoc == null){
-            rlDoc = new ReceivingLineDocument();
+            rlDoc = new LineItemReceivingDocument();
         }
                              
         //retrieve po by doc id
@@ -131,32 +131,32 @@ public class ReceivingServiceImpl implements ReceivingService {
         
     }
 
-    public void populateReceivingCorrectionFromReceivingLine(ReceivingCorrectionDocument rcDoc) {
+    public void populateCorrectionReceivingFromReceivingLine(CorrectionReceivingDocument rcDoc) {
         
         if(rcDoc == null){
-            rcDoc = new ReceivingCorrectionDocument();
+            rcDoc = new CorrectionReceivingDocument();
         }
                              
         //retrieve receiving line by doc id
-        ReceivingLineDocument rlDoc = null;
+        LineItemReceivingDocument rlDoc = null;
         try{
-            rlDoc = (ReceivingLineDocument)documentService.getByDocumentHeaderId( rcDoc.getReceivingLineDocumentNumber() );
+            rlDoc = (LineItemReceivingDocument)documentService.getByDocumentHeaderId( rcDoc.getLineItemReceivingDocumentNumber() );
         }catch(WorkflowException we){
-            String errorMsg = "Error retrieving document # " + rcDoc.getReceivingLineDocumentNumber() + " " + we.getMessage();
+            String errorMsg = "Error retrieving document # " + rcDoc.getLineItemReceivingDocumentNumber() + " " + we.getMessage();
             throw new RuntimeException(errorMsg, we);            
         }
 
         if(rlDoc != null){
-            rcDoc.populateReceivingCorrectionFromReceivingLine(rlDoc);
+            rcDoc.populateCorrectionReceivingFromReceivingLine(rlDoc);
         }                
         
     }
 
     /**
      * 
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateAndSaveReceivingLineDocument(org.kuali.kfs.module.purap.document.ReceivingLineDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateAndSaveLineItemReceivingDocument(org.kuali.kfs.module.purap.document.LineItemReceivingDocument)
      */
-    public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException {
+    public void populateAndSaveLineItemReceivingDocument(LineItemReceivingDocument rlDoc) throws WorkflowException {
         try {            
             documentService.saveDocument(rlDoc, ContinuePurapEvent.class);
         }
@@ -168,29 +168,29 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateReceivingCorrectionDocument(org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateCorrectionReceivingDocument(org.kuali.kfs.module.purap.document.CorrectionReceivingDocument)
      */
-    public void populateReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc)  {
-            populateReceivingCorrectionFromReceivingLine(rcDoc);
+    public void populateCorrectionReceivingDocument(CorrectionReceivingDocument rcDoc)  {
+            populateCorrectionReceivingFromReceivingLine(rcDoc);
     }
 
     /**
      * 
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#canCreateReceivingLineDocument(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#canCreateLineItemReceivingDocument(java.lang.Integer, java.lang.String)
      */
-    public boolean canCreateReceivingLineDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException {
+    public boolean canCreateLineItemReceivingDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException {
         
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(poId);
         
-        return canCreateReceivingLineDocument(po, receivingDocumentNumber);            
+        return canCreateLineItemReceivingDocument(po, receivingDocumentNumber);            
     }
 
     /**
      * 
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#canCreateReceivingLineDocument(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#canCreateLineItemReceivingDocument(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
-    public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException {
-        return canCreateReceivingLineDocument(po, null);
+    public boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po) throws RuntimeException {
+        return canCreateLineItemReceivingDocument(po, null);
     }
     
     /**
@@ -198,12 +198,12 @@ public class ReceivingServiceImpl implements ReceivingService {
      */
     public boolean isAwaitingPurchaseOrderOpen(String documentNumber) {       
         boolean awaitingPurchaseOrderOpen = false;
-        ReceivingLineDocument rlDoc = null;
+        LineItemReceivingDocument rlDoc = null;
         PurchaseOrderDocument po = null;
         
         try{
             //retrieve receiving doc
-            rlDoc = (ReceivingLineDocument) documentService.getByDocumentHeaderId(documentNumber);
+            rlDoc = (LineItemReceivingDocument) documentService.getByDocumentHeaderId(documentNumber);
         }catch(WorkflowException we){
             throw new RuntimeException(we);
         }
@@ -223,14 +223,14 @@ public class ReceivingServiceImpl implements ReceivingService {
         return awaitingPurchaseOrderOpen;
     }
 
-    private boolean canCreateReceivingLineDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
+    private boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
 
         boolean canCreate = false;
        
         if(  po != null &&
              ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) &&
-             !isReceivingLineDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) &&
-             !isReceivingCorrectionDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), null) &&
+             !isLineItemReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) &&
+             !isCorrectionReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), null) &&
              po.isPurchaseOrderCurrentIndicator()){
             
             canCreate = true;
@@ -239,11 +239,11 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreate;
     }
 
-    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl) throws RuntimeException {
-        return canCreateReceivingCorrectionDocument(rl, null);
+    public boolean canCreateCorrectionReceivingDocument(LineItemReceivingDocument rl) throws RuntimeException {
+        return canCreateCorrectionReceivingDocument(rl, null);
     }
 
-    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl, String receivingCorrectionDocNumber) throws RuntimeException {
+    public boolean canCreateCorrectionReceivingDocument(LineItemReceivingDocument rl, String receivingCorrectionDocNumber) throws RuntimeException {
 
         boolean canCreate = false;
         KualiWorkflowDocument workflowDocument = null;
@@ -255,14 +255,14 @@ public class ReceivingServiceImpl implements ReceivingService {
         }
 
         if( workflowDocument.stateIsFinal() &&
-            !isReceivingCorrectionDocumentInProcessForReceivingLine(rl.getDocumentNumber(), receivingCorrectionDocNumber)){            
+            !isCorrectionReceivingDocumentInProcessForReceivingLine(rl.getDocumentNumber(), receivingCorrectionDocNumber)){            
             canCreate = true;
         }
         
         return canCreate;
     }
 
-    private boolean isReceivingLineDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
+    private boolean isLineItemReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
         
         boolean isInProcess = false;
         
@@ -290,11 +290,11 @@ public class ReceivingServiceImpl implements ReceivingService {
         return isInProcess;
     }
 
-    private boolean isReceivingCorrectionDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
+    private boolean isCorrectionReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
         
         boolean isInProcess = false;
         
-        List<String> docNumbers = receivingDao.getReceivingCorrectionDocumentNumbersByPurchaseOrderId(poId);
+        List<String> docNumbers = receivingDao.getCorrectionReceivingDocumentNumbersByPurchaseOrderId(poId);
         KualiWorkflowDocument workflowDocument = null;
                 
         for (String docNumber : docNumbers) {
@@ -318,11 +318,11 @@ public class ReceivingServiceImpl implements ReceivingService {
         return isInProcess;
     }
     
-    private boolean isReceivingCorrectionDocumentInProcessForReceivingLine(String receivingDocumentNumber, String receivingCorrectionDocNumber) throws RuntimeException{
+    private boolean isCorrectionReceivingDocumentInProcessForReceivingLine(String receivingDocumentNumber, String receivingCorrectionDocNumber) throws RuntimeException{
         
         boolean isInProcess = false;
         
-        List<String> docNumbers = receivingDao.getReceivingCorrectionDocumentNumbersByReceivingLineNumber(receivingDocumentNumber);
+        List<String> docNumbers = receivingDao.getCorrectionReceivingDocumentNumbersByReceivingLineNumber(receivingDocumentNumber);
         KualiWorkflowDocument workflowDocument = null;
                 
         for (String docNumber : docNumbers) {
@@ -348,9 +348,9 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     /**
      * 
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#receivingLineDuplicateMessages(org.kuali.kfs.module.purap.document.ReceivingLineDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#receivingLineDuplicateMessages(org.kuali.kfs.module.purap.document.LineItemReceivingDocument)
      */
-    public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc) {
+    public HashMap<String, String> receivingLineDuplicateMessages(LineItemReceivingDocument rlDoc) {
         HashMap<String, String> msgs;
         msgs = new HashMap<String, String>();
         Integer poId = rlDoc.getPurchaseOrderIdentifier();
@@ -387,7 +387,7 @@ public class ReceivingServiceImpl implements ReceivingService {
            appendDuplicateMessage(currentMessage, PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_SUFFIX, rlDoc.getPurchaseOrderIdentifier() );
            
            //add msg to map
-           msgs.put(PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION, currentMessage.toString());
+           msgs.put(PurapConstants.LineItemReceivingDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION, currentMessage.toString());
        }
        
        return msgs;
@@ -437,14 +437,14 @@ public class ReceivingServiceImpl implements ReceivingService {
         currentMessage.append( configurationService.getPropertyString(duplicateMessageKey) );                
     }
     
-    public void completeReceivingCorrectionDocument(ReceivingDocument correctionDocument){
+    public void completeCorrectionReceivingDocument(ReceivingDocument correctionDocument){
        
-        ReceivingDocument receivingDoc = ((ReceivingCorrectionDocument)correctionDocument).getReceivingLineDocument();
+        ReceivingDocument receivingDoc = ((CorrectionReceivingDocument)correctionDocument).getLineItemReceivingDocument();
         
-        for (ReceivingCorrectionItem correctionItem : (List<ReceivingCorrectionItem>)correctionDocument.getItems()) {
+        for (CorrectionReceivingItem correctionItem : (List<CorrectionReceivingItem>)correctionDocument.getItems()) {
             if(!StringUtils.equalsIgnoreCase(correctionItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
 
-                ReceivingLineItem recItem = (ReceivingLineItem) receivingDoc.getItem(correctionItem.getItemLineNumber().intValue() - 1);
+                LineItemReceivingItem recItem = (LineItemReceivingItem) receivingDoc.getItem(correctionItem.getItemLineNumber().intValue() - 1);
                 PurchaseOrderItem poItem = (PurchaseOrderItem) receivingDoc.getPurchaseOrderDocument().getItem(correctionItem.getItemLineNumber().intValue() - 1);
                 
                 if(ObjectUtils.isNotNull(recItem)) {
@@ -466,13 +466,13 @@ public class ReceivingServiceImpl implements ReceivingService {
 
         PurchaseOrderDocument poDoc = null;
 
-        if (receivingDocument instanceof ReceivingLineDocument){
+        if (receivingDocument instanceof LineItemReceivingDocument){
             // delete unentered items
             purapService.deleteUnenteredItems(receivingDocument);
             poDoc = receivingDocument.getPurchaseOrderDocument();
-        }else if (receivingDocument instanceof ReceivingCorrectionDocument){
-            ReceivingCorrectionDocument correctionDocument = (ReceivingCorrectionDocument)receivingDocument;
-            poDoc = purchaseOrderService.getCurrentPurchaseOrder(correctionDocument.getReceivingLineDocument().getPurchaseOrderIdentifier());
+        }else if (receivingDocument instanceof CorrectionReceivingDocument){
+            CorrectionReceivingDocument correctionDocument = (CorrectionReceivingDocument)receivingDocument;
+            poDoc = purchaseOrderService.getCurrentPurchaseOrder(correctionDocument.getLineItemReceivingDocument().getPurchaseOrderIdentifier());
         }
         
         updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
@@ -530,7 +530,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                     
                     KualiDecimal receivingItemReceivedOriginal = receivingItem.getItemOriginalReceivedTotalQuantity();
                     /**
-                     * FIXME: It's coming as null although we set the default value in the ReceivingLineItem constructor - mpv
+                     * FIXME: It's coming as null although we set the default value in the LineItemReceivingItem constructor - mpv
                      */
                     if (ObjectUtils.isNull(receivingItemReceivedOriginal)){
                         receivingItemReceivedOriginal = KualiDecimal.ZERO; 
@@ -587,11 +587,11 @@ public class ReceivingServiceImpl implements ReceivingService {
     private void spawnPoAmendmentForUnorderedItems(ReceivingDocument receivingDocument, PurchaseOrderDocument po){
 
         //if receiving line document
-        if (receivingDocument instanceof ReceivingLineDocument) {
-            ReceivingLineDocument rlDoc = (ReceivingLineDocument)receivingDocument;
+        if (receivingDocument instanceof LineItemReceivingDocument) {
+            LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)receivingDocument;
             
             //if a new item has been added spawn a purchase order amendment
-            if( hasNewUnorderedItem((ReceivingLineDocument)receivingDocument) ){
+            if( hasNewUnorderedItem((LineItemReceivingDocument)receivingDocument) ){
                 //create a PO amendment
                 PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW);
 
@@ -629,11 +629,11 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param rlDoc
      * @return
      */
-    private boolean hasNewUnorderedItem(ReceivingLineDocument rlDoc){
+    private boolean hasNewUnorderedItem(LineItemReceivingDocument rlDoc){
         
         boolean itemAdded = false;
         
-        for(ReceivingLineItem rlItem: (List<ReceivingLineItem>)rlDoc.getItems()){
+        for(LineItemReceivingItem rlItem: (List<LineItemReceivingItem>)rlDoc.getItems()){
             if( PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(rlItem.getItemTypeCode()) &&
                 !StringUtils.isEmpty(rlItem.getItemReasonAddedCode()) ){
                 itemAdded = true;
@@ -650,11 +650,11 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param amendment
      * @param rlDoc
      */
-    private void addUnorderedItemsToAmendment(PurchaseOrderAmendmentDocument amendment, ReceivingLineDocument rlDoc){
+    private void addUnorderedItemsToAmendment(PurchaseOrderAmendmentDocument amendment, LineItemReceivingDocument rlDoc){
 
         PurchaseOrderItem poi = null;
         
-        for(ReceivingLineItem rlItem: (List<ReceivingLineItem>)rlDoc.getItems()){
+        for(LineItemReceivingItem rlItem: (List<LineItemReceivingItem>)rlDoc.getItems()){
             if( PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(rlItem.getItemTypeCode()) &&
                 !StringUtils.isEmpty(rlItem.getItemReasonAddedCode()) ){
                 
@@ -673,7 +673,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param rlItem
      * @return
      */
-    private PurchaseOrderItem createPoItemFromReceivingLine(ReceivingLineItem rlItem){
+    private PurchaseOrderItem createPoItemFromReceivingLine(LineItemReceivingItem rlItem){
         
         PurchaseOrderItem poi = new PurchaseOrderItem();
                              
@@ -779,19 +779,19 @@ public class ReceivingServiceImpl implements ReceivingService {
         String deliveryCampusCode = "";
         String latestDocumentNumber = "";
                         
-        List<ReceivingLineView> rViews = null;
+        List<LineItemReceivingView> rViews = null;
         KualiWorkflowDocument workflowDocument = null;
         Timestamp latestCreateDate = null;
         
         //get related views
         if(ObjectUtils.isNotNull(po.getRelatedViews()) ){       
-            rViews = po.getRelatedViews().getRelatedReceivingLineViews();
+            rViews = po.getRelatedViews().getRelatedLineItemReceivingViews();
         }
         
         //if not empty, then grab the latest receiving view
         if(ObjectUtils.isNotNull(rViews) && rViews.isEmpty() == false){                                    
             
-            for(ReceivingLineView rView : rViews){
+            for(LineItemReceivingView rView : rViews){
                 try{
                     workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rView.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
                     
@@ -808,7 +808,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             //if there is a create date, a latest workflow doc was found
             if( ObjectUtils.isNotNull(latestCreateDate)){
                 try{                                    
-                    ReceivingLineDocument rlDoc = (ReceivingLineDocument)documentService.getByDocumentHeaderId(latestDocumentNumber);                    
+                    LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)documentService.getByDocumentHeaderId(latestDocumentNumber);                    
                     deliveryCampusCode = rlDoc.getDeliveryCampusCode();
                 }catch(WorkflowException we){
                     throw new RuntimeException(we);
@@ -820,9 +820,9 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#isReceivingLineDocumentGeneratedForPurchaseOrder(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#isLineItemReceivingDocumentGeneratedForPurchaseOrder(java.lang.Integer)
      */
-    public boolean isReceivingLineDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException{
+    public boolean isLineItemReceivingDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException{
         
         boolean isGenerated = false;
         

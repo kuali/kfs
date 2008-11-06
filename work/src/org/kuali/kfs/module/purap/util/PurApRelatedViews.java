@@ -25,8 +25,8 @@ import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
-import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionView;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineView;
+import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.RequisitionView;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,8 +41,8 @@ public class PurApRelatedViews {
     private transient List<CreditMemoView> relatedCreditMemoViews;
     private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
 
-    private transient List<ReceivingLineView> relatedReceivingLineViews;
-    private transient List<ReceivingCorrectionView> relatedReceivingCorrectionViews;
+    private transient List<LineItemReceivingView> relatedLineItemReceivingViews;
+    private transient List<CorrectionReceivingView> relatedCorrectionReceivingViews;
     private transient List<BulkReceivingView> relatedBulkReceivingViews;
     
     private transient List<PurchaseOrderViewGroup> groupedRelatedPurchaseOrderViews;
@@ -205,17 +205,17 @@ public class PurApRelatedViews {
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
-    public List<ReceivingLineView> getRelatedReceivingLineViews() {
-        relatedReceivingLineViews = updateRelatedView(ReceivingLineView.class, relatedReceivingLineViews, true);
-        return relatedReceivingLineViews;
+    public List<LineItemReceivingView> getRelatedLineItemReceivingViews() {
+        relatedLineItemReceivingViews = updateRelatedView(LineItemReceivingView.class, relatedLineItemReceivingViews, true);
+        return relatedLineItemReceivingViews;
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
-    public List<ReceivingCorrectionView> getRelatedReceivingCorrectionViews() {
-        relatedReceivingCorrectionViews = updateRelatedView(ReceivingCorrectionView.class, relatedReceivingCorrectionViews, true);
-        return relatedReceivingCorrectionViews;
+    public List<CorrectionReceivingView> getRelatedCorrectionReceivingViews() {
+        relatedCorrectionReceivingViews = updateRelatedView(CorrectionReceivingView.class, relatedCorrectionReceivingViews, true);
+        return relatedCorrectionReceivingViews;
     }
     
     public List<BulkReceivingView> getRelatedBulkReceivingViews() {

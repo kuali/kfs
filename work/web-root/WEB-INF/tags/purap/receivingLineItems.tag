@@ -68,42 +68,42 @@
 		<c:if test="${fullEntryMode}">
 		<tr>
             <td class="infoline">
-                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newReceivingLineItemLine.itemLineNumber" readOnly="${true}"/>
+                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newLineItemReceivingItemLine.itemLineNumber" readOnly="${true}"/>
             </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newReceivingLineItemLine.itemCatalogNumber" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newLineItemReceivingItemLine.itemCatalogNumber" />
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newReceivingLineItemLine.itemDescription" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newLineItemReceivingItemLine.itemDescription" />
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemOrderedQuantity}" property="newReceivingLineItemLine.itemOrderedQuantity" readOnly="${true}"/>
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemOrderedQuantity}" property="newLineItemReceivingItemLine.itemOrderedQuantity" readOnly="${true}"/>
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newReceivingLineItemLine.itemUnitOfMeasureCode" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newLineItemReceivingItemLine.itemUnitOfMeasureCode" />
 		    </td>
 
 			<c:if test="${KualiForm.stateFinal == false}">
 
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" property="newReceivingLineItemLine.itemReceivedPriorQuantity" readOnly="${true}"/>
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" property="newLineItemReceivingItemLine.itemReceivedPriorQuantity" readOnly="${true}"/>
 		    </td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedToBeQuantity}" property="newReceivingLineItemLine.itemReceivedToBeQuantity" readOnly="${true}"/>
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedToBeQuantity}" property="newLineItemReceivingItemLine.itemReceivedToBeQuantity" readOnly="${true}"/>
 			</td>
 			</c:if>
 			
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" property="newReceivingLineItemLine.itemReceivedTotalQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" property="newLineItemReceivingItemLine.itemReceivedTotalQuantity" />
 			</td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReturnedTotalQuantity}" property="newReceivingLineItemLine.itemReturnedTotalQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReturnedTotalQuantity}" property="newLineItemReceivingItemLine.itemReturnedTotalQuantity" />
 			</td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDamagedTotalQuantity}" property="newReceivingLineItemLine.itemDamagedTotalQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDamagedTotalQuantity}" property="newLineItemReceivingItemLine.itemDamagedTotalQuantity" />
 			</td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReasonAddedCode}" property="newReceivingLineItemLine.itemReasonAddedCode" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReasonAddedCode}" property="newLineItemReceivingItemLine.itemReasonAddedCode" />
 			</td>
 
 			<td class="infoline">

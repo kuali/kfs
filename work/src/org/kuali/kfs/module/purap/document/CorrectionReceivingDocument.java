@@ -5,49 +5,49 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.Carrier;
+import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
-import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
+public class CorrectionReceivingDocument extends ReceivingDocumentBase {
 
-    private String receivingLineDocumentNumber;
+    private String lineItemReceivingDocumentNumber;
     //Collections
-    private List<ReceivingCorrectionItem> items;
+    private List<CorrectionReceivingItem> items;
     
-    private ReceivingLineDocument receivingLineDocument;
+    private LineItemReceivingDocument lineItemReceivingDocument;
     
     /**
      * Default constructor.
      */
-    public ReceivingCorrectionDocument() {
+    public CorrectionReceivingDocument() {
         super();
         items = new TypedArrayList(getItemClass());
     }
 
-    public void populateReceivingCorrectionFromReceivingLine(ReceivingLineDocument rlDoc){
+    public void populateCorrectionReceivingFromReceivingLine(LineItemReceivingDocument rlDoc){
         
         //populate receiving line document from purchase order
         this.setPurchaseOrderIdentifier( rlDoc.getPurchaseOrderIdentifier() );
         this.getDocumentHeader().setDocumentDescription( rlDoc.getDocumentHeader().getDocumentDescription());
         this.getDocumentHeader().setOrganizationDocumentNumber( rlDoc.getDocumentHeader().getOrganizationDocumentNumber() );
         this.setAccountsPayablePurchasingDocumentLinkIdentifier( rlDoc.getAccountsPayablePurchasingDocumentLinkIdentifier() );        
-        this.setReceivingLineDocumentNumber(rlDoc.getDocumentNumber());
+        this.setLineItemReceivingDocumentNumber(rlDoc.getDocumentNumber());
         
         //copy receiving line items
-        for (ReceivingLineItem rli : (List<ReceivingLineItem>) rlDoc.getItems()) {
-            this.getItems().add(new ReceivingCorrectionItem(rli, this));            
+        for (LineItemReceivingItem rli : (List<LineItemReceivingItem>) rlDoc.getItems()) {
+            this.getItems().add(new CorrectionReceivingItem(rli, this));            
         }
         
     }
@@ -55,50 +55,50 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
     @Override
     public void handleRouteStatusChange() {
         if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            SpringContext.getBean(ReceivingService.class).completeReceivingCorrectionDocument(this);
+            SpringContext.getBean(ReceivingService.class).completeCorrectionReceivingDocument(this);
         }
         super.handleRouteStatusChange();
     }
     
     /**
-     * Gets the receivingLineDocumentNumber attribute.
+     * Gets the lineItemReceivingDocumentNumber attribute.
      * 
-     * @return Returns the receivingLineDocumentNumber
+     * @return Returns the lineItemReceivingDocumentNumber
      * 
      */
-    public String getReceivingLineDocumentNumber() { 
-        return receivingLineDocumentNumber;
+    public String getLineItemReceivingDocumentNumber() { 
+        return lineItemReceivingDocumentNumber;
     }
     
     /**
-     * Sets the receivingLineDocumentNumber attribute.
+     * Sets the lineItemReceivingDocumentNumber attribute.
      * 
-     * @param receivingLineDocumentNumber The receivingLineDocumentNumber to set.
+     * @param lineItemReceivingDocumentNumber The lineItemReceivingDocumentNumber to set.
      * 
      */
-    public void setReceivingLineDocumentNumber(String receivingLineDocumentNumber) {
-        this.receivingLineDocumentNumber = receivingLineDocumentNumber;
+    public void setLineItemReceivingDocumentNumber(String lineItemReceivingDocumentNumber) {
+        this.lineItemReceivingDocumentNumber = lineItemReceivingDocumentNumber;
     }
 
     /**
-     * Gets the receivingLineDocument attribute. 
-     * @return Returns the receivingLineDocument.
+     * Gets the lineItemReceivingDocument attribute. 
+     * @return Returns the lineItemReceivingDocument.
      */
-    public ReceivingLineDocument getReceivingLineDocument() {
-        if(receivingLineDocument == null){
-            this.refreshReferenceObject("receivingLineDocument");
+    public LineItemReceivingDocument getLineItemReceivingDocument() {
+        if(lineItemReceivingDocument == null){
+            this.refreshReferenceObject("lineItemReceivingDocument");
         }
         
-        return receivingLineDocument;
+        return lineItemReceivingDocument;
     }
 
     /**
-     * Sets the receivingLineDocument attribute value.
-     * @param receivingLineDocument The receivingLineDocument to set.
+     * Sets the lineItemReceivingDocument attribute value.
+     * @param lineItemReceivingDocument The lineItemReceivingDocument to set.
      * @deprecated
      */
-    public void setReceivingLineDocument(ReceivingLineDocument receivingLineDocument) {
-        this.receivingLineDocument = receivingLineDocument;
+    public void setLineItemReceivingDocument(LineItemReceivingDocument lineItemReceivingDocument) {
+        this.lineItemReceivingDocument = lineItemReceivingDocument;
     }
 
     /**
@@ -111,7 +111,7 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
     }
 
     public Class getItemClass() {
-        return ReceivingCorrectionItem.class;
+        return CorrectionReceivingItem.class;
     }
 
     public List getItems() {
@@ -143,207 +143,207 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
 
     @Override
     public Integer getAlternateVendorDetailAssignedIdentifier() {
-        return getReceivingLineDocument().getAlternateVendorDetailAssignedIdentifier();
+        return getLineItemReceivingDocument().getAlternateVendorDetailAssignedIdentifier();
     }
 
     @Override
     public Integer getAlternateVendorHeaderGeneratedIdentifier() {
-        return getReceivingLineDocument().getAlternateVendorHeaderGeneratedIdentifier();
+        return getLineItemReceivingDocument().getAlternateVendorHeaderGeneratedIdentifier();
     }
 
     @Override
     public String getAlternateVendorName() {
-        return getReceivingLineDocument().getAlternateVendorName();
+        return getLineItemReceivingDocument().getAlternateVendorName();
     }
 
     @Override
     public String getAlternateVendorNumber() {
-        return getReceivingLineDocument().getAlternateVendorNumber();
+        return getLineItemReceivingDocument().getAlternateVendorNumber();
     }
 
     @Override
     public Carrier getCarrier() {
-        return getReceivingLineDocument().getCarrier();
+        return getLineItemReceivingDocument().getCarrier();
     }
 
     @Override
     public String getCarrierCode() {
-        return getReceivingLineDocument().getCarrierCode();
+        return getLineItemReceivingDocument().getCarrierCode();
     }
 
     @Override
     public String getDeliveryBuildingCode() {
-        return getReceivingLineDocument().getDeliveryBuildingCode();
+        return getLineItemReceivingDocument().getDeliveryBuildingCode();
     }
 
     @Override
     public String getDeliveryBuildingLine1Address() {
-        return getReceivingLineDocument().getDeliveryBuildingLine1Address();
+        return getLineItemReceivingDocument().getDeliveryBuildingLine1Address();
     }
 
     @Override
     public String getDeliveryBuildingLine2Address() {
-        return getReceivingLineDocument().getDeliveryBuildingLine2Address();
+        return getLineItemReceivingDocument().getDeliveryBuildingLine2Address();
     }
 
     @Override
     public String getDeliveryBuildingName() {
-        return getReceivingLineDocument().getDeliveryBuildingName();
+        return getLineItemReceivingDocument().getDeliveryBuildingName();
     }
 
     @Override
     public String getDeliveryBuildingRoomNumber() {
-        return getReceivingLineDocument().getDeliveryBuildingRoomNumber();
+        return getLineItemReceivingDocument().getDeliveryBuildingRoomNumber();
     }
 
     @Override
     public Campus getDeliveryCampus() {
-        return getReceivingLineDocument().getDeliveryCampus();
+        return getLineItemReceivingDocument().getDeliveryCampus();
     }
 
     @Override
     public String getDeliveryCampusCode() {
-        return getReceivingLineDocument().getDeliveryCampusCode();
+        return getLineItemReceivingDocument().getDeliveryCampusCode();
     }
 
     @Override
     public String getDeliveryCityName() {
-        return getReceivingLineDocument().getDeliveryCityName();
+        return getLineItemReceivingDocument().getDeliveryCityName();
     }
 
     @Override
     public String getDeliveryCountryCode() {
-        return getReceivingLineDocument().getDeliveryCountryCode();
+        return getLineItemReceivingDocument().getDeliveryCountryCode();
     }
 
     @Override
     public String getDeliveryInstructionText() {
-        return getReceivingLineDocument().getDeliveryInstructionText();
+        return getLineItemReceivingDocument().getDeliveryInstructionText();
     }
 
     @Override
     public String getDeliveryPostalCode() {
-        return getReceivingLineDocument().getDeliveryPostalCode();
+        return getLineItemReceivingDocument().getDeliveryPostalCode();
     }
 
     @Override
     public Date getDeliveryRequiredDate() {
-        return getReceivingLineDocument().getDeliveryRequiredDate();
+        return getLineItemReceivingDocument().getDeliveryRequiredDate();
     }
 
     @Override
     public DeliveryRequiredDateReason getDeliveryRequiredDateReason() {
-        return getReceivingLineDocument().getDeliveryRequiredDateReason();
+        return getLineItemReceivingDocument().getDeliveryRequiredDateReason();
     }
 
     @Override
     public String getDeliveryRequiredDateReasonCode() {
-        return getReceivingLineDocument().getDeliveryRequiredDateReasonCode();
+        return getLineItemReceivingDocument().getDeliveryRequiredDateReasonCode();
     }
 
     @Override
     public String getDeliveryStateCode() {
-        return getReceivingLineDocument().getDeliveryStateCode();
+        return getLineItemReceivingDocument().getDeliveryStateCode();
     }
 
     @Override
     public String getDeliveryToEmailAddress() {
-        return getReceivingLineDocument().getDeliveryToEmailAddress();
+        return getLineItemReceivingDocument().getDeliveryToEmailAddress();
     }
 
     @Override
     public String getDeliveryToName() {
-        return getReceivingLineDocument().getDeliveryToName();
+        return getLineItemReceivingDocument().getDeliveryToName();
     }
 
     @Override
     public String getDeliveryToPhoneNumber() {
-        return getReceivingLineDocument().getDeliveryToPhoneNumber();
+        return getLineItemReceivingDocument().getDeliveryToPhoneNumber();
     }
 
     @Override
     public String getShipmentBillOfLadingNumber() {
-        return getReceivingLineDocument().getShipmentBillOfLadingNumber();
+        return getLineItemReceivingDocument().getShipmentBillOfLadingNumber();
     }
 
     @Override
     public String getShipmentPackingSlipNumber() {
-        return getReceivingLineDocument().getShipmentPackingSlipNumber();
+        return getLineItemReceivingDocument().getShipmentPackingSlipNumber();
     }
 
     @Override
     public Date getShipmentReceivedDate() {
-        return getReceivingLineDocument().getShipmentReceivedDate();
+        return getLineItemReceivingDocument().getShipmentReceivedDate();
     }
 
     @Override
     public String getShipmentReferenceNumber() {
-        return getReceivingLineDocument().getShipmentReferenceNumber();
+        return getLineItemReceivingDocument().getShipmentReferenceNumber();
     }
 
     @Override
     public Integer getVendorAddressGeneratedIdentifier() {
-        return getReceivingLineDocument().getVendorAddressGeneratedIdentifier();
+        return getLineItemReceivingDocument().getVendorAddressGeneratedIdentifier();
     }
 
     @Override
     public String getVendorCityName() {
-        return getReceivingLineDocument().getVendorCityName();
+        return getLineItemReceivingDocument().getVendorCityName();
     }
 
     @Override
     public Country getVendorCountry() {
-        return getReceivingLineDocument().getVendorCountry();
+        return getLineItemReceivingDocument().getVendorCountry();
     }
 
     @Override
     public String getVendorCountryCode() {
-        return getReceivingLineDocument().getVendorCountryCode();
+        return getLineItemReceivingDocument().getVendorCountryCode();
     }
 
     @Override
     public VendorDetail getVendorDetail() {
-        return getReceivingLineDocument().getVendorDetail();
+        return getLineItemReceivingDocument().getVendorDetail();
     }
 
     @Override
     public Integer getVendorDetailAssignedIdentifier() {
-        return getReceivingLineDocument().getVendorDetailAssignedIdentifier();
+        return getLineItemReceivingDocument().getVendorDetailAssignedIdentifier();
     }
 
     @Override
     public Integer getVendorHeaderGeneratedIdentifier() {
-        return getReceivingLineDocument().getVendorHeaderGeneratedIdentifier();
+        return getLineItemReceivingDocument().getVendorHeaderGeneratedIdentifier();
     }
 
     @Override
     public String getVendorLine1Address() {
-        return getReceivingLineDocument().getVendorLine1Address();
+        return getLineItemReceivingDocument().getVendorLine1Address();
     }
 
     @Override
     public String getVendorLine2Address() {
-        return getReceivingLineDocument().getVendorLine2Address();
+        return getLineItemReceivingDocument().getVendorLine2Address();
     }
 
     @Override
     public String getVendorName() {
-        return getReceivingLineDocument().getVendorName();
+        return getLineItemReceivingDocument().getVendorName();
     }
 
     @Override
     public String getVendorNumber() {
-        return getReceivingLineDocument().getVendorNumber();
+        return getLineItemReceivingDocument().getVendorNumber();
     }
 
     @Override
     public String getVendorPostalCode() {
-        return getReceivingLineDocument().getVendorPostalCode();
+        return getLineItemReceivingDocument().getVendorPostalCode();
     }
 
     @Override
     public String getVendorStateCode() {
-        return getReceivingLineDocument().getVendorStateCode();
+        return getLineItemReceivingDocument().getVendorStateCode();
     }
 
 }

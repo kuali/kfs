@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -32,17 +32,17 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * buttons on Purchase Order Document.
  * 
  */
-public class ReceivingLineDocumentActionAuthorizer {
+public class LineItemReceivingDocumentActionAuthorizer {
 
-    private ReceivingLineDocument receivingLine;
+    private LineItemReceivingDocument receivingLine;
     private boolean isUserAuthorized;
     
     /**
-     * Constructs a ReceivingLineDocumentActionAuthorizer.
+     * Constructs a LineItemReceivingDocumentActionAuthorizer.
      * 
-     * @param po A ReceivingLineDocument
+     * @param po A LineItemReceivingDocument
      */
-    public ReceivingLineDocumentActionAuthorizer(ReceivingLineDocument rl, Map editingMode) {
+    public LineItemReceivingDocumentActionAuthorizer(LineItemReceivingDocument rl, Map editingMode) {
         
         this.receivingLine = rl;
         
@@ -55,6 +55,7 @@ public class ReceivingLineDocumentActionAuthorizer {
         } else {
             this.isUserAuthorized = false;
         }
+
         
     }
 
@@ -64,7 +65,6 @@ public class ReceivingLineDocumentActionAuthorizer {
      * @return
      */
     public boolean canCreateCorrection() {        
-        return SpringContext.getBean(ReceivingService.class).canCreateReceivingCorrectionDocument(receivingLine) && isUserAuthorized;
+        return SpringContext.getBean(ReceivingService.class).canCreateCorrectionReceivingDocument(receivingLine) && isUserAuthorized;
     }
 }
-

@@ -23,8 +23,8 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -49,12 +49,12 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
 
     }
 
-    public List<String> getReceivingCorrectionDocumentNumbersByPurchaseOrderId(Integer id) {
+    public List<String> getCorrectionReceivingDocumentNumbersByPurchaseOrderId(Integer id) {
 
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("receivingLineDocument.purchaseOrderIdentifier", id);        
-        Iterator<Object[]> iter = getDocumentNumbersOfReceivingCorrectionByCriteria(criteria, false);
+        criteria.addEqualTo("lineItemReceivingDocument.purchaseOrderIdentifier", id);        
+        Iterator<Object[]> iter = getDocumentNumbersOfCorrectionReceivingByCriteria(criteria, false);
         while (iter.hasNext()) {
             Object[] cols = (Object[]) iter.next();
             returnList.add((String) cols[0]);
@@ -63,12 +63,12 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
 
     }
 
-    public List<String> getReceivingCorrectionDocumentNumbersByReceivingLineNumber(String receivingDocumentNumber) {
+    public List<String> getCorrectionReceivingDocumentNumbersByReceivingLineNumber(String receivingDocumentNumber) {
 
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.RECEIVING_LINE_DOCUMENT_NUMBER, receivingDocumentNumber);        
-        Iterator<Object[]> iter = getDocumentNumbersOfReceivingCorrectionByCriteria(criteria, false);
+        criteria.addEqualTo(PurapPropertyConstants.LINE_ITEM_RECEIVING_DOCUMENT_NUMBER, receivingDocumentNumber);        
+        Iterator<Object[]> iter = getDocumentNumbersOfCorrectionReceivingByCriteria(criteria, false);
         while (iter.hasNext()) {
             Object[] cols = (Object[]) iter.next();
             returnList.add((String) cols[0]);
@@ -87,7 +87,7 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
      */
     private Iterator<Object[]> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
         
-        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ReceivingLineDocument.class, criteria);
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(LineItemReceivingDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
@@ -98,9 +98,9 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
     }
 
-    private Iterator<Object[]> getDocumentNumbersOfReceivingCorrectionByCriteria(Criteria criteria, boolean orderByAscending) {
+    private Iterator<Object[]> getDocumentNumbersOfCorrectionReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
         
-        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ReceivingCorrectionDocument.class, criteria);
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(CorrectionReceivingDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);

@@ -22,10 +22,9 @@ import org.kuali.rice.kns.bo.Note;
 /**
  * Requisition View Business Object.
  */
-public class ReceivingLineView extends AbstractRelatedView {
+public class LineItemReceivingView extends AbstractRelatedView {
     private Integer purchaseOrderIdentifier;
     private boolean deliveryBuildingOtherIndicator;
-    
     public boolean isDeliveryBuildingOtherIndicator() {
         return deliveryBuildingOtherIndicator;
     }
@@ -33,7 +32,6 @@ public class ReceivingLineView extends AbstractRelatedView {
     public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
         this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
     }
-
     public Integer getPurchaseOrderIdentifier() {
         return purchaseOrderIdentifier;
     }

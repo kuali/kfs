@@ -22,15 +22,15 @@ import org.kuali.rice.kns.bo.Note;
 /**
  * Requisition View Business Object.
  */
-public class ReceivingCorrectionView extends AbstractRelatedView {
-    private Integer receivingLineDocumentIdentifier;
+public class CorrectionReceivingView extends AbstractRelatedView {
+    private Integer lineItemReceivingDocumentIdentifier;
 
-    public Integer getReceivingLineDocumentIdentifier() {
-        return receivingLineDocumentIdentifier;
+    public Integer getlineItemReceivingDocumentIdentifier() {
+        return lineItemReceivingDocumentIdentifier;
     }
 
-    public void setReceivingLineDocumentIdentifier(Integer receivingLineDocumentIdentifier) {
-        this.receivingLineDocumentIdentifier = receivingLineDocumentIdentifier;
+    public void setlineItemReceivingDocumentIdentifier(Integer lineItemReceivingDocumentIdentifier) {
+        this.lineItemReceivingDocumentIdentifier = lineItemReceivingDocumentIdentifier;
     }
 
     /**

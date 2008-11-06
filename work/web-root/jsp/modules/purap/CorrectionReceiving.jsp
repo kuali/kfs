@@ -16,8 +16,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="ReceivingCorrectionDocument"
-    htmlFormAction="purapReceivingCorrection" renderMultipart="true"
+    documentTypeName="CorrectionReceivingDocument"
+    htmlFormAction="purapCorrectionReceiving" renderMultipart="true"
     showTabButtons="true">
 
     <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
@@ -27,13 +27,13 @@
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<purap:receivingVendor
-	    documentAttributes="${DataDictionary.ReceivingCorrectionDocument.attributes}" />
+	    documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" />
 
 	<purap:receivingCorrectionItems
 		itemAttributes="${DataDictionary.ReceivingCorrectionItem.attributes}" />
 	
     <purap:delivery
-		documentAttributes="${DataDictionary.ReceivingCorrectionDocument.attributes}" 
+		documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" 
 		deliveryReadOnly="true" />
           	
     <purap:relatedDocuments

@@ -176,10 +176,10 @@
 			type="org.kuali.kfs.module.purap.document.web.struts.PaymentRequestForm" />
 		<form-bean name="CreditMemoForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.CreditMemoForm" />
-		<form-bean name="ReceivingLineForm"
-			type="org.kuali.kfs.module.purap.document.web.struts.ReceivingLineForm" />
-		<form-bean name="ReceivingCorrectionForm"
-			type="org.kuali.kfs.module.purap.document.web.struts.ReceivingCorrectionForm" />
+		<form-bean name="LineItemReceivingForm"
+			type="org.kuali.kfs.module.purap.document.web.struts.LineItemReceivingForm" />
+		<form-bean name="CorrectionReceivingForm"
+			type="org.kuali.kfs.module.purap.document.web.struts.CorrectionReceivingForm" />
 		<form-bean name="BulkReceivingForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.BulkReceivingForm" />
 		<form-bean name="ElectronicInvoiceRejectForm"

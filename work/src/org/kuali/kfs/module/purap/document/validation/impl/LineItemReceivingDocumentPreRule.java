@@ -30,7 +30,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class ReceivingLineDocumentPreRule extends MaintenancePreRulesBase{
+public class LineItemReceivingDocumentPreRule extends MaintenancePreRulesBase{
 
     @Override
     public boolean doRules(Document document) {

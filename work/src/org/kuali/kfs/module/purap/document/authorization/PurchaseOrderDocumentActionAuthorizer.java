@@ -294,7 +294,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * @return
      */
     public boolean canCreateReceiving() {        
-        return SpringContext.getBean(ReceivingService.class).canCreateReceivingLineDocument(purchaseOrder) && isUserAuthorized;
+        return SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(purchaseOrder) && isUserAuthorized;
     }
     
     @Override

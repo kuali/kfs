@@ -26,8 +26,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,14 +37,14 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
-public class ReceivingLineAction extends ReceivingBaseAction {
+public class LineItemReceivingAction extends ReceivingBaseAction {
 
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {       
         
         super.createDocument(kualiDocumentFormBase);
 
-        ReceivingLineForm rlf = (ReceivingLineForm)kualiDocumentFormBase;
-        ReceivingLineDocument rlDoc = (ReceivingLineDocument)rlf.getDocument();
+        LineItemReceivingForm rlf = (LineItemReceivingForm)kualiDocumentFormBase;
+        LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)rlf.getDocument();
         
         //set identifier from form value
         rlDoc.setPurchaseOrderIdentifier( rlf.getPurchaseOrderId() );
@@ -55,8 +55,8 @@ public class ReceivingLineAction extends ReceivingBaseAction {
 
     public ActionForward continueReceivingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     
-        ReceivingLineForm rlf = (ReceivingLineForm)form;
-        ReceivingLineDocument rlDoc = (ReceivingLineDocument)rlf.getDocument();
+        LineItemReceivingForm rlf = (LineItemReceivingForm)form;
+        LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)rlf.getDocument();
         
         //perform duplicate check
         ActionForward forward = performDuplicateReceivingLineCheck(mapping, form, request, response, rlDoc);
@@ -67,14 +67,14 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         //TODO: Must check if able to create receiving document, if not throw an error
         
         //populate and save Receiving Line Document from Purchase Order        
-        SpringContext.getBean(ReceivingService.class).populateAndSaveReceivingLineDocument(rlDoc);
+        SpringContext.getBean(ReceivingService.class).populateAndSaveLineItemReceivingDocument(rlDoc);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward createReceivingCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ReceivingLineForm rlForm = (ReceivingLineForm) form;
-        ReceivingLineDocument document = (ReceivingLineDocument) rlForm.getDocument();        
+        LineItemReceivingForm rlForm = (LineItemReceivingForm) form;
+        LineItemReceivingDocument document = (LineItemReceivingDocument) rlForm.getDocument();        
         
         String basePath = getBasePath(request);
         String methodToCallDocHandler = "docHandler";
@@ -84,11 +84,11 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingCorrection);
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "ReceivingCorrectionDocument");        
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "CorrectionReceivingDocument");        
         parameters.put("receivingLineDocId", document.getDocumentHeader().getDocumentNumber() );
         
         //create url
-        String receivingCorrectionUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapReceivingCorrection.do", parameters);
+        String receivingCorrectionUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapCorrectionReceiving.do", parameters);
         
         //create forward
         ActionForward forward = new ActionForward(receivingCorrectionUrl, true);
@@ -98,25 +98,25 @@ public class ReceivingLineAction extends ReceivingBaseAction {
     }
 
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ReceivingLineForm rlForm = (ReceivingLineForm) form;
-        ReceivingLineDocument rlDocument = (ReceivingLineDocument) rlForm.getDocument();
+        LineItemReceivingForm rlForm = (LineItemReceivingForm) form;
+        LineItemReceivingDocument rlDocument = (LineItemReceivingDocument) rlForm.getDocument();
         rlDocument.clearInitFields(rlForm.isFromPurchaseOrder());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private ActionForward performDuplicateReceivingLineCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, ReceivingLineDocument receivingLineDocument) throws Exception {
+    private ActionForward performDuplicateReceivingLineCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, LineItemReceivingDocument lineItemReceivingDocument) throws Exception {
         ActionForward forward = null;
-        HashMap<String, String> duplicateMessages = SpringContext.getBean(ReceivingService.class).receivingLineDuplicateMessages(receivingLineDocument);
+        HashMap<String, String> duplicateMessages = SpringContext.getBean(ReceivingService.class).receivingLineDuplicateMessages(lineItemReceivingDocument);
         if (duplicateMessages != null && !duplicateMessages.isEmpty()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
 
-                return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION, duplicateMessages.get(PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.LineItemReceivingDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION, duplicateMessages.get(PurapConstants.LineItemReceivingDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
             }
 
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-            if ((PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {                
+            if ((PurapConstants.LineItemReceivingDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {                
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
@@ -134,14 +134,14 @@ public class ReceivingLineAction extends ReceivingBaseAction {
      * @return An ActionForward
      */
     public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
-        ReceivingLineItem item = receivingLineForm.getNewReceivingLineItemLine();
-        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
+        LineItemReceivingForm lineItemReceivingForm = (LineItemReceivingForm) form;
+        LineItemReceivingItem item = lineItemReceivingForm.getNewLineItemReceivingItemLine();
+        LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument) lineItemReceivingForm.getDocument();
         boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
 
         if (rulePassed) {
-            item = receivingLineForm.getAndResetNewReceivingItemLine();                       
-            receivingLineDocument.addItem(item);                       
+            item = lineItemReceivingForm.getAndResetNewReceivingItemLine();                       
+            lineItemReceivingDocument.addItem(item);                       
             //TODO: we need to set the line number correctly to match up to PO
         }
 
@@ -159,11 +159,11 @@ public class ReceivingLineAction extends ReceivingBaseAction {
      * @throws Exception
      */
     public ActionForward clearQty(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
+        LineItemReceivingForm lineItemReceivingForm = (LineItemReceivingForm) form;
 
-        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
+        LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument) lineItemReceivingForm.getDocument();
         
-        for(ReceivingLineItem item : (List <ReceivingLineItem>)receivingLineDocument.getItems()){
+        for(LineItemReceivingItem item : (List <LineItemReceivingItem>)lineItemReceivingDocument.getItems()){
             item.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
         }
         
@@ -181,11 +181,11 @@ public class ReceivingLineAction extends ReceivingBaseAction {
      * @throws Exception
      */
     public ActionForward loadQty(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
+        LineItemReceivingForm lineItemReceivingForm = (LineItemReceivingForm) form;
 
-        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
+        LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument) lineItemReceivingForm.getDocument();
 
-        for(ReceivingLineItem item : (List <ReceivingLineItem>)receivingLineDocument.getItems()){            
+        for(LineItemReceivingItem item : (List <LineItemReceivingItem>)lineItemReceivingDocument.getItems()){            
             if( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()).isGreaterEqual(KualiDecimal.ZERO)  ){
                 item.setItemReceivedTotalQuantity( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()) );
             }else{

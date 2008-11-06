@@ -74,11 +74,11 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
     }
 
-    public static class ReceivingLineEditMode extends EditMode {
+    public static class LineItemReceivingEditMode extends EditMode {
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
     }
 
-    public static class ReceivingCorrectionEditMode extends EditMode {
+    public static class CorrectionReceivingEditMode extends EditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
     }
     

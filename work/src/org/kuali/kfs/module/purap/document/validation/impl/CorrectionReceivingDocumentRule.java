@@ -22,7 +22,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -31,19 +31,19 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ReceivingCorrectionDocumentRule extends DocumentRuleBase {
+public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {        
         boolean valid = true;
-        ReceivingCorrectionDocument receivingCorrectionDocument = (ReceivingCorrectionDocument)document;
+        CorrectionReceivingDocument correctionReceivingDocument = (CorrectionReceivingDocument)document;
         
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= super.processCustomRouteDocumentBusinessRules(document);
-        valid &= canCreateReceivingCorrectionDocument(receivingCorrectionDocument);
-        valid &= isAtLeastOneItemEntered(receivingCorrectionDocument);
+        valid &= canCreateCorrectionReceivingDocument(correctionReceivingDocument);
+        valid &= isAtLeastOneItemEntered(correctionReceivingDocument);
         
         return valid;
     }
@@ -74,13 +74,13 @@ public class ReceivingCorrectionDocumentRule extends DocumentRuleBase {
      * @param receivingCorrectionDocument
      * @return
      */
-    private boolean canCreateReceivingCorrectionDocument(ReceivingCorrectionDocument receivingCorrectionDocument){
+    private boolean canCreateCorrectionReceivingDocument(CorrectionReceivingDocument correctionReceivingDocument){
         
         boolean valid = true;
         
-        if( SpringContext.getBean(ReceivingService.class).canCreateReceivingCorrectionDocument(receivingCorrectionDocument.getReceivingLineDocument(), receivingCorrectionDocument.getDocumentNumber()) == false){
+        if( SpringContext.getBean(ReceivingService.class).canCreateCorrectionReceivingDocument(correctionReceivingDocument.getLineItemReceivingDocument(), correctionReceivingDocument.getDocumentNumber()) == false){
             valid &= false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.RECEIVING_LINE_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE, receivingCorrectionDocument.getDocumentNumber(), receivingCorrectionDocument.getReceivingLineDocumentNumber());
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.LINE_ITEM_RECEIVING_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE, correctionReceivingDocument.getDocumentNumber(), correctionReceivingDocument.getLineItemReceivingDocumentNumber());
         }
          
         return valid;

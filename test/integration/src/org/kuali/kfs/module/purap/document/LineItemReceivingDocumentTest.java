@@ -20,7 +20,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.List;
 
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.fixture.LineItemReceivingDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 @ConfigureContext(session = khuntley)
 public class LineItemReceivingDocumentTest extends KualiTestBase {
-    public static final Class<ReceivingLineDocument> DOCUMENT_CLASS = ReceivingLineDocument.class;
+    public static final Class<LineItemReceivingDocument> DOCUMENT_CLASS = LineItemReceivingDocument.class;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -54,7 +54,7 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         return 0;
     }
 
-    @ConfigureContext(session = parke, shouldCommitTransactions=false)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
         //create PO
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
@@ -65,9 +65,9 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         PurchaseOrderDocument poResult = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(po.getDocumentNumber());
         
         //create Receiving
-        ReceivingLineDocument receivingLineDocument = LineItemReceivingDocumentFixture.EMPTY_LINE_ITEM_RECEIVING.createReceivingLineDocument();
+        LineItemReceivingDocument receivingLineDocument = LineItemReceivingDocumentFixture.EMPTY_LINE_ITEM_RECEIVING.createLineItemReceivingDocument();
         receivingLineDocument.populateReceivingLineFromPurchaseOrder(poResult);
-        for(ReceivingLineItem rli : (List<ReceivingLineItem>)receivingLineDocument.getItems()){
+        for(LineItemReceivingItem rli : (List<LineItemReceivingItem>)receivingLineDocument.getItems()){
             rli.setItemReceivedTotalQuantity( rli.getItemOrderedQuantity());
         }
         receivingLineDocument.prepareForSave();

@@ -1,22 +1,22 @@
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ReceivingCorrectionItem extends ReceivingItemBase {
+public class CorrectionReceivingItem extends ReceivingItemBase {
 
-	private ReceivingCorrectionDocument receivingCorrectionDocument;
+	private CorrectionReceivingDocument correctionReceivingDocument;
     
 	/**
 	 * Default constructor.
 	 */
-	public ReceivingCorrectionItem() {
+	public CorrectionReceivingItem() {
 
 	}
 
-    public ReceivingCorrectionItem(ReceivingLineItem rli, ReceivingCorrectionDocument rcd){
+    public CorrectionReceivingItem(LineItemReceivingItem rli, CorrectionReceivingDocument rcd){
         
         this.setDocumentNumber( rcd.getDocumentNumber() );        
         this.setItemTypeCode( rli.getItemTypeCode() );
@@ -39,8 +39,8 @@ public class ReceivingCorrectionItem extends ReceivingItemBase {
     }
 
 
-    public ReceivingCorrectionDocument getReceivingCorrectionDocument() {
-        return receivingCorrectionDocument;
+    public CorrectionReceivingDocument getCorrectionReceivingDocument() {
+        return correctionReceivingDocument;
     }
 
     /**
@@ -48,8 +48,8 @@ public class ReceivingCorrectionItem extends ReceivingItemBase {
      * @param receivingCorrectionDocument The receivingCorrectionDocument to set.
      * @deprecated
      */
-    public void setReceivingCorrectionDocument(ReceivingCorrectionDocument receivingCorrectionDocument) {
-        this.receivingCorrectionDocument = receivingCorrectionDocument;
+    public void setCorrectionReceivingDocument(CorrectionReceivingDocument correctionReceivingDocument) {
+        this.correctionReceivingDocument = correctionReceivingDocument;
     }
 
     

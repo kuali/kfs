@@ -3400,7 +3400,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingLineView" table="PUR_RCVNG_LN_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.LineItemReceivingView" table="PUR_RCVNG_LN_T">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
@@ -3416,9 +3416,9 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionView" table="PUR_RCVNG_COR_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView" table="PUR_RCVNG_COR_T">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
-    <field-descriptor name="receivingLineDocumentIdentifier" column="RCVNG_LN_FDOC_NBR" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="lineItemReceivingDocumentIdentifier" column="RCVNG_LN_FDOC_NBR" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 </class-descriptor>
@@ -3788,7 +3788,7 @@
 
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.document.ReceivingLineDocument" table="PUR_RCVNG_LN_T">
+<class-descriptor class="org.kuali.kfs.module.purap.document.LineItemReceivingDocument" table="PUR_RCVNG_LN_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -3829,7 +3829,7 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     
-    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.ReceivingLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
         <query-customizer class="org.kuali.kfs.module.purap.dataaccess.impl.PurapItemQueryCustomizer">
     	    <attribute
@@ -3854,7 +3854,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingLineItem" table="PUR_RCVNG_LN_ITM_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem" table="PUR_RCVNG_LN_ITM_T">
 	<field-descriptor name="receivingItemIdentifier" column="RCVNG_LN_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_LN_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -3870,7 +3870,7 @@
 	<field-descriptor name="itemReturnedTotalQuantity" column="ITM_RTRN_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemDamagedTotalQuantity" column="ITM_DMGED_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemReasonAddedCode" column="ITM_REAS_ADD_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="receivingLineDocument" class-ref="org.kuali.kfs.module.purap.document.ReceivingLineDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="lineItemReceivingDocument" class-ref="org.kuali.kfs.module.purap.document.LineItemReceivingDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="itemReasonAdded" class-ref="org.kuali.kfs.module.purap.businessobject.ItemReasonAdded" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -3884,17 +3884,17 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument" table="PUR_RCVNG_COR_T">
+<class-descriptor class="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" table="PUR_RCVNG_COR_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="receivingLineDocumentNumber" column="RCVNG_LN_FDOC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="lineItemReceivingDocumentNumber" column="RCVNG_LN_FDOC_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER" autoincrement="true" sequence-name="AP_PUR_DOC_LNK_ID"/>
-    <reference-descriptor name="receivingLineDocument" class-ref="org.kuali.kfs.module.purap.document.ReceivingLineDocument" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="receivingLineDocumentNumber" />
+    <reference-descriptor name="lineItemReceivingDocument" class-ref="org.kuali.kfs.module.purap.document.LineItemReceivingDocument" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="lineItemReceivingDocumentNumber" />
     </reference-descriptor>
 
-    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
         <query-customizer class="org.kuali.kfs.module.purap.dataaccess.impl.PurapItemQueryCustomizer">
     	    <attribute
@@ -3909,7 +3909,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem" table="PUR_RCVNG_COR_ITM_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem" table="PUR_RCVNG_COR_ITM_T">
 	<field-descriptor name="receivingItemIdentifier" column="RCVNG_COR_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_COR_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -3927,7 +3927,7 @@
 	<field-descriptor name="itemReturnedTotalQuantity" column="ITM_COR_RTRN_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemDamagedTotalQuantity" column="ITM_COR_DMGED_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemReasonAddedCode" column="ITM_REAS_ADD_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="receivingCorrectionDocument" class-ref="org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="correctionReceivingDocument" class-ref="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="itemReasonAdded" class-ref="org.kuali.kfs.module.purap.businessobject.ItemReasonAdded" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
 
-public class ReceivingCorrectionDocumentPreRules extends PreRulesContinuationBase {
+public class CorrectionReceivingDocumentPreRules extends PreRulesContinuationBase {
 
     @Override
     public boolean doRules(Document arg0) {

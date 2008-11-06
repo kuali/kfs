@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
@@ -18,17 +18,17 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ReceivingLineDocument extends ReceivingDocumentBase {
+public class LineItemReceivingDocument extends ReceivingDocumentBase {
 
     //Collections
-    private List<ReceivingLineItem> items;
+    private List<LineItemReceivingItem> items;
 
     //Used by Routing
     boolean awaitingPurchaseOrderOpen;
     /**
      * Default constructor.
      */
-    public ReceivingLineDocument() {
+    public LineItemReceivingDocument() {
         super();
         items = new TypedArrayList(getItemClass());
     }
@@ -83,7 +83,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
             if(poi.isItemActiveIndicator() && 
                poi.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
                poi.getItemType().isLineItemIndicator() ){
-                this.getItems().add(new ReceivingLineItem(poi, this));
+                this.getItems().add(new LineItemReceivingItem(poi, this));
             }
         }
         
@@ -132,7 +132,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     }
 
     public Class getItemClass() {
-        return ReceivingLineItem.class;
+        return LineItemReceivingItem.class;
     }
 
     public List getItems() {
@@ -143,11 +143,11 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         this.items = items;
     }
 
-    public ReceivingLineItem getItem(int pos) {
-        return (ReceivingLineItem) items.get(pos);
+    public LineItemReceivingItem getItem(int pos) {
+        return (LineItemReceivingItem) items.get(pos);
     }
 
-    public void addItem(ReceivingLineItem item) {
+    public void addItem(LineItemReceivingItem item) {
         getItems().add(item);
     }
 
@@ -163,9 +163,9 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         return null;
     }
 
-    /*public ReceivingLineItem getItemByLineNumber(int lineNumber) {
+    /*public LineItemReceivingItem getItemByLineNumber(int lineNumber) {
         for (Iterator iter = items.iterator(); iter.hasNext();) {
-            ReceivingLineItem item = (ReceivingLineItem) iter.next();
+            LineItemReceivingItem item = (LineItemReceivingItem) iter.next();
             if (item.getItemLineNumber().intValue() == lineNumber) {
                 return item;
             }

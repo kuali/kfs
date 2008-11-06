@@ -16,8 +16,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="ReceivingLineDocument"
-    htmlFormAction="purapReceivingLine" renderMultipart="true"
+    documentTypeName="LineItemReceivingDocument"
+    htmlFormAction="purapLineItemReceiving" renderMultipart="true"
     showTabButtons="true">
     		     		
     <c:choose>
@@ -30,7 +30,7 @@
     </c:choose>
     
 	<c:if test="${KualiForm.editingMode['displayInitTab']}" > 
-    	<purap:receivingLineInit documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}"/>
+    	<purap:receivingLineInit documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}"/>
 	</c:if>
     
     <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
@@ -38,13 +38,13 @@
 	    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		<purap:receivingVendor
-		    documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}" />
+		    documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}" />
 	
 		<purap:receivingLineItems
-			itemAttributes="${DataDictionary.ReceivingLineItem.attributes}" />
+			itemAttributes="${DataDictionary.LineItemReceivingItem.attributes}" />
 		
 	    <purap:delivery
-			documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}"
+			documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}"
 			deliveryReadOnly="true" />
 		          	
 	    <purap:relatedDocuments

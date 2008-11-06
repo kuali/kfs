@@ -55,11 +55,11 @@
 			documentTypeLabel="Credit Memo" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedReceivingLineViews"
+			viewList="document.relatedViews.relatedLineItemReceivingViews"
 			documentTypeLabel="Receiving Line" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedReceivingCorrectionViews"
+			viewList="document.relatedViews.relatedCorrectionReceivingViews"
 			documentTypeLabel="Receiving Correction" /> 
 			
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"

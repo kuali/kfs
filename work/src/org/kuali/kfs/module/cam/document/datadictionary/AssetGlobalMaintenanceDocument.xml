@@ -241,6 +241,8 @@
           <property name="maintainableFields" >
             <list>  
               <bean parent="MaintainableFieldDefinition"
+                    p:name="hiddenFieldForError"/> 
+              <bean parent="MaintainableFieldDefinition"
                     p:name="campusCode"
                     p:readOnlyAfterAdd="false"
                     p:required="true" />

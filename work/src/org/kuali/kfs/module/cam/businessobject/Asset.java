@@ -12,14 +12,17 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -28,6 +31,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class Asset extends PersistableBusinessObjectBase implements CapitalAssetManagementAsset {
+    private transient String hiddenFieldForError;
     private Long capitalAssetNumber;
     private String capitalAssetDescription;
     private String capitalAssetTypeCode;
@@ -148,6 +152,74 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.mergeHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
     }
 
+    /**
+     * Constructs a Asset object. Includes logic to properly set fields depending if it's creating a new asset or separating an asset
+     * @param assetGlobal
+     * @param assetGlobalDetail
+     * @param separate if it's seprate an asset
+     */
+    public Asset(AssetGlobal assetGlobal, AssetGlobalDetail assetGlobalDetail, boolean separate) {
+        this();
+        
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        
+        this.setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
+        this.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+        this.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
+        
+        this.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+        
+        this.setInventoryStatusCode(assetGlobal.getInventoryStatusCode());
+        this.setConditionCode(assetGlobal.getConditionCode());
+        this.setAcquisitionTypeCode(assetGlobal.getAcquisitionTypeCode());
+        this.setLandCountyName(assetGlobal.getLandCountyName());
+        this.setLandAcreageSize(assetGlobal.getLandAcreageSize());
+        this.setLandParcelNumber(assetGlobal.getLandParcelNumber());
+        this.setVendorName(assetGlobal.getVendorName());
+        this.setOrganizationOwnerAccountNumber(assetGlobal.getOrganizationOwnerAccountNumber());
+        this.setOrganizationOwnerChartOfAccountsCode(assetGlobal.getOrganizationOwnerChartOfAccountsCode());
+        this.setAgencyNumber(assetGlobal.getAgencyNumber());
+        this.setCapitalAssetInServiceDate(assetGlobal.getCapitalAssetInServiceDate());
+        this.setDepreciationDate(assetGlobal.getCapitalAssetDepreciationDate());
+        this.setCreateDate(assetGlobal.getCreateDate());
+        
+        this.setCapitalAssetNumber(assetGlobalDetail.getCapitalAssetNumber());
+        this.setCampusCode(assetGlobalDetail.getCampusCode());
+        this.setBuildingCode(assetGlobalDetail.getBuildingCode());
+        this.setBuildingRoomNumber(assetGlobalDetail.getBuildingRoomNumber());
+        this.setBuildingSubRoomNumber(assetGlobalDetail.getBuildingSubRoomNumber());
+        this.setSerialNumber(assetGlobalDetail.getSerialNumber());
+        this.setOrganizationInventoryName(assetGlobalDetail.getOrganizationInventoryName());
+        this.setGovernmentTagNumber(assetGlobalDetail.getGovernmentTagNumber());
+        this.setCampusTagNumber(assetGlobalDetail.getCampusTagNumber());
+        this.setNationalStockNumber(assetGlobalDetail.getNationalStockNumber());
+        
+        AssetOrganization assetOrganization = new AssetOrganization();
+        assetOrganization.setCapitalAssetNumber(assetGlobalDetail.getCapitalAssetNumber());
+        assetOrganization.setOrganizationAssetTypeIdentifier(assetGlobalDetail.getOrganizationAssetTypeIdentifier());
+        this.setAssetOrganization(assetOrganization);
+        
+        this.setActive(true);
+        
+        if (separate) {
+            this.setRepresentativeUniversalIdentifier(assetGlobalDetail.getRepresentativeUniversalIdentifier());
+            this.setCapitalAssetTypeCode(assetGlobalDetail.getCapitalAssetTypeCode());
+            this.setCapitalAssetDescription(assetGlobalDetail.getCapitalAssetDescription());
+            this.setManufacturerName(assetGlobalDetail.getManufacturerName());
+            this.setManufacturerModelNumber(assetGlobalDetail.getManufacturerModelNumber());
+            
+            this.assetOrganization.setOrganizationText(assetGlobalDetail.getOrganizationText());
+        } else {
+            this.setRepresentativeUniversalIdentifier(assetGlobal.getRepresentativeUniversalIdentifier());
+            this.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
+            this.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
+            this.setManufacturerName(assetGlobal.getManufacturerName());
+            this.setManufacturerModelNumber(assetGlobal.getManufacturerModelNumber());
+            
+            this.assetOrganization.setOrganizationText(assetGlobal.getOrganizationText());
+        }
+    }
+    
     public KualiDecimal getCurrentMonthDepreciation() {
         return currentMonthDepreciation;
     }
@@ -1804,6 +1876,14 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
     public void setTagged() {
         this.tagged = (StringUtils.isBlank(campusTagNumber)) ? false : true;
+    }
+
+    public String getHiddenFieldForError() {
+        return hiddenFieldForError;
+    }
+
+    public void setHiddenFieldForError(String hiddenFieldForError) {
+        this.hiddenFieldForError = hiddenFieldForError;
     }
 
 }

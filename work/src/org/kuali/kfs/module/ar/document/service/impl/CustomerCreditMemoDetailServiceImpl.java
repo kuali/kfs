@@ -34,13 +34,16 @@ public class CustomerCreditMemoDetailServiceImpl implements CustomerCreditMemoDe
         Integer lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
         
         BigDecimal itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
-
-        // if item quantity was entered
-        if (ObjectUtils.isNotNull(itemQuantity))
-            customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(customerCreditMemoDocument);
-        // if item amount was entered
-        else
+        KualiDecimal itemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+        
+        // if line amount was entered, it takes precedence, if not, use the item quantity to re-calc amount
+        if (ObjectUtils.isNotNull(itemAmount)) {
             customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(customerCreditMemoDocument);
+        }
+        // if item amount was entered
+        else {
+            customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(customerCreditMemoDocument);
+        }
         
         customerCreditMemoDocument.recalculateTotalsBasedOnChangedItemAmount(customerCreditMemoDetail);                                                                                                                                                           
     }

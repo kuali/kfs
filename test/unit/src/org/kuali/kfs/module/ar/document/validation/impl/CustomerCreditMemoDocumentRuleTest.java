@@ -18,32 +18,25 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentTestUtil;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentTestUtil;
-import org.kuali.kfs.module.ar.fixture.CustomerFixture;
-import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
-import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
-
 import org.kuali.rice.kew.exception.WorkflowException;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 
@@ -209,7 +202,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid returns true if passed valid quantity and amount
      */ 
-    public void testCheckIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid_True() {
+    public void testCheckIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid_ExactMatch() {
         CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
         detail.setCreditMemoItemTotalAmount(new KualiDecimal(4));
         detail.setCreditMemoItemQuantity(new BigDecimal(2));
@@ -220,12 +213,36 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid returns false if passed invalid quantity and/or amount
      */ 
-    public void testCheckIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid_False() {
+    public void testCheckIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid_FarOff() {
         CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
-        detail.setCreditMemoItemTotalAmount(new KualiDecimal(4));
-        detail.setCreditMemoItemQuantity(new BigDecimal(1.5));
+        detail.setCreditMemoItemTotalAmount(new KualiDecimal(50));
+        detail.setCreditMemoItemQuantity(new BigDecimal(10)); // should be 5
         
-        assertFalse(rule.checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(detail,new BigDecimal(2)));
+        assertFalse(rule.checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(detail,new BigDecimal(10)));
+    }
+    
+    public void testCheckIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid_JustAboveAllowedDeviation() {
+        CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
+        detail.setCreditMemoItemTotalAmount(new KualiDecimal(50));
+        detail.setCreditMemoItemQuantity(new BigDecimal(5.6)); // should be 5
+        
+        assertFalse(rule.checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(detail,new BigDecimal(10)));
+    }
+    
+    public void testCheckIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid_ExactlyAllowedDeviation() {
+        CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
+        detail.setCreditMemoItemTotalAmount(new KualiDecimal(50));
+        detail.setCreditMemoItemQuantity(new BigDecimal(5.5)); // should be 5
+        
+        assertTrue(rule.checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(detail,new BigDecimal(10)));
+    }
+    
+    public void testCheckIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid_JustBelowAllowedDeviation() {
+        CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
+        detail.setCreditMemoItemTotalAmount(new KualiDecimal(50));
+        detail.setCreditMemoItemQuantity(new BigDecimal(5.4)); // should be 5
+        
+        assertTrue(rule.checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(detail,new BigDecimal(10)));
     }
     
     /*

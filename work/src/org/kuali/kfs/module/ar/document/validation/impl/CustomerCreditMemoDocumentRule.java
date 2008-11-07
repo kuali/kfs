@@ -55,6 +55,11 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<TransactionalDocument>,
                                                                                              RecalculateCustomerCreditMemoDocumentRule<TransactionalDocument>,
                                                                                              ContinueCustomerCreditMemoDocumentRule<TransactionalDocument> {
+    
+    private static final KualiDecimal ALLOWED_QTY_DEVIATION = new KualiDecimal("0.10");
+    
+    public CustomerCreditMemoDocumentRule() {}
+    
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
@@ -157,11 +162,18 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
     
     public boolean checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(CustomerCreditMemoDetail customerCreditMemoDetail, BigDecimal unitPrice) {
-        KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-        KualiDecimal creditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
+        KualiDecimal creditAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+        KualiDecimal creditQuantity = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         
-        // Need to convert unit price to KualiDecimal so .equals method works properly
-        boolean validFlag = (creditMemoItemAmount.divide(creditMemoItemQty)).equals(new KualiDecimal(unitPrice));
+        //  determine the expected exact total credit memo quantity, based on actual credit amount entered
+        KualiDecimal expectedCreditQuantity = creditAmount.divide(new KualiDecimal(unitPrice), true);
+        
+        //  determine the deviation percentage that the actual creditQuantity has from expectedCreditQuantity
+        KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);
+        
+        // only allow a certain deviation of creditQuantity from the expectedCreditQuantity 
+        boolean validFlag = (deviationPercentage.isLessEqual(ALLOWED_QTY_DEVIATION));
+        
         if (!validFlag){
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);

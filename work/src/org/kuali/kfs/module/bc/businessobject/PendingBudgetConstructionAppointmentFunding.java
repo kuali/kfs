@@ -85,8 +85,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private List<BudgetConstructionSalaryFunding> budgetConstructionSalaryFunding;
     private List<BudgetConstructionAppointmentFundingReason> budgetConstructionAppointmentFundingReason;
 
-    private Person employee;
-
     private KualiDecimal percentChange;
     private String adjustmentMeasurement;
     private KualiDecimal adjustmentAmount;
@@ -809,24 +807,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      */
     public void setBcnCalculatedSalaryFoundationTracker(List<BudgetConstructionCalculatedSalaryFoundationTracker> bcnCalculatedSalaryFoundationTracker) {
         this.bcnCalculatedSalaryFoundationTracker = bcnCalculatedSalaryFoundationTracker;
-    }
-
-    /**
-     * Gets the employee attribute.
-     * 
-     * @return Returns the employee.
-     */
-    public Person getEmployee() {
-        return (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
-    }
-
-    /**
-     * Sets the employee attribute value.
-     * 
-     * @param employee The employee to set.
-     */
-    public void setEmployee(Person employee) {
-        this.employee = employee;
     }
 
     /**

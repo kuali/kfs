@@ -32,6 +32,7 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
@@ -613,7 +614,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @return system parameter value giving the maximum number of notes allowed.
      */
     private int getMaxNoteLines() {
-        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
         }

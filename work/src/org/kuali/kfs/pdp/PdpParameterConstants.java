@@ -36,7 +36,8 @@ public class PdpParameterConstants {
 
     public static String TAX_GROUP_EMAIL_ADDRESS = "TAX_GROUP_TO_EMAIL_ADDRESSES";
     public static String TAX_CANCEL_EMAIL_LIST = "TAX_CANCEL_TO_EMAIL_ADDRESSES";
-
+    public static String TAX_CANCEL_CONTACT = "TAX_CONTACT";
+    
     public static String MAX_NOTE_LINES = "MAX_NOTE_LINES";
     public static String FORMAT_SUMMARY_ROWS = "FORMAT_SUMMARY_REVIEW_RESULTS_PER_PAGE";
 

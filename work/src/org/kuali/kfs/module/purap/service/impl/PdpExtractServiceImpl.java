@@ -28,6 +28,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
@@ -483,7 +484,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return configured maximum number of note lines allowed
      */
     private int getMaxNoteLines() {
-        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
         }

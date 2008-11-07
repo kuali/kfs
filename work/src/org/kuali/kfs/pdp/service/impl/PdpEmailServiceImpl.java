@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -86,7 +85,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_FAILURE_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuffer body = new StringBuffer();
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.HARD_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
 
         if (paymentFile == null) {
             if (ccAddresses.isEmpty()) {
@@ -159,7 +158,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.setFromAddress(mailService.getBatchMailingList());
         message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME));
 
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.HARD_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
         CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
@@ -298,7 +297,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         StringBuffer body = new StringBuffer();
 
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.HARD_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
         CustomerProfile customer = batch.getCustomerProfile();
@@ -350,7 +349,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         List<String> toAddressList = Arrays.asList(toAddresses.split(","));
         message.getToAddresses().addAll(toAddressList);
 
-        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.SOFT_EDIT_CC);
+        List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.SOFT_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
         body.append(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_MESSAGE, StringUtils.join(creditMemos, ","), StringUtils.join(paymentRequests, ","), lineTotal, maxNoteLines));
@@ -602,14 +601,14 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         
         body.append(note + "\n\n");
         String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_GROUP_EMAIL_ADDRESS);
-
+        String taxContactDepartment = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_CANCEL_CONTACT);
         if (StringUtils.isBlank(taxEmail)) {
             messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[] { taxContactDepartment }) + " \n\n");
         }
         else {
             messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3);
-            body.append(MessageFormat.format(messageKey, new Object[] { taxEmail }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[] { taxContactDepartment, taxEmail }) + " \n\n");
         }
 
         messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);

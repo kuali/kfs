@@ -122,7 +122,7 @@
 										&nbsp;
 										<c:if test="${!empty KualiForm.previousInvoiceDocumentNumber}">
 											<html:image property="methodToCall.goToPreviousInvoice"
-												src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+												src="${ConfigProperties.externalizable.images.url}tinybutton-prev.gif"
 												alt="Go To Previous Invoice" title="Go To Previous Invoice"
 												styleClass="tinybutton" />
 										</c:if>
@@ -130,7 +130,7 @@
 											test="${!empty KualiForm.previousInvoiceDocumentNumber && !empty KualiForm.nextInvoiceDocumentNumber}">|</c:if>
 										<c:if test="${!empty KualiForm.nextInvoiceDocumentNumber}">
 											<html:image property="methodToCall.goToNextInvoice"
-												src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+												src="${ConfigProperties.externalizable.images.url}tinybutton-next.gif"
 												alt="Go To Next Invoice" title="Go To Next Invoice"
 												styleClass="tinybutton" />
 										</c:if>

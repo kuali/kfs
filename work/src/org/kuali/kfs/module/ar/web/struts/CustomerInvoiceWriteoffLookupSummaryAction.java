@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -76,7 +77,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         //  only submit this if there's at least one invoiceNumber in the stack
         if (!anyFound) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, 
-                    KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, "No invoices were selected to send to writeoff batch.  Please select at least one.");
+                    KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
@@ -87,7 +88,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
         schedulerService.runJob("customerInvoiceWriteoffBatchJob", person.getEmailAddress());
         
-        GlobalVariables.getMessageList().add("Invoice Writeoff batch successfully sent.");
+        GlobalVariables.getMessageList().add(ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT);
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
     

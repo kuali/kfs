@@ -154,6 +154,8 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE = "error.document.customerInvoiceWriteoff.invoiceHasCreditBalance";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_INVALID_EXPLANATION = "error.document.customerInvoiceWriteoff.invalidExplanation";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_EMPTY_EXPLANATION = "error.document.customerInvoiceWriteoff.emptyExplanation";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED = "error.document.customerInvoiceWriteoff.noInvoicesSelected";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT = "error.document.customerInvoiceWriteoff.batchSent";
 
     // Organization Options errors
     public static class OrganizationOptionsErrors {

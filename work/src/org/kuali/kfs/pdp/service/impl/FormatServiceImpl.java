@@ -51,7 +51,6 @@ import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.impl.exception.FormatException;
-import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
@@ -342,7 +341,9 @@ public class FormatServiceImpl implements FormatService {
 
             if (paymentGroup.getBank() == null) {
                 LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
-                throw new NoBankForCustomerException("A bank is needed for CHCK for customer: " + customer, customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
+
+                throw new FormatException("A bank is needed for CHCK for customer: " + customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
             }
         }
         else {
@@ -362,7 +363,9 @@ public class FormatServiceImpl implements FormatService {
 
             if (paymentGroup.getBank() == null) {
                 LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
-                throw new NoBankForCustomerException("A bank is needed for ACH for customer: " + customer, customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
+
+                throw new FormatException("A bank is needed for ACH for customer: " + customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
             }
 
             paymentGroup.setAchBankRoutingNbr(payeeAchAccount.getBankRoutingNumber());
@@ -395,6 +398,7 @@ public class FormatServiceImpl implements FormatService {
             LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
 
             DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode());
+
             if (range == null) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
                 throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
@@ -479,6 +483,7 @@ public class FormatServiceImpl implements FormatService {
         KualiInteger disbursementNumber = new KualiInteger(1 + range.getLastAssignedDisbNbr().intValue());
         if (disbursementNumber.isGreaterThan(range.getEndDisbursementNbr())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+
             throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
         }
         paymentGroup.setDisbursementNbr(disbursementNumber);

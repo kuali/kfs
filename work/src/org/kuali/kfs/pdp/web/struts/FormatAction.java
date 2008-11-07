@@ -36,7 +36,6 @@ import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.pdp.service.impl.exception.FormatException;
-import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -165,11 +164,6 @@ public class FormatAction extends KualiAction {
             String lookupUrl = buildUrl(String.valueOf(processId.intValue()));
 
             return new ActionForward(lookupUrl, true);
-        }
-        catch (NoBankForCustomerException nbfce) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, nbfce.getCustomerProfile());
-
-            return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
         catch (FormatException e) {
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);

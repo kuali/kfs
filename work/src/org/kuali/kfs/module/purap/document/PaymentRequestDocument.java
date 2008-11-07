@@ -837,6 +837,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return this.getTotalDollarAmountWithExclusions(discountCode, true);
     }
 
+    /**
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * 
+     * @param amount - Grand total for document, excluding discount
+     */
+    public void setGrandTotalExcludingDiscount(KualiDecimal amount) {
+        // do nothing
+    }
+    
     public KualiDecimal getGrandPreTaxTotal() {
         return this.getTotalPreTaxDollarAmount();
     }

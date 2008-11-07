@@ -96,7 +96,11 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     
     public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(){
         PurchasingDocument pd = (PurchasingDocument)this.getPurapDocument();
-        
-        return pd.getPurchasingCapitalAssetItem(this.getItemIdentifier());
+        if (this.getItemIdentifier() != null) {
+            return pd.getPurchasingCapitalAssetItem(this.getItemIdentifier());
+        }
+        else {
+            return null;
+        }
     }
 }

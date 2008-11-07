@@ -130,9 +130,9 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         return itemActiveIndicator;
     }
     
-    public String getItemActiveIndicator() {
-        return (new Boolean(itemActiveIndicator)).toString();
-    }
+//    public String getItemActiveIndicator() {
+//        return (new Boolean(itemActiveIndicator)).toString();
+//    }
 
     public void setItemActiveIndicator(boolean itemActiveIndicator) {
         this.itemActiveIndicator = itemActiveIndicator;

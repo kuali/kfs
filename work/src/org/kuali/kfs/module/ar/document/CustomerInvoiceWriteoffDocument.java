@@ -314,6 +314,9 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      */
 
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        // if invoice item open amount <= 0 -> do not generate GLPEs for this glpeSourceDetail
+        if (!((CustomerInvoiceDetail)glpeSourceDetail).getOpenAmount().isPositive())
+            return true;
 
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean hasReceivableClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
@@ -328,6 +331,8 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         
         //if sales tax is enabled generate GLPEs
         if( SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(getCustomerInvoiceDocument(), (CustomerInvoiceDetail)glpeSourceDetail  ) )
+            // if AR System Parameter GLPE_WRITEOFF_TAX_GENERATION_METHOD set to 'A' -> generate GLPEs
+            if( SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD ).equals(ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DEFAULT) )
                 addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail, hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset );
 
         return true;
@@ -348,7 +353,8 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean isDebit = false;       
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getOpenAmount());
+        //service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getOpenAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, new KualiDecimal(100));
     }
     
     /**
@@ -366,7 +372,8 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean isDebit = true;
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getOpenAmount());
+        //service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getOpenAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, new KualiDecimal(100));
     }
     
     protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
@@ -389,11 +396,12 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
             receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(salesTaxWriteoffCustomerInvoiceDetail,getCustomerInvoiceDocument());
             
             sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxWriteoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            //service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxWriteoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxWriteoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, new KualiDecimal(5));
             
             sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, !isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
-            
+            //service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, !isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, !isDebit, hasClaimOnCashOffset, new KualiDecimal(5));
 
         }
     }

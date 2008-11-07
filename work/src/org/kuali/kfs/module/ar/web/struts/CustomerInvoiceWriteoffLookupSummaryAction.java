@@ -88,8 +88,10 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
         schedulerService.runJob("customerInvoiceWriteoffBatchJob", person.getEmailAddress());
         
+        customerInvoiceWriteoffLookupSummaryForm.setSentToBatch(true);
+        
         GlobalVariables.getMessageList().add(ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT);
-        return mapping.findForward(KFSConstants.MAPPING_CANCEL);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

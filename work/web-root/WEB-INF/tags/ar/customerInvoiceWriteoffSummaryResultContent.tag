@@ -52,9 +52,14 @@
 				<div align="right"><kul:htmlAttributeLabel attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" /></div>
 			</th>
 			<td>
+				<c:if test="${KualiForm.sentToBatch}">
+				<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" readOnly="true" />
+				</c:if>
+				<c:if test="${!KualiForm.sentToBatch}">
 				<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" />
 				<!--  pass through customerNumber so you can tie customer note to appropriate customer -->
 				<html:hidden property="${propertyName}.customerNumber" />				
+				</c:if>
 			</td>
 		</tr>	
 	</table>

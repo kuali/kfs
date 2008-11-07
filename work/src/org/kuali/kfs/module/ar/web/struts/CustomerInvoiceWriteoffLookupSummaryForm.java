@@ -26,9 +26,11 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     
     private String lookupResultsSequenceNumber;
     private Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults;
+    private boolean sentToBatch;
     
     public CustomerInvoiceWriteoffLookupSummaryForm(){
         customerInvoiceWriteoffLookupResults = new TypedArrayList(CustomerInvoiceWriteoffLookupResult.class);
+        sentToBatch = false;
     }
 
     public String getLookupResultsSequenceNumber() {
@@ -50,6 +52,14 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     public CustomerInvoiceWriteoffLookupResult getCustomerInvoiceWriteoffLookupResult(int index){
         CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = ((List<CustomerInvoiceWriteoffLookupResult>)getCustomerInvoiceWriteoffLookupResults()).get(index);
         return customerInvoiceWriteoffLookupResult;
+    }
+
+    public boolean isSentToBatch() {
+        return sentToBatch;
+    }
+
+    public void setSentToBatch(boolean sentToBatch) {
+        this.sentToBatch = sentToBatch;
     }
 
 }

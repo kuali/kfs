@@ -194,8 +194,6 @@ public class PurApLineAction extends KualiAction {
     public ActionForward split(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
 
-        // Get the document to which split item and new item belong
-        PurchasingAccountsPayableDocument purApDoc = getSelectedPurApDoc((PurApLineForm) form);
         // Get the line item for applying split action.
         PurchasingAccountsPayableItemAsset selectedLineItem = getSelectedLineItem((PurApLineForm) form);
 
@@ -203,20 +201,14 @@ public class PurApLineAction extends KualiAction {
         GlobalVariables.getErrorMap().addToErrorPath(errorPath);
         // check user input split quantity.
         checkSplitQty(selectedLineItem, errorPath);
+        GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
 
         // apply split when error free
         if (GlobalVariables.getErrorMap().isEmpty() && selectedLineItem != null) {
             PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
             // create a new item with split quantity from selected item
-            PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory(), purApDoc);
-
-            if (newItemAsset != null) {
-                // add the new item into document and sort.
-                purApDoc.getPurchasingAccountsPayableItemAssets().add(newItemAsset);
-                Collections.sort(purApDoc.getPurchasingAccountsPayableItemAssets());
-            }
+            purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory());
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

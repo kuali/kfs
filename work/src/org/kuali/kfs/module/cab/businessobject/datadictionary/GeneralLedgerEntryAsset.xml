@@ -27,19 +27,8 @@
 <!-- Attribute Definitions -->
 
   <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier" parent="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean" />
-  <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean" abstract="true" parent="GeneralLedgerEntry-generalLedgerAccountIdentifier">
     <property name="name" value="generalLedgerAccountIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="General Ledger Account Identifier" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
   </bean>
   
   <bean id="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber" parent="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber-parentBean" />

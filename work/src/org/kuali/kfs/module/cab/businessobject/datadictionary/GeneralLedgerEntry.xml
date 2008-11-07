@@ -67,104 +67,65 @@
   </bean>
   
   <bean id="GeneralLedgerEntry-universityFiscalYear" parent="GeneralLedgerEntry-universityFiscalYear-parentBean" />
-  <bean id="GeneralLedgerEntry-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
+  <bean id="GeneralLedgerEntry-universityFiscalYear-parentBean" abstract="true" parent="Entry-universityFiscalYear">
   </bean>
   
   <bean id="GeneralLedgerEntry-chartOfAccountsCode" parent="GeneralLedgerEntry-chartOfAccountsCode-parentBean" />
-  <bean id="GeneralLedgerEntry-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="GeneralLedgerEntry-chartOfAccountsCode-parentBean" abstract="true" parent="Entry-chartOfAccountsCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-accountNumber" parent="GeneralLedgerEntry-accountNumber-parentBean" />
-  <bean id="GeneralLedgerEntry-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  <bean id="GeneralLedgerEntry-accountNumber-parentBean" abstract="true" parent="Entry-accountNumber">
   	<property name="shortLabel" value="Account" />
   </bean>
   
   <bean id="GeneralLedgerEntry-subAccountNumber" parent="GeneralLedgerEntry-subAccountNumber-parentBean" />
-  <bean id="GeneralLedgerEntry-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  <bean id="GeneralLedgerEntry-subAccountNumber-parentBean" abstract="true" parent="Entry-subAccountNumber">
   </bean>
   
   <bean id="GeneralLedgerEntry-financialObjectCode" parent="GeneralLedgerEntry-financialObjectCode-parentBean" />
-  <bean id="GeneralLedgerEntry-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  <bean id="GeneralLedgerEntry-financialObjectCode-parentBean" abstract="true" parent="Entry-financialObjectCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-financialSubObjectCode" parent="GeneralLedgerEntry-financialSubObjectCode-parentBean" />
-  <bean id="GeneralLedgerEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="GeneralLedgerEntry-financialSubObjectCode-parentBean" abstract="true" parent="Entry-financialSubObjectCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-financialObjectTypeCode" parent="GeneralLedgerEntry-financialObjectTypeCode-parentBean" />
-  <bean id="GeneralLedgerEntry-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+  <bean id="GeneralLedgerEntry-financialObjectTypeCode-parentBean" abstract="true" parent="Entry-financialObjectTypeCode">
     <property name="name" value="financialObjectTypeCode" />
   </bean>
   
   <bean id="GeneralLedgerEntry-financialBalanceTypeCode" parent="GeneralLedgerEntry-financialBalanceTypeCode-parentBean" />
-  <bean id="GeneralLedgerEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
-    <property name="name" value="financialBalanceTypeCode" />
+  <bean id="GeneralLedgerEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="Entry-financialBalanceTypeCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-universityFiscalPeriodCode" parent="GeneralLedgerEntry-universityFiscalPeriodCode-parentBean" />
-  <bean id="GeneralLedgerEntry-universityFiscalPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
-    <property name="name" value="universityFiscalPeriodCode" />
-    <property name="label" value="Fiscal Period" />
-    <property name="shortLabel" value="Period" />
+  <bean id="GeneralLedgerEntry-universityFiscalPeriodCode-parentBean" abstract="true" parent="Entry-universityFiscalPeriodCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-financialDocumentTypeCode" parent="GeneralLedgerEntry-financialDocumentTypeCode-parentBean" />
-  <bean id="GeneralLedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Document Type Code" />
-    <property name="shortLabel" value="Type" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+  <bean id="GeneralLedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="Entry-financialDocumentTypeCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-financialSystemOriginationCode" parent="GeneralLedgerEntry-financialSystemOriginationCode-parentBean" />
-  <bean id="GeneralLedgerEntry-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemOriginationCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Origin Code" />
-    <property name="shortLabel" value="Origin Code" />
-    <property name="maxLength" value="2" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
+  <bean id="GeneralLedgerEntry-financialSystemOriginationCode-parentBean" abstract="true" parent="Entry-financialSystemOriginationCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-documentNumber" parent="GeneralLedgerEntry-documentNumber-parentBean" />
-  <bean id="GeneralLedgerEntry-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  <bean id="GeneralLedgerEntry-documentNumber-parentBean" abstract="true" parent="Entry-documentNumber">
   </bean>
   
   <bean id="GeneralLedgerEntry-transactionLedgerEntrySequenceNumber" parent="GeneralLedgerEntry-transactionLedgerEntrySequenceNumber-parentBean" />
-  <bean id="GeneralLedgerEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
-    <property name="name" value="transactionLedgerEntrySequenceNumber" />
+  <bean id="GeneralLedgerEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="Entry-transactionLedgerEntrySequenceNumber">
   </bean>
   
   <bean id="GeneralLedgerEntry-transactionLedgerEntryDescription" parent="GeneralLedgerEntry-transactionLedgerEntryDescription-parentBean" />
-  <bean id="GeneralLedgerEntry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionLedgerEntryDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Transaction Ledger Entry Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
-    </property>
+  <bean id="GeneralLedgerEntry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="Entry-transactionLedgerEntryDescription">
   </bean>
   
   <bean id="GeneralLedgerEntry-transactionLedgerEntryAmount" parent="GeneralLedgerEntry-transactionLedgerEntryAmount-parentBean" />
-  <bean id="GeneralLedgerEntry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="transactionLedgerEntryAmount" />
-    <property name="label" value="Transaction Ledger Entry Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+  <bean id="GeneralLedgerEntry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
   </bean>
   
   <bean id="GeneralLedgerEntry-amount" parent="GeneralLedgerEntry-amount-parentBean" />
@@ -176,29 +137,11 @@
   </bean>
   
   <bean id="GeneralLedgerEntry-transactionDebitCreditCode" parent="GeneralLedgerEntry-transactionDebitCreditCode-parentBean" />
-  <bean id="GeneralLedgerEntry-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionDebitCreditCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Debit Credit Code" />
-    <property name="shortLabel" value="D/C" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
+  <bean id="GeneralLedgerEntry-transactionDebitCreditCode-parentBean" abstract="true" parent="Entry-transactionDebitCreditCode">
   </bean>
   
   <bean id="GeneralLedgerEntry-organizationDocumentNumber" parent="GeneralLedgerEntry-organizationDocumentNumber-parentBean" />
-  <bean id="GeneralLedgerEntry-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationDocumentNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Document Number" />
-    <property name="shortLabel" value="Org. Doc. Nbr." />
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
+  <bean id="GeneralLedgerEntry-organizationDocumentNumber-parentBean" abstract="true" parent="Entry-organizationDocumentNumber">
   </bean>
   
   <bean id="GeneralLedgerEntry-projectCode" parent="GeneralLedgerEntry-projectCode-parentBean" />

@@ -1212,5 +1212,6 @@ public class KFSPropertyConstants {
     public static final String CLOSED = "closed";
     public static final String ITEM_LINE_NUMBER = "itemLineNumber";
     public static final String VENDOR_NAME = "vendorName";
+    public static final String PAYEE_NAME = "payeeName";
 }
 

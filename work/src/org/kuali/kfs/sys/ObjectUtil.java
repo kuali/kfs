@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -279,13 +280,24 @@ public class ObjectUtil {
             }
 
             if (PropertyUtils.isReadable(sourceObject, propertyName) && PropertyUtils.isWriteable(targetObject, propertyName)) {
-                Object propertyValue = PropertyUtils.getProperty(sourceObject, propertyName);
+                Object propertyValue = PropertyUtils.getProperty(sourceObject, propertyName);                        
                 PropertyUtils.setProperty(targetObject, propertyName, propertyValue);
             }
         }
+        catch (IllegalAccessException e) {
+            LOG.debug(e.getMessage() + ":" + propertyName);
+        }
+        catch (InvocationTargetException e) {
+            LOG.debug(e.getMessage() + ":" + propertyName);
+        }
+        catch (NoSuchMethodException e) {
+            LOG.debug(e.getMessage() + ":" + propertyName);
+        }
+        catch (IllegalArgumentException e) {
+            LOG.debug(e.getMessage() + ":" + propertyName);
+        }
         catch (Exception e) {
-            LOG.debug(e + propertyName);
-            throw new RuntimeException("Failed to set the property:" + propertyName + "." + e);
+            LOG.debug(e.getMessage() + ":" + propertyName);
         }
     }
 

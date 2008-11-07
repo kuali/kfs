@@ -15,29 +15,35 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PurapAccountingServiceFixture {
     
-    PRORATION_ONE_ACCOUNT(new KualiDecimal(1.00),PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+    PRORATION_ONE_ACCOUNT(PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
-    PRORATION_TWO_ACCOUNTS(new KualiDecimal(1.00),PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+    PRORATION_TWO_ACCOUNTS(
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
-            PurApAccountingLineFixture.ACCOUNT_50_PERCENT),;
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
+    PRORATION_THIRDS(PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD),;
     
     KualiDecimal totalAmount;
     Integer percentScale;
     Class accountClass;
     List<SourceAccountingLine> accountingLineList = new ArrayList<SourceAccountingLine>();
-    
+        
     private PurapAccountingServiceFixture(
             KualiDecimal totalAmount, 
             Integer percentScale, 
@@ -54,6 +60,9 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLine purApAcctLine = purApAcctLineFixture.createPurApAccountingLine(
                     accountClass, 
                     AccountingLineFixture.PURAP_LINE1);
+            BigDecimal pct = purApAcctLine.getAccountLinePercent();
+            pct = pct.divide(new BigDecimal(100));
+            purApAcctLine.setAmount(totalAmount.multiply(new KualiDecimal(pct)));
             accountingLineList.add(purApAcctLine.generateSourceAccountingLine());
         }
     }

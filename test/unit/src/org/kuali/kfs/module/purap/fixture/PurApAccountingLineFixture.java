@@ -35,6 +35,10 @@ public enum PurApAccountingLineFixture {
             null, // itemIdentifier;
             new BigDecimal("50"), // accountLinePercent;
             null // alternateAmountForGLEntryCreation;
+    ), ACCOUNT_ONE_THIRD(null, // accountIdentifier;
+            null, // itemIdentifier;
+            new BigDecimal("33.34"), // accountLinePercent;
+            null // alternateAmountForGLEntryCreation;
     ), REQ_ACCOUNT_MULTI(null, // accountIdentifier;
             null, // itemIdentifier;
             new BigDecimal("100"), // accountLinePercent;

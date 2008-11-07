@@ -55,7 +55,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         for(int i = 0; i < distributedAccounts.size(); i++) {
             PurApAccountingLine line = distributedAccounts.get(i);
             BigDecimal percent = line.getAccountLinePercent();
-            assertTrue(percent.equals(correctPercents.get(i)));
+            assertTrue(percent.floatValue() == correctPercents.get(i).floatValue());
         }
     }
     
@@ -68,6 +68,35 @@ public class PurapAccountingServiceTest extends KualiTestBase {
                                                                                 fixture.getAccountClass());
         List<BigDecimal> correctPercents = new ArrayList<BigDecimal>();
         correctPercents.add(0,new BigDecimal("100"));
+        assertEquals(distributedAccounts.size(),correctPercents.size());
+        comparePercentages(distributedAccounts, correctPercents);
+    }
+    
+    public void testGenerateAccountDistributionForProration_TwoAcctGood() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_TWO_ACCOUNTS;
+        List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProration(
+                                                                                fixture.getAccountingLineList(),
+                                                                                fixture.getTotalAmount(),
+                                                                                fixture.getPercentScale(),
+                                                                                fixture.getAccountClass());
+        List<BigDecimal> correctPercents = new ArrayList<BigDecimal>();
+        correctPercents.add(0,new BigDecimal("50"));
+        correctPercents.add(1,new BigDecimal("50"));
+        assertEquals(distributedAccounts.size(),correctPercents.size());
+        comparePercentages(distributedAccounts, correctPercents);
+    }
+    
+    public void testGenerateAccountDistributionForProration_ThreeAccountGood() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_THIRDS;
+        List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProration(
+                                                                                fixture.getAccountingLineList(),
+                                                                                fixture.getTotalAmount(),
+                                                                                fixture.getPercentScale(),
+                                                                                fixture.getAccountClass());
+        List<BigDecimal> correctPercents = new ArrayList<BigDecimal>();
+        correctPercents.add(0,new BigDecimal("33"));
+        correctPercents.add(1,new BigDecimal("33"));
+        correctPercents.add(2,new BigDecimal("34"));
         assertEquals(distributedAccounts.size(),correctPercents.size());
         comparePercentages(distributedAccounts, correctPercents);
     }

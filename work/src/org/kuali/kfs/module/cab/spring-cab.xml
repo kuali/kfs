@@ -178,7 +178,6 @@
     </bean>
     
 	<bean id="generalLedgerEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl" singleton="false"  parent="lookupableHelperService">
-		<property name="glLineService" ref="glLineService" />
 		<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 

@@ -21,14 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.cab.document.service.GlLineService;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -42,7 +39,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerEntryLookupableHelperServiceImpl.class);
-    private GlLineService glLineService;
     private BusinessObjectService businessObjectService;
 
     /*******************************************************************************************************************************
@@ -52,7 +48,6 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
-        CapitalAssetInformation capitalAssetInformation = this.glLineService.findCapitalAssetInformation(entry);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         if (entry.isActive()) {
             anchorHtmlDataList.add(new AnchorHtmlData("../cabGlLine.do?methodToCall=process&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "process", "process"));
@@ -107,23 +102,6 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         return new CollectionIncomplete(newList, matchingResultsCount);
     }
 
-    /**
-     * Gets the glLineService attribute.
-     * 
-     * @return Returns the glLineService.
-     */
-    public GlLineService getGlLineService() {
-        return glLineService;
-    }
-
-    /**
-     * Sets the glLineService attribute value.
-     * 
-     * @param glLineService The glLineService to set.
-     */
-    public void setGlLineService(GlLineService glLineService) {
-        this.glLineService = glLineService;
-    }
 
     /**
      * Gets the businessObjectService attribute.

@@ -319,7 +319,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     private com.lowagie.text.Document getPdfDoc() {
         
         String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerInvoiceWriteoff.CUSTOMER_INVOICE_WRITEOFF_REPORT_SUBFOLDER + "/";
-        String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +  
+        String fileName = ArConstants.CustomerInvoiceWriteoff.BATCH_REPORT_BASENAME + "_" +  
             new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(dateTimeService.getCurrentDate()) + ".pdf";
        
         //  setup the writer

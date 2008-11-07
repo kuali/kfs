@@ -17,15 +17,14 @@ package org.kuali.kfs.integration.cg;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
-import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.Inactivateable;
 
 /**
  * Information about an award associated with an account.
  */
-public interface ContractsAndGrantsAccountAwardInformation extends CGProjectDirector, Inactivateable, ExternalizableBusinessObject {
+public interface ContractsAndGrantsAccountAwardInformation extends Inactivateable, ExternalizableBusinessObject {
     
     /**
      * Gets the proposalNumber attribute.
@@ -70,18 +69,16 @@ public interface ContractsAndGrantsAccountAwardInformation extends CGProjectDire
     public Chart getChartOfAccounts();
     
     /**
-     * Gets the project director attribute.
-     * 
-     * @return Returns the projectDirector.
-     */
-    public ProjectDirector getProjectDirector();
-    
-    /**
      * This method returns the Award object associated with this AwardAccount.
      * 
      * @return The Award object associated with this AwardAccount.
      */
     public ContractsAndGrantsAward getAward();
 
+    /**
+     * Gets the name of the project director for the associated award.
+     * @return the name of the project director
+     */
+    public String getProjectDirectorName();
 }
 

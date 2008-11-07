@@ -23,6 +23,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
@@ -215,6 +216,16 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     public void setActive(boolean active) {
         this.active = true;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
+     */
+    public String getProjectDirectorName() {
+        if (!ObjectUtils.isNull(projectDirector)) {
+            return projectDirector.getPerson().getName();
+        }
+        return null;
     }
 }
 

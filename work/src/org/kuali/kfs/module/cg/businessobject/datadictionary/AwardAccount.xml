@@ -21,7 +21,7 @@
         <ref bean="AwardAccount-principalId" />
         <ref bean="AwardAccount-projectDirector.principalName" />
         <ref bean="AwardAccount-projectDirector.name" />
-        <ref bean="AwardAccount-projectDirector.person.name" />
+        <ref bean="AwardAccount-projectDirectorName" />
         <ref bean="AwardAccount-chartOfAccountsCode" />
         <ref bean="AwardAccount-accountNumber" />
         <ref bean="AwardAccount-account.accountName" />
@@ -94,10 +94,10 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="AwardAccount-projectDirector.person.name" parent="AwardAccount-projectDirector.person.name-parentBean" />
+  <bean id="AwardAccount-projectDirectorName" parent="AwardAccount-projectDirectorName-parentBean" />
 
-  <bean id="AwardAccount-projectDirector.person.name-parentBean" abstract="true" parent="AwardAccount-projectDirector.name">
-    <property name="name" value="projectDirector.person.name" />
+  <bean id="AwardAccount-projectDirectorName-parentBean" abstract="true" parent="AwardAccount-projectDirector.name">
+    <property name="name" value="projectDirectorName" />
   </bean>
   <bean id="AwardAccount-chartOfAccountsCode" parent="AwardAccount-chartOfAccountsCode-parentBean" />
 

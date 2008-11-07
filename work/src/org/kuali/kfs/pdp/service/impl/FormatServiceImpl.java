@@ -214,6 +214,7 @@ public class FormatServiceImpl implements FormatService {
             throw new RuntimeException("Invalid proc ID");
         }
 
+        //get disbursement types, payment statuses
         DisbursementType checkDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
         DisbursementType achDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.ACH);
 
@@ -258,7 +259,7 @@ public class FormatServiceImpl implements FormatService {
             postFormatProcessSummary.add(paymentGroup);
         }
 
-        // step 2 assign disbursement numbers and combine check into one if possible
+        // step 2 assign disbursement numbers and combine checks into one if possible
         assignDisbursementNumbersAndCombineChecks(campus, paymentProcess, postFormatProcessSummary);
 
         // step 3 save the summarizing info
@@ -399,6 +400,7 @@ public class FormatServiceImpl implements FormatService {
             LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
 
             DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode());
+
             if (range == null) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
                 throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
@@ -420,6 +422,8 @@ public class FormatServiceImpl implements FormatService {
                         if (paymentInfo.noteLines.intValue() < maxNoteLines) {
                             KualiInteger checkNumber = paymentInfo.disbursementNumber;
                             paymentGroup.setDisbursementNbr(checkNumber);
+                            // update payment info for new noteLines value
+                            combinedChecksMap.put(paymentGroupKey, paymentInfo);
                         }
                         // it noteLines more than maxNoteLines we remove the old entry and get a new disbursement number
                         else {
@@ -483,6 +487,7 @@ public class FormatServiceImpl implements FormatService {
         KualiInteger disbursementNumber = new KualiInteger(1 + range.getLastAssignedDisbNbr().intValue());
         if (disbursementNumber.isGreaterThan(range.getEndDisbursementNbr())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+
             throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
         }
         paymentGroup.setDisbursementNbr(disbursementNumber);
@@ -602,7 +607,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the formatPaymentDao
      * 
      * @param fpd
      */
@@ -611,7 +616,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the glPendingTransactionService
      * 
      * @param gs
      */
@@ -620,7 +625,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the achService
      * 
      * @param as
      */
@@ -629,7 +634,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the processDao
      * 
      * @param pd
      */
@@ -638,7 +643,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the paymentGroupDao
      * 
      * @param pgd
      */
@@ -647,7 +652,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the paymentDetailDao
      * 
      * @param pdd
      */
@@ -656,7 +661,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the schedulerService
      * 
      * @param ss
      */
@@ -665,7 +670,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the parameterService
      * 
      * @param parameterService
      */
@@ -674,7 +679,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method sets the businessObjectService
      * 
      * @param bos
      */
@@ -683,16 +688,16 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method...
+     * This method gets the kualiCodeService
      * 
-     * @return
+     * @return kualiCodeService
      */
     public KualiCodeService getKualiCodeService() {
         return kualiCodeService;
     }
 
     /**
-     * This method...
+     * This method sets the kualiCodeService
      * 
      * @param kualiCodeService
      */
@@ -701,14 +706,31 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.FormatService#setPaymentGroupService(org.kuali.kfs.pdp.service.PaymentGroupService)
+     * This method sets the paymentGroupService
+     * @param paymentGroupService
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
         this.paymentGroupService = paymentGroupService;
     }
 
     /**
-     * This class...
+     * This method gets the dateTimeService
+     * @return dateTimeService
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * This method sets the dateTimeService
+     * @param dateTimeService
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * This class holds disbursement number and noteLines info for payment group disbursement number assignment and combine checks.
      */
     private class PaymentInfo {
         public KualiInteger disbursementNumber;
@@ -718,14 +740,6 @@ public class FormatServiceImpl implements FormatService {
             this.disbursementNumber = disbursementNumber;
             this.noteLines = noteLines;
         }
-    }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
 }

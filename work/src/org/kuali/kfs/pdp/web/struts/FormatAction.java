@@ -59,7 +59,7 @@ public class FormatAction extends KualiAction {
     }
 
     /**
-     * This method...
+     * This method prepares the data for the format process
      * 
      * @param mapping
      * @param form
@@ -105,7 +105,7 @@ public class FormatAction extends KualiAction {
     }
 
     /**
-     * This method...
+     * This method marks the payments for format
      * 
      * @param mapping
      * @param form
@@ -146,7 +146,7 @@ public class FormatAction extends KualiAction {
     }
 
     /**
-     * This method...
+     * This method performs the format process.
      * 
      * @param mapping
      * @param form
@@ -171,7 +171,7 @@ public class FormatAction extends KualiAction {
     }
 
     /**
-     * This method...
+     * This method cancels the format process
      * 
      * @param mapping
      * @param form
@@ -184,6 +184,7 @@ public class FormatAction extends KualiAction {
 
         FormatForm formatForm = (FormatForm) form;
         KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
+        
         if (processId != null) {
             formatService.clearUnfinishedFormat(processId.intValue());
         }
@@ -191,7 +192,6 @@ public class FormatAction extends KualiAction {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
     }
-
 
     /**
      * This method clears the unfinished format process and is called from the FormatProcess lookup page.
@@ -207,20 +207,20 @@ public class FormatAction extends KualiAction {
 
         String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
         Integer processId = Integer.parseInt(processIdParam);
-
-        formatService.resetFormatPayments(processId);
+        
+        if (processId != null) {
+            formatService.resetFormatPayments(processId);
+        }
 
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
     }
 
     /**
-     * This method builds the forward url.
+     * This method builds the forward url for the format summary lookup page.
      * 
-     * @param batchId the batch id
-     * @param success action status: true if success, false otherwise
-     * @param message the message for the user
-     * @return the build url
+     * @param processId the batch id
+     * @return the built url
      */
     private String buildUrl(String processId) {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);

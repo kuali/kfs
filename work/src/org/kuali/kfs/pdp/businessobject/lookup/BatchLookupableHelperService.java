@@ -29,7 +29,7 @@ import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.impl.util.PdpDataaccessUtil;
-import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
+import org.kuali.kfs.pdp.service.BatchMaintenanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;

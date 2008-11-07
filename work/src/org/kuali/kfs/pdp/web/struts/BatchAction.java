@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.pdp.document.web.struts;
+package org.kuali.kfs.pdp.web.struts;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -30,7 +30,7 @@ import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
-import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
+import org.kuali.kfs.pdp.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.util.PdpBatchQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;

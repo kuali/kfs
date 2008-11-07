@@ -98,9 +98,9 @@ public class PdpConstants {
     }
     
     public static class Actions{
-        public static final String BATCH_SEARCH_DETAIL_ACTION = "batchsearchDetail.do";
-        public static final String PAYMENT_DETAIL_ACTION = "pdp/paymentdetailrice.do";
-        public static final String FORMAT_PROCESS_ACTION = "pdp/formatrice.do";
+        public static final String BATCH_SEARCH_DETAIL_ACTION = "batchDetail.do";
+        public static final String PAYMENT_DETAIL_ACTION = "pdp/paymentdetail.do";
+        public static final String FORMAT_PROCESS_ACTION = "pdp/format.do";
     }
     
     public static class ActionMethods{

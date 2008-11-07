@@ -27,7 +27,7 @@
 
 <kul:page headerTitle="Format Disbursements"
 	transactionalDocument="false" showDocumentInfo="false"
-	htmlFormAction="pdp/formatrice" docTitle="Format Disbursements">
+	htmlFormAction="pdp/format" docTitle="Format Disbursements">
 
 	<pdp:formatDisbursementRanges
 		disbursementNumberRangeAttributes="${disbursementNumberRangeAttributes}"

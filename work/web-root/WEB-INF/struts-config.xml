@@ -193,7 +193,7 @@
 
 		<!-- PDP Module Bean Definitions -->
 	    <form-bean name="PdpFormatForm"
-			type="org.kuali.kfs.pdp.document.web.struts.FormatForm" />
+			type="org.kuali.kfs.pdp.web.struts.FormatForm" />
 
 		<!-- CAMs Module Bean Definitions -->
 		<form-bean name="AssetPaymentForm"
@@ -720,26 +720,25 @@
 		</action>
 
 		<!-- These are PDP items -->
-		<action path="/pdp/paymentdetailrice"
+		<action path="/pdp/paymentdetail"
 		    name="KualiForm"
-			type="org.kuali.kfs.pdp.document.web.struts.PaymentDetailAction"
+			type="org.kuali.kfs.pdp.web.struts.PaymentDetailAction"
 			scope="request" parameter="methodToCall" validate="false"
 			attribute="KualiForm" />
 		
-		<action path="/batchsearchDetail"
+		<action path="/batchDetail"
 		    name="KualiForm"
-		    type="org.kuali.kfs.pdp.document.web.struts.BatchAction"
+		    type="org.kuali.kfs.pdp.web.struts.BatchAction"
 			scope="request" parameter="methodToCall" validate="false"
             attribute="KualiForm" />
 
-		<action path="/pdp/formatrice"
-			type="org.kuali.kfs.pdp.document.web.struts.FormatAction"
+		<action path="/pdp/format"
+			type="org.kuali.kfs.pdp.web.struts.FormatAction"
 			name="PdpFormatForm"
 			scope="request" parameter="methodToCall" validate="false"
 			attribute="KualiForm">
 			<forward name="selection" path="/jsp/modules/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/modules/pdp/format/formatContinue.jsp" />
-			<forward name="finished" path="/jsp/modules/pdp/format/formatFinished.jsp" />
 		</action>
 	</action-mappings>
 

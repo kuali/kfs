@@ -293,7 +293,7 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
-	<bean id="pdpBatchMaintenanceService" class="org.kuali.kfs.pdp.document.service.impl.BatchMaintenanceServiceImpl">
+	<bean id="pdpBatchMaintenanceService" class="org.kuali.kfs.pdp.service.impl.BatchMaintenanceServiceImpl">
 		<property name="batchMaintenanceDao" ref="pdpBatchMaintenanceDao"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
@@ -399,7 +399,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
-	<bean id="pdpPaymentMaintenanceService" class="org.kuali.kfs.pdp.document.service.impl.PaymentMaintenanceServiceImpl">
+	<bean id="pdpPaymentMaintenanceService" class="org.kuali.kfs.pdp.service.impl.PaymentMaintenanceServiceImpl">
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>

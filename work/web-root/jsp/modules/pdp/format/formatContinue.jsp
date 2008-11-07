@@ -26,7 +26,7 @@
 
 <kul:page headerTitle="Format Disbursement Summary"
 	transactionalDocument="false" showDocumentInfo="false"
-	htmlFormAction="pdp/formatrice" docTitle="Format Disbursement Summary">
+	htmlFormAction="pdp/format" docTitle="Format Disbursement Summary">
 	<html:hidden property="formatProcessSummary.processId" />
 	<html:hidden property="paymentTypes" />
 	

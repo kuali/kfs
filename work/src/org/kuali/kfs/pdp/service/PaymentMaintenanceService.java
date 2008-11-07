@@ -16,7 +16,7 @@
 /*
  * Created on Aug 12, 2004
  */
-package org.kuali.kfs.pdp.document.service;
+package org.kuali.kfs.pdp.service;
 
 import org.kuali.rice.kim.bo.Person;
 

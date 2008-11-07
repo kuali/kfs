@@ -16,7 +16,7 @@
 /*
  * Created on Aug 12, 2004
  */
-package org.kuali.kfs.pdp.document.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -29,7 +29,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
-import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
+import org.kuali.kfs.pdp.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kim.bo.Person;

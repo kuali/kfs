@@ -35,8 +35,6 @@
     	<tr>
 		    <td colspan="4" class="subhead">
 			<span class="subhead-left">System Information</span>
-            <html:hidden property="document.budgetLockUserIdentifier"/>
-            <html:hidden property="document.budgetTransactionLockUserIdentifier"/>
 		    </td>
 		</tr>
 		<tr>
@@ -47,7 +45,13 @@
 	          />
 	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.previousUniversityFiscalYear" attributeEntry="${documentAttributes.universityFiscalYear}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.previousUniversityFiscalYear"
+	      	    attributeEntry="${documentAttributes.universityFiscalYear}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+	      	    ${KualiForm.document.previousUniversityFiscalYear}
+	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td>&nbsp;</td>
 		</tr>
@@ -67,7 +71,7 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.chartOfAccountsCode" />
+				    ${KualiForm.document.chartOfAccountsCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
@@ -81,12 +85,18 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Account"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.accountNumber}"
 				    render="true">
-			    	<html:hidden write="true" property="document.accountNumber" />
+				    ${KualiForm.document.accountNumber}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.account.accountName" attributeEntry="${accountAttributes.accountName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.account.accountName"
+	      	    attributeEntry="${accountAttributes.accountName}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+	      	    ${KualiForm.document.account.accountName}
+	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>
 	    <tr>
@@ -106,12 +116,20 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.accountNumber}&amp;subAccountNumber=${KualiForm.document.subAccountNumber}"
 				    render="${KualiForm.document.subAccountNumber ne '-----'}"><%-- FIXME: need to get current "default" value from constants --%>
-			    	<html:hidden write="true" property="document.subAccountNumber" />
+				    ${KualiForm.document.subAccountNumber}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.subAccount.subAccountName" attributeEntry="${DataDictionary.SubAccount.attributes.subAccountName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.subAccount.subAccountName"
+	      	    attributeEntry="${DataDictionary.SubAccount.attributes.subAccountName}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+                <c:if test="${KualiForm.document.subAccountNumber ne '-----'}">
+		          ${KualiForm.document.subAccount.subAccountName}
+		        </c:if>&nbsp;
+	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>
 	    <tr>
@@ -131,12 +149,18 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.SubFundGroup"
 				    keyValues="subFundGroupCode=${KualiForm.document.account.subFundGroupCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.account.subFundGroupCode" />
+				    ${KualiForm.document.account.subFundGroupCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.account.subFundGroup.subFundGroupDescription" attributeEntry="${DataDictionary.SubFundGroup.attributes.subfundGroupDescription}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.account.subFundGroup.subFundGroupDescription"
+	      	    attributeEntry="${DataDictionary.SubFundGroup.attributes.subfundGroupDescription}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+			    ${KualiForm.document.account.subFundGroup.subFundGroupDescription}
+	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>
 	    <tr>
@@ -156,12 +180,18 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Org"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.document.account.organizationCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.account.organizationCode" />
+				    ${KualiForm.document.account.organizationCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.account.organization.organizationName" attributeEntry="${DataDictionary.Org.attributes.organizationName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.account.organization.organizationName"
+	      	    attributeEntry="${DataDictionary.Org.attributes.organizationName}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+	      	    ${KualiForm.document.account.organization.organizationName}
+	      	</kul:htmlControlAttribute>
 	      </td>
         </tr>
 	    <tr>
@@ -180,7 +210,7 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.account.organization.reportsToChartOfAccountsCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.account.organization.reportsToChartOfAccountsCode" />
+				    ${KualiForm.document.account.organization.reportsToChartOfAccountsCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
@@ -194,12 +224,18 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Org"
 				    keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgVals.reportsToOrganizationCode}"
 				    render="true">
-			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
+				    ${orgVals.reportsToOrganizationCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="${orgPropString}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="${orgPropString}.reportsToOrganization.organizationName"
+	      	    attributeEntry="${organizationAttributes.organizationName}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+	      	    ${orgVals.reportsToOrganization.organizationName}
+	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>
 
@@ -216,7 +252,13 @@
 	          />
 	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.universityFiscalYear" attributeEntry="${documentAttributes.universityFiscalYear}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.universityFiscalYear"
+	      	    attributeEntry="${documentAttributes.universityFiscalYear}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+			    ${KualiForm.document.universityFiscalYear}
+	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td>&nbsp;</td>
         </tr>
@@ -248,7 +290,7 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.budgetConstructionAccountReports.reportsToChartOfAccountsCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.budgetConstructionAccountReports.reportsToChartOfAccountsCode" />
+				    ${KualiForm.document.budgetConstructionAccountReports.reportsToChartOfAccountsCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
@@ -262,12 +304,18 @@
 				    boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.budgetConstructionAccountReports.reportsToChartOfAccountsCode}&amp;organizationCode=${KualiForm.document.budgetConstructionAccountReports.reportsToOrganizationCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.budgetConstructionAccountReports.reportsToOrganizationCode" />
+				    ${KualiForm.document.budgetConstructionAccountReports.reportsToOrganizationCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.budgetConstructionAccountReports.reportsToOrganization.organizationName" attributeEntry="${orgAttributes.organizationName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.budgetConstructionAccountReports.reportsToOrganization.organizationName"
+	      	    attributeEntry="${orgAttributes.organizationName}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+			    ${KualiForm.document.budgetConstructionAccountReports.reportsToOrganization.organizationName}
+	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>
 	    <tr>
@@ -286,7 +334,7 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToChartOfAccountsCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToChartOfAccountsCode" />
+				    ${KualiForm.document.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToChartOfAccountsCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
@@ -300,12 +348,18 @@
 				    boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports"
 				    keyValues="chartOfAccountsCode=${orgRptsVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgRptsVals.reportsToOrganizationCode}"
 				    render="true">
-			    	<html:hidden write="true" property="${orgRptsPropString}.reportsToOrganizationCode" />
+				    ${orgRptsVals.reportsToOrganizationCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="${orgRptsPropString}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="${orgRptsPropString}.reportsToOrganization.organizationName"
+	      	    attributeEntry="${organizationAttributes.organizationName}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+	      	    ${orgRptsVals.reportsToOrganization.organizationName}
+	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>
         </c:if>
@@ -323,7 +377,13 @@
 	          horizontal="true"
 	          />
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.organizationLevelCode" attributeEntry="${documentAttributes.organizationLevelCode}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.organizationLevelCode"
+	      	    attributeEntry="${documentAttributes.organizationLevelCode}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+	      	    ${KualiForm.document.organizationLevelCode}
+	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
@@ -348,7 +408,7 @@
 				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.organizationLevelChartOfAccountsCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.organizationLevelChartOfAccountsCode" />
+				    ${KualiForm.document.organizationLevelChartOfAccountsCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
@@ -363,13 +423,19 @@
 				    boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.organizationLevelChartOfAccountsCode}&amp;organizationCode=${KualiForm.document.organizationLevelOrganizationCode}"
 				    render="true">
-			    	<html:hidden write="true" property="document.organizationLevelOrganizationCode" />
+				    ${KualiForm.document.organizationLevelOrganizationCode}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
           </c:if>&nbsp;
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.organizationLevelOrganization.organizationName" attributeEntry="${orgAttributes.organizationName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.organizationLevelOrganization.organizationName"
+	      	    attributeEntry="${orgAttributes.organizationName}"
+	      	    readOnly="${true}"
+	      	    readOnlyBody="true">
+	      	    ${KualiForm.document.organizationLevelOrganization.organizationName}
+	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>
 
@@ -383,15 +449,6 @@
           <td colspan="4" class="datacell" nowrap>
             <div align="center">
 
-            <c:forEach items="${KualiForm.accountOrgHierLevels}" var="item" varStatus="status">
-                <html:hidden property="accountOrgHierLevels[${status.index}].universityFiscalYear"/>
-                <html:hidden property="accountOrgHierLevels[${status.index}].chartOfAccountsCode"/>
-                <html:hidden property="accountOrgHierLevels[${status.index}].accountNumber"/>
-                <html:hidden property="accountOrgHierLevels[${status.index}].organizationLevelCode"/>
-                <html:hidden property="accountOrgHierLevels[${status.index}].organizationChartOfAccountsCode"/>
-                <html:hidden property="accountOrgHierLevels[${status.index}].organizationCode"/>
-            </c:forEach>
-
             <%-- pullup functionality allowed anytime --%>
             <%-- But a lock must be acquired (if not already locked) before the actual pullup --%>
             <%-- display potential pullup candidates regardless of editingMode --%>
@@ -403,10 +460,6 @@
             
               <html:image property="methodToCall.performAccountPullup.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-pullup.gif" title="Account Pull Up" alt="Account Pull Up" styleClass="tinybutton"/>
 
-              <c:forEach items="${KualiForm.pullupLevelKeyLabels}" var="item" varStatus="status">
-                  <html:hidden property="pullupLevelKeyLabels[${status.index}].key"/>
-                  <html:hidden property="pullupLevelKeyLabels[${status.index}].label"/>
-              </c:forEach>
             </c:if>
 
             <%-- pushdown functionality only allowed when user has full access --%>
@@ -419,11 +472,6 @@
               </html:select>
 
               <html:image property="methodToCall.performAccountPushdown.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-pushdown.gif" title="Account Push Down" alt="Account Push Down" styleClass="tinybutton"/>
-
-              <c:forEach items="${KualiForm.pushdownLevelKeyLabels}" var="item" varStatus="status">
-                  <html:hidden property="pushdownLevelKeyLabels[${status.index}].key"/>
-                  <html:hidden property="pushdownLevelKeyLabels[${status.index}].label"/>
-              </c:forEach>
 
             </c:if>
             <html:image property="methodToCall.performReportDump.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-reportdump.gif" title="Account Report/Dump" alt="Account Report/Dump" styleClass="tinybutton"/>

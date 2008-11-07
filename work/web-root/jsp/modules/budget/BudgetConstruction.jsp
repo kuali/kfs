@@ -35,29 +35,8 @@
     transactionalDocument="true"
 	>
 
-	<kfs:hiddenDocumentFields
-		isFinancialDocument="false"
-		isTransactionalDocument="true" />
-	<html-el:hidden name="KualiForm" property="returnAnchor" />
-	<html-el:hidden name="KualiForm" property="returnFormKey" />
-	<html-el:hidden name="KualiForm" property="backLocation" />
-	<html-el:hidden name="KualiForm" property="pickListMode" />
-	<html-el:hidden name="KualiForm" property="budgetConstructionDocument.benefitsCalcNeeded" />
-	<html-el:hidden name="KualiForm" property="budgetConstructionDocument.monthlyBenefitsCalcNeeded" />
-	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
-	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
-	<html-el:hidden name="KualiForm" property="accountNumber" />
-	<html-el:hidden name="KualiForm" property="subAccountNumber" />
-	<html-el:hidden name="KualiForm" property="checkTwoPlugAdjustment" />
-	<html-el:hidden name="KualiForm" property="budgetableDocument" />
-
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
-<%--
-		includePostingYear="true"
-        postingYearOnChange="submitForm()"
-        includePostingYearRefresh="true"
-        postingYearAttributes="${DataDictionary.BudgetAdjustmentDocument.attributes}" />
---%>
+
     <c:if test="${!KualiForm.securityNoAccess}">
     <bc:systemInformation />
 

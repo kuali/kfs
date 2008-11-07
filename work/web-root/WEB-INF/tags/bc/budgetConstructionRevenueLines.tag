@@ -64,16 +64,6 @@
                 
 			<tr>
               <kul:htmlAttributeHeaderCell literalLabel="Add:" scope="row" rowspan="1">
-                  <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
-                  <html:hidden property="newRevenueLine.documentNumber"/>
-                  <html:hidden property="newRevenueLine.universityFiscalYear"/>
-                  <html:hidden property="newRevenueLine.chartOfAccountsCode"/>
-                  <html:hidden property="newRevenueLine.accountNumber"/>
-                  <html:hidden property="newRevenueLine.subAccountNumber"/>
-                  <html:hidden property="newRevenueLine.financialBalanceTypeCode"/>
-                  <html:hidden property="newRevenueLine.financialObjectTypeCode"/>
-                  <html:hidden property="newRevenueLine.versionNumber"/>
-                  <html:hidden property="newRevenueLine.financialBeginningBalanceLineAmount"/>
               </kul:htmlAttributeHeaderCell>
 
               <bc:pbglLineDataCell dataCellCssClass="infoline"
@@ -141,15 +131,6 @@
  
             <tr>
               <kul:htmlAttributeHeaderCell scope="row" rowspan="${rowspan}">
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].documentNumber"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].universityFiscalYear"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].chartOfAccountsCode"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].accountNumber"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].subAccountNumber"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialBalanceTypeCode"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialObjectTypeCode"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].versionNumber"/>
-                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].persistedAccountLineAnnualBalanceAmount"/>
               </kul:htmlAttributeHeaderCell>
 
               <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -284,17 +265,17 @@
                     cellProperty="document.revenueFinancialBeginningBalanceLineAmountTotal"
                     textStyle="${textStyle}"
                     fieldAlign="right"
-                    colSpan="1" />
+                    colSpan="1" disableHiddenField="true" />
                 <bc:columnTotalCell dataCellCssClass="infoline"
                     cellProperty="document.revenueAccountLineAnnualBalanceAmountTotal"
                     textStyle="${textStyle}"
                     fieldAlign="right"
-                    colSpan="1" />
+                    colSpan="1" disableHiddenField="true" />
                 <bc:columnTotalCell dataCellCssClass="infoline"
                     cellProperty="document.revenuePercentChangeTotal"
                     textStyle="${textStyle}"
                     fieldAlign="right"
-                    colSpan="1" />
+                    colSpan="1" disableHiddenField="true" />
 				<td class="infoline">&nbsp;</td>
 			</tr>
 

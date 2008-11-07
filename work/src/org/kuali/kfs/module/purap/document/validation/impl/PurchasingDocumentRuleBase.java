@@ -799,8 +799,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
             return false;
         }
-
-        return verifyAccountingLinePercent((PurApAccountingLine) updatedAccountingLine);
+        //this is necessary because sometimes this method is called for baseline accounts, should not be needed once baseline is removed
+        if(updatedAccountingLine instanceof PurApAccountingLine) {
+            return verifyAccountingLinePercent((PurApAccountingLine) updatedAccountingLine);
+        }//else
+        return true;
     }
 
 

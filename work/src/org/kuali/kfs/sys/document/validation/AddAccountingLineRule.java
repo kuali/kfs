@@ -30,5 +30,5 @@ public interface AddAccountingLineRule<F extends AccountingDocument> extends Acc
      * @param financialDocument
      * @return True if the business rules pass, false otherwise.
      */
-    public boolean processAddAccountingLineBusinessRules(F financialDocument, AccountingLine accountingLine);
+    public boolean processAddAccountingLineBusinessRules(F financialDocument, AccountingLine accountingLine, String collectionName);
 }

@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoice
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerInvoiceDetailEvent;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
@@ -294,7 +295,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail, KFSPropertyConstants.SOURCE_ACCOUNTING_LINES));
 
         if (rulePassed) {
 

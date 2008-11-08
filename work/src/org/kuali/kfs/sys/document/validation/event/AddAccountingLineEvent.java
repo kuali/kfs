@@ -15,17 +15,23 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
+import java.util.List;
+
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class represents the add accounting line event. This could be triggered when a user presses the add button for a given
  * document's accounting line.
  */
 public final class AddAccountingLineEvent extends AccountingLineEventBase {
+    private String collectionName;
+    
     /**
      * Constructs an AddAccountingLineEvent with the given errorPathPrefix, document, and accountingLine.
      * 
@@ -33,8 +39,9 @@ public final class AddAccountingLineEvent extends AccountingLineEventBase {
      * @param document
      * @param accountingLine
      */
-    public AddAccountingLineEvent(String errorPathPrefix, Document document, AccountingLine accountingLine) {
+    public AddAccountingLineEvent(String errorPathPrefix, Document document, AccountingLine accountingLine, String collectionName) {
         super("adding accountingLine to document " + getDocumentId(document), errorPathPrefix, document, accountingLine);
+        this.collectionName = collectionName;
     }
 
     /**
@@ -48,6 +55,14 @@ public final class AddAccountingLineEvent extends AccountingLineEventBase {
      * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddAccountingLineRule) rule).processAddAccountingLineBusinessRules((AccountingDocument) getDocument(), getAccountingLine());
+        return ((AddAccountingLineRule) rule).processAddAccountingLineBusinessRules((AccountingDocument) getDocument(), getAccountingLine(), collectionName);
+    }
+
+    public String getCollectionName() {
+        return collectionName;
+    }
+
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
     }
 }

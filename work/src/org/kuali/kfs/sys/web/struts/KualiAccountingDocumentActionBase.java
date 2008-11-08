@@ -686,7 +686,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         rulePassed &= checkSalesTax((AccountingDocument) financialDocumentForm.getDocument(), line, false, true, 0);
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
@@ -723,7 +723,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         // accountingLine
         rulePassed &= checkSalesTax((AccountingDocument) financialDocumentForm.getDocument(), line, true, true, 0);
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line, KFSPropertyConstants.SOURCE_ACCOUNTING_LINES));
 
         if (rulePassed) {
             // add accountingLine

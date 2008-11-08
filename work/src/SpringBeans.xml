@@ -626,6 +626,9 @@
 		<property name="maintenanceDocumentDictionaryService">
 			<ref bean="maintenanceDocumentDictionaryService" />
 		</property>
+		<property name="transactionalDocumentDictionaryService">
+			<ref bean="transactionalDocumentDictionaryService" />
+		</property>
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>

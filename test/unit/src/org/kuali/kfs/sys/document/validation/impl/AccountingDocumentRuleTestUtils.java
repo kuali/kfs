@@ -25,8 +25,11 @@ import org.kuali.rice.kns.rule.BusinessRule;
 import org.kuali.rice.kns.rule.RouteDocumentRule;
 import org.kuali.rice.kns.rule.SaveDocumentRule;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -60,7 +63,13 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         assertGlobalErrorMapEmpty();
         AddAccountingLineRule rule = getBusinessRule(document.getClass(), AddAccountingLineRule.class);
         for (AccountingLine accountingLine : allLines) {
-            boolean ruleResult = rule.processAddAccountingLineBusinessRules(document, accountingLine);
+            String collectionName = null;
+            if(accountingLine instanceof SourceAccountingLine){
+                collectionName = KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+            }else if(accountingLine instanceof TargetAccountingLine){
+                collectionName = KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME;
+            }
+            boolean ruleResult = rule.processAddAccountingLineBusinessRules(document, accountingLine, collectionName);
             if (expected) {
                 assertGlobalErrorMapEmpty(accountingLine.toString());
             }

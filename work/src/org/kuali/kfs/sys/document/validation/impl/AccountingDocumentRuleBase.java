@@ -181,7 +181,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Deprecated
-    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, String collectionName) {
         LOG.debug("processAddAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");
 
         boolean valid = checkAccountingLine(financialDocument, accountingLine);

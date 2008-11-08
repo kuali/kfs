@@ -817,12 +817,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
-    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, String collectionName) {
         boolean valid = validateAccountNotExpired(accountingLine);
         if (!valid) {
             GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED, KFSConstants.EMPTY_STRING, accountingLine.getAccountNumber());
         }
-        valid &= super.processAddAccountingLineBusinessRules(financialDocument, accountingLine);
+        valid &= super.processAddAccountingLineBusinessRules(financialDocument, accountingLine, collectionName);
         if (!valid) {
 
             return false;

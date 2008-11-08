@@ -110,7 +110,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName, String expectedErrorKey) throws Exception {
         line.refresh();
         assertGlobalErrorMapEmpty();
-        boolean wasValid = getBusinessRule(DOCUMENT_CLASS, AddAccountingLineRule.class).processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line);
+        boolean wasValid = getBusinessRule(DOCUMENT_CLASS, AddAccountingLineRule.class).processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line, expectedErrorKey);
         if (expectedErrorFieldName == null) {
             assertGlobalErrorMapEmpty(line.toString()); // fail printing error map for debugging before failing on simple result
             assertEquals("wasValid " + line, true, wasValid);

@@ -182,14 +182,14 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
                 item = (PurApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
                 line = (PurApAccountingLine) ObjectUtils.deepCopy(item.getNewSourceLine());
                 errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-                rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
+                rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line, PurapPropertyConstants.ITEMS + "." + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES));
             }
             else if (itemIndex == -2){
                 //corrected: itemIndex == -2 is the only case for distribute account
                 //This is the case when we're inserting an accounting line for distribute account.
                 line = ((PurchasingFormBase)purapForm).getAccountDistributionnewSourceLine();
                 errorPrefix = PurapPropertyConstants.ACCOUNT_DISTRIBUTION_NEW_SRC_LINE;
-                rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
+                rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line, ""));
             }
 
             if (rulePassed) {

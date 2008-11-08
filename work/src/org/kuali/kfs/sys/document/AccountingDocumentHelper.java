@@ -217,7 +217,7 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
             }
             else {
                 // it must be a new addition
-                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, getDocument(), currentLine);
+                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, getDocument(), currentLine, "");
                 addEvents.add(addEvent);
             }
         }

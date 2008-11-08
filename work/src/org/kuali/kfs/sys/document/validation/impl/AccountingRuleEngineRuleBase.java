@@ -58,6 +58,7 @@ import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * A rule that uses the accounting rule engine to perform rule validations.
@@ -179,8 +180,11 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     /**
      * @see org.kuali.kfs.sys.document.validation.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        return validateForEvent(new AttributedAddAccountingLineEvent("", financialDocument, accountingLine));
+    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, String collectionName) {
+        boolean success = true;
+        success &= KNSServiceLocator.getDictionaryValidationService().validateDefaultExistenceChecksForNewCollectionItem(financialDocument, accountingLine, collectionName);
+        success &= validateForEvent(new AttributedAddAccountingLineEvent("", financialDocument, accountingLine));
+        return success;
     }
 
     /**

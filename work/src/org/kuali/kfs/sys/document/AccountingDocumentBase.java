@@ -558,7 +558,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
             }
             else {
                 // it must be a new addition
-                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, document, currentLine, "");
                 addEvents.add(addEvent);
             }
         }

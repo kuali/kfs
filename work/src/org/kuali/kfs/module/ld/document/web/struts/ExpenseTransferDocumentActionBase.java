@@ -272,7 +272,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
             ExpenseTransferAccountingLine to = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
             copyAccountingLine((ExpenseTransferAccountingLine) line, to);
 
-            boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), to));
+            boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), to, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
 
             // if the rule evaluation passed, let's add it
             if (rulePassed) {
@@ -335,7 +335,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
         copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
 
-        boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+        boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {

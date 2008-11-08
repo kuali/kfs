@@ -183,14 +183,14 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
-    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, String collectionName) {
         // make sure it's active for usage
         if (isAccountClosed(accountingLine)) {
 
             return false;
         }
 
-        return super.processAddAccountingLineBusinessRules(financialDocument, accountingLine);
+        return super.processAddAccountingLineBusinessRules(financialDocument, accountingLine, collectionName);
     }
 
     /**

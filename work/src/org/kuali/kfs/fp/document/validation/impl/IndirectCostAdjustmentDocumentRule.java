@@ -67,10 +67,10 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
      * @see #isAccountAllowed(AccountingLine)
      */
     @Override
-    public boolean processAddAccountingLineBusinessRules(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
+    public boolean processAddAccountingLineBusinessRules(AccountingDocument transactionalDocument, AccountingLine accountingLine, String collectionName) {
         boolean valid = processCommonCustomAccountingLineBusinessRules(accountingLine);
         if (valid) {
-            valid = super.processAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
+            valid = super.processAddAccountingLineBusinessRules(transactionalDocument, accountingLine, collectionName);
         }
         return valid;
     }

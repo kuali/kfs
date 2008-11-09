@@ -28,9 +28,18 @@
 
 	<bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
 
+	<bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean">
+		<property name="secureMode" value="true" />
+	</bean>
+
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="true"></property>
-		<property name="properties" ref="properties" />
+		<property name="propertiesArray">
+			<list>
+				<ref bean="properties" />
+				<ref bean="securityProperties" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">

@@ -28,15 +28,22 @@ import org.springframework.core.io.DefaultResourceLoader;
 public class PropertyLoadingFactoryBean implements FactoryBean {
     private static final String PROPERTY_FILE_NAMES_KEY = "property.files";
     private static final String PROPERTY_TEST_FILE_NAMES_KEY = "property.test.files";
+    private static final String SECURITY_PROPERTY_FILE_NAME_KEY = "security.property.file";
     private static final String CONFIGURATION_FILE_NAME = "configuration";
     private static final Properties BASE_PROPERTIES = new Properties();
     private boolean testMode;
+    private boolean secureMode;
 
     public Object getObject() throws Exception {
         loadBaseProperties();
-        loadPropertyList(PROPERTY_FILE_NAMES_KEY);
-        if (testMode) {
-            loadPropertyList(PROPERTY_TEST_FILE_NAMES_KEY);
+        if (secureMode) {
+            loadPropertyList(SECURITY_PROPERTY_FILE_NAME_KEY);
+        }
+        else {
+            loadPropertyList(PROPERTY_FILE_NAMES_KEY);
+            if (testMode) {
+                loadPropertyList(PROPERTY_TEST_FILE_NAMES_KEY);
+            }            
         }
         return BASE_PROPERTIES;
     }
@@ -91,5 +98,9 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
 
     public void setTestMode(boolean testMode) {
         this.testMode = testMode;
+    }
+
+    public void setSecureMode(boolean secureMode) {
+        this.secureMode = secureMode;
     }
 }

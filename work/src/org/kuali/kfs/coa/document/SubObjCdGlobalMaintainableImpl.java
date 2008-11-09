@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 
@@ -165,5 +166,10 @@ public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
         }
         
         return orgsToReview;
+    }
+
+    @Override
+    public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
+        return SubObjCd.class;
     }
 }

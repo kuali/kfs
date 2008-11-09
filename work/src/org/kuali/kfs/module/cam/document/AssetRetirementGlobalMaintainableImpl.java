@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
@@ -379,5 +380,11 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
         routingInfo.add(assetTagNumberRoutingData);
+    }
+
+
+    @Override
+    public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
+        return Asset.class;
     }
 }

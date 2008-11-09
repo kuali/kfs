@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -188,5 +189,10 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
         routingInfo.add(assetTagNumberRoutingData);
         
+    }
+
+    @Override
+    public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
+        return Asset.class;
     }
 }

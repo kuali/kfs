@@ -27,6 +27,7 @@ public class DataDictionaryNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser( "defaultExistenceChecks", new DefaultExistenceCheckBeanDefinitionParser() );
         registerBeanDefinitionParser( "boAttribute", new AttributeBeanDefinitionParser() );
         registerBeanDefinitionParser( "boAttributeRef", new AttributeBeanDefinitionParser() );
+        registerBeanDefinitionParser( "workflowAttributes", new WorkflowAttributesBeanDefinitionParser() );
     }
 
 }

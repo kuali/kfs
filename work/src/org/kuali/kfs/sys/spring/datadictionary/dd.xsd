@@ -47,6 +47,125 @@ element.
         </xsd:attribute>
     </xsd:complexType>
 
+    <xsd:element name="workflowAttributes">
+		<xsd:annotation>
+			<xsd:documentation source="java:org.kuali.rice.kns.datadictionary.WorkflowAttributes">
+Used on document entries to specify a list of properties of a document that will be used for workflow routing or searching
+ 			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+		<xsd:complexContent>
+		<xsd:extension base="beans:identifiedType">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="searchingAttribute" minOccurs="1" maxOccurs="1">
+					<xsd:annotation>
+	                    <xsd:documentation>
+Defines the property values that must be exposed to the workflow engine to perform document searches. 
+	                    </xsd:documentation>
+	                </xsd:annotation>
+	                <xsd:complexType>
+	              		<xsd:sequence maxOccurs="1" minOccurs="1">
+	               			<xsd:element name="workflowAttribute" type="workflowAttribute"/>
+	               		</xsd:sequence>
+	                	<xsd:attribute name="name" type="xsd:string" use="required">
+		                	<xsd:annotation>
+		                		<xsd:documentation>
+The name of the searchable attribute.
+		                		</xsd:documentation>
+		                	</xsd:annotation>
+	               		</xsd:attribute>
+	                </xsd:complexType>
+				</xsd:element>
+				<xsd:element name="routingType" minOccurs="1" maxOccurs="1">
+					<xsd:annotation>
+	                    <xsd:documentation>
+Defines the property values that must be exposed to the workflow engine to perform document routing. 
+	                    </xsd:documentation>
+	                </xsd:annotation>
+	                <xsd:complexType>
+	               		<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+	                        <xsd:element name="workflowAttribute" type="workflowAttribute" minOccurs="1" maxOccurs="unbounded"/>
+	               		</xsd:sequence>
+	                	<xsd:attribute name="name" type="xsd:string" use="required">
+		                	<xsd:annotation>
+		                		<xsd:documentation>
+The name of the routing type.
+		                		</xsd:documentation>
+		                	</xsd:annotation>
+	               		</xsd:attribute>
+	                </xsd:complexType>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:attributeGroup ref="abstractAttribute"  />
+</xsd:extension>		
+</xsd:complexContent>
+</xsd:complexType>
+    </xsd:element>
+
+	<xsd:complexType name="workflowAttribute">
+		<xsd:annotation>
+			<xsd:documentation>
+Represents a list of properties that represent the same type of value from a document that will be extracted and given to workflow
+to either enable searching or routing.  For example, if a document contains several different properties that contain campus codes, and
+there is a requirement to allow searches based on the campus code, regardless of where it occurs on the document, this element
+will contain a list of property names that point to campus codes.
+
+This element also provides the ability specify a data dictionary business object attribute that will provide metadata about how to render
+the value or how to render a field to allow the user to input the value on the screen (e.g. how to render a text box to ask for the campus code).
+			</xsd:documentation>
+		</xsd:annotation>
+        <xsd:sequence minOccurs="1" maxOccurs="unbounded">
+            <xsd:element name="path" minOccurs="1" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+Represents a property of a document object that will be extracted and given to the workflow engine.  If any of the nested property names represents
+a collection, then the framework will iterate through that collection as it extracts properties
+                    </xsd:documentation>
+                </xsd:annotation>
+            	<xsd:complexType>
+                	<xsd:attribute name="path" type="xsd:string" use="required">
+                    	<xsd:annotation>
+                        	<xsd:documentation>
+Represents a property of a document object that will be extracted and given to the workflow engine.  If any of the nested property names represents
+a collection, then the framework will iterate through that collection as it extracts properties
+			                </xsd:documentation>
+            			</xsd:annotation>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="referenceBusinessObjectAttribute"/>
+    </xsd:complexType>
+
+	
+	<xsd:attributeGroup name="referenceBusinessObjectAttribute">
+		<xsd:annotation>
+			<xsd:documentation>
+When rendering the UI for a workflow attribute field, the code may rely on UI metadata already defined within
+the Business Object data dictionary files.  For example, if the Data Dictionary specifies that the campus code should be rendered
+in a particular way throughout the application and we have a workflow attribute based on the campus code, the system allows that
+metadata to be reused to render the UI for workflow attributes based on the campus code.
+
+This is done by specifying the XML attributes defined in this XSD attribute group.  In the example above, the implementor may specify
+that the workflow attribute based on a campus code will be rendered using data dictionary metadata from the &quot;Campus&quot; business object's
+&quot;campusCode&quot; BO.  The XML attributes must either be both defined or both not defined.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="referenceBusinessObjectClassName" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+The business object from which to use Data Dictionary metadata.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="referenceBusinessObjectAttributeName" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+The business object attribute from which to use Data Dictionary metadata.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
     <!-- 
         dd:defaultExistenceChecks
             dd:check boAttribute="" activeIndicatorAttribute="" attributeToHighlightOnFail="" activeIndicatorReversed="" displayFieldName=""

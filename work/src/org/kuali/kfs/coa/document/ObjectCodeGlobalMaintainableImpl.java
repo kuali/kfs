@@ -223,4 +223,9 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
         }
         return cache;
     }
+
+    @Override
+    public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
+        return ObjectCode.class;
+    }
 }

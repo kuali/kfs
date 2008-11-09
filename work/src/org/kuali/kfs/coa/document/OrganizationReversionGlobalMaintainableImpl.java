@@ -229,4 +229,9 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
         
         return orgsToReview;
     }
+
+    @Override
+    public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
+        return OrganizationReversion.class;
+    }
 }

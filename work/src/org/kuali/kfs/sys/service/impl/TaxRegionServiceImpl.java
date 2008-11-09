@@ -31,8 +31,6 @@ import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ctc.wstx.util.StringUtil;
-
 @Transactional
 public class TaxRegionServiceImpl implements TaxRegionService {
 

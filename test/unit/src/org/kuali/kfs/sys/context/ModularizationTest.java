@@ -36,7 +36,7 @@ import org.w3c.dom.NodeList;
 import uk.ltd.getahead.dwr.impl.DTDEntityResolver;
 import uk.ltd.getahead.dwr.util.LogErrorHandler;
 
-public class TestModularization extends KualiTestBase {
+public class ModularizationTest extends KualiTestBase {
     private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/integration/SpringBeansModules.xml,org/kuali/kfs/sys/spring-sys.xml,org/kuali/kfs/coa/spring-coa.xml,org/kuali/kfs/fp/spring-fp.xml,org/kuali/kfs/gl/spring-gl.xml,org/kuali/kfs/pdp/spring-pdp.xml,org/kuali/kfs/vnd/spring-vnd.xml";
 
     private static final Map<String, String> OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX = new HashMap<String, String>();

@@ -192,31 +192,18 @@
 
 		<c:if test="${amendmentEntry}">
 			<purap:purapGeneralAccounting
-				editingMode="${KualiForm.accountingLineEditingMode}"
-				editableAccounts="${KualiForm.editableAccounts}"
-				sourceAccountingLinesOnly="true" optionalFields="accountLinePercent"
-				accountingLineAttributes="${accountingLineAttributes}"
-				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-				hideFields="amount" accountingAddLineIndex="${ctr}" 
-				ctr="${ctr}" itemColSpan="${mainColumnCount}"/>
+				accountPrefix="document.item[${ctr}]." 
+				itemColSpan="${mainColumnCount}"/>
 		</c:if>
 		
 		<!-- KULPURAP-1500 -->
 		<c:if test="${(((!empty KualiForm.editingMode['allowItemEntry']) && (!empty itemLine.itemUnitPrice)) || (empty KualiForm.editingMode['allowItemEntry']))}">
 		    <c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
-			    <c:set var="optionalFields" value="accountLinePercent" />			 
-	    	    <c:set var="hideFields" value="amount" />
 			    <c:if test="${showAmount}">
-				    <c:set var="optionalFields" value="" />
-				    <c:set var="hideFields" value="" />
 			    </c:if>
-			    <purap:purapGeneralAccounting editingMode="${KualiForm.editingMode}"
-				    editableAccounts="${KualiForm.editableAccounts}"
-				    sourceAccountingLinesOnly="true" optionalFields="${optionalFields}"
-				    accountingLineAttributes="${accountingLineAttributes}"
-				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 
-				    ctr="${ctr}" itemColSpan="${mainColumnCount}" />
+			    <purap:purapGeneralAccounting 
+				    accountPrefix="document.item[${ctr}]."
+				    itemColSpan="${mainColumnCount}" />
 		    </c:if>
 		</c:if>
 	</c:if>

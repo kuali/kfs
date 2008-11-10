@@ -195,22 +195,13 @@
 				    readOnly="true" />
 			</td>			
 		</tr>
-		<c:set var="optionalFields" value="accountLinePercent" />
 		<c:set var="hideFields" value="amount" />
 		<c:if test="${showAmount}">
-			<c:set var="optionalFields" value="" />
 			<c:set var="hideFields" value="" />
 		</c:if>
 		<purap:purapGeneralAccounting
-			editingMode="${KualiForm.editingMode}"
-			editableAccounts="${KualiForm.editableAccounts}"
-			sourceAccountingLinesOnly="true"
-			optionalFields="${optionalFields}"
-			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-			accountingLineAttributes="${accountingLineAttributes}" 
-			hideFields="${hideFields}" 
-			accountingAddLineIndex="${ctr}" 
-			ctr="${ctr}" itemColSpan="${mainColumnCount}" />	
+			accountPrefix="document.item[${ctr}]." 
+			itemColSpan="${mainColumnCount}" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

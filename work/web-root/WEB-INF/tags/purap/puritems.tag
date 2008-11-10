@@ -485,26 +485,13 @@
 	    			    <c:when test="${ (itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)) )}">
 				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
 					<purap:purapGeneralAccounting
-						editingMode="${KualiForm.accountingLineEditingMode}"
-						editableAccounts="${KualiForm.editableAccounts}"
-						sourceAccountingLinesOnly="true"
-						optionalFields="accountLinePercent"
-						accountingLineAttributes="${accountingLineAttributes}"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+						accountPrefix="document.item[${ctr}]." 
 						itemColSpan="${columnCount}" />
     				    </c:when>
 	        			<c:otherwise>
 				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
-					<purap:purapGeneralAccounting editingMode="${KualiForm.editingMode}"
-						editableAccounts="${KualiForm.editableAccounts}"
-						sourceAccountingLinesOnly="true"
-						optionalFields="accountLinePercent"
-						accountingLineAttributes="${accountingLineAttributes}"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+					<purap:purapGeneralAccounting 
+						accountPrefix="document.item[${ctr}]." 
 						itemColSpan="${columnCount}" />
 				        </c:otherwise>
 				    </c:choose>
@@ -512,28 +499,15 @@
 				<c:when test="${unorderedItemAccountEntry and itemLine.newUnorderedItem}">
 				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
 					<purap:purapGeneralAccounting
-						editingMode="${KualiForm.accountingLineEditingMode}"
-						editableAccounts="${KualiForm.editableAccounts}"
-						sourceAccountingLinesOnly="true"
-						optionalFields="accountLinePercent"
-						accountingLineAttributes="${accountingLineAttributes}"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+						accountPrefix="document.item[${ctr}]." 
 						itemColSpan="${columnCount}" />				
 				</c:when>
 				<c:when test="${(!amendmentEntry)}">
 					<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && (KualiForm.editingMode['allowItemEntry'] == itemLine.itemIdentifier)}" >
 					    <c:set target="${KualiForm.editingMode}" property="expenseEntry" value="true" />
 					</c:if>					
-					<purap:purapGeneralAccounting editingMode="${KualiForm.editingMode}"
-						editableAccounts="${KualiForm.editableAccounts}"
-						sourceAccountingLinesOnly="true"
-						optionalFields="accountLinePercent"
-						accountingLineAttributes="${accountingLineAttributes}"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+					<purap:purapGeneralAccounting 
+						accountPrefix="document.item[${ctr}]." 
 						itemColSpan="${columnCount}" />
 				</c:when>
 				</c:choose>

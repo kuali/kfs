@@ -247,14 +247,7 @@
 		</tr>
 
 		<purap:purapGeneralAccounting
-			editableAccounts="${KualiForm.editableAccounts}"
-			sourceAccountingLinesOnly="true"
-			optionalFields="accountLinePercent"
-			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-			accountingLineAttributes="${accountingLineAttributes}" 
-			hideFields="amount" 
-			accountingAddLineIndex="${ctr}"
-			ctr="${ctr}" 
+			accountPrefix="document.item[${ctr}]." 
 			itemColSpan="${mainColumnCount}"/>	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>

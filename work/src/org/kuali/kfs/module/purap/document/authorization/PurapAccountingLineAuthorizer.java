@@ -77,6 +77,23 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     }
     
     /**
+     * Overrides the method in AccountingLineAuthorizerBase so that the balance inquiry button would 
+     * have both the line item number and the accounting line number for methodToCall when the user 
+     * clicks on the balance inquiry button.
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getBalanceInquiryMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer)
+     */
+    @Override
+    protected String getBalanceInquiryMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
+        final String infix = getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty);
+        String lineNumber = StringUtils.substringBetween(accountingLineProperty, "item[", "].sourceAccountingLine");
+        if (lineNumber == null) {
+            lineNumber = "-2";
+        }
+        String accountingLineNumber = StringUtils.substringBetween(accountingLineProperty, "sourceAccountingLine[", "]");
+        return "performBalanceInquiryFor"+infix+"Line.line"+ ":" + lineNumber + ":" + accountingLineNumber + ".anchoraccounting"+infix+ "existingLineLineAnchor"+accountingLineNumber;
+    }
+    
+    /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
      */
     @Override

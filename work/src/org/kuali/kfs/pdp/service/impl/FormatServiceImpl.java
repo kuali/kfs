@@ -689,15 +689,6 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method gets the kualiCodeService
-     * 
-     * @return kualiCodeService
-     */
-    public KualiCodeService getKualiCodeService() {
-        return kualiCodeService;
-    }
-
-    /**
      * This method sets the kualiCodeService
      * 
      * @param kualiCodeService
@@ -712,14 +703,6 @@ public class FormatServiceImpl implements FormatService {
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
         this.paymentGroupService = paymentGroupService;
-    }
-
-    /**
-     * This method gets the dateTimeService
-     * @return dateTimeService
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
     }
 
     /**

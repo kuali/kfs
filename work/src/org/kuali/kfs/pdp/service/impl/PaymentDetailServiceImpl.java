@@ -40,15 +40,6 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getAchPaymentsWithUnsentEmail()
-     */
-    public Iterator getAchPaymentsWithUnsentEmail() {
-        LOG.debug("getAchPaymentsWithUnsentEmail() started");
-
-        return paymentDetailDao.getAchPaymentsWithUnsentEmail();
-    }
-
-    /**
      * @see org.kuali.kfs.pdp.service.PaymentDetailService#getByDisbursementNumber(java.lang.Integer)
      */
     public Iterator getByDisbursementNumber(Integer disbursementNumber) {
@@ -60,26 +51,6 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
         DynamicCollectionComparator.sort(paymentDetailByDisbursementNumberList, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR);
 
         return paymentDetailByDisbursementNumberList.iterator();
-    }
-
-    /**
-     * @see org.kuali.kfs.pdp.service.PaymentDetailService#get(java.lang.Integer)
-     */
-    public PaymentDetail get(Integer id) {
-        LOG.debug("get() started");
-        Map primaryKeys = new HashMap();
-        primaryKeys.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, id);
-        
-        return (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
-    }
-
-    /**
-     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getDetailForEpic(java.lang.String, java.lang.String)
-     */
-    public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode) {
-        LOG.debug("getDetailForEpic() started");
-
-        return paymentDetailDao.getDetailForEpic(custPaymentDocNbr, fdocTypeCode);
     }
 
     /**

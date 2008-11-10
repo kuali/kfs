@@ -367,7 +367,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
 
                     if ((element.getDisbursementType() != null) && (element.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
-                        pgh.setPmtCancelExtractStat(new Boolean("False"));
+                        pgh.setPmtCancelExtractStat(Boolean.FALSE);
                     }
 
                     changeStatus(element, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
@@ -427,7 +427,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
 
                     if ((pg.getDisbursementType() != null) && (pg.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
-                        pgh.setPmtCancelExtractStat(new Boolean("False"));
+                        pgh.setPmtCancelExtractStat(Boolean.FALSE);
                     }
 
                     pgh.setOrigProcessImmediate(pg.getProcessImmediate());
@@ -534,10 +534,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         this.parameterService = parameterService;
     }
 
-    public KualiCodeService getKualiCodeService() {
-        return kualiCodeService;
-    }
-
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
     }
@@ -549,15 +545,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public void setBankService(BankService bankService) {
         this.bankService = bankService;
-    }
-    
-    /**
-     * Gets the business object service
-     * 
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
 
     /**

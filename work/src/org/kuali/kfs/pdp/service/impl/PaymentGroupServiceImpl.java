@@ -80,20 +80,6 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByProcessId(java.lang.Integer)
-     */
-    public Iterator getByProcessId(Integer pid) {
-        LOG.debug("getByProcessId() started");
-        
-        Map fieldValues = new HashMap();
-        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, pid);
-        List paymentGroupList = (List) this.businessObjectService.findMatching(PaymentGroup.class, fieldValues);
-        DynamicCollectionComparator.sort(paymentGroupList, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_SORT_VALUE, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_LINE1_ADDRESS);
-        
-        return paymentGroupList.iterator();
-    }
-
-    /**
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByProcess(org.kuali.kfs.pdp.businessobject.PaymentProcess)
      */
     public Iterator getByProcess(PaymentProcess p) {
@@ -236,15 +222,6 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
-    }
-
-    /**
-     * Gets the business object service
-     * 
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
     
     /**

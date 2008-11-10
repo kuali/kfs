@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.pdp.businessobject.CustomerBank;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -38,9 +38,9 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     public CustomerProfile get(String chartCode, String orgCode, String subUnitCode) {
         Map fieldValues = new HashMap();
         
-        fieldValues.put("chartCode", chartCode);
-        fieldValues.put("orgCode", orgCode);
-        fieldValues.put("subUnitCode", subUnitCode);
+        fieldValues.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, chartCode);
+        fieldValues.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE, orgCode);
+        fieldValues.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE, subUnitCode);
         List customerProfileList = (List) this.businessObjectService.findMatching(CustomerProfile.class, fieldValues);
         if (customerProfileList.isEmpty()) return null;
         

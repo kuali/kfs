@@ -21,17 +21,7 @@ import java.util.List;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 
 public interface PaymentDetailService {
-    /**
-     * Get ACH Payments that need an email
-     * 
-     * @return
-     */
-    public Iterator getAchPaymentsWithUnsentEmail();
-
-    public PaymentDetail get(Integer id);
-
-    public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
-
+    
     /**
      * Return an iterator of all the payment details for a specific disbursement number
      * 

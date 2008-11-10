@@ -35,14 +35,6 @@ public interface PaymentGroupService {
     public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode);
 
     /**
-     * Get all payment groups by Payment Process Id This method...
-     * 
-     * @param processId
-     * @return
-     */
-    public Iterator getByProcessId(Integer processId);
-
-    /**
      * Get all payment groups by Payment Process object
      * 
      * @param p

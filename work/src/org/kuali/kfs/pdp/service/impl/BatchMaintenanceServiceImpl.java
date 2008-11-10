@@ -245,30 +245,12 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     }
 
     /**
-     * This method gets the kualiCodeService.
-     * 
-     * @return KualiCodeService
-     */
-    public KualiCodeService getKualiCodeService() {
-        return kualiCodeService;
-    }
-
-    /**
      * This method sets the kualiCodeService
      * 
      * @param kualiCodeService
      */
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
-    }
-    
-    /**
-     * Gets the business object service
-     * 
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
 
     /**

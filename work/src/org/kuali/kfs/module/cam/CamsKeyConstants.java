@@ -180,6 +180,7 @@ public class CamsKeyConstants {
         public static final String ERROR_MFR_NAME_REQUIRED = "error.capital.asset.manufacturer.name.required";
         public static final String ERROR_ACQUISITION_TYPE_CODE_REQUIRED = "error.acquisition.code.required";
         public static final String ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED = "error.acquisition.code.not.allowed";
+        public static final String ERROR_INACTIVE_ACQUISITION_TYPE_CODE = "error.inactive.acquisition.code";
         public static final String ERROR_OWNER_CHART_INVALID = "error.asset.owner.chart.code.invalid";
         public static final String ERROR_OWNER_ACCT_NUMBER_INVALID = "error.asset.owner.account.number.invalid";
         public static final String ERROR_CAMPUS_TAG_NUMBER_DUPLICATE = "error.asset.campus.tag.number.duplicate";

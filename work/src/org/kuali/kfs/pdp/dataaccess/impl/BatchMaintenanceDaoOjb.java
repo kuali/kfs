@@ -26,6 +26,8 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.PdpConstants.PaymentStatusCodes;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
@@ -64,18 +66,18 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
         List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
         for (Iterator i = statusList.iterator(); i.hasNext();) {
             PaymentStatus element = (PaymentStatus) i.next();
-            if (!(element.getCode().equals("OPEN"))) {
+            if (!(element.getCode().equals(PaymentStatusCodes.OPEN))) {
                 codeList.add(element.getCode());
             }
         }
 
         Criteria crit = new Criteria();
-        crit.addEqualTo("batchId", batchId);
-        crit.addIn("paymentStatusCode", codeList);
+        crit.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, batchId);
+        crit.addIn(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, codeList);
 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(PaymentGroup.class, crit);
-        q.setAttributes(new String[] { "paymentStatusCode" });
-        q.addGroupBy("paymentStatusCode");
+        q.setAttributes(new String[] { PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE });
+        q.addGroupBy(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE);
 
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         if (i.hasNext()) {
@@ -104,18 +106,18 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
         List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
         for (Iterator i = statusList.iterator(); i.hasNext();) {
             PaymentStatus element = (PaymentStatus) i.next();
-            if (!(element.getCode().equals("HELD"))) {
+            if (!(element.getCode().equals(PaymentStatusCodes.HELD_CD))) {
                 codeList.add(element.getCode());
             }
         }
 
         Criteria crit = new Criteria();
-        crit.addEqualTo("batchId", batchId);
-        crit.addIn("paymentStatusCode", codeList);
+        crit.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, batchId);
+        crit.addIn(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, codeList);
 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(PaymentGroup.class, crit);
-        q.setAttributes(new String[] { "paymentStatusCode" });
-        q.addGroupBy("paymentStatusCode");
+        q.setAttributes(new String[] { PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE });
+        q.addGroupBy(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE);
 
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         if (i.hasNext()) {

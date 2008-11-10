@@ -73,6 +73,7 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_COUNT = "paymentCount";
             public static final String PAYMENT_TOTAL_AMOUNT = "paymentTotalAmount";
             public static final String FILE_CREATION_TIME = "customerFileCreateTimestamp";
+            public static final String CUSTOMER_ID = "customerId";
         }
     }
     
@@ -109,7 +110,9 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_INVOICE_TOTAL_SHIPPING_AMOUNT = "invTotShipAmount";
             public static final String PAYMENT_INVOICE_TOTAL_OTHER_DEBIT_AMOUNT = "invTotOtherDebitAmount";
             public static final String PAYMENT_INVOICE_TOTAL_OTHER_CREDIT_AMOUNT = "invTotOtherCreditAmount";
-            
+            public static final String PAYMENT_GROUP = "paymentGroup";
+            public static final String PAYMENT_EPIC_PAYMENT_CANCELLED_DATE = "paymentGroup.epicPaymentCancelledExtractedDate";
+            public static final String PAYMENT_EPIC_PAYMENT_PAID_EXTRACTED_DATE = "paymentGroup.epicPaymentPaidExtractedDate";
         }
     }
     
@@ -132,6 +135,7 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_GROUP_CHART_CODE = "paymentGroup.batch.customerProfile.chartCode";
             public static final String PAYMENT_GROUP_ORG_CODE = "paymentGroup.batch.customerProfile.orgCode";
             public static final String PAYMENT_GROUP_SUB_UNIT_CODE = "paymentGroup.batch.customerProfile.subUnitCode";
+            public static final String PMT_CANCEL_EXTRACT_DATE = "pmtCancelExtractDate";
 
         }
     }
@@ -146,9 +150,16 @@ public class PdpPropertyConstants {
         public static final String PAYMENT_GROUP_PAYEE_NAME = "payeeName";
         public static final String PAYMENT_GROUP_LINE1_ADDRESS = "line1Address";
         public static final String PAYMENT_GROUP_BATCH_ID = "batchId";
+        public static final String PAYMENT_GROUP_BATCH = "batch";
         public static final String PAYMENT_GROUP_BANK_CODE = "bankCode";
         public static final String PAYMENT_GROUP_PAYEE_ID = "payeeId";
         public static final String PAYMENT_GROUP_PAYEE_ID_TYPE_CODE = "payeeIdTypeCd";
+        public static final String PAYMENT_ATTACHMENT = "pymtAttachment";
+        public static final String PAYMENT_SPECIAL_HANDLING = "pymtSpecialHandling";
+        public static final String TAXABLE_PAYMENT = "taxablePayment";
+        public static final String NRA_PAYMENT = "nraPayment";
+        public static final String PROCESS_IMMEDIATE = "processImmediate";
+        public static final String PAYMENT_DATE = "paymentDate"; 
         
     }
     

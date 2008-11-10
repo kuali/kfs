@@ -68,7 +68,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private boolean taxablePayment; // PMT_TXBL_IND
     private boolean nraPayment; // NRA_PMT_IND
     private boolean processImmediate; // PROC_IMD_IND
-    private Boolean combineGroups; // PMT_GRP_CMB_IND
+    private boolean combineGroups; // PMT_GRP_CMB_IND
     private String achBankRoutingNbr; // ACH_BNK_RTNG_NBR
     private String adviceEmailAddress; // ADV_EMAIL_ADDR
     private boolean employeeIndicator; // EMP_IND

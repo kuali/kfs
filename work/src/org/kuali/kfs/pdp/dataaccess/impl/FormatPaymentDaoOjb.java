@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
@@ -71,42 +72,42 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         Criteria criteria = new Criteria();
 
         if (customerIds.size() > 0) {
-            criteria.addIn("batch.customerId", customerIds);
+            criteria.addIn(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH + "." + PdpPropertyConstants.BatchConstants.Fields.CUSTOMER_ID, customerIds);
         }
         else {
             //no payments to mark as no customer was selected
             return;
         }
 
-        criteria.addEqualTo("paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.OPEN);
 
         if (PdpConstants.PaymentTypes.DISBURSEMENTS_WITH_SPECIAL_HANDLING.equals(paymentTypes)) {
             // special handling only
-            criteria.addEqualTo("pymtSpecialHandling", Boolean.TRUE);
+            criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_SPECIAL_HANDLING, Boolean.TRUE);
         }
         else if (PdpConstants.PaymentTypes.DISBURSEMENTS_NO_SPECIAL_HANDLING.equals(paymentTypes)) {
             // no special handling only
-            criteria.addEqualTo("pymtSpecialHandling", Boolean.FALSE);
+            criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_SPECIAL_HANDLING, Boolean.FALSE);
         }
         else if (PdpConstants.PaymentTypes.DISBURSEMENTS_WITH_ATTACHMENTS.equals(paymentTypes)) {
             // attachments only
-            criteria.addEqualTo("pymtAttachment", Boolean.TRUE);
+            criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_ATTACHMENT, Boolean.TRUE);
         }
         else if (PdpConstants.PaymentTypes.DISBURSEMENTS_NO_ATTACHMENTS.equals(paymentTypes)) {
             // no attachments only
-            criteria.addEqualTo("pymtAttachment", Boolean.FALSE);
+            criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_ATTACHMENT, Boolean.FALSE);
         }
 
         if (PdpConstants.PaymentTypes.PROCESS_IMMEDIATE.equals(paymentTypes)) {
-            criteria.addEqualTo("processImmediate", Boolean.TRUE);
+            criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PROCESS_IMMEDIATE, Boolean.TRUE);
         }
         else {
             // (Payment date <= usePaydate OR immediate = TRUE)
             Criteria criteria1 = new Criteria();
-            criteria1.addEqualTo("processImmediate", Boolean.TRUE);
+            criteria1.addEqualTo(PdpPropertyConstants.PaymentGroup.PROCESS_IMMEDIATE, Boolean.TRUE);
 
             Criteria criteria2 = new Criteria();
-            criteria2.addLessOrEqualThan("paymentDate", paydateTs);
+            criteria2.addLessOrEqualThan(PdpPropertyConstants.PaymentGroup.PAYMENT_DATE, paydateTs);
             criteria1.addOrCriteria(criteria2);
 
             criteria.addAndCriteria(criteria1);
@@ -133,8 +134,8 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         PaymentStatus openStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("processId", proc.getId());
-        criteria.addEqualTo("paymentStatusCode", PdpConstants.PaymentStatusCodes.FORMAT);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, proc.getId());
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.FORMAT);
 
         Iterator groupIterator = getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
         while (groupIterator.hasNext()) {
@@ -143,10 +144,6 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
             paymentGroup.setPaymentStatus(openStatus);
             getPersistenceBrokerTemplate().store(paymentGroup);
         }
-    }
-
-    public KualiCodeService getKualiCodeService() {
-        return kualiCodeService;
     }
 
     public void setKualiCodeService(KualiCodeService kualiCodeService) {

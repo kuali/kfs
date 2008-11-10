@@ -47,13 +47,13 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         List<Integer> results = new ArrayList<Integer>();
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("processId", pid);
-        criteria.addEqualTo("disbursementTypeCode", disbursementType);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, pid);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, disbursementType);
 
-        String[] fields = new String[] { "disbursementNbr" };
+        String[] fields = new String[] { PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_NBR };
 
         ReportQueryByCriteria rq = QueryFactory.newReportQuery(PaymentGroup.class, fields, criteria, true);
-        rq.addOrderBy("disbursementNbr",true);
+        rq.addOrderBy(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_NBR, true);
 
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rq);
         while ( i.hasNext() ) {

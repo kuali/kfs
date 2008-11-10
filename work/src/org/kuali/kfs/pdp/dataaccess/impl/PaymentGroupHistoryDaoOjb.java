@@ -15,15 +15,14 @@
  */
 package org.kuali.kfs.pdp.dataaccess.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -46,19 +45,19 @@ public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implement
         codes.add(PdpConstants.PaymentChangeCodes.CANCEL_REISSUE_DISBURSEMENT);
 
         Criteria crit = new Criteria();
-        crit.addIn("paymentChangeCode", codes);
-        crit.addIsNull("pmtCancelExtractDate");
+        crit.addIn(PdpPropertyConstants.PAYMENT_CHANGE_CODE, codes);
+        crit.addIsNull(PdpPropertyConstants.PaymenGroupHistory.Fields.PMT_CANCEL_EXTRACT_DATE);
 
         Criteria o1 = new Criteria();
-        o1.addNotEqualTo("disbursementTypeCode", PdpConstants.DisbursementTypeCodes.ACH);
+        o1.addNotEqualTo(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpConstants.DisbursementTypeCodes.ACH);
         Criteria o1a = new Criteria();
-        o1a.addIsNull("disbursementTypeCode");
+        o1a.addIsNull(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE);
         o1.addOrCriteria(o1a);
 
         Criteria o2 = new Criteria();
-        o2.addEqualTo("disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
+        o2.addEqualTo(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpConstants.DisbursementTypeCodes.CHECK);
         Criteria o2a = new Criteria();
-        o2a.addEqualTo("paymentGroup.disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
+        o2a.addEqualTo(PdpPropertyConstants.PAYMENT_GROUP + "." + PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpConstants.DisbursementTypeCodes.CHECK);
         o2.addOrCriteria(o2a);
 
         crit.addAndCriteria(o1);

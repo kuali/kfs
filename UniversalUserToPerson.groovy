@@ -1,6 +1,6 @@
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-
+// test change
 def baseDir = '/java/projects/kfs'
 
 def sourceDirectories = [       

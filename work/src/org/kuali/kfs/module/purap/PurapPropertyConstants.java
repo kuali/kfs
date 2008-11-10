@@ -53,7 +53,7 @@ public class PurapPropertyConstants {
     public static final String ACCOUNT_TYPE_CODE = "accountTypeCode";
     public static final String ORGANIZATION_CODE = "organizationCode";
     public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";    
-
+    public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
 
     // document fields

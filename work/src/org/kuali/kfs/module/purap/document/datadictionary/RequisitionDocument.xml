@@ -1029,7 +1029,7 @@
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />	  
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,accountDistribution*" /> 
 	  <property name="importingAllowed" value="true" /> 
   </bean>
   

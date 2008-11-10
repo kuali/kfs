@@ -31,7 +31,6 @@ public class CreditMemoAccountingLineViewField extends AccountingLineViewField {
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
         if ( purapDocument.isPostingYearPrior() && 
              ( purapDocument.getStatusCode().equals(PurapConstants.CreditMemoStatuses.COMPLETE) ||
-               purapDocument.getStatusCode().equals(PurapConstants.CreditMemoStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL) ||
                purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) ||
                purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) ) )  {
             return false;            

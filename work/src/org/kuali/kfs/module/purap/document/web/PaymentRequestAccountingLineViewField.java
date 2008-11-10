@@ -32,7 +32,6 @@ public class PaymentRequestAccountingLineViewField extends AccountingLineViewFie
         if ( purapDocument.isPostingYearPrior() && 
              ( purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED) ||
                purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED) ||
-               purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL) ||
                purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) ||
                purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) ) )  {
             return false;            

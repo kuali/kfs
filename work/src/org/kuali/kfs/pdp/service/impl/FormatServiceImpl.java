@@ -207,13 +207,13 @@ public class FormatServiceImpl implements FormatService {
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
-        String campus = paymentProcess.getCampus();
 
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new RuntimeException("Invalid proc ID");
         }
-
+        String campus = paymentProcess.getCampus();
+        
         //get disbursement types, payment statuses
         DisbursementType checkDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
         DisbursementType achDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.ACH);
@@ -485,13 +485,14 @@ public class FormatServiceImpl implements FormatService {
      */
     private KualiInteger assignDisbursementNumber(String campus, DisbursementNumberRange range, PaymentGroup paymentGroup, FormatProcessSummary postFormatProcessSummary) {
         KualiInteger disbursementNumber = new KualiInteger(1 + range.getLastAssignedDisbNbr().intValue());
+        
         if (disbursementNumber.isGreaterThan(range.getEndDisbursementNbr())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
 
             throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
         }
+        
         paymentGroup.setDisbursementNbr(disbursementNumber);
-
         range.setLastAssignedDisbNbr(disbursementNumber);
 
         // Update the summary information

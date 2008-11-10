@@ -19,6 +19,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -39,14 +40,14 @@ import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
-import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,6 +66,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private PdpEmailService paymentFileEmailService;
     private KualiCodeService kualiCodeService;
     private BusinessObjectService businessObjectService;
+    private KualiConfigurationService kualiConfigurationService;
 
     // Set this to true to run this process without updating the database. This
     // should stay false for production.
@@ -87,8 +89,11 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        String filename = getOutputFile("pdp_cancel", processDate);
+        
+        String checkCancelledFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        checkCancelledFilePrefix = MessageFormat.format(checkCancelledFilePrefix, new Object[]{ null });
+        
+        String filename = getOutputFile(checkCancelledFilePrefix, processDate);
         LOG.debug("extractCanceledChecks() filename = " + filename);
 
         // Open file
@@ -163,7 +168,10 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         PaymentStatus extractedStatus = (PaymentStatus) this.kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
-        String filename = getOutputFile("pdp_ach", processDate);
+        String achFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        achFilePrefix = MessageFormat.format(achFilePrefix, new Object[]{ null });
+        
+        String filename = getOutputFile(achFilePrefix, processDate);
         LOG.debug("extractAchPayments() filename = " + filename);
 
         // Open file
@@ -283,8 +291,11 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        String filename = getOutputFile("pdp_check", processDate);
+        
+        String checkFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[]{ null });
+        
+        String filename = getOutputFile(checkFilePrefix, processDate);
         LOG.debug("extractChecks() filename: " + filename);
 
         List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
@@ -580,5 +591,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

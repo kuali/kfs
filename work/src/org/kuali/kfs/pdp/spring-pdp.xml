@@ -261,6 +261,7 @@
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
 
 	<bean id="pdpExtractPaymentService" class="org.kuali.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
@@ -274,6 +275,7 @@
 		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
 
 	<bean id="pdpExtractGlTransactionService" class="org.kuali.kfs.pdp.batch.service.impl.ExtractTransactionsServiceImpl">

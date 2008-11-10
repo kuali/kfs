@@ -17,6 +17,7 @@ package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -24,11 +25,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.gl.report.TransactionReport.PageHelper;
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.DailyReportService;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -51,6 +54,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     private DateTimeService dateTimeService;
     private String directoryName;
     private PaymentGroupService paymentGroupService;
+    private KualiConfigurationService kualiConfigurationService;
     
     private Font headerFont;
     private Font textFont;
@@ -72,8 +76,11 @@ public class DailyReportServiceImpl implements DailyReportService {
         Collection<DailyReport> data = getData();
         Date today = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-
-        Document document = openPdfWriter(directoryName, "pdp_daily", dateTimeService.getCurrentDate(), "Summary of Payments Eligible For Format On " + sdf.format(today));
+        
+        String reportFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        reportFilePrefix = MessageFormat.format(reportFilePrefix, new Object[]{ null });
+        
+        Document document = openPdfWriter(directoryName, reportFilePrefix, dateTimeService.getCurrentDate(), "Summary of Payments Eligible For Format On " + sdf.format(today));
 
         try {
             float[] summaryWidths = { 20, 20, 20, 20, 20 };
@@ -247,5 +254,9 @@ public class DailyReportServiceImpl implements DailyReportService {
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
         this.paymentGroupService = paymentGroupService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

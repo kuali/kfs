@@ -69,6 +69,8 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_ACH_ADVICE_EMAIL_NONOTES = "message.pdp.achAdvice.email.noNotes";
     public static final String MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS = "message.pdp.achAdvice.email.invalidEmailAddress";
     
+    public static final String DAILY_REPORT_SERVICE_FILE_PREFIX = "pdp.dailyReportService.dailyReportFilePrefix";
+    
     public static class BatchConstants{
         public static class ErrorMessages{
             public static final String ERROR_BATCH_CRITERIA_NONE_ENTERED ="batchSearchForm.batchcriteria.noneEntered";
@@ -190,5 +192,11 @@ public class PdpKeyConstants {
             public static final String ERROR_FORMAT_DISBURSEMENT_EXHAUSTED = "format.disb.exhausted";
             public static final String ERROR_FORMAT_DISBURSEMENT_MISSING = "format.disb.missing";
         }
+    }
+    
+    public static class ExtractPayment {
+        public static final String ACH_FILENAME = "pdp.extract.achFilename";
+        public static final String CHECK_FILENAME = "pdp.extract.checkFilename";
+        public static final String CHECK_CANCEL_FILENAME = "pdp.extract.checkCancelFilename";
     }
 }

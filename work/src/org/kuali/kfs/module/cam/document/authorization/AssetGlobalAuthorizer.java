@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -28,8 +30,9 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
@@ -59,22 +62,22 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             }
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, allowAddPaymentToCollection);
 
-            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
-            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);
+            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
+            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);
 
             if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
-                //Fields in the add section
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." +CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);                
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." +CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." +CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
+                // Fields in the add section
+                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
+                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);
+                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);
+                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
 
-                //Hiding some fields when the status of the document is not final.
+                // Hiding some fields when the status of the document is not final.
                 if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                     setAssetGlobalPaymentsHiddenFields(assetGlobal, auths);
                 }
-          }
-            
+            }
+
         }
         return auths;
     }
@@ -115,7 +118,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
      * @param user
      */
     protected void setAssetGlobalLocationFieldsHidden(AssetGlobal assetGlobal, MaintenanceDocumentAuthorizations auths, Person user) {
-        
+
         // hide it for the add line
         int i = 0;
         for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
@@ -126,7 +129,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.ORGANIZATION_TEXT); // organizationText
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_MODEL_NUMBER); // manufacturerModelNumber
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount
-                                                                                                                                                                                                                                                                                        // (Long)
+            // (Long)
 
             // hide it for the existing lines
             int j = 0;
@@ -138,7 +141,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.ORGANIZATION_TEXT); // organizationText
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_MODEL_NUMBER); // manufacturerModelNumber
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount
-                                                                                                                                                                                                                                                                    // (Long)
+                // (Long)
                 j++;
             }
 
@@ -156,7 +159,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         // do not include payment add section within the payment details collection
         MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
         maintCollDef.setIncludeAddLine(bool);
-        
+
         // set all payment detail fields to read only
         int i = 0;
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
@@ -183,8 +186,8 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
     }
 
     /**
-     * 
      * hides the posting year and fiscal month
+     * 
      * @param assetGlobal
      * @param auths
      * @param user
@@ -195,12 +198,30 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
             auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
-            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);            
-            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." +CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);                
-            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." +CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);
-            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." +CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
-            
+            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);
+            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);
+            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);
+            auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
+
             i++;
         }
     }
+
+    /**
+     * Checks whether the BA document is active for the year end posting year.
+     * 
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
+     */
+    @Override
+    public void canInitiate(String documentTypeName, Person user) {
+
+        super.canInitiate(documentTypeName, user);
+        String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
+        String acquisitonTypeCode = StringUtils.substringAfter(refreshCaller, "::");
+        if (CamsConstants.AssetRetirementReasonCode.INACTIVE.equals(acquisitonTypeCode)) {
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });
+        }
+    }
+
+
 }

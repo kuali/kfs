@@ -15,11 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="extraHiddenFields" required="false"
-    description="A comma seperated list of names of any accounting line fields
-              that should be added to the list of normally hidden fields
-              for the existing (but not the new) accounting lines."%>
-
 <%@ attribute name="accountPrefix" required="false" description="an optional prefix to specify a different location for acocunting lines rather than just on the document."%>
 <%@ attribute name="itemColSpan" required="true" description="item columns to span"%>
 

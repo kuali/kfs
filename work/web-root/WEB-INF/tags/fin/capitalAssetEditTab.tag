@@ -25,10 +25,7 @@
 <c:set var="newCapitalAssetInfo" value="${KualiForm.capitalAssetInformation}" />	
 <c:set var="newCapitalAssetInfoName" value="capitalAssetInformation" />
 
-<%-- 
 <kul:tab tabTitle="Capital Edit" defaultOpen="false" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
---%>
-<kul:tab tabTitle="Capital Edit" defaultOpen="false" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_ERRORS}" >
      <div class="tab-container" align="center">	 
 	 <c:choose>
 	 	<c:when test="${not empty capitalAssetInfo}">

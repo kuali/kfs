@@ -43,7 +43,6 @@ import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -87,24 +86,31 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * 
      * @param poId
      */
-    public void setCamsTransactionFromPurAp(PurApLineForm purApLineForm) {
-        Integer poId = purApLineForm.getPurchaseOrderIdentifier();
+    public void setCamsTransactionFromPurAp(List<PurchasingAccountsPayableDocument> purApDocs) {
+        if (ObjectUtils.isNull(purApDocs) || purApDocs.isEmpty()) {
+            return;
+        }
+        Integer poId = purApDocs.get(0).getPurchaseOrderIdentifier();
         PurchaseOrderDocument purApdocument = (PurchaseOrderDocument) purchaseOrderService.getCurrentPurchaseOrder(poId);
+        if (ObjectUtils.isNull(purApdocument)) {
+            return;
+        }
+        
         String capitalAssetSystemTypeCode = purApdocument.getCapitalAssetSystemTypeCode();
         String capitalAssetSystemStateCode = purApdocument.getCapitalAssetSystemStateCode();
         
         if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
             // If PurAp sets the CAMS as INDIVIDUAL system 
-            setIndividualAssetsFromPurAp(poId, purApLineForm.getPurApDocs(), capitalAssetSystemStateCode);
+            setIndividualAssetsFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
         }
         else if (PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
             // If PurAp sets the CAMS as ONE system 
-            setOneSystemFromPurAp(poId, purApLineForm.getPurApDocs(), capitalAssetSystemStateCode);
+            setOneSystemFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
 
         }
         else if (PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
             // If PurAp sets the CAMS as MULTIPLE system 
-            setMultipleSystemFromPurAp(poId, purApLineForm.getPurApDocs(), capitalAssetSystemStateCode);
+            setMultipleSystemFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
         }
     }
 
@@ -114,7 +120,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param poId
      * @param purApDocs
      */
-    private void setMultipleSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
+    protected void setMultipleSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         List<CapitalAssetSystem> capitalAssetSystems = purchaseOrderService.retrieveCapitalAssetSystemsForMultipleSystem(poId);
         if (ObjectUtils.isNotNull(capitalAssetSystems)) {
             // TODO: currently PurAp multiple system in fact return one system.
@@ -143,7 +149,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param poId
      * @param purApDocs
      */
-    private void setOneSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
+    protected void setOneSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         CapitalAssetSystem capitalAssetSystem = purchaseOrderService.retrieveCapitalAssetSystemForOneSystem(poId);
         String capitalAssetTransactionTypeCode = getCapitalAssetTransTypeForOneSystem(poId);
         List<ItemCapitalAsset> purApCapitalAssets = null;
@@ -168,7 +174,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param purApCapitalAssets
      * @param itemAssets
      */
-    private void setItemAssetsCamsTransaction(Integer capitalAssetSystemIdentifier, String capitRalAssetTransactionTypeCode, List<ItemCapitalAsset> purApCapitalAssets, List<PurchasingAccountsPayableItemAsset> itemAssets) {
+    protected void setItemAssetsCamsTransaction(Integer capitalAssetSystemIdentifier, String capitRalAssetTransactionTypeCode, List<ItemCapitalAsset> purApCapitalAssets, List<PurchasingAccountsPayableItemAsset> itemAssets) {
         for (PurchasingAccountsPayableItemAsset item : itemAssets) {
             // TODO : Purap will add this field to PREQ/CM item.
             item.setCapitalAssetTransactionTypeCode(capitRalAssetTransactionTypeCode);
@@ -187,7 +193,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param poId
      * @return
      */
-    private String getCapitalAssetTransTypeForOneSystem(Integer poId) {
+    protected String getCapitalAssetTransTypeForOneSystem(Integer poId) {
         PurchaseOrderDocument poDoc = purchaseOrderService.getCurrentPurchaseOrder(poId);
         if (ObjectUtils.isNotNull(poDoc)) {
             List<PurchasingCapitalAssetItem> capitalAssetItems = poDoc.getPurchasingCapitalAssetItems();
@@ -205,7 +211,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param poId
      * @param purApDocs
      */
-    private void setIndividualAssetsFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
+    protected void setIndividualAssetsFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         List<PurchasingCapitalAssetItem> capitalAssetItems = purchaseOrderService.retrieveCapitalAssetItemsForIndividual(poId);
         String capitalAssetTransactionTypeCode = null;
         List<ItemCapitalAsset> purApCapitalAssets = null;
@@ -232,7 +238,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param itemCapitalAssets
      * @return
      */
-    private List<ItemCapitalAsset> getAssetsFromItemCapitalAsset(List<ItemCapitalAsset> itemCapitalAssets) {
+    protected List<ItemCapitalAsset> getAssetsFromItemCapitalAsset(List<ItemCapitalAsset> itemCapitalAssets) {
         List<ItemCapitalAsset> assetNumbers = new ArrayList<ItemCapitalAsset>();
 
         for (ItemCapitalAsset asset : itemCapitalAssets) {
@@ -250,7 +256,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param assetNumbers
      * @return
      */
-    private boolean isAssetNumberDuplicate(Long candidateNumber, List<ItemCapitalAsset> assetNumbers) {
+    protected boolean isAssetNumberDuplicate(Long candidateNumber, List<ItemCapitalAsset> assetNumbers) {
         for (ItemCapitalAsset existingNumber : assetNumbers) {
             if (existingNumber.getCapitalAssetNumber().equals(candidateNumber)) {
                 return true;
@@ -266,7 +272,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param purApDocs
      * @return
      */
-    private List getMatchingItems(Integer itemIdentifier, List<PurchasingAccountsPayableDocument> purApDocs) {
+    protected List<PurchasingAccountsPayableItemAsset> getMatchingItems(Integer itemIdentifier, List<PurchasingAccountsPayableDocument> purApDocs) {
         List<PurchasingAccountsPayableItemAsset> matchingItems = new ArrayList<PurchasingAccountsPayableItemAsset>();
 
         if (itemIdentifier != null) {
@@ -336,7 +342,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param item
      * @return
      */
-    private PurchaseOrderItem getPurchaseOrderItemfromCreditMemoItem(CreditMemoItem item) {
+    protected PurchaseOrderItem getPurchaseOrderItemfromCreditMemoItem(CreditMemoItem item) {
         if (ObjectUtils.isNotNull(item.getPurapDocumentIdentifier())) {
             if (ObjectUtils.isNull(item.getPurapDocument())) {
                 item.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);

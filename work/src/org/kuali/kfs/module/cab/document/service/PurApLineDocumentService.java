@@ -15,10 +15,11 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
+import java.util.List;
+
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
-import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 
@@ -31,22 +32,24 @@ public interface PurApLineDocumentService {
      * Create CAMs asset global document.
      * 
      * @param selectedItem
-     * @param purApForm
+     * @param purApDocs
      * @param purApLineSession
+     * @param requisitionIdentifier
      * @return
      * @throws WorkflowException
      */
-    String processCreateAsset(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession) throws WorkflowException;
+    String processCreateAsset(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, Integer requisitionIdentifier) throws WorkflowException;
 
     /**
      * Create CAMS asset payment document.
      * 
      * @param selectedItem
-     * @param purApForm
+     * @param purApDocs
      * @param purApLineSession
+     * @param requistionIdentifer
      * @return
      * @throws WorkflowException
      */
-    String processApplyPayment(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession) throws WorkflowException;
+    String processApplyPayment(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, Integer requistionIdentifer) throws WorkflowException;
 
 }

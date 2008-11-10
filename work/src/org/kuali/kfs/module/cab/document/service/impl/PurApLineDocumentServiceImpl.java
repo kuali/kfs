@@ -36,7 +36,6 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.module.cab.document.service.PurApLineDocumentService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
-import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -68,11 +67,15 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     private DocumentService documentService;
     private PurApLineService purApLineService;
 
-    public String processApplyPayment(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession) throws WorkflowException {
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineDocumentService#processApplyPayment(PurchasingAccountsPayableItemAsset,
+     *      List, PurApLineSession, Integer)
+     */
+    public String processApplyPayment(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, Integer requisitionIdentifer) throws WorkflowException {
         AssetPaymentDocument newDocument = (AssetPaymentDocument) documentService.getNewDocument(AssetPaymentDocument.class);
         newDocument.getDocumentHeader().setDocumentDescription(CabConstants.NEW_ASSET_DOCUMENT_DESC);
         // set assetPaymentDetail list
-        createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), purApForm.getRequisitionIdentifier());
+        createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), requisitionIdentifer);
 
         // If PurAp user entered capitalAssetNumbers, include them in the Asset Payment Document.
         if (selectedItem.getPurApItemAssets() != null && !selectedItem.getPurApItemAssets().isEmpty()) {
@@ -83,7 +86,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         newDocument.setCapitalAssetBuilderOriginIndicator(true);
         documentService.saveDocument(newDocument);
 
-        postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
+        postProcessCreatingDocument(selectedItem, purApDocs, purApLineSession, newDocument.getDocumentNumber());
         return newDocument.getDocumentNumber();
     }
 
@@ -95,15 +98,15 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param selectedItem
      * @param documentNumber
      */
-    private void createAssetPaymentAssetDetails(List assetPaymentAssetDetails, PurchasingAccountsPayableItemAsset selectedItem, String documentNumber) {
+    protected void createAssetPaymentAssetDetails(List assetPaymentAssetDetails, PurchasingAccountsPayableItemAsset selectedItem, String documentNumber) {
         for (ItemCapitalAsset capitalAssetNumber : selectedItem.getPurApItemAssets()) {
             // check if capitalAssetNumber is a valid value or not.
             if (isAssetNumberValid(capitalAssetNumber.getCapitalAssetNumber())) {
                 AssetPaymentAssetDetail assetDetail = new AssetPaymentAssetDetail();
+                assetDetail.setDocumentNumber(documentNumber);
 
                 assetDetail.setCapitalAssetNumber(capitalAssetNumber.getCapitalAssetNumber());
                 assetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
-                assetDetail.setDocumentNumber(documentNumber);
 
                 AssetService assetService = SpringContext.getBean(AssetService.class);
                 Asset candidateAsset = assetDetail.getAsset();
@@ -124,7 +127,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param capitalAssetNumber
      * @return
      */
-    private boolean isAssetNumberValid(Long capitalAssetNumber) {
+    protected boolean isAssetNumberValid(Long capitalAssetNumber) {
         Map pKeys = new HashMap<String, Object>();
 
         pKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
@@ -139,24 +142,26 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processCreateAsset(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
      *      org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    public String processCreateAsset(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession) throws WorkflowException {
+    public String processCreateAsset(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, Integer requisitionIdentifier) throws WorkflowException {
         // Create new CAMS asset global document
         MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT);
         newDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
         newDocument.getDocumentHeader().setDocumentDescription(CabConstants.NEW_ASSET_DOCUMENT_DESC);
 
         // populate pre-tagging entry
-        Pretag preTag = purApLineService.getPreTagLineItem(purApForm.getPurchaseOrderIdentifier(), selectedItem.getItemLineNumber());
+        Integer poId = selectedItem.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
+        Pretag preTag = purApLineService.getPreTagLineItem(poId, selectedItem.getItemLineNumber());
 
         // create asset global BO instance
-        AssetGlobal assetGlobal = createAssetGlobal(selectedItem, newDocument.getDocumentNumber(), preTag, purApForm.getRequisitionIdentifier());
+        AssetGlobal assetGlobal = createAssetGlobal(selectedItem, newDocument.getDocumentNumber(), preTag, requisitionIdentifier);
 
         // save asset global BO to the document
         newDocument.getNewMaintainableObject().setBusinessObject(assetGlobal);
         documentService.saveDocument(newDocument);
 
-        postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
+        postProcessCreatingDocument(selectedItem, purApDocs, purApLineSession, newDocument.getDocumentNumber());
 
+        // Save for in-active pre-tag detail if it got feed into CAMS
         if (isItemPretagged(preTag)) {
             businessObjectService.save(preTag);
         }
@@ -172,7 +177,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param purApLineSession
      * @param documentNumber
      */
-    private void postProcessCreatingDocument(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession, String documentNumber) {
+    protected void postProcessCreatingDocument(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, String documentNumber) {
         // save CAMS document number in CAB
         selectedItem.setCapitalAssetManagementDocumentNumber(documentNumber);
 
@@ -189,8 +194,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         }
 
         // persistent to the table
-        purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
-        // In-activate general ledger afterwards because we need to persistent account changes first.
+        purApLineService.processSaveBusinessObjects(purApDocs, purApLineSession);
+        // In-activate general ledger afterwards because we don't maintain the non-persistent relationship from GL to account, so
+        // account need to persistent changes first.
         List<GeneralLedgerEntry> glEntryUpdatesList = getGlEntryInActivedList(selectedItem);
         if (glEntryUpdatesList != null && !glEntryUpdatesList.isEmpty()) {
             businessObjectService.save(glEntryUpdatesList);
@@ -203,12 +209,13 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * 
      * @param selectedItem
      */
-    private void updateGlEntrySubmitAmount(PurchasingAccountsPayableItemAsset selectedItem, List glEntryList) {
+    protected void updateGlEntrySubmitAmount(PurchasingAccountsPayableItemAsset selectedItem, List glEntryList) {
         GeneralLedgerEntry glEntry = null;
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             glEntry = account.getGeneralLedgerEntry();
 
             if (ObjectUtils.isNotNull(glEntry)) {
+                // Add account amount to GL entry submit amount.
                 if (glEntry.getTransactionLedgerSubmitAmount() != null) {
                     glEntry.setTransactionLedgerSubmitAmount(glEntry.getTransactionLedgerSubmitAmount().add(account.getItemAccountTotalAmount()));
                 }
@@ -229,8 +236,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param newDocument
      * @param assetGlobal
      */
-    private void setAssetGlobalDetails(PurchasingAccountsPayableItemAsset selectedItem, AssetGlobal assetGlobal, Pretag preTag, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
-        // build assetGlobalDetail list( unique details list)
+    protected void setAssetGlobalDetails(PurchasingAccountsPayableItemAsset selectedItem, AssetGlobal assetGlobal, Pretag preTag, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
+        // build assetGlobalDetail list( will be used for creating unique details list as the same time)
         List<AssetGlobalDetail> assetDetailsList = assetGlobal.getAssetGlobalDetails();
         // shared location details list
         List<AssetGlobalDetail> sharedDetails = assetGlobal.getAssetSharedDetails();
@@ -242,6 +249,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             // build assetSharedDetails and assetGlobalUniqueDetails list. There two lists will be used to rebuild
             // assetGlobalDetails list when AssetGlobalMaintainableImpl.prepareForSave() is called during save the document.
             AssetGlobalDetail sharedDetail = new AssetGlobalDetail();
+            // added as unique detail
             sharedDetail.getAssetGlobalUniqueDetails().add(assetGlobalDetail);
             sharedDetails.add(sharedDetail);
         }
@@ -264,7 +272,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetGlobal
      * @return
      */
-    private boolean isItemFullyPretagged(Pretag preTag, AssetGlobal assetGlobal) {
+    protected boolean isItemFullyPretagged(Pretag preTag, AssetGlobal assetGlobal) {
         return isItemPretagged(preTag) && preTag.getPretagDetails().size() >= assetGlobal.getAssetSharedDetails().size();
     }
 
@@ -276,7 +284,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param capitalAssetSystem
      * @param assetDetailsList
      */
-    private void setAssetGlobalDetailFromPurAp(PurchaseOrderCapitalAssetSystem capitalAssetSystem, List<AssetGlobalDetail> assetSharedDetail) {
+    protected void setAssetGlobalDetailFromPurAp(PurchaseOrderCapitalAssetSystem capitalAssetSystem, List<AssetGlobalDetail> assetSharedDetail) {
         // capitalAssetSystem.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_LOCATIONS);
         List<CapitalAssetLocation> capitalAssetLocations = capitalAssetSystem.getCapitalAssetLocations();
 
@@ -304,7 +312,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                     }
                 }
                 else if (locationQuantity <= 0 && !locationIterator.hasNext()) {
-                    // Consume the current location quantity and no more PurAp locations can be used, stop here. 
+                    // Consume the current location quantity and no more PurAp locations can be used, stop here.
                     break;
                 }
                 // set PurAp asset location into asset global document
@@ -322,7 +330,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetLocation
      * @param assetDetail
      */
-    private void setNewAssetByPurApLocation(CapitalAssetLocation assetLocation, AssetGlobalDetail assetDetail) {
+    protected void setNewAssetByPurApLocation(CapitalAssetLocation assetLocation, AssetGlobalDetail assetDetail) {
         assetDetail.setCampusCode(assetLocation.getCampusCode());
         if (assetLocation.isOffCampusIndicator()) {
             // off-campus
@@ -346,7 +354,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param preTag
      * @param assetDetailsList
      */
-    private void setAssetDetailFromPreTag(Pretag preTag, List<AssetGlobalDetail> assetSharedDetails, List<AssetGlobalDetail> assetUniqueDetails) {
+    protected void setAssetDetailFromPreTag(Pretag preTag, List<AssetGlobalDetail> assetSharedDetails, List<AssetGlobalDetail> assetUniqueDetails) {
         Iterator<AssetGlobalDetail> sharedDetailsIterator = assetSharedDetails.iterator();
         Iterator<AssetGlobalDetail> uniqueDetailsIterator = assetUniqueDetails.iterator();
         for (PretagDetail preTagDetail : preTag.getPretagDetails()) {
@@ -357,7 +365,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 sharedDetail.setBuildingRoomNumber(preTagDetail.getBuildingRoomNumber());
                 sharedDetail.setBuildingSubRoomNumber(preTagDetail.getBuildingSubRoomNumber());
                 sharedDetail.setCampusCode(preTagDetail.getCampusCode());
-                // in-activate pre-tagging detail
+                // In-activate pre-tagging detail, and will be persistent to the DB.
                 preTagDetail.setActive(false);
             }
             if (uniqueDetailsIterator.hasNext()) {
@@ -367,10 +375,11 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 uniqueDetail.setNationalStockNumber(preTagDetail.getNationalStockNumber());
                 uniqueDetail.setCampusTagNumber(preTagDetail.getCampusTagNumber());
                 uniqueDetail.setOrganizationInventoryName(preTag.getOrganizationInventoryName());
-                // in-activate pre-tagging detail
+                // In-activate pre-tagging detail and will be persistent to the DB.
                 preTagDetail.setActive(false);
             }
         }
+        // TODO: Do we need to in-activate pre-tag table?
         // In-activate preTag if possible.
         inActivatePreTag(preTag);
     }
@@ -380,7 +389,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * 
      * @param preTag
      */
-    private void inActivatePreTag(Pretag preTag) {
+    protected void inActivatePreTag(Pretag preTag) {
         // get the number of inactive pre-tag detail.
         int inActiveCounter = 0;
         for (PretagDetail preTagDetail : preTag.getPretagDetails()) {
@@ -402,7 +411,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetGlobal
      * @param requisitionIdentifier
      */
-    private void createAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentList, PurchasingAccountsPayableItemAsset selectedItem, String documentNumber, Integer requisitionIdentifier) {
+    protected void createAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentList, PurchasingAccountsPayableItemAsset selectedItem, String documentNumber, Integer requisitionIdentifier) {
         int seq = 1;
 
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
@@ -445,9 +454,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param selectedItem
      * @param glEntryList
      */
-    private void inActivateItem(PurchasingAccountsPayableItemAsset selectedItem) {
+    protected void inActivateItem(PurchasingAccountsPayableItemAsset selectedItem) {
+        // in-active each account.
         for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
-            // in-active account.
             selectedAccount.setActive(false);
         }
         // in-activate selected Item
@@ -462,16 +471,17 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param selectedAccount
      * @param glEntry
      */
-    private List<GeneralLedgerEntry> getGlEntryInActivedList(PurchasingAccountsPayableItemAsset selectedItem) {
+    protected List<GeneralLedgerEntry> getGlEntryInActivedList(PurchasingAccountsPayableItemAsset selectedItem) {
         List<GeneralLedgerEntry> glEntryUpdateList = new ArrayList<GeneralLedgerEntry>();
 
         for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             GeneralLedgerEntry glEntry = selectedAccount.getGeneralLedgerEntry();
             boolean glEntryHasActiveAccount = false;
+            // get persistent account list which should be save before hand
             glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
+            // check if all accounts are inactive status
             for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
-                // check if all accounts are inactive status excluding the selected account.
-                if (!(selectedAccount.getDocumentNumber().equalsIgnoreCase(account.getDocumentNumber()) && selectedAccount.getAccountsPayableLineItemIdentifier().equals(account.getAccountsPayableLineItemIdentifier()) && selectedAccount.getCapitalAssetBuilderLineNumber().equals(account.getCapitalAssetBuilderLineNumber())) && account.isActive()) {
+                if (account.isActive()) {
                     glEntryHasActiveAccount = true;
                     break;
                 }
@@ -499,7 +509,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param preTag
      * @return
      */
-    private AssetGlobal createAssetGlobal(PurchasingAccountsPayableItemAsset selectedItem, String documentNumber, Pretag preTag, Integer requisitionIdentifier) {
+    protected AssetGlobal createAssetGlobal(PurchasingAccountsPayableItemAsset selectedItem, String documentNumber, Pretag preTag, Integer requisitionIdentifier) {
+        // instantiate AssetGlobal BO
         AssetGlobal assetGlobal = new AssetGlobal();
         assetGlobal.setDocumentNumber(documentNumber);
         assetGlobal.setCapitalAssetDescription(selectedItem.getAccountsPayableLineItemDescription());
@@ -510,7 +521,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
 
         PurchaseOrderCapitalAssetSystem capitalAssetSystem = null;
-        // feeding data from pre-asset tagging table.
+        // feeding data from pre-asset tagging table into assetGlboal
         if (isItemPretagged(preTag)) {
             setAssetGlobalFromPreTag(preTag, assetGlobal);
         }
@@ -530,7 +541,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         // set total cost
         setAssetGlobalTotalCost(assetGlobal);
-        // Set Asset Global organization owner account
+        // Set Asset Global organization owner account, which is the account that contributed the most dollars.
         setAssetGlobalOrgOwnerAccount(assetGlobal);
 
         return assetGlobal;
@@ -542,7 +553,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param preTag
      * @return
      */
-    private boolean isItemPretagged(Pretag preTag) {
+    protected boolean isItemPretagged(Pretag preTag) {
         return ObjectUtils.isNotNull(preTag) && ObjectUtils.isNotNull(preTag.getPretagDetails()) && !preTag.getPretagDetails().isEmpty();
     }
 
@@ -553,7 +564,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetGlobal
      * @param capitalAssetSystem
      */
-    private void setAssetGlobalFromPurAp(AssetGlobal assetGlobal, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
+    protected void setAssetGlobalFromPurAp(AssetGlobal assetGlobal, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
         assetGlobal.setManufacturerName(capitalAssetSystem.getCapitalAssetManufacturerName());
         assetGlobal.setManufacturerModelNumber(capitalAssetSystem.getCapitalAssetModelDescription());
         assetGlobal.setCapitalAssetTypeCode(capitalAssetSystem.getCapitalAssetTypeCode());
@@ -566,7 +577,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param capitalAssetSystemIdentifier
      * @return
      */
-    private PurchaseOrderCapitalAssetSystem findCapitalAssetSystem(Integer capitalAssetSystemIdentifier) {
+    protected PurchaseOrderCapitalAssetSystem findCapitalAssetSystem(Integer capitalAssetSystemIdentifier) {
         Map pKeys = new HashMap<String, Object>();
 
         pKeys.put(PurapPropertyConstants.CAPITAL_ASSET_SYSTEM_IDENTIFIER, capitalAssetSystemIdentifier);
@@ -580,7 +591,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * 
      * @param assetGlobal
      */
-    private void setAssetGlobalOrgOwnerAccount(AssetGlobal assetGlobal) {
+    protected void setAssetGlobalOrgOwnerAccount(AssetGlobal assetGlobal) {
         AssetPaymentDetail maxCostPayment = null;
         // get the maximum payment cost
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
@@ -601,7 +612,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * 
      * @param assetGlobal
      */
-    private void setAssetGlobalTotalCost(AssetGlobal assetGlobal) {
+    protected void setAssetGlobalTotalCost(AssetGlobal assetGlobal) {
         KualiDecimal totalCost = KualiDecimal.ZERO;
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             totalCost = totalCost.add(assetPaymentDetail.getAmount());
@@ -617,7 +628,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param preTag
      * @param assetGlobal
      */
-    private void setAssetGlobalFromPreTag(Pretag preTag, AssetGlobal assetGlobal) {
+    protected void setAssetGlobalFromPreTag(Pretag preTag, AssetGlobal assetGlobal) {
         assetGlobal.setManufacturerName(preTag.getManufacturerName());
         assetGlobal.setManufacturerModelNumber(preTag.getManufacturerModelNumber());
         assetGlobal.setCapitalAssetTypeCode(preTag.getCapitalAssetTypeCode());

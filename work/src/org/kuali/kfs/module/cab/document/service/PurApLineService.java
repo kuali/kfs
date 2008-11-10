@@ -23,7 +23,6 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHi
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
-import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 
 
 /**
@@ -51,62 +50,70 @@ public interface PurApLineService {
     /**
      * Save purApDoc, item assets and account lines for persistence
      * 
-     * @param purApLineForm form
+     * @param purApDocs
+     * @param purApLineSession
      */
-    void processSaveBusinessObjects(PurApLineForm purApLineForm, PurApLineSession purApLineSession);
+    void processSaveBusinessObjects(List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession);
 
     /**
      * Build PurAp document collection and line item collection.
      * 
-     * @param purApLineForm form
+     * @param purApDocs
      */
-    void buildPurApItemAssetList(PurApLineForm purApLineForm);
+    void buildPurApItemAssetList(List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Handle additional charge allocate in the same document.
      * 
-     * @param purLineForm
+     * @param selectedLineItem
+     * @param allocateTargetLines
+     * @param purApLineSession
+     * @param purApDocs
+     * @return
      */
-    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm, PurApLineSession purApLineSession);
+    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineSession purApLineSession, List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Get the target lines based on allocation line type
      * 
      * @param selectedLineItem
-     * @param purApForm
+     * @param purApDocs
      * @return
      */
-    List<PurchasingAccountsPayableItemAsset> getAllocateTargetLines(PurchasingAccountsPayableItemAsset selectedLineItem, PurApLineForm purApForm);
+    List<PurchasingAccountsPayableItemAsset> getAllocateTargetLines(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Get the selected merge lines.
      * 
-     * @param purApLineForm
+     * @param isMergeAll
+     * @param purApDocs
      * @return
      */
-    List<PurchasingAccountsPayableItemAsset> getSelectedMergeLines(PurApLineForm purApLineForm);
+    List<PurchasingAccountsPayableItemAsset> getSelectedMergeLines(boolean isMergeAll, List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Reset selectedValue for all line items
      * 
-     * @param selectedItems
+     * @param purApDocs
      */
-    void resetSelectedValue(PurApLineForm purApForm);
+    void resetSelectedValue(List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Merge line items.
      * 
      * @param mergeLines
+     * @param purApLineSession
+     * @param isMergeAll
      */
-    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession);
+    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineSession purApLineSession, boolean isMergeAll);
 
     /**
      * Check if the merge action is merge all.
      * 
-     * @param purApLineForm
+     * @param purApDocs
      * @return
      */
-    boolean isMergeAllAction(PurApLineForm purApLineForm);
+    boolean isMergeAllAction(List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * For line items in itemAssets if they are not in the same PurAp document, check if there is pending additional charges
@@ -123,23 +130,23 @@ public interface PurApLineService {
      * @param itemAssets
      * @return
      */
-    boolean isTradeInIndicatorExist(List<PurchasingAccountsPayableItemAsset> itemAssets);
+    boolean isTradeInIndExistInSelectedLines(List<PurchasingAccountsPayableItemAsset> itemAssets);
 
     /**
      * Check if there is trade-in allowance not allocated yet.
      * 
-     * @param purApLineForm
+     * @param purApDocs
      * @return
      */
-    boolean isTradeInAllowanceExist(PurApLineForm purApLineForm);
+    boolean isTradeInAllowanceExist(List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
-     * Check if there is additional charge line exist in given form.
+     * Check if there is additional charge line exist in all lines.
      * 
-     * @param purApForm
+     * @param purApDocs
      * @return
      */
-    boolean isAdditionalChargeExist(PurApLineForm purApForm);
+    boolean isAdditionalChargeExistInAllLines(List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Get preTag if exists for give line item.

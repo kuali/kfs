@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
+import java.util.List;
+
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 
@@ -36,7 +39,7 @@ public interface PurApInfoService {
      * 
      * @param poId
      */
-    void setCamsTransactionFromPurAp(PurApLineForm purApLineForm);
+    void setCamsTransactionFromPurAp(List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Set CAB line item information from PurAp PaymentRequestItem or CreditMemoItem.

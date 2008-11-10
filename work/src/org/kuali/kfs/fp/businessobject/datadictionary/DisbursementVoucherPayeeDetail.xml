@@ -32,6 +32,7 @@
         <ref bean="DisbursementVoucherPayeeDetail-disbVchrAlienPaymentCode" />
         <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeEmployeeCode" />
         <ref bean="DisbursementVoucherPayeeDetail-disbVchrEmployeePaidOutsidePayrollCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeName" />
       </list>
     </property>
   </bean>
@@ -98,23 +99,25 @@
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCityName-parentBean" abstract="true" parent="VendorAddress-vendorCityName">
     <property name="name" value="disbVchrPayeeCityName" />
+    <property name="required" value="true" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrPayeeStateCode" />
+    <property name="required" value="true" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
     <property name="name" value="disbVchrPayeeZipCode" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
     <property name="name" value="disbVchrPayeeCountryCode" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean" />
 
@@ -207,7 +210,18 @@
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-
-
   </bean>
+  
+  <bean id="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeName" parent="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeName-parentBean" />
+  <bean id="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherPayeeTypeName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payee Type" />
+    <property name="shortLabel" value="Payee Type" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>  
 </beans>

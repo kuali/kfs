@@ -399,6 +399,21 @@
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>
 	
+	<bean id="disbursementPayeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="disbursementPayeeLookupableHelperService" />
+		</property>
+	</bean>
+ 
+	<bean id="disbursementPayeeLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+		<property name="vendorLookupable">
+			<ref bean="vendorLookupable" />
+		</property>	
+		<property name="kualiLookupable">
+			<ref bean="kualiLookupable" />
+		</property>			
+	</bean>
+	
 	<!-- validations -->
 	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
 	<import resource="document/validation/configuration/InternalBillingValidation.xml" />

@@ -325,6 +325,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String KUALI_LOOKUPABLE_IMPL = "kualiLookupable";
     public static final String KUALI_VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String KUALI_USER_LOOKUPABLE_IMPL = "personLookupable";
+    public static final String KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL = "disbursementPayeeLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
     public static final String DOC_HANDLER_METHOD = "docHandler";

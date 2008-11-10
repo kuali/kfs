@@ -771,4 +771,5 @@ public class KFSKeyConstants {
     public static final String LABEL_NEW_ACCOUNTING_LINE_FIELD = "accounting.line.field.newLine.label";
     public static final String LABEL_ACCOUNTING_LINE_FIELD = "accounting.line.field.line.label";
     public static final String ERROR_INVALID_CAPITAL_ASSET_QUANTITY = "error.document.capitalAssetEdit.invalidAssetQuantity";
+    public static final String ERROR_DV_PAYMENT_REASON_NOT_SELECTED = "error.document.paymentReasonNotSelected";
 }

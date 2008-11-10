@@ -48,7 +48,7 @@
 	  bankProperty="document.disbVchrBankCode" 
 	  bankObjectProperty="document.bank"
 	  disbursementOnly="true" />
-	<dv:dvPayee />
+	  
 	<dv:dvPayment />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">

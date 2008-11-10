@@ -912,11 +912,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getName());
 
         this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1());
-        this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-        this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
-        this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
-        this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
+        this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(employee.getAddressLine2());
+        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityName());
+        this.getDvPayeeDetail().setDisbVchrPayeeStateCode(employee.getAddressStateCode());
+        this.getDvPayeeDetail().setDisbVchrPayeeZipCode(employee.getAddressPostalCode());
+        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCode());
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.TravelPerDiem;
@@ -40,11 +41,17 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
+    
+    private String payeeTypeCode = DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR;
+    private String payeeIdNumber;
+    private String vendorHeaderGeneratedIdentifier;
+    private String vendorDetailAssignedIdentifier;
+    private String vendorAddressGeneratedIdentifier;
+    private boolean hasMultipleAddresses = false;
 
     private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
     private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
-
     private String wireChargeMessage;
 
     public DisbursementVoucherForm() {
@@ -115,7 +122,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      * @return
      */
     public boolean getCanPrintCoverSheet() {
-        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument)this.getDocument();
+        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return SpringContext.getBean(DisbursementVoucherCoverSheetService.class).isCoverSheetPrintable(disbursementVoucherDocument);
     }
 
@@ -138,5 +145,153 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      */
     public String getTravelPerDiemLinkPageMessage() {
         return SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
+    }
+
+    /**
+     * Gets the payeeTypeCode attribute.
+     * 
+     * @return Returns the payeeTypeCode.
+     */
+    public String getPayeeTypeCode() {
+        return payeeTypeCode;
+    }
+
+    /**
+     * Sets the payeeTypeCode attribute value.
+     * 
+     * @param payeeTypeCode The payeeTypeCode to set.
+     */
+    public void setPayeeTypeCode(String payeeTypeCode) {
+        this.payeeTypeCode = payeeTypeCode;
+    }
+
+    /**
+     * Gets the payeeIdNumber attribute.
+     * 
+     * @return Returns the payeeIdNumber.
+     */
+    public String getPayeeIdNumber() {
+        return payeeIdNumber;
+    }
+
+    /**
+     * Sets the payeeIdNumber attribute value.
+     * 
+     * @param payeeIdNumber The payeeIdNumber to set.
+     */
+    public void setPayeeIdNumber(String payeeIdNumber) {
+        String separator = "-";
+        if (this.isVendor() && StringUtils.isNotEmpty(payeeIdNumber) && payeeIdNumber.contains(separator)) {
+            int dashInd = payeeIdNumber.indexOf("-");
+            this.vendorHeaderGeneratedIdentifier = StringUtils.substringBefore(payeeIdNumber, separator);
+            this.vendorDetailAssignedIdentifier = StringUtils.substringAfter(payeeIdNumber, separator);
+        }
+
+        this.payeeIdNumber = payeeIdNumber;
+    }
+
+    /**
+     * Gets the hasMultipleAddresses attribute.
+     * 
+     * @return Returns the hasMultipleAddresses.
+     */
+    public boolean hasMultipleAddresses() {
+        return hasMultipleAddresses;
+    }
+
+    /**
+     * Gets the hasMultipleAddresses attribute.
+     * 
+     * @return Returns the hasMultipleAddresses.
+     */
+    public boolean getHasMultipleAddresses() {
+        return hasMultipleAddresses;
+    }
+
+    /**
+     * Sets the hasMultipleAddresses attribute value.
+     * 
+     * @param hasMultipleAddresses The hasMultipleAddresses to set.
+     */
+    public void setHasMultipleAddresses(boolean hasMultipleAddresses) {
+        this.hasMultipleAddresses = hasMultipleAddresses;
+    }
+
+    /**
+     * Gets the vendorHeaderGeneratedIdentifier attribute.
+     * 
+     * @return Returns the vendorHeaderGeneratedIdentifier.
+     */
+    public String getVendorHeaderGeneratedIdentifier() {
+        return vendorHeaderGeneratedIdentifier;
+    }
+
+    /**
+     * Sets the vendorHeaderGeneratedIdentifier attribute value.
+     * 
+     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+     */
+    public void setVendorHeaderGeneratedIdentifier(String vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
+
+    /**
+     * Gets the vendorDetailAssignedIdentifier attribute.
+     * 
+     * @return Returns the vendorDetailAssignedIdentifier.
+     */
+    public String getVendorDetailAssignedIdentifier() {
+        return vendorDetailAssignedIdentifier;
+    }
+
+    /**
+     * Sets the vendorDetailAssignedIdentifier attribute value.
+     * 
+     * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+     */
+    public void setVendorDetailAssignedIdentifier(String vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    /**
+     * Gets the vendorAddressGeneratedIdentifier attribute.
+     * 
+     * @return Returns the vendorAddressGeneratedIdentifier.
+     */
+    public String getVendorAddressGeneratedIdentifier() {
+        return vendorAddressGeneratedIdentifier;
+    }
+
+    /**
+     * Sets the vendorAddressGeneratedIdentifier attribute value.
+     * 
+     * @param vendorAddressGeneratedIdentifier The vendorAddressGeneratedIdentifier to set.
+     */
+    public void setVendorAddressGeneratedIdentifier(String vendorAddressGeneratedIdentifier) {
+        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
+    }
+
+    /**
+     * determine whether the selected payee is an employee
+     */
+    public boolean isEmployee() {
+        return StringUtils.equals(payeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
+    }
+
+    /**
+     * determine whether the selected payee is a vendor
+     */
+    public boolean isVendor() {
+        return StringUtils.equals(payeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR);
+    }
+
+    /**
+     * Perform logic needed to clear the initial fields
+     */
+    public void clearInitFields() {
+        // Clearing payee init fields
+        this.setPayeeIdNumber("");
+        this.setPayeeTypeCode("");
+        this.setHasMultipleAddresses(false);
     }
 }

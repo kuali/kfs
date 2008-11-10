@@ -1016,34 +1016,30 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         int index = 0;
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-//            String errorPath = "document.capitalAssetInformationDetails" + "[" + index + "]";
-            String errorPath = "document.capitalAssetInformation.capitalAssetInformationDetails" + "[" + index + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-
+            String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
             if (StringUtils.isBlank(dtl.getCapitalAssetTagNumber())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformationDetail.class, KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(dtl.getCampusCode())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(dtl.getBuildingCode())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Building.class, KFSPropertyConstants.BUILDING_CODE);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(dtl.getBuildingRoomNumber())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             index++;
         }
 
@@ -1072,12 +1068,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
        int index = 0;
        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-            String errorPath = "document.capitalAssetInformation.capitalAssetInformationDetails" + "[" + index + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
             if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
                 if (!this.getAssetService().findActiveAssetsMatchingTagNumber(dtl.getCapitalAssetTagNumber()).isEmpty()) {
-                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
                     valid = false;
                 }
             }
@@ -1088,7 +1083,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             if (ObjectUtils.isNull(campus)) {
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
 
 
@@ -1098,8 +1093,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
             if (ObjectUtils.isNull(building)) {
                 valid = false;
-                String label = this.getDataDictionaryService().getAttributeLabel(Building.class, KFSPropertyConstants.BUILDING_CODE);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, dtl.getBuildingCode(),dtl.getCampusCode());
             }
 
             params = new HashMap<String, String>();
@@ -1109,10 +1103,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
             if (ObjectUtils.isNull(room)) {
                 valid = false;
-                String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER,dtl.getBuildingRoomNumber(), dtl.getBuildingCode(),dtl.getCampusCode());
             }
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             index++;
         }
 

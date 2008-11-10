@@ -41,7 +41,7 @@
 	<c:set var="textStyle" value="border-color: red" />
 </c:if>
 <kul:htmlControlAttribute property="${userIdFieldName}" 
-                    attributeEntry="${DataDictionary['Person'].attributes.employeeId}" forceRequired="${forceRequired}"
+                    attributeEntry="${DataDictionary['PersonImpl'].attributes.principalId}" forceRequired="${forceRequired}"
                     onblur="loadEmplInfo( '${userIdFieldName}', '${userNameFieldName}' );${onblur}" readOnly="${readOnly}"/>
 
 <c:if test="${!readOnly}">

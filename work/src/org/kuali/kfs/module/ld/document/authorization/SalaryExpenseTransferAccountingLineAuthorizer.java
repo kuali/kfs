@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kim.bo.Person;
@@ -30,11 +31,14 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition;
+
 /**
  * Data dictionary definition that includes metadata for an accounting document about one of its groups of accounting lines (typically source vs. target, but this should open things up).
  */
 public class SalaryExpenseTransferAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
-  
+    
     /**
      * Returns the basic actions - add for new lines, delete and balance inquiry for existing lines
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getActions(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, java.lang.String)
@@ -42,7 +46,7 @@ public class SalaryExpenseTransferAccountingLineAuthorizer extends AccountingLin
     @Override
     public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, Person currentUser, Map editModesForDocument, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
-        
+
         String editMode = this.getEditModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument);        
         if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(editMode)) {
             String riceImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url");
@@ -71,7 +75,7 @@ public class SalaryExpenseTransferAccountingLineAuthorizer extends AccountingLin
         return "copyAccountingLine.line"+accountingLineIndex.toString()+".anchoraccounting"+infix+"Anchor";
     }
     /**
-     * Builds the label for the buttons that delete accounting lines in this group
+     * Builds the label for the buttons that copies accounting lines in this group
      * @param accountingLineIndex the index of the given accounting line within the the group being rendered
      * @param groupTitle title of the group from the data dictionary
      * @return the label for the button that deletes accounting lines in this group
@@ -80,4 +84,3 @@ public class SalaryExpenseTransferAccountingLineAuthorizer extends AccountingLin
         return "Copy "+groupTitle+" Accounting Line "+(accountingLineIndex.intValue()+1);
     }
 }
-

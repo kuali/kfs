@@ -125,6 +125,7 @@
     	<property name="importedLinePropertyPrefix" value="source" />
     	<property name="totals" ref="labor-AccountingDocument-sourceGroupTotals" />
     	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
+    	<property name="accountingLineGroupActions" ref="SalaryExpenseTransferDocument-sourceGroupActions"/>
     </bean>
 
     <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
@@ -137,6 +138,23 @@
     	<property name="importedLinePropertyPrefix" value="target" />
     	<property name="totals" ref="labor-AccountingDocument-targetGroupTotals" />
     	<property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+    	<property name="accountingLineGroupActions" ref="SalaryExpenseTransferDocument-targetGroupActions"/>    	
     </bean>    
     
+	<bean id="SalaryExpenseTransferDocument-sourceGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-action" p:actionMethod="copyAll" p:actionLabel="copy all" p:imageName="tinybutton-copyall.gif"/>
+				<bean parent="AccountingLineView-action" p:actionMethod="deleteAll" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="SalaryExpenseTransferDocument-targetGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-action" p:actionMethod="deleteAll" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
+			</list>
+		</property>
+	</bean>      
 </beans>

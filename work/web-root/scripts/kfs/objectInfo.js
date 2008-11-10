@@ -326,7 +326,7 @@ function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
         var dwrReply = {
             callback:function(data) {
             if ( data != null && typeof data == 'object' ) {
-                DWRUtil.setValue(containerDiv.id, data.personName, {escapeHtml:true} );
+                DWRUtil.setValue(containerDiv.id, data.name, {escapeHtml:true} );
             } else {
                 DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
             } },

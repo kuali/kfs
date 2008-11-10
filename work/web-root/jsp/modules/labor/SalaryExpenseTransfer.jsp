@@ -78,15 +78,15 @@
 
              <tr>
                <kul:htmlAttributeHeaderCell
-                   attributeEntry="${DataDictionary.PersonImpl.attributes.employeeId}"
+                   attributeEntry="${DataDictionary.PersonImpl.attributes.principalId}"
                    horizontal="true"
                    forceRequired="true" labelFor="emplid"
                    />
                <td>
                      <kfs:employee userIdFieldName="emplid"
                                  userNameFieldName="user.name" 
-                                 fieldConversions="employeeId:emplid"
-                                 lookupParameters="emplid:employeeId,universityFiscalYear:universityFiscalYear"
+                                 fieldConversions="principalId:emplid"
+                                 lookupParameters="emplid:principalId,universityFiscalYear:universityFiscalYear"
                                  hasErrors="${hasErrors}"
                                  onblur="${onblur}"
                                  highlight="${addHighlighting}" readOnly="${disabled}" >
@@ -110,88 +110,77 @@
 		</table>
 		</div>
 	</kul:tab>
+	
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"
+		tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+			<c:if test="${!disabled}">
+				<div class="tab-container" align=center>
+					<table cellpadding="0" cellspacing="0" class="datatable"			
+						<ld:importedAccountingLineGroup
+							isSource="true"
+				            columnCountUntilAmount="12"
+				            columnCount="14"
+				            optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"
+				            extraRowFields="${extraSourceRowFieldsMap}"
+				            editingMode="${KualiForm.editingMode}"
+				            editableAccounts="${editableAccountsMap}"
+				            debitCreditAmount="${debitCreditAmountString}"
+				            currentBaseAmount="${currentBaseAmountString}"
+				            extraHiddenFields="${extraHiddenFieldsMap}"
+				            useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
+				            includeObjectTypeCode="false"
+				            displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
+				            forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
+				            accountingLineAttributes="${accountingLineAttributesMap}" />
+				    </table>
+			    </div>
+			</c:if>
 
-      <c:set var="copyMethod" value="" scope="request"/>
-      <c:set var="actionInfixVar" value="" scope="request"/>
-      <c:set var="accountingLineIndexVar" value="" scope="request"/>
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" inherit="false" extraHiddenFields=",emplid,balanceTypeCode"
-		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
-
-      <jsp:attribute name="groupsOverride">
-      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
-        <fin:subheadingWithDetailToggleRow
-            columnCount="${columnCount}"
-             subheading="Accounting Lines"/>
-        <ld:importedAccountingLineGroup
-            isSource="true"
-            columnCountUntilAmount="${columnCountUntilAmount}"
-            columnCount="${columnCount}"
-            optionalFields="${optionalFieldsMap}"
-            extraRowFields="${extraSourceRowFieldsMap}"
-            editingMode="${KualiForm.editingMode}"
-            editableAccounts="${editableAccountsMap}"
-            editableFields="${KualiForm.accountingLineEditableFields}"
-            debitCreditAmount="${debitCreditAmountString}"
-            currentBaseAmount="${currentBaseAmountString}"
-            extraHiddenFields="${extraHiddenFieldsMap}"
-            useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-            includeObjectTypeCode="false"
-            displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-            forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
-            accountingLineAttributes="${accountingLineAttributesMap}">
-            <jsp:attribute name="importRowOverride">
-            
-            <%-- When data exists show the copy or delete buttons --%>
-            <c:if test="${disabled}">
-                <html:image property="methodToCall.copyAllAccountingLines" src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
-   			        <html:image property="methodToCall.deleteAllSourceAccountingLines"
-					    src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
-						title="Delete all Source Accounting Lines"
-						alt="Delete all Source Lines" styleClass="tinybutton" />
-			 </c:if>
-						
-            </jsp:attribute>
-            <jsp:attribute name="customActions">
-                <c:set var="copyMethod" value="copyAccountingLine.line${accountingLineIndexVar}" scope="request" />
-                <html:image property="methodToCall.${copyMethod}.anchoraccounting${actionInfixVar}Anchor" src="${ConfigProperties.externalizable.images.url}tinybutton-copy2.gif" title="Copy an Accounting Line" alt="Copy an Accounting Line" styleClass="tinybutton"/>
-            </jsp:attribute>
-        </ld:importedAccountingLineGroup>
-
-        <ld:importedAccountingLineGroup
-            isSource="false"
-            columnCountUntilAmount="${columnCountUntilAmount}"
-            columnCount="${columnCount}"
-            optionalFields="${optionalFieldsMap}"
-            extraRowFields="${extraTargetRowFieldsMap}"
-            editingMode="${KualiForm.editingMode}"
-            editableAccounts="${editableAccountsMap}"
-            editableFields="${editableFieldsMap}"
-            debitCreditAmount="${debitCreditAmountString}"
-            currentBaseAmount="${currentBaseAmountString}"
-            forcedReadOnlyFields="${KualiForm.forcedReadOnlyTargetFields}"
-            extraHiddenFields="${extraHiddenFieldsMap}"
-            useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-            includeObjectTypeCode="false"
-            displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-            accountingLineAttributes="${accountingLineAttributesMap}">
-            <jsp:attribute name="importRowOverride">
-                        <c:if test="${targetDisabled}">
-                          <html:image property="methodToCall.deleteAllTargetAccountingLines"
-					        src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
-						    title="Delete all Target Accounting Lines"
-						    alt="Delete all Target Lines" styleClass="tinybutton" />
-						</c:if>    
-            </jsp:attribute>
-         </ld:importedAccountingLineGroup>
-      </table>
-      </jsp:attribute>
-    </fin:accountingLines>
-    <ld:laborLedgerPendingEntries />
+			<c:if test="${disabled}">
+				<sys:accountingLines>
+				       	<sys:accountingLineGroup 
+				        		collectionPropertyName="document.sourceAccountingLines" 
+				        		collectionItemPropertyName="document.sourceAccountingLine" 
+				        		attributeGroupName="source" />
+				</sys:accountingLines>
+			</c:if>			
+			
+			<c:if test="${!targetDisabled}">
+				<div class="tab-container" align=center>
+					<table cellpadding="0" cellspacing="0" class="datatable"			
+						<ld:importedAccountingLineGroup
+							isSource="false"
+				            columnCountUntilAmount="12"
+				            columnCount="14"
+				            optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"
+				            extraRowFields="${extraSourceRowFieldsMap}"
+				            editingMode="${KualiForm.editingMode}"
+				            editableAccounts="${editableAccountsMap}"
+				            debitCreditAmount="${debitCreditAmountString}"
+				            currentBaseAmount="${currentBaseAmountString}"
+				            extraHiddenFields="${extraHiddenFieldsMap}"
+				            useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
+				            includeObjectTypeCode="false"
+				            displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
+				            forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
+				            accountingLineAttributes="${accountingLineAttributesMap}" />
+				    </table>
+			    </div>
+			</c:if>
+			
+			<c:if test="${targetDisabled}">
+				<sys:accountingLines>
+				       	<sys:accountingLineGroup 
+				        		collectionPropertyName="document.targetAccountingLines" 
+				        		collectionItemPropertyName="document.targetAccountingLine" 
+				        		attributeGroupName="target" />
+				</sys:accountingLines>
+			</c:if>
+	</kul:tab>      
+	<ld:laborLedgerPendingEntries />
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
     <kfs:documentControls transactionalDocument="true" />
 </kul:documentPage>
-

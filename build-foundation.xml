@@ -27,14 +27,30 @@ are intended for use only by Kuali Foundation developers.
 	<target name="clean" />
 	<target name="make-source" />
 
-	<target name="check-modularization" depends="make-source">
-		<verifydesign design="test/unit/src/design.xml">
+	<target name="modularization-test" depends="make-source">
+    	<java classname="org.kuali.kfs.sys.context.CheckModularization" fork="true" resultproperty="context.test.results">
+			<jvmarg value="-Xms${run.tests.min.memory}" />
+			<jvmarg value="-Xmx${run.tests.max.memory}" />
+			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+			<classpath>
+				<pathelement location="${war.classes.directory}" />
+				<path refid="compile.source.classpath" />
+			</classpath>
+		</java>
+ 		<verifydesign design="work/src/design.xml">
 			<path>
 				<fileset dir="${war.classes.directory}/org/kuali/kfs" includes="**/*.class" />
       		</path>
     	</verifydesign>
+		<condition property="context.test.failed" value="true">
+			<equals arg1="${context.test.results}" arg2="1" />
+		</condition>
+	</target>
+
+	<target name="check-modularization" depends="modularization-test">
+		<fail if="context.test.failed" message="CheckModularization.java failed" />
   	</target>
-  
+  	  
 	<target name="make-javadoc-all" depends="init-properties">
     <!-- delete potential previous temp directories -->
     	<delete dir="${doc.directory}" failonerror="false" />

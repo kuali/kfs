@@ -46,7 +46,7 @@ public class SpringContext {
     private static final String APPLICATION_CONTEXT_DEFINITION = "SpringBeans.xml";
     private static final String STANDALONE_RICE_DATASOURCE_CONTEXT_DEFINITION = "SpringStandaloneRiceDataSourceBeans.xml";
     private static final String DATASOURCE_CONTEXT_DEFINITION = "SpringDataSourceBeans.xml";
-    private static final String SPRING_SOURCE_FILES_KEY = "spring.source.files";
+    protected static final String SPRING_SOURCE_FILES_KEY = "spring.source.files";
     private static final String SPRING_TEST_FILES_KEY = "spring.test.files";
     private static final String SPRING_PLUGIN_FILES_KEY = "spring.plugin.files";
     private static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
@@ -235,7 +235,7 @@ public class SpringContext {
         }
     }
 
-    private static String[] getSpringConfigurationFiles(String[] propertyNames) {
+    protected static String[] getSpringConfigurationFiles(String[] propertyNames) {
         List<String> springConfigurationFiles = new ArrayList<String>();
         springConfigurationFiles.add(APPLICATION_CONTEXT_DEFINITION);
         if (Boolean.valueOf(PropertyLoadingFactoryBean.getBaseProperty(KFSConstants.USE_STANDALONE_WORKFLOW))) {

@@ -11,32 +11,26 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.rice.core.resourceloader.ContextClassLoaderBinder;
 import org.kuali.rice.core.util.ClassLoaderUtils;
-import org.kuali.rice.kns.authorization.KualiModuleAuthorizerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import uk.ltd.getahead.dwr.impl.DTDEntityResolver;
 import uk.ltd.getahead.dwr.util.LogErrorHandler;
 
-public class ModularizationTest extends KualiTestBase {
+public class CheckModularization {
     private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/integration/SpringBeansModules.xml,org/kuali/kfs/sys/spring-sys.xml,org/kuali/kfs/coa/spring-coa.xml,org/kuali/kfs/fp/spring-fp.xml,org/kuali/kfs/gl/spring-gl.xml,org/kuali/kfs/pdp/spring-pdp.xml,org/kuali/kfs/vnd/spring-vnd.xml";
 
     private static final Map<String, String> OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX = new HashMap<String, String>();
@@ -63,29 +57,57 @@ public class ModularizationTest extends KualiTestBase {
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-SYS", "sys");
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-VND", "vnd");
     }
+    private String[] allContextFiles;
+    private KualiModuleService kualiModuleService;
+    
+    private void setUp() {
+        allContextFiles = SpringContext.getSpringConfigurationFiles(new String[] { SpringContext.SPRING_SOURCE_FILES_KEY });
+        ClassPathXmlApplicationContext context = null;
+        try {
+            context = new ClassPathXmlApplicationContext(allContextFiles);
+            kualiModuleService = (KualiModuleService)context.getBean("kualiModuleService");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            stopSpring(context);
+        }
+    }
+    
+    public static void main(String[] args) {
+        boolean testSucceeded = true;
+        CheckModularization mt = new CheckModularization();
+        try {
+            mt.setUp();
+            if (!(mt.testSpring() & mt.testOjb() & mt.testDwr())) {
+                System.exit(1);
+            }
+        }
+        catch (Exception e) {
+            System.exit(1);
+        }
+        System.exit(0);
+    }
 
-    public void testSpring() throws Exception {
+    public boolean testSpring() throws Exception {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
         List<ModuleGroup> optionalModuleGroups = retrieveOptionalModuleGroups();
         for (ModuleGroup optionalModuleGroup : optionalModuleGroups) {
             testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(optionalModuleGroup, errorMessage);
         }
-        System.out.print(errorMessage.toString());
-        assertTrue(errorMessage.toString(), testSucceeded);
+        if (!testSucceeded) {
+            System.out.print(errorMessage.append("\n\n").toString());
+        }
+        return testSucceeded;
     }
 
     private boolean testOptionalModuleSpringConfiguration(ModuleGroup optionalModuleGroup, StringBuffer errorMessage) {
-        // switch to a different context classloader context so that we don't blow away our existing configuration
         String springFileSuffix = OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get(optionalModuleGroup.namespaceCode);
-        
-        ContextClassLoaderBinder binder = new ContextClassLoaderBinder();
-        binder.bind(new URLClassLoader(new URL[0]));
         ClassPathXmlApplicationContext context = null;
         try {
-            String[] configLocations = new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(springFileSuffix).append("/spring-").append(springFileSuffix).append(".xml").toString().split(",");
-            context = new ClassPathXmlApplicationContext(configLocations);
-            
+            context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(springFileSuffix).append("/spring-").append(springFileSuffix).append(".xml").toString().split(","));
             Map<String, DataDictionaryService> ddServiceBeans = context.getBeansOfType(DataDictionaryService.class);
             if (ddServiceBeans.size() != 1) {
                 throw new RuntimeException("There should only be one DataDictionaryService bean, but " + ddServiceBeans.size() + " were found");
@@ -100,39 +122,34 @@ public class ModularizationTest extends KualiTestBase {
             return false;
         }
         finally {
-            try {
-                if (context != null) {
-                    context.close();
-                }
-            }
-            catch (Exception e) {
-            }
-            binder.unbind();
+            stopSpring(context);
         }
     }
 
-    @ConfigureContext
-    public void testOjb() throws Exception {
+    public boolean testOjb() throws Exception {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in OJB configuration:");
         List<ModuleGroup> allModuleGroups = retrieveModuleGroups();
         for (ModuleGroup moduleGroup : allModuleGroups) {
             testSucceeded = testSucceeded & testOptionalModuleOjbConfiguration(moduleGroup, errorMessage);
         }
-        assertTrue(errorMessage.toString(), testSucceeded);
+        if (!testSucceeded) {
+            System.out.print(errorMessage.append("\n\n").toString());
+        }
+        return testSucceeded;
     }
 
     private boolean testOptionalModuleOjbConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws FileNotFoundException {
         boolean testSucceeded = true;
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(moduleGroup.namespaceCode.equals(referencedNamespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
-                String firstDatabaseRepositoryFilePath = SpringContext.getBean(KualiModuleService.class).getModuleService(moduleGroup.namespaceCode).getModuleConfiguration().getDatabaseRepositoryFilePaths().iterator().next();
+                String firstDatabaseRepositoryFilePath = kualiModuleService.getModuleService(moduleGroup.namespaceCode).getModuleConfiguration().getDatabaseRepositoryFilePaths().iterator().next();
                 // the first database repository file path is typically the file that comes shipped with KFS.  If institutions override it, this unit test will not test them
                 Scanner scanner = new Scanner(new File("work/src/" + firstDatabaseRepositoryFilePath));
                 int count = 0;
                 while (scanner.hasNext()) {
                     String token = scanner.next();
-                    String firstPackagePrefix = (SpringContext.getBean(KualiModuleService.class).getModuleService(referencedNamespaceCode).getModuleConfiguration()).getPackagePrefixes().iterator().next();
+                    String firstPackagePrefix = (kualiModuleService.getModuleService(referencedNamespaceCode).getModuleConfiguration()).getPackagePrefixes().iterator().next();
                     // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
                     if (token.contains(firstPackagePrefix)) {
                         count++;
@@ -153,8 +170,7 @@ public class ModularizationTest extends KualiTestBase {
         return testSucceeded;
     }
     
-    @ConfigureContext
-    public void testDwr() throws Exception {
+    public boolean testDwr() throws Exception {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in DWR configuration:");
         
@@ -162,12 +178,14 @@ public class ModularizationTest extends KualiTestBase {
         for (ModuleGroup moduleGroup : allModuleGroups) {
             testSucceeded &= testDwrModuleConfiguration(moduleGroup, errorMessage);
         }
-
-        assertTrue(errorMessage.toString(), testSucceeded);
+        if (!testSucceeded) {
+            System.out.print(errorMessage.append("\n\n").toString());
+        }
+        return testSucceeded;
     }
     
     private boolean testDwrModuleConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
-        List<String> dwrFiles = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(moduleGroup.namespaceCode).getModuleConfiguration().getScriptConfigurationFilePaths();
+        List<String> dwrFiles = kualiModuleService.getModuleServiceByNamespaceCode(moduleGroup.namespaceCode).getModuleConfiguration().getScriptConfigurationFilePaths();
         boolean testSucceeded = true;
         if (dwrFiles != null && dwrFiles.size() > 0) {
             // the DWR file delivered with KFS (i.e. the base) should be the first element of the list
@@ -189,7 +207,7 @@ public class ModularizationTest extends KualiTestBase {
         List<String> dwrBeanClassNames = retrieveDwrBeanClassNames(dwrDocument);
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(referencedNamespaceCode.equals(moduleGroup.namespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
-                String firstPackagePrefix = (SpringContext.getBean(KualiModuleService.class).getModuleService(referencedNamespaceCode).getModuleConfiguration()).getPackagePrefixes().iterator().next();
+                String firstPackagePrefix = (kualiModuleService.getModuleService(referencedNamespaceCode).getModuleConfiguration()).getPackagePrefixes().iterator().next();
                 // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
                 if (!firstPackagePrefix.endsWith(".")) {
                     firstPackagePrefix = firstPackagePrefix + ".";
@@ -260,6 +278,7 @@ public class ModularizationTest extends KualiTestBase {
         
         return testSucceeded;
     }
+
     
     private Document generateDwrConfigDocument(String fileName) throws Exception {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
@@ -399,5 +418,17 @@ public class ModularizationTest extends KualiTestBase {
             }
         }
         return moduleGroup;
+    }
+    
+    private void stopSpring(ClassPathXmlApplicationContext context) {
+        try {
+            if (context != null) {
+                context.close();
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Caught exception shutting down spring");
+            e.printStackTrace();
+        }
     }
 }

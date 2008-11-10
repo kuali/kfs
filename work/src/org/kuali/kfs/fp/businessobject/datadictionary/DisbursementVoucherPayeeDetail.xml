@@ -105,19 +105,19 @@
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrPayeeStateCode" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
     <property name="name" value="disbVchrPayeeZipCode" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
     <property name="name" value="disbVchrPayeeCountryCode" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean" />
 

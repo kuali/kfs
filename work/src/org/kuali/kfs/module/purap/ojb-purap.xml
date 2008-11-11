@@ -40,7 +40,7 @@
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="itemAccountOutstandingEncumbranceAmount" column="ITM_ACCT_OSTND_ENCUM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="amount" column="ACLN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="purapItem" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="purapItem" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>

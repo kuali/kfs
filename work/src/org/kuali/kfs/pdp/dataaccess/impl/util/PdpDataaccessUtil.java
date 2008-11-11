@@ -60,13 +60,13 @@ public class PdpDataaccessUtil {
                     calendar.add(Calendar.HOUR, 24);
                     Timestamp endTime = new Timestamp(calendar.getTimeInMillis());
 
-                    additionalCriteria.addLessThan(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME, endTime);
-                    additionalCriteria.addGreaterOrEqualThan(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME, startTime);
+                    additionalCriteria.addLessThan(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME, endTime);
+                    additionalCriteria.addGreaterOrEqualThan(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME, startTime);
                 }
             }
         }
         catch (Exception e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME, KFSKeyConstants.ERROR_DATE_TIME, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Batch.class, PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME));
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME, KFSKeyConstants.ERROR_DATE_TIME, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Batch.class, PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME));
             throw new ValidationException("errors in search criteria");
         }
 

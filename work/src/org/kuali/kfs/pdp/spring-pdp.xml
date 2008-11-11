@@ -451,7 +451,7 @@
 		</property>
 	</bean>
 
-	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService" singleton="false">
+	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" singleton="false">
 	    <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -485,7 +485,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="paymentDetailLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService" singleton="false">
+	<bean id="paymentDetailLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" singleton="false">
 	    <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -515,7 +515,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" singleton="false">
+	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" singleton="false">
 	    <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -543,7 +543,7 @@
 		</property>
 	</bean>		
 	
-	<bean id="paymentProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" singleton="false">
+	<bean id="paymentProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" parent="lookupableHelperService" singleton="false">
 	    <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>

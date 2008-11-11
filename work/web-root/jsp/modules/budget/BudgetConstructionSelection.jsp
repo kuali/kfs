@@ -56,7 +56,7 @@
 	   ${message}
 	</c:forEach>
 
-    <c:if test="${!empty KualiForm.universityFiscalYear}">
+    <c:if test="${!empty KualiForm.universityFiscalYear && !KualiForm.sessionInProgressDetected}">
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 	    <tr>
 <%--TODO probably should assign width in css --%>

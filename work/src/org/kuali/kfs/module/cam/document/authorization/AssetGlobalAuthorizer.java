@@ -33,6 +33,7 @@ import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizatio
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
@@ -216,7 +217,8 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
     @Override
     public void canInitiate(String documentTypeName, Person user) {
         super.canInitiate(documentTypeName, user);
-        String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
+        KualiForm kualiForm = GlobalVariables.getKualiForm();
+        String refreshCaller = kualiForm != null ? kualiForm.getRefreshCaller() : "";
         String acquisitonTypeCode = refreshCaller != null ? StringUtils.substringAfter(refreshCaller, "::") : "";
         if (CamsConstants.AssetRetirementReasonCode.INACTIVE.equals(acquisitonTypeCode)) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });

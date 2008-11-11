@@ -93,6 +93,12 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return (!isSourceDocumentPaymentRequest()) && (!isSourceDocumentPurchaseOrder());
     }
 
+    /**
+     * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
+     * specific to Credit Memo Document.
+     * 
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#isInquiryRendered()
+     */
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() && 

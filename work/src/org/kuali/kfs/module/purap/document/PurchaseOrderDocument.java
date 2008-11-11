@@ -162,6 +162,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return SpringContext.getBean(PurchaseOrderService.class);    
     }
     
+    /**
+     * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
+     * specific to Purchase Order Document.
+     * 
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#isInquiryRendered()
+     */
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() && 

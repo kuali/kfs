@@ -109,6 +109,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return true;
     }
 
+    /**
+     * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
+     * specific to Requisition Document.
+     * 
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#isInquiryRendered()
+     */
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() && 

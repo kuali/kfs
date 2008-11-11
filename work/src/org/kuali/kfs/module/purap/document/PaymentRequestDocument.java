@@ -149,6 +149,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
+    /**
+     * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
+     * specific to Payment Request Document.
+     * 
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#isInquiryRendered()
+     */
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() && 

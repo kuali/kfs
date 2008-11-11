@@ -138,6 +138,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return null;
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isInquiryRendered()
+     */
     public boolean isInquiryRendered() {
         return isPostingYearPrior();    
     }

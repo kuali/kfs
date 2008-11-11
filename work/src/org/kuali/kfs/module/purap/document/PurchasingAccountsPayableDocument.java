@@ -281,6 +281,12 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     
     public List<PurApItem> getTradeInItems();
     
+    /**
+     * Determines whether the inquiry links should be rendered
+     * for Object Code and Sub Object Code.
+     * 
+     * @return
+     */
     public boolean isInquiryRendered();
     
 }

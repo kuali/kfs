@@ -48,7 +48,9 @@ public enum AccountingLineFixture {
 
     APO_LINE1(2004, null, "BL", "0212007", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "995.00"), APO_LINE2(2004, null, "BL", "0212007", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "120.00"), APO_LINE3(2004, null, "BL", "0212008", null, null, "4000", null, null,  null, null, null, null, null, GL_DEBIT_CODE, "119.99"), APO_LINE4(2004, null, "BL", "0212009", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "12.49"),
     PURAP_LINE1(2004, null, "BL", "1031400", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
-
+    PURAP_LINE2(2004, null, "BL", "0212007", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
+    PURAP_LINE3(2004, null, "BL", "2231401", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
+    
     GEC_LINE1(2004, null, "BL", "1031400", null, "ADV", "5000", "SSS", "KUL", null, null, "01", "123", null, null, "1.10"), ICA_LINE(2004, null, "BL", "5431400", null, null, "5500", null, null, null, null, null, null, null, null, "1.10"), EXPENSE_GEC_LINE(2004, null, "BA", "6044900", "AC", null, "1940", null, "KUL", "F", null, "01", "123", null, null, "1.10"),
 
     DOCUMENT_SERVICE_TEST_LINE(null, null, "BL", "1031400", null, "ADV", "5000", "SSS", "KUL", "Y", null, null, null, null, GL_DEBIT_CODE, "2.50"), PFIP_SUB_FUND_LINE(2004, null, "BA", "9544900", "AC", null, "9900", null, null, null, null, null, "2004", null, null, "1000.00"), SOURCE_LINE(2004, null, "UA", "1912201", "AC", null, "9980", null, "KUL", "F", null, "01", "2004", "blah", GL_DEBIT_CODE, "1000.00"), EXPENSE_LINE(2004, null, "UA", "1912201", "AC", "BEER", "9900", null, "KUL", "F", null, "01", "2004", "blah", GL_DEBIT_CODE, "1000.00"), EXPENSE_LINE2(2004, null, "BL", "1031400", "AC", "BLDG", "9900", null, "KUL", "F", null, null, null, null, GL_DEBIT_CODE, "1000.00"), EXTERNAL_ENCUMBRANCE_LINE(2004, null, "BL", "1031400", "EX", "BLDG", "9900", null, "KUL", "F", null, "01", "2004", "PE", GL_DEBIT_CODE, "1000.00"),

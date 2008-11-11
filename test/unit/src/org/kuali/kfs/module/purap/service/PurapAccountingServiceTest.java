@@ -22,8 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.fixture.PurapAccountingServiceFixture;
+import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -62,7 +66,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     public void testGenerateAccountDistributionForProration_OneAcctGood() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_ONE_ACCOUNT;
         List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProration(
-                                                                                fixture.getAccountingLineList(),
+                                                                                fixture.getSourceAccountingLineList(),
                                                                                 fixture.getTotalAmount(),
                                                                                 fixture.getPercentScale(),
                                                                                 fixture.getAccountClass());
@@ -75,7 +79,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     public void testGenerateAccountDistributionForProration_TwoAcctGood() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_TWO_ACCOUNTS;
         List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProration(
-                                                                                fixture.getAccountingLineList(),
+                                                                                fixture.getSourceAccountingLineList(),
                                                                                 fixture.getTotalAmount(),
                                                                                 fixture.getPercentScale(),
                                                                                 fixture.getAccountClass());
@@ -89,7 +93,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     public void testGenerateAccountDistributionForProration_ThreeAccountGood() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_THIRDS;
         List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProration(
-                                                                                fixture.getAccountingLineList(),
+                                                                                fixture.getSourceAccountingLineList(),
                                                                                 fixture.getTotalAmount(),
                                                                                 fixture.getPercentScale(),
                                                                                 fixture.getAccountClass());
@@ -105,9 +109,74 @@ public class PurapAccountingServiceTest extends KualiTestBase {
      * Tests of generateAccountDistributionForProrationWithZeroTotal(PurchasingAccountsPayableDocument purapdoc)
      */
     
+    public void testGenerateAccountDistributionForProration_OneAcctZeroTotal() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_ONE_ACCOUNT_ZERO_TOTAL;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
+        List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProrationWithZeroTotal(preq);
+        List<BigDecimal> correctPercents = new ArrayList<BigDecimal>();
+        correctPercents.add(0,new BigDecimal("100"));
+        assertEquals(distributedAccounts.size(),correctPercents.size());
+        comparePercentages(distributedAccounts, correctPercents);
+    }
+    
+    public void testGenerateAccountDistributionForProration_TwoAcctZeroTotal() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_TWO_ACCOUNTS_ZERO_TOTAL;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
+        List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProrationWithZeroTotal(preq);
+        List<BigDecimal> correctPercents = new ArrayList<BigDecimal>();
+        correctPercents.add(0,new BigDecimal("50"));
+        correctPercents.add(1,new BigDecimal("50"));
+        assertEquals(distributedAccounts.size(),correctPercents.size());
+        comparePercentages(distributedAccounts, correctPercents);
+    }
+    
+    /*public void testGenerateAccountDistributionForProration_ThreeAccountZeroTotal() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_THIRDS_ZERO_TOTAL;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument();
+        List<PurApAccountingLine> distributedAccounts = purapAccountingService.generateAccountDistributionForProrationWithZeroTotal(preq);
+        List<BigDecimal> correctPercents = new ArrayList<BigDecimal>();
+        correctPercents.add(0,new BigDecimal("33"));
+        correctPercents.add(1,new BigDecimal("33"));
+        correctPercents.add(2,new BigDecimal("34"));
+        assertEquals(distributedAccounts.size(),correctPercents.size());
+        comparePercentages(distributedAccounts, correctPercents);
+    }*/
+    
     /*
      * Tests of generateSummaryAccounts(PurchasingAccountsPayableDocument document)
-     */
+     */    
+    /*public void testGenerateSummaryAccounts_OnePREQAccountOneItemWithPositiveTotal() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_ONE_ACCOUNT;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
+        List<SummaryAccount> accounts = purapAccountingService.generateSummaryAccounts(preq);
+        
+        List<SourceAccountingLine> correctSourceAccounts = fixture.getSourceAccountingLineList();
+        assertEquals(accounts.size(),correctSourceAccounts.size());
+        for(int i = 0; i < correctSourceAccounts.size(); i++) {
+            SummaryAccount account = accounts.get(i);
+            SourceAccountingLine sourceAccount = account.getAccount();
+            assertTrue(sourceAccount.isLike(correctSourceAccounts.get(i)));
+            List<PurApSummaryItem> summaryItems = account.getItems();
+            assertNotNull(summaryItems.get(0));
+        }
+    }*/
+    
+    /*public void testGenerateSummaryAccounts_OnePREQAccountTwoItemsWithPositiveTotal() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PRORATION_ONE_ACCOUNT;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_TwoItems();
+        int itemCount = preq.getItems().size();
+        List<SummaryAccount> accounts = purapAccountingService.generateSummaryAccounts(preq);
+        
+        List<SourceAccountingLine> correctSourceAccounts = fixture.getSourceAccountingLineList();
+        assertEquals(accounts.size(),correctSourceAccounts.size());
+        for(int i = 0; i < correctSourceAccounts.size(); i++) {
+            SummaryAccount account = accounts.get(i);
+            SourceAccountingLine sourceAccount = account.getAccount();
+            assertTrue(sourceAccount.isLike(correctSourceAccounts.get(i)));
+            List<PurApSummaryItem> summaryItems = account.getItems();
+            assertTrue(summaryItems.size() <= itemCount);
+        }
+    }*/
     
     /*
      * Tests of generateSummaryAccountsWithNoZeroTotals(PurchasingAccountsPayableDocument document)

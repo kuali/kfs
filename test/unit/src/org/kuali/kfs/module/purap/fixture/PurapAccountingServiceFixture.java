@@ -21,20 +21,38 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public enum PurapAccountingServiceFixture {
     
-    PRORATION_ONE_ACCOUNT(PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
+    PRORATION_ONE_ACCOUNT(
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
     PRORATION_TWO_ACCOUNTS(
             PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
-    PRORATION_THIRDS(PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
+    PRORATION_THIRDS(
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD),
+    PRORATION_ONE_ACCOUNT_ZERO_TOTAL(
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1),
+    PRORATION_TWO_ACCOUNTS_ZERO_TOTAL(
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
+    PRORATION_THIRDS_ZERO_TOTAL(
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD),;
@@ -42,8 +60,13 @@ public enum PurapAccountingServiceFixture {
     KualiDecimal totalAmount;
     Integer percentScale;
     Class accountClass;
-    List<SourceAccountingLine> accountingLineList = new ArrayList<SourceAccountingLine>();
-        
+    List<SourceAccountingLine> sourceAccountingLineList = new ArrayList<SourceAccountingLine>();
+    List<PurApAccountingLine> purApAccountingLineList = new ArrayList<PurApAccountingLine>();
+    AccountingLineFixture accountingLineFixture[] = {
+            AccountingLineFixture.PURAP_LINE1,
+            AccountingLineFixture.PURAP_LINE2,
+            AccountingLineFixture.PURAP_LINE3};
+
     private PurapAccountingServiceFixture(
             KualiDecimal totalAmount, 
             Integer percentScale, 
@@ -56,15 +79,36 @@ public enum PurapAccountingServiceFixture {
         
         for( int i = 0; i < purApAcctLineFixtures.length; i++ ) {
             PurApAccountingLineFixture purApAcctLineFixture = purApAcctLineFixtures[i];
-            
-            PurApAccountingLine purApAcctLine = purApAcctLineFixture.createPurApAccountingLine(
-                    accountClass, 
-                    AccountingLineFixture.PURAP_LINE1);
+            PurApAccountingLine purApAcctLine = purApAcctLineFixture.createPurApAccountingLine(accountClass, accountingLineFixture[i]);
             BigDecimal pct = purApAcctLine.getAccountLinePercent();
             pct = pct.divide(new BigDecimal(100));
             purApAcctLine.setAmount(totalAmount.multiply(new KualiDecimal(pct)));
-            accountingLineList.add(purApAcctLine.generateSourceAccountingLine());
+            purApAccountingLineList.add(purApAcctLine);
+            sourceAccountingLineList.add(purApAcctLine.generateSourceAccountingLine());
         }
+    }
+    
+    public PaymentRequestDocument generatePaymentRequestDocument_OneItem() {
+        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS.createPaymentRequestDocument();
+        PaymentRequestItem item = (PaymentRequestItem)preq.getItems().get(0);
+        item.setTotalAmount(this.totalAmount);
+        item.setSourceAccountingLines(purApAccountingLineList);
+        List<PurApItem> items = new TypedArrayList(PaymentRequestItem.class);
+        items.add(item);
+        preq.setItems(items);
+        return preq;
+    }
+    
+    public PaymentRequestDocument generatePaymentRequestDocument_TwoItems() {
+        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_TWO_ITEM.createPaymentRequestDocument();
+        List<PurApItem> augmentedItems = new TypedArrayList(PaymentRequestItem.class);
+        for(PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
+            item.setTotalAmount(this.totalAmount);
+            item.setSourceAccountingLines(purApAccountingLineList);        
+            augmentedItems.add(item);
+        }
+        preq.setItems(augmentedItems);
+        return preq;
     }
 
     public KualiDecimal getTotalAmount() {
@@ -91,11 +135,19 @@ public enum PurapAccountingServiceFixture {
         this.accountClass = accountClass;
     }
 
-    public List<SourceAccountingLine> getAccountingLineList() {
-        return accountingLineList;
+    public List<SourceAccountingLine> getSourceAccountingLineList() {
+        return sourceAccountingLineList;
     }
 
-    public void setAccountingLineList(List<SourceAccountingLine> accountingLineList) {
-        this.accountingLineList = accountingLineList;
+    public void setSourceAccountingLineList(List<SourceAccountingLine> sourceAccountingLineList) {
+        this.sourceAccountingLineList = sourceAccountingLineList;
+    }
+
+    public List<PurApAccountingLine> getPurApAccountingLineList() {
+        return purApAccountingLineList;
+    }
+
+    public void setPurApAccountingLineList(List<PurApAccountingLine> purApAccountingLineList) {
+        this.purApAccountingLineList = purApAccountingLineList;
     }
 }

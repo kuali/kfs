@@ -51,6 +51,35 @@ public enum PaymentRequestDocumentFixture {
             AccountsPayableDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS,             // apDocumentFixture
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_QTY_UNRESTRICTED_ITEM_1} // requisitionItemMultiFixtures
     ),
+    PREQ_TWO_ITEM(
+            SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),   //invoiceDate
+            "123456",   //invoiceNumber,
+            new KualiDecimal(100),  //vendorInvoiceAmount,
+            "00N10",    //vendorPaymentTermsCode,
+            "CL",   //vendorShippingPaymentTermsCode,
+            SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),   //paymentRequestPayDate,
+            "EST",  //paymentRequestCostSourceCode,
+            false,  //paymentRequestedCancelIndicator,
+            false,  //paymentAttachmentIndicator,
+            false,  //immediatePaymentIndicator,
+            null,   //specialHandlingInstructionLine1Text,
+            null,   //specialHandlingInstructionLine2Text,
+            null,   //specialHandlingInstructionLine3Text,
+            null,   //paymentPaidDate,
+            false,  //paymentRequestElectronicInvoiceIndicator,
+            null,   //accountsPayableRequestCancelIdentifier,
+            1010,   //originalVendorHeaderGeneratedIdentifier,
+            2,      //originalVendorDetailAssignedIdentifier,
+            null,           //alternateVendorHeaderGeneratedIdentifier,
+            null,           //alternateVendorDetailAssignedIdentifier,
+            null,           //purchaseOrderNotes,
+            null,           //recurringPaymentTypeCode,            
+            PurchasingAccountsPayableDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS,  // purapDocumentFixture
+            AccountsPayableDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS,             // apDocumentFixture
+            new PaymentRequestItemFixture[] {
+                PaymentRequestItemFixture.PREQ_QTY_UNRESTRICTED_ITEM_1,
+                PaymentRequestItemFixture.PREQ_QTY_UNRESTRICTED_ITEM_2} // requisitionItemMultiFixtures
+    ),
     PREQ_APPROVAL_REQUIRED(
             SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),   //invoiceDate
             "123458",   //invoiceNumber,

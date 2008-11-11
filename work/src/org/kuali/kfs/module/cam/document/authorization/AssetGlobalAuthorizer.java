@@ -15,10 +15,14 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -31,6 +35,7 @@ import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -38,6 +43,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
     /**
      * Hide or set specific fields as non-editable.
@@ -220,10 +226,13 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         KualiForm kualiForm = GlobalVariables.getKualiForm();
         String refreshCaller = kualiForm != null ? kualiForm.getRefreshCaller() : "";
         String acquisitonTypeCode = refreshCaller != null ? StringUtils.substringAfter(refreshCaller, "::") : "";
-        if (CamsConstants.AssetRetirementReasonCode.INACTIVE.equals(acquisitonTypeCode)) {
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, acquisitonTypeCode);
+
+        AssetAcquisitionType AssetAcquisitionType = (AssetAcquisitionType) businessObjectService.findByPrimaryKey(AssetAcquisitionType.class, pkMap);
+        if (!AssetAcquisitionType.isActive()) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });
         }
     }
-
 
 }

@@ -37,9 +37,9 @@
 	<kul:panelFooter />
 	<div id="globalbuttons" class="globalbuttons">
 		<html:image
-			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif"
+			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_continue.gif"
 			styleClass="globalbuttons" property="methodToCall.continueFormat"
-			title="begin format" alt="begin format" />
+			title="begin format" alt="continue format" />
 		<html:image
 			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
 			styleClass="globalbuttons" property="methodToCall.cancel"

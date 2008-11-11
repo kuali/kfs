@@ -169,6 +169,30 @@ public class FormatAction extends KualiAction {
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
     }
+    
+    /**
+     * This method clears all the customer checkboxes.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        FormatForm formatForm = (FormatForm) form;
+
+        List<CustomerProfile> customers = formatForm.getCustomers();
+        for (CustomerProfile customerProfile : customers) {
+            customerProfile.setSelectedForFormat(false);
+        }
+        formatForm.setCustomers(customers);
+
+        return mapping.findForward(PdpConstants.MAPPING_SELECTION);
+
+    }
 
     /**
      * This method cancels the format process

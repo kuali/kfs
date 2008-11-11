@@ -31,6 +31,7 @@ import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -637,21 +638,30 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the readOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
-        /*
-         * boolean viewOnly = false; if
-         * (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) { viewOnly =
-         * Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)); } if (viewOnly) {
-         * return true; } if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) { viewOnly =
-         * !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)); } else { viewOnly =
-         * true; } return viewOnly;
-         */
 
-        // TODO: restore the logic above
-        List<String> messageList = GlobalVariables.getMessageList();
-        if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
-            messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
+        boolean viewOnly = false;
+        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+            viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
         }
-        return false;
+        if (viewOnly) {
+            return true;
+        }
+
+        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+            viewOnly = !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
+        }
+        else {
+            viewOnly = true;
+        }
+        return viewOnly;
+
+
+        // // TODO: restore the logic above and remove this when ready
+        // List<String> messageList = GlobalVariables.getMessageList();
+        // if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
+        // messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
+        // }
+        // return false;
     }
 
     /**
@@ -672,4 +682,3 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         return BudgetParameterFinder.getPayrollPositionFeedIndicator();
     }
 }
-

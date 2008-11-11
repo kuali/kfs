@@ -544,7 +544,7 @@
     <!-- accounting line groups -->
     <bean id="CreditMemoDocument-sourceAccountingLineGroup" parent="CreditMemoDocument-sourceAccountingLineGroup-parentBean" />  
     <bean id="CreditMemoDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	    <property name="accountingLineView" ref="PaymentRequestDocument-accountingLineView" />
+	    <property name="accountingLineView" ref="CreditMemoDocument-accountingLineView" />
 	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	    <property name="groupLabel" value="Source" />
 	    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />

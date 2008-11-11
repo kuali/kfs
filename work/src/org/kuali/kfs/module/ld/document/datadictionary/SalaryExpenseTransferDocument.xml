@@ -144,8 +144,8 @@
 	<bean id="SalaryExpenseTransferDocument-sourceGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-				<bean parent="AccountingLineView-action" p:actionMethod="copyAll" p:actionLabel="copy all" p:imageName="tinybutton-copyall.gif"/>
-				<bean parent="AccountingLineView-action" p:actionMethod="deleteAll" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
+				<bean parent="AccountingLineView-action" p:actionMethod="copyAllAccountingLines" p:actionLabel="copy all" p:imageName="tinybutton-copyall.gif"/>
+				<bean parent="AccountingLineView-action" p:actionMethod="deleteAllSourceAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
 			</list>
 		</property>
 	</bean>
@@ -153,7 +153,7 @@
 	<bean id="SalaryExpenseTransferDocument-targetGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-				<bean parent="AccountingLineView-action" p:actionMethod="deleteAll" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
+				<bean parent="AccountingLineView-action" p:actionMethod="deleteAllTargetAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
 			</list>
 		</property>
 	</bean>      

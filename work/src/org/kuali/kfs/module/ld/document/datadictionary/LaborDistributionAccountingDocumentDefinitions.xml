@@ -216,5 +216,22 @@
     <bean id="labor-BenefitExpenseTransferDocument-AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">
 		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.BenefitExpenseTransferAccountingLineAuthorizer" />
     </bean>
+    
+ 	<bean id="ExpenseTransferDocument-sourceGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-action" p:actionMethod="copyAllAccountingLines" p:actionLabel="copy all" p:imageName="tinybutton-copyall.gif"/>
+				<bean parent="AccountingLineView-action" p:actionMethod="deleteAllSourceAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ExpenseTransferDocument-targetGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-action" p:actionMethod="deleteAllTargetAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
+			</list>
+		</property>
+	</bean>      
  
 </beans>

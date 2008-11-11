@@ -109,7 +109,7 @@
     	<property name="importedLinePropertyPrefix" value="source" />
     	<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
     	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
-    	<property name="accountingLineGroupActions" ref="BenefitExpenseTransferDocument-sourceGroupActions"/>
+    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-sourceGroupActions"/>
     </bean>
 
     <bean id="BenefitExpenseTransferDocument-targetAccountingLineGroup" parent="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
@@ -121,23 +121,7 @@
     	<property name="importedLinePropertyPrefix" value="target" />
     	<property name="totals" ref="AccountingDocument-targetGroupTotals" />
     	<property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
-    	<property name="accountingLineGroupActions" ref="BenefitExpenseTransferDocument-targetGroupActions"/>
+    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-targetGroupActions"/>
     </bean>    
   
-	<bean id="BenefitExpenseTransferDocument-sourceGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
-		<property name="sourceList">
-			<list>
-				<bean parent="AccountingLineView-action" p:actionMethod="copyAllAccountingLines" p:actionLabel="copy all" p:imageName="tinybutton-copyall.gif"/>
-				<bean parent="AccountingLineView-action" p:actionMethod="deleteAllSourceAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="BenefitExpenseTransferDocument-targetGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
-		<property name="sourceList">
-			<list>
-				<bean parent="AccountingLineView-action" p:actionMethod="deleteAllTargetAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif"/>
-			</list>
-		</property>
-	</bean>  
 </beans>

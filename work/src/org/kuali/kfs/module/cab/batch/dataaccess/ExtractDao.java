@@ -22,8 +22,6 @@ import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 public interface ExtractDao {
     /**
@@ -34,13 +32,6 @@ public interface ExtractDao {
      */
     Collection<Entry> findMatchingGLEntries(BatchParameters batchParameters);
 
-    /**
-     * This method implementation should find all pending GL entries created by Payment Requests (PREQ) or Credit Memos (CM)
-     * 
-     * @param batchParameters Batch Parameters
-     * @return Pending GL Entries
-     */
-    Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries(BatchParameters batchParameters);
 
     /**
      * This method implementation should find valid Credit Memo account line changes as per the batch parameters

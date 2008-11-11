@@ -309,7 +309,7 @@
     	<property name="parameterService" ref="parameterService" />
     </bean>
     
-	<import resource="document/validation/configuration/CapitalAssetsValidators.xml" />
+	<import resource="document/validation/configuration/CamsValidatorDefinitions.xml" />
 	<import resource="document/validation/configuration/AssetPaymentValidation.xml" />
 <!-- End of Asset Bar Code inventory batch job -->
 </beans>

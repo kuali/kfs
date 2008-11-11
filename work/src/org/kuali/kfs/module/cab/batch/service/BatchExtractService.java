@@ -39,12 +39,6 @@ public interface BatchExtractService {
      */
     Collection<Entry> findElgibleGLEntries(ExtractProcessLog processLog);
 
-    /**
-     * Returns the list of Purchasing GL transactions that occurred after last GL process
-     * 
-     * @return List of pending gl transactions waiting to be posted to GL
-     */
-    Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries();
 
     /**
      * Saves financial transaction lines which dont have Purchase Order number associated with it
@@ -90,8 +84,8 @@ public interface BatchExtractService {
 
     /**
      * Implementation will retrieve all eligible Purchase Order account lines from a Purchase order that matches criteria required
-     * by pre-asset tagging, using these account lines, batch process can identify the eligible purchase order line items to be saved
-     * for pre-tagging screen
+     * by pre-asset tagging, using these account lines, batch process can identify the eligible purchase order line items to be
+     * saved for pre-tagging screen
      * 
      * @return Pre-taggable PO Account lines
      */

@@ -67,13 +67,12 @@ public interface ReconciliationService {
 
     /**
      * Main reconciliation service which will apply the formula where PURAP transaction amounts are compared using
-     * <li>GL_ENTRY_T + GL_PENDING_ENTRY = (AP_PMT_RQST_ACCT_HIST_T or AP_CRDT_MEMO_ACCT_HIST_T) </li>
+     * <li>GL_ENTRY_T = (AP_PMT_RQST_ACCT_HIST_T or AP_CRDT_MEMO_ACCT_HIST_T) </li>
      * 
      * @param glEntries Purap GL Entries
-     * @param pendingGlEntries Purap Pending GL Entries
      * @param purapAcctEntries Purap Account Entries
      */
-    void reconcile(Collection<Entry> glEntries, Collection<GeneralLedgerPendingEntry> pendingGlEntries, Collection<PurApAccountingLineBase> purapAcctEntries);
+    void reconcile(Collection<Entry> glEntries, Collection<PurApAccountingLineBase> purapAcctEntries);
 
 
 }

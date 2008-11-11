@@ -58,7 +58,6 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -167,14 +166,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return paymentRequestDocument;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPurapPendingGLEntries()
-     */
-    public Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries() {
-        Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = extractDao.findPurapPendingGLEntries(createCabBatchParameters());
-        return purapPendingGLEntries;
-    }
-
 
     /**
      * Computes the last run time stamp, if null then it gives yesterday
@@ -240,11 +231,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public void savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
         ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
         // This is a list of pending GL entries created after last GL process and Cab Batch extract
-        Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = findPurapPendingGLEntries();
         // PurAp Account Line history comes from PURAP module
         Collection<PurApAccountingLineBase> purapAcctLines = findPurapAccountRevisions();
         // Pass the records to reconciliation service method
-        reconciliationService.reconcile(poLines, purapPendingGLEntries, purapAcctLines);
+        reconciliationService.reconcile(poLines, purapAcctLines);
 
         // for each valid GL entry there is a collection of valid PO Doc and Account Lines
         Collection<GlAccountLineGroup> matchedGroups = reconciliationService.getMatchedGroups();

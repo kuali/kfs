@@ -33,7 +33,6 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +55,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * @see org.kuali.kfs.module.cab.batch.service.ReconciliationService#reconcile(java.util.Collection, java.util.Collection,
      *      java.util.Collection)
      */
-    public void reconcile(Collection<Entry> glEntries, Collection<GeneralLedgerPendingEntry> pendingGlEntries, Collection<PurApAccountingLineBase> purapAcctEntries) {
+    public void reconcile(Collection<Entry> glEntries, Collection<PurApAccountingLineBase> purapAcctEntries) {
         /**
          * FORMULA is to equate amount value (GL_ENTRY_T + GL_PEND_ENTRY_T = AP_ACCT_LINE_HIST)
          */

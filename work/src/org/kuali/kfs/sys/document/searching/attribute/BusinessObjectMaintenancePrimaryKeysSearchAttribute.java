@@ -39,6 +39,7 @@ import org.kuali.rice.kew.lookupable.Field;
 import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
@@ -47,6 +48,8 @@ import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -95,6 +98,26 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         return searchValues;
     }
     
+
+    /**
+     * 
+     * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchingRows(org.kuali.rice.kew.docsearch.DocumentSearchContext)
+     */
+    public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
+        Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
+        Class<? extends Maintainable> maintainableClass = getMaintainableClass(documentSearchContext.getDocumentTypeName());
+        
+        KualiGlobalMaintainableImpl globalMaintainable = null;
+        try {
+            globalMaintainable = (KualiGlobalMaintainableImpl)maintainableClass.newInstance();
+            businessObjectClass = globalMaintainable.getPrimaryEditedBusinessObjectClass();
+        } catch (Exception ie) {
+            //was not a globalMaintainable.
+        }
+        return (businessObjectClass == null ? null : createFieldRowsForBusinessObject(businessObjectClass));
+    }
+    
+    
     /**
      * Returns the class of the object being maintained by the given maintenance document type name
      * @param documentTypeName the name of the document type to look up the maintained business object for
@@ -103,6 +126,16 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
     protected Class<? extends BusinessObject> getBusinessObjectClass(String documentTypeName) {
         MaintenanceDocumentEntry entry = retrieveMaintenanceDocumentEntry(documentTypeName);
         return (entry == null ? null : entry.getBusinessObjectClass());
+    }
+    
+    /**
+     * Returns the maintainable of the object being maintained by the given maintenance document type name
+     * @param documentTypeName the name of the document type to look up the maintained business object for
+     * @return the Maintainable of the maintained business object
+     */
+    protected Class<? extends Maintainable> getMaintainableClass(String documentTypeName) {
+        MaintenanceDocumentEntry entry = retrieveMaintenanceDocumentEntry(documentTypeName);
+        return (entry == null ? null : entry.getMaintainableClass());
     }
     
     /**
@@ -153,7 +186,6 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
                 }
             }
         }
-        
         return values;
     }
     
@@ -322,6 +354,10 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
             if (searchField.isUsingDatePicker()) {
                 fieldList.add(buildDatePickerField((String)primaryKeyNameAsObject));
             }
+            String quickfinderService = searchField.getQuickFinderClassNameImpl();
+            if (!Utilities.isEmpty(quickfinderService)) {
+                fieldList.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, quickfinderService));
+            }
             searchFields.add(new Row(fieldList));
         }
         
@@ -340,6 +376,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
 
         // 4. quickfinder?
         final String quickfinderServiceName = getQuickfinderServiceName(businessObjectEntry.getBusinessObjectClass(), propertyName);
+        
         if (quickfinderServiceName != null) {
             field.setQuickFinderClassNameImpl(quickfinderServiceName);
             field.setHasLookupable(true);
@@ -465,15 +502,6 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchingRows(org.kuali.rice.kew.docsearch.DocumentSearchContext)
-     */
-    public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
-        Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
-        return (businessObjectClass == null ? null : createFieldRowsForBusinessObject(businessObjectClass));
-    }
-    
-    /**
      * Attemps to find a related class for the given property; if it can find one, it goes on to determine what the appropriate workflowLookup service would be to look that business object up
      * @param businessObjectClass the class of the business object that is being maintained
      * @param propertyName the property to find a lookup for
@@ -485,7 +513,9 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
             final BusinessObjectRelationship relationship = SpringContext.getBean(BusinessObjectMetaDataService.class).getBusinessObjectRelationship(pointlessBOInstanceToMakeTheServiceHappy, propertyName);
             if (relationship != null) {
                 final Class lookingUpClass = relationship.getRelatedClass();
-                return getWorkflowLookupServiceName(lookingUpClass);
+                String retVal = getWorkflowLookupServiceName(lookingUpClass);
+               // System.out.println(retVal);
+                return retVal;
             } else {
                 return null;
             }
@@ -508,7 +538,6 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         final Map<String, ? extends org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl> workflowLookups = SpringContext.getBeansOfType(org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl.class);
         final Set<String> workflowLookupServiceNames = workflowLookups.keySet();
         final String proposedName = convertBusinessObjectClassToProposedWorklowLookupServiceName(businessObjectClass);
-        
         return workflowLookupServiceNames.contains(proposedName) ? proposedName : null; 
     }
 

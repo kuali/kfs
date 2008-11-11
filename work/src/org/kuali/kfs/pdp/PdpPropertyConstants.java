@@ -65,8 +65,7 @@ public class PdpPropertyConstants {
     public static final String PAYMENT_PROC_IDENTIFIER = "paymentProcIdentifier";
     
     public static class BatchConstants{
-        public static class Fields{
-            public static final String BATCH_ID = "id";
+        public static final String BATCH_ID = "id";
             public static final String CHART_CODE = "customerProfile.chartCode";
             public static final String ORG_CODE = "customerProfile.orgCode";
             public static final String SUB_UNIT_CODE = "customerProfile.subUnitCode";
@@ -74,12 +73,10 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_TOTAL_AMOUNT = "paymentTotalAmount";
             public static final String FILE_CREATION_TIME = "customerFileCreateTimestamp";
             public static final String CUSTOMER_ID = "customerId";
-        }
     }
     
     public static class PaymentDetail {
-        public static class Fields {
-            public static final String PAYMENT_GROUP_BATCH_ID = "paymentGroup.batch.id";
+        public static final String PAYMENT_GROUP_BATCH_ID = "paymentGroup.batch.id";
             public static final String PAYMENT_STATUS_CODE = "paymentGroup.paymentStatusCode";
             public static final String PAYMENT_DISBURSEMENT_NUMBER = "paymentGroup.disbursementNbr";
             public static final String PAYMENT_PAYEE_NAME = "paymentGroup.payeeName";
@@ -113,12 +110,10 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_GROUP = "paymentGroup";
             public static final String PAYMENT_EPIC_PAYMENT_CANCELLED_DATE = "paymentGroup.epicPaymentCancelledExtractedDate";
             public static final String PAYMENT_EPIC_PAYMENT_PAID_EXTRACTED_DATE = "paymentGroup.epicPaymentPaidExtractedDate";
-        }
     }
     
     public static class PaymenGroupHistory {
-        public static class Fields {
-            public static final String PAYMENT_GROUP_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
+        public static final String PAYMENT_GROUP_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
             public static final String PAYMENT_GROUP_PAYEE_NAME = "paymentGroup.payeeName";
             public static final String PAYMENT_GROUP_PAYEE_ID = "paymentGroup.payeeId";
             public static final String PAYMENT_GROUP_PAYEE_ID_TYPE_CODE = "paymentGroup.payeeIdTypeCd";
@@ -137,7 +132,6 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_GROUP_SUB_UNIT_CODE = "paymentGroup.batch.customerProfile.subUnitCode";
             public static final String PMT_CANCEL_EXTRACT_DATE = "pmtCancelExtractDate";
 
-        }
     }
     
     public static class PaymentGroup {

@@ -46,9 +46,9 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
         LOG.debug("getByDisbursementNumber() started");
         
         Map fieldValues = new HashMap();
-        fieldValues.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER, disbursementNumber);
+        fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER, disbursementNumber);
         List<PaymentDetail> paymentDetailByDisbursementNumberList= (List<PaymentDetail>)this.businessObjectService.findMatching(PaymentDetail.class, fieldValues);
-        DynamicCollectionComparator.sort(paymentDetailByDisbursementNumberList, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR);
+        DynamicCollectionComparator.sort(paymentDetailByDisbursementNumberList, PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR);
 
         return paymentDetailByDisbursementNumberList.iterator();
     }

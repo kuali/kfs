@@ -106,7 +106,7 @@ public class PaymentDetailAction extends KualiAction {
     private boolean performCancel(int paymentDetailId, String changeText, Person user) {
 
         Map keyMap = new HashMap();
-        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
         if (ObjectUtils.isNotNull(paymentDetail)) {
@@ -114,7 +114,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.cancelPendingPayment(paymentGroupId, paymentDetailId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -151,7 +151,7 @@ public class PaymentDetailAction extends KualiAction {
     private boolean performHold(int paymentDetailId, String changeText, Person user) {
 
         Map keyMap = new HashMap();
-        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
         if (ObjectUtils.isNotNull(paymentDetail)) {
@@ -159,7 +159,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.holdPendingPayment(paymentGroupId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -193,7 +193,7 @@ public class PaymentDetailAction extends KualiAction {
     private boolean performRemoveHold(int paymentDetailId, String changeText, Person user) {
 
         Map keyMap = new HashMap();
-        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
         if (ObjectUtils.isNotNull(paymentDetail)) {
@@ -201,7 +201,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.removeHoldPendingPayment(paymentGroupId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -235,7 +235,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     private boolean performSetImmediate(int paymentDetailId, String changeText, Person user) {
         Map keyMap = new HashMap();
-        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
         if (ObjectUtils.isNotNull(paymentDetail)) {
@@ -244,7 +244,7 @@ public class PaymentDetailAction extends KualiAction {
             return true;
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
        
@@ -296,7 +296,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     private boolean performCancelDisbursement(int paymentDetailId, String changeText, Person user) {
         Map keyMap = new HashMap();
-        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
         if (ObjectUtils.isNotNull(paymentDetail)) {
@@ -304,7 +304,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.cancelDisbursement(paymentGroupId, paymentDetailId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -336,7 +336,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     private boolean performReIssueDisbursement(int paymentDetailId, String changeText, Person user) {
         Map keyMap = new HashMap();
-        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
         if (ObjectUtils.isNotNull(paymentDetail)) {
@@ -344,7 +344,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.cancelReissueDisbursement(paymentGroupId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -437,7 +437,7 @@ public class PaymentDetailAction extends KualiAction {
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
-        parameters.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
         parameters.put(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
         if (message != null && !message.equalsIgnoreCase(KFSConstants.EMPTY_STRING)) {
             parameters.put(PdpParameterConstants.MESSAGE_PARAM, message);

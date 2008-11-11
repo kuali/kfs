@@ -72,7 +72,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         Criteria criteria = new Criteria();
 
         if (customerIds.size() > 0) {
-            criteria.addIn(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH + "." + PdpPropertyConstants.BatchConstants.Fields.CUSTOMER_ID, customerIds);
+            criteria.addIn(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH + "." + PdpPropertyConstants.BatchConstants.CUSTOMER_ID, customerIds);
         }
         else {
             //no payments to mark as no customer was selected

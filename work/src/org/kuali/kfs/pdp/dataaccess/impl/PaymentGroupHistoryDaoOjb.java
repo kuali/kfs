@@ -46,7 +46,7 @@ public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implement
 
         Criteria crit = new Criteria();
         crit.addIn(PdpPropertyConstants.PAYMENT_CHANGE_CODE, codes);
-        crit.addIsNull(PdpPropertyConstants.PaymenGroupHistory.Fields.PMT_CANCEL_EXTRACT_DATE);
+        crit.addIsNull(PdpPropertyConstants.PaymenGroupHistory.PMT_CANCEL_EXTRACT_DATE);
 
         Criteria o1 = new Criteria();
         o1.addNotEqualTo(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpConstants.DisbursementTypeCodes.ACH);

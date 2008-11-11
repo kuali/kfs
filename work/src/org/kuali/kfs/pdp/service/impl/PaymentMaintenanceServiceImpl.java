@@ -159,7 +159,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                     // set primary cancel indicator for EPIC to use
                     Map primaryKeys = new HashMap();
-                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
                     
                     PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                     if (pd != null) {
@@ -184,7 +184,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                     // set primary cancel indicator for EPIC to use
                     Map primaryKeys = new HashMap();
-                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
                     
                     PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                     if (pd != null) {
@@ -377,7 +377,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                 // set primary cancel indicator for EPIC to use
                 Map primaryKeys = new HashMap();
-                primaryKeys.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+                primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
                 
                 PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {

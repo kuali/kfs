@@ -88,19 +88,19 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         }
 
         List paymentDetailsFromPaymentGroupHistoryList = new ArrayList();
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER)) {
-            String disbursementNumberValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER)) {
+            String disbursementNumberValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER);
             if (!StringUtils.isEmpty(disbursementNumberValue)) {
                 List resultsForPaymentGroupHistory = searchForPaymentGroupHistory(fieldValues);
                 paymentDetailsFromPaymentGroupHistoryList = getPaymentDetailsFromPaymentGroupHistoryList(resultsForPaymentGroupHistory);
             }
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE)) {
-            String paymentStatusCodeValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE)) {
+            String paymentStatusCodeValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE);
             if (!StringUtils.isEmpty(paymentStatusCodeValue) && paymentStatusCodeValue.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_ALL)) {
                 paymentStatusCodeValue = PdpConstants.PaymentStatusCodes.HELD_TAX_ALL_FOR_SEARCH;
-                fieldValues.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE, paymentStatusCodeValue);
+                fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE, paymentStatusCodeValue);
             }
         }
 
@@ -121,29 +121,29 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         super.validateSearchParameters(fieldValues);
 
         // get field values
-        String custPaymentDocNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER);
-        String invoiceNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_NUMBER);
-        String purchaseOrderNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PURCHASE_ORDER_NUMBER);
-        String processIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PROCESS_ID);
-        String paymentIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID);
-        String payeeNameValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_NAME);
-        String payeeIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_ID);
-        String payeeIdTypeCdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_ID_TYPE_CODE);
-        String disbursementTypeCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_TYPE_CODE);
-        String paymentStatusCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE);
-        String netPaymentAmountValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_NET_AMOUNT);
-        String disbursementDateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_DATE);
-        String paymentDateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DATE);
-        String disbursementNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER);
-        String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CHART_CODE);
-        String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORG_CODE);
-        String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SUBUNIT_CODE);
-        String requisitionNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_REQUISITION_NUMBER);
-        String customerInstitutionNumberValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_INSTITUTION_NUMBER);
-        String pymtAttachmentValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ATTACHMENT);
-        String processImmediateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_INSTITUTION_NUMBER);
-        String pymtSpecialHandlingValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SPECIAL_HANDLING);
-        String batchIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP_BATCH_ID);
+        String custPaymentDocNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER);
+        String invoiceNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_INVOICE_NUMBER);
+        String purchaseOrderNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PURCHASE_ORDER_NUMBER);
+        String processIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PROCESS_ID);
+        String paymentIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_ID);
+        String payeeNameValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_NAME);
+        String payeeIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID);
+        String payeeIdTypeCdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID_TYPE_CODE);
+        String disbursementTypeCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_TYPE_CODE);
+        String paymentStatusCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE);
+        String netPaymentAmountValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_NET_AMOUNT);
+        String disbursementDateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_DATE);
+        String paymentDateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DATE);
+        String disbursementNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER);
+        String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CHART_CODE);
+        String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE);
+        String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE);
+        String requisitionNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_REQUISITION_NUMBER);
+        String customerInstitutionNumberValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_INSTITUTION_NUMBER);
+        String pymtAttachmentValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_ATTACHMENT);
+        String processImmediateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_INSTITUTION_NUMBER);
+        String pymtSpecialHandlingValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_SPECIAL_HANDLING);
+        String batchIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP_BATCH_ID);
 
         if ((StringUtils.isEmpty(custPaymentDocNbrValue)) && (StringUtils.isEmpty(invoiceNbrValue)) && (StringUtils.isEmpty(purchaseOrderNbrValue)) && (StringUtils.isEmpty(processIdValue)) && (StringUtils.isEmpty(paymentIdValue)) && (StringUtils.isEmpty(payeeNameValue)) && (StringUtils.isEmpty(payeeIdValue)) && (StringUtils.isEmpty(payeeIdTypeCdValue)) && (StringUtils.isEmpty(disbursementTypeCodeValue)) && (StringUtils.isEmpty(paymentStatusCodeValue)) && (StringUtils.isEmpty(netPaymentAmountValue)) && (StringUtils.isEmpty(disbursementDateValue)) && (StringUtils.isEmpty(paymentDateValue)) && (StringUtils.isEmpty(disbursementNbrValue)) && (StringUtils.isEmpty(chartCodeValue)) && (StringUtils.isEmpty(orgCodeValue)) && (StringUtils.isEmpty(subUnitCodeValue)) && (StringUtils.isEmpty(requisitionNbrValue)) && (StringUtils.isEmpty(customerInstitutionNumberValue)) && (StringUtils.isEmpty(pymtAttachmentValue)) && (StringUtils.isEmpty(processImmediateValue))
                 && (StringUtils.isEmpty(pymtSpecialHandlingValue)) && (StringUtils.isEmpty(batchIdValue))) {
@@ -153,36 +153,36 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         else {
 
             if ((StringUtils.isNotEmpty(payeeIdValue)) && (StringUtils.isEmpty(payeeIdTypeCdValue))) {
-                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_ID_TYPE_CODE, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID);
+                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID_TYPE_CODE, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID);
             }
             if ((StringUtils.isEmpty(payeeIdValue)) && (StringUtils.isNotEmpty(payeeIdTypeCdValue))) {
-                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE);
+                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE);
             }
 
             if (StringUtils.isNotEmpty(custPaymentDocNbrValue)) {
                 if (custPaymentDocNbrValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(invoiceNbrValue)) {
                 if (invoiceNbrValue.length() < 2) {
 
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_INVOICE_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_INVOICE_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(requisitionNbrValue)) {
                 if (requisitionNbrValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_REQUISITION_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_REQUISITION_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_REQUISITION_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_REQUISITION_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(purchaseOrderNbrValue)) {
                 if (purchaseOrderNbrValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PURCHASE_ORDER_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PURCHASE_ORDER_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PURCHASE_ORDER_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PURCHASE_ORDER_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(payeeNameValue)) {
                 if (payeeNameValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_NAME, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS);
+                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_NAME, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS);
 
                 }
             }
@@ -340,7 +340,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         HtmlData.AnchorHtmlData inquiryUrl = (HtmlData.AnchorHtmlData) super.getInquiryUrl(bo, propertyName);
 
-//        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER)) {
+//        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER)) {
 //            PaymentDetail paymentDetail = (PaymentDetail) bo;
 //            Properties params = new Properties();
 //            params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetail.getId())));
@@ -364,84 +364,84 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         Map resultMap = new Properties();
         String fieldValue = KFSConstants.EMPTY_STRING;
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_INSTITUTION_NUMBER)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_INSTITUTION_NUMBER);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_CUSTOMER_INSTITUTION_NUMBER, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_INSTITUTION_NUMBER)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_INSTITUTION_NUMBER);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_CUSTOMER_INSTITUTION_NUMBER, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_NAME)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_NAME);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_PAYEE_NAME, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_NAME)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_NAME);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_PAYEE_NAME, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_ID)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PAYEE_ID);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_PAYEE_ID, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_PAYEE_ID, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ATTACHMENT)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ATTACHMENT);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_PAYMENT_ATTACHMENT, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_ATTACHMENT)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_ATTACHMENT);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_PAYMENT_ATTACHMENT, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SPECIAL_HANDLING)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SPECIAL_HANDLING);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_ORIGIN_PAYMENT_SPECIAL_HANDLING, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_SPECIAL_HANDLING)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_SPECIAL_HANDLING);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_ORIGIN_PAYMENT_SPECIAL_HANDLING, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PROCESS_IMEDIATE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PROCESS_IMEDIATE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_ORIGIN_PROCESS_IMMEDIATE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_PROCESS_IMEDIATE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PROCESS_IMEDIATE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_ORIGIN_PROCESS_IMMEDIATE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_ORIGIN_DISBURSEMENT_NUMBER, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_ORIGIN_DISBURSEMENT_NUMBER, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PROCESS_ID)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PROCESS_ID);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_PAYMENT_PROCESS_ID, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_PROCESS_ID)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_PROCESS_ID);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_PAYMENT_PROCESS_ID, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_NET_AMOUNT)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_NET_AMOUNT);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_PAYMENT_DETAILS_NET_AMOUNT, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_NET_AMOUNT)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_NET_AMOUNT);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_PAYMENT_DETAILS_NET_AMOUNT, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_DATE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_DATE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_ORIGIN_DISBURSE_DATE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_DATE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_DATE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_ORIGIN_DISBURSE_DATE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DATE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DATE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_ORIGIN_PAYMENT_DATE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_DATE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DATE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_ORIGIN_PAYMENT_DATE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_ORIGIN_PAYMENT_STATUS_CODE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_ORIGIN_PAYMENT_STATUS_CODE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_TYPE_CODE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_TYPE_CODE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_TYPE_CODE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_TYPE_CODE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CHART_CODE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CHART_CODE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_CHART_CODE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_CHART_CODE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CHART_CODE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_CHART_CODE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORG_CODE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORG_CODE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_ORG_CODE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_ORG_CODE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SUBUNIT_CODE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SUBUNIT_CODE);
-            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.Fields.PAYMENT_GROUP_SUB_UNIT_CODE, fieldValue);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE);
+            resultMap.put(PdpPropertyConstants.PaymenGroupHistory.PAYMENT_GROUP_SUB_UNIT_CODE, fieldValue);
         }
 
         return resultMap;

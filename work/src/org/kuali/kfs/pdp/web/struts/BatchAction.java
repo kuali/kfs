@@ -94,7 +94,7 @@ public class BatchAction extends KualiAction {
             return batchMaintenanceService.cancelPendingBatch(batchId, cancelNote, user);
         }
         catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
             return false;
         }
 
@@ -134,7 +134,7 @@ public class BatchAction extends KualiAction {
             return batchMaintenanceService.holdPendingBatch(batchId, holdNote, user);
         }
         catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
             return false;
         }
 
@@ -173,7 +173,7 @@ public class BatchAction extends KualiAction {
             return batchMaintenanceService.removeBatchHold(batchId, changeText, user);
         }
         catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
             return false;
         }
 
@@ -266,7 +266,7 @@ public class BatchAction extends KualiAction {
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Batch.class.getName());
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
-        parameters.put(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, batchId);
+        parameters.put(PdpPropertyConstants.BatchConstants.BATCH_ID, batchId);
         parameters.put(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
         if (message != null && !message.equalsIgnoreCase(KFSConstants.EMPTY_STRING)) {
             parameters.put(PdpParameterConstants.MESSAGE_PARAM, message);

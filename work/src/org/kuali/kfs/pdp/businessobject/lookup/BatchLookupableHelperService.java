@@ -94,8 +94,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             }
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME)) {
-            String fileCreationTimeValue = fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME);
+        if (fieldValues.containsKey(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME)) {
+            String fileCreationTimeValue = fieldValues.get(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
 
             // if file creation time value is not empty and does not contain wildcards we have to create additional search criteria
             // to get the batches on that date;
@@ -105,7 +105,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             Criteria additionalCriteria = PdpDataaccessUtil.createAdditionalRangeCriteriaForTimestampField(fileCreationTimeValue);
             if (additionalCriteria != null) {
 
-                fieldValues.remove(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME);
+                fieldValues.remove(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
                 boolean unbounded = false;
                 boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
                 List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
@@ -128,14 +128,14 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         AnchorHtmlData inquiryUrl = (AnchorHtmlData) super.getInquiryUrl(bo, propertyName);
         Batch batch = (Batch) bo;
-        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID)) {
+        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.BatchConstants.BATCH_ID)) {
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
             params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
             params.put(KNSConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             params.put(KFSConstants.BACK_LOCATION, configurationService.getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-            params.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP_BATCH_ID, UrlFactory.encode(String.valueOf(batch.getId())));
+            params.put(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP_BATCH_ID, UrlFactory.encode(String.valueOf(batch.getId())));
             String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
             inquiryUrl.setHref(url);
         }
@@ -216,13 +216,13 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         super.validateSearchParameters(fieldValues);
 
         // get field values
-        String batchIdValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID);
-        String paymentCountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.PAYMENT_COUNT);
-        String paymentTotalAmountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.PAYMENT_TOTAL_AMOUNT);
-        String fileCreationTimeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME);
-        String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.CHART_CODE);
-        String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.ORG_CODE);
-        String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.SUB_UNIT_CODE);
+        String batchIdValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.BATCH_ID);
+        String paymentCountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.PAYMENT_COUNT);
+        String paymentTotalAmountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.PAYMENT_TOTAL_AMOUNT);
+        String fileCreationTimeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
+        String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.CHART_CODE);
+        String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.ORG_CODE);
+        String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.SUB_UNIT_CODE);
 
         // check if there is any search criteria entered
         if (StringUtils.isEmpty(batchIdValue) && StringUtils.isEmpty(chartCodeValue) && StringUtils.isEmpty(orgCodeValue) && StringUtils.isEmpty(subUnitCodeValue) && StringUtils.isEmpty(paymentCountValue) && StringUtils.isEmpty(paymentTotalAmountValue) && StringUtils.isEmpty(fileCreationTimeValue)) {
@@ -231,7 +231,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         else if (StringUtils.isEmpty(batchIdValue) && StringUtils.isEmpty(paymentCountValue) && StringUtils.isEmpty(paymentTotalAmountValue)) {
             // If batchId, paymentCount, and paymentTotalAmount are empty then at least creation date is required
             if (StringUtils.isEmpty(fileCreationTimeValue)) {
-                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NO_DATE);
+                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NO_DATE);
 
             }
             else if (StringUtils.isNotEmpty(fileCreationTimeValue) && !StringUtils.contains(fileCreationTimeValue, "..")) {

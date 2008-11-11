@@ -68,9 +68,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         LOG.debug("getAchPaymentsWithUnsentEmail() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.EXTRACTED);
-        crit.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_TYPE_CODE, PdpConstants.DisbursementTypeCodes.ACH);
-        crit.addIsNull(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP + "." + PdpPropertyConstants.ADVICE_EMAIL_SENT_DATE);
+        crit.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        crit.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_TYPE_CODE, PdpConstants.DisbursementTypeCodes.ACH);
+        crit.addIsNull(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.ADVICE_EMAIL_SENT_DATE);
    
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class,crit));
     }
@@ -94,27 +94,27 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         LOG.debug("getDailyReportData() " + paydateTs);
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.OPEN);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.OPEN);
 
         // (Payment date <= usePaydate OR immediate = TRUE)
         Criteria criteria1 = new Criteria();
-        criteria1.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PROCESS_IMMEDIATE, Boolean.TRUE);
+        criteria1.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PROCESS_IMMEDIATE, Boolean.TRUE);
 
         Criteria criteria2 = new Criteria();
-        criteria2.addLessOrEqualThan(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_DATE, paydateTs);
+        criteria2.addLessOrEqualThan(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_DATE, paydateTs);
         criteria1.addOrCriteria(criteria2);
 
         criteria.addAndCriteria(criteria1);
 
         QueryByCriteria q = QueryFactory.newQuery(PaymentDetail.class, criteria);
 
-        q.addOrderByDescending(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_PROCESS_IMEDIATE);
-        q.addOrderByDescending(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SPECIAL_HANDLING);
-        q.addOrderByDescending(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ATTACHMENT);
-        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CHART_CODE);
-        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORG_CODE);
-        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SUBUNIT_CODE);
-        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_ID);
+        q.addOrderByDescending(PdpPropertyConstants.PaymentDetail.PAYMENT_PROCESS_IMEDIATE);
+        q.addOrderByDescending(PdpPropertyConstants.PaymentDetail.PAYMENT_SPECIAL_HANDLING);
+        q.addOrderByDescending(PdpPropertyConstants.PaymentDetail.PAYMENT_ATTACHMENT);
+        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.PAYMENT_CHART_CODE);
+        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE);
+        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE);
+        q.addOrderByAscending(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_ID);
 
         Map<Key, Numbers> summary = new HashMap<Key, Numbers>();
         KualiInteger lastGroupId = null;
@@ -207,14 +207,14 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         List data = new ArrayList();
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER, custPaymentDocNbr);
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, fdocTypeCode);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, custPaymentDocNbr);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, fdocTypeCode);
 
         String orgCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String subUnitCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
 
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORG_CODE, orgCode);
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SUBUNIT_CODE, subUnitCode);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE, orgCode);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnitCode);
 
         List paymentDetails = (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
         PaymentDetail cp = null;
@@ -264,10 +264,10 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         codes.add(PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT);
 
         Criteria criteria = new Criteria();
-        criteria.addIn(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SUBUNIT_CODE, subUnits);
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORG_CODE, organization);
-        criteria.addIn(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE, codes);
-        criteria.addIsNull(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_EPIC_PAYMENT_CANCELLED_DATE);
+        criteria.addIn(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnits);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE, organization);
+        criteria.addIn(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE, codes);
+        criteria.addIsNull(PdpPropertyConstants.PaymentDetail.PAYMENT_EPIC_PAYMENT_CANCELLED_DATE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
@@ -279,10 +279,10 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         LOG.debug("getUnprocessedPaidDetails() started");
 
         Criteria criteria = new Criteria();
-        criteria.addIn(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_SUBUNIT_CODE, subUnits);
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ORG_CODE, organization);
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.EXTRACTED);
-        criteria.addIsNull(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_EPIC_PAYMENT_PAID_EXTRACTED_DATE);
+        criteria.addIn(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnits);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE, organization);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        criteria.addIsNull(PdpPropertyConstants.PaymentDetail.PAYMENT_EPIC_PAYMENT_PAID_EXTRACTED_DATE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }

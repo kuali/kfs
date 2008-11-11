@@ -548,20 +548,20 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return result;
     }
 
-//FIXME: chris delete after testing
-//    /**
-//     * Wrapper to do Capital Asset validations, generating warnings instead of errors. Makes sure that the given item's data
-//     * relevant to its later possible classification as a Capital Asset is internally consistent, by marshaling and calling the
+    // FIXME: chris delete after testing
+    // /**
+    // * Wrapper to do Capital Asset validations, generating warnings instead of errors. Makes sure that the given item's data
+    // * relevant to its later possible classification as a Capital Asset is internally consistent, by marshaling and calling the
 //     * methods marked as Capital Asset validations. This implementation assumes that all object codes are valid (real) object codes.
-//     * 
-//     * @param recurringPaymentType The item's document's RecurringPaymentType
-//     * @param item A PurchasingItemBase object
-//     * @return True if the item passes all Capital Asset validations
-//     */
-//    public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item) {
-//        PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
-//        return validatePurchasingItemCapitalAsset(recurringPaymentType, purchasingItem, true);
-//    }
+    // *
+    // * @param recurringPaymentType The item's document's RecurringPaymentType
+    // * @param item A PurchasingItemBase object
+    // * @return True if the item passes all Capital Asset validations
+    // */
+    // public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item) {
+    // PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
+    // return validatePurchasingItemCapitalAsset(recurringPaymentType, purchasingItem, true);
+    // }
 
     /**
      * Makes sure that the given item's data relevant to its later possible classification as a Capital Asset is internally
@@ -872,11 +872,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         // Check if we need to collect cams data
         boolean dataEntryExpected = this.hasCapitalAssetObjectSubType(accountingDocument);
 
-        CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
         if (!dataEntryExpected) {
-            if ((capitalAssetManagementAsset != null) || !isCapitalAssetInformationBlank(capitalAssetInformation)) {
+            if (!isCapitalAssetInformationBlank(capitalAssetInformation)) {
                 // If no parameter was found or determined that data shouldn't be collected, give error if data was entered
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
                 return false;
             }
             else {
@@ -885,30 +884,29 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
         else {
-            if ((capitalAssetManagementAsset == null) && isCapitalAssetInformationBlank(capitalAssetInformation)) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_REQUIRE_DATA_ENTRY);
+            // Data is expected
+            if (isCapitalAssetInformationBlank(capitalAssetInformation)) {
+                // No data is entered, give error
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_REQUIRE_DATA_ENTRY);
+                return false;
+            }
+            else if (!isNewAssetBlank(capitalAssetInformation) && !isUpdateAssetBlank(capitalAssetInformation)) {
+                // Data exists on both crate new asset and update asset, give error
+                valid = false;
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
                 return false;
             }
         }
 
-        if (capitalAssetManagementAsset != null) {
-            // Update Asset
-            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber())) {
-
-                // error out if data exists on adding asset
-                if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetSerialNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription()) || ObjectUtils.isNotNull(capitalAssetInformation.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingRoomNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingSubRoomNumber())) {
-                    valid = false;
-                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
-                }
-
-                valid = validateCapitalAssetManagementAsset(capitalAssetManagementAsset);
-            }
+        if (!isUpdateAssetBlank(capitalAssetInformation)) {
+            // Validate update Asset information
+            valid = validateUpdateCapitalAssetField(capitalAssetInformation);
         }
         else {
-            // New Asset
-            valid = checkCapitalAssetFieldsExist(capitalAssetInformation);
+            // Validate New Asset information
+            valid = checkNewCapitalAssetFieldsExist(capitalAssetInformation);
             if (valid) {
-                valid = validateCapitalAssetFields(capitalAssetInformation);
+                valid = validateNewCapitalAssetFields(capitalAssetInformation);
             }
         }
         return valid;
@@ -942,7 +940,37 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean isCapitalAssetInformationBlank(CapitalAssetInformation capitalAssetInformation) {
         boolean isBlank = true;
 
-        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTagNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetSerialNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription()) || ObjectUtils.isNotNull(capitalAssetInformation.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingRoomNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingSubRoomNumber())) {
+        if (!isNewAssetBlank(capitalAssetInformation) || !isUpdateAssetBlank(capitalAssetInformation)) {
+            isBlank = false;
+        }
+        return isBlank;
+    }
+
+    /**
+     * To check if data exists on create new asset
+     * 
+     * @param capitalAssetInformation
+     * @return boolean false if the new asset is not blank
+     */
+    private boolean isNewAssetBlank(CapitalAssetInformation capitalAssetInformation) {
+        boolean isBlank = true;
+
+        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription())) {
+            isBlank = false;
+        }
+        return isBlank;
+    }
+
+    /**
+     * To check if data exists on update asset
+     * 
+     * @param capitalAssetInformation
+     * @return boolean false if the update asset is not blank
+     */
+    private boolean isUpdateAssetBlank(CapitalAssetInformation capitalAssetInformation) {
+        boolean isBlank = true;
+
+        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
             isBlank = false;
         }
         return isBlank;
@@ -954,11 +982,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetManagementAsset the asset to be validated
      * @return boolean false if the asset is not active
      */
-    private boolean validateCapitalAssetManagementAsset(CapitalAssetManagementAsset capitalAssetManagementAsset) {
+    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
+        params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, capitalAssetInformation.getCapitalAssetNumber().toString());
         Asset asset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
         if (ObjectUtils.isNull(asset)) {
@@ -968,18 +996,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         else if (!(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE.equals(asset.getInventoryStatusCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT.equals(asset.getCapitalAssetTypeCode()))) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
         }
         return valid;
     }
 
     /**
-     * Check if all required fields exist
+     * Check if all required fields exist on new asset
      * 
      * @param capitalAssetInformation the fields of add asset to be checked
-     * @return boolean false if a required field is not active
+     * @return boolean false if a required field is missing
      */
-    private boolean checkCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation) {
+    private boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTypeCode())) {
@@ -999,7 +1027,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
-
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME);
@@ -1047,12 +1074,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * To check if the data is valid
+     * To validate new asset information
      * 
      * @param capitalAssetInformation the information of add asset to be validated
      * @return boolean false if data is incorrect
      */
-    private boolean validateCapitalAssetFields(CapitalAssetInformation capitalAssetInformation) {
+    private boolean validateNewCapitalAssetFields(CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
 
         Map<String, String> params = new HashMap<String, String>();
@@ -1065,13 +1092,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
         }
 
-       int index = 0;
-       List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
+        int index = 0;
+        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
             if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
-                if (!this.getAssetService().findActiveAssetsMatchingTagNumber(dtl.getCapitalAssetTagNumber()).isEmpty()) {
+                if (isTagNumberDuplicate(capitalAssetInformationDetails, dtl)){
                     GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
                     valid = false;
                 }
@@ -1086,14 +1113,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
 
-
             params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
             params.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
             Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
             if (ObjectUtils.isNull(building)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, dtl.getBuildingCode(),dtl.getCampusCode());
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, dtl.getBuildingCode(), dtl.getCampusCode());
             }
 
             params = new HashMap<String, String>();
@@ -1103,7 +1129,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
             if (ObjectUtils.isNull(room)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER,dtl.getBuildingRoomNumber(), dtl.getBuildingCode(),dtl.getCampusCode());
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, dtl.getBuildingRoomNumber(), dtl.getBuildingCode(), dtl.getCampusCode());
             }
             index++;
         }
@@ -1111,6 +1137,32 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
+    /**
+     * To check if the tag number is duplicate or in use
+     * 
+     * @param capitalAssetInformation, capitalAssetInformationDetail
+     * @return boolean false if data is duplicate or in use
+     */
+    private boolean isTagNumberDuplicate(List<CapitalAssetInformationDetail> capitalAssetInformationDetails, CapitalAssetInformationDetail dtl) {
+        boolean duplicateTag = false;
+        int tagCounter = 0;
+        if (!this.getAssetService().findActiveAssetsMatchingTagNumber(dtl.getCapitalAssetTagNumber()).isEmpty()) {
+            // Tag number is already in use
+            duplicateTag = true;
+         }
+        else {
+            for (CapitalAssetInformationDetail capitalAssetInfoDetl : capitalAssetInformationDetails) {
+                if (capitalAssetInfoDetl.getCapitalAssetTagNumber().equalsIgnoreCase(dtl.getCapitalAssetTagNumber().toString())) {
+                    tagCounter++;
+                }
+            }
+            if (tagCounter > 1) {
+                // Tag number already exists in the collection
+                duplicateTag = true;
+            }
+        }
+        return duplicateTag;
+    }
 
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#notifyRouteStatusChange(java.lang.String,

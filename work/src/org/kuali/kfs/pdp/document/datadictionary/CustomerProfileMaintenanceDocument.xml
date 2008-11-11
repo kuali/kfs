@@ -11,7 +11,9 @@
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfile" />
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1" />
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2" />
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3" />
         <ref bean="CustomerProfileMaintenanceDocument-EditCustomerBank" />
       </list>
     </property>
@@ -98,152 +100,175 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfile" parent="CustomerProfileMaintenanceDocument-EditCustomerProfile-parentBean" />
+  <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1-parentBean" />
 
-  <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfile-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Report Definition" />
-    <property name="title" value="Edit Report Definition" />
+  <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Customer Profile" />
+    <property name="title" value="Edit Customer Profile" />
     <property name="maintainableItems" >
       <list>
-        <bean parent="MaintainableFieldDefinition"
+          <bean parent="MaintainableFieldDefinition"
               p:name="id"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="contactFullName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="processingEmailAddr"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="defaultPhysicalCampusProcessingCode"
-              p:required="true" />
-        
-        <bean parent="MaintainableFieldDefinition"
+          <bean parent="MaintainableFieldDefinition"
               p:name="chartCode" 
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
+              p:required="true" />      
+          <bean parent="MaintainableFieldDefinition"
 	              p:name="orgCode" 
               p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
+          <bean parent="MaintainableFieldDefinition"
 	              p:name="subUnitCode"  
+              p:required="true" />      
+          <bean parent="MaintainableFieldDefinition"
+              p:name="customerDescription"
               p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="defaultChartCode"  
+          <bean parent="MaintainableFieldDefinition"
+              p:name="defaultPhysicalCampusProcessingCode"
               p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="defaultAccountNumber" 
+          <bean parent="MaintainableFieldDefinition"
+              p:name="processingEmailAddr"
               p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="defaultSubAccountNumber" 
+          <bean parent="MaintainableFieldDefinition"
+              p:name="contactFullName"
               p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="defaultObjectCode"  
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="defaultSubObjectCode"  
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
+          <bean parent="MaintainableFieldDefinition"
 	              p:name="address1"  
               p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="address2"  
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="address3" 
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="address4" 
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="city" 
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="stateCode"  
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="zipCode"  
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="countryCode"  
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="fileThresholdAmount"   
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="fileThresholdEmailAddress"   
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="paymentThresholdAmount"   
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="paymentThresholdEmailAddress"  
-              p:required="true" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="adviceHeaderText"   
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="adviceSubjectLine"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="adviceReturnEmailAddr"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="checkHeaderNoteTextLine1"   
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="checkHeaderNoteTextLine2"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="checkHeaderNoteTextLine3"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="checkHeaderNoteTextLine4"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="additionalCheckNoteTextLine1"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="additionalCheckNoteTextLine2"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="additionalCheckNoteTextLine3"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="additionalCheckNoteTextLine4"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="achPaymentDescription"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="accountingEditRequired"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="payeeIdRequired"   
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="ownershipCodeRequired"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="adviceCreate"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="employeeCheck"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="nraReview"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="relieveLiabilities"    
-              p:required="false" />
-	  <bean parent="MaintainableFieldDefinition"
-	              p:name="achTransactionType"    
-              p:required="false" />
-       <bean parent="MaintainableFieldDefinition"
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="address2"  
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="address3" 
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="address4" 
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="city" 
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="stateCode"  
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="zipCode"  
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="countryCode"  
+	              p:required="false" />
+          <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:required="false" />
+        </list>
+	</property>
+   </bean>
+        
+   <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2-parentBean" />
+
+   <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Customer Check/ACH" />
+    <property name="title" value="Customer Check/ACH" />
+    <property name="maintainableItems" >
+      <list>	  
+      	  <bean parent="MaintainableFieldDefinition"
+		              p:name="achPaymentDescription"    
+	              p:required="false" />
+	      <bean parent="MaintainableFieldDefinition"
+		              p:name="additionalCheckNoteTextLine1"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="additionalCheckNoteTextLine2"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="additionalCheckNoteTextLine3"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="additionalCheckNoteTextLine4"    
+	              p:required="false" />
+	      <bean parent="MaintainableFieldDefinition"
+		              p:name="adviceHeaderText"   
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="adviceSubjectLine"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="adviceReturnEmailAddr"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="checkHeaderNoteTextLine1"   
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="checkHeaderNoteTextLine2"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="checkHeaderNoteTextLine3"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="checkHeaderNoteTextLine4"    
+	              p:required="false" />
+	    </list>
+	</property>
+   </bean>          
+	                      
+	                       
+	<bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3-parentBean" />
+
+   <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Customer Processing" />
+    <property name="title" value="Customer Processing" />
+    <property name="maintainableItems" >
+      <list>	    
+          <bean parent="MaintainableFieldDefinition"
+		              p:name="adviceCreate"    
+	              p:required="false" />
+	      <bean parent="MaintainableFieldDefinition"
+		              p:name="defaultChartCode"  
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="defaultAccountNumber" 
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="defaultSubAccountNumber" 
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="defaultObjectCode"  
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="defaultSubObjectCode"  
+	              p:required="true" />
+	      <bean parent="MaintainableFieldDefinition"
+		              p:name="employeeCheck"    
+	              p:required="false" />
+	      <bean parent="MaintainableFieldDefinition"
+		              p:name="fileThresholdAmount"   
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="fileThresholdEmailAddress"   
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="nraReview"    
+	              p:required="false" />
+	      <bean parent="MaintainableFieldDefinition"
+		              p:name="ownershipCodeRequired"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="payeeIdRequired"   
+	              p:required="false" />
+	      <bean parent="MaintainableFieldDefinition"
+		              p:name="paymentThresholdAmount"   
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="paymentThresholdEmailAddress"  
+	              p:required="true" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="achTransactionType"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="accountingEditRequired"    
+	              p:required="false" />
+		  <bean parent="MaintainableFieldDefinition"
+		              p:name="relieveLiabilities"    
+	              p:required="false" />
+		  
       </list>
     </property>
   </bean>

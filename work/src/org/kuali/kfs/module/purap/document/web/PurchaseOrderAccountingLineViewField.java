@@ -15,8 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.web;
 
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
@@ -28,12 +27,8 @@ public class PurchaseOrderAccountingLineViewField extends AccountingLineViewFiel
 
     @Override
     protected boolean isRenderingInquiry(AccountingDocument document, AccountingLine line) {
-        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
-        if ( purapDocument.isPostingYearPrior() && 
-             ( purapDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
-               purapDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CANCELLED) ||
-               purapDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.VOID) ) )  {
-            return false;            
+        if (!((PurchaseOrderDocument)document).isInquiryRendered()) {
+            return false;
         }
         return super.isRenderingInquiry(document, line);
     }

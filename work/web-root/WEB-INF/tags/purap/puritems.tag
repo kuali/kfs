@@ -73,6 +73,12 @@
 
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
+	<c:if test="${!KualiForm.document.inquiryRendered}">
+	    <div align="left">
+	        Object Code and Sub-Object Code inquiries and descriptions have been removed because this is a prior year document.
+        </div>
+        <br>
+    </c:if>
     <!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<c:if test="${(fullEntryMode or amendmentEntry) and !lockB2BEntry}">

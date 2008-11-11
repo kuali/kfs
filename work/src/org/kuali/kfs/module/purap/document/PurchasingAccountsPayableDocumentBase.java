@@ -138,6 +138,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return null;
     }
     
+    public boolean isInquiryRendered() {
+        return isPostingYearPrior();    
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isPostingYearNext()
      */
@@ -153,6 +157,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         Integer currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         return (getPostingYear().compareTo(currentFY) < 0);
     }
+    
     
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPostingYearNextOrCurrent()

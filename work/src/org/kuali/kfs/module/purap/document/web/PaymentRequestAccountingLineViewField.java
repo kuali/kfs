@@ -15,8 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.web;
 
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
@@ -28,13 +27,8 @@ public class PaymentRequestAccountingLineViewField extends AccountingLineViewFie
 
     @Override
     protected boolean isRenderingInquiry(AccountingDocument document, AccountingLine line) {
-        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
-        if ( purapDocument.isPostingYearPrior() && 
-             ( purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED) ||
-               purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED) ||
-               purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) ||
-               purapDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) ) )  {
-            return false;            
+        if (!((PaymentRequestDocument)document).isInquiryRendered()) {
+            return false;
         }
         return super.isRenderingInquiry(document, line);
     }

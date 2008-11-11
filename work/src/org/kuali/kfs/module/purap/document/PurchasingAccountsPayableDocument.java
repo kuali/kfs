@@ -281,5 +281,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     
     public List<PurApItem> getTradeInItems();
     
+    public boolean isInquiryRendered();
     
 }

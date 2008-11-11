@@ -22,7 +22,15 @@
 <%@ attribute name="isCreditMemo" required="false" description="True if the document is a CreditMemo" %>
 
 <kul:tab tabTitle="Account Summary" defaultOpen="false" tabErrorKey="${PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS}">
+
 	<div class="tab-container" align="center" valign="middle">
+        <c:if test="${!KualiForm.document.inquiryRendered}">
+	        <div align="left">
+	            Object Code and Sub-Object Code inquiries and descriptions have been removed because this is a prior year document.
+            </div>
+            <br>
+        </c:if>
+    
 			<h3>Account Summary   <html:image property="methodToCall.refreshAccountSummary" src="${ConfigProperties.externalizable.images.url}tinybutton-refaccsum.gif" alt="refresh account summary"/></h3>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 			<logic:empty name="KualiForm" property="summaryAccounts">
@@ -68,16 +76,30 @@
 							&nbsp;
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
-								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialObjectCode"/>
-							</kul:inquiry>
-							&nbsp;
+						    <c:choose>
+  						        <c:when test="${KualiForm.document.inquiryRendered}">
+							        <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
+								        <bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialObjectCode"/>
+							        </kul:inquiry>
+							        &nbsp;
+						        </c:when>
+						        <c:otherwise>
+						            <bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialObjectCode"/>&nbsp;
+						        </c:otherwise>
+						    </c:choose>	
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" keyValues="financialSubObjectCode=${summaryAccount.account.financialSubObjectCode}&financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
-								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialSubObjectCode"/>
-							</kul:inquiry>
-							&nbsp;
+						    <c:choose>
+  						        <c:when test="${KualiForm.document.inquiryRendered}">
+							        <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" keyValues="financialSubObjectCode=${summaryAccount.account.financialSubObjectCode}&financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
+								        <bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialSubObjectCode"/>
+							        </kul:inquiry>
+							        &nbsp;
+							    </c:when>
+							    <c:otherwise>
+							        <bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialSubObjectCode"/>&nbsp;
+							    </c:otherwise>
+							</c:choose>
 						</td>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" keyValues="projectCode=${summaryAccount.account.projectCode}" render="true">

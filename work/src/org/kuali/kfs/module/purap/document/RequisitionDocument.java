@@ -109,6 +109,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return true;
     }
 
+    @Override
+    public boolean isInquiryRendered() {
+        if ( isPostingYearPrior() && 
+             ( getStatusCode().equals(PurapConstants.RequisitionStatuses.CLOSED) || 
+               getStatusCode().equals(PurapConstants.RequisitionStatuses.CANCELLED) ) )  {
+               return false;            
+        }
+        else {
+            return true;
+        }
+    }
+    
     /**
      * Performs logic needed to initiate Requisition Document.
      */

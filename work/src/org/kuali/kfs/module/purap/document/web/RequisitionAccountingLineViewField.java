@@ -15,17 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.web;
 
-import java.util.List;
-
-import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
-import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * Represents a field (plus, optionally, a dynamic name field) to be rendered as part of an accounting line.
@@ -34,11 +28,8 @@ public class RequisitionAccountingLineViewField extends AccountingLineViewField 
 
     @Override
     protected boolean isRenderingInquiry(AccountingDocument document, AccountingLine line) {
-        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
-        if ( purapDocument.isPostingYearPrior() && 
-             ( purapDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.CLOSED) || 
-               purapDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.CANCELLED) ) )  {
-            return false;            
+        if (!((RequisitionDocument)document).isInquiryRendered()) {
+            return false;
         }
         return super.isRenderingInquiry(document, line);
     }

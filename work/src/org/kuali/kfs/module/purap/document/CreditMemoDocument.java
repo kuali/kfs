@@ -93,6 +93,19 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return (!isSourceDocumentPaymentRequest()) && (!isSourceDocumentPurchaseOrder());
     }
 
+    @Override
+    public boolean isInquiryRendered() {
+        if ( isPostingYearPrior() && 
+             ( getStatusCode().equals(PurapConstants.CreditMemoStatuses.COMPLETE) ||
+               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) ||
+               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) ) )  {
+               return false;            
+        }
+        else {
+            return true;
+        }
+    }
+    
     /**
      * Initializes the values for a new document.
      */

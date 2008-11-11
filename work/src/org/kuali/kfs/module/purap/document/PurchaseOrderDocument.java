@@ -162,6 +162,19 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return SpringContext.getBean(PurchaseOrderService.class);    
     }
     
+    @Override
+    public boolean isInquiryRendered() {
+        if ( isPostingYearPrior() && 
+             ( getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
+               getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CANCELLED) ||
+               getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.VOID) ) )  {
+               return false;            
+        }
+        else {
+            return true;
+        }
+    }
+    
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */

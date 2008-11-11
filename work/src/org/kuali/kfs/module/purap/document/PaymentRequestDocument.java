@@ -149,6 +149,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
+    @Override
+    public boolean isInquiryRendered() {
+        if ( isPostingYearPrior() && 
+             ( getStatusCode().equals(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED) ||
+               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED) ||
+               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) ||
+               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) ) )  {
+               return false;            
+        }
+        else {
+            return true;
+        }
+    }
+    
     public Integer getRequisitionIdentifier() {
         return requisitionIdentifier;
     }

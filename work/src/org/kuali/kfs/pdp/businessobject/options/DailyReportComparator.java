@@ -19,19 +19,16 @@ import java.util.Comparator;
 
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class DailyReportComparator implements Comparator<DailyReport> {
-    private PaymentGroupService paymentGroupService;
     
     public int compare(DailyReport o1, DailyReport o2) {
-        String key1 = this.paymentGroupService.getSortGroupId(o1.getPaymentGroup()) + o1.getCustomer();
-        String key2 = this.paymentGroupService.getSortGroupId(o2.getPaymentGroup()) + o2.getCustomer();
+        PaymentGroupService paymentGroupService = SpringContext.getBean(PaymentGroupService.class);
+        String key1 = paymentGroupService.getSortGroupId(o1.getPaymentGroup()) + o1.getCustomer();
+        String key2 = paymentGroupService.getSortGroupId(o2.getPaymentGroup()) + o2.getCustomer();
         
         return key1.compareTo(key2);
-    }
-
-    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
-        this.paymentGroupService = paymentGroupService;
     }
 
 }

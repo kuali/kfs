@@ -570,12 +570,6 @@
 		</property>
 	</bean>			
 	
-	<bean id="dailyReportComparator" class="org.kuali.kfs.pdp.businessobject.options.DailyReportComparator" singleton="false">
-		<property name="paymentGroupService">
-			<ref bean="pdpPaymentGroupService" />
-		</property>
-	</bean>	
-	
 	<bean id="bankChangeHistoryLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
 	</bean>
 	

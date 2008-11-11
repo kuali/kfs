@@ -70,6 +70,14 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS = "message.pdp.achAdvice.email.invalidEmailAddress";
     
     public static final String DAILY_REPORT_SERVICE_FILE_PREFIX = "pdp.dailyReportService.dailyReportFilePrefix";
+    public static final String DAILY_REPORT_SERVICE_REPORT_TITLE = "pdp.dailyReportService.reportTitle";
+    public static final String DAILY_REPORT_SERVICE_TOTAL_SUBTITLE = "pdp.dailyReportService.totalSubtitle";
+    public static final String DAILY_REPORT_SERVICE_TOTAL_FOR_SUBTITLE = "pdp.dailyReportService.totalForSubtitle";
+    public static final String DAILY_REPORT_SERVICE_SORT_ORDER_SUBTITLE = "pdp.dailyReportService.sortOrderSubtitle";
+    public static final String DAILY_REPORT_SERVICE_CUSTOMER_SUBTITLE = "pdp.dailyReportService.customerSubtitle";
+    public static final String DAILY_REPORT_SERVICE_AMOUNT_OF_PAYMENTS_SUBTITLE = "pdp.dailyReportService.amountOfPaymentRecordsSubtitle";
+    public static final String DAILY_REPORT_SERVICE_NUMBER_OF_PAYMENT_RECORDS_SUBTITLE = "pdp.dailyReportService.numberOfPaymentRecordsSubtitle";
+    public static final String DAILY_REPORT_SERVICE_NUMBER_OF_PAYEES_SUBTITLE = "pdp.dailyReportService.numberOfPayeesSubtitle";
     
     public static class BatchConstants{
         public static class ErrorMessages{

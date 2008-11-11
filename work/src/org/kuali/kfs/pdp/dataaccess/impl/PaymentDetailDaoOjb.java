@@ -148,7 +148,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             DailyReport r = new DailyReport(e.customerShortName, n.amount, n.payments, n.payees, e.paymentGroup);
             data.add(r);
         }
-        Collections.sort(data, SpringContext.getBean(DailyReportComparator.class));
+        Collections.sort(data, new DailyReportComparator());
         
         return data;
     }

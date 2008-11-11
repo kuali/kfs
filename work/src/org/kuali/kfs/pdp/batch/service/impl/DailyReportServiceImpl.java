@@ -77,10 +77,13 @@ public class DailyReportServiceImpl implements DailyReportService {
         Date today = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         
-        String reportFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        String reportFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_FILE_PREFIX);
         reportFilePrefix = MessageFormat.format(reportFilePrefix, new Object[]{ null });
         
-        Document document = openPdfWriter(directoryName, reportFilePrefix, dateTimeService.getCurrentDate(), "Summary of Payments Eligible For Format On " + sdf.format(today));
+        String reportTitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_REPORT_TITLE);
+        reportTitle = MessageFormat.format(reportTitle, new Object[]{ sdf.format(today) });
+        
+        Document document = openPdfWriter(directoryName, reportFilePrefix, dateTimeService.getCurrentDate(), reportTitle);
 
         try {
             float[] summaryWidths = { 20, 20, 20, 20, 20 };
@@ -92,7 +95,13 @@ public class DailyReportServiceImpl implements DailyReportService {
             boolean rows = false;
             DailyReport sortTotal = new DailyReport();
             DailyReport total = new DailyReport();
-
+            
+            String totalForSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_TOTAL_FOR_SUBTITLE);
+            
+            String totalSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_TOTAL_SUBTITLE);
+            totalSubtitle = MessageFormat.format(totalSubtitle, new Object[]{ null });
+            
+            
             for (Iterator iter = data.iterator(); iter.hasNext();) {
                 DailyReport dr = (DailyReport) iter.next();
 
@@ -102,7 +111,9 @@ public class DailyReportServiceImpl implements DailyReportService {
                     sortTotal.addRow(dr);
                     addRow(dataTable, dr, false, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
                 } else if (this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup()) != (this.paymentGroupService.getSortGroupId(dr.getPaymentGroup()))) {
-                    addRow(dataTable, sortTotal, true,"Total for " + this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())));
+                    totalForSubtitle = MessageFormat.format(totalForSubtitle, new Object[]{ this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())) });
+                    
+                    addRow(dataTable, sortTotal, true, totalForSubtitle );
                     sortTotal = new DailyReport(dr);
                     sortTotal.addRow(dr);
                     addRow(dataTable, dr, false, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
@@ -115,9 +126,11 @@ public class DailyReportServiceImpl implements DailyReportService {
             }
 
             if (rows) {
-                addRow(dataTable, sortTotal, true,"Total for " + this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())));
+                totalForSubtitle = MessageFormat.format(totalForSubtitle, new Object[]{ this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())) });
+                
+                addRow(dataTable, sortTotal, true, totalForSubtitle);
             }
-            addRow(dataTable, total, true,"Total");
+            addRow(dataTable, total, true, totalSubtitle);
 
             document.add(dataTable);
         }
@@ -128,21 +141,36 @@ public class DailyReportServiceImpl implements DailyReportService {
     }
 
     private void addHeader(PdfPTable dataTable) {
-        PdfPCell cell = new PdfPCell(new Phrase("Sort Order", headerFont));
+        String sortOrderSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_SORT_ORDER_SUBTITLE);
+        sortOrderSubtitle = MessageFormat.format(sortOrderSubtitle, new Object[]{ null });
+        
+        PdfPCell cell = new PdfPCell(new Phrase(sortOrderSubtitle, headerFont));
+        dataTable.addCell(cell);
+        
+        String customerSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_CUSTOMER_SUBTITLE);
+        customerSubtitle = MessageFormat.format(customerSubtitle, new Object[]{ null });
+        
+        cell = new PdfPCell(new Phrase(customerSubtitle, headerFont));
         dataTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("Customer", headerFont));
-        dataTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Amount of Payments", headerFont));
+        String amountOfPaymentsSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_AMOUNT_OF_PAYMENTS_SUBTITLE);
+        amountOfPaymentsSubtitle = MessageFormat.format(amountOfPaymentsSubtitle, new Object[]{ null });
+        
+        cell = new PdfPCell(new Phrase(amountOfPaymentsSubtitle, headerFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("# of Payment Records", headerFont));
+        
+        String numberOfPaymentRecordsSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_NUMBER_OF_PAYMENT_RECORDS_SUBTITLE);
+        numberOfPaymentRecordsSubtitle = MessageFormat.format(numberOfPaymentRecordsSubtitle, new Object[]{ null });
+        
+        cell = new PdfPCell(new Phrase(numberOfPaymentRecordsSubtitle, headerFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("# of Payees", headerFont));
+        
+        String numberOfPayeesSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_NUMBER_OF_PAYEES_SUBTITLE);
+        numberOfPayeesSubtitle= MessageFormat.format(numberOfPayeesSubtitle, new Object[]{ null });
+        
+        cell = new PdfPCell(new Phrase(numberOfPayeesSubtitle, headerFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
     }

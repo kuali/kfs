@@ -884,19 +884,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         this.pymtSpecialHandling = pymtSpecialHandling;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PaymentGroup)) {
-            return false;
-        }
-        PaymentGroup o = (PaymentGroup) obj;
-        return new EqualsBuilder().append(id, o.getId()).isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(61, 67).append(id).toHashCode();
-    }
-
-    public String toString() {
+    public String toStringKey() {
         StringBuffer buffer= new StringBuffer()  ;
         CustomerProfile customerProfile = batch.getCustomerProfile();
         

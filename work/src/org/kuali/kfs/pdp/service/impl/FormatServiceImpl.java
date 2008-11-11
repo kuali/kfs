@@ -412,7 +412,7 @@ public class FormatServiceImpl implements FormatService {
                     assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
                 }
                 else {
-                    String paymentGroupKey = paymentGroup.toString();
+                    String paymentGroupKey = paymentGroup.toStringKey();
                     // check if there was another paymentGroup we can combine with
                     if (combinedChecksMap.containsKey(paymentGroupKey)) {
                         PaymentInfo paymentInfo = combinedChecksMap.get(paymentGroupKey);

@@ -53,7 +53,8 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, false);
-        } else {
+        }
+        else {
             setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
             // If asset global document is created from CAB, disallow add payment to collection.
             boolean allowAddPaymentToCollection = true;
@@ -214,10 +215,9 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
      */
     @Override
     public void canInitiate(String documentTypeName, Person user) {
-
         super.canInitiate(documentTypeName, user);
         String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
-        String acquisitonTypeCode = StringUtils.substringAfter(refreshCaller, "::");
+        String acquisitonTypeCode = refreshCaller != null ? StringUtils.substringAfter(refreshCaller, "::") : "";
         if (CamsConstants.AssetRetirementReasonCode.INACTIVE.equals(acquisitonTypeCode)) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });
         }

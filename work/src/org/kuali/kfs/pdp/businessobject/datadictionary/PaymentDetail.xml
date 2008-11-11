@@ -78,7 +78,9 @@
 		<ref bean="PaymentDetail-paymentGroup.paymentStatus.name" />
 		<ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" />
 		<ref bean="PaymentDetail-notesText" />
-		<ref bean="PaymentDetail-paymentGroup.id" />
+		<ref bean="PaymentDetail-paymentGroupId" />
+		<ref bean="PaymentDetail-nbrOfPaymentsInPaymentGroup" />
+		<ref bean="PaymentDetail-nbrOfPaymentsInDisbursement" />
       </list>
     </property>
     <property name="collections" >
@@ -462,11 +464,6 @@
   <bean id="PaymentDetail-paymentGroup.payeeIdTypeDesc-parentBean" abstract="true" parent="PaymentGroup-payeeIdTypeDesc">
     <property name="name" value="paymentGroup.payeeIdTypeDesc" />
   </bean>
-  <bean id="PaymentDetail-paymentGroup.id" parent="PaymentDetail-paymentGroup.id-parentBean" />
-
-  <bean id="PaymentDetail-paymentGroup.id-parentBean" abstract="true" parent="PaymentGroup-id">
-    <property name="name" value="paymentGroup.id" />
-  </bean>
   
   <bean id="PaymentDetail-financialSystemOriginCode" parent="PaymentDetail-financialSystemOriginCode-parentBean" />
 
@@ -486,6 +483,55 @@
     <property name="label" value="Payment Notes" />
     <property name="shortLabel" value="Payment Notes" />
   </bean>
+  <bean id="PaymentDetail-nbrOfPaymentsInPaymentGroup" parent="PaymentDetail-nbrOfPaymentsInPaymentGroup-parentBean" />
+
+  <bean id="PaymentDetail-nbrOfPaymentsInPaymentGroup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nbrOfPaymentsInPaymentGroup" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Number of Payments in this Payment Group" />
+    <property name="shortLabel" value="Number of Payments in this Payment Group" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+       <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
+  <bean id="PaymentDetail-nbrOfPaymentsInDisbursement" parent="PaymentDetail-nbrOfPaymentsInDisbursement-parentBean" />
+
+  <bean id="PaymentDetail-nbrOfPaymentsInDisbursement-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nbrOfPaymentsInDisbursement" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Number of Payments in this Disbursement" />
+    <property name="shortLabel" value="Number of Payments in this Disbursement" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+       <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
+  
+  <bean id="PaymentDetail-paymentGroupId" parent="PaymentDetail-paymentGroupId-parentBean" />
+
+  <bean id="PaymentDetail-paymentGroupId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentGroupId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Group Id" />
+    <property name="shortLabel" value="Payment Group Id" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+       <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -499,7 +545,11 @@
           <property name="title" value="Summary" />
           <property name="numberOfColumns" value="2" />
           <property name="inquiryFields" >
-            <list> 
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="nbrOfPaymentsInPaymentGroup" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="nbrOfPaymentsInDisbursement" />   
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.customerShortName" />  
               <bean parent="FieldDefinition"
@@ -767,6 +817,7 @@
         </bean>
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.kfs.pdp.businessobject.inquiry.PaymentDetailInquirable" />
   </bean>
 
 <!-- Business Object Lookup Definition -->
@@ -836,6 +887,9 @@
                     p:attributeName="paymentGroup.paymentStatusCode" />  
               <bean parent="FieldDefinition" 
                     p:attributeName="paymentGroup.batch.id"/>
+              <bean parent="FieldDefinition" 
+                    p:attributeName="paymentGroupId"/>                    
+                    
       </list>
     </property>
     <property name="resultFields" >

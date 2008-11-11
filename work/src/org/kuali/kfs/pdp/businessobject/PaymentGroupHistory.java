@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -370,21 +371,21 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     }
 
     /**
-     * @return Returns the changeUser.
+     * This method gets the change user.
+     * @return the changeUser
      */
     public Person getChangeUser() {
+        changeUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(changeUserId, changeUser);
         return changeUser;
     }
 
     /**
-     * @param changeUser The changeUser to set.
+     * This method sets the changeUser.
+     * @param changeUser
      */
     public void setChangeUser(Person changeUser) {
         if (changeUser != null) {
-            this.changeUserId = changeUser.getPrincipalId();
-        }
-        else {
-            this.changeUserId = null;
+            changeUserId = changeUser.getPrincipalId();
         }
         this.changeUser = changeUser;
     }
@@ -395,7 +396,6 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     public void setChangeUserId(String changeUserId) {
         this.changeUserId = changeUserId;
     }
-
 
     /**
      * Gets the disbursementTypeCode attribute.

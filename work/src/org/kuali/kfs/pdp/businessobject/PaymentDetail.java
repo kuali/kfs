@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpParameterConstants;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
@@ -38,22 +39,22 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class PaymentDetail extends TimestampedBusinessObjectBase {
     private static KualiDecimal zero = KualiDecimal.ZERO;
 
-    private KualiInteger id; 
-    private String invoiceNbr; 
-    private Timestamp invoiceDate; 
-    private String purchaseOrderNbr; 
-    private String custPaymentDocNbr; 
+    private KualiInteger id;
+    private String invoiceNbr;
+    private Timestamp invoiceDate;
+    private String purchaseOrderNbr;
+    private String custPaymentDocNbr;
     private String financialSystemOriginCode;
-    private String financialDocumentTypeCode; 
-    private String requisitionNbr; 
-    private String organizationDocNbr; 
-    private KualiDecimal origInvoiceAmount; 
-    private KualiDecimal netPaymentAmount; 
-    private KualiDecimal invTotDiscountAmount; 
-    private KualiDecimal invTotShipAmount; 
-    private KualiDecimal invTotOtherDebitAmount; 
-    private KualiDecimal invTotOtherCreditAmount; 
-    private boolean primaryCancelledPayment; 
+    private String financialDocumentTypeCode;
+    private String requisitionNbr;
+    private String organizationDocNbr;
+    private KualiDecimal origInvoiceAmount;
+    private KualiDecimal netPaymentAmount;
+    private KualiDecimal invTotDiscountAmount;
+    private KualiDecimal invTotShipAmount;
+    private KualiDecimal invTotOtherDebitAmount;
+    private KualiDecimal invTotOtherCreditAmount;
+    private boolean primaryCancelledPayment;
     private Timestamp lastDisbursementActionDate;
 
     private List<PaymentAccountDetail> accountDetail = new ArrayList<PaymentAccountDetail>();
@@ -69,7 +70,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public boolean isDetailAmountProvided() {
         return (origInvoiceAmount != null) || (invTotDiscountAmount != null) || (invTotShipAmount != null) || (invTotOtherDebitAmount != null) || (invTotOtherCreditAmount != null);
     }
-    
+
     public KualiDecimal getCalculatedPaymentAmount() {
         KualiDecimal orig_invoice_amt = origInvoiceAmount == null ? zero : origInvoiceAmount;
         KualiDecimal invoice_tot_discount_amt = invTotDiscountAmount == null ? zero : invTotDiscountAmount;
@@ -87,22 +88,22 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
 
     public boolean isDisbursementActionAllowed() {
         return true;
-//        if (paymentGroup.getDisbursementDate() == null) {
-//            if ("EXTR".equals(paymentGroup.getPaymentStatus().getCode())) {
-//                return false;
-//            }
-//            return true;
-//        }
-//        Calendar c = Calendar.getInstance();
-//        c.setTime(paymentGroup.getDisbursementDate());
-//        c.set(Calendar.HOUR, 11);
-//        c.set(Calendar.MINUTE, 59);
-//        c.set(Calendar.SECOND, 59);
-//        c.set(Calendar.MILLISECOND, 59);
-//        c.set(Calendar.AM_PM, Calendar.PM);
-//        Timestamp disbursementDate = new Timestamp(c.getTimeInMillis());
-//        // date is equal to or after lastActionDate Allowed
-//        return ((disbursementDate.compareTo(this.lastDisbursementActionDate)) >= 0);
+        // if (paymentGroup.getDisbursementDate() == null) {
+        // if ("EXTR".equals(paymentGroup.getPaymentStatus().getCode())) {
+        // return false;
+        // }
+        // return true;
+        // }
+        // Calendar c = Calendar.getInstance();
+        // c.setTime(paymentGroup.getDisbursementDate());
+        // c.set(Calendar.HOUR, 11);
+        // c.set(Calendar.MINUTE, 59);
+        // c.set(Calendar.SECOND, 59);
+        // c.set(Calendar.MILLISECOND, 59);
+        // c.set(Calendar.AM_PM, Calendar.PM);
+        // Timestamp disbursementDate = new Timestamp(c.getTimeInMillis());
+        // // date is equal to or after lastActionDate Allowed
+        // return ((disbursementDate.compareTo(this.lastDisbursementActionDate)) >= 0);
     }
 
     /**
@@ -135,7 +136,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvoiceDate(Timestamp invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
-    
+
     /**
      * Takes a <code>String</code> and attempt to format as <code>Timestamp</code for setting the
      * invoiceDate field
@@ -180,7 +181,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         pnt.setPaymentDetail(this);
         notes.add(pnt);
     }
-    
+
     /**
      * Constructs a new <code>PaymentNoteText</code> for the given payment text and adds to the detail <code>List</code>
      * 
@@ -330,7 +331,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvTotDiscountAmount(KualiDecimal decimal) {
         invTotDiscountAmount = decimal;
     }
-    
+
     public void setInvTotDiscountAmount(String decimal) {
         invTotDiscountAmount = new KualiDecimal(decimal);
     }
@@ -341,7 +342,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvTotOtherCreditAmount(KualiDecimal decimal) {
         invTotOtherCreditAmount = decimal;
     }
-    
+
     public void setInvTotOtherCreditAmount(String decimal) {
         invTotOtherCreditAmount = new KualiDecimal(decimal);
     }
@@ -352,7 +353,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvTotOtherDebitAmount(KualiDecimal decimal) {
         invTotOtherDebitAmount = decimal;
     }
-    
+
     public void setInvTotOtherDebitAmount(String decimal) {
         invTotOtherDebitAmount = new KualiDecimal(decimal);
     }
@@ -363,7 +364,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvTotShipAmount(KualiDecimal decimal) {
         invTotShipAmount = decimal;
     }
-    
+
     public void setInvTotShipAmount(String decimal) {
         invTotShipAmount = new KualiDecimal(decimal);
     }
@@ -374,7 +375,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setNetPaymentAmount(KualiDecimal decimal) {
         netPaymentAmount = decimal;
     }
-    
+
     public void setNetPaymentAmount(String decimal) {
         netPaymentAmount = new KualiDecimal(decimal);
     }
@@ -392,7 +393,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setOrigInvoiceAmount(KualiDecimal decimal) {
         origInvoiceAmount = decimal;
     }
-    
+
     public void setOrigInvoiceAmount(String decimal) {
         origInvoiceAmount = new KualiDecimal(decimal);
     }
@@ -463,7 +464,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setPaymentGroupId(KualiInteger paymentGroupId) {
         this.paymentGroupId = paymentGroupId;
     }
-    
+
     /**
      * Gets the financialSystemOriginCode attribute.
      * 
@@ -488,32 +489,55 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public String getDisbursementCancellationEmailAddress() {
         return SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES);
     }
-    
+
     /**
      * This method returns a String representation of the payment detail notes
+     * 
      * @return the String representation of the payment detail notes
      */
-    public String getNotesText(){
+    public String getNotesText() {
         StringBuffer notes = new StringBuffer();
         List<PaymentNoteText> notesList = getNotes();
-        for(PaymentNoteText note : notesList)
-        {
+        for (PaymentNoteText note : notesList) {
             notes.append(note.getCustomerNoteText());
             notes.append(KFSConstants.NEWLINE);
         }
         return notes.toString();
     }
-    
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        
+
         m.put(KFSPropertyConstants.ID, this.id);
 
         return m;
+    }
+
+    /**
+     * This method returns the number of payments in the payment group associated with this payment detail.
+     * 
+     * @return the number of payments in the payment group
+     */
+    public int getNbrOfPaymentsInPaymentGroup() {
+        return paymentGroup.getPaymentDetails().size();
+    }
+
+    /**
+     * This method returns the number of payments in the disbursement associated with this payment detail.
+     * 
+     * @return the number of payments in the disbursement
+     */
+    public int getNbrOfPaymentsInDisbursement() {
+        List<PaymentGroup> paymentGroupList = SpringContext.getBean(PaymentGroupService.class).getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
+        int nbrOfPaymentsInDisbursement = 0;
+        for (PaymentGroup paymentGroup : paymentGroupList) {
+            nbrOfPaymentsInDisbursement += paymentGroup.getPaymentDetails().size();
+        }
+        return nbrOfPaymentsInDisbursement;
     }
 
 }

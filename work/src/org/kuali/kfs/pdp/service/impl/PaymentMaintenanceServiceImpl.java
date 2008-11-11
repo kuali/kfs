@@ -72,7 +72,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private BusinessObjectService businessObjectService;
     private PaymentGroupService paymentGroupService;
     private PdpEmailService emailService;
-    
+
     /**
      * This method changes status for a payment group.
      * @param paymentGroup the payment group
@@ -92,7 +92,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
         paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
-        
+
         this.businessObjectService.save(paymentGroupHistory);
 
         KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
@@ -120,7 +120,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
         paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
-        
+
         this.businessObjectService.save(paymentGroupHistory);
 
         KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
@@ -160,7 +160,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     // set primary cancel indicator for EPIC to use
                     Map primaryKeys = new HashMap();
                     primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-                    
+
                     PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                     if (pd != null) {
                         pd.setPrimaryCancelledPayment(Boolean.TRUE);
@@ -185,12 +185,12 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     // set primary cancel indicator for EPIC to use
                     Map primaryKeys = new HashMap();
                     primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-                    
+
                     PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                     if (pd != null) {
                         pd.setPrimaryCancelledPayment(Boolean.TRUE);
                         PaymentNoteText payNoteText = new PaymentNoteText();
-                        payNoteText.setCustomerNoteLineNbr(new KualiInteger(pd.getNotes().size()+1));
+                        payNoteText.setCustomerNoteLineNbr(new KualiInteger(pd.getNotes().size() + 1));
                         payNoteText.setCustomerNoteText(note);
                         pd.addNote(payNoteText);
                     }
@@ -370,7 +370,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         pgh.setPmtCancelExtractStat(Boolean.FALSE);
                     }
 
-                    changeStatus(element, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
+                    changeStatus(element, PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
 
                     glPendingTransactionService.generateCancellationGeneralLedgerPendingEntry(element);
                 }
@@ -378,7 +378,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 // set primary cancel indicator for EPIC to use
                 Map primaryKeys = new HashMap();
                 primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-                
+
                 PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
@@ -502,7 +502,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public void setPaymentDetailDao(PaymentDetailDao dao) {
         paymentDetailDao = dao;
     }
- 
+
     /**
      * inject
      * 
@@ -555,7 +555,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * Sets the payment group service
      * 
@@ -569,4 +569,3 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         this.emailService = emailService;
     }
 }
-

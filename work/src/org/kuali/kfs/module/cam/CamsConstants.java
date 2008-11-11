@@ -214,7 +214,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String EXTERNAL_TRANSFER = "9";
         public static final String AUCTION = "A";
         public static final String MERGED = "M";
-        public static final String INACTIVE = "X";
     }
 
     public static class RetirementLabel {

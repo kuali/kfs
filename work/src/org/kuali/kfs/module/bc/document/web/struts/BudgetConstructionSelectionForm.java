@@ -40,6 +40,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
     private boolean hideDetails = false;
     private boolean accountReportsExist;
     private boolean rootApprover;
+    private boolean sessionInProgressDetected = false;
 
     public BudgetConstructionSelectionForm() {
         super();
@@ -143,6 +144,22 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
      */
     public void setRootApprover(boolean rootApprover) {
         this.rootApprover = rootApprover;
+    }
+
+    /**
+     * Gets the sessionInProgressDetected attribute. 
+     * @return Returns the sessionInProgressDetected.
+     */
+    public boolean isSessionInProgressDetected() {
+        return sessionInProgressDetected;
+    }
+
+    /**
+     * Sets the sessionInProgressDetected attribute value.
+     * @param sessionInProgressDetected The sessionInProgressDetected to set.
+     */
+    public void setSessionInProgressDetected(boolean sessionInProgressDetected) {
+        this.sessionInProgressDetected = sessionInProgressDetected;
     }
 
 }

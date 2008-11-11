@@ -19,10 +19,12 @@ package org.kuali.kfs.module.bc;
  * Constants for message keys. Should have corresponding key=message in resources.
  */
 public class BCKeyConstants {
+    public static final String QUESTION_CONFIRM_CLEANUP = "document.budget.question.confirmCleanup.text";
     public static final String QUESTION_DELETE = "document.question.delete.text";
 
     public static final String MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE = "message.budget.documentNotBudgetable";
     public static final String MESSAGE_BUDGET_NOCREATE_DOCUMENT = "message.budget.nocreate.document";
+    public static final String MESSAGE_BUDGET_PREVIOUS_SESSION_NOTCLEANED = "message.budget.system.session.notCleaned";
     public static final String MESSAGE_BUDGET_SYSTEM_NOT_ACTIVE = "message.budget.system.not.active";
     public static final String MESSAGE_BUDGET_SYSTEM_MULTIPLE_ACTIVE = "message.budget.system.multiple.active";
     public static final String MESSAGE_BUDGET_SYSTEM_VIEW_ONLY = "message.budget.systemViewOnly";

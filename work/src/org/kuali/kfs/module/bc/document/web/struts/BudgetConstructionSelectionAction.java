@@ -55,11 +55,14 @@ import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ModuleAuthorizationException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -130,7 +133,31 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
+        Boolean isBCInProgress = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG);
+        if (isBCInProgress != null && isBCInProgress){
+            
+            //TODO add question prompt
+            Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            if (question == null) {
+                // ask question if not already asked
+                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, kualiConfiguration.getPropertyString(BCKeyConstants.QUESTION_CONFIRM_CLEANUP), KFSConstants.CONFIRMATION_QUESTION, "loadExpansionScreen", "");
+            } else {
+                Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+                if ((KFSConstants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)){
+                    // clear out all BC related Objects(forms) stored in GlobalVariables.UserSession
+                    // to help prevent memory leaks if the user fails to use application control flow
+                    GlobalVariables.getUserSession().removeObjectsByPrefix(BCConstants.FORMKEY_PREFIX);
+                } else {
+                    budgetConstructionSelectionForm.setSessionInProgressDetected(true);
+                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_NOTCLEANED);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+            }
+        }
+
+        
         // get active BC year and complain when anything other than one year active for now
         List<Integer> activeBCYears = fiscalYearFunctionControlService.getActiveBudgetYear();
         if (activeBCYears.size() != 1) {
@@ -147,10 +174,6 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         }
 
         budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
-
-        // clear out all BC related Objects(forms) stored in GlobalVariables.UserSession
-        // to help prevent memory leaks if the user fails to use application control flow
-        GlobalVariables.getUserSession().removeObjectsByPrefix(BCConstants.FORMKEY_PREFIX);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -170,6 +193,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         // do lookup of header and call open if found, otherwise create blank doc and account hierarchy, then open if no error
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        
         BudgetConstructionHeader bcHeader = budgetConstructionSelectionForm.getBudgetConstructionHeader();
 
         Integer universityFiscalYear = bcHeader.getUniversityFiscalYear();
@@ -224,10 +248,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             else {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
-            //
-            // GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
-            // return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        this.flagBCInProgress();
 
         // open the existing or newly created BC document
         Map<String, String> parameters = new HashMap<String, String>();
@@ -261,6 +283,10 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);
         }
+        
+        // clearout any BC inprogress semaphore, regardless of where we are returning from
+        // this handles the lock monitor no refreshCaller return case
+        GlobalVariables.getUserSession().removeObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -295,6 +321,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performOrgSelectionTree(OrgSelOpMode opMode, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        
+        this.flagBCInProgress();
 
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.ORG_SEL_TREE_METHOD);
@@ -335,6 +363,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performRequestImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        this.flagBCInProgress();
+
         String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.REQUEST_IMPORT_ACTION, null);
 
         return new ActionForward(lookupUrl, true);
@@ -352,6 +382,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performPayrateImportExport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        this.flagBCInProgress();
+
         String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.PAYRATE_IMPORT_EXPORT_ACTION, null);
 
         return new ActionForward(lookupUrl, true);
@@ -366,6 +398,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performLockMonitor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        this.flagBCInProgress();
 
         Map<String, String> urlParms = new HashMap<String, String>();
 
@@ -424,6 +457,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performMyAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        this.flagBCInProgress();
 
         // call service to build account list and give message if empty
         int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountManagerDelegateList(GlobalVariables.getUserSession().getPerson().getPrincipalId(), budgetConstructionSelectionForm.getUniversityFiscalYear());
@@ -454,6 +488,13 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         ActionForward forward = performOrgSelectionTree(OrgSelOpMode.ACCOUNT, mapping, form, request, response);
 
         return forward;
+    }
+
+    public void flagBCInProgress(){
+        
+        // Overwrite or add the BC in progress flag
+        // This is used as a semaphore to control cleanup of session BC Temp objects
+        GlobalVariables.getUserSession().addObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG, Boolean.TRUE);
     }
 }
 

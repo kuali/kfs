@@ -35,6 +35,7 @@ public class BCConstants extends JSTLConstants {
 
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";
+    public static final String BC_IN_PROGRESS_SESSIONFLAG = FORMKEY_PREFIX + "BCInProgress";
     public static final String BC_DOC_EDIT_MODE_SESSIONKEY = FORMKEY_PREFIX + "EditMode";
 
     // screen tab error keys

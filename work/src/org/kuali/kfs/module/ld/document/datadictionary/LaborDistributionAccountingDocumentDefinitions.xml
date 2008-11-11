@@ -100,26 +100,6 @@
 		</property>
 	</bean>
 
-	<bean id="labor-AccountingDocument-sourceGroupTotals"
-		class="org.springframework.beans.factory.config.ListFactoryBean">
-		<property name="sourceList">
-			<list>
-				<bean parent="AccountingLineView-groupTotal"
-					p:totalProperty="currencyFormattedSourceTotal" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="labor-AccountingDocument-targetGroupTotals"
-		class="org.springframework.beans.factory.config.ListFactoryBean">
-		<property name="sourceList">
-			<list>
-				<bean parent="AccountingLineView-groupTotal"
-					p:totalProperty="currencyFormattedTargetTotal" />
-			</list>
-		</property>
-	</bean>
-
 	<bean id="labor-BenefitExpenseTransferDocument-accountingInformation"
 	parent="labor-BenefitExpenseTransferDocument-accountingInformation-parent" />
 

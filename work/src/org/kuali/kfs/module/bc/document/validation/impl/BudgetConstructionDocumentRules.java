@@ -29,6 +29,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
@@ -105,14 +106,34 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         ErrorMap errors = GlobalVariables.getErrorMap();
         boolean isValid = true;
 
+        // validate primitives for required field and formatting checks
+        int originalErrorCount = errors.getErrorCount();
+        getDictionaryValidationService().validateBusinessObject(budgetConstructionDocument);
+
+        // check to see if any errors were reported
+        int currentErrorCount = errors.getErrorCount();
+        isValid &= (currentErrorCount == originalErrorCount);
+        if (!isValid){
+            return isValid;
+        }
+        
         // can't create BC documents when in system view only mode
+        // let the user know this up front
         if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(budgetConstructionDocument.getUniversityFiscalYear())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
+            errors.putError(KFSPropertyConstants.ACCOUNT_NUMBER, BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
             isValid &= false;
         }
         
-        // check for rules preventing BC document creation
-        isValid &= this.isBudgetAllowed(budgetConstructionDocument, KFSPropertyConstants.ACCOUNT_NUMBER, errors, true, true);
+        // check existence of account first
+        DataDictionary dd = dataDictionaryService.getDataDictionary();
+        String pkeyValue = budgetConstructionDocument.getChartOfAccountsCode()+"-"+budgetConstructionDocument.getAccountNumber();
+        isValid &= isValidAccount(budgetConstructionDocument.getAccount(), pkeyValue, dd, KFSPropertyConstants.ACCOUNT_NUMBER);
+        if (isValid){
+
+            // run the rules checks preventing BC document creation - assumes account exists
+            isValid &= this.isBudgetAllowed(budgetConstructionDocument, KFSPropertyConstants.ACCOUNT_NUMBER, errors, true, true);
+        }
+        
         if (!isValid){
 
             // tell the user we can't create a new BC document along with the error reasons
@@ -953,6 +974,17 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         }
 
         return isAllowed;
+    }
+    public boolean isValidAccount(Account account, String value, DataDictionary dataDictionary, String errorPropertyName){
+        String label = dataDictionary.getBusinessObjectEntry(Account.class.getName()).getAttributeDefinition(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME).getShortLabel();
+
+        // make sure it exists
+        if (ObjectUtils.isNull(account)) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
+            return false;
+        }
+
+        return true;
     }
 
     public boolean isValidSubAccount(SubAccount subAccount, String value, DataDictionary dataDictionary, String errorPropertyName) {

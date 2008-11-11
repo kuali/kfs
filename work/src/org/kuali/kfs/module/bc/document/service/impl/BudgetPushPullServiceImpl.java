@@ -35,7 +35,6 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetPushPullService#pullupSelectedOrganizationDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
      */
-    @Logged
     public void pullupSelectedOrganizationDocuments(String principalId, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
         budgetOrganizationPushPullDao.pullupSelectedOrganizationDocuments(principalId, FiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
     }
@@ -43,7 +42,6 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetPushPullService#pushdownSelectedOrganizationDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
      */
-    @Logged
     public void pushdownSelectedOrganizationDocuments(String principalId, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
         budgetOrganizationPushPullDao.pushdownSelectedOrganizationDocuments(principalId, FiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
     }

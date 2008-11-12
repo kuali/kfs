@@ -43,6 +43,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
     
     private String payeeTypeCode = DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR;
+    private String paymentReasonCode;
     private String payeeIdNumber;
     private String vendorHeaderGeneratedIdentifier;
     private String vendorDetailAssignedIdentifier;
@@ -293,5 +294,21 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         this.setPayeeIdNumber("");
         this.setPayeeTypeCode("");
         this.setHasMultipleAddresses(false);
+    }
+
+    /**
+     * Gets the paymentReasonCode attribute. 
+     * @return Returns the paymentReasonCode.
+     */
+    public String getPaymentReasonCode() {
+        return paymentReasonCode;
+    }
+
+    /**
+     * Sets the paymentReasonCode attribute value.
+     * @param paymentReasonCode The paymentReasonCode to set.
+     */
+    public void setPaymentReasonCode(String paymentReasonCode) {
+        this.paymentReasonCode = paymentReasonCode;
     }
 }

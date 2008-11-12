@@ -1215,5 +1215,6 @@ public class KFSPropertyConstants {
     public static final String VENDOR_NAME = "vendorName";
     public static final String PAYEE_NAME = "payeeName";
     public static final String VENDOR_ADDRESSES = "vendorAddresses";
+    public static final String PAYMENT_REASON_CODE = "paymentReasonCode";
 }
 

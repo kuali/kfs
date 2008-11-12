@@ -18,31 +18,26 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants.PayeeType;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of payee type value pairs.
  */
-public class PayeeTypeValuesFinder extends KeyValuesBase implements ValueFinder{
+public class PayeeTypeValuesFinder extends KeyValuesBase{
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeTypeValuesFinder.class);
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE, "Employee"));
-        keyValues.add(new KeyLabelPair(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR, "Vendor"));
-
+        
+        for(PayeeType payeeType : PayeeType.values()) {
+            keyValues.add(new KeyLabelPair(payeeType.getPayeeTypeCode(), payeeType.getPayeeTypeName()));
+        }
+        
         return keyValues;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
-     */
-    public String getValue() {
-        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR;
     }
 }

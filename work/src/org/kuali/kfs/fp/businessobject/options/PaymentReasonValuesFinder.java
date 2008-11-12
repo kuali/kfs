@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -42,9 +43,34 @@ public class PaymentReasonValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         // Retrieve all the payment reason codes
         List<PaymentReasonCode> boList = (List<PaymentReasonCode>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(PaymentReasonCode.class, KFSPropertyConstants.NAME, true);
-        List<String> payeeSpecificCodes = new ArrayList<String>();
         
-        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) GlobalVariables.getKualiForm();
+        KualiForm kauliForm = GlobalVariables.getKualiForm();
+        if(kauliForm instanceof DisbursementVoucherForm) {
+            DisbursementVoucherForm dvForm = (DisbursementVoucherForm) GlobalVariables.getKualiForm();
+            return this.populatePaymentReasonsByPayee(dvForm, boList);
+        }
+
+        return this.populatePaymentReasons(boList);
+
+    }
+
+    // the default popluation logic for payment reason code key value list  
+    private List populatePaymentReasons(List<PaymentReasonCode> boList) {
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        keyValues.add(new KeyLabelPair("", ""));
+
+        for (PaymentReasonCode payReason : boList) {
+            if(payReason.isActive()) {
+                keyValues.add(new KeyLabelPair(payReason.getCode(), payReason.getCodeAndDescription()));
+            }
+        }
+        
+        return keyValues;
+    }
+
+    // populate the payment reason code key value list based on the selected payee type
+    private List<KeyLabelPair> populatePaymentReasonsByPayee(DisbursementVoucherForm dvForm, List<PaymentReasonCode> boList) {
+        List<String> payeeSpecificCodes = new ArrayList<String>();
         DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) dvForm.getDocument();
 
         // If the payee type is an employee, remove all the vendor specific payment reasons from the collection

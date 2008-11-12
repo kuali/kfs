@@ -31,6 +31,7 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     // payee types
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
+    public static final String DV_PAYEE_TYPE_NONVENDOR = "P";
 
     // ownership type
     public static String OWNERSHIP_TYPE_CORPORATION = "C";
@@ -141,5 +142,32 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
 
     public static String DOCUMENT_TYPE_CHECKACH = "DVCA";
     public static String DOCUMENT_TYPE_WTFD = "DVWF";
-
+    
+    // enumerate the payee types
+    public enum PayeeType{
+        VENDOR(DV_PAYEE_TYPE_VENDOR, "Vendor"), EMPLOYEE(DV_PAYEE_TYPE_EMPLOYEE, "Employee"), NON_VENDOR(DV_PAYEE_TYPE_NONVENDOR, "Non-vendor");
+        
+        private String payeeTypeCode;
+        private String payeeTypeName;
+        private PayeeType(String payeeTypeCode, String payeeTypeName) {
+            this.payeeTypeCode = payeeTypeCode;
+            this.payeeTypeName = payeeTypeName;
+        }
+        
+        /**
+         * Gets the payeeTypeCode attribute. 
+         * @return Returns the payeeTypeCode.
+         */
+        public String getPayeeTypeCode() {
+            return payeeTypeCode;
+        }
+        
+        /**
+         * Gets the payeeTypeName attribute. 
+         * @return Returns the payeeTypeName.
+         */
+        public String getPayeeTypeName() {
+            return payeeTypeName;
+        }        
+    }
 }

@@ -28,7 +28,7 @@
               	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}"/>
               </div></th>
               <td colspan="3" class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}" property="document.dvPayeeDetail.disbVchrPaymentReasonCode" extraReadOnlyProperty="document.dvPayeeDetail.disbVchrPaymentReasonName" onchange="paymentReasonMessages(this.value);" readOnly="${!fullEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}" property="document.dvPayeeDetail.disbVchrPaymentReasonCode" extraReadOnlyProperty="document.dvPayeeDetail.disbVchrPaymentReasonName" readOnly="true"/>
                 <a href="${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode"
                    onclick="this.href='${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode&code=' + document.forms[0].elements['document.dvPayeeDetail.disbVchrPaymentReasonCode'].value;" target="_blank">
                   <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" styleClass="globalbuttons" alt="help"/>
@@ -39,13 +39,9 @@
               <th class="bord-l-b"><div align="right">
               	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/>              	
               </div></th>
-              <td colspan="3" class="datacell">
-              	<c:set var="currentPayeeTypeCode" value="${KualiForm.document.dvPayeeDetail.disbursementVoucherPayeeTypeCode}"/>
-              	<c:set var="currentPayeeTypeCode" value="${empty currentPayeeTypeCode ? 'V' : currentPayeeTypeCode}"/>
-              	
+              <td colspan="3" class="datacell">              	
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
-                <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee" 
-                	lookupParameters="'${currentPayeeTypeCode}':payeeTypeCode"
+                <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee"
                 	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber"/>
               </td>
             </tr>

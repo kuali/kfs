@@ -487,7 +487,8 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         dvForm.setPayeeIdNumber(payeeIdNumber);
         dvForm.setHasMultipleAddresses(false);
         document.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(dvForm.getPayeeTypeCode());
-
+        document.getDvPayeeDetail().setDisbVchrPaymentReasonCode(dvForm.getPaymentReasonCode());
+        
         // determine whether the selected vendor has multiple addresses. If so, redirect to the address selection screen
         if (isPayeeLookupable && dvForm.isVendor()) {
             VendorDetail refreshVendorDetail = new VendorDetail();
@@ -533,12 +534,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
-
-        String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-        if (StringUtils.isBlank(paymentReasonCode)) {
-            GlobalVariables.getErrorMap().putError("document.dvPayeeDetail.disbVchrPaymentReasonCode", KFSKeyConstants.ERROR_DV_PAYMENT_REASON_NOT_SELECTED);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
 
         return super.performLookup(mapping, form, request, response);
     }

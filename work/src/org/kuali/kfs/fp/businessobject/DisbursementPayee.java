@@ -63,6 +63,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase {
     private String payeeIdNumber;
     private String payeeName;
     private String payeeTypeCode;
+    private String paymentReasonCode;
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -140,6 +141,22 @@ public class DisbursementPayee extends TransientBusinessObjectBase {
         fieldConversionMap.put(KFSPropertyConstants.PAYEE_ID_NUMBER, KimPropertyConstants.PRINCIPAL_ID);
         
         return fieldConversionMap;
+    }
+
+    /**
+     * Gets the paymentReasonCode attribute. 
+     * @return Returns the paymentReasonCode.
+     */
+    public String getPaymentReasonCode() {
+        return paymentReasonCode;
+    }
+
+    /**
+     * Sets the paymentReasonCode attribute value.
+     * @param paymentReasonCode The paymentReasonCode to set.
+     */
+    public void setPaymentReasonCode(String paymentReasonCode) {
+        this.paymentReasonCode = paymentReasonCode;
     }
 }
 

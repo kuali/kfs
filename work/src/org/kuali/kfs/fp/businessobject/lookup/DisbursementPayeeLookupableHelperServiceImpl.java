@@ -21,12 +21,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants.PayeeType;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
@@ -38,7 +36,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
 public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static Logger LOG = Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
     
     Lookupable vendorLookupable;
     Lookupable kualiLookupable;
@@ -61,25 +59,28 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         List<ResultRow> resultRowList = (List<ResultRow>)resultTable;
         
         Map<String, String> fieldValues = lookupForm.getFieldsForLookup();
-        String payeeTypeCode = fieldValues.remove(KFSPropertyConstants.PAYEE_TYPE_CODE);        
+        String payeeTypeCode = fieldValues.remove(KFSPropertyConstants.PAYEE_TYPE_CODE);  
+        String payeeReasonCode = fieldValues.remove(KFSPropertyConstants.PAYMENT_REASON_CODE); 
         
         // perform employee search
-        if(StringUtils.equals(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE, payeeTypeCode)) {
+        if(StringUtils.equals(PayeeType.EMPLOYEE.getPayeeTypeCode(), payeeTypeCode)) {
             lookupForm.setFieldsForLookup(this.getPersonFieldValues(fieldValues));
             displayList = this.performLookupPersons(lookupForm, resultRowList, bounded);
             
             Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put(KFSPropertyConstants.PAYEE_TYPE_CODE, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
+            parameters.put(KFSPropertyConstants.PAYEE_TYPE_CODE, payeeTypeCode);
+            parameters.put(KFSPropertyConstants.PAYMENT_REASON_CODE, payeeReasonCode);
             this.appendAdditionalParameters(resultRowList, parameters);
         }
 
         // perform vendor search
-        if (StringUtils.equals(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR, payeeTypeCode)) {
+        if (StringUtils.equals(PayeeType.VENDOR.getPayeeTypeCode(), payeeTypeCode)) {
             lookupForm.setFieldsForLookup(this.getVendorFieldValues(fieldValues));
             displayList = this.performLookupVendors(lookupForm, resultRowList, bounded);
             
             Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put(KFSPropertyConstants.PAYEE_TYPE_CODE, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR);
+            parameters.put(KFSPropertyConstants.PAYEE_TYPE_CODE, payeeTypeCode);
+            parameters.put(KFSPropertyConstants.PAYMENT_REASON_CODE, payeeReasonCode);
             this.appendAdditionalParameters(resultRowList, parameters);
         }
 

@@ -19,11 +19,18 @@
         <ref bean="DisbursementPayee-payeeIdNumber" />
         <ref bean="DisbursementPayee-payeeName" />
         <ref bean="DisbursementPayee-payeeTypeCode" />
+        <ref bean="DisbursementPayee-paymentReasonCode" />
       </list>
     </property>
   </bean>
   
 <!-- Attribute Definitions -->
+  <bean id="DisbursementPayee-paymentReasonCode" parent="DisbursementPayee-paymentReasonCode-parentBean" />
+  <bean id="DisbursementPayee-paymentReasonCode-parentBean" abstract="true" parent="DisbursementVoucherPayeeDetail-disbVchrPaymentReasonCode">
+    <property name="name" value="paymentReasonCode" />
+    <property name="required" value="true" />
+  </bean>
+
   <bean id="DisbursementPayee-payeeIdNumber" parent="DisbursementPayee-payeeIdNumber-parentBean" />
   <bean id="DisbursementPayee-payeeIdNumber-parentBean" abstract="true" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber">
     <property name="name" value="payeeIdNumber" />
@@ -62,6 +69,8 @@
     </property>
     <property name="lookupFields" >
       <list>
+      	<bean parent="FieldDefinition"
+              p:attributeName="paymentReasonCode" />
         <bean parent="FieldDefinition"
               p:attributeName="payeeIdNumber" />
         <bean parent="FieldDefinition"

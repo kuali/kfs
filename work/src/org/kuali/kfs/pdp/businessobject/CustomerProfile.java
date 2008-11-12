@@ -78,14 +78,14 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String defaultObjectCode; // DFLT_OBJ_CD
     private String defaultPhysicalCampusProcessingCode; // DFLT_PHYS_CMP_PROC_CD
     private String defaultSubObjectCode; // DFLT_SUB_OBJ_CD
-    private Boolean employeeCheck; // CUST_EMP_CHK_IND
+    private boolean employeeCheck; // CUST_EMP_CHK_IND
     private KualiDecimal fileThresholdAmount; // FL_THRSHLD_AMT
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private KualiInteger id; // CUST_ID
-    private Boolean nraReview; // CUST_NRA_RVW_IND
+    private boolean nraReview; // CUST_NRA_RVW_IND
     private String orgCode; // ORG_CD
-    private Boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
-    private Boolean payeeIdRequired; // CUST_PAYEE_ID_REQ_IND
+    private boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
+    private boolean payeeIdRequired; // CUST_PAYEE_ID_REQ_IND
     private KualiDecimal paymentThresholdAmount; // PMT_THRSHLD_AMT
     private String paymentThresholdEmailAddress; // CUST_PMT_THRSHLD_EMAIL_ADDR
     private String processingEmailAddr; // CUST_PRCS_EMAIL_ADDR
@@ -93,7 +93,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String stateCode; // CUST_ST_CD
     private String subUnitCode; // SBUNT_CD
     private String zipCode; // CUST_ZIP_CD
-    private Boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
+    private boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
     private boolean relieveLiabilities;
     private boolean active; 
     private boolean selectedForFormat;
@@ -135,14 +135,14 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="ACCTG_EDIT_REQ_IND" type="yes_no" not-null="true"
      * @return Returns the accountingEditRequird.
      */
-    public Boolean getAccountingEditRequired() {
+    public boolean getAccountingEditRequired() {
         return accountingEditRequired;
     }
 
     /**
      * @param accountingEditRequird The accountingEditRequird to set.
      */
-    public void setAccountingEditRequired(Boolean accountingEditRequird) {
+    public void setAccountingEditRequired(boolean accountingEditRequird) {
         this.accountingEditRequired = accountingEditRequird;
     }
 
@@ -476,7 +476,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="ADV_CRTE_IND" type="yes_no" not-null="false"
      * @return Returns the adviceCreate.
      */
-    public Boolean getAdviceCreate() {
+    public boolean getAdviceCreate() {
         return adviceCreate;
     }
 
@@ -500,7 +500,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="CUST_EMP_CHK_IND" type="yes_no" not-null="false"
      * @return Returns the employeeCheck.
      */
-    public Boolean getEmployeeCheck() {
+    public boolean getEmployeeCheck() {
         return employeeCheck;
     }
 
@@ -508,7 +508,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="CUST_NRA_RVW_IND" type="yes_no" not-null="false"
      * @return Returns the nraReview.
      */
-    public Boolean getNraReview() {
+    public boolean getNraReview() {
         return nraReview;
     }
 
@@ -516,7 +516,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="CUST_OWNR_CD_REQ_IND" type="yes_no" not-null="false"
      * @return Returns the ownershipCodeRequired.
      */
-    public Boolean getOwnershipCodeRequired() {
+    public boolean getOwnershipCodeRequired() {
         return ownershipCodeRequired;
     }
 
@@ -524,7 +524,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="CUST_PAYEE_ID_REQ_IND" type="yes_no" not-null="false"
      * @return Returns the payeeIdRequired.
      */
-    public Boolean getPayeeIdRequired() {
+    public boolean getPayeeIdRequired() {
         return payeeIdRequired;
     }
 
@@ -594,7 +594,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param adviceCreate The adviceCreate to set.
      */
-    public void setAdviceCreate(Boolean adviceCreate) {
+    public void setAdviceCreate(boolean adviceCreate) {
         this.adviceCreate = adviceCreate;
     }
 
@@ -713,7 +713,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param employeeCheck The employeeCheck to set.
      */
-    public void setEmployeeCheck(Boolean employeeCheck) {
+    public void setEmployeeCheck(boolean employeeCheck) {
         this.employeeCheck = employeeCheck;
     }
 
@@ -741,7 +741,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param nraReview The nraReview to set.
      */
-    public void setNraReview(Boolean nraReview) {
+    public void setNraReview(boolean nraReview) {
         this.nraReview = nraReview;
     }
 
@@ -755,14 +755,14 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param ownershipCodeRequired The ownershipCodeRequired to set.
      */
-    public void setOwnershipCodeRequired(Boolean ownershipCodeRequired) {
+    public void setOwnershipCodeRequired(boolean ownershipCodeRequired) {
         this.ownershipCodeRequired = ownershipCodeRequired;
     }
 
     /**
      * @param payeeIdRequired The payeeIdRequired to set.
      */
-    public void setPayeeIdRequired(Boolean payeeIdRequired) {
+    public void setPayeeIdRequired(boolean payeeIdRequired) {
         this.payeeIdRequired = payeeIdRequired;
     }
 
@@ -811,14 +811,14 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @return Returns the relieveLiabilities.
      */
-    public Boolean getRelieveLiabilities() {
+    public boolean getRelieveLiabilities() {
         return relieveLiabilities;
     }
 
     /**
      * @param relieveLiabilities The relieveLiabilities to set.
      */
-    public void setRelieveLiabilities(Boolean relieveLiabilities) {
+    public void setRelieveLiabilities(boolean relieveLiabilities) {
         this.relieveLiabilities = relieveLiabilities;
     }
 

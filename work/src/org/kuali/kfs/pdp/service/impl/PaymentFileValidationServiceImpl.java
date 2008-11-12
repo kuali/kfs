@@ -353,7 +353,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         paymentAccountDetail.setFinChartCode(paymentAccountDetail.getFinChartCode().toUpperCase());
 
         // only do accounting edits if required by customer
-        if (customer.getAccountingEditRequired().booleanValue()) {
+        if (customer.getAccountingEditRequired()) {
             // check account number
             Account account = accountService.getByPrimaryId(paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr());
             if (account == null) {
@@ -560,17 +560,17 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         PaymentStatus heldForEmployee = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD);
         PaymentStatus heldForNRA = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD);
 
-        if (customer.getNraReview().booleanValue() && customer.getEmployeeCheck().booleanValue() && paymentGroup.getEmployeeIndicator().booleanValue() && paymentGroup.getNraPayment().booleanValue()) {
+        if (customer.getNraReview() && customer.getEmployeeCheck() && paymentGroup.getEmployeeIndicator().booleanValue() && paymentGroup.getNraPayment().booleanValue()) {
             paymentGroup.setPaymentStatus(heldForNRAEmployee);
             paymentFile.setTaxEmailRequired(true);
         }
 
-        else if (customer.getEmployeeCheck().booleanValue() && paymentGroup.getEmployeeIndicator().booleanValue()) {
+        else if (customer.getEmployeeCheck() && paymentGroup.getEmployeeIndicator().booleanValue()) {
             paymentGroup.setPaymentStatus(heldForEmployee);
             paymentFile.setTaxEmailRequired(true);
         }
 
-        else if (customer.getNraReview().booleanValue() && paymentGroup.getNraPayment().booleanValue()) {
+        else if (customer.getNraReview() && paymentGroup.getNraPayment().booleanValue()) {
             paymentGroup.setPaymentStatus(heldForNRA);
             paymentFile.setTaxEmailRequired(true);
         }

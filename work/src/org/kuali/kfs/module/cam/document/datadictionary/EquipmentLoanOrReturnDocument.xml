@@ -54,7 +54,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.principalName" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.name" />
-        <ref bean="EquipmentLoanOrReturnDocument-versionNumber" />
+        <!-- <ref bean="EquipmentLoanOrReturnDocument-versionNumber" />  -->
       </list>
     </property>
     <property name="relationships" >
@@ -398,10 +398,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Borrowed Person Name" />
     <property name="shortLabel" value="Borrowed Person Name" />
   </bean>
+  <!-- 
   <bean id="EquipmentLoanOrReturnDocument-versionNumber" parent="EquipmentLoanOrReturnDocument-versionNumber-parentBean" />
 
   <bean id="EquipmentLoanOrReturnDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+   -->
 <!-- Exported Workflow Properties -->
 
 

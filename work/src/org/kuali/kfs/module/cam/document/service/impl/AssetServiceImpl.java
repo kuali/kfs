@@ -30,6 +30,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
@@ -135,7 +136,12 @@ public class AssetServiceImpl implements AssetService {
     }
 
     public boolean isAssetDepreciableLifeLimitZero(Asset asset) {
-        return asset.getCapitalAssetType().getDepreciableLifeLimit().intValue() == 0;
+        asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
+        AssetType capitalAssetType = asset.getCapitalAssetType();
+        if (ObjectUtils.isNotNull(capitalAssetType)) {
+            return Integer.valueOf(0).equals(capitalAssetType.getDepreciableLifeLimit());
+        }
+        return false;
     }
 
     /**
@@ -171,7 +177,7 @@ public class AssetServiceImpl implements AssetService {
     public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber) {
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
-        
+
         String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
 
         if (documentLockingService.checkForLockingDocument(lockingDocumentId)) {
@@ -182,16 +188,15 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.module.cam.document.service.AssetService#getLockingDocumentId(java.lang.String, java.lang.Long)
      */
     public String getLockingDocumentId(String documentNumber, Long capitalAssetNumber) {
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
-        
+
         return getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
     }
-    
+
     /**
      * This method calls the service codes to calculate the summary fields for each asset
      * 
@@ -246,9 +251,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
 
-    
     /**
-     * 
      * @see org.kuali.kfs.module.cam.document.service.AssetService#findAssetsMatchingTagNumber(java.lang.String)
      */
     public Collection<Asset> findAssetsMatchingTagNumber(String campusTagNumber) {
@@ -259,9 +262,8 @@ public class AssetServiceImpl implements AssetService {
 
         return tagMatches;
     }
-    
+
     /**
-     * 
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isObjectSubTypeCompatible(java.util.List)
      */
     public boolean isObjectSubTypeCompatible(List<String> financialObjectSubTypeCode) {
@@ -294,7 +296,7 @@ public class AssetServiceImpl implements AssetService {
 
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetService#setSeparateHistory(org.kuali.kfs.module.cam.businessobject.Asset)
      */
@@ -303,44 +305,45 @@ public class AssetServiceImpl implements AssetService {
         Map<String, String> paramsAssetGlobalDetail = new HashMap<String, String>();
         paramsAssetGlobalDetail.put(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         Collection<AssetGlobalDetail> assetGlobalDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobalDetail.class, paramsAssetGlobalDetail);
-        
+
         if (assetGlobalDetails.size() > 1) {
             throw new IllegalStateException("Asset #" + asset.getCapitalAssetNumber().toString() + " was created from more then one asset document.");
-        } else if (assetGlobalDetails.size() == 1) {
+        }
+        else if (assetGlobalDetails.size() == 1) {
             // Fine the document associated to that
             Map<String, String> paramsAssetGlobal = new HashMap<String, String>();
             paramsAssetGlobal.put(CamsPropertyConstants.AssetGlobal.DOCUMENT_NUMBER, assetGlobalDetails.iterator().next().getDocumentNumber());
             AssetGlobal assetGlobal = (AssetGlobal) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetGlobal.class, paramsAssetGlobal);
-            
+
             // Only set it if it is in status approved
-            if(DocumentStatusCodes.APPROVED.equals((assetGlobal.getDocumentHeader().getFinancialDocumentStatusCode()))) {
+            if (DocumentStatusCodes.APPROVED.equals((assetGlobal.getDocumentHeader().getFinancialDocumentStatusCode()))) {
                 asset.setSeparateHistory(assetGlobal);
             }
         }
-        
+
         // Else no history, just return
     }
 
 
     /**
-     * 
      * sets the posting year and posting month based on the asset creation date
+     * 
      * @param asset
      * @return none
      */
     public void setFiscalPeriod(Asset asset) {
         if (asset.getCreateDate() == null)
             return;
-        
+
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, asset.getCreateDate());
-        UniversityDate universityDate = (UniversityDate)businessObjectService.findByPrimaryKey(UniversityDate.class, primaryKeys);
+        UniversityDate universityDate = (UniversityDate) businessObjectService.findByPrimaryKey(UniversityDate.class, primaryKeys);
         if (universityDate != null) {
             asset.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
             asset.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
         }
     }
-   
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

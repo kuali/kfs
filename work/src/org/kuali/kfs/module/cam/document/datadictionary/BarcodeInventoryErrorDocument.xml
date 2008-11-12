@@ -37,7 +37,7 @@
       <list>
         <ref bean="BarcodeInventoryErrorDocument-documentNumber" />
         <ref bean="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier" />
-        <ref bean="BarcodeInventoryErrorDocument-versionNumber" />
+        <!-- <ref bean="BarcodeInventoryErrorDocument-versionNumber" />  -->
         <ref bean="BarcodeInventoryErrorDocument-currentTagNumber" />
 		<ref bean="BarcodeInventoryErrorDocument-currentScanCode" />
 		<ref bean="BarcodeInventoryErrorDocument-currentCampusCode" />
@@ -93,10 +93,11 @@
     <property name="description" value="uploaderUniversalIdentifier description..." />
   </bean>
     
+  <!-- 
   <bean id="BarcodeInventoryErrorDocument-versionNumber" parent="BarcodeInventoryErrorDocument-versionNumber-parentBean" />
   <bean id="BarcodeInventoryErrorDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
-
+   -->
   <bean id="BarcodeInventoryErrorDocument-currentTagNumber" parent="BarcodeInventoryErrorDocument-currentTagNumber-parentBean" />
   <bean id="BarcodeInventoryErrorDocument-currentTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
     <property name="name" value="currentTagNumber" />

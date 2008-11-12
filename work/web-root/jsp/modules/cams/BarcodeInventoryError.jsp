@@ -19,10 +19,10 @@
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsBarcodeInventoryError"  documentTypeName="BarcodeInventoryErrorDocument" 
 renderMultipart="true"  showTabButtons="true">
 
+	<!-- 
 	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
-	
   	<html:hidden property="document.uploaderUniversalIdentifier"/>
-  	
+  	 -->
  	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
  	
  	<cams:barcodeInventoryErrorDetails/>

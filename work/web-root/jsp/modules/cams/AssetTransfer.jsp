@@ -17,16 +17,8 @@
 <kul:documentPage showDocumentInfo="true" htmlFormAction="camsAssetTransfer" documentTypeName="AssetTransferDocument" renderMultipart="true" showTabButtons="true">
 	<c:set var="assetTransferAttributes" value="${DataDictionary.AssetTransferDocument.attributes}" />
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />	
-	<c:set var="assetOrgAttributes" value="${DataDictionary.AssetOrganization.attributes}" />
-	
+	<c:set var="assetOrgAttributes" value="${DataDictionary.AssetOrganization.attributes}" />	
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
-	
-	<html:hidden property="loanNoteAdded" />
-	<html:hidden property="document.asset.capitalAssetNumber" />
-	<html:hidden property="document.capitalAssetNumber" />
-	<html:hidden property="document.asset.expectedReturnDate" />
-	<html:hidden property="document.asset.loanReturnDate" />
-	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 	

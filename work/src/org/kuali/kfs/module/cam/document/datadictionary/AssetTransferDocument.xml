@@ -56,7 +56,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetTransferDocument-assetRepresentative.principalName" />
         <ref bean="AssetTransferDocument-assetRepresentative.name" />
         <ref bean="AssetTransferDocument-objectId" />
-        <ref bean="AssetTransferDocument-versionNumber" />
+        <!-- <ref bean="AssetTransferDocument-versionNumber" />  -->
         <ref bean="AssetTransferDocument-documentNumber" />
         <ref bean="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" />
         <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber" />
@@ -383,10 +383,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AssetTransferDocument-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
+  <!-- 
   <bean id="AssetTransferDocument-versionNumber" parent="AssetTransferDocument-versionNumber-parentBean" />
 
   <bean id="AssetTransferDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+   -->  
   <bean id="AssetTransferDocument-documentNumber" parent="AssetTransferDocument-documentNumber-parentBean" />
 
   <bean id="AssetTransferDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">

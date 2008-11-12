@@ -211,7 +211,6 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);
             auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);
             auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
-
             i++;
         }
     }

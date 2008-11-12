@@ -22,7 +22,7 @@
 <%@ attribute name="lineNumber" required="true"%>
 <%@ attribute name="rowNumber" required="true"%>
 <%@ attribute name="status" required="true"%>
-
+<!-- 
 <html:hidden property="${propertyName}.errorCorrectionStatusCode"/>
 <html:hidden property="${propertyName}.documentNumber" />
 <html:hidden property="${propertyName}.versionNumber" />
@@ -40,7 +40,7 @@
 	<html:hidden property="${propertyName}.buildingRoomNumber"/>
 	<html:hidden property="${propertyName}.assetConditionCode"/>
 </c:if>
-
+ -->
 <c:if test="${(status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR) || readOnly}">
 	<tr>	
 	   	<c:if test="${!readOnly}">				

@@ -25,7 +25,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 @NonTransactional
 public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativePaymentRequestApprovalLimitService {
-    //private static Logger LOG = Logger.getLogger(NegativePaymentRequestApprovalLimitServiceImpl.class);
 
     private NegativePaymentRequestApprovalLimitDao dao;
 

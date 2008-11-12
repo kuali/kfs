@@ -216,21 +216,21 @@
 			attributes="${pbcafAttributes}" field="percentChange" fieldAlign="right" readOnly="true" />
 
 		<td class="datacell" rowspan="${rowspan}" style="white-space: nowrap;">
+			<html:image 
+				property="methodToCall.performPositionSalarySetting.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+				src="${ConfigProperties.externalizable.images.url}tinybutton-posnsalset.gif" 
+				title="Position Salary Setting For Line ${status.index}"
+				alt="Position Salary Setting For Line ${status.index}" 
+				styleClass="tinybutton" />
+
+			<c:if test="${not isVacant}">
+				<html:image property="methodToCall.performIncumbentSalarySetting.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+					src="${ConfigProperties.externalizable.images.url}tinybutton-incmbntsalset.gif" 
+					title="Incumbent Salary Setting For Line ${status.index}"
+					alt="Incumbent Salary Setting For Line ${status.index}" styleClass="tinybutton" />
+			</c:if>
+
 			<c:if test="${not readOnly}">
-				<html:image 
-					property="methodToCall.performPositionSalarySetting.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
-					src="${ConfigProperties.externalizable.images.url}tinybutton-posnsalset.gif" 
-					title="Position Salary Setting For Line ${status.index}"
-					alt="Position Salary Setting For Line ${status.index}" 
-					styleClass="tinybutton" />
-				
-				<c:if test="${not isVacant}">
-					<html:image property="methodToCall.performIncumbentSalarySetting.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
-						src="${ConfigProperties.externalizable.images.url}tinybutton-incmbntsalset.gif" 
-						title="Incumbent Salary Setting For Line ${status.index}"
-						alt="Incumbent Salary Setting For Line ${status.index}" styleClass="tinybutton" />
-				</c:if>
-				
 				<c:if test="${fundingLine.vacatable}">
 					<br/>
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 

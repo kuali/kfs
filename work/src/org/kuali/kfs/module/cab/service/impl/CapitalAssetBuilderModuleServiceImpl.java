@@ -678,10 +678,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
 
         if (quantityBasedItem) {
-            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText(), ";");
+            String capitalAssetQuantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText();
+            if(capitalAssetQuantitySubtypeRequiredText!=null) {
+                objectCodeSubTypes = StringUtils.split(capitalAssetQuantitySubtypeRequiredText, ";");
+            }
         }
         else {
-            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText(), ";");
+            String capitalAssetNonquantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText();
+            if(capitalAssetNonquantitySubtypeRequiredText!=null) {
+                objectCodeSubTypes = StringUtils.split(capitalAssetNonquantitySubtypeRequiredText, ";");
+            }
         }
 
         boolean found = false;

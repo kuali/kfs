@@ -881,8 +881,8 @@
 					p:dynamicLabelProperty="subAccount.subAccountName"  />
 				<bean parent="AccountingLineView-field"
 					p:name="financialObjectCode" p:required="true"
-					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator"
-					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PaymentRequestAccountingLineViewField">
+					p:dynamicNameLabelGeneratorBeanName="purapObjectCodeDynamicNameLabelGenerator"
+					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField">
 					<property name="overrideFields">
 						<list>
 							<bean
@@ -895,7 +895,7 @@
 					p:name="financialSubObjectCode"
 					p:webUILeaveFieldFunction="loadSubObjectInfo"
 					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" 
-					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PaymentRequestAccountingLineViewField"/>
+					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField"/>
 				<bean parent="AccountingLineView-field"
 					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
 					p:dynamicLabelProperty="project.projectDescription" />

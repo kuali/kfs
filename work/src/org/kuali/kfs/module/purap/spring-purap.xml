@@ -714,5 +714,7 @@
 		</property>
 	</bean>
 	
+	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />
+	
 </beans>
 

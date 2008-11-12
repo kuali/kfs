@@ -38,6 +38,7 @@ import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
@@ -229,8 +230,8 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, acquisitonTypeCode);
 
-        AssetAcquisitionType AssetAcquisitionType = (AssetAcquisitionType) businessObjectService.findByPrimaryKey(AssetAcquisitionType.class, pkMap);
-        if (!AssetAcquisitionType.isActive()) {
+        AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) businessObjectService.findByPrimaryKey(AssetAcquisitionType.class, pkMap);
+        if (ObjectUtils.isNotNull(assetAcquisitionType) && !assetAcquisitionType.isActive()) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });
         }
     }

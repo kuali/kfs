@@ -18,11 +18,8 @@
 <kul:page showDocumentInfo="false"
 	headerTitle="Barcode Inventory Process" docTitle="" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="uploadBarcodeInventoryFile" errorKey="foo">
-	<!-- 
 	<html:hidden property="batchUpload.batchInputTypeName" />
-	<html:hidden property="supressDoneFileCreation"/>
-	 -->
-	
+	<html:hidden property="supressDoneFileCreation"/>	
     <c:set var="batchUploadAttributes" value="${DataDictionary.BatchUpload.attributes}" />
 
 	<strong><h2>	

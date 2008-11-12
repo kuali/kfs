@@ -284,6 +284,7 @@
 		<property name="originEntryService" ref="originEntryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="reportsDirectory" value="${reports.directory}/"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
 
 	<bean id="pdpAchBankService" class="org.kuali.kfs.pdp.service.impl.AchBankServiceImpl">

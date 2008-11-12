@@ -176,7 +176,136 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         // Open file
         BufferedWriter os = null;
+        
+        writeExtractAchFile(extractedStatus, filename, processDate, sdf);
+        
+    }
+        
+    /**
+     * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractChecks()
+     */
+    public void extractChecks() {
+        LOG.debug("extractChecks() started");
 
+        Date processDate = dateTimeService.getCurrentDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        String checkFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[]{ null });
+        
+        String filename = getOutputFile(checkFilePrefix, processDate);
+        LOG.debug("extractChecks() filename: " + filename);
+
+        List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
+        for (PaymentProcess extractToRun : extractsToRun) {
+            writeExtractCheckFile(extractToRun, filename, extractToRun.getId().intValue());
+            this.processDao.setExtractProcessAsComplete(extractToRun);
+        }
+    }
+
+    private void writeExtractCheckFile(PaymentProcess p, String filename, Integer processId) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date processDate = dateTimeService.getCurrentDate();
+        BufferedWriter os = null;
+
+        try {
+            os = new BufferedWriter(new FileWriter(filename));
+            os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campus", p.getCampus());
+
+            List<Integer> disbNbrs = paymentGroupService.getDisbursementNumbersByDisbursementType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
+            for (Iterator iter = disbNbrs.iterator(); iter.hasNext();) {
+                Integer disbursementNbr = (Integer) iter.next();
+
+                boolean first = true;
+
+                Iterator i = paymentDetailService.getByDisbursementNumber(disbursementNbr);
+                while (i.hasNext()) {
+                    PaymentDetail pd = (PaymentDetail) i.next();
+                    PaymentGroup pg = pd.getPaymentGroup();
+                    if (!testMode) {
+                        if (pg.getDisbursementDate() == null) {
+                            pg.setDisbursementDate(new Timestamp(processDate.getTime()));
+                            this.businessObjectService.save(pg);
+                        }
+                    }
+
+                    if (first) {
+                        writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
+
+                        // Write check level information
+
+                        writeBank(os, 4, pg.getBank());
+
+                        writeTag(os, 4, "disbursementDate", sdf.format(processDate));
+                        writeTag(os, 4, "netAmount", pg.getNetPaymentAmount().toString());
+
+                        writePayee(os, 4, pg);
+                        writeTag(os, 4, "campusAddressIndicator", pg.getCampusAddress().booleanValue() ? "Y" : "N");
+                        writeTag(os, 4, "attachmentIndicator", pg.getPymtAttachment().booleanValue() ? "Y" : "N");
+                        writeTag(os, 4, "specialHandlingIndicator", pg.getPymtSpecialHandling().booleanValue() ? "Y" : "N");
+                        writeTag(os, 4, "immediatePaymentIndicator", pg.getProcessImmediate().booleanValue() ? "Y" : "N");
+                        writeTag(os, 4, "customerUnivNbr", pg.getCustomerInstitutionNumber());
+                        writeTag(os, 4, "paymentDate", sdf.format(pg.getPaymentDate()));
+
+                        // Write customer profile information
+                        CustomerProfile cp = pg.getBatch().getCustomerProfile();
+                        writeCustomerProfile(os, 4, cp);
+
+                        writeOpenTag(os, 4, "payments");
+
+                    }
+
+                    writeOpenTag(os, 6, "payment");
+
+                    writeTag(os, 8, "purchaseOrderNbr", pd.getPurchaseOrderNbr());
+                    writeTag(os, 8, "invoiceNbr", pd.getInvoiceNbr());
+                    writeTag(os, 8, "requisitionNbr", pd.getRequisitionNbr());
+                    writeTag(os, 8, "custPaymentDocNbr", pd.getCustPaymentDocNbr());
+                    writeTag(os, 8, "invoiceDate", sdf.format(pd.getInvoiceDate()));
+
+                    writeTag(os, 8, "origInvoiceAmount", pd.getOrigInvoiceAmount().toString());
+                    writeTag(os, 8, "netPaymentAmount", pd.getNetPaymentAmount().toString());
+                    writeTag(os, 8, "invTotDiscountAmount", pd.getInvTotDiscountAmount().toString());
+                    writeTag(os, 8, "invTotShipAmount", pd.getInvTotShipAmount().toString());
+                    writeTag(os, 8, "invTotOtherDebitAmount", pd.getInvTotOtherDebitAmount().toString());
+                    writeTag(os, 8, "invTotOtherCreditAmount", pd.getInvTotOtherCreditAmount().toString());
+
+                    writeOpenTag(os, 8, "notes");
+                    for (Iterator ix = pd.getNotes().iterator(); ix.hasNext();) {
+                        PaymentNoteText note = (PaymentNoteText) ix.next();
+                        writeTag(os, 10, "note", note.getCustomerNoteText());
+                    }
+                    writeCloseTag(os, 8, "notes");
+
+                    writeCloseTag(os, 6, "payment");
+
+                    first = false;
+                }
+                writeCloseTag(os, 4, "payments");
+                writeCloseTag(os, 2, "check");
+            }
+            writeCloseTag(os, 0, "checks");
+        }
+        catch (IOException ie) {
+            LOG.error("extractChecks() Problem reading file:  " + filename, ie);
+            throw new IllegalArgumentException("Error writing to output file: " + ie.getMessage());
+        }
+        finally {
+            // Close file
+            if (os != null) {
+                try {
+                    os.close();
+                }
+                catch (IOException ie) {
+                    // Not much we can do now
+                }
+            }
+        }
+    }
+
+    private void writeExtractAchFile(PaymentStatus extractedStatus, String filename, Date processDate, SimpleDateFormat sdf) {
+        BufferedWriter os = null;
         try {
             os = new BufferedWriter(new FileWriter(filename));
             os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -282,130 +411,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             }
         }
     }
-
-    /**
-     * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractChecks()
-     */
-    public void extractChecks() {
-        LOG.debug("extractChecks() started");
-
-        Date processDate = dateTimeService.getCurrentDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
-        String checkFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
-        checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[]{ null });
-        
-        String filename = getOutputFile(checkFilePrefix, processDate);
-        LOG.debug("extractChecks() filename: " + filename);
-
-        List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
-        for (PaymentProcess extractToRun : extractsToRun) {
-            writeFile(extractToRun, filename, extractToRun.getId().intValue());
-            this.processDao.setExtractProcessAsComplete(extractToRun);
-        }
-    }
-
-    private void writeFile(PaymentProcess p, String filename, Integer processId) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date processDate = dateTimeService.getCurrentDate();
-        BufferedWriter os = null;
-
-        try {
-            os = new BufferedWriter(new FileWriter(filename));
-            os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-            writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campus", p.getCampus());
-
-            List<Integer> disbNbrs = paymentGroupService.getDisbursementNumbersByDisbursementType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
-            for (Iterator iter = disbNbrs.iterator(); iter.hasNext();) {
-                Integer disbursementNbr = (Integer) iter.next();
-
-                boolean first = true;
-
-                Iterator i = paymentDetailService.getByDisbursementNumber(disbursementNbr);
-                while (i.hasNext()) {
-                    PaymentDetail pd = (PaymentDetail) i.next();
-                    PaymentGroup pg = pd.getPaymentGroup();
-                    if (!testMode) {
-                        if (pg.getDisbursementDate() == null) {
-                            pg.setDisbursementDate(new Timestamp(processDate.getTime()));
-                            this.businessObjectService.save(pg);
-                        }
-                    }
-
-                    if (first) {
-                        writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
-
-                        // Write check level information
-
-                        writeBank(os, 4, pg.getBank());
-
-                        writeTag(os, 4, "disbursementDate", sdf.format(processDate));
-                        writeTag(os, 4, "netAmount", pg.getNetPaymentAmount().toString());
-
-                        writePayee(os, 4, pg);
-                        writeTag(os, 4, "campusAddressIndicator", pg.getCampusAddress().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "attachmentIndicator", pg.getPymtAttachment().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "specialHandlingIndicator", pg.getPymtSpecialHandling().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "immediatePaymentIndicator", pg.getProcessImmediate().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "customerUnivNbr", pg.getCustomerInstitutionNumber());
-                        writeTag(os, 4, "paymentDate", sdf.format(pg.getPaymentDate()));
-
-                        // Write customer profile information
-                        CustomerProfile cp = pg.getBatch().getCustomerProfile();
-                        writeCustomerProfile(os, 4, cp);
-
-                        writeOpenTag(os, 4, "payments");
-
-                    }
-
-                    writeOpenTag(os, 6, "payment");
-
-                    writeTag(os, 8, "purchaseOrderNbr", pd.getPurchaseOrderNbr());
-                    writeTag(os, 8, "invoiceNbr", pd.getInvoiceNbr());
-                    writeTag(os, 8, "requisitionNbr", pd.getRequisitionNbr());
-                    writeTag(os, 8, "custPaymentDocNbr", pd.getCustPaymentDocNbr());
-                    writeTag(os, 8, "invoiceDate", sdf.format(pd.getInvoiceDate()));
-
-                    writeTag(os, 8, "origInvoiceAmount", pd.getOrigInvoiceAmount().toString());
-                    writeTag(os, 8, "netPaymentAmount", pd.getNetPaymentAmount().toString());
-                    writeTag(os, 8, "invTotDiscountAmount", pd.getInvTotDiscountAmount().toString());
-                    writeTag(os, 8, "invTotShipAmount", pd.getInvTotShipAmount().toString());
-                    writeTag(os, 8, "invTotOtherDebitAmount", pd.getInvTotOtherDebitAmount().toString());
-                    writeTag(os, 8, "invTotOtherCreditAmount", pd.getInvTotOtherCreditAmount().toString());
-
-                    writeOpenTag(os, 8, "notes");
-                    for (Iterator ix = pd.getNotes().iterator(); ix.hasNext();) {
-                        PaymentNoteText note = (PaymentNoteText) ix.next();
-                        writeTag(os, 10, "note", note.getCustomerNoteText());
-                    }
-                    writeCloseTag(os, 8, "notes");
-
-                    writeCloseTag(os, 6, "payment");
-
-                    first = false;
-                }
-                writeCloseTag(os, 4, "payments");
-                writeCloseTag(os, 2, "check");
-            }
-            writeCloseTag(os, 0, "checks");
-        }
-        catch (IOException ie) {
-            LOG.error("extractChecks() Problem reading file:  " + filename, ie);
-            throw new IllegalArgumentException("Error writing to output file: " + ie.getMessage());
-        }
-        finally {
-            // Close file
-            if (os != null) {
-                try {
-                    os.close();
-                }
-                catch (IOException ie) {
-                    // Not much we can do now
-                }
-            }
-        }
-    }
-
+    
     private static String SPACES = "                                                       ";
 
     private void writeTag(BufferedWriter os, int indent, String tag, String data) throws IOException {

@@ -79,6 +79,9 @@ public class PdpKeyConstants {
     public static final String DAILY_REPORT_SERVICE_NUMBER_OF_PAYMENT_RECORDS_SUBTITLE = "pdp.dailyReportService.numberOfPaymentRecordsSubtitle";
     public static final String DAILY_REPORT_SERVICE_NUMBER_OF_PAYEES_SUBTITLE = "pdp.dailyReportService.numberOfPayeesSubtitle";
     
+    public static final String EXTRACT_TRANSACTION_SERVICE_REPORT_TITLE = "pdp.extractTransactions.reportTitle";
+    public static final String EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME = "pdp_ledger";
+    
     public static class BatchConstants{
         public static class ErrorMessages{
             public static final String ERROR_BATCH_CRITERIA_NONE_ENTERED ="batchSearchForm.batchcriteria.noneEntered";

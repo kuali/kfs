@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.sql.Date;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -26,10 +27,12 @@ import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.report.LedgerReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -41,6 +44,7 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
     private OriginEntryService originEntryService;
     private DateTimeService dateTimeService;
     private String reportsDirectory;
+    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.ExtractTransactionsService#extractGlTransactions()
@@ -66,13 +70,19 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
         }
 
         if (oeg != null) {
+            String reportTitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_TITLE);
+            reportTitle = MessageFormat.format(reportTitle, new Object[]{ null });
+            
+            String reportFilename = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME);
+            reportFilename = MessageFormat.format(reportFilename, new Object[]{ null });
+            
             // Run a report
             Collection groups = new ArrayList();
             groups.add(oeg);
             LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
 
             LedgerReport ledgerReport = new LedgerReport();
-            ledgerReport.generateReport(ledgerEntries, processDate, "PDP Transactions", "pdp_ledger", reportsDirectory);
+            ledgerReport.generateReport(ledgerEntries, processDate, reportTitle, reportFilename, reportsDirectory);
         }
     }
 
@@ -94,5 +104,9 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
 
     public void setReportsDirectory(String rd) {
         this.reportsDirectory = rd;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

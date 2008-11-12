@@ -189,7 +189,7 @@ public class FormatServiceImpl implements FormatService {
      * @return the maximum number of lines in a note
      */
     private int getMaxNoteLines() {
-        String maxLines = parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
         }

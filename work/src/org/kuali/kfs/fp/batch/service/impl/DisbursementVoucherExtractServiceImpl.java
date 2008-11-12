@@ -56,6 +56,7 @@ import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -102,7 +103,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Date processRunDate = dateTimeService.getCurrentDate();
 
-        String noteLines = parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.MAX_NOTE_LINES);
+        String noteLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
 
         try {
             maxNoteLines = Integer.parseInt(noteLines);
@@ -111,7 +112,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        String userId = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
+        String userId = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
         Person uuser = personService.getPersonByPrincipalName(userId);
         if (uuser != null) {
             LOG.debug("extractPayments() Unable to find user " + userId);

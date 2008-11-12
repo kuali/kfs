@@ -3,7 +3,6 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -662,18 +661,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         for (int assetGlobalDetailsIndex = 0; assetGlobalDetailsIterator.hasNext(); assetGlobalDetailsIndex++) {
             AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) assetGlobalDetailsIterator.next();
 
-            Asset asset = new Asset(this, assetGlobalDetail, assetGlobalService.isAssetSeparateDocument(this));
-                        
-            // set financialObjectSubTypeCode per first payment entry if one exists
-            if (!assetPaymentDetails.isEmpty() && ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
-                asset.setFinancialObjectSubTypeCode(assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode());
-            }
-            
-            // create off campus location for each detail records
-            boolean offCampus = StringUtils.isNotBlank(assetGlobalDetail.getOffCampusName()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusAddress()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusCityName()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusStateCode()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusZipCode()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusCountryCode());
-            if (offCampus) {
-                AssetLocation offCampusLocation = setupAssetLocationOffCampus(assetGlobalDetail, asset);
-            }
+            // Create the asset with most fields set as required
+            Asset asset = setupAsset(assetGlobalDetail);
             
             // track total cost of all payments for this assetGlobalDetail
             KualiDecimal paymentsAccountChargeAmount = new KualiDecimal(0);
@@ -692,7 +681,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setTotalCostAmount(paymentsAccountChargeAmount);
             assetsAccountChargeAmount = assetsAccountChargeAmount.add(paymentsAccountChargeAmount);
 
-            // the following would probably be better in a junit test case
+            // TODO following is better done in a junit test case
             if (assetGlobalService.isAssetSeparateDocument(this)) {
                 if (!asset.getTotalCostAmount().equals(assetGlobalDetail.getSeparateSourceAmount())) {
                     throw new IllegalStateException("Unexpected amount calculation discreptancy.");
@@ -712,6 +701,15 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
             int paymentSequenceNumber = assetPaymentService.getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber()) + 1;
             
+//            // copy and set AssetPayment from source Asset into new AssetPayment object
+//            for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
+//                AssetPayment offsetAssetPayment = new AssetPayment();
+//                ObjectValueUtils.copySimpleProperties(assetPayment, offsetAssetPayment);
+//                offsetAssetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(this, assetPayment));
+//                offsetAssetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
+//                persistables.add(offsetAssetPayment);
+//            }
+            
             // add all target payment to the source assets
             for (AssetPayment targetAssetPayment : targetAssetPayments) {
                 AssetPayment assetPayment = new AssetPayment(targetAssetPayment);
@@ -728,12 +726,43 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
+     * Additional setup for Asset beyond what the constructor does
+     * @param assetGlobalDetail
+     * @param asset
+     */
+    protected Asset setupAsset(AssetGlobalDetail assetGlobalDetail) {
+        Asset asset = new Asset(this, assetGlobalDetail, assetGlobalService.isAssetSeparateDocument(this));
+        
+        // set financialObjectSubTypeCode per first payment entry if one exists
+        if (!assetPaymentDetails.isEmpty() && ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
+            asset.setFinancialObjectSubTypeCode(assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode());
+        }
+        
+        // create off campus location for each detail records
+        boolean offCampus = StringUtils.isNotBlank(assetGlobalDetail.getOffCampusName()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusAddress()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusCityName()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusStateCode()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusZipCode()) || StringUtils.isNotBlank(assetGlobalDetail.getOffCampusCountryCode());
+        if (offCampus) {
+            AssetLocation offCampusLocation = setupAssetLocationOffCampus(assetGlobalDetail, asset);
+        }
+        
+        // set specific values for new assets if document is Asset Separate
+        if (assetGlobalService.isAssetSeparateDocument(this)) {
+            // separate ratio for this asset
+            KualiDecimal separateRatio = assetGlobalDetail.getSeparateSourceAmount().divide(separateSourceCapitalAsset.getTotalCostAmount());
+            
+            // the fields that need to be set at the asset level
+            asset.setSalvageAmount(separateSourceCapitalAsset.getSalvageAmount().multiply(separateRatio));
+        }
+        
+        return asset;
+    }
+
+    /**
      * This method set off campus location for persist
      * 
      * @param AssetGlobalDetail and Asset to populate AssetLocation
      * @return Returns the AssetLocation.
      */
-    protected AssetLocation setupAssetLocationOffCampus(AssetGlobalDetail detail, Asset asset) {
+    protected AssetLocation setupAssetLocationOffCampus(AssetGlobalDetail assetGlobalDetail, Asset asset) {
         AssetLocation offCampusLocation = new AssetLocation();
         offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
         offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
@@ -745,15 +774,15 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.getAssetLocations().add(offCampusLocation);
         }
 
-        offCampusLocation.setAssetLocationContactName(detail.getOffCampusName());
-        offCampusLocation.setAssetLocationContactIdentifier(detail.getRepresentativeUniversalIdentifier());
-        offCampusLocation.setAssetLocationInstitutionName(detail.getAssetRepresentative().getPrimaryDepartmentCode());
+        offCampusLocation.setAssetLocationContactName(assetGlobalDetail.getOffCampusName());
+        offCampusLocation.setAssetLocationContactIdentifier(assetGlobalDetail.getRepresentativeUniversalIdentifier());
+        offCampusLocation.setAssetLocationInstitutionName(assetGlobalDetail.getAssetRepresentative().getPrimaryDepartmentCode());
         offCampusLocation.setAssetLocationPhoneNumber(null);
-        offCampusLocation.setAssetLocationStreetAddress(detail.getOffCampusAddress());
-        offCampusLocation.setAssetLocationCityName(detail.getOffCampusCityName());
-        offCampusLocation.setAssetLocationStateCode(detail.getOffCampusStateCode());
-        offCampusLocation.setAssetLocationCountryCode(detail.getOffCampusCountryCode());
-        offCampusLocation.setAssetLocationZipCode(detail.getOffCampusZipCode());
+        offCampusLocation.setAssetLocationStreetAddress(assetGlobalDetail.getOffCampusAddress());
+        offCampusLocation.setAssetLocationCityName(assetGlobalDetail.getOffCampusCityName());
+        offCampusLocation.setAssetLocationStateCode(assetGlobalDetail.getOffCampusStateCode());
+        offCampusLocation.setAssetLocationCountryCode(assetGlobalDetail.getOffCampusCountryCode());
+        offCampusLocation.setAssetLocationZipCode(assetGlobalDetail.getOffCampusZipCode());
 
         return offCampusLocation;
     }
@@ -774,11 +803,45 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
         // set specific values for new assets if document is Asset Separate
         if (assetGlobalService.isAssetSeparateDocument(this)) {
-            // account amount from current payment source asset * target total cost / source total cost
-            assetPayment.setAccountChargeAmount(assetPaymentDetail.getAmount().multiply(assetGlobalDetail.getSeparateSourceAmount()).divide(separateSourceCapitalAsset.getTotalCostAmount()));
-            
             assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
-            assetPayment.setPrimaryDepreciationBaseAmount(assetGlobalService.totalNonFederalPaymentByAsset(this));
+            
+            AssetPayment sourceAssetPayment = null;
+            // Need the sourceAssetPayment for split of misc. fields that we don't track on the document. Finding the correct source asset
+            // payment isn't very efficient particularly if we are doing this (repeatedly) for several target assets. Cleaner code though.
+            for (AssetPayment currentAssetPayment : this.getSeparateSourceCapitalAsset().getAssetPayments()) {
+                if (assetPaymentDetail.getSequenceNumber().equals(currentAssetPayment.getPaymentSequenceNumber())) {
+                    sourceAssetPayment = currentAssetPayment;
+                    break;
+                }
+            }
+            
+            // TODO following is better done in a junit test case
+            if (sourceAssetPayment == null || !assetGlobalDetail.getCapitalAssetNumber().equals(sourceAssetPayment.getCapitalAssetNumber())
+                    || !sourceAssetPayment.getAccountChargeAmount().equals(assetPaymentDetail.getAmount())) {
+                throw new IllegalStateException("Incorrect target Asset Payment identified.");
+            }
+            
+            // separate ratio for this asset
+            KualiDecimal separateRatio = assetGlobalDetail.getSeparateSourceAmount().divide(separateSourceCapitalAsset.getTotalCostAmount());
+            
+            // account amount from current payment source asset * target total cost / source total cost
+            assetPayment.setAccountChargeAmount(assetPaymentDetail.getAmount().multiply(separateRatio));
+            
+            assetPayment.setPrimaryDepreciationBaseAmount(sourceAssetPayment.getPrimaryDepreciationBaseAmount().multiply(separateRatio));
+            assetPayment.setAccumulatedPrimaryDepreciationAmount(sourceAssetPayment.getAccumulatedPrimaryDepreciationAmount().multiply(separateRatio));
+            assetPayment.setPreviousYearPrimaryDepreciationAmount(sourceAssetPayment.getPreviousYearPrimaryDepreciationAmount().multiply(separateRatio));
+            assetPayment.setPeriod1Depreciation1Amount(sourceAssetPayment.getPeriod1Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod2Depreciation1Amount(sourceAssetPayment.getPeriod2Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod3Depreciation1Amount(sourceAssetPayment.getPeriod3Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod4Depreciation1Amount(sourceAssetPayment.getPeriod4Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod5Depreciation1Amount(sourceAssetPayment.getPeriod5Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod6Depreciation1Amount(sourceAssetPayment.getPeriod6Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod7Depreciation1Amount(sourceAssetPayment.getPeriod7Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod8Depreciation1Amount(sourceAssetPayment.getPeriod8Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod9Depreciation1Amount(sourceAssetPayment.getPeriod9Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod10Depreciation1Amount(sourceAssetPayment.getPeriod10Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod11Depreciation1Amount(sourceAssetPayment.getPeriod11Depreciation1Amount().multiply(separateRatio));
+            assetPayment.setPeriod12Depreciation1Amount(sourceAssetPayment.getPeriod12Depreciation1Amount().multiply(separateRatio));
         }
         else {
             boolean isDepreciablePayment = ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
@@ -790,7 +853,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 KualiDecimal[] amountBuckets = kualiDecimalService.allocate(assetGlobalDetailsSize);
                 
                 assetPayment.setAccountChargeAmount(amountBuckets[assetGlobalDetailsIndex]);
-                assetPayment.setPrimaryDepreciationBaseAmount(amountBuckets[assetGlobalDetailsIndex]);
+                assetPayment.setPrimaryDepreciationBaseAmount(assetGlobalService.totalNonFederalPaymentByAsset(this));
             }
             else {
                 assetPayment.setAccountChargeAmount(assetPaymentDetail.getAmount());

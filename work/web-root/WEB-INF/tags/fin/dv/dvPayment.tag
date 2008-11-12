@@ -29,10 +29,11 @@
               </div></th>
               <td colspan="3" class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}" property="document.dvPayeeDetail.disbVchrPaymentReasonCode" extraReadOnlyProperty="document.dvPayeeDetail.disbVchrPaymentReasonName" readOnly="true"/>
-                <a href="${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode"
-                   onclick="this.href='${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode&code=' + document.forms[0].elements['document.dvPayeeDetail.disbVchrPaymentReasonCode'].value;" target="_blank">
-                  <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" styleClass="globalbuttons" alt="help"/>
-                </a>
+                <c:if test="${not empty KualiForm.document.dvPayeeDetail.disbVchrPaymentReasonCode}">
+	                <a href="${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode&code=${KualiForm.document.dvPayeeDetail.disbVchrPaymentReasonCode}" target="_blank">
+	                  <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" styleClass="globalbuttons" alt="help"/>
+	                </a>
+	            </c:if>
             </tr>
             
             <tr>

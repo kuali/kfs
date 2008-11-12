@@ -61,6 +61,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     // used to contain budgetable status
     private boolean budgetableDocument = false;
+    private boolean closingDocument = false;
 
     private boolean hideDetails = false;
     private boolean pickListClose = false;
@@ -913,6 +914,22 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public void setPreSalarySettingRows(HashMap<String, PendingBudgetConstructionGeneralLedger> preSalarySettingRows) {
         this.preSalarySettingRows = preSalarySettingRows;
+    }
+
+    /**
+     * Gets the closingDocument attribute. 
+     * @return Returns the closingDocument.
+     */
+    public boolean isClosingDocument() {
+        return closingDocument;
+    }
+
+    /**
+     * Sets the closingDocument attribute value.
+     * @param closingDocument The closingDocument to set.
+     */
+    public void setClosingDocument(boolean closingDocument) {
+        this.closingDocument = closingDocument;
     }
 }
 

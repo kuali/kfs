@@ -99,7 +99,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         ActionForward forward = super.execute(mapping, form, request, response);
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-        
+
         // handle any security no access cases
         if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
             budgetConstructionForm.setSecurityNoAccess(true);
@@ -217,6 +217,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
         }
 
+        // cleanup the session edit mode store so we don't side effect organization salary setting
+        if (budgetConstructionForm.isClosingDocument()) {
+            GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
+        }
+
         return forward;
     }
 
@@ -307,7 +312,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm
      */
     private void cleanupForLockError(BudgetConstructionForm budgetConstructionForm) {
-        
+
         budgetConstructionForm.setSecurityNoAccess(true);
         budgetConstructionForm.getEditingMode().remove(BudgetConstructionEditMode.FULL_ENTRY);
         budgetConstructionForm.getDocumentActionFlags().setCanSave(false);
@@ -454,14 +459,17 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
         }
 
+        // flag to cleanup the session edit mode store so we don't side effect organization salary setting
+        // used in the bottom of execute()
+        docForm.setClosingDocument(Boolean.TRUE);
 
         if (docForm.isPickListMode()) {
             // TODO for now just redisplay with a message
             GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             docForm.setPickListClose(true);
 
-// TODO remove when finalized
-//            this.setupDocumentExit();
+            // TODO remove when finalized
+            // this.setupDocumentExit();
             // this is a hack to do our own session document cleanup since refreshCaller=QuestionRefresh
             // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
             UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
@@ -472,7 +480,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         }
         else {
-
             if (docForm.getReturnFormKey() == null) {
 
                 // assume called from doc search or lost the session - go back to main
@@ -488,8 +495,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                 String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
 
-// TODO remove when finalized
-//                this.setupDocumentExit();
+                // TODO remove when finalized
+                // this.setupDocumentExit();
                 // this is a hack to do our own session document cleanup since refreshCaller=QuestionRefresh
                 // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
                 UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
@@ -564,8 +571,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Calls the single line benefits impact screen by setting up the required parameters and feeding them to the temporary list
-     * lookup action for the expenditure line selected. This is called from the ShowBenefits button on the BC document screen when an
-     * expenditure line is associated with benefits and benefits calculation is enabled.
+     * lookup action for the expenditure line selected. This is called from the ShowBenefits button on the BC document screen when
+     * an expenditure line is associated with benefits and benefits calculation is enabled.
      * 
      * @param mapping
      * @param form
@@ -1764,4 +1771,3 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     }
 }
-

@@ -41,6 +41,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase { 
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
@@ -89,21 +90,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         return forcedLookupOptionalFields;
     }
 
-    
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
-     */
-    //@Override
-    //public Map<String, Boolean> getForcedReadOnlyFields() {
-//    public Map getForcedReadOnlyFields() {
-//        Map forcedReadOnlyFields = super.getForcedReadOnlyFields();
-//        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, Boolean.TRUE);
-//        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, Boolean.TRUE);
-//        
-//        return forcedReadOnlyFields;
-//    }
-    
     /**
      * 
      * This method sets the asset# selected
@@ -170,10 +156,10 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         //Refreshing reference to the asset table.
         for(AssetPaymentAssetDetail assetPaymentAssetDetail:this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
-            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);            
+            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
         }        
     }
 

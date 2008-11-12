@@ -49,7 +49,11 @@ import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase;
-import org.kuali.kfs.module.ld.service.SegmentedLookupResultsService;
+
+//TODO delete this class once the KFSMI-1869 jira has been resolved see JIRA KULCAP-782
+import org.kuali.kfs.module.cam.document.service.AssetSegmentedLookupResultsService;
+//*************************************************************************************
+
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -65,7 +69,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
     private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
-    private static SegmentedLookupResultsService segmentedLookupResultsService = SpringContext.getBean(SegmentedLookupResultsService.class);
+    private static AssetSegmentedLookupResultsService assetSegmentedLookupResultsService = SpringContext.getBean(AssetSegmentedLookupResultsService.class);
     
     /**
      * 
@@ -105,7 +109,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
-                Set<String> selectedIds = segmentedLookupResultsService.retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                Set<String> selectedIds = assetSegmentedLookupResultsService.retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 for (String selectedId : selectedIds) {
                     String selectedObjId = StringUtils.substringBefore(selectedId, ".");
                     String selectedMonthData = StringUtils.substringAfter(selectedId, ".");
@@ -117,7 +121,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
                 }
                 //Retrieving selected data from table.
                 LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
-                rawValues = segmentedLookupResultsService.retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                rawValues = assetSegmentedLookupResultsService.retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             }
 
             List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentForm.getAssetPaymentDocument().getAssetPaymentAssetDetail(); 

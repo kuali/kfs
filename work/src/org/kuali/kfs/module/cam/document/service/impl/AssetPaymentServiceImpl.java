@@ -29,6 +29,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
@@ -47,6 +48,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,10 +126,16 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
                 maxSequenceNo = getMaxSequenceNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
 
+                //Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total previous cost of the assets.
                 Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
-                Double percentage = (previousTotalCostAmount / totalHistoricalCost);
+                
+                Double percentage = new Double(0);
+                if (totalHistoricalCost.compareTo(new Double(0)) != 0) 
+                    percentage = (previousTotalCostAmount / totalHistoricalCost);
+                else
+                    percentage = (1 / (new Double(assetPaymentAssetDetails.size())));
+                                
                 KualiDecimal totalAmount = new KualiDecimal(0);
-
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
                     Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
                     KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
@@ -214,6 +222,88 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentEligibleForGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPayment)
+     */
+    public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
+        // Transfer payment code flag is not Y
+        boolean isEligible = !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode());
+        // Financial object code is currently active
+        isEligible &= isPaymentFinancialObjectActive(assetPayment);
+        // Payment is not federally funded
+        isEligible &= !isPaymentFederalOwned(assetPayment);
+        return isEligible;
+    }
+
+    /**
+     * Checks if object sub type is a non-depreciable federally owned object sub type
+     * 
+     * @param string objectSubType2
+     * @return true if is NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
+     */
+    public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType) {
+        List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
+        if (this.getParameterService().parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
+            federallyOwnedObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
+        }
+        return federallyOwnedObjectSubTypes.contains(objectSubType);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#extractPostedDatePeriod(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
+     */
+    public boolean extractPostedDatePeriod(AssetPaymentDetail assetPaymentDetail) {
+        boolean valid = true;
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
+        UniversityDate universityDate = (UniversityDate) businessObjectService.findByPrimaryKey(UniversityDate.class, primaryKeys);
+        if (universityDate != null) {
+            assetPaymentDetail.setPostingYear(universityDate.getUniversityFiscalYear());
+            assetPaymentDetail.setPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * TODO is this needed?
+     * 
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getAssetPaymentDetailQuantity(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
+     */
+    public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal) {
+        Integer assetPaymentDetailQuantity = 0;
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            assetPaymentDetailQuantity++;
+        }
+        return assetPaymentDetailQuantity;
+    }
+    
+        
+    /**
+     * 
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#validateAssets(java.lang.String, org.kuali.kfs.module.cam.businessobject.Asset)
+     */
+    public boolean validateAssets(String errorPath,Asset asset) {
+        boolean valid = true;
+
+        //Validating the asset is a capital asset
+        if (!this.getAssetService().isCapitalAsset(asset)) {
+            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_NON_CAPITAL_ASSET, asset.getCapitalAssetNumber().toString());
+            valid &= false;
+        }
+        
+        //Validating the asset hasn't been retired
+        if (this.getAssetService().isAssetRetired(asset)) {
+            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, asset.getCapitalAssetNumber().toString());
+            valid &= false;
+        }
+        return valid;
+    }
+    
+    
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -271,64 +361,5 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentEligibleForGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPayment)
-     */
-    public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
-        // Transfer payment code flag is not Y
-        boolean isEligible = !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode());
-        // Financial object code is currently active
-        isEligible &= isPaymentFinancialObjectActive(assetPayment);
-        // Payment is not federally funded
-        isEligible &= !isPaymentFederalOwned(assetPayment);
-        return isEligible;
-    }
-
-    /**
-     * Checks if object sub type is a non-depreciable federally owned object sub type
-     * 
-     * @param string objectSubType2
-     * @return true if is NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
-     */
-    public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType) {
-        List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
-        if (this.getParameterService().parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
-            federallyOwnedObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
-        }
-        return federallyOwnedObjectSubTypes.contains(objectSubType);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#extractPostedDatePeriod(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
-     */
-    public boolean extractPostedDatePeriod(AssetPaymentDetail assetPaymentDetail) {
-        boolean valid = true;
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
-        UniversityDate universityDate = (UniversityDate) businessObjectService.findByPrimaryKey(UniversityDate.class, primaryKeys);
-        if (universityDate != null) {
-            assetPaymentDetail.setPostingYear(universityDate.getUniversityFiscalYear());
-            assetPaymentDetail.setPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    /**
-     * TODO is this needed?
-     * 
-     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getAssetPaymentDetailQuantity(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
-     */
-    public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal) {
-        Integer assetPaymentDetailQuantity = 0;
-        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-            assetPaymentDetailQuantity++;
-        }
-
-        return assetPaymentDetailQuantity;
-    }
+    }    
 }

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -107,4 +108,15 @@ public interface AssetPaymentService {
      * @return Integer
      */
     public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal);
+    
+    
+    /**
+     * 
+     * Validates the assets inputed in the asset payment document
+     * 
+     * @param errorPath
+     * @param asset
+     * @return
+     */
+    public boolean validateAssets(String errorPath,Asset asset);
 }

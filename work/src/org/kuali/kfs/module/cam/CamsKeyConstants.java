@@ -70,7 +70,8 @@ public class CamsKeyConstants {
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
         public static final String ERROR_NON_CAPITAL_ASSET = "error.non.capital.asset.payment";
         public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT="error.asset.exists.in.payment.document";        
-        public static final String ERROR_NON_ASSETS_IN_DOCUMENT="error.payment.document.noAssetsInDocumentFound";        
+        public static final String ERROR_NON_ASSETS_IN_DOCUMENT="error.payment.document.noAssetsInDocumentFound";
+        public static final String ERROR_NON_ZERO_COST_ASSETS_ALLOWED="error.payment.document.noZeroValueAssetsAllowed";
     }
 
     public static class Transfer {

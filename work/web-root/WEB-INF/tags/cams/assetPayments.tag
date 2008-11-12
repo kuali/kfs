@@ -18,8 +18,11 @@
 <c:set var="viewOnly" value="${!empty KualiForm.editingMode['viewOnly']}"/>
 <c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
 
-<kul:tab tabTitle="Assets" defaultOpen="true" tabErrorKey="document.capitalAssetNumber*">
-	<div class="tab-container" id="assets" align="center">
+<kul:tab tabTitle="Assets" defaultOpen="true" tabErrorKey="document.capitalAssetNumber*,document.hiddenFieldForError">
+	<div class="tab-container" id="assets" align="center">		
+
+		<html:hidden property="document.hiddenFieldForError"/>
+		 	
 		<table class="datatable" width="100%" border="0" cellpadding="0" cellspacing="0">
 			<tr>
 				<td colspan="3" class="subhead">
@@ -31,8 +34,6 @@
 				    <th width="10%"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
 					<td class="infoline" valign="top" width="84%">															   
 						<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
-						<!--  >kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" fieldConversions="capitalAssetNumber:capitalAssetNumber"
-						lookupParameters="capitalAssetNumber:capitalAssetNumber" /-->
 						<kul:multipleValueLookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" lookedUpCollectionName="assetPaymentAssetDetail"/>
 					</td>
 					<td class="infoline" width="6%" align="center">

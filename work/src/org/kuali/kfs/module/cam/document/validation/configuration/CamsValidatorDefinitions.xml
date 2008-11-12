@@ -54,10 +54,10 @@
 	</bean>	
 
 	<bean id="AssetPayment-addAssetValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAddAssetValidation" abstract="true">
-		<property name="assetService" ref="assetService" />
+		<property name="assetPaymentService" ref="assetPaymentService" />		
 	</bean>
 
 	<bean id="AssetPayment-assetValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAssetValidation" abstract="true">
-		<property name="assetService" ref="assetService" />
+		<property name="assetPaymentService" ref="assetPaymentService" />		
 	</bean>	
 </beans>

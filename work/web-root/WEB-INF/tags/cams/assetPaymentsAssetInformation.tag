@@ -6,8 +6,8 @@
 <c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>
 <c:set var="globalTotalAllocated" 	   value="${0.00}"/>
 <c:set var="globalTotalHistoricalCost" value="${0.00}"/>
-
 <c:set var="viewOnly" value="${!empty KualiForm.editingMode['viewOnly']}"/>
+<c:set var="numberOfAssets" value="${fn:length(KualiForm.document.assetPaymentAssetDetail)}"/>
 
 <logic:iterate id="assetPaymentAssetDetail" name="KualiForm" property="document.assetPaymentAssetDetail" indexId="ctr">
 		<c:set var="capitalAssetNumber" value="${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber}"/>
@@ -24,9 +24,15 @@
 				
 		<c:if test="${totalHistoricalAmount != 0 }">
 	        <c:set var="percentage" value="${previousCost / totalHistoricalAmount }"/>
-	        <c:set var="totalAllocated" value="${documentTotal * percentage}"/>
-		 	<fmt:formatNumber var="newTotal" value="${totalAllocated + previousCost }" maxFractionDigits="2" minFractionDigits="2"/>			 		 	
 		</c:if>
+		<c:if test="${totalHistoricalAmount == 0 }">
+	        <c:set var="percentage" value="${ 1 / numberOfAssets}"/>
+		</c:if>
+
+        <c:set var="totalAllocated" value="${documentTotal * percentage}"/>
+	 	<fmt:formatNumber var="newTotal" value="${totalAllocated + previousCost }" maxFractionDigits="2" minFractionDigits="2"/>			 		 	
+
+
 		<table borders="0" cellpadding="0" cellspacing="0">
 		<tr>
 		<td style="padding: 0px;border-bottom-style: solid; border-bottom-width: 2px;border-top-style: solid; border-top-width: 1px;">
@@ -45,7 +51,7 @@
 			    <tr>
 			      	<td class="grid" width="10%">
 			      		<kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" readOnlyBody="true">
-							<kul:inquiry boClassName="org.kuali.kfs.module.cam.businessobject.Asset" keyValues="capitalAssetNumber=${document.assetPaymentAssetDetail[ctr].capitalAssetNumber}" render="true">
+							<kul:inquiry boClassName="org.kuali.kfs.module.cam.businessobject.Asset" keyValues="capitalAssetNumber=${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber}" render="true">
 		              			<html:hidden write="true" property="document.assetPaymentAssetDetail[${ctr}].capitalAssetNumber" />
 			           		</kul:inquiry>&nbsp;
 			       		</kul:htmlControlAttribute>

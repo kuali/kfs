@@ -24,7 +24,9 @@
 	
 	<c:set var="documentTotal" value="${KualiForm.document.sourceTotal}" />
 	<c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>
-	
+
+	<c:set var="numberOfAssets" value="${fn:length(KualiForm.document.assetPaymentAssetDetail)}"/>
+
 	<c:set var="dateFormatPattern" value="MM/dd/yyyy"/>
 	
 	<kul:tab tabTitle="In Process Payments by Asset" defaultOpen="${!defaultTabHide}" useCurrentTabIndexAsKey="false">
@@ -53,14 +55,20 @@
 					<c:set var="line" value="${line + 1}"/>
 
 					<c:set var="object" value="document.sourceAccountingLine[${line}]"/>
-
+					
 					<c:set var="allocatedAmount" value="${0.00}"/>								
-					<c:if test="${totalHistoricalAmount > 0 }">
-						<c:set var="previousTotalCost" value="${assetDetail.previousTotalCostAmount}" />
+					<c:set var="previousTotalCost" value="${assetDetail.previousTotalCostAmount}" />
+
+					<c:if test="${totalHistoricalAmount != 0 }">
 					 	<c:set var="percentage" value="${previousTotalCost / totalHistoricalAmount }"/>
-				 		<c:set var="paymentAmount" value="${payment.amount}" />			 										 		
-				 		<fmt:formatNumber var="allocatedAmount" value="${paymentAmount * percentage }" maxFractionDigits="2" minFractionDigits="2"/>			 		 				 		 					
-					</c:if>				
+					</c:if>
+					<c:if test="${totalHistoricalAmount == 0 }">
+				        <c:set var="percentage" value="${ 1 / numberOfAssets}"/>
+					</c:if>
+					
+				 	<c:set var="paymentAmount" value="${payment.amount}" />			 										 																 	
+			 		<fmt:formatNumber var="allocatedAmount" value="${paymentAmount * percentage }" maxFractionDigits="2" minFractionDigits="2"/>			 		 				 		 					
+
 					<tr>
 						<td class="grid">
 				      		<kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${pos}].capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" readOnlyBody="true">

@@ -74,18 +74,6 @@ public interface CapitalAssetBuilderModuleService {
      */
     public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
 
-//FIXME: not called anywhere, is this still needed (was returning false in impl
-//    /**
-//     * Validates whether transaction type is allowed for the given subtypes. Validates that the object codes must be either all
-//     * capital or all expense.
-//     * 
-//     * @param accountingLines The accounting lines to be validated.
-//     * @param transactionType The transaction type to be validated.
-//     * @return boolean true if the transaction type is allowed for the given subtypes and the object codes are either all capital or
-//     *         expense.
-//     */
-//    public boolean validateAccounts(List<SourceAccountingLine> accountingLines, String transactionType);
-
     /**
      * validate the capitalAssetManagementAsset data associated with the given accounting document
      * 
@@ -98,8 +86,6 @@ public interface CapitalAssetBuilderModuleService {
     // Methods moved from PurchasingDocumentRuleBase
 
     public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck);
-//FIXME: not needed delete after testing
-//    public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item);
 
     public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, String itemIdentifier, ObjectCode objectCode);
 

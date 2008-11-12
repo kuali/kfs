@@ -105,9 +105,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         // should be null. So we'll pass in a null here.
         boolean valid = validateAllFieldRequirementsByChart(systemState, null, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL);
         valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, systemState);
-        // TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira :
-        // potential validation '
-        // against CAMS data (for example, asset # exist in CAMS)
         valid &= validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItems);
         valid &= validateNonQuantityDrivenAllowedIndicatorAndTradeIn(capitalAssetItems);
         return valid;
@@ -119,9 +116,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM);
-        // TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira :
-        // potential validation '
-        // against CAMS data (for example, asset # exist in CAMS)
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS + "[0].";
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
@@ -135,24 +129,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.MULTIPLE);
-        // TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira :
-        // potential validation '
-        // against CAMS data (for example, asset # exist in CAMS)
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS + "[0].";
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
         valid &= validateNonQuantityDrivenAllowedIndicatorAndTradeIn(capitalAssetItems);
         return valid;
     }
-
-    // FIXME: delete this method? Not being used.
-    // /**
-    // * @see org.kuali.kfs.integration.service.CapitalAssetBuilderModuleService#validateAccounts(java.util.List, java.lang.String)
-    // */
-    // public boolean validateAccounts(List<SourceAccountingLine> accountingLines, String transactionType) {
-    // // TODO Auto-generated method stub
-    // return false;
-    // }
 
     /**
      * Validates all the field requirements by chart. It obtains a List of parameters where the parameter names are like
@@ -548,21 +530,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return result;
     }
 
-    // FIXME: chris delete after testing
-    // /**
-    // * Wrapper to do Capital Asset validations, generating warnings instead of errors. Makes sure that the given item's data
-    // * relevant to its later possible classification as a Capital Asset is internally consistent, by marshaling and calling the
-//     * methods marked as Capital Asset validations. This implementation assumes that all object codes are valid (real) object codes.
-    // *
-    // * @param recurringPaymentType The item's document's RecurringPaymentType
-    // * @param item A PurchasingItemBase object
-    // * @return True if the item passes all Capital Asset validations
-    // */
-    // public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item) {
-    // PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
-    // return validatePurchasingItemCapitalAsset(recurringPaymentType, purchasingItem, true);
-    // }
-
     /**
      * Makes sure that the given item's data relevant to its later possible classification as a Capital Asset is internally
      * consistent, by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that all
@@ -651,63 +618,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
-    /**
-     * Gets the distinct object code sub-types that exist in the AssetTransactionTypeRule table.
-     * 
-     * @return A HashSet containing the distinct Object Code Sub-types
-     */
-    // FIXME: - delete this method, I think it's unused.
-    // private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
-    // HashSet<String> objectCodeSubtypesInTable = new HashSet<String>();
-    // HashMap<String, String> dummyMap = new HashMap<String, String>();
-    // List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>)
-    // SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
-    // for (CapitalAssetTransactionTypeRule relation : allRelations) {
-    // // Add sub-type codes if not already there.
-    // objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
-    // }
-    //
-    // return objectCodeSubtypesInTable;
-    // 
-    // }
-    // /**
-    // * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to the threshold for
-    // * becoming a Capital Asset, and the object code has one of a list of levels related to capital assets, and indicating the
-    // * possibility of the item being a capital asset, rather than an actual Capital Asset level, a warning should be given that a
-    // * Capital Asset level should be used. Failure of this validation gives a warning both at the Requisition stage and at the
-    // * Purchase Order stage.
-    // *
-    // * @param itemQuantity The quantity as a KualiDecimal
-    // * @param extendedPrice The extended price as a KualiDecimal
-    // * @param objectCode The ObjectCode
-    // * @param itemIdentifier A String identifying the item
-    // * @return False if the validation fails.
-    // */
-//    public boolean validateLevelCapitalAssetIndication(KualiDecimal itemQuantity, KualiDecimal extendedPrice, ObjectCode objectCode, String itemIdentifier) {
-    // boolean valid = true;
-    // if ((itemQuantity != null) && (itemQuantity.isGreaterThan(KualiDecimal.ZERO))) {
-//            String capitalAssetPriceThreshold = this.getParameterService().getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
-//            if ((extendedPrice != null) && (StringUtils.isNotEmpty(capitalAssetPriceThreshold)) && (extendedPrice.isGreaterEqual(new KualiDecimal(capitalAssetPriceThreshold)))) {
-    //
-    // String possiblyCapitalAssetObjectCodeLevels = "";
-    //
-//                possiblyCapitalAssetObjectCodeLevels = this.getParameterService().getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
-//                if (StringUtils.contains(possiblyCapitalAssetObjectCodeLevels, objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
-    // valid &= false;
-    // }
-    //                
-    // if (!valid) {
-//                    String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
-    // warning = StringUtils.replace(warning, "{0}", itemIdentifier);
-    // warning = StringUtils.replace(warning, "{1}", capitalAssetPriceThreshold);
-    // GlobalVariables.getMessageList().add(warning);
-    // }
-    // }
-    // }
-    //
-    // return valid;
-    // }
-    // }
     public boolean warningObjectLevelCapital(List<PurApItem> items) {
         for (PurApItem item : items) {
             if (item.getItemType().isLineItemIndicator() && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
@@ -762,7 +672,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param itemIdentifier
      * @return
      */
-    // TODO: - delete commented code below
     public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, String itemIdentifier, boolean quantityBasedItem) {
         boolean valid = true;
         String[] objectCodeSubTypes = {};

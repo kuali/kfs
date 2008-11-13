@@ -158,32 +158,14 @@
   
    <bean id="PurchasingAccountsPayableProcessingReport-active" parent="PurchasingAccountsPayableProcessingReport-active-parentBean" />
 
-  <bean id="PurchasingAccountsPayableProcessingReport-active-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="active" />
-    <property name="label" value="Active" />
-    <property name="forceUppercase" value="false" />
-    <property name="shortLabel" value="Active" />
-    <property name="maxLength" value="1" />
-        <property name="control" >
-      <bean parent="CheckboxControlDefinition"/>
-    </property>    
+  <bean id="PurchasingAccountsPayableProcessingReport-active-parentBean" abstract="true" parent="GeneralLedgerEntry-active">
   </bean>
   
   <bean id="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier" parent="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier-parentBean" />
 
-  <bean id="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition" >
-    <property name="name" value="purapDocumentIdentifier" />
+  <bean id="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier-parentBean" abstract="true" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier" >
   	<property name="label" value="PREQ/CM ID" />
     <property name="shortLabel" value="Invoice" />
-    <property name="forceUppercase" value="true" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
   </bean>
   <bean id="PurchasingAccountsPayableProcessingReport-transactionDebitCreditCode" parent="PurchasingAccountsPayableProcessingReport-transactionDebitCreditCode-parentBean" />
 

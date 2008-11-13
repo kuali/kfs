@@ -50,7 +50,7 @@
   </bean>
   
   <bean id="PretagDetail-campusCode" parent="PretagDetail-campusCode-parentBean" />
-  <bean id="PretagDetail-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="PretagDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
@@ -66,11 +66,11 @@
   </bean>
   
   <bean id="PretagDetail-buildingCode" parent="PretagDetail-buildingCode-parentBean" />
-  <bean id="PretagDetail-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+  <bean id="PretagDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
   </bean>
   
   <bean id="PretagDetail-buildingRoomNumber" parent="PretagDetail-buildingRoomNumber-parentBean" />
-  <bean id="PretagDetail-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
+  <bean id="PretagDetail-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
   </bean>
   
   <bean id="PretagDetail-active" parent="PretagDetail-active-parentBean" />
@@ -79,99 +79,36 @@
   </bean>
   
   <bean id="PretagDetail-buildingSubRoomNumber" parent="PretagDetail-buildingSubRoomNumber-parentBean" />
-  <bean id="PretagDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingSubRoomNumber" />
-    <property name="forceUppercase" value="false"  />
+  <bean id="PretagDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
     <property name="label" value="Building Sub Room Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
   </bean>
   
   <bean id="PretagDetail-campusTagNumber" parent="PretagDetail-campusTagNumber-parentBean" />
-  <bean id="PretagDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PretagDetail-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
     <property name="name" value="campusTagNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Tag Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
   </bean>
   
   <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean" />
-  <bean id="PretagDetail-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationTagNumber" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Organization Tag Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+  <bean id="PretagDetail-organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
   </bean>
   
   <bean id="PretagDetail-governmentTagNumber" parent="PretagDetail-governmentTagNumber-parentBean" />
-  <bean id="PretagDetail-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="governmentTagNumber" />
-    <property name="forceUppercase" value="false" />
+  <bean id="PretagDetail-governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber">
     <property name="label" value="Government Tag Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
   </bean>
   
   <bean id="PretagDetail-nationalStockNumber" parent="PretagDetail-nationalStockNumber-parentBean" />
-  <bean id="PretagDetail-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nationalStockNumber" />
-    <property name="forceUppercase" value="false" />
+  <bean id="PretagDetail-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
     <property name="label" value="National Stock Number (NSN)" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
-    </property>
   </bean>
   
   <bean id="PretagDetail-serialNumber" parent="PretagDetail-serialNumber-parentBean" />
-  <bean id="PretagDetail-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="serialNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Serial Number" />
+  <bean id="PretagDetail-serialNumber-parentBean" abstract="true" parent="Asset-serialNumber">
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
-    </property>
   </bean>
   
   <bean id="PretagDetail-newCollectionRecord" parent="PretagDetail-newCollectionRecord-parentBean" />

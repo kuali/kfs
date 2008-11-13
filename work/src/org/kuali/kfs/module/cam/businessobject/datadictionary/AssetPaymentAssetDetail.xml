@@ -19,21 +19,12 @@
       </list>
     </property>
   </bean>
-        
+  
+<!-- Attribute Definitions -->       
   <bean id="AssetPaymentAssetDetail-documentNumber" parent="AssetPaymentAssetDetail-documentNumber-parentBean" />
-  <bean id="AssetPaymentAssetDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
+  <bean id="AssetPaymentAssetDetail-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
     <property name="label" value="Document Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
   </bean>
 
 

@@ -59,7 +59,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -91,7 +92,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -125,7 +127,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:allowWhitespace="true"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -141,7 +144,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="13" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="PhoneNumberValidationPattern"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -167,7 +170,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -176,19 +180,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetLocation-assetLocationTypeCode" parent="AssetLocation-assetLocationTypeCode-parentBean" />
-  <bean id="AssetLocation-assetLocationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="assetLocationTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Location Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+  <bean id="AssetLocation-assetLocationTypeCode-parentBean" abstract="true" parent="AssetLocationType-assetLocationTypeCode">
   </bean>
   
   <bean id="AssetLocation-assetLocationZipCode" parent="AssetLocation-assetLocationZipCode-parentBean" />
@@ -198,22 +190,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="assetLocationZipCode" />
     <property name="label" value="Asset Location Postal Code" />
     <property name="shortLabel" value="Postal Code" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="AssetLocation-capitalAssetNumber" parent="AssetLocation-capitalAssetNumber-parentBean" />
-  <bean id="AssetLocation-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
+  <bean id="AssetLocation-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

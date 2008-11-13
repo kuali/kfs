@@ -31,28 +31,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PurchasingAccountsPayableDocument-documentNumber" parent="PurchasingAccountsPayableDocument-documentNumber-parentBean" />
   <bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber" >
+    <property name="forceUppercase" value="true" />
   	<property name="label" value="Document/Notification Id" />
     <property name="shortLabel" value="Document/Notification Id" />
   </bean>
   
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" />
-  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition" >
-    <property name="name" value="purapDocumentIdentifier" />
+  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier" >
   	<property name="label" value="Invoice" />
     <property name="shortLabel" value="Invoice" />
-    <property name="forceUppercase" value="false"  />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
   </bean>
   
   <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" />
-  <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+  <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderIdentifier" />
   	<property name="label" value="Purchase Order Nbr" />
     <property name="shortLabel" value="PO Identifier" />
@@ -71,17 +62,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress" parent="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" />
-  <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
+  <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" abstract="true" parent="PurchaseOrderDocument-institutionContactEmailAddress">
     <property name="name" value="purApContactEmailAddress" />
     <property name="label" value="Email Address" />
-    <property name="shortLabel" value="Address" />
   </bean>
   
   <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber" parent="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" />
-  <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" abstract="true" parent="PurchaseOrderDocument-institutionContactPhoneNumber">
     <property name="name" value="purApContactPhoneNumber" />
     <property name="label" value="Phone" />
-    <property name="shortLabel" value="Number" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->

@@ -236,19 +236,8 @@
   </bean>
 
   <bean id="Asset-acquisitionTypeCode" parent="Asset-acquisitionTypeCode-parentBean" />
-  <bean id="Asset-acquisitionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="acquisitionTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Acquisition Type Code" />
+  <bean id="Asset-acquisitionTypeCode-parentBean" abstract="true" parent="AssetAcquisitionType-acquisitionTypeCode">
     <property name="shortLabel" value="Acquisition Type" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
   </bean>
   
   <bean id="Asset-agencyNumber" parent="Asset-agencyNumber-parentBean" />
@@ -275,7 +264,8 @@
     <property name="shortLabel" value="Sub Room" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -350,19 +340,10 @@
   </bean>
   
   <bean id="Asset-cashReceiptFinancialDocumentNumber" parent="Asset-cashReceiptFinancialDocumentNumber-parentBean" />
-  <bean id="Asset-cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
     <property name="name" value="cashReceiptFinancialDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Cash Receipt Document Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
   </bean>
   
   <bean id="Asset-createDate" parent="Asset-createDate-parentBean" />
@@ -440,25 +421,18 @@
   </bean>
   
   <bean id="Asset-financialDocumentPostingPeriodCode" parent="Asset-financialDocumentPostingPeriodCode-parentBean" />
-  <bean id="Asset-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
     <property name="name" value="financialDocumentPostingPeriodCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Period" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-financialDocumentPostingYear" parent="Asset-financialDocumentPostingYear-parentBean" />
-  <bean id="Asset-financialDocumentPostingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+  <bean id="Asset-financialDocumentPostingYear-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalYear">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="label" value="Fiscal Year" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-inventoryScannedCode" parent="Asset-inventoryScannedCode-parentBean" />
@@ -582,7 +556,7 @@
   <bean id="Asset-oldTagNumber" parent="Asset-oldTagNumber-parentBean" />
   <bean id="Asset-oldTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oldTagNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Old Tag Number" />
     <property name="shortLabel" value="Old Tag" />
     <property name="maxLength" value="8" />
@@ -613,15 +587,8 @@
   </bean>
   
   <bean id="Asset-primaryDepreciationMethodCode" parent="Asset-primaryDepreciationMethodCode-parentBean" />
-  <bean id="Asset-primaryDepreciationMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-primaryDepreciationMethodCode-parentBean" abstract="true" parent="AssetDepreciationMethod-depreciationMethodCode">
     <property name="name" value="primaryDepreciationMethodCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Depreciation Method Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod"
@@ -648,67 +615,33 @@
   </bean>
   
   <bean id="Asset-retirementAccountNumber" parent="Asset-retirementAccountNumber-parentBean" />
-  <bean id="Asset-retirementAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-retirementAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="retirementAccountNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Cash Receipt Account" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
+    <property name="label" value="Retirement Account" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountCode-parentBean" />
-  <bean id="Asset-retirementChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-retirementChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="retirementChartOfAccountsCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Cash Receipt Chart" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+    <property name="label" value="Retirement Chart" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-retirementFiscalYear" parent="Asset-retirementFiscalYear-parentBean" />
-  <bean id="Asset-retirementFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-retirementFiscalYear-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalYear">
     <property name="name" value="retirementFiscalYear" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Retirement Fiscal Year" />
     <property name="shortLabel" value="Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-retirementPeriodCode" parent="Asset-retirementPeriodCode-parentBean" />
-  <bean id="Asset-retirementPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-retirementPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
     <property name="name" value="retirementPeriodCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Retirement Period Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-financialObjectSubTypeCode" parent="Asset-financialObjectSubTypeCode-parentBean" />
@@ -716,22 +649,11 @@
     <property name="name" value="financialObjectSubTypeCode" />
     <property name="label" value="Financial Object Subtype Code" />
     <property name="shortLabel" value="Code" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-retirementReasonCode" parent="Asset-retirementReasonCode-parentBean" />
-  <bean id="Asset-retirementReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="retirementReasonCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Retirement Reason" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
+  <bean id="Asset-retirementReasonCode-parentBean" abstract="true" parent="AssetRetirementReason-retirementReasonCode">
   </bean>
   
   <bean id="Asset-salePrice" parent="Asset-salePrice-parentBean" />
@@ -776,19 +698,10 @@
   </bean>
   
   <bean id="Asset-transferOfFundsFinancialDocumentNumber" parent="Asset-transferOfFundsFinancialDocumentNumber-parentBean" />
-  <bean id="Asset-transferOfFundsFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-transferOfFundsFinancialDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
     <property name="name" value="transferOfFundsFinancialDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Transfer Of Funds Financial Document Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
   </bean>
   
   <bean id="Asset-vendorName" parent="Asset-vendorName-parentBean" />
@@ -865,14 +778,17 @@
   <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean" />
   <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="label" value="Campus" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-buildingCode" parent="Asset-buildingCode-parentBean" />
-  <bean id="Asset-buildingCode-parentBean" abstract="true" parent="Room-buildingCode">
+  <bean id="Asset-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-buildingRoomNumber" parent="Asset-buildingRoomNumber-parentBean" />
   <bean id="Asset-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
+    <property name="required" value="false" />
   </bean>
   
   <bean id="Asset-assetOrganization.organizationText" parent="Asset-assetOrganization.organizationText-parentBean" />

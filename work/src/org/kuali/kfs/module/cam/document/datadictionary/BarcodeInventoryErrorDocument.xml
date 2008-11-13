@@ -57,21 +57,8 @@
  
  <!-- Attribute Definitions -->
   <bean id="BarcodeInventoryErrorDocument-documentNumber" parent="BarcodeInventoryErrorDocument-documentNumber-parentBean" />
-  <bean id="BarcodeInventoryErrorDocument-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
+  <bean id="BarcodeInventoryErrorDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   
   <bean id="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier" parent="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier-parentBean" />
@@ -88,8 +75,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="uploaderUniversalIdentifier" />
-    <property name="description" value="uploaderUniversalIdentifier description..." />
   </bean>
     
   <bean id="BarcodeInventoryErrorDocument-currentTagNumber" parent="BarcodeInventoryErrorDocument-currentTagNumber-parentBean" />
@@ -121,8 +106,6 @@
             p:size="1" />
     </property-->
     
-    <property name="summary" value="Scan Code" />
-    <property name="description" value="Scan Code" />
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentCampusCode" parent="BarcodeInventoryErrorDocument-currentCampusCode-parentBean" />
@@ -176,8 +159,6 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Scan Code" />
-    <property name="description" value="Scan Code" />
   </bean>
 		
   <bean id="BarcodeInventoryErrorDocument-newCampusCode" parent="BarcodeInventoryErrorDocument-newCampusCode-parentBean" />

@@ -27,19 +27,7 @@
 
   <bean id="AssetLocationGlobal-documentNumber" parent="AssetLocationGlobal-documentNumber-parentBean" />
 
-  <bean id="AssetLocationGlobal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
+  <bean id="AssetLocationGlobal-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

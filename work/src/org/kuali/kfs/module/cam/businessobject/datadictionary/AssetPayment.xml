@@ -161,69 +161,27 @@
   </bean>
 
   <bean id="AssetPayment-accountChargeAmount" parent="AssetPayment-accountChargeAmount-parentBean" />
-  <bean id="AssetPayment-accountChargeAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-accountChargeAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accountChargeAmount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-accountNumber" parent="AssetPayment-accountNumber-parentBean" />
-  <bean id="AssetPayment-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Account Number" />
-    <property name="shortLabel" value="Account Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
+  <bean id="AssetPayment-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
   
   <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount" parent="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" />
-  <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accumulatedPrimaryDepreciationAmount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Accumulated Primary Depreciation Amount" />
     <property name="shortLabel" value="Accum. Depr. Amt." />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-capitalAssetNumber" parent="AssetPayment-capitalAssetNumber-parentBean" />
-  <bean id="AssetPayment-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Number" />
-    <property name="shortLabel" value="Asset Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
+  <bean id="AssetPayment-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
   
   <bean id="AssetPayment-chartOfAccountsCode" parent="AssetPayment-chartOfAccountsCode-parentBean" />
@@ -233,19 +191,7 @@
   </bean>
   
   <bean id="AssetPayment-documentNumber" parent="AssetPayment-documentNumber-parentBean" />
-  <bean id="AssetPayment-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Doc. #" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
+  <bean id="AssetPayment-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
   
   <bean id="AssetPayment-financialDocumentPostingDate" parent="AssetPayment-financialDocumentPostingDate-parentBean" />
@@ -256,99 +202,42 @@
   </bean>
   
   <bean id="AssetPayment-financialDocumentPostingPeriodCode" parent="AssetPayment-financialDocumentPostingPeriodCode-parentBean" />
-  <bean id="AssetPayment-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
     <property name="name" value="financialDocumentPostingPeriodCode" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Fiscal Period" />
     <property name="shortLabel" value="Period Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
   </bean>
   
   <bean id="AssetPayment-financialDocumentPostingYear" parent="AssetPayment-financialDocumentPostingYear-parentBean" />
-  <bean id="AssetPayment-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-financialDocumentPostingYear-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalYear">
     <property name="name" value="financialDocumentPostingYear" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Posting Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   
   <bean id="AssetPayment-financialDocumentTypeCode" parent="AssetPayment-financialDocumentTypeCode-parentBean" />
-  <bean id="AssetPayment-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Document Type Code" />
     <property name="shortLabel" value="Doc. Type" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   
   <bean id="AssetPayment-financialObjectCode" parent="AssetPayment-financialObjectCode-parentBean" />
-  <bean id="AssetPayment-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Object Code" />
+  <bean id="AssetPayment-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="shortLabel" value="Object Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   
   <bean id="AssetPayment-financialSubObjectCode" parent="AssetPayment-financialSubObjectCode-parentBean" />
-  <bean id="AssetPayment-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSubObjectCode" />
-    <property name="forceUppercase" value="false"  />
+  <bean id="AssetPayment-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="label" value="Sub-Object" />
     <property name="shortLabel" value="Sub-Obj. Code" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   
   <bean id="AssetPayment-financialSystemOriginationCode" parent="AssetPayment-financialSystemOriginationCode-parentBean" />
-  <bean id="AssetPayment-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemOriginationCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Origination Code" />
+  <bean id="AssetPayment-financialSystemOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
     <property name="shortLabel" value="Origin. Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   
   <bean id="AssetPayment-organizationReferenceId" parent="AssetPayment-organizationReferenceId-parentBean" />
@@ -384,256 +273,122 @@
   </bean>
   
   <bean id="AssetPayment-period10Depreciation1Amount" parent="AssetPayment-period10Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period10Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period10Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period10Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period10 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period11Depreciation1Amount" parent="AssetPayment-period11Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period11Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period11Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period11Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period11 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period12Depreciation1Amount" parent="AssetPayment-period12Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period12Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period12Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period12Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period12 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period1Depreciation1Amount" parent="AssetPayment-period1Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period1Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period1Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period1Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period1 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period2Depreciation1Amount" parent="AssetPayment-period2Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period2Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period2Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period2Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period2 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period3Depreciation1Amount" parent="AssetPayment-period3Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period3Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period3Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period3Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period3 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period4Depreciation1Amount" parent="AssetPayment-period4Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period4Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period4Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period4Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period4 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period5Depreciation1Amount" parent="AssetPayment-period5Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period5Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period5Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period5Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period5 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period6Depreciation1Amount" parent="AssetPayment-period6Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period6Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period6Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period6Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period6 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period7Depreciation1Amount" parent="AssetPayment-period7Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period7Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period7Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period7Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period7 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period8Depreciation1Amount" parent="AssetPayment-period8Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period8Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period8Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period8Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period8 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-period9Depreciation1Amount" parent="AssetPayment-period9Depreciation1Amount-parentBean" />
-  <bean id="AssetPayment-period9Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-period9Depreciation1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="period9Depreciation1Amount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Period9 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-previousYearPrimaryDepreciationAmount" parent="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean" />
-  <bean id="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="previousYearPrimaryDepreciationAmount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Previous Year Primary Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-primaryDepreciationBaseAmount" parent="AssetPayment-primaryDepreciationBaseAmount-parentBean" />
-  <bean id="AssetPayment-primaryDepreciationBaseAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-primaryDepreciationBaseAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="primaryDepreciationBaseAmount" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Primary Depreciation Base Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
   <bean id="AssetPayment-projectCode" parent="AssetPayment-projectCode-parentBean" />
-  <bean id="AssetPayment-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPayment-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Project Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   
   <bean id="AssetPayment-purchaseOrderNumber" parent="AssetPayment-purchaseOrderNumber-parentBean" />
@@ -669,19 +424,9 @@
   </bean>
   
   <bean id="AssetPayment-subAccountNumber" parent="AssetPayment-subAccountNumber-parentBean" />
-  <bean id="AssetPayment-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subAccountNumber" />
-    <property name="forceUppercase" value="false"  />
+  <bean id="AssetPayment-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub-Account" />
     <property name="shortLabel" value="Sub Accnt No" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
-    </property>
   </bean>
   
   <bean id="AssetPayment-transferPaymentCode" parent="AssetPayment-transferPaymentCode-parentBean" />

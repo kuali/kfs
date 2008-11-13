@@ -32,115 +32,31 @@
 <!-- Attribute Definitions -->
 
   <bean id="AssetLocationGlobalDetail-buildingCode" parent="AssetLocationGlobalDetail-buildingCode-parentBean" />
-  <bean id="AssetLocationGlobalDetail-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Building Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
+  <bean id="AssetLocationGlobalDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
   </bean>
   
   <bean id="AssetLocationGlobalDetail-buildingRoomNumber" parent="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" />
-  <bean id="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingRoomNumber" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Building Room Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+  <bean id="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
   </bean>
   
   <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber" parent="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" />
-  <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingSubRoomNumber" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Building Sub Room Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+  <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
   </bean>
   
   <bean id="AssetLocationGlobalDetail-campusCode" parent="AssetLocationGlobalDetail-campusCode-parentBean" />
-  <bean id="AssetLocationGlobalDetail-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Campus Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+  <bean id="AssetLocationGlobalDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
   </bean>
   
   <bean id="AssetLocationGlobalDetail-campusTagNumber" parent="AssetLocationGlobalDetail-campusTagNumber-parentBean" />
-  <bean id="AssetLocationGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusTagNumber" />
-    <property name="forceUppercase" value="true"  />
-    <property name="label" value="Tag Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+  <bean id="AssetLocationGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
   </bean>
   
   <bean id="AssetLocationGlobalDetail-capitalAssetNumber" parent="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" />
-  <bean id="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
+  <bean id="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
   
   <bean id="AssetLocationGlobalDetail-documentNumber" parent="AssetLocationGlobalDetail-documentNumber-parentBean" />
-  <bean id="AssetLocationGlobalDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
+  <bean id="AssetLocationGlobalDetail-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
   
   <bean id="AssetLocationGlobalDetail-newCollectionRecord" parent="AssetLocationGlobalDetail-newCollectionRecord-parentBean" />

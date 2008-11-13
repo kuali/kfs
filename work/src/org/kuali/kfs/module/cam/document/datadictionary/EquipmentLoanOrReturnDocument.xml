@@ -108,262 +108,138 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerAddress" parent="EquipmentLoanOrReturnDocument-borrowerAddress-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerAddress-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
     <property name="name" value="borrowerAddress" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="borrowerAddress" />
-    <property name="description" value="borrowerAddress description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerCityName" parent="EquipmentLoanOrReturnDocument-borrowerCityName-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerCityName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="borrowerCityName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="City" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="borrowerCityName" />
-    <property name="description" value="borrowerCityName description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerCountryCode" parent="EquipmentLoanOrReturnDocument-borrowerCountryCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
-	p:sourceAttributeName="postalCountryCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode" >
     <property name="name" value="borrowerCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
-    </property>
-    <property name="summary" value="borrowerCountryCode" />
-    <property name="description" value="borrowerCountryCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerPhoneNumber" parent="EquipmentLoanOrReturnDocument-borrowerPhoneNumber-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerPhoneNumber-parentBean" abstract="true" parent="AssetLocation-assetLocationPhoneNumber">
     <property name="name" value="borrowerPhoneNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Phone" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="13" />
-    <property name="validationPattern" >
-      <bean parent="PhoneNumberValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
-    </property>
-    <property name="summary" value="borrowerPhoneNumber" />
-    <property name="description" value="borrowerPhoneNumber description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode" parent="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" >
      <property name="name" value="borrowerStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
-    <property name="shortLabel" value="Code" />
     <property name="required" value="true" />
-    <property name="summary" value="borrowerStateCode" />
-    <property name="description" value="borrowerStateCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageAddress" parent="EquipmentLoanOrReturnDocument-borrowerStorageAddress-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageAddress-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
     <property name="name" value="borrowerStorageAddress" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Address" />
-    <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="borrowerStorageAddress" />
-    <property name="description" value="borrowerStorageAddress description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCityName" parent="EquipmentLoanOrReturnDocument-borrowerStorageCityName-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCityName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="borrowerStorageCityName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="City" />
-    <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="borrowerStorageCityName" />
-    <property name="description" value="borrowerStorageCityName description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
-	p:sourceAttributeName="postalCountryCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode">
     <property name="name" value="borrowerStorageCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
-    </property>
-    <property name="summary" value="borrowerStorageCountryCode" />
-    <property name="description" value="borrowerStorageCountryCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber" parent="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber-parentBean" abstract="true" parent="AssetLocation-assetLocationPhoneNumber">
     <property name="name" value="borrowerStoragePhoneNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Phone" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="13" />
-    <property name="validationPattern" >
-      <bean parent="PhoneNumberValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
-    </property>
-    <property name="summary" value="borrowerStoragePhoneNumber" />
-    <property name="description" value="borrowerStoragePhoneNumber description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" >
     <property name="name" value="borrowerStorageStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
-    <property name="shortLabel" value="Code" />
-    <property name="summary" value="borrowerStorageStateCode" />
-    <property name="description" value="borrowerStorageStateCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode" >
     <property name="name" value="borrowerStorageZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
     <property name="required" value="false" />
-    <property name="summary" value="borrowerStorageZipCode" />
-    <property name="description" value="borrowerStorageZipCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode" parent="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode">
     <property name="name" value="borrowerZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
     <property name="required" value="true" />
-    <property name="summary" value="borrowerZipCode" />
-    <property name="description" value="borrowerZipCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-documentNumber" parent="EquipmentLoanOrReturnDocument-documentNumber-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  <bean id="EquipmentLoanOrReturnDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-expectedReturnDate" parent="EquipmentLoanOrReturnDocument-expectedReturnDate-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-expectedReturnDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-expectedReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="expectedReturnDate" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Expected Return Date" />
     <property name="shortLabel" value="Date" />
     <property name="required" value="true" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="expectedReturnDate" />
-    <property name="description" value="expectedReturnDate description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-loanDate" parent="EquipmentLoanOrReturnDocument-loanDate-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-loanDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-loanDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="loanDate" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Loan Date" />
     <property name="shortLabel" value="Date" />
     <property name="required" value="true" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="loanDate" />
-    <property name="description" value="loanDate description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-loanReturnDate" parent="EquipmentLoanOrReturnDocument-loanReturnDate-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-loanReturnDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-loanReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="loanReturnDate" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Loan Return Date" />
     <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="loanReturnDate" />
-    <property name="description" value="loanReturnDate description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" />
 
@@ -397,7 +273,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Borrowed Person Name" />
     <property name="shortLabel" value="Borrowed Person Name" />
   </bean>
-  <!-- Exported Workflow Properties -->
+<!-- Exported Workflow Properties -->
 
 
   <bean id="EquipmentLoanOrReturnDocument-workflowProperties" parent="EquipmentLoanOrReturnDocument-workflowProperties-parentBean" />

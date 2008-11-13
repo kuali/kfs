@@ -80,8 +80,7 @@
 
   <bean id="Pretag-capitalAssetTypeCode" parent="Pretag-capitalAssetTypeCode-parentBean" />
 
-  <bean id="Pretag-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
-    <property name="label" value="Asset Type Code" />
+  <bean id="Pretag-capitalAssetTypeCode-parentBean" abstract="true" parent="Asset-capitalAssetTypeCode">
     <property name="shortLabel" value="Asset Type Code" />
     <property name="required" value="true" />
     <property name="control" >
@@ -134,20 +133,11 @@
   </bean>
   <bean id="Pretag-purchaseOrderNumber" parent="Pretag-purchaseOrderNumber-parentBean" />
 
-  <bean id="Pretag-purchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Pretag-purchaseOrderNumber-parentBean" abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="required" value="true" />
     <property name="label" value="Purchase Order Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
   </bean>
 
   <bean id="Pretag-pretagCreateDate" parent="Pretag-pretagCreateDate-parentBean" />
@@ -175,124 +165,45 @@
             p:cols="80" />
     </property>
   </bean>
+  
   <bean id="Pretag-itemLineNumber" parent="Pretag-itemLineNumber-parentBean" />
-
-  <bean id="Pretag-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Pretag-itemLineNumber-parentBean" abstract="true" parent="PurchaseOrderItem-itemLineNumber">
     <property name="name" value="itemLineNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Line Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
   </bean>
   <bean id="Pretag-manufacturerModelNumber" parent="Pretag-manufacturerModelNumber-parentBean" />
 
-  <bean id="Pretag-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="manufacturerModelNumber" />
-    <property name="forceUppercase" value="false" />
+  <bean id="Pretag-manufacturerModelNumber-parentBean" abstract="true" parent="Asset-manufacturerModelNumber">
     <property name="label" value="Manufacturer Model Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-           p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
-    </property>
   </bean>
   <bean id="Pretag-manufacturerName" parent="Pretag-manufacturerName-parentBean" />
 
-  <bean id="Pretag-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="manufacturerName" />
-    <property name="forceUppercase" value="false" />
+  <bean id="Pretag-manufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName">
     <property name="label" value="Manufacturer Name" />
     <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
-    </property>
   </bean>
+  
   <bean id="Pretag-organizationInventoryName" parent="Pretag-organizationInventoryName-parentBean" />
-
-  <bean id="Pretag-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationInventoryName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Inventory Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
-    </property>
+  <bean id="Pretag-organizationInventoryName-parentBean" abstract="true" parent="Asset-organizationInventoryName">
   </bean>
+  
   <bean id="Pretag-organizationText" parent="Pretag-organizationText-parentBean" />
-
-  <bean id="Pretag-organizationText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Text" />
-    <property name="shortLabel" value="Text" />
-    <property name="maxLength" value="255" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
-    </property>
+  <bean id="Pretag-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
   </bean>
+  
   <bean id="Pretag-quantityInvoiced" parent="Pretag-quantityInvoiced-parentBean" />
-
-  <bean id="Pretag-quantityInvoiced-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Pretag-quantityInvoiced-parentBean" abstract="true" parent="PurchaseOrderItem-itemQuantity">
     <property name="name" value="quantityInvoiced" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Quantity Invoiced" />
     <property name="shortLabel" value="Invoiced" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
   </bean>
+  
   <bean id="Pretag-vendorName" parent="Pretag-vendorName-parentBean" />
-
-  <bean id="Pretag-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
-    </property>
+  <bean id="Pretag-vendorName-parentBean" abstract="true" parent="Asset-vendorName">
   </bean>
+  
   <bean id="Pretag-campusTagNumbers" parent="Pretag-campusTagNumbers-parentBean" />
 
   <bean id="Pretag-campusTagNumbers-parentBean" abstract="true" parent="AttributeDefinition">

@@ -28,7 +28,6 @@
 
   <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier" parent="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean" />
   <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean" abstract="true" parent="GeneralLedgerEntry-generalLedgerAccountIdentifier">
-    <property name="name" value="generalLedgerAccountIdentifier" />
   </bean>
   
   <bean id="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber" parent="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber-parentBean" />
@@ -48,19 +47,10 @@
   </bean>
 
   <bean id="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber" parent="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber-parentBean" />
-  <bean id="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
     <property name="name" value="capitalAssetManagementDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Capital Asset Management Document Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->

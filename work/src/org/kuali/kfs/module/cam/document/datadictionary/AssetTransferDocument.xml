@@ -83,77 +83,28 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AssetTransferDocument-buildingCode" parent="AssetTransferDocument-buildingCode-parentBean" />
 
-  <bean id="AssetTransferDocument-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Code" />
+  <bean id="AssetTransferDocument-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-    <property name="summary" value="buildingCode" />
-    <property name="description" value="buildingCode description..." />
+    <property name="required" value="false" />
   </bean>
   <bean id="AssetTransferDocument-buildingRoomNumber" parent="AssetTransferDocument-buildingRoomNumber-parentBean" />
 
-  <bean id="AssetTransferDocument-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingRoomNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Room Number" />
+  <bean id="AssetTransferDocument-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="buildingRoomNumber" />
-    <property name="description" value="buildingRoomNumber description..." />
+    <property name="required" value="false" />
   </bean>
   <bean id="AssetTransferDocument-buildingSubRoomNumber" parent="AssetTransferDocument-buildingSubRoomNumber-parentBean" />
 
-  <bean id="AssetTransferDocument-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingSubRoomNumber" />
+  <bean id="AssetTransferDocument-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Building Sub Room Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="buildingSubRoomNumber" />
-    <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
   <bean id="AssetTransferDocument-campusCode" parent="AssetTransferDocument-campusCode-parentBean" />
 
-  <bean id="AssetTransferDocument-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="true" />
+  <bean id="AssetTransferDocument-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="label" value="Campus" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="campusCode" />
-    <property name="description" value="campusCode description..." />
   </bean>
   <bean id="AssetTransferDocument-interdepartmentalSalesIndicator" parent="AssetTransferDocument-interdepartmentalSalesIndicator-parentBean" />
 
@@ -166,184 +117,79 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="interdepartmentalSalesIndicator" />
-    <property name="description" value="interdepartmentalSalesIndicator description..." />
   </bean>
   <bean id="AssetTransferDocument-offCampusAddress" parent="AssetTransferDocument-offCampusAddress-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusAddress-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransferDocument-offCampusAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
     <property name="name" value="offCampusAddress" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Address" />
-    <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="offCampusAddress" />
-    <property name="description" value="offCampusAddress description..." />
   </bean>
   <bean id="AssetTransferDocument-offCampusCityName" parent="AssetTransferDocument-offCampusCityName-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusCityName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransferDocument-offCampusCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="offCampusCityName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="City" />
-    <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="offCampusCityName" />
-    <property name="description" value="offCampusCityName description..." />
   </bean>
   <bean id="AssetTransferDocument-offCampusStateCode" parent="AssetTransferDocument-offCampusStateCode-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
+  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" >
     <property name="name" value="offCampusStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
     <property name="shortLabel" value="Code" />
-    <property name="summary" value="offCampusStateCode" />
-    <property name="description" value="offCampusStateCode description..." />
   </bean>
   <bean id="AssetTransferDocument-offCampusZipCode" parent="AssetTransferDocument-offCampusZipCode-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
+  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode" >
     <property name="name" value="offCampusZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="required" value="false" />
-    <property name="summary" value="offCampusZipCode" />
-    <property name="description" value="offCampusZipCode description..." />
   </bean>
   <bean id="AssetTransferDocument-organizationInventoryName" parent="AssetTransferDocument-organizationInventoryName-parentBean" />
 
-  <bean id="AssetTransferDocument-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationInventoryName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Inventory Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
-    </property>
-    <property name="summary" value="organizationInventoryName" />
-    <property name="description" value="organizationInventoryName description..." />
+  <bean id="AssetTransferDocument-organizationInventoryName-parentBean" abstract="true" parent="Asset-organizationInventoryName">
   </bean>
   <bean id="AssetTransferDocument-organizationOwnerAccountNumber" parent="AssetTransferDocument-organizationOwnerAccountNumber-parentBean" />
 
-  <bean id="AssetTransferDocument-organizationOwnerAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransferDocument-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="organizationOwnerAccountNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Owner Account Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="organizationOwnerAccountNumber" />
-    <property name="description" value="organizationOwnerAccountNumber description..." />
   </bean>
   <bean id="AssetTransferDocument-organizationOwnerChartOfAccountsCode" parent="AssetTransferDocument-organizationOwnerChartOfAccountsCode-parentBean" />
 
-  <bean id="AssetTransferDocument-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransferDocument-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="organizationOwnerChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Owner Chart Of Accounts Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="organizationOwnerChartOfAccountsCode" />
-    <property name="description" value="organizationOwnerChartOfAccountsCode description..." />
   </bean>
   <bean id="AssetTransferDocument-organizationTagNumber" parent="AssetTransferDocument-organizationTagNumber-parentBean" />
 
-  <bean id="AssetTransferDocument-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationTagNumber" />
+  <bean id="AssetTransferDocument-organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Tag Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="organizationTagNumber" />
-    <property name="description" value="organizationTagNumber description..." />
   </bean>
   <bean id="AssetTransferDocument-organizationText" parent="AssetTransferDocument-organizationText-parentBean" />
 
-  <bean id="AssetTransferDocument-organizationText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Text" />
-    <property name="shortLabel" value="Text" />
-    <property name="maxLength" value="255" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
-    </property>
-    <property name="summary" value="organizationText" />
-    <property name="description" value="organizationText description..." />
+  <bean id="AssetTransferDocument-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
   </bean>
   <bean id="AssetTransferDocument-transferOfFundsFinancialDocumentNumber" parent="AssetTransferDocument-transferOfFundsFinancialDocumentNumber-parentBean" />
 
-  <bean id="AssetTransferDocument-transferOfFundsFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransferDocument-transferOfFundsFinancialDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
     <property name="name" value="transferOfFundsFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transfer Of Funds Financial Document Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
-    <property name="summary" value="transferOfFundsFinancialDocumentNumber" />
-    <property name="description" value="transferOfFundsFinancialDocumentNumber description..." />
   </bean>
   <bean id="AssetTransferDocument-representativeUniversalIdentifier" parent="AssetTransferDocument-representativeUniversalIdentifier-parentBean" />
 
@@ -384,7 +230,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetTransferDocument-documentNumber" parent="AssetTransferDocument-documentNumber-parentBean" />
 
-  <bean id="AssetTransferDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  <bean id="AssetTransferDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
   <bean id="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" parent="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode-parentBean" />
 
@@ -393,8 +239,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Organization Owner Chart Of Accounts Code" />
     <property name="shortLabel" value="Code" />
     <property name="required" value="false" />
-    <property name="summary" value="oldOrganizationOwnerChartOfAccountsCode" />
-    <property name="description" value="oldOrganizationOwnerChartOfAccountsCode description..." />
   </bean>
   
   <bean id="AssetTransferDocument-oldOrganizationOwnerAccountNumber" parent="AssetTransferDocument-oldOrganizationOwnerAccountNumber-parentBean" />
@@ -404,25 +248,17 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Organization Owner Account Number" />
     <property name="shortLabel" value="Number" />
     <property name="required" value="false" />
-    <property name="summary" value="oldOrganizationOwnerAccountNumber" />
-    <property name="description" value="oldOrganizationOwnerAccountNumber description..." />
   </bean>
   
    <bean id="AssetTransferDocument-offCampusCountryCode" parent="AssetTransferDocument-offCampusCountryCode-parentBean" />
 
   <bean id="AssetTransferDocument-offCampusCountryCode-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusCountryCode">
-    <property name="name" value="offCampusCountryCode" />
     <property name="label" value="Country" />
-    <property name="summary" value="Off Campus Country" />
-    <property name="description" value="Off Campus Country description..." />
   </bean>
   <bean id="AssetTransferDocument-offCampusName" parent="AssetTransferDocument-offCampusName-parentBean" />
 
   <bean id="AssetTransferDocument-offCampusName-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusName">
-    <property name="name" value="offCampusName" />
     <property name="label" value="Name" />
-    <property name="summary" value="Off Campus Name" />
-    <property name="description" value="Off Campus Name description..." />
   </bean>
   
 <!-- Exported Workflow Properties -->

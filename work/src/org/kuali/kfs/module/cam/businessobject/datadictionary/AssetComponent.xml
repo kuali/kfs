@@ -51,16 +51,10 @@
   </bean>
   
   <bean id="AssetComponent-componentConditionCode" parent="AssetComponent-componentConditionCode-parentBean" />
-  <bean id="AssetComponent-componentConditionCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetComponent-componentConditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
     <property name="name" value="componentConditionCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Component Condition Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetCondition"

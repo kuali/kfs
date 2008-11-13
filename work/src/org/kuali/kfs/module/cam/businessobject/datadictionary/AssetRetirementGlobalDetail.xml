@@ -113,7 +113,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber" parent="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  <bean id="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
     <property name="name" value="cashReceiptFinancialDocumentNumber" />
     <property name="label" value="Cash Receipt Financial Document Number" />
     <property name="shortLabel" value="Number" />
@@ -129,7 +129,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-documentNumber" parent="AssetRetirementGlobalDetail-documentNumber-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  <bean id="AssetRetirementGlobalDetail-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-estimatedSellingPrice" parent="AssetRetirementGlobalDetail-estimatedSellingPrice-parentBean" />
@@ -165,47 +165,23 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean> 
    
   <bean id="AssetRetirementGlobalDetail-retirementAccountNumber" parent="AssetRetirementGlobalDetail-retirementAccountNumber-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="retirementAccountNumber" />
-    <property name="forceUppercase" value="false"  />
+  <bean id="AssetRetirementGlobalDetail-retirementAccountNumber-parentBean" abstract="true" parent="Asset-retirementAccountNumber">
     <property name="label" value="Retirement Account Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementChartOfAccountsCode" parent="AssetRetirementGlobalDetail-retirementChartOfAccountsCode-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="retirementChartOfAccountsCode" />
-    <property name="forceUppercase" value="true"  />
+  <bean id="AssetRetirementGlobalDetail-retirementChartOfAccountsCode-parentBean" abstract="true" parent="Asset-retirementChartOfAccountsCode">
     <property name="label" value="Retirement Chart Of Accounts Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementCityName" parent="AssetRetirementGlobalDetail-retirementCityName-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementCityName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="retirementCityName" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="27" />
@@ -213,16 +189,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementContactName" parent="AssetRetirementGlobalDetail-retirementContactName-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementContactName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementContactName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="retirementContactName" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement Contact Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      		p:allowWhitespace="true"/>
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="42" />
@@ -230,34 +201,17 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementCountryCode" parent="AssetRetirementGlobalDetail-retirementCountryCode-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-	  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
-		p:sourceAttributeName="postalCountryCode">
+  <bean id="AssetRetirementGlobalDetail-retirementCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode">
     <property name="name" value="retirementCountryCode" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement Country Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
-    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementInstitutionName" parent="AssetRetirementGlobalDetail-retirementInstitutionName-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementInstitutionName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementInstitutionName-parentBean" abstract="true" parent="AssetLocation-assetLocationInstitutionName">
     <property name="name" value="retirementInstitutionName" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement Institution Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      		p:allowWhitespace="true"/>
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="42" />
@@ -265,34 +219,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementPhoneNumber" parent="AssetRetirementGlobalDetail-retirementPhoneNumber-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementPhoneNumber-parentBean" abstract="true" parent="AssetLocation-assetLocationPhoneNumber">
     <property name="name" value="retirementPhoneNumber" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement Phone Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="13" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      		p:allowWhitespace="true"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
-    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementStateCode" parent="AssetRetirementGlobalDetail-retirementStateCode-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-	  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+  <bean id="AssetRetirementGlobalDetail-retirementStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" >
     <property name="name" value="retirementStateCode" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement State Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder" />
@@ -300,16 +236,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementStreetAddress" parent="AssetRetirementGlobalDetail-retirementStreetAddress-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementStreetAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
     <property name="name" value="retirementStreetAddress" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Retirement Street Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      		p:allowWhitespace="true"/>
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="27" />
@@ -317,28 +248,17 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-retirementZipCode" parent="AssetRetirementGlobalDetail-retirementZipCode-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-	  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode" >
     <property name="name" value="retirementZipCode" />
     <property name="label" value="Retirement Postal Code" />
     <property name="shortLabel" value="Postal Code" />
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-salePrice" parent="AssetRetirementGlobalDetail-salePrice-parentBean" />
-  <bean id="AssetRetirementGlobalDetail-salePrice-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-salePrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="salePrice" />
-    <property name="forceUppercase" value="false"  />
     <property name="label" value="Sale Price" />
     <property name="shortLabel" value="Price" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   

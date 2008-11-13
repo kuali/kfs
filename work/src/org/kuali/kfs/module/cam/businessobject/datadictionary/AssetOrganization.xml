@@ -28,19 +28,8 @@
 <!-- Attribute Definitions -->
 
   <bean id="AssetOrganization-capitalAssetNumber" parent="AssetOrganization-capitalAssetNumber-parentBean" />
-  <bean id="AssetOrganization-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Number" />
+  <bean id="AssetOrganization-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
   </bean>
   
   <bean id="AssetOrganization-organizationAssetTypeIdentifier" parent="AssetOrganization-organizationAssetTypeIdentifier-parentBean" />
@@ -67,7 +56,8 @@
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

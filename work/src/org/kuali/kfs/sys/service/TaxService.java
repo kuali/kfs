@@ -52,4 +52,14 @@ public interface TaxService {
      * @return
      */
     KualiDecimal getTotalSalesTaxAmount( Date dateOfTransaction, String postalCode, KualiDecimal amount );
+
+    /**
+     * This method returns pretaxAmount
+     * 
+     * @param dateOfTransaction date to include tax rates from
+     * @param postalCode postal code to get tax rates
+     * @param amount amount to be taxed
+     * @return
+     */
+    KualiDecimal getPretaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amountWithTax);
 }

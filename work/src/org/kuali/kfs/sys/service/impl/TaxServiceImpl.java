@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +86,36 @@ public class TaxServiceImpl implements TaxService {
         }
 
         return totalSalesTaxAmount;
+    }
+    
+    /**
+     * 
+     * This method returns a preTax amount
+     * @param dateOfTransaction
+     * @param postalCode
+     * @param amountWithTax
+     * @return
+     */
+    
+    public KualiDecimal getPretaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amountWithTax) {
+        BigDecimal totalTaxRate = BigDecimal.ZERO;
+        
+        // there is not tax amount
+        if (StringUtils.isEmpty(postalCode))
+            return amountWithTax;
+            
+        List<TaxRegion> salesTaxRegions = taxRegionService.getSalesTaxRegions(postalCode);
+        if (salesTaxRegions.size() == 0)
+            return amountWithTax;
+        
+        for (TaxRegion taxRegion : salesTaxRegions) {
+            if (ObjectUtils.isNotNull((taxRegion.getEffectiveTaxRegionRate(dateOfTransaction))))
+                totalTaxRate = totalTaxRate.add(taxRegion.getEffectiveTaxRegionRate(dateOfTransaction).getTaxRate());
+        }
+        
+        KualiDecimal pretaxAmount = amountWithTax.divide(new KualiDecimal(totalTaxRate.add(BigDecimal.ONE)));
+
+        return pretaxAmount;
     }
 
     /**

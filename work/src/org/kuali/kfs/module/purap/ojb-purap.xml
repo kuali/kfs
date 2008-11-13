@@ -3400,7 +3400,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.LineItemReceivingView" table="PUR_RCVNG_LN_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.LineItemReceivingView" table="PUR_RCVNG_LN_V">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
@@ -3408,7 +3408,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.BulkReceivingView" table="PUR_BLK_RCVNG_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.BulkReceivingView" table="PUR_BLK_RCVNG_V">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
@@ -3416,7 +3416,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView" table="PUR_RCVNG_COR_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView" table="PUR_RCVNG_COR_V">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="lineItemReceivingDocumentIdentifier" column="RCVNG_LN_FDOC_NBR" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>

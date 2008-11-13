@@ -220,13 +220,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
             }
         }
-        
+
         // only for "Asset Separate" document
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             // total cost must be > 0
             success &= validateTotalCostAmount(assetGlobal);
         }
-        
+
         return success;
     }
 
@@ -395,13 +395,16 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      * @return valid
      */
     private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
+        if (ObjectUtils.isNull(objectCode)) {
+            return false;
+        }
         boolean valid = true;
 
         // The acquisition type code of (F, G, N, S, T) requires a capital object code.
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, assetGlobal.getAcquisitionTypeCode(), objectCode.getFinancialObjectSubTypeCode());
         valid &= parameterEvaluator.evaluateAndAddError(ObjectCode.class, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE);
-        
+
         return valid;
     }
 
@@ -494,10 +497,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 }
                 sharedIndex++;
             }
-            
+
             // total cost must be > 0
             success &= validateTotalCostAmount(assetGlobal);
-            
+
         } // end ASEP
 
         success &= validateLocationCollection(assetGlobal, assetSharedDetails);
@@ -518,8 +521,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         return success;
-    }    
-    
+    }
+
     /**
      * Validates the capital asset type code.
      * 

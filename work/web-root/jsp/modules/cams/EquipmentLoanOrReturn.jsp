@@ -26,15 +26,8 @@
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
 	<c:set var="displayReturnLoanFieldsReadOnly" value="${KualiForm.editingMode['displayReturnLoanFieldsReadOnly']}" scope="request"/>
-	<!-- 
-	<kfs:hiddenDocumentFields isTransactionalDocument="true" isFinancialDocument="false"/>
-	<html:hidden property="document.capitalAssetNumber" />
-	<html:hidden property="document.documentNumber" />
-	<html:hidden property="document.versionNumber" />	
-	<html:hidden property="document.newLoan" />
-	 -->	
-
-    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 
 	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalIdentifier,document.borrowerPerson.principalName,document.loanDate,document.expectedReturnDate,document.loanReturnDate"> 

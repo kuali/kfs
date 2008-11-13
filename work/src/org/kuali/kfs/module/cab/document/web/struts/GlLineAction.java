@@ -126,12 +126,29 @@ public class GlLineAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward submitAssetGlobal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlLineForm glLineForm = (GlLineForm) form;
+        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
+        List<GeneralLedgerEntry> submitList = prepareSubmitList(glLineForm, defaultGeneralLedgerEntry);
+        if (submitList.isEmpty()) {
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+        Document maintDoc = glLineService.createAssetGlobalDocument(submitList, defaultGeneralLedgerEntry);
+        return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
+    }
+
+    /**
+     * Helper method to prepare the submit list
+     * 
+     * @param glLineForm ActionForm
+     * @param defaultGeneralLedgerEntry Default selected GL Entry
+     * @return List of submitted entries
+     * @throws Exception
+     */
+    protected List<GeneralLedgerEntry> prepareSubmitList(GlLineForm glLineForm, GeneralLedgerEntry defaultGeneralLedgerEntry) throws Exception {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-        GlLineForm glLineForm = (GlLineForm) form;
         List<GeneralLedgerEntry> submitList = new ArrayList<GeneralLedgerEntry>();
-        // add the default one
-        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
         defaultGeneralLedgerEntry.setSelected(true);
         submitList.add(defaultGeneralLedgerEntry);
         List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
@@ -144,11 +161,7 @@ public class GlLineAction extends KualiAction {
                 }
             }
         }
-        if (submitList.isEmpty()) {
-            return mapping.findForward(RiceConstants.MAPPING_BASIC);
-        }
-        Document maintDoc = glLineService.createAssetGlobalDocument(submitList, defaultGeneralLedgerEntry);
-        return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
+        return submitList;
     }
 
     /**
@@ -165,21 +178,9 @@ public class GlLineAction extends KualiAction {
     public ActionForward submitPaymentGlobal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         GlLineForm glLineForm = (GlLineForm) form;
-        List<GeneralLedgerEntry> submitList = new ArrayList<GeneralLedgerEntry>();
-        // add the default one
         GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
-        defaultGeneralLedgerEntry.setSelected(true);
-        submitList.add(defaultGeneralLedgerEntry);
-        List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
 
-        for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
-            if (generalLedgerEntry.isSelected()) {
-                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
-                if (entry != null && entry.isActive()) {
-                    submitList.add(entry);
-                }
-            }
-        }
+        List<GeneralLedgerEntry> submitList = prepareSubmitList(glLineForm, defaultGeneralLedgerEntry);
         if (submitList.isEmpty()) {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }

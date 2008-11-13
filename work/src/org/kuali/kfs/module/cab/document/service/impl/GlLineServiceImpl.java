@@ -81,13 +81,23 @@ public class GlLineServiceImpl implements GlLineService {
         document.getNewMaintainableObject().setBusinessObject(assetGlobal);
         document.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
         documentService.saveDocument(document);
+        deactivateGLEntries(entries, document);
+        return document;
+    }
+
+    /**
+     * De-activate the GL Entries
+     * 
+     * @param entries GL Entries
+     * @param document Document
+     */
+    protected void deactivateGLEntries(List<GeneralLedgerEntry> entries, Document document) {
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
             generalLedgerEntry.setTransactionLedgerSubmitAmount(generalLedgerEntry.getTransactionLedgerEntryAmount());
             generalLedgerEntry.setActive(false);
             createGeneralLedgerEntryAsset(generalLedgerEntry, document);
             getBusinessObjectService().save(generalLedgerEntry);
         }
-        return document;
     }
 
     /**
@@ -102,6 +112,7 @@ public class GlLineServiceImpl implements GlLineService {
         if (ObjectUtils.isNotNull(assetInformation) && assetInformation.getCapitalAssetNumber() == null) {
             List<CapitalAssetInformationDetail> capitalAssetInformationDetails = assetInformation.getCapitalAssetInformationDetails();
             for (CapitalAssetInformationDetail capitalAssetInformationDetail : capitalAssetInformationDetails) {
+                // This is not added to constructor in CAMS to provide module isolation from CAMS
                 AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
                 assetGlobalDetail.setDocumentNumber(document.getDocumentNumber());
                 assetGlobalDetail.setCampusCode(capitalAssetInformationDetail.getCampusCode());
@@ -141,12 +152,12 @@ public class GlLineServiceImpl implements GlLineService {
      * @param entry GeneralLedgerEntry
      * @param maintDoc Document
      */
-    protected void createGeneralLedgerEntryAsset(GeneralLedgerEntry entry, Document maintDoc) {
+    protected void createGeneralLedgerEntryAsset(GeneralLedgerEntry entry, Document document) {
         // store the document number
         GeneralLedgerEntryAsset entryAsset = new GeneralLedgerEntryAsset();
         entryAsset.setGeneralLedgerAccountIdentifier(entry.getGeneralLedgerAccountIdentifier());
         entryAsset.setCapitalAssetBuilderLineNumber(1);
-        entryAsset.setCapitalAssetManagementDocumentNumber(maintDoc.getDocumentNumber());
+        entryAsset.setCapitalAssetManagementDocumentNumber(document.getDocumentNumber());
         entry.getGeneralLedgerEntryAssets().add(entryAsset);
     }
 
@@ -185,13 +196,7 @@ public class GlLineServiceImpl implements GlLineService {
         // Asset payment asset detail
         // save the document
         documentService.saveDocument(document);
-        for (GeneralLedgerEntry generalLedgerEntry : entries) {
-            // de-activate the entry
-            generalLedgerEntry.setTransactionLedgerSubmitAmount(generalLedgerEntry.getTransactionLedgerEntryAmount());
-            generalLedgerEntry.setActive(false);
-            createGeneralLedgerEntryAsset(generalLedgerEntry, document);
-            getBusinessObjectService().save(generalLedgerEntry);
-        }
+        deactivateGLEntries(entries, document);
         return document;
     }
 
@@ -217,13 +222,14 @@ public class GlLineServiceImpl implements GlLineService {
     }
 
     /**
-     * Creates asset payment detail based on GL line
+     * Creates asset payment detail based on GL line. to CAB
      * 
      * @param entry GeneralLedgerEntry
      * @param document Document
      * @return AssetPaymentDetail
      */
     protected AssetPaymentDetail createAssetPaymentDetail(GeneralLedgerEntry entry, Document document, int seqNo) {
+        // This is not added to constructor in CAMS to provide module isolation from CAMS
         AssetPaymentDetail detail = new AssetPaymentDetail();
         detail.setDocumentNumber(document.getDocumentNumber());
         detail.setSequenceNumber(seqNo);

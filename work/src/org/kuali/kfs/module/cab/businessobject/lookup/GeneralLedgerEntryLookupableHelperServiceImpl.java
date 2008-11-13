@@ -80,11 +80,11 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         List<GeneralLedgerEntry> newList = new ArrayList<GeneralLedgerEntry>();
         for (BusinessObject businessObject : searchResults) {
             GeneralLedgerEntry entry = (GeneralLedgerEntry) businessObject;
-            if (!entry.getFinancialDocumentTypeCode().equals(CabConstants.PREQ)) {
-                if (!entry.getFinancialDocumentTypeCode().equals(CabConstants.CM)) {
+            if (!CabConstants.PREQ.equals(entry.getFinancialDocumentTypeCode())) {
+                if (!CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
                     newList.add(entry);
                 }
-                else if (entry.getFinancialDocumentTypeCode().equals(CabConstants.CM)) {
+                else if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
                     Map<String, String> cmKeys = new HashMap<String, String>();
                     cmKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, entry.getDocumentNumber());
                     // check if CAB PO document exsists, if not include

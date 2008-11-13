@@ -11,8 +11,6 @@
 
 <logic:iterate id="assetPaymentAssetDetail" name="KualiForm" property="document.assetPaymentAssetDetail" indexId="ctr">
 		<c:set var="capitalAssetNumber" value="${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber}"/>
-		<!-- <html:hidden property="document.assetPaymentAssetDetail[${ctr}].versionNumber"/> -->
-
 		<c:set var="assetObject" value="document.assetPaymentAssetDetail[${ctr}].asset" />
 		<c:set var="assetValue" value="${KualiForm.document.assetPaymentAssetDetail[ctr].asset}" />
 		<c:set var="assetPayments" value="${KualiForm.document.assetPaymentAssetDetail[ctr].asset.assetPayments}" />

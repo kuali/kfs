@@ -33,11 +33,7 @@
       </list>
     </property>
     <property name="attributes" >
-      <list>
-      <!-- 
-        <ref bean="AssetPaymentDocument-versionNumber" />
-        <ref bean="AssetPaymentDocument-capitalAssetBuilderOriginIndicator" />
-       -->
+      <list>  
       </list>
     </property>
     <property name="validationMap" ref="AssetPaymentDocument-validations" />
@@ -62,20 +58,7 @@
     </property>
   </bean>
 
-<!-- 
-  <bean id="AssetPaymentDocument-versionNumber" parent="AssetPaymentDocument-versionNumber-parentBean" />
-  <bean id="AssetPaymentDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-
-  <bean id="AssetPaymentDocument-capitalAssetBuilderOriginIndicator" parent="AssetPaymentDocument-capitalAssetBuilderOriginIndicator-parentBean" />
-  <bean id="AssetPaymentDocument-capitalAssetBuilderOriginIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-	<property name="name" value="capitalAssetBuilderOriginIndicator" />
-	<property name="label" value="Capital Asset Builder Origin Indicator" />
-	<property name="shortLabel" value="Origin Indicator" />
-  </bean>
- -->  
-  <!-- Validations -->
-  
+  <!-- Validations -->  
   <bean id="AssetPaymentDocument-validations" parent="AssetPaymentDocument-validations-parentBean" />
   
   <bean id="AssetPaymentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">

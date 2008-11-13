@@ -40,7 +40,7 @@ public class ExtractStep extends AbstractStep {
      * <li>For each GL line perform the following steps</li>
      * <li>Check GL lines belongs to a PO or Not</li>
      * <li>If not PO related, then check for duplicate in CB_GL_ENTRY_T, if not duplicate insert into CB_GL_ENTRY_T</li>
-     * <li>If PO related, check against PURAP Account Line History for respective PREQ or CM document</li>
+     * <li>If PO related, check against PURAP Account Line Revision History for respective PREQ or CM document</li>
      * <li>If sum of amounts matches grouped by fields "univ_fiscal_yr, fin_coa_cd, account_nbr, sub_acct_nbr, fin_object_cd,
      * fin_sub_obj_cd, univ_fiscal_prd_cd, fdoc_nbr, fdoc_ref_nbr" then it is a valid one, else ignore the GL lines for the document
      * and write to the reconciliation report </li>

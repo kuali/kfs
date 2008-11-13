@@ -31,7 +31,6 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.SalesTaxWriteoffCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;

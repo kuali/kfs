@@ -54,7 +54,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private KualiDecimal invTotShipAmount;
     private KualiDecimal invTotOtherDebitAmount;
     private KualiDecimal invTotOtherCreditAmount;
-    private boolean primaryCancelledPayment;
+    private Boolean primaryCancelledPayment;
     private Timestamp lastDisbursementActionDate;
 
     private List<PaymentAccountDetail> accountDetail = new ArrayList<PaymentAccountDetail>();

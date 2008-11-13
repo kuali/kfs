@@ -26,6 +26,7 @@ public class GlLineForm extends KualiForm {
     private List<GeneralLedgerEntry> relatedGlEntries;
     private Long primaryGlAccountId;
     private CapitalAssetInformation capitalAssetInformation;
+    private boolean selectAllGlEntries;
 
     public GlLineForm() {
         this.relatedGlEntries = new ArrayList<GeneralLedgerEntry>();
@@ -97,5 +98,23 @@ public class GlLineForm extends KualiForm {
             getRelatedGlEntries().add(new GeneralLedgerEntry());
         }
         return (GeneralLedgerEntry) getRelatedGlEntries().get(index);
+    }
+
+    /**
+     * Gets the selectAllGlEntries attribute.
+     * 
+     * @return Returns the selectAllGlEntries.
+     */
+    public boolean isSelectAllGlEntries() {
+        return selectAllGlEntries;
+    }
+
+    /**
+     * Sets the selectAllGlEntries attribute value.
+     * 
+     * @param selectAllGlEntries The selectAllGlEntries to set.
+     */
+    public void setSelectAllGlEntries(boolean selectAllGlEntries) {
+        this.selectAllGlEntries = selectAllGlEntries;
     }
 }

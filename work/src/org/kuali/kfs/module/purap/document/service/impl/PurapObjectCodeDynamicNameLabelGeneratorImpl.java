@@ -37,7 +37,7 @@ public class PurapObjectCodeDynamicNameLabelGeneratorImpl extends ObjectCodeDyna
         if (purapItem != null) {
             purapDocument = purapItem.getPurapDocument();
         }
-        if (purapItem == null || purapDocument.isInquiryRendered()) {
+        if (purapItem == null || purapDocument == null || purapDocument.isInquiryRendered()) {
             return super.getDynamicNameLabelValue(line, accountingLineProperty);       
         }
         else {

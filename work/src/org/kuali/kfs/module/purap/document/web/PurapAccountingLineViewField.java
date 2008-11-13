@@ -57,7 +57,7 @@ public class PurapAccountingLineViewField extends AccountingLineViewField {
         if (purapItem != null) {
             purapDocument = purapItem.getPurapDocument();
         }
-        if (purapItem == null || purapDocument.isInquiryRendered()) {
+        if (purapItem == null || purapDocument == null || purapDocument.isInquiryRendered()) {
             return super.getDynamicNameLabelDisplayedValue(accountingLine);
         }
         else {

@@ -1169,6 +1169,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
+            //temp fix for KULPURAP-3119
+            if (item.getPurapDocument() == null) {
+                item.setPurapDocument(this);
+            }
             ItemType it = item.getItemType();
             if ((includeBelowTheLine || it.isLineItemIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
                 KualiDecimal totalAmount = item.getTotalAmount();

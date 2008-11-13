@@ -746,6 +746,15 @@
 		</property>
 	</bean>	
 	
+	<bean id="invoiceRecurrenceDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.InvoiceRecurrenceDocumentServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>	
+	
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
 </beans>

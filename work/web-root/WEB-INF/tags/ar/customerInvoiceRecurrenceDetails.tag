@@ -79,6 +79,7 @@
                     <kul:htmlControlAttribute attributeEntry="${customerInvoiceRecurrenceAttributes.workgroupName}" 
                        property="document.customerInvoiceRecurrenceDetails.workgroupName"
                        readOnly="${readOnly}" />
+                   	<kul:workflowWorkgroupLookup fieldConversions="workgroupId:document.customerInvoiceRecurrenceDetails.workgroupName" />
                 </td>          
             </tr>    
 			<tr>

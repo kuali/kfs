@@ -36,12 +36,12 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class CustomerInvoiceRecurrenceBeginDateValidation extends GenericValidation {
+public class CustomerInvoiceRecurrenceWorkgroupValidation extends GenericValidation {
     
     private CustomerInvoiceDocument customerInvoiceDocument;
 
     public boolean validate(AttributedDocumentEvent event) {
-        
+
         if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) &&
             ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) &&
             ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) &&
@@ -50,17 +50,9 @@ public class CustomerInvoiceRecurrenceBeginDateValidation extends GenericValidat
             ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier())) {
             return true;
         }
-            
-        if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate())) {
-            Timestamp currentDate = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            Timestamp beginDateTimestamp = new Timestamp(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate().getTime());
-            if (beginDateTimestamp.before(currentDate) || beginDateTimestamp.equals(currentDate)) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_BEGIN_DATE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_BEGIN_DATE_EARLIER_THAN_TODAY);
-                return false;
-            }
-        }
-        else {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_BEGIN_DATE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_BEGIN_DATE_EARLIER_THAN_TODAY);
+        
+        if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getWorkgroupName())) {
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_WORKGROUP, ArKeyConstants.ERROR_INVOICE_RECURRENCE_WORKGROUP_IS_REQUIRED);
             return false;
         }
         return true;

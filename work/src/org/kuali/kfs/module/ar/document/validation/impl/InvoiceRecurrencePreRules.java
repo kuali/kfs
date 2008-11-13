@@ -56,7 +56,8 @@ public class InvoiceRecurrencePreRules extends PreRulesContinuationBase {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         InvoiceRecurrence newInvoiceRecurrence = (InvoiceRecurrence) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        if (ObjectUtils.isNull(newInvoiceRecurrence.getInvoiceNumber())) {
+        if (ObjectUtils.isNull(newInvoiceRecurrence.getInvoiceNumber()) ||
+            ObjectUtils.isNotNull(newInvoiceRecurrence.getCustomerNumber())) {
             return true;
         }
         

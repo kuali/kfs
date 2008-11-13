@@ -116,4 +116,7 @@
    	<bean id="CustomerInvoice-recurrenceEndDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceEndDateValidation" abstract="true"/>
    	<bean id="CustomerInvoice-maximumNumberOfRecurrencesValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceMaximumNumberOfRecurrencesValidation" abstract="true"/>
    	<bean id="CustomerInvoice-bothEndDateAndTotalRecurrenceNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceBothEndDateAndTotalRecurrenceNumberValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-recurrenceEndDateOrNumberOfRecurrencesValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceEndDateOrNumberOfRecurrencesValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-recurrenceWorkgroupValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceWorkgroupValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-recurrenceInitiatorValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceInitiatorValidation" abstract="true"/>
 </beans>

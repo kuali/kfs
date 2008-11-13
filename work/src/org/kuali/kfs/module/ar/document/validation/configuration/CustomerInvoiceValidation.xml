@@ -597,6 +597,36 @@
 						</list>
 					</property>					
 				</bean>
+				<bean parent="CustomerInvoice-recurrenceEndDateOrNumberOfRecurrencesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>											
+						</list>
+					</property>					
+				</bean>
+				<bean parent="CustomerInvoice-recurrenceWorkgroupValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>											
+						</list>
+					</property>					
+				</bean>
+				<bean parent="CustomerInvoice-recurrenceInitiatorValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>											
+						</list>
+					</property>					
+				</bean>
 			</list>
   		</property>
 	</bean>	

@@ -515,9 +515,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param paymentGroup <code>PaymentGroup</code> to update
      */
     protected void defaultGroupIndicators(PaymentGroup paymentGroup) {
-        if (paymentGroup.getCombineGroups() == null) {
+        //combineGroups column does not accept null values, so it will never be null
+        /*if (paymentGroup.getCombineGroups() == null) {
             paymentGroup.setCombineGroups(Boolean.TRUE);
-        }
+        }*/
 
         if (paymentGroup.getCampusAddress() == null) {
             paymentGroup.setCampusAddress(Boolean.FALSE);

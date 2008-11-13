@@ -61,17 +61,17 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private String state; // PMT_ST_NM
     private String country; // PMT_CNTRY_NM
     private String zipCd; // PMT_ZIP_CD
-    private boolean campusAddress; // CMP_ADDR_IND
+    private Boolean campusAddress; // CMP_ADDR_IND
     private Timestamp paymentDate; // PMT_DT DATE
-    private boolean pymtAttachment; // PMT_ATTCHMNT_IND
-    private boolean pymtSpecialHandling; // PMT_SPCL_HANDLG_IND
-    private boolean taxablePayment; // PMT_TXBL_IND
-    private boolean nraPayment; // NRA_PMT_IND
-    private boolean processImmediate; // PROC_IMD_IND
+    private Boolean pymtAttachment; // PMT_ATTCHMNT_IND
+    private Boolean pymtSpecialHandling; // PMT_SPCL_HANDLG_IND
+    private Boolean taxablePayment; // PMT_TXBL_IND
+    private Boolean nraPayment; // NRA_PMT_IND
+    private Boolean processImmediate; // PROC_IMD_IND
     private boolean combineGroups; // PMT_GRP_CMB_IND
     private String achBankRoutingNbr; // ACH_BNK_RTNG_NBR
     private String adviceEmailAddress; // ADV_EMAIL_ADDR
-    private boolean employeeIndicator; // EMP_IND
+    private Boolean employeeIndicator; // EMP_IND
     private String creditMemoNbr; // PMT_CRDT_MEMO_NBR
     private KualiDecimal creditMemoAmount; // PMT_CRDT_MEMO_AMT
     private KualiInteger disbursementNbr; // DISB_NBR
@@ -325,11 +325,11 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         this.city = city;
     }
 
-    public Boolean getCombineGroups() {
+    public boolean getCombineGroups() {
         return combineGroups;
     }
 
-    public void setCombineGroups(Boolean combineGroups) {
+    public void setCombineGroups(boolean combineGroups) {
         this.combineGroups = combineGroups;
     }
 

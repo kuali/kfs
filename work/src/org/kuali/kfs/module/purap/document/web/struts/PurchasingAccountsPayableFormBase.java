@@ -89,7 +89,8 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
         super.populate(request);
         //fix document item/account references if necessary
         PurchasingAccountsPayableDocument purapDoc = (PurchasingAccountsPayableDocument)this.getDocument();
-        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(purapDoc);
+        //FIXME this is breaking stuff (like copy req and updateview on cams)
+//        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(purapDoc);
         purapDoc.fixItemReferences();
     }
 

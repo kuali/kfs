@@ -52,6 +52,20 @@
     src="${ConfigProperties.externalizable.images.url}tinybutton-remcomcod.gif"
     alt="remove commodity codes from all items"
     title="remove commodity codes from all items" styleClass="tinybutton" />
+
+	<html:image 
+	property="methodToCall.showAllAccounts" 
+	src="${ConfigProperties.externalizable.images.url}tinybutton-expandallacc.gif" 
+	alt="expand all accounts" 
+	title="expand all accounts" 
+	styleClass="tinybutton"  />
+
+	<html:image 
+	property="methodToCall.hideAllAccounts" 
+	src="${ConfigProperties.externalizable.images.url}tinybutton-collallacc.gif" 
+	alt="collapse all accounts" 
+	title="collapse all accounts" 
+	styleClass="tinybutton"  />
 </c:if>
 
 <c:if test="${(fullEntryMode or amendmentEntry) and (clearAllTaxes)}">

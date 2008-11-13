@@ -17,8 +17,11 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,12 +50,14 @@ import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Struts Action for Purchasing and Accounts Payable documents
@@ -391,5 +396,80 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         // do nothing by default
     }
     
-    
+    /**
+     * Toggles all specific tabs to open
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward showAllAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiForm kualiForm = (KualiForm) form;
+        String accountingLineTab = "AccountingLines";
+        String value = null;
+        
+        Map<String, String> tabStates = kualiForm.getTabStates();
+        Map<String, String> newTabStates = new HashMap<String, String>();
+        for (Entry<String, String> tabEntry: tabStates.entrySet()) {
+            if(tabEntry.getKey().startsWith(accountingLineTab)){
+                newTabStates.put(tabEntry.getKey(), "OPEN");
+            }else{                        
+                if (tabEntry.getValue() instanceof String) {
+                    value = tabEntry.getValue();
+                }
+                else {
+                    //This is the case where the value is an Array of String,
+                    //so we'll have to get the first element
+                    Object result = tabEntry.getValue();
+                    result.getClass();
+                    value = ((String[])result)[0];
+                }
+                newTabStates.put(tabEntry.getKey(), value);                
+            }
+        }
+        kualiForm.setTabStates(newTabStates);
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Toggles all specific tabs to closed
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward hideAllAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiForm kualiForm = (KualiForm) form;
+        String accountingLineTab = "AccountingLines";
+        String value = null;
+        
+        Map<String, String> tabStates = kualiForm.getTabStates();
+        Map<String, String> newTabStates = new HashMap<String, String>();
+        for (Entry<String, String> tabEntry: tabStates.entrySet()) {
+            if(tabEntry.getKey().startsWith(accountingLineTab)){
+                newTabStates.put(tabEntry.getKey(), "CLOSE");
+            }else{
+                if (tabEntry.getValue() instanceof String) {
+                    value = tabEntry.getValue();
+                }
+                else {
+                    //This is the case where the value is an Array of String,
+                    //so we'll have to get the first element
+                    Object result = tabEntry.getValue();
+                    result.getClass();
+                    value = ((String[])result)[0];
+                }
+                newTabStates.put(tabEntry.getKey(), value);                
+            }
+        }
+        kualiForm.setTabStates(newTabStates);
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
 }

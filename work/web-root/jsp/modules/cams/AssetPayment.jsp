@@ -21,7 +21,7 @@
 
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
-  	<html:hidden property="document.capitalAssetNumber"/>	
+  	<html:hidden property="document.capitalAssetNumber"/>
     <cams:assetPayments /> 
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">

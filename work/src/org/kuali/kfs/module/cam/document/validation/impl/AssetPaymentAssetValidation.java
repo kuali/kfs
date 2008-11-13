@@ -46,7 +46,7 @@ public class AssetPaymentAssetValidation extends GenericValidation {
         boolean valid=true;
         
         int zeroCostAssetCount=0;
-        int noneZeroCostAssetCount=0;
+        int nonZeroCostAssetCount=0;
         
         int position_a=-1;
         for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
@@ -54,14 +54,14 @@ public class AssetPaymentAssetValidation extends GenericValidation {
             String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "."+CamsPropertyConstants.AssetPaymentDocument.ASSET_PAYMENT_ASSET_DETAIL + "["+position_a+"]."+ CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
             if (assetPaymentAssetDetail.getAsset().getTotalCostAmount().compareTo(new KualiDecimal(0)) != 0)
-                noneZeroCostAssetCount++;
+                nonZeroCostAssetCount++;
             else
                 zeroCostAssetCount++;
                         
             valid &= this.getAssetPaymentService().validateAssets(errorPath, assetPaymentAssetDetail.getAsset());            
         }
 
-        if (zeroCostAssetCount > 0 && (noneZeroCostAssetCount > 0)) {
+        if (zeroCostAssetCount > 0 && (nonZeroCostAssetCount > 0)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME+"."+CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR,CamsKeyConstants.Payment.ERROR_NON_ZERO_COST_ASSETS_ALLOWED);
             valid &= false;          
         }        

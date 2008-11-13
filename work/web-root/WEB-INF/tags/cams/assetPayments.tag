@@ -37,7 +37,7 @@
 						<kul:multipleValueLookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" lookedUpCollectionName="assetPaymentAssetDetail"/>
 					</td>
 					<td class="infoline" width="6%" align="center">
-					    <input name="methodToCall.insertAssetPaymentAssetDetail" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" class="tinybutton" title="Add an asset" alt="Add an asset" type="image">
+					    <html:image property="methodToCall.insertAssetPaymentAssetDetail" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add an asset" title="Add an asset"/>
 				    </td>
 			    </tr>
 				<tr>

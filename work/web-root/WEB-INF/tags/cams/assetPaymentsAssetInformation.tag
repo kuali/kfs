@@ -72,7 +72,7 @@
 			               		
 					<th class="datacell" rowspan="" nowrap="nowrap" width="5%">
 						<c:if test="${!viewOnly}">			               		
-				            <div align="center"><input name="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line 1" alt="Delete asset" type="image">
+				            <div align="center"><html:image property="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="Delete asset" title="Delete asset"/></div>
 						</c:if>			        				            
 			        </th>
 			    </tr>

@@ -65,12 +65,12 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl impleme
             {
                 // we update the faculty level (full, associate, assistant, etc.) only if base payroll information is still flowing into budget construction.
                 // otherwise, we assume that the base payroll is "frozen" as a base-line for salary setting, and we stop allowing people to move between faculty levels.
-                // this version builds intended incumbent without adding anyone to the faculty levels.
+                // this version builds intended incumbent and updates faculty ranks.
                 budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionIntendedIncumbentWithFacultyAttributes(requestYear);
             }
             else
             {
-                // this version builds intended incumbent and updates faculty ranks.
+                // this version builds intended incumbent without adding anyone to the faculty levels.
                 budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionIntendedIncumbent(requestYear);
             }
         }

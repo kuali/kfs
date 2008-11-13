@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
@@ -137,7 +138,7 @@ public class FormatProcessSummary extends TransientBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("processSummary", this.processSummaryList);
+        m.put(PdpPropertyConstants.FormatProcessSummary.PROCESS_SUMMARY, this.processSummaryList);
 
         return m;
     }

@@ -18,12 +18,12 @@ package org.kuali.kfs.pdp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class PayeeAchAccount extends PersistableBusinessObjectBase implements Inactivateable {
@@ -337,7 +337,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.achAccountGeneratedIdentifier != null) {
-            m.put("achAccountGeneratedIdentifier", this.achAccountGeneratedIdentifier.toString());
+            m.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, this.achAccountGeneratedIdentifier.toString());
         }
         return m;
     }

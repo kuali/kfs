@@ -25,6 +25,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
@@ -201,7 +202,7 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         
-        m.put("procId", this.procId);
+        m.put(PdpPropertyConstants.FormatResult.PROC_ID, this.procId);
         
         return m;
     }

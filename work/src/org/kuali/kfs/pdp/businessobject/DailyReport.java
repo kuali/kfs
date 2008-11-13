@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -98,10 +98,10 @@ public class DailyReport extends TransientBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         
-        m.put("customer", this.customer);
-        m.put("amount", this.amount);
-        m.put("payments", this.payments);
-        m.put("payees", this.payees);      
+        m.put(PdpPropertyConstants.DailyReport.CUSTOMER, this.customer);
+        m.put(PdpPropertyConstants.DailyReport.AMOUNT, this.amount);
+        m.put(PdpPropertyConstants.DailyReport.PAYMENTS, this.payments);
+        m.put(PdpPropertyConstants.DailyReport.PAYEES, this.payees);      
         
         return m;
     }

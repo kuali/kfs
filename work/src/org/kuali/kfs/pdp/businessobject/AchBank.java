@@ -17,13 +17,14 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 
 public class AchBank extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -429,7 +430,7 @@ public class AchBank extends PersistableBusinessObjectBase implements Inactivate
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("bankRoutingNumber", this.bankRoutingNumber);
+        m.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, this.bankRoutingNumber);
         return m;
     }
 

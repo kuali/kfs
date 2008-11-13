@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**
@@ -422,28 +423,28 @@ public class PaymentDetailSearch extends TransientBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap(); 
 
-        m.put("custPaymentDocNbr", this.custPaymentDocNbr);
-        m.put("invoiceNbr", this.invoiceNbr);
-        m.put("purchaseOrderNbr", this.purchaseOrderNbr);
-        m.put("payeeName", this.payeeName);
-        m.put("payeeId", this.payeeId);
-        m.put("payeeIdTypeCd", this.payeeIdTypeCd);
-        m.put("pymtAttachment", this.pymtAttachment);
-        m.put("pymtSpecialHandling", this.pymtSpecialHandling);
-        m.put("processImmediate", this.processImmediate);
-        m.put("disbursementNbr", this.disbursementNbr);
-        m.put("netPaymentAmount", this.netPaymentAmount);
-        m.put("beginDisbursementDate", this.beginDisbursementDate);
-        m.put("endDisbursementDate", this.endDisbursementDate);
-        m.put("beginPaymentDate", this.beginPaymentDate);
-        m.put("endPaymentDate", this.endPaymentDate);
-        m.put("paymentStatusCode", this.paymentStatusCode);
-        m.put("disbursementTypeCode", this.disbursementTypeCode);
-        m.put("requisitionNbr", this.requisitionNbr);
-        m.put("customerInstitutionNumber", this.customerInstitutionNumber);
-        m.put("processId", this.processId);
-        m.put("paymentId", this.paymentId);
-        m.put("chartCode", this.chartCode);
+        m.put(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, this.custPaymentDocNbr);
+        m.put(PdpPropertyConstants.PaymentDetail.PAYMENT_INVOICE_NUMBER, this.invoiceNbr);
+        m.put(PdpPropertyConstants.PaymentDetail.PAYMENT_PURCHASE_ORDER_NUMBER, this.purchaseOrderNbr);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME, this.payeeName);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_ID, this.payeeId);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_ID_TYPE_CODE, this.payeeIdTypeCd);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_ATTACHMENT, this.pymtAttachment);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_SPECIAL_HANDLING, this.pymtSpecialHandling);
+        m.put(PdpPropertyConstants.PaymentGroup.PROCESS_IMMEDIATE, this.processImmediate);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_NBR, this.disbursementNbr);
+        m.put(PdpPropertyConstants.PaymentDetail.PAYMENT_NET_AMOUNT, this.netPaymentAmount);
+        m.put(PdpPropertyConstants.PaymentDetail.BEGIN_DISBURSEMENT_DATE, this.beginDisbursementDate);
+        m.put(PdpPropertyConstants.PaymentDetail.END_DISBURSEMENT_DATE, this.endDisbursementDate);
+        m.put(PdpPropertyConstants.PaymentDetail.BEGIN_PAYMENT_DATE, this.beginPaymentDate);
+        m.put(PdpPropertyConstants.PaymentDetail.END_PAYMENT_DATE, this.endPaymentDate);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, this.paymentStatusCode);
+        m.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, this.disbursementTypeCode);
+        m.put(PdpPropertyConstants.PaymentDetail.PAYMENT_REQUISITION_NUMBER, this.requisitionNbr);
+        m.put(PdpPropertyConstants.CUSTOMER_INSTITUTION_NUMBER, this.customerInstitutionNumber);
+        m.put(PdpPropertyConstants.PaymentGroupHistory.PAYMENT_GROUP_PAYMENT_PROCESS_ID, this.processId);
+        m.put(PdpPropertyConstants.PAYMENT_ID, this.paymentId);
+        m.put(PdpPropertyConstants.CHART_CODE, this.chartCode);
         
         return m;
     }

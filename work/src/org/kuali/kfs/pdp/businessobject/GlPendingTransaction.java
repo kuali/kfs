@@ -19,7 +19,6 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -30,6 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -385,7 +385,7 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("id", this.id);
+        m.put(KFSPropertyConstants.ID, this.id);
 
         return m;
     }

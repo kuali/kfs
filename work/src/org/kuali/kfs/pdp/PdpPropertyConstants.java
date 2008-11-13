@@ -21,6 +21,13 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
  * Contains property name constants.
  */
 public class PdpPropertyConstants {
+    public static final String PAYMENT_TYPE_CODE = "paymentTypeCode";
+    public static final String PAYMENT_ID = "paymentId";
+    public static final String BEGIN_DATE = "beginDate";
+    public static final String END_DATE = "endDate";
+    public static final String ORG_CODE = "orgCode";
+    public static final String SUB_UNIT_CODE = "subUnitCode";
+    public static final String CHART_CODE = "chartCode";
     public static final String ACH_ACCOUNT_GENERATED_IDENTIFIER = "achAccountGeneratedIdentifier";
     public static final String BATCH_ID = "batchId";
     public static final String BANK_ROUTING_NUMBER = "bankRoutingNumber";
@@ -113,12 +120,13 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_DETAIL_NUMBER_OF_PAYMENTS_IN_PAYMENT_GROUP = "nbrOfPaymentsInPaymentGroup";
             public static final String PAYMENT_DETAIL_NUMBER_OF_PAYMENTS_IN_DISBURSEMENT = "nbrOfPaymentsInDisbursement";
             public static final String PAYMENT_DETAIL_PAYMENT_GROUP_ID = "paymentGroupId";
-            
-            
-            
+            public static final String BEGIN_DISBURSEMENT_DATE = "beginDisbursementDate";
+            public static final String END_DISBURSEMENT_DATE = "endDisbursementDate";
+            public static final String BEGIN_PAYMENT_DATE = "beginPaymentDate";
+            public static final String END_PAYMENT_DATE = "endPaymentDate";
         }
     
-    public static class PaymenGroupHistory {
+    public static class PaymentGroupHistory {
             public static final String PAYMENT_GROUP_CUSTOMER_INSTITUTION_NUMBER = "paymentGroup.customerInstitutionNumber";
             public static final String PAYMENT_GROUP_PAYEE_NAME = "paymentGroup.payeeName";
             public static final String PAYMENT_GROUP_PAYEE_ID = "paymentGroup.payeeId";
@@ -185,6 +193,25 @@ public class PdpPropertyConstants {
         
     }
     
+    public static class DailyReport {
+        public static final String CUSTOMER = "customer";
+        public static final String AMOUNT = "amount";
+        public static final String PAYMENTS = "payments";
+        public static final String PAYEES = "payees";
+    }
 
-
+    public static class FormatProcessSummary {
+        public static final String PROCESS_SUMMARY = "processSummary";
+    }
+    
+    public static class FormatResult {
+        public static final String PROC_ID = "procId";
+    }
+    
+    public static class FormatSelection {
+        public static final String CAMPUS = "campus";
+        public static final String START_DATE = "startDate";
+        public static final String CUSTOMER_LIST = "customerList";
+        public static final String RANGE_LIST = "rangeList";
+    }
 }

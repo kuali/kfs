@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -157,14 +159,14 @@ public class BatchSearch extends TransientBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         
-        m.put("batchId", this.batchId);                  
-        m.put("paymentCount", this.paymentCount);         
-        m.put("paymentTotalAmount", this.paymentTotalAmount);
-        m.put("beginDate", this.beginDate);               
-        m.put("endDate", this.endDate);                 
-        m.put("chartCode", this.chartCode);             
-        m.put("orgCode", this.orgCode);               
-        m.put("subUnitCode", this.subUnitCode);    
+        m.put(PdpPropertyConstants.BATCH_ID, this.batchId);                  
+        m.put(PdpPropertyConstants.PAYMENT_COUNT, this.paymentCount);         
+        m.put(PdpPropertyConstants.PAYMENT_TOTAL_AMOUNT, this.paymentTotalAmount);
+        m.put(PdpPropertyConstants.BEGIN_DATE, this.beginDate);               
+        m.put(PdpPropertyConstants.END_DATE, this.endDate);                 
+        m.put(PdpPropertyConstants.CHART_CODE, this.chartCode);             
+        m.put(PdpPropertyConstants.ORG_CODE, this.orgCode);               
+        m.put(PdpPropertyConstants.SUB_UNIT_CODE, this.subUnitCode);    
         
         return m;
     }

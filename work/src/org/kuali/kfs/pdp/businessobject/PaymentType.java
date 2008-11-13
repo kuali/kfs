@@ -17,6 +17,8 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -31,8 +33,8 @@ public class PaymentType extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("paymentTypeCode", this.paymentTypeCode);
-        m.put("description", this.description);
+        m.put(PdpPropertyConstants.PAYMENT_TYPE_CODE, this.paymentTypeCode);
+        m.put(KFSPropertyConstants.DESCRIPTION, this.description);
         
         return m;
     }

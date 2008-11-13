@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 public class FormatSelection extends TransientBusinessObjectBase {
@@ -68,10 +68,10 @@ public class FormatSelection extends TransientBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap(); 
         
-        m.put("campus", this.campus);
-        m.put("startDate", this.startDate);
-        m.put("customerList", this.customerList);
-        m.put("rangeList", this.rangeList);
+        m.put(PdpPropertyConstants.FormatSelection.CAMPUS, this.campus);
+        m.put(PdpPropertyConstants.FormatSelection.START_DATE, this.startDate);
+        m.put(PdpPropertyConstants.FormatSelection.CUSTOMER_LIST, this.customerList);
+        m.put(PdpPropertyConstants.FormatSelection.RANGE_LIST, this.rangeList);
         
         return m;
     }

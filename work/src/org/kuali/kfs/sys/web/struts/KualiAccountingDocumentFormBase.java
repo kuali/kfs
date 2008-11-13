@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.web.struts;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
@@ -52,7 +54,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
-
 
 /**
  * This class is the base action form for all financial documents.
@@ -85,8 +86,8 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
         // create an empty editableAccounts map, for safety's sake
         editableAccounts = new HashMap();
-        forcedReadOnlyFields         = new HashMap();
-        forcedLookupOptionalFields   = new HashMap();
+        forcedReadOnlyFields = new HashMap();
+        forcedLookupOptionalFields = new HashMap();
 
         // initialize accountingLine lists
         baselineSourceAccountingLines = new ArrayList();
@@ -96,6 +97,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         sourceLineDecorators = new ArrayList<AccountingLineDecorator>();
         targetLineDecorators = new ArrayList<AccountingLineDecorator>();
     }
+
 
     /**
      * Overrides the parent to call super.populate and then to call the accounting lines populate method that is specific to loading
@@ -107,20 +109,13 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        //
-        // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
-
-        // handle new accountingLine, if one is being added
         String methodToCall = this.getMethodToCall();
-        if (StringUtils.isNotBlank(methodToCall)) {
-            if (methodToCall.equals(KFSConstants.INSERT_SOURCE_LINE_METHOD)) {
-                populateSourceAccountingLine(getNewSourceLine());
-            }
-
-            if (methodToCall.equals(KFSConstants.INSERT_TARGET_LINE_METHOD)) {
-                populateTargetAccountingLine(getNewTargetLine());
-            }
+        if (!StringUtils.equals(methodToCall, KFSConstants.RETURN_METHOD_TO_CALL)) {
+            resetPropertyFromHtmlCheckBox(request);
         }
+
+        populateSourceAccountingLine(getNewSourceLine());
+        populateTargetAccountingLine(getNewTargetLine());
 
         // don't call populateAccountingLines if you are copying or errorCorrecting a document,
         // since you want the accountingLines in the copy to be "identical" to those in the original
@@ -130,7 +125,35 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
         setDocTypeName(discoverDocumentTypeName());
     }
-    
+
+    // reset the properties rendered as Struts html checkbox when the box is unchecked
+    protected void resetPropertyFromHtmlCheckBox(HttpServletRequest request) {
+        this.resetAccountExpiredOverride(request, "newSourceLine.accountExpiredOverride", getNewSourceLine());
+        this.resetAccountExpiredOverride(request, "newTargetLine.accountExpiredOverride", getNewTargetLine());
+        
+        int index = 0;
+        String propertyNamePattern = "document.{0}[{1}].accountExpiredOverride";
+        for(Object accountingLine : getFinancialDocument().getSourceAccountingLines()) {
+            SourceAccountingLine sourceAccountingLine = (SourceAccountingLine)accountingLine;
+            String propertyName = MessageFormat.format(propertyNamePattern, KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, index++);
+            this.resetAccountExpiredOverride(request, propertyName, sourceAccountingLine);
+        }
+        
+        index = 0;
+        for(Object accountingLine : getFinancialDocument().getTargetAccountingLines()) {
+            TargetAccountingLine targetAccountingLine = (TargetAccountingLine)accountingLine;
+            String propertyName = MessageFormat.format(propertyNamePattern, KFSPropertyConstants.TARGET_ACCOUNTING_LINES, index++);
+            this.resetAccountExpiredOverride(request, propertyName, targetAccountingLine);
+        }        
+    }
+
+    // reset accountExpiredOverride of the given accountingLine if its corresponding request parameter is not present
+    private void resetAccountExpiredOverride(HttpServletRequest request, String accountingLinePropertyName, AccountingLineBase accountingLine) {
+        if (ObjectUtils.isNull(request.getParameterMap().get(accountingLinePropertyName))) {
+            accountingLine.setAccountExpiredOverride(false);
+        }
+    }
+
     /**
      * Refactored out actually calling the documentAuthorizer methods, since FinancialDocuments call a differently-parameterized
      * version of getEditMode
@@ -150,7 +173,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
         setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), kualiUser));
     }
-
 
     /**
      * This method iterates over all of the source lines and all of the target lines in a transactional document, and calls
@@ -608,6 +630,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
             throw new IllegalArgumentException("invalid (null) document");
         }
         try {
+            System.out.println("====createNewSourceAccountingLine: " + financialDocument);
             return (SourceAccountingLine) financialDocument.getSourceAccountingLineClass().newInstance();
         }
         catch (Exception e) {
@@ -697,6 +720,4 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         super.customInitMaxUploadSizes();
         addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
-
 }
-

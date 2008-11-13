@@ -35,7 +35,7 @@
 			    var kualiElements = kualiForm.elements;
 			</SCRIPT>
             
-			<input type="hidden" value="${document.postingYear}" name="nonInvoicedAddLine.universityFiscalYear"/>
+			<html:hidden value="${document.postingYear}" name="nonInvoicedAddLine.universityFiscalYear" />
             
             <c:choose>
                 <c:when test="${!isCustomerSelected}">

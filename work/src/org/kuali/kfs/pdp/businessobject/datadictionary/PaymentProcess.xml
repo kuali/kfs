@@ -167,6 +167,11 @@
       <list>
               <bean parent="FieldDefinition"
                     p:attributeName="id" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campus" />                               
+              <bean parent="FieldDefinition"
+                    p:attributeName="processTimestamp" 
+                    p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.options.PaymentProcessTimestampFinder" />                     
       </list>
     </property>
     <property name="resultFields" >

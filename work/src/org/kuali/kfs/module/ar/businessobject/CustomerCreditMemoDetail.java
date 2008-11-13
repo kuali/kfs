@@ -378,7 +378,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     }
 
     public KualiDecimal getAmountToApply() {
-        return getCreditMemoItemTotalAmount();
+        return getCreditMemoLineTotalAmount();
     }
 
     public Integer getInvoiceItemNumber() {

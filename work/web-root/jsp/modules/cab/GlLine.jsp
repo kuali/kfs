@@ -92,7 +92,7 @@
 		<c:set var="entryAttributes"	value="${DataDictionary.GeneralLedgerEntry.attributes}" />
 		<table width="95%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 				<tr>
-					<th><input type="checkbox" onclick="selectAll(this,'glselect');" />Select</th>
+					<th><html:checkbox onclick="selectAll(this,'glselect');" />Select</th>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalYear}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.chartOfAccountsCode}" hideRequiredAsterisk="true" scope="col"/>

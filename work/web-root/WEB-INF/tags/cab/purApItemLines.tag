@@ -31,7 +31,7 @@
 	<tr>
 		<th class="grid" align="center">
 		<c:if test="${activeIndicator=='true'}">
-			<html:checkbox property="all" onclick="selectSources(this)"/>Select		
+			<html:checkbox property="selectAll" onclick="selectSources(this)"/>Select		
 		</c:if>
 		</th>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>

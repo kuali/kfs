@@ -48,6 +48,9 @@ public class PurApLineForm extends KualiForm {
     
     private String PurchaseOrderInquiryUrl;
 
+    private boolean selectAll;
+
+
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
     }
@@ -263,4 +266,14 @@ public class PurApLineForm extends KualiForm {
             this.setPurchaseOrderInquiryUrl(SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getPurchaseOrderInquiryUrl(purchaseOrderIdentifier));
         }
     }
+
+    public boolean isSelectAll() {
+        return selectAll;
+    }
+
+
+    public void setSelectAll(boolean selectAll) {
+        this.selectAll = selectAll;
+    }
+
 }

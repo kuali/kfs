@@ -20,8 +20,10 @@
 package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -33,6 +35,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 
@@ -62,6 +65,17 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
      */
     public boolean doBatchPaymentsHaveOpenStatus(Integer batchId) {
         LOG.debug("doBatchPaymentsHaveOpenStatus() enter method.");
+        
+        // check if batch has any payments
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, String.valueOf(batchId));
+        List batchPayments = (List)businessObjectService.findMatching(PaymentGroup.class, fieldValues);
+        
+        if(ObjectUtils.isNull(batchPayments) || batchPayments.isEmpty())
+        {
+            return false;
+        }
+        
         List codeList = new ArrayList();
         List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
         for (Iterator i = statusList.iterator(); i.hasNext();) {
@@ -89,7 +103,7 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
             LOG.debug("doBatchPaymentsHaveOpenStatus() All payment groups have status 'OPEN'.");
             return true;
         }
-    }// end doBatchPaymentsHaveOpenStatus()
+    }
 
     /**
      * doBatchPaymentsHaveHeldStatus() Return true if all payments in batch have an 'HELD' status. Return false if all payments in
@@ -102,6 +116,17 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
      */
     public boolean doBatchPaymentsHaveHeldStatus(Integer batchId) {
         LOG.debug("doBatchPaymentsHaveHeldStatus() enter method.");
+        
+        // check if batch has any payments
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, String.valueOf(batchId));
+        List batchPayments = (List)businessObjectService.findMatching(PaymentGroup.class, fieldValues);
+        
+        if(ObjectUtils.isNull(batchPayments) || batchPayments.isEmpty())
+        {
+            return false;
+        }
+        
         List codeList = new ArrayList();
         List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
         for (Iterator i = statusList.iterator(); i.hasNext();) {
@@ -129,5 +154,5 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
             LOG.debug("doBatchPaymentsHaveHeldStatus() All payment groups have status 'HELD'.");
             return true;
         }
-    }// end doBatchPaymentsHaveHeldStatus()
+    }
 }

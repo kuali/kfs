@@ -136,6 +136,7 @@
     <property name="name" value="fileProcessTimestamp" />
     <property name="label" value="File Processed Time" />
     <property name="shortLabel" value="File Processed Time" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
   <bean id="Batch-submiterUser.principalName" parent="Batch-submiterUser.principalName-parentBean" />
 

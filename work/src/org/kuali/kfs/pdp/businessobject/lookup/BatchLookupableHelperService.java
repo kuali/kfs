@@ -70,7 +70,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
                 if (!actionSuccess) {
 
-                    //if the action performed on batch was not successful we get the error message list and add them to GlobalVariables errorMap
+                    // if the action performed on batch was not successful we get the error message list and add them to
+                    // GlobalVariables errorMap
                     if (parameters.containsKey(PdpParameterConstants.ERROR_KEY_LIST_PARAM)) {
                         String[] errorListParam = (String[]) parameters.get(PdpParameterConstants.ERROR_KEY_LIST_PARAM);
                         errorList = errorListParam[0];
@@ -184,7 +185,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                     AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION, linkText);
                     anchorHtmlDataList.add(anchorHtmlData);
                 }
-                else {
+                else if (batchMaintenanceService.doBatchPaymentsHaveOpenStatus(batchId)) {
 
                     Properties params = new Properties();
                     params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_HOLD_ACTION);
@@ -197,7 +198,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 }
             }
 
-            else {
+            if (anchorHtmlDataList.isEmpty()) {
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, "&nbsp;", "&nbsp;");
                 anchorHtmlDataList.add(anchorHtmlData);
             }
@@ -302,4 +303,3 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     }
 
 }
-

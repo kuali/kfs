@@ -19,12 +19,23 @@
  */
 package org.kuali.kfs.pdp.dataaccess;
 
-
 /**
- * @author delyea
+ * This class has methods for batch maintenance.
  */
 public interface BatchMaintenanceDao {
+    /**
+     * This method checks if all payments in this batch have open status.
+     * 
+     * @param batchId
+     * @return true if all payments have open status, false otherwise
+     */
     public boolean doBatchPaymentsHaveOpenStatus(Integer batchId);
 
+    /**
+     * This method checks if all payments in this batch have held status.
+     * 
+     * @param batchId
+     * @return true if all payments have held status, false otherwise
+     */
     public boolean doBatchPaymentsHaveHeldStatus(Integer batchId);
 }

@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
@@ -69,7 +70,7 @@ import org.kuali.rice.kns.web.ui.Section;
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
-public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
@@ -618,11 +619,19 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         // Asset information
-        organizationRoutingSet.add(new OrgReviewRoutingData(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccount().getOrganizationCode()));
-        accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber()));
-        assetNumberRoutingSet.add(new RoutingAssetNumber(assetGlobal.getSeparateSourceCapitalAssetNumber().toString())); 
-        assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetGlobal.getSeparateSourceCapitalAsset().getCampusTagNumber()));
- 
+        if (assetGlobal.getOrganizationOwnerChartOfAccountsCode() != null && ObjectUtils.isNotNull(assetGlobal.getOrganizationOwnerAccount())) {
+            organizationRoutingSet.add(new OrgReviewRoutingData(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccount().getOrganizationCode()));
+        }
+        if (assetGlobal.getOrganizationOwnerChartOfAccountsCode() != null && assetGlobal.getOrganizationOwnerAccountNumber() != null) {
+            accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber()));
+        }
+        if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
+            assetNumberRoutingSet.add(new RoutingAssetNumber(assetGlobal.getSeparateSourceCapitalAssetNumber().toString()));
+        }
+        if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
+            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetGlobal.getSeparateSourceCapitalAsset().getCampusTagNumber()));
+        }
+
         // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
@@ -633,12 +642,12 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
-        
+
         RoutingData assetNumberRoutingData = new RoutingData();
         assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
         assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
         routingInfo.add(assetNumberRoutingData);
-        
+
         RoutingData assetTagNumberRoutingData = new RoutingData();
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);

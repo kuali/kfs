@@ -33,6 +33,7 @@ import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
@@ -42,12 +43,13 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
  */
-public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
+public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable, GenericRoutingInfo {
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
     private Asset newAsset;
@@ -229,10 +231,18 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         Asset asset = (Asset) getBusinessObject();
 
         // Asset information
-        organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
-        accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber()));
-        assetNumberRoutingSet.add(new RoutingAssetNumber(asset.getCapitalAssetNumber().toString()));
-        assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(asset.getCampusTagNumber()));
+        if (asset.getOrganizationOwnerChartOfAccountsCode() != null && ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
+            organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
+        }
+        if (asset.getOrganizationOwnerChartOfAccountsCode() != null && asset.getOrganizationOwnerAccountNumber() != null) {
+            accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber()));
+        }
+        if (asset.getCapitalAssetNumber() != null) {
+            assetNumberRoutingSet.add(new RoutingAssetNumber(asset.getCapitalAssetNumber().toString()));
+        }
+        if (asset.getCampusTagNumber() != null) {
+            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(asset.getCampusTagNumber()));
+        }
 
         // Storing data
         RoutingData organizationRoutingData = new RoutingData();

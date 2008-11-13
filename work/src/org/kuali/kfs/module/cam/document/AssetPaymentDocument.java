@@ -29,6 +29,7 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -177,7 +178,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.capitalAssetNumber = capitalAssetNumber;
     }
 
-    
+
     public String getHiddenFieldForError() {
         return hiddenFieldForError;
     }
@@ -185,7 +186,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void setHiddenFieldForError(String hiddenFieldForError) {
         this.hiddenFieldForError = hiddenFieldForError;
     }
-    
+
     /**
      * calculates the total previous cost amount of all the assets in the document
      * 
@@ -202,6 +203,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         }
         return total;
     }
+
     /**
      * Gets the routingInfo attribute.
      * 
@@ -223,23 +225,26 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
     @Override
-    public void populateRoutingInfo() {        
+    public void populateRoutingInfo() {
+        if (KFSConstants.DocumentStatusCodes.INITIATED.equals(getDocumentHeader().getFinancialDocumentStatusCode())) {
+            // skip routing info if document is not routed
+            return;
+        }
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
         Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
         Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
-        
+
         String chartOfAccountsCode;
         String accountNumber;
         String organizationcode;
         Long assetNumber;
         String assetTagNumber;
-      
+
 
         for (AssetPaymentAssetDetail detailLine : assetPaymentAssetDetail) {
             chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
@@ -252,25 +257,25 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
             assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
             assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
-            
+
         }
-                            
-        //Storing data
+
+        // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
-        
+
         RoutingData accountRoutingData = new RoutingData();
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
-        
+
         RoutingData assetNumberRoutingData = new RoutingData();
         assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
         assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
         routingInfo.add(assetNumberRoutingData);
-        
+
         RoutingData assetTagNumberRoutingData = new RoutingData();
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);

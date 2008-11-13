@@ -54,6 +54,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Section;
 
 
@@ -61,12 +62,12 @@ import org.kuali.rice.kns.web.ui.Section;
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
  * assets
  */
-public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl  implements GenericRoutingInfo {
+public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
-    
+
     private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
 
     private static final Map<String, String[]> NON_VIEWABLE_SECTION_MAP = new HashMap<String, String[]>();
@@ -79,8 +80,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     private Set<RoutingData> routingInfo;
-    
-    
+
+
     /**
      * This creates the particular locking representation for this global document.
      * 
@@ -124,18 +125,18 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         return maintenanceLocks;
     }
 
-    
+
     @Override
-    public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
-        super.setupNewFromExisting(document, parameters);        
-        
+    public void setupNewFromExisting(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.setupNewFromExisting(document, parameters);
+
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
-            assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());            
+            assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
         }
-    }    
-    
-    
+    }
+
+
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
@@ -150,7 +151,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         if (nonViewableSections == null) {
             nonViewableSections = new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT };
         }
-                
+
         // Hide retirement detail sections based on the retirement reason code
         for (Section section : sections) {
             if (ArrayUtils.contains(nonViewableSections, section.getSectionId())) {
@@ -159,11 +160,11 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
             if (!assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
                 if (CamsConstants.AssetRetirementGlobal.SECTION_TARGET_ASSET_RETIREMENT_INFO.equals(section.getSectionId())) {
-                    section.setHidden(true);    
+                    section.setHidden(true);
                 }
             }
-            
-        }               
+
+        }
         return sections;
     }
 
@@ -264,8 +265,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             // Set non-persistent values in the result from asset lookup. So the screen can show them when return from sigle asset
             // lookup.
             String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
-            if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && 
-                referencesToRefresh.equals(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET)) {
+            if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && referencesToRefresh.equals(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET)) {
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
             AssetRetirementGlobalDetail newDetail = (AssetRetirementGlobalDetail) newCollectionLines.get(CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS);
@@ -287,7 +287,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal);
 
             if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
-                assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());                        
+                assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
                 SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal.getMergedTargetCapitalAsset());
             }
         }
@@ -314,74 +314,80 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
-    public void populateRoutingInfo() {        
+    public void populateRoutingInfo() {
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
         Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
         Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
 
-        
+
         String chartOfAccountsCode;
         String accountNumber;
         String organizationcode;
         Long assetNumber;
         String assetTagNumber;
-        
+
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
-        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {               
-            chartOfAccountsCode = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerChartOfAccountsCode();
-            accountNumber = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerAccountNumber();
-            organizationcode = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerAccount().getOrganizationCode();
-            assetNumber = assetRetirementGlobal.getMergedTargetCapitalAssetNumber();
-            assetTagNumber = assetRetirementGlobal.getMergedTargetCapitalAsset().getCampusTagNumber();
-            
-            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
-            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
-            assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
-            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
+        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+            Asset mergedTargetCapitalAsset = assetRetirementGlobal.getMergedTargetCapitalAsset();
+            if (ObjectUtils.isNotNull(mergedTargetCapitalAsset)) {
+                chartOfAccountsCode = mergedTargetCapitalAsset.getOrganizationOwnerChartOfAccountsCode();
+                accountNumber = mergedTargetCapitalAsset.getOrganizationOwnerAccountNumber();
+                assetNumber = mergedTargetCapitalAsset.getCapitalAssetNumber();
+                assetTagNumber = mergedTargetCapitalAsset.getCampusTagNumber();
+                if (ObjectUtils.isNotNull(mergedTargetCapitalAsset.getOrganizationOwnerAccount())) {
+                    organizationcode = mergedTargetCapitalAsset.getOrganizationOwnerAccount().getOrganizationCode();
+                    organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
+                }
+                accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+                assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
+                assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
+            }
         }
-        
+
         for (AssetRetirementGlobalDetail detailLine : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-            chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
-            accountNumber = detailLine.getAsset().getOrganizationOwnerAccountNumber();
-            organizationcode = detailLine.getAsset().getOrganizationOwnerAccount().getOrganizationCode();
-            assetNumber = detailLine.getAsset().getCapitalAssetNumber();
-            assetTagNumber = detailLine.getAsset().getCampusTagNumber();
-
-            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
-            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
-            assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
-            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
+            Asset asset = detailLine.getAsset();
+            if (ObjectUtils.isNotNull(asset)) {
+                assetNumber = asset.getCapitalAssetNumber();
+                accountNumber = asset.getOrganizationOwnerAccountNumber();
+                chartOfAccountsCode = asset.getOrganizationOwnerChartOfAccountsCode();
+                assetTagNumber = asset.getCampusTagNumber();
+                if (ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
+                    organizationcode = asset.getOrganizationOwnerAccount().getOrganizationCode();
+                    organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
+                }
+                accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+                assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
+                assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
+            }
 
         }
-                            
-        //Storing data
+
+        // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
-        
+
         RoutingData accountRoutingData = new RoutingData();
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
-        
+
         RoutingData assetNumberRoutingData = new RoutingData();
         assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
         assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
         routingInfo.add(assetNumberRoutingData);
-        
+
         RoutingData assetTagNumberRoutingData = new RoutingData();
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
         routingInfo.add(assetTagNumberRoutingData);
     }
-
 
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {

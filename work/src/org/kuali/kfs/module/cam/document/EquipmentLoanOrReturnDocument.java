@@ -27,6 +27,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
@@ -80,7 +81,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private Asset asset;
     private PostalCode borrowerPostalZipCode;
     private PostalCode borrowerStoragePostalZipCode;
-    
+
     // sets document status (i.e. new loan, return, or renew)
     private boolean newLoan;
     private boolean returnLoan;
@@ -430,7 +431,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
     public PostalCode getBorrowerStoragePostalZipCode() {
-    	borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, borrowerStorageCountryCode, borrowerStorageZipCode, borrowerStoragePostalZipCode);
+        borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, borrowerStorageCountryCode, borrowerStorageZipCode, borrowerStoragePostalZipCode);
         return borrowerStoragePostalZipCode;
     }
 
@@ -639,7 +640,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     public void setReturnLoan(boolean returnLoan) {
         this.returnLoan = returnLoan;
     }
-    
+
     /**
      * Gets the routingInfo attribute.
      * 
@@ -659,22 +660,25 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
     public void populateRoutingInfo() {
+        if (KFSConstants.DocumentStatusCodes.INITIATED.equals(getDocumentHeader().getFinancialDocumentStatusCode())) {
+            // skip routing info if document is not routed
+            return;
+        }
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
         Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
         Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
-                
-        //Asset information
+
+        // Asset information
         organizationRoutingSet.add(new OrgReviewRoutingData(this.getAsset().getOrganizationOwnerChartOfAccountsCode(), this.getAsset().getOrganizationOwnerAccount().getOrganizationCode()));
         accountRoutingSet.add(new RoutingAccount(this.getAsset().getOrganizationOwnerChartOfAccountsCode(), this.getAsset().getOrganizationOwnerAccountNumber()));
-        assetNumberRoutingSet.add(new RoutingAssetNumber(this.getAsset().getCapitalAssetNumber().toString()));  
+        assetNumberRoutingSet.add(new RoutingAssetNumber(this.getAsset().getCapitalAssetNumber().toString()));
         assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(this.getAsset().getCampusTagNumber()));
-        //Storing data
+        // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
@@ -684,17 +688,17 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
-        
+
         RoutingData assetNumberRoutingData = new RoutingData();
         assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
         assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
         routingInfo.add(assetNumberRoutingData);
-        
+
         RoutingData assetTagNumberRoutingData = new RoutingData();
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
         routingInfo.add(assetTagNumberRoutingData);
-        
+
     }
 
 }

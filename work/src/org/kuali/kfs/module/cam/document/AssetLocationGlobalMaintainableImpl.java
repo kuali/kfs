@@ -42,34 +42,35 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location assets
+ * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
+ * assets
  */
 public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalMaintainableImpl.class);
 
     private Set<RoutingData> routingInfo;
-    
+
     /**
      * Populates any empty fields from Asset primary key
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#addNewLineToCollection(java.lang.String)
      */
-    
+
     @Override
     public void addNewLineToCollection(String collectionName) {
-  
+
         // get AssetLocationGlobalDetail List from AssetLocationGlobal
         AssetLocationGlobalDetail addAssetLine = (AssetLocationGlobalDetail) newCollectionLines.get(collectionName);
-        
+
         // validate and place PK into Map
         HashMap map = new HashMap();
         map.put("capitalAssetNumber", addAssetLine.getCapitalAssetNumber());
-        
+
         // retrieve Asset object by PK
         Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
-        
-        if (ObjectUtils.isNotNull(asset) && ObjectUtils.isNotNull(asset.getCapitalAssetNumber())) { 
+
+        if (ObjectUtils.isNotNull(asset) && ObjectUtils.isNotNull(asset.getCapitalAssetNumber())) {
             if (StringUtils.isBlank(addAssetLine.getCampusCode())) {
                 addAssetLine.setCampusCode(asset.getCampusCode());
             }
@@ -82,16 +83,16 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
             if (StringUtils.isBlank(addAssetLine.getBuildingSubRoomNumber())) {
                 addAssetLine.setBuildingSubRoomNumber(asset.getBuildingSubRoomNumber());
             }
-            if(StringUtils.isBlank(addAssetLine.getCampusTagNumber())) { 
+            if (StringUtils.isBlank(addAssetLine.getCampusTagNumber())) {
                 addAssetLine.setCampusTagNumber(asset.getCampusTagNumber());
             }
             addAssetLine.setNewCollectionRecord(true);
-            //Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
-            //maintCollection.add(addAssetLine);
+            // Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
+            // maintCollection.add(addAssetLine);
         }
         super.addNewLineToCollection(collectionName);
     }
-    
+
     /**
      * This creates the particular locking representation for this global location document.
      * 
@@ -116,6 +117,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         }
         return maintenanceLocks;
     }
+
     /**
      * Gets the routingInfo attribute.
      * 
@@ -135,60 +137,63 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
-    public void populateRoutingInfo() {        
+    public void populateRoutingInfo() {
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
         Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
         Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
 
-        
+
         String chartOfAccountsCode;
         String accountNumber;
         String organizationcode;
         Long assetNumber;
         String assetTagNumber;
-        
+
         AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
 
         for (AssetLocationGlobalDetail detailLine : assetLocationGlobal.getAssetLocationGlobalDetails()) {
-            chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
-            accountNumber = detailLine.getAsset().getOrganizationOwnerAccountNumber();
-            organizationcode = detailLine.getAsset().getOrganizationOwnerAccount().getOrganizationCode();
-            assetNumber = detailLine.getAsset().getCapitalAssetNumber();
-            assetTagNumber = detailLine.getAsset().getCampusTagNumber();
+            Asset asset = detailLine.getAsset();
+            if (ObjectUtils.isNotNull(asset)) {
+                chartOfAccountsCode = asset.getOrganizationOwnerChartOfAccountsCode();
+                accountNumber = asset.getOrganizationOwnerAccountNumber();
+                assetNumber = asset.getCapitalAssetNumber();
+                assetTagNumber = asset.getCampusTagNumber();
+                if (ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
+                    organizationcode = asset.getOrganizationOwnerAccount().getOrganizationCode();
+                    organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
+                }
+                accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+                assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
+                assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
+            }
 
-            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
-            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
-            assetNumberRoutingSet.add(new RoutingAssetNumber(assetNumber.toString()));
-            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetTagNumber));
-            
         }
-                            
-        //Storing data
+
+        // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
-        
+
         RoutingData accountRoutingData = new RoutingData();
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
-        
+
         RoutingData assetNumberRoutingData = new RoutingData();
         assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
         assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
         routingInfo.add(assetNumberRoutingData);
-        
+
         RoutingData assetTagNumberRoutingData = new RoutingData();
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
         routingInfo.add(assetTagNumberRoutingData);
-        
+
     }
 
     @Override

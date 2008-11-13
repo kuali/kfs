@@ -19,15 +19,15 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -50,23 +50,52 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
 
     private List<PaymentAccountHistory> accountHistory = new ArrayList<PaymentAccountHistory>();
 
+    private Chart chartOfAccounts;
+    private Account account;
+    private SubAccount subAccount;
+    private ProjectCode project;
+    private ObjectCodeCurrent objectCode;
+
+    /**
+     * Constructs a PaymentAccountDetail.java.
+     */
     public PaymentAccountDetail() {
         super();
     }
 
+    /**
+     * This method gets the accountHistory list.
+     * 
+     * @return the accountHistory list
+     */
     public List<PaymentAccountHistory> getAccountHistory() {
         return accountHistory;
     }
 
+    /**
+     * This method sets the accountHistory list
+     * 
+     * @param ah
+     */
     public void setAccountHistory(List<PaymentAccountHistory> ah) {
         accountHistory = ah;
     }
 
+    /**
+     * This method add a new PaymentAccountHistory.
+     * 
+     * @param pah
+     */
     public void addAccountHistory(PaymentAccountHistory pah) {
         pah.setPaymentAccountDetail(this);
         accountHistory.add(pah);
     }
 
+    /**
+     * This method deletes a PaymentAccountHistory.
+     * 
+     * @param pah
+     */
     public void deleteAccountDetail(PaymentAccountHistory pah) {
         accountHistory.remove(pah);
     }
@@ -165,7 +194,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     public void setAccountNetAmount(KualiDecimal bigdecimal) {
         accountNetAmount = bigdecimal;
     }
-    
+
     public void setAccountNetAmount(String bigdecimal) {
         accountNetAmount = new KualiDecimal(bigdecimal);
     }
@@ -250,9 +279,99 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        
+
         m.put(KFSPropertyConstants.ID, this.id);
 
         return m;
+    }
+
+    /**
+     * This method gets the account.
+     * 
+     * @return the account
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * This method sets the account.
+     * 
+     * @param account
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * This method gets the subAccount.
+     * 
+     * @return the subAccount
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * This method sets the subAccount.
+     * 
+     * @param subAccount
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+
+    /**
+     * This method gets the chart of accounts.
+     * 
+     * @return the chart of accounts
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * This method sets the chart of accounts.
+     * 
+     * @param chartOfAccounts
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * This method gets the project.
+     * 
+     * @return the project
+     */
+    public ProjectCode getProject() {
+        return project;
+    }
+
+    /**
+     * This method sets the project.
+     * 
+     * @param project
+     */
+    public void setProject(ProjectCode project) {
+        this.project = project;
+    }
+
+    /**
+     * This method gets the cuttent object code.
+     * 
+     * @return the current object code
+     */
+    public ObjectCodeCurrent getObjectCode() {
+        return objectCode;
+    }
+
+    /**
+     * This method sets the cuttent object code.
+     * 
+     * @param objectCode
+     */
+    public void setObjectCode(ObjectCodeCurrent objectCode) {
+        this.objectCode = objectCode;
     }
 }

@@ -693,17 +693,17 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="finChartCode" />
+                          p:attributeName="chartOfAccounts.chartOfAccountsCode" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="accountNbr" />
+                          p:attributeName="account.accountNumber" />
                     <bean parent="FieldDefinition"
-                   		  p:attributeName="subAccountNbr" />   
+                   		  p:attributeName="subAccount.subAccountNumber" />                   		    
                     <bean parent="FieldDefinition"
-                          p:attributeName="finObjectCode" />    
+                          p:attributeName="objectCode.financialObjectCode" />    
               		<bean parent="FieldDefinition"
                     	  p:attributeName="orgReferenceId" /> 
               		<bean parent="FieldDefinition"
-                   		  p:attributeName="projectCode" /> 
+                   		  p:attributeName="project.code" /> 
               		<bean parent="FieldDefinition"
                    		  p:attributeName="accountNetAmount" />                                                   
                   </list>

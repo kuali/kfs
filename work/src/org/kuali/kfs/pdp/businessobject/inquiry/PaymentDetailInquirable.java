@@ -34,7 +34,8 @@ import org.kuali.rice.kns.util.UrlFactory;
 public class PaymentDetailInquirable extends KfsInquirableImpl {
 
     /**
-     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, boolean)
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.lang.String, boolean)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {

@@ -84,7 +84,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
                 anchorHtmlDataList.add(anchorHtmlData);
             }
             else {
-                AnchorHtmlData anchorHtmlData = new AnchorHtmlData("&nbsp;","" , "");
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData("&nbsp;", "", "");
                 anchorHtmlDataList.add(anchorHtmlData);
             }
 
@@ -109,4 +109,3 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
         this.configurationService = configurationService;
     }
 }
-

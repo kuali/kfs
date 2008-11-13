@@ -63,7 +63,8 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
                 if (!actionSuccess) {
 
-                    //if the action performed on payment was not successful we get the error message list and add them to GlobalVariables errorMap
+                    // if the action performed on payment was not successful we get the error message list and add them to
+                    // GlobalVariables errorMap
                     if (parameters.containsKey(PdpParameterConstants.ERROR_KEY_LIST_PARAM)) {
                         String[] errorListParam = (String[]) parameters.get(PdpParameterConstants.ERROR_KEY_LIST_PARAM);
                         errorList = errorListParam[0];
@@ -211,9 +212,10 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
             String url = KFSConstants.EMPTY_STRING;
             String basePath = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
 
-            boolean showCancel = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)))
-                    || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP)))
-                    || ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP));
+            boolean showCancel = paymentDetailStatus != null
+                    && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)))
+                            || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP))) || ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD)
+                            || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP)));
 
             if (showCancel) {
 
@@ -230,7 +232,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 anchorHtmlDataList.add(anchorHtmlData);
             }
 
-            boolean showHold = paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP));
+            boolean showHold = paymentDetailStatus != null && (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)));
 
             if (showHold) {
 
@@ -246,7 +248,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
             }
 
-            boolean showRemoveImmediatePrint = paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.PROCESS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) && paymentDetail.getPaymentGroup().getProcessImmediate();
+            boolean showRemoveImmediatePrint = paymentDetailStatus != null && (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.PROCESS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) && paymentDetail.getPaymentGroup().getProcessImmediate());
 
             if (showRemoveImmediatePrint) {
 
@@ -262,7 +264,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
             }
 
-            boolean showSetImmediatePrint = paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.PROCESS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) && !paymentDetail.getPaymentGroup().getProcessImmediate();
+            boolean showSetImmediatePrint = paymentDetailStatus != null && (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.PROCESS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) && !paymentDetail.getPaymentGroup().getProcessImmediate());
 
             if (showSetImmediatePrint) {
 
@@ -278,7 +280,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
             }
 
-            boolean showRemoveHold = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) || ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP));
+            boolean showRemoveHold = paymentDetailStatus != null && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) || ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP)));
 
             if (showRemoveHold) {
 
@@ -294,7 +296,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
             }
 
-            boolean showDisbursementCancel = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP))) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed());
+            boolean showDisbursementCancel = paymentDetailStatus != null && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP))) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed()));
 
             if (showDisbursementCancel) {
 
@@ -310,7 +312,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
             }
 
-            boolean showReissueCancel = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP))) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed());
+            boolean showReissueCancel = paymentDetailStatus != null && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) && (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP))) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed()));
 
             if (showReissueCancel) {
 
@@ -324,6 +326,11 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REISSUE_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
 
+            }
+
+            if (anchorHtmlDataList.isEmpty()) {
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData("&nbsp;", "", "");
+                anchorHtmlDataList.add(anchorHtmlData);
             }
 
             return anchorHtmlDataList;

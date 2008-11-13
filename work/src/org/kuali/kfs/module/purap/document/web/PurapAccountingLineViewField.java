@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.web;
 
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
@@ -48,8 +50,14 @@ public class PurapAccountingLineViewField extends AccountingLineViewField {
      */
     @Override
     protected String getDynamicNameLabelDisplayedValue(AccountingLine accountingLine) {
-        PurApAccountingLine purapLine = (PurApAccountingLine)accountingLine;
-        if (purapLine.getPurapItem() == null || purapLine.getPurapItem().getPurapDocument().isInquiryRendered()) {
+        PurApAccountingLineBase purapLine = (PurApAccountingLineBase)accountingLine;
+        PurApItemBase purapItem = purapLine.getPurapItem();
+        PurchasingAccountsPayableDocumentBase purapDocument = null;
+        
+        if (purapItem != null) {
+            purapDocument = purapItem.getPurapDocument();
+        }
+        if (purapItem == null || purapDocument.isInquiryRendered()) {
             return super.getDynamicNameLabelDisplayedValue(accountingLine);
         }
         else {

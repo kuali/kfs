@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl;
 
@@ -29,8 +31,13 @@ public class PurapObjectCodeDynamicNameLabelGeneratorImpl extends ObjectCodeDyna
      */
     @Override
     public String getDynamicNameLabelValue(AccountingLine line, String accountingLineProperty) {
-        PurApAccountingLine purapLine = (PurApAccountingLine)line;
-        if (purapLine.getPurapItem() == null || purapLine.getPurapItem().getPurapDocument().isInquiryRendered()) {
+        PurApAccountingLineBase purapLine = (PurApAccountingLineBase)line;
+        PurApItemBase purapItem = purapLine.getPurapItem();
+        PurchasingAccountsPayableDocumentBase purapDocument = null;
+        if (purapItem != null) {
+            purapDocument = purapItem.getPurapDocument();
+        }
+        if (purapItem == null || purapDocument.isInquiryRendered()) {
             return super.getDynamicNameLabelValue(line, accountingLineProperty);       
         }
         else {

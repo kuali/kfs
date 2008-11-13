@@ -38,6 +38,7 @@ import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
+import org.kuali.kfs.pdp.businessobject.PaymentChangeCode;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
@@ -56,10 +57,12 @@ import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -233,6 +236,7 @@ public class FormatServiceImpl implements FormatService {
 
             // hold original bank code to log any change
             String originalBankCode = paymentGroup.getBankCode();
+            Bank originalBank = paymentGroup.getBank();
 
             // process payment group data
             processPaymentGroup(paymentGroup, paymentProcess, checkDisbursementType, achDisbursementType, extractedPaymentStatus, pendingPaymentStatus);
@@ -242,11 +246,15 @@ public class FormatServiceImpl implements FormatService {
 
                 PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
 
-                paymentGroupHistory.setPaymentChangeCode(PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
+                PaymentChangeCode paymentChangeCode =(PaymentChangeCode)this.kualiCodeService.getByCode(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
+                paymentGroupHistory.setPaymentChange(paymentChangeCode);
                 paymentGroupHistory.setOrigBankCode(originalBankCode);
+                paymentGroupHistory.setBank(originalBank);
                 paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
-                paymentGroupHistory.setChangeUserId(KFSConstants.SYSTEM_USER);
+                Person changeUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(KFSConstants.SYSTEM_USER);
+                paymentGroupHistory.setChangeUser(changeUser);
                 paymentGroupHistory.setPaymentGroup(paymentGroup);
+                paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
 
                 // save payment group history
                 businessObjectService.save(paymentGroupHistory);

@@ -453,21 +453,6 @@
 	</bean>
 
 	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" singleton="false">
-	    <property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
-        <property name="lookupService">
-            <ref bean="lookupService" />
-        </property>
-        <property name="businessObjectMetaDataService">
-            <ref bean="businessObjectMetaDataService" />
-        </property>
-        <property name="businessObjectDictionaryService">
-            <ref bean="businessObjectDictionaryService" />
-        </property>
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
         <property name="personService">
             <ref bean="personService" />
         </property>
@@ -487,24 +472,6 @@
 	</bean>	
 	
 	<bean id="paymentDetailLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" singleton="false">
-	    <property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
-        <property name="lookupService">
-            <ref bean="lookupService" />
-        </property>
-        <property name="businessObjectMetaDataService">
-            <ref bean="businessObjectMetaDataService" />
-        </property>
-        <property name="businessObjectDictionaryService">
-            <ref bean="businessObjectDictionaryService" />
-        </property>
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
@@ -517,24 +484,6 @@
 	</bean>	
 	
 	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" singleton="false">
-	    <property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
-        <property name="lookupService">
-            <ref bean="lookupService" />
-        </property>
-        <property name="businessObjectMetaDataService">
-            <ref bean="businessObjectMetaDataService" />
-        </property>
-        <property name="businessObjectDictionaryService">
-            <ref bean="businessObjectDictionaryService" />
-        </property>
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
         <property name="configurationService" ref="kualiConfigurationService" />
 	</bean>
 

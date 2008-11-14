@@ -15,13 +15,9 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,18 +38,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
-import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
-import org.kuali.kfs.module.cam.document.web.struts.AssetPaymentForm;
-import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
-import org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase;
-
-//TODO delete this class once the KFSMI-1869 jira has been resolved see JIRA KULCAP-782
 import org.kuali.kfs.module.cam.document.service.AssetSegmentedLookupResultsService;
-//*************************************************************************************
-
+import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -64,7 +50,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);

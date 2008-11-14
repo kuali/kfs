@@ -255,9 +255,6 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
 
             ActionForward adjustAction = this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding);
-            if (!GlobalVariables.getErrorMap().isEmpty()) {
-                return adjustAction;
-            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

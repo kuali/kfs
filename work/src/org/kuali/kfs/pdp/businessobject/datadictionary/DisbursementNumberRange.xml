@@ -27,6 +27,12 @@
         <ref bean="DisbursementNumberRange-active" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="bank"/>
+      </list>
+    </property>      
   </bean>
 
 <!-- Attribute Definitions -->

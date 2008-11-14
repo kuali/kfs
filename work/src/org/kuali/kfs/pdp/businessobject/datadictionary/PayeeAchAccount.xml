@@ -35,6 +35,12 @@
         <ref bean="PayeeAchAccount-user.name" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="bankRouting"/>
+      </list>
+    </property>
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">

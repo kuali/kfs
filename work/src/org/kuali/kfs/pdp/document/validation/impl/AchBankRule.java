@@ -63,8 +63,6 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
         // call the route rules to report all of the messages, but ignore the result
         processCustomRouteDocumentBusinessRules(document);
         
-        if (!isInactivable(document)) return false;
-        
         // Save always succeeds, even if there are business rule failures
         return true;
     }
@@ -102,23 +100,5 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
 
         return validEntry;
     }
-    
-    /**
-     * An AchBank record can only be set to inactive if no PayeeAchAccount record with the same bank routing number can be found
-     * 
-     * TODO: remove once inactive blocking is defined in data dictionary
-     * @param document
-     * @return
-     */
-    private boolean isInactivable(MaintenanceDocument document) {
-        Map fieldValues = new HashMap();
-        fieldValues.put("bankRoutingNumber", newAchBank.getBankRoutingNumber());
-        
-        if(!newAchBank.isActive() && !boService.findMatching(PayeeAchAccount.class, fieldValues).isEmpty()) {
-            putFieldError("bankRoutingNumber", PdpKeyConstants.ERROR_ACH_ACCOUNT_NOT_INACTIVABLE);
-            return false;
-        }
-        
-        return true;
-    }
+   
 }

@@ -18,7 +18,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="CustomerBank-disbursementTypeCode" />
         <ref bean="CustomerBank-newCollectionRecord" />
       </list>
-    </property>   
+    </property>  
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="bank"/>
+      </list>
+    </property>     
   </bean>
 
 <!-- Attribute Definitions -->

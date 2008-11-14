@@ -246,8 +246,8 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     public boolean isCampusTagNumberValid(PretagDetail dtl) {
         boolean success = true;
 
-        if (dtl.isActive() && !dtl.getCampusTagNumber().equalsIgnoreCase("N")) {
-            Map tagMap = new HashMap();
+        if ((dtl.getCampusTagNumber() != null) && (dtl.isActive() && !dtl.getCampusTagNumber().equalsIgnoreCase("N"))) {
+            Map<String, String> tagMap = new HashMap<String, String>();
             tagMap.put(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, dtl.getCampusTagNumber());
             int matchDetailCount = getMatchDetailCount(tagMap);
             if ((getBoService().countMatching(Asset.class, tagMap) != 0) || (matchDetailCount > 0)) {
@@ -272,7 +272,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
         getDictionaryValidationService().validateBusinessObject(dtl);
 
         if (StringUtils.isNotBlank(dtl.getCampusCode()) && StringUtils.isNotBlank(dtl.getBuildingCode())) {
-            Map preTagMap = new HashMap();
+            Map<String, String> preTagMap = new HashMap<String, String>();
             preTagMap.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
             preTagMap.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
 
@@ -301,7 +301,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
      * @return active pretagDetail with same campusTagNumber
      */
 
-    public int getMatchDetailCount(Map tagMap) {
+    public int getMatchDetailCount(Map<String, String> tagMap) {
 
         Collection<PretagDetail> pretagDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, tagMap);
 

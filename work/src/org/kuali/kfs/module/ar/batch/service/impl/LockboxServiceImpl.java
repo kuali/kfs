@@ -68,12 +68,7 @@ public class LockboxServiceImpl implements LockboxService {
             SystemInformation sysInfo = service.getByLockboxNumber(lockbox.getLockboxNumber());
             String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
             GlobalVariables.clear();
-            try {
-                GlobalVariables.setUserSession(new UserSession(initiator));
-            }
-            catch (WorkflowException wfex) {
-                LOG.warn(String.format("\nworkflow exception on fetching session %s", wfex.getMessage()));
-            }
+            GlobalVariables.setUserSession(new UserSession(initiator));
 
             if (lockbox.compareTo(ctrlLockbox) != 0) {
                 // If we made it in here, then we have hit a different batchSequenceNumber and processedInvoiceDate.

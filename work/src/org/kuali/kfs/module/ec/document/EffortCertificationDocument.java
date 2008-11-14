@@ -259,16 +259,11 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
         super.handleRouteStatusChange();
         KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
-        try {
-            if (workflowDocument.stateIsFinal()) {
-                GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-                SpringContext.getBean(EffortCertificationDocumentService.class).generateSalaryExpenseTransferDocument(this);
-            }
+        if (workflowDocument.stateIsFinal()) {
+            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+            SpringContext.getBean(EffortCertificationDocumentService.class).generateSalaryExpenseTransferDocument(this);
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }               
-            //           SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
+        //           SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
     }
 
     /**

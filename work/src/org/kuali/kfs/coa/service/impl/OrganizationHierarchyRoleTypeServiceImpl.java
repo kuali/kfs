@@ -67,11 +67,6 @@ public class OrganizationHierarchyRoleTypeServiceImpl extends KimRoleTypeService
         
     }
     
-    public List<String> validateAttribute(String attributeName, String attributeValue) {
-        //TODO: add validation logic
-        return super.validateAttribute(attributeName, attributeValue);
-    }
-    
     /**
      * Gets the organizationService attribute. 
      * @return Returns the organizationService.

@@ -778,7 +778,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             if (!testDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                 final String initiatorNetworkId = testDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-                final String previousNetworkId = GlobalVariables.getUserSession().getNetworkId();
+                final String previousNetworkId = GlobalVariables.getUserSession().getPrincipalName();
                 if (!previousNetworkId.equals(initiatorNetworkId)) {
                     changeCurrentUser(UserNameFixture.valueOf(initiatorNetworkId.toLowerCase()));
                     // Only the initiator can cancel an initiated or saved document.

@@ -63,11 +63,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         
         GlobalVariables.clear();
-        try {
-            GlobalVariables.setUserSession(new UserSession("khuntley"));
-        }
-        catch (WorkflowException wfex) {
-        } 
+        GlobalVariables.setUserSession(new UserSession("khuntley"));
         
         Date billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         List<String> customernames;

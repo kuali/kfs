@@ -80,14 +80,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
         KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
 
-        try {
-            if (workflowDocument.stateIsFinal()) {
-                GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-                this.generateSalaryExpenseTransferDocument(effortCertificationDocument);
-            }
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
+        if (workflowDocument.stateIsFinal()) {
+            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+            this.generateSalaryExpenseTransferDocument(effortCertificationDocument);
         }
     }
 

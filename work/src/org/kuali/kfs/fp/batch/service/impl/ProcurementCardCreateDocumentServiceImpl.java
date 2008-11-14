@@ -183,7 +183,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
         criteria.setDocTypeFullName(dataDictionaryService.getDocumentTypeNameByClass(ProcurementCardDocument.class));
         criteria.setDocRouteStatus(statusCode);
-        DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(new NetworkIdDTO(GlobalVariables.getUserSession().getWorkflowUser().getNetworkId()), criteria);
+        DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(new NetworkIdDTO(GlobalVariables.getUserSession().getPerson().getPrincipalName()), criteria);
         
         for (DocumentSearchResultRowDTO resultRow: results.getSearchResults()) {
             for (KeyValueDTO field : resultRow.getFieldValues()) {

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cab.businessobject.lookup;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -207,7 +208,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                 i++;
                 newReport.setReferenceFinancialDocumentNumber(columnValues[i] == null ? null : columnValues[i].toString());
                 i++;
-                newReport.setTransactionDate(columnValues[i] == null ? null : Date.valueOf(columnValues[i].toString()));
+                newReport.setTransactionDate(columnValues[i] == null ? null : getDate(columnValues[i]));
                 i++;
                 newReport.setTransactionLedgerSubmitAmount(columnValues[i] == null ? null : new KualiDecimal(columnValues[i].toString()));
                 i++;
@@ -224,6 +225,26 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
             }
         }
         return purApReportCollection;
+    }
+
+    /**
+     * Get the Date instance. Why we need this? Looks OJB returns different type of instance when connect to MySql and Oracle:
+     * Oracle returns Date instance while MySql returns TimeStamp instance.
+     * 
+     * @param obj
+     * @return
+     */
+    private Date getDate(Object obj) {
+        if (obj instanceof Date) {
+            return (Date) obj;
+        }
+        else if (obj instanceof Timestamp) {
+            Timestamp tsp = (Timestamp) obj;
+            return new Date(tsp.getTime());
+        }
+        else {
+            return null;
+        }
     }
 
     /**

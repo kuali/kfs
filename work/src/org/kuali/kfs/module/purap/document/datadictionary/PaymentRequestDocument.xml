@@ -882,7 +882,8 @@
 				<bean parent="AccountingLineView-field"
 					p:name="financialObjectCode" p:required="true"
 					p:dynamicNameLabelGeneratorBeanName="purapObjectCodeDynamicNameLabelGenerator"
-					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField">
+					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField"
+					p:overrideLookupParameters="document.postingYear:universityFiscalYear" >
 					<property name="overrideFields">
 						<list>
 							<bean

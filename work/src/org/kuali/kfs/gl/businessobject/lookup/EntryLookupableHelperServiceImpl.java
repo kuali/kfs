@@ -158,7 +158,10 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
             }
 
             scrubberValidator.validateForInquiry(pendingEntry);
-            entryCollection.add(new Entry(pendingEntry, postDate));
+            
+            Entry entry = new Entry(pendingEntry, postDate);
+            entry.getDummyBusinessObject().setPendingEntryOption(pendingEntry.getFinancialDocumentApprovedCode());
+            entryCollection.add(entry);
         }
     }
 

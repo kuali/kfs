@@ -467,6 +467,8 @@
               p:attributeName="referenceFinancialSystemOriginationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.pendingEntryOption" />      
       </list>
     </property>
   </bean>

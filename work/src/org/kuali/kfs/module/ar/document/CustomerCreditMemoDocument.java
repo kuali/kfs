@@ -425,12 +425,21 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         if (ObjectUtils.isNull(invoiceItemUnitPrice) || invoiceItemUnitPrice.equals(BigDecimal.ZERO))
             invoiceOpenItemQuantity = KualiDecimal.ZERO;
         else {
-            BigDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount().bigDecimalValue();
-            // subtract out the tax, otherwise the quantity calculations are off 
-            invoiceOpenItemAmount = invoiceOpenItemAmount.subtract(customerInvoiceDetail.getInvoiceItemTaxAmount().bigDecimalValue());
-            invoiceOpenItemQuantity = new KualiDecimal(invoiceOpenItemAmount.divide(invoiceItemUnitPrice, 4));
+            KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
+            KualiDecimal invoiceOpenItemPretaxAmount = invoiceOpenItemAmount;
+            if( getArTaxService().isCustomerInvoiceDetailTaxable(getInvoice(), customerInvoiceDetail))
+                invoiceOpenItemPretaxAmount = getCustomerInvoiceDetailOpenPretaxAmount(invoiceOpenItemAmount);
+            
+            invoiceOpenItemQuantity = new KualiDecimal(invoiceOpenItemPretaxAmount.bigDecimalValue().divide(invoiceItemUnitPrice, 4));
         }
         return invoiceOpenItemQuantity;
+    }
+    
+    protected KualiDecimal getCustomerInvoiceDetailOpenPretaxAmount(KualiDecimal openAmount) {
+        Date dateOfTransaction = getInvoice().getBillingDate();
+        KualiDecimal pretaxAmount = SpringContext.getBean(TaxService.class).getPretaxAmount(dateOfTransaction, getPostalCode(), openAmount);
+        
+        return pretaxAmount;
     }
     
     /**

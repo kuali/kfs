@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.util.KNSConstants;
 
 @ConfigureContext(session = khuntley)
-//@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
+// @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class AssetMaintainableImplTest extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(AssetMaintainableImplTest.class);
 
@@ -50,64 +50,67 @@ public class AssetMaintainableImplTest extends KualiTestBase {
         RoutingData routingData = new RoutingData();
         RoutingData organizationRoutingData_a = new RoutingData();
         RoutingData accountRoutingData_a = new RoutingData();
-        Set organizationRoutingSet_a  = new HashSet();        
-        Set accountRoutingSet_a       = new HashSet();
-        Set assetNumberRoutineSet_a   = new HashSet();
-        Set assetTagNumberRoutineSet_a= new HashSet();
-        
+        Set organizationRoutingSet_a = new HashSet();
+        Set accountRoutingSet_a = new HashSet();
+        Set assetNumberRoutineSet_a = new HashSet();
+        Set assetTagNumberRoutineSet_a = new HashSet();
+
         AssetMaintainableImpl assetMaintainableImpl = new AssetMaintainableImpl();
         assetMaintainableImpl.setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        
-        // Creating document        
+
+        // Creating document
         Asset asset = AssetMaintainableFixture.ASSET1.newAsset();
-                
+        asset.setCampusTagNumber("TAGNO");
         asset.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
         assetMaintainableImpl.setBusinessObject(asset);
-        
-        //Populating routing info.
+
+        // Populating routing info.
         assetMaintainableImpl.populateRoutingInfo();
         Set<RoutingData> routingInfo_a = assetMaintainableImpl.getRoutingInfo();
-        
-        //Comparing document data with populated data. 
-        for(Iterator i = routingInfo_a.iterator();i.hasNext();) {
-            routingData = (RoutingData)i.next();        
+
+        // Comparing document data with populated data.
+        for (Iterator i = routingInfo_a.iterator(); i.hasNext();) {
+            routingData = (RoutingData) i.next();
             if (routingData.getRoutingTypes().contains(KualiOrgReviewAttribute.class.getSimpleName())) {
-                organizationRoutingSet_a =routingData.getRoutingSet();            
-            } else if (routingData.getRoutingTypes().contains(KualiAccountAttribute.class.getSimpleName())) {
+                organizationRoutingSet_a = routingData.getRoutingSet();
+            }
+            else if (routingData.getRoutingTypes().contains(KualiAccountAttribute.class.getSimpleName())) {
                 accountRoutingSet_a = routingData.getRoutingSet();
-            } else if (routingData.getRoutingTypes().contains(RoutingAssetNumber.class.getSimpleName())) {
+            }
+            else if (routingData.getRoutingTypes().contains(RoutingAssetNumber.class.getSimpleName())) {
                 assetNumberRoutineSet_a = routingData.getRoutingSet();
-            } else if (routingData.getRoutingTypes().contains(RoutingAssetTagNumber.class.getSimpleName())) {
-                assetTagNumberRoutineSet_a = routingData.getRoutingSet();        
-            }            
+            }
+            else if (routingData.getRoutingTypes().contains(RoutingAssetTagNumber.class.getSimpleName())) {
+                assetTagNumberRoutineSet_a = routingData.getRoutingSet();
+            }
         }
-        
-        //Asset global information
-        OrgReviewRoutingData orgReviewRoutingData_b = new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode());        
+
+        // Asset global information
+        OrgReviewRoutingData orgReviewRoutingData_b = new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode());
         assertTrue(organizationRoutingSet_a.contains(orgReviewRoutingData_b));
-        
+
         RoutingAccount routingAccount_b = new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber());
         assertTrue(accountRoutingSet_a.contains(routingAccount_b));
-               
+
         RoutingAssetNumber routingAssetNumber_b = new RoutingAssetNumber(asset.getCapitalAssetNumber().toString());
         assertTrue(assetNumberRoutineSet_a.contains(routingAssetNumber_b));
-                      
+
         RoutingAssetTagNumber routingAssetTagNumber_b = new RoutingAssetTagNumber(asset.getCampusTagNumber());
         assertTrue(assetTagNumberRoutineSet_a.contains(routingAssetTagNumber_b));
-        
+
         // assert False
-        
-        //Asset global information
-        orgReviewRoutingData_b = new OrgReviewRoutingData("??", asset.getOrganizationOwnerAccount().getOrganizationCode());        
+
+        // Asset global information
+        orgReviewRoutingData_b = new OrgReviewRoutingData("??", asset.getOrganizationOwnerAccount().getOrganizationCode());
         assertFalse(organizationRoutingSet_a.contains(orgReviewRoutingData_b));
-        
+
         routingAccount_b = new RoutingAccount("??", asset.getOrganizationOwnerAccountNumber());
         assertFalse(accountRoutingSet_a.contains(routingAccount_b));
-        
+
         routingAssetNumber_b = new RoutingAssetNumber("??");
         assertFalse(assetNumberRoutineSet_a.contains(routingAssetNumber_b));
-                      
+
         routingAssetTagNumber_b = new RoutingAssetTagNumber("??");
-        assertFalse(assetTagNumberRoutineSet_a.contains(routingAssetTagNumber_b));        
+        assertFalse(assetTagNumberRoutineSet_a.contains(routingAssetTagNumber_b));
     }
 }

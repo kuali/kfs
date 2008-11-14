@@ -792,7 +792,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="origBankCode" />   
                     <bean parent="FieldDefinition"
-                          p:attributeName="bank.bankRoutingNumber" />   
+                          p:attributeName="origAchBankRouteNbr" />   
                     <bean parent="FieldDefinition"
                           p:attributeName="pmtCancelExtractStat" />  
                     <bean parent="FieldDefinition"

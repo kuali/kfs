@@ -171,7 +171,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
             }
-            else if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) {
+            
+            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) {
 
                 if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(batchId)) {
 

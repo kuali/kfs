@@ -221,7 +221,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             
             // apply the customized lookup parameters if any
             String overrideLookupParameters = definition.getOverrideLookupParameters();
-            if(ObjectUtils.isNotNull(overrideLookupParameters)) {
+            if(StringUtils.isNotBlank(overrideLookupParameters)) {
                 String lookupParameters = getField().getLookupParameters();
 
                 Map<String, String> lookupParametersMap = this.getActualLookupParametersMap(lookupParameters, overrideLookupParameters);              

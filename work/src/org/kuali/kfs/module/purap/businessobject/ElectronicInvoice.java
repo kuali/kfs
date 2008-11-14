@@ -51,6 +51,7 @@ public class ElectronicInvoice {
 
     private static BigDecimal zero = new BigDecimal(0.00);
 
+    public static String INVOICE_AMOUNT_TYPE_CODE_ITEM = "ITEM";
     public static String INVOICE_AMOUNT_TYPE_CODE_TAX = "TAX";
     public static String INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING = "SPHD";
     public static String INVOICE_AMOUNT_TYPE_CODE_SHIPPING = "SHIP";

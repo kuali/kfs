@@ -18,62 +18,16 @@ package org.kuali.kfs.pdp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class AchTransactionCode extends PersistableBusinessObjectBase {
-    private String transactionCode;
-    private String description;
-
-
+public class AchTransactionCode extends KualiCodeBase {
+    
     /**
      * Constructs a AchTransactionCode.java.
      */
     public AchTransactionCode() {
         super();
-    }
-
-    /**
-     * Gets Transaction Code Description
-     * 
-     * @return
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Sets Description
-     * 
-     * @param description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Gets the Transaction Code
-     * 
-     * @return
-     */
-    public String getTransactionCode() {
-        return transactionCode;
-    }
-
-    /**
-     * Sets Transaction Code
-     * 
-     * @param transactionCode
-     */
-    public void setTransactionCode(String transactionCode) {
-        this.transactionCode = transactionCode;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(PdpPropertyConstants.TRANSACTION_CODE, transactionCode);
-
-        return m;
     }
 
 }

@@ -17,7 +17,7 @@
     
     <property name="lockingKeys" >
       <list>
-        <value>transactionCode</value>
+        <value>code</value>
       </list>
     </property>
     <property name="label" value="ACH Transaction Code" />
@@ -52,10 +52,10 @@
     <property name="maintainableItems" >
       <list>
        <bean parent="MaintainableFieldDefinition"
-              p:name="transactionCode"
+              p:name="Code"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="description"
+              p:name="name"
               p:required="true" />
       </list>
     </property>

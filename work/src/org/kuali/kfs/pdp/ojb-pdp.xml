@@ -30,15 +30,15 @@
   </class-descriptor>
   
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchTransactionCode" table="PDP_ACH_TRANS_CD_T">
-    <field-descriptor name="transactionCode" column="TRANS_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="description" column="TRANS_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="code" column="TRANS_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="name" column="TRANS_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
  
    <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchTransactionType" table="PDP_ACH_TRANS_TYP_T">
-    <field-descriptor name="transactionType" column="TRANS_TYP" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="description" column="TRANS_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="code" column="TRANS_TYP" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="name" column="TRANS_TYP_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
@@ -573,8 +573,8 @@
   </class-descriptor>
   
 <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentType" table="PDP_PMT_TYP_T">
-    <field-descriptor name="paymentTypeCode" column="PMT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="description" column="PMT_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="code" column="PMT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="name" column="PMT_TYP_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>

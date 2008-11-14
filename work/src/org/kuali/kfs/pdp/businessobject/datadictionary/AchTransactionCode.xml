@@ -17,8 +17,8 @@
     <property name="objectLabel" value="ACH Transaction Code" />
     <property name="attributes" >
       <list>
-        <ref bean="AchTransactionCode-transactionCode" />
-        <ref bean="AchTransactionCode-description" />
+        <ref bean="AchTransactionCode-code" />
+        <ref bean="AchTransactionCode-name" />
       </list>
     </property>
   </bean>
@@ -26,10 +26,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AchTransactionCode-transactionCode" parent="AchTransactionCode-transactionCode-parentBean" />
+  <bean id="AchTransactionCode-code" parent="AchTransactionCode-code-parentBean" />
 
-  <bean id="AchTransactionCode-transactionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionCode" />
+  <bean id="AchTransactionCode-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="ACH Transaction Code" />
     <property name="shortLabel" value="ACH Transaction Type" />
@@ -40,10 +40,10 @@
             p:size="2" />
     </property>
   </bean>
-  <bean id="AchTransactionCode-description" parent="AchTransactionCode-description-parentBean" />
+  <bean id="AchTransactionCode-name" parent="AchTransactionCode-name-parentBean" />
 
-  <bean id="AchTransactionCode-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="description" />
+  <bean id="AchTransactionCode-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="ACH Transaction Code description" />
     <property name="shortLabel" value="ACH Transaction Code description" />
@@ -69,9 +69,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="transactionCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+                    p:attributeName="name" />
             </list>
           </property>
         </bean>
@@ -91,7 +91,7 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>transactionCode</value>
+            <value>code</value>
           </list>
         </property>
       </bean>
@@ -99,17 +99,17 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="transactionCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="description" />
+              p:attributeName="name" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="transactionCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="description" />
+              p:attributeName="name" />
       </list>
     </property>
   </bean>

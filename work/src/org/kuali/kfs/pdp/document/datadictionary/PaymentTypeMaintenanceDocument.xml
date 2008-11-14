@@ -17,7 +17,7 @@
     
     <property name="lockingKeys" >
       <list>
-        <value>paymentTypeCode</value>
+        <value>code</value>
       </list>
     </property>
     <property name="label" value="Payment Type" />
@@ -53,10 +53,10 @@
     <property name="maintainableItems" >
       <list>
        <bean parent="MaintainableFieldDefinition"
-              p:name="paymentTypeCode"
+              p:name="code"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="description"
+              p:name="name"
               p:required="true" />
       </list>
     </property>

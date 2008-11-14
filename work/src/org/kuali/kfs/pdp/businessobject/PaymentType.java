@@ -19,59 +19,16 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents a payment type code
  */
-public class PaymentType extends PersistableBusinessObjectBase {
+public class PaymentType extends KualiCodeBase {
     
-    private String paymentTypeCode;
-    private String description;
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(PdpPropertyConstants.PAYMENT_TYPE_CODE, this.paymentTypeCode);
-        m.put(KFSPropertyConstants.DESCRIPTION, this.description);
+    public PaymentType() {
         
-        return m;
     }
-    
-    /**
-     * gets the payment type description
-     * @return
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * sets payment type description
-     * 
-     * @param description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    /**
-     * gets payment type code
-     * 
-     * @return
-     */
-    public String getPaymentTypeCode() {
-        return paymentTypeCode;
-    }
-    
-    /**
-     * sets payment type code
-     * 
-     * @param paymentTypeCode
-     */
-    public void setPaymentTypeCode(String paymentTypeCode) {
-        this.paymentTypeCode = paymentTypeCode;
-    }
-
 }

@@ -19,8 +19,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="objectLabel" value="Payment Type" />
     <property name="attributes" >
       <list>
-        <ref bean="PaymentType-paymentTypeCode" />
-        <ref bean="PaymentType-description" />
+        <ref bean="PaymentType-code" />
+        <ref bean="PaymentType-name" />
       </list>
     </property>
   </bean>
@@ -28,10 +28,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="PaymentType-paymentTypeCode" parent="PaymentType-paymentTypeCode-parentBean" />
+  <bean id="PaymentType-code" parent="PaymentType-code-parentBean" />
 
-  <bean id="PaymentType-paymentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="paymentTypeCode" />
+  <bean id="PaymentType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Type Code" />
     <property name="shortLabel" value="Payment Type Code" />
@@ -43,10 +43,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
   
-  <bean id="PaymentType-description" parent="PaymentType-description-parentBean" />
+  <bean id="PaymentType-name" parent="PaymentType-name-parentBean" />
 
-  <bean id="PaymentType-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="description" />
+  <bean id="PaymentType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Payment Type Description" />
     <property name="shortLabel" value="Payment Type Description" />
@@ -73,9 +73,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+                    p:attributeName="name" />
               
             </list>
           </property>
@@ -96,7 +96,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>paymentTypeCode</value>
+            <value>code</value>
           </list>
         </property>
       </bean>
@@ -104,18 +104,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="paymentTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="description" />
+              p:attributeName="name" />
         
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="paymentTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="description" />
+              p:attributeName="name" />
       </list>
     </property>
   </bean>

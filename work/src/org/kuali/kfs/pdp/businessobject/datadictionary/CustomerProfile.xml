@@ -812,7 +812,7 @@
   </bean>
   
   <bean id="CustomerProfile-achTransactionType" parent="CustomerProfile-achTransactionType-parentBean" />
-  <bean id="CustomerProfile-achTransactionType-parentBean" abstract="true" parent="AchTransactionType-transactionType-parentBean">
+  <bean id="CustomerProfile-achTransactionType-parentBean" abstract="true" parent="AchTransactionType-code-parentBean">
     <property name="name" value="achTransactionType" />
     <property name="required" value="false" />
   </bean>

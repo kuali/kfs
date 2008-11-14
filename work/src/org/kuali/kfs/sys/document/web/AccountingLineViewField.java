@@ -23,7 +23,10 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.commons.collections.BidiMap;
+import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -213,8 +216,19 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param fieldNames the list of all fields being displayed on this accounting line
      */
     protected void populateFieldForLookupAndInquiry(AccountingDocument accountingDocument, AccountingLine accountingLine, List<String> fieldNames) {
-        if (!isHidden()) {
+        if (!isHidden()) {            
             LookupUtils.setFieldQuickfinder(accountingLine, getField().getPropertyName(), getField(), fieldNames);
+            
+            // apply the customized lookup parameters if any
+            String overrideLookupParameters = definition.getOverrideLookupParameters();
+            if(ObjectUtils.isNotNull(overrideLookupParameters)) {
+                String lookupParameters = getField().getLookupParameters();
+
+                Map<String, String> lookupParametersMap = this.getActualLookupParametersMap(lookupParameters, overrideLookupParameters);              
+
+                getField().setLookupParameters(lookupParametersMap);
+            }
+
             if (isRenderingInquiry(accountingDocument, accountingLine)) {
                 FieldUtils.setInquiryURL(getField(), accountingLine, getField().getPropertyName());
             }
@@ -476,5 +490,39 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      */
     protected boolean isRenderingInquiry(AccountingDocument document, AccountingLine line) {
         return isReadOnly();
+    }
+    
+    /**
+     * build the lookup parameter map through applying the override paraemeter onto the default parameters
+     * @param lookupParameters the default lookup parameter string
+     * @param overrideLookupParameters the override lookup parameter string
+     * @return the actual lookup parameter map
+     */
+    private Map<String, String> getActualLookupParametersMap(String lookupParameters, String overrideLookupParameters){
+        BidiMap lookupParametersMap = this.buildBidirecionalParametersMap(lookupParameters);
+        BidiMap overrideLookupParametersMap = this.buildBidirecionalParametersMap(overrideLookupParameters);    
+        lookupParametersMap.putAll(overrideLookupParametersMap);
+        
+        return lookupParametersMap;
+    }
+    
+    /**
+     * parse the given lookup parameter string into a bidirectinal map
+     * @param lookupParameters the lookup parameter string
+     * @return a bidirectinal map that holds all the given lookup parameters
+     */
+    private BidiMap buildBidirecionalParametersMap(String parameters){
+        BidiMap parameterMap = new DualHashBidiMap();
+        String [] parameterArray = StringUtils.split(parameters, KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
+        
+        for(String parameter : parameterArray) {
+            String[] entrySet = StringUtils.split(parameter, KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
+            
+            if(entrySet != null) {
+                parameterMap.put(entrySet[0], entrySet[1]);
+            }
+        }
+        
+        return parameterMap;
     }
 }

@@ -44,6 +44,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     private String dynamicNameLabelGeneratorBeanName;
     private int overrideColSpan = -1;
     private Class<? extends AccountingLineViewField> accountingLineViewFieldClass = org.kuali.kfs.sys.document.web.AccountingLineViewField.class;
+    private String overrideLookupParameters;
     
     private DynamicNameLabelGenerator dynamicNameLabelGenerator;
 
@@ -234,5 +235,21 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
             }
         }
         return fields;
+    }
+
+    /**
+     * Gets the overrideLookupParameters attribute. 
+     * @return Returns the overrideLookupParameters.
+     */
+    public String getOverrideLookupParameters() {
+        return overrideLookupParameters;
+    }
+
+    /**
+     * Sets the overrideLookupParameters attribute value.
+     * @param overrideLookupParameters The overrideLookupParameters to set.
+     */
+    public void setOverrideLookupParameters(String overrideLookupParameters) {
+        this.overrideLookupParameters = overrideLookupParameters;
     }
 }

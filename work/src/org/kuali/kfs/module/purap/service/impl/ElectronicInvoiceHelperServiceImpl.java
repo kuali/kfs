@@ -1035,7 +1035,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 mailService.sendMessage(mailMessage);
             }catch (InvalidAddressException e) {
                 LOG.error("Invalid email address. Message not sent", e);
-            }
+        }
         }
         
         /**
@@ -1076,8 +1076,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 }
             }
         }
-
-        message.setFromAddress(toAddressList[0]); 
 
         String mailTitle = "E-Invoice Load Results for " + ElectronicInvoiceUtils.getDateDisplayText(new Date());
         
@@ -1424,8 +1422,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         for (int i = 0; i < preqItems.size(); i++) {
 
             PaymentRequestItem preqItem = (PaymentRequestItem) preqItems.get(i);
-
-            if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, orderHolder)) {
+            
+            if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM, orderHolder)) {
+                processAboveTheLineItem(preqItem, orderHolder);
+            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, orderHolder)) {
                 processTaxItem(preqItem, orderHolder);
             } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING, orderHolder)) {
                 processShippingItem(preqItem, orderHolder);
@@ -1435,11 +1435,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 processDepositItem(preqItem, orderHolder);
             } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE, orderHolder)) {
                 processDueItem(preqItem, orderHolder);
-            }else if (StringUtils.equals(preqItem.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
-                  processAboveTheLineItem(preqItem, orderHolder);
             }
             
-            setItemDefaultDescription(preqItem);
+            /**
+             * This is not needed since if we have default desc from misc item, then preq rules are expecting the account details for this items
+             * AccountsPayableItemBase.isConsideredEntered() returns true if there is any item desc available. 
+             * 
+             */
+//            setItemDefaultDescription(preqItem);
         }
 
         if (LOG.isDebugEnabled()) {
@@ -1454,7 +1457,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         if (LOG.isDebugEnabled()){
             LOG.debug("Processing above the line item");
         }
-        
+
         ElectronicInvoiceItemHolder itemHolder = orderHolder.getItemByLineNumber(purapItem.getItemLineNumber().intValue());
         if (itemHolder == null){
             LOG.info("Electronic Invoice does not have item with Ref Item Line number " + purapItem.getItemLineNumber());

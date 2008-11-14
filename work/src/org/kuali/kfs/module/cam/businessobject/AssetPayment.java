@@ -82,11 +82,12 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     public AssetPayment() {}
 
     /**
-     * Constructs a AssetPayment for use with Asset Separate
+     * Constructs an AssetPayment
      * 
      * @param assetPaymentDetail
+     * @param withAmounts indicates whether amount fields should be copied from the assetPayment object
      */
-    public AssetPayment(AssetPayment assetPayment) {
+    public AssetPayment(AssetPayment assetPayment, boolean withAmounts) {
         setCapitalAssetNumber(assetPayment.getCapitalAssetNumber());
         setPaymentSequenceNumber(assetPayment.getPaymentSequenceNumber());
         setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
@@ -102,25 +103,28 @@ public class AssetPayment extends PersistableBusinessObjectBase {
         setFinancialDocumentPostingDate(assetPayment.getFinancialDocumentPostingDate());
         setProjectCode(assetPayment.getProjectCode());
         setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
-        setAccountChargeAmount(assetPayment.getAccountChargeAmount());
         setPurchaseOrderNumber(assetPayment.getPurchaseOrderNumber());
         setRequisitionNumber(assetPayment.getRequisitionNumber());
-        setPrimaryDepreciationBaseAmount(assetPayment.getPrimaryDepreciationBaseAmount());
-        setAccumulatedPrimaryDepreciationAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
-        setPreviousYearPrimaryDepreciationAmount(assetPayment.getPreviousYearPrimaryDepreciationAmount());
-        setPeriod1Depreciation1Amount(assetPayment.getPeriod1Depreciation1Amount());
-        setPeriod2Depreciation1Amount(assetPayment.getPeriod2Depreciation1Amount());
-        setPeriod3Depreciation1Amount(assetPayment.getPeriod3Depreciation1Amount());
-        setPeriod4Depreciation1Amount(assetPayment.getPeriod4Depreciation1Amount());
-        setPeriod5Depreciation1Amount(assetPayment.getPeriod5Depreciation1Amount());
-        setPeriod6Depreciation1Amount(assetPayment.getPeriod6Depreciation1Amount());
-        setPeriod7Depreciation1Amount(assetPayment.getPeriod7Depreciation1Amount());
-        setPeriod8Depreciation1Amount(assetPayment.getPeriod8Depreciation1Amount());
-        setPeriod9Depreciation1Amount(assetPayment.getPeriod9Depreciation1Amount());
-        setPeriod10Depreciation1Amount(assetPayment.getPeriod10Depreciation1Amount());
-        setPeriod11Depreciation1Amount(assetPayment.getPeriod11Depreciation1Amount());
-        setPeriod12Depreciation1Amount(assetPayment.getPeriod12Depreciation1Amount());
         setTransferPaymentCode(assetPayment.getTransferPaymentCode());
+        
+        if (withAmounts) {
+            setAccountChargeAmount(assetPayment.getAccountChargeAmount());
+            setPrimaryDepreciationBaseAmount(assetPayment.getPrimaryDepreciationBaseAmount());
+            setAccumulatedPrimaryDepreciationAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
+            setPreviousYearPrimaryDepreciationAmount(assetPayment.getPreviousYearPrimaryDepreciationAmount());
+            setPeriod1Depreciation1Amount(assetPayment.getPeriod1Depreciation1Amount());
+            setPeriod2Depreciation1Amount(assetPayment.getPeriod2Depreciation1Amount());
+            setPeriod3Depreciation1Amount(assetPayment.getPeriod3Depreciation1Amount());
+            setPeriod4Depreciation1Amount(assetPayment.getPeriod4Depreciation1Amount());
+            setPeriod5Depreciation1Amount(assetPayment.getPeriod5Depreciation1Amount());
+            setPeriod6Depreciation1Amount(assetPayment.getPeriod6Depreciation1Amount());
+            setPeriod7Depreciation1Amount(assetPayment.getPeriod7Depreciation1Amount());
+            setPeriod8Depreciation1Amount(assetPayment.getPeriod8Depreciation1Amount());
+            setPeriod9Depreciation1Amount(assetPayment.getPeriod9Depreciation1Amount());
+            setPeriod10Depreciation1Amount(assetPayment.getPeriod10Depreciation1Amount());
+            setPeriod11Depreciation1Amount(assetPayment.getPeriod11Depreciation1Amount());
+            setPeriod12Depreciation1Amount(assetPayment.getPeriod12Depreciation1Amount());
+        }
     }
     
     /**

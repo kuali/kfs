@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import org.kuali.kfs.coa.businessobject.ObjectCode;
+import java.util.List;
+
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
@@ -46,26 +48,9 @@ public interface AssetGlobalService {
     public boolean existsInGroup(String groupName, String memberName);
 
     /**
-     * To calculate the total non federal contribution payment amounts for each asset.
-     * 
-     * @param assetGlobal
-     * @return
-     */
-    public KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal);
-
-    /**
      * Creates GL Postables
      */
     public void createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
-
-
-    /**
-     * To check if the objectCode can derive a capital asset by its object sub type code.
-     * 
-     * @param objectCode
-     * @return
-     */
-    public boolean isCapitablObjectCode(ObjectCode objectCode);
 
     /**
      * Validates if the document type matches that of Asset Separate.
@@ -83,4 +68,17 @@ public interface AssetGlobalService {
      */
     public KualiDecimal getUniqueAssetsTotalAmount(AssetGlobal assetGlobal);
 
+    /**
+     * Returns assets for save for create new assets
+     * @param assetGlobal
+     * @return
+     */
+    public List<PersistableBusinessObject> getCreateNewAssets(AssetGlobal assetGlobal);    
+    
+    /**
+     * Returns assets for save for asset separate
+     * @param assetGlobal
+     * @return
+     */
+    public List<PersistableBusinessObject> getSeparateAssets(AssetGlobal assetGlobal);
 }

@@ -39,7 +39,7 @@ public class PurchaseOrderResponse extends CxmlParser {
     public String getStatusCode() {
         LOG.debug("getStatusCode() started");
 
-        Node statusCodeNode = getXMLNode(document, "PurchaseOrder/ResponseMessage/Status/StatusCode");
+        Node statusCodeNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/Status/StatusCode");
         if (statusCodeNode == null) {
             LOG.debug("getStatusCode() statusCodeNode not found");
             return null;
@@ -71,9 +71,9 @@ public class PurchaseOrderResponse extends CxmlParser {
 
         if (!isSuccess()) {
             // Look for problems with the non-line items cXML (username, etc.).
-            Node errorsNode = getXMLNode(document, "PurchaseOrder/ResponseMessage/Status/Errors");
+            Node errorsNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/Status/Errors");
             if (errorsNode == null) {
-                LOG.debug("getPOResponseErrorMessages() errorsNode PurchaseOrder/ResponseMessage/Status/Errors not found");
+                LOG.debug("getPOResponseErrorMessages() errorsNode PurchaseOrderMessage/ResponseMessage/Status/Errors not found");
                 return null;
             }
 
@@ -92,9 +92,9 @@ public class PurchaseOrderResponse extends CxmlParser {
             }
 
             // Look for problems with line items.
-            errorsNode = getXMLNode(document, "PurchaseOrder/ResponseMessage/ObjectErrors");
+            errorsNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/ObjectErrors");
             if (errorsNode == null) {
-                LOG.debug("getPOResponseErrorMessages() errorsNode PurchaseOrder/ResponseMessage/ObjectErrors not found");
+                LOG.debug("getPOResponseErrorMessages() errorsNode PurchaseOrderMessage/ResponseMessage/ObjectErrors not found");
                 return null;
             }
             List lineRefErrorList = findNodes(errorsNode, Node.ELEMENT_NODE, "PurchaseOrderLineRef");
@@ -122,30 +122,4 @@ public class PurchaseOrderResponse extends CxmlParser {
         return errors;
     }
 
-    public List getErrorMessages() {
-        LOG.debug("getErrorMessages() started");
-
-        List errors = new ArrayList();
-
-        if (!isSuccess()) {
-            Node errorPurchaseOrderRefNode = getXMLNode(document, "PurchaseOrder/ResponseMessage/ObjectErrors/PurchaseOrderRef");
-            if (errorPurchaseOrderRefNode == null) {
-                LOG.debug("getErrorMessages() errorPurchaseOrderRefNode not found");
-                return null;
-            }
-
-            List errorNodesList = findNodes(errorPurchaseOrderRefNode, Node.ELEMENT_NODE, "Error");
-            for (Iterator iter = errorNodesList.iterator(); iter.hasNext();) {
-                Node errorNode = (Node) iter.next();
-
-                Node errorMessageNode = getXMLNode(errorNode, "ErrorMessage");
-                if (errorMessageNode == null) {
-                    LOG.debug("getErrorMessages() errorMessageNode not found");
-                    return null;
-                }
-                errors.add(getNodeText(errorMessageNode));
-            }
-        }
-        return errors;
-    }
 }

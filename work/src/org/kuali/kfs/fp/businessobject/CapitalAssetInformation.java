@@ -5,15 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -22,30 +18,20 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    @Deprecated private String campusCode;
-    @Deprecated private String buildingCode;
-    @Deprecated private String buildingRoomNumber;
-    @Deprecated private String buildingSubRoomNumber;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
-    @Deprecated private String vendorNumber;
     private String vendorName;
     private Long capitalAssetNumber;
-    @Deprecated private String capitalAssetTagNumber;
     private Integer capitalAssetQuantity;
     private String capitalAssetTypeCode;
     private String capitalAssetManufacturerName;
     private String capitalAssetDescription;
     private String capitalAssetManufacturerModelNumber;
-    @Deprecated private String capitalAssetSerialNumber;
 
     private CapitalAssetManagementAsset capitalAssetManagementAsset;
     private CapitalAssetManagementAssetType capitalAssetManagementAssetType;
     private List<CapitalAssetInformationDetail> capitalAssetInformationDetails;
 
-    @Deprecated private Campus campus;
-    @Deprecated private Building building;
-    @Deprecated private Room room;
     private VendorDetail vendorDetail;
 
     /**
@@ -62,46 +48,6 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         m.put("documentNumber", getDocumentNumber());
 
         return m;
-    }
-
-    @Deprecated
-    public String getBuildingCode() {
-        return buildingCode;
-    }
-
-    @Deprecated
-    public void setBuildingCode(String buildingCode) {
-        this.buildingCode = buildingCode;
-    }
-
-    @Deprecated
-    public String getBuildingRoomNumber() {
-        return buildingRoomNumber;
-    }
-
-    @Deprecated
-    public void setBuildingRoomNumber(String buildingRoomNumber) {
-        this.buildingRoomNumber = buildingRoomNumber;
-    }
-
-    @Deprecated
-    public String getBuildingSubRoomNumber() {
-        return buildingSubRoomNumber;
-    }
-
-    @Deprecated
-    public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
-        this.buildingSubRoomNumber = buildingSubRoomNumber;
-    }
-
-    @Deprecated
-    public String getCampusCode() {
-        return campusCode;
-    }
-
-    @Deprecated
-    public void setCampusCode(String campusCode) {
-        this.campusCode = campusCode;
     }
 
     public String getCapitalAssetDescription() {
@@ -137,35 +83,15 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     }
 
     public Integer getCapitalAssetQuantity() {
-        if(ObjectUtils.isNotNull(capitalAssetInformationDetails) && !capitalAssetInformationDetails.isEmpty()) {
+        if (ObjectUtils.isNotNull(capitalAssetInformationDetails) && !capitalAssetInformationDetails.isEmpty()) {
             return capitalAssetInformationDetails.size();
         }
-        
+
         return capitalAssetQuantity;
     }
 
     public void setCapitalAssetQuantity(Integer capitalAssetQuantity) {
         this.capitalAssetQuantity = capitalAssetQuantity;
-    }
-
-    @Deprecated
-    public String getCapitalAssetSerialNumber() {
-        return capitalAssetSerialNumber;
-    }
-
-    @Deprecated
-    public void setCapitalAssetSerialNumber(String capitalAssetSerialNumber) {
-        this.capitalAssetSerialNumber = capitalAssetSerialNumber;
-    }
-
-    @Deprecated
-    public String getCapitalAssetTagNumber() {
-        return capitalAssetTagNumber;
-    }
-
-    @Deprecated
-    public void setCapitalAssetTagNumber(String capitalAssetTagNumber) {
-        this.capitalAssetTagNumber = capitalAssetTagNumber;
     }
 
     public String getCapitalAssetTypeCode() {
@@ -198,30 +124,6 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-    }
-
-    /**
-     * Gets the vendorNumber attribute.
-     * 
-     * @return Returns the vendorNumber.
-     */
-    @Deprecated
-    public String getVendorNumber() {
-        if (this.vendorHeaderGeneratedIdentifier != null && this.vendorDetailAssignedIdentifier != null) {
-            vendorNumber = this.vendorHeaderGeneratedIdentifier + "-" + this.vendorDetailAssignedIdentifier;
-        }
-
-        return vendorNumber;
-    }
-
-    /**
-     * Sets the vendorNumber attribute value.
-     * 
-     * @param vendorNumber The vendorNumber to set.
-     */
-    @Deprecated
-    public void setVendorNumber(String vendorNumber) {
-        this.vendorNumber = vendorNumber;
     }
 
     /**
@@ -264,26 +166,6 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the building attribute.
-     * 
-     * @return Returns the building.
-     */
-    @Deprecated
-    public Building getBuilding() {
-        return building;
-    }
-
-    /**
-     * Sets the building attribute value.
-     * 
-     * @param building The building to set.
-     */
-    @Deprecated
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
-    /**
      * Gets the vendorDetail attribute.
      * 
      * @return Returns the vendorDetail.
@@ -303,46 +185,6 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the room attribute.
-     * 
-     * @return Returns the room.
-     */
-    @Deprecated
-    public Room getRoom() {
-        return room;
-    }
-
-    /**
-     * Sets the room attribute value.
-     * 
-     * @param room The room to set.
-     */
-    @Deprecated
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    /**
-     * Gets the campus attribute.
-     * 
-     * @return Returns the campus.
-     */
-    @Deprecated
-    public Campus getCampus() {
-        return campus;
-    }
-
-    /**
-     * Sets the campus attribute value.
-     * 
-     * @param campus The campus to set.
-     */
-    @Deprecated
-    public void setCampus(Campus campus) {
-        this.campus = campus;
-    }
-
-    /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
      * 
      * @return Map a map with the primitive field names as the key and the primitive values as the map value.
@@ -351,10 +193,6 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         Map<String, Object> simpleValues = new HashMap<String, Object>();
 
         simpleValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
-        simpleValues.put(KFSPropertyConstants.CAMPUS_CODE, this.getCampusCode());
-        simpleValues.put(KFSPropertyConstants.BUILDING_CODE, this.getBuildingCode());
-        simpleValues.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, this.getBuildingRoomNumber());
-
         simpleValues.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.getVendorHeaderGeneratedIdentifier());
         simpleValues.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, this.getVendorDetailAssignedIdentifier());
         simpleValues.put(KFSPropertyConstants.VENDOR_NAME, this.getVendorName());
@@ -383,7 +221,8 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the capitalAssetInformationDetails attribute. 
+     * Gets the capitalAssetInformationDetails attribute.
+     * 
      * @return Returns the capitalAssetInformationDetails.
      */
     public List<CapitalAssetInformationDetail> getCapitalAssetInformationDetails() {
@@ -392,6 +231,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the capitalAssetInformationDetails attribute value.
+     * 
      * @param capitalAssetInformationDetails The capitalAssetInformationDetails to set.
      */
     public void setCapitalAssetInformationDetails(List<CapitalAssetInformationDetail> capitalAssetInformationDetails) {

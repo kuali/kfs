@@ -88,6 +88,7 @@
   <bean id="PretagDetail-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
     <property name="name" value="campusTagNumber" />
     <property name="shortLabel" value="Number" />
+    <property name="required" value="true" />
   </bean>
   
   <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean" />

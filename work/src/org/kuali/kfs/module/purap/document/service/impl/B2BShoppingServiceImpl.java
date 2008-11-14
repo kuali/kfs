@@ -36,7 +36,8 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.exception.B2BShoppingException;
-import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
+import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
+import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
 import org.kuali.kfs.sys.KFSConstants;
@@ -111,17 +112,17 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         String response = b2bDao.sendPunchOutRequest(cxml.getPunchOutSetupRequestMessage(), b2b.getPunchoutURL());
 
         // parse response
-        PunchOutSetupResponse posr = new PunchOutSetupResponse(response);
+        PunchOutSetupResponse posr = B2BParserHelper.getInstance().parsePunchOutSetupResponse(response);
 
         // return url to use for punchout
         return posr.getPunchOutUrl();
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.B2BService#createRequisitionsFromCxml(org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser,
+     * @see org.kuali.kfs.module.purap.document.service.B2BService#createRequisitionsFromCxml(org.kuali.kfs.module.purap.util.cxml.B2BParserHelper,
      *      org.kuali.rice.kim.bo.Person)
      */
-    public List createRequisitionsFromCxml(B2BShoppingCartParser message, Person user) throws WorkflowException {
+    public List createRequisitionsFromCxml(B2BShoppingCart message, Person user) throws WorkflowException {
         LOG.debug("createRequisitionsFromCxml() started");
         // for returning requisitions
         ArrayList requisitions = new ArrayList();

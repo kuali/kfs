@@ -716,5 +716,32 @@
 	
 	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />
 	
+	<bean id="b2bPOResponseFileType" class="org.kuali.kfs.module.purap.util.cxml.B2BPOResponseFileType">
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/kfs/module/purap/util/cxml/b2bPOResponseDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>${externalizable.static.content.url}/xsd/purap/b2bPOResponse.xsd</value>
+	    </property>
+	</bean>
+	
+	<bean id="b2bPunchOutOrderFileType" class="org.kuali.kfs.module.purap.util.cxml.B2BPunchOutOrderFileType">
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/kfs/module/purap/util/cxml/b2bPunchOutOrderDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>${externalizable.static.content.url}/xsd/purap/b2bPunchOutOrder.xsd</value> 
+	    </property>
+	</bean>
+	
+	<bean id="b2bPunchOutResponseFileType" class="org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponseFileType">
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/kfs/module/purap/util/cxml/b2bPunchOutResponseDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>${externalizable.static.content.url}/xsd/purap/b2bPunchOutResponse.xsd</value> 
+	    </property>
+	</bean>
+	
 </beans>
 

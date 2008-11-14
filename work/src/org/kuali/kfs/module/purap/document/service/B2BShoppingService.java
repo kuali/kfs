@@ -17,7 +17,8 @@ package org.kuali.kfs.module.purap.document.service;
 
 import java.util.List;
 
-import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
+import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
+import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -41,7 +42,7 @@ public interface B2BShoppingService {
      * @param user User doing the requisitioning
      * @return List of requisitions
      */
-    public List createRequisitionsFromCxml(B2BShoppingCartParser message, Person user) throws WorkflowException;
+    public List createRequisitionsFromCxml(B2BShoppingCart message, Person user) throws WorkflowException;
 
 
 }

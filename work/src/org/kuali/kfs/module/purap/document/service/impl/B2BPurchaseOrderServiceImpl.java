@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.exception.B2BConnectionException;
 import org.kuali.kfs.module.purap.exception.CxmlParseError;
+import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -94,7 +95,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
 
             LOG.info("sendPurchaseOrder(): Response cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":" + responseCxml);
 
-            PurchaseOrderResponse poResponse = new PurchaseOrderResponse(responseCxml);
+            PurchaseOrderResponse poResponse = B2BParserHelper.getInstance().parsePurchaseOrderResponse(responseCxml);
             String statusText = poResponse.getStatusText();
             LOG.debug("sendPurchaseOrder(): statusText is " + statusText);
             if ((ObjectUtils.isNull(statusText)) || (!"success".equalsIgnoreCase(statusText.trim()))) {

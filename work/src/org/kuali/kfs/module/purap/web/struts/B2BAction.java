@@ -27,7 +27,8 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
 import org.kuali.kfs.module.purap.exception.B2BConnectionException;
 import org.kuali.kfs.module.purap.exception.B2BShoppingException;
-import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
+import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
+import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -53,7 +54,7 @@ public class B2BAction extends KualiAction {
         String cXml = request.getParameter("cxml-urlencoded");
         LOG.info("executeLogic() cXML returned in PunchoutOrderMessage:\n" + cXml);
 
-        B2BShoppingCartParser cart = new B2BShoppingCartParser(cXml);
+        B2BShoppingCart cart = B2BParserHelper.getInstance().parseShoppingCartXML(cXml);
 
         if (cart.isSuccess()) {
             List requisitions = SpringContext.getBean(B2BShoppingService.class).createRequisitionsFromCxml(cart, GlobalVariables.getUserSession().getPerson());

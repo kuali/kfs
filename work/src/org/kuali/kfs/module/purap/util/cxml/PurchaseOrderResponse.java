@@ -16,110 +16,38 @@
 package org.kuali.kfs.module.purap.util.cxml;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.exception.CxmlParseError;
-import org.w3c.dom.Node;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
-public class PurchaseOrderResponse extends CxmlParser {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderResponse.class);
-
-    /**
-     * @param cXml
-     * @throws CxmlParseError
-     */
-    public PurchaseOrderResponse(String cXml) throws CxmlParseError {
-        super(cXml);
-    }
-
-    /**
-     * Get the status code
-     */
-    public String getStatusCode() {
-        LOG.debug("getStatusCode() started");
-
-        Node statusCodeNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/Status/StatusCode");
-        if (statusCodeNode == null) {
-            LOG.debug("getStatusCode() statusCodeNode not found");
-            return null;
+public class PurchaseOrderResponse extends B2BShoppingCartBase {
+    
+    private List errors = new ArrayList();
+    
+    public void addPOResponseErrorMessage(String errorText){
+        if (StringUtils.isNotEmpty(errorText)){
+            errors.add(errorText);
         }
-        String code = getNodeText(statusCodeNode);
-
-        LOG.debug("getStatusCode() statusCode is " + code);
-        return (code != null) ? code.trim() : null;
     }
-
-    /**
-     * Get the status text
-     */
-    public String getStatusText() {
-        LOG.debug("getStatusText() started");
-
-        Node statusTextNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/Status/StatusText");
-        if (statusTextNode == null) {
-            LOG.debug("getStatusText() statusTextNode not found");
-            return null;
-        }
-        return getNodeText(statusTextNode);
-    }
-
+    
     public List getPOResponseErrorMessages() {
-        LOG.debug("getPOResponseErrorMessages() started.");
-
-        List errors = new ArrayList();
-
+        
         if (!isSuccess()) {
-            // Look for problems with the non-line items cXML (username, etc.).
-            Node errorsNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/Status/Errors");
-            if (errorsNode == null) {
-                LOG.debug("getPOResponseErrorMessages() errorsNode PurchaseOrderMessage/ResponseMessage/Status/Errors not found");
-                return null;
-            }
-
-            List nonLineRefErrorList = findNodes(errorsNode, Node.ELEMENT_NODE, "Error");
-            for (Iterator iter = nonLineRefErrorList.iterator(); iter.hasNext();) {
-                Node errorNode = (Node) iter.next();
-
-                Node errorMessageNode = getXMLNode(errorNode, "ErrorMessage");
-                if (errorMessageNode == null) {
-                    LOG.debug("getPOResponseErrorMessages() errorMessageNode not found");
-                    return null;
-                }
-                LOG.debug("getPOResponseErrorMessages(): Non line item error message is: " + getNodeText(errorMessageNode));
-
-                errors.add(getNodeText(errorMessageNode));
-            }
-
-            // Look for problems with line items.
-            errorsNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/ObjectErrors");
-            if (errorsNode == null) {
-                LOG.debug("getPOResponseErrorMessages() errorsNode PurchaseOrderMessage/ResponseMessage/ObjectErrors not found");
-                return null;
-            }
-            List lineRefErrorList = findNodes(errorsNode, Node.ELEMENT_NODE, "PurchaseOrderLineRef");
-            for (Iterator iter = lineRefErrorList.iterator(); iter.hasNext();) {
-                Node lineRefNode = (Node) iter.next();
-
-                String linenumber = getNodeAttribute(lineRefNode, "linenumber");
-                getNodeText(lineRefNode);
-                LOG.debug("getPOResponseErrorMessages(): line referenced is " + linenumber);
-
-                Node errorNode = getXMLNode(lineRefNode, "Error");
-
-                Node errorMessageNode = getXMLNode(errorNode, "ErrorMessage");
-                if (errorMessageNode == null) {
-                    LOG.debug("getPOResponseErrorMessages() errorMessageNode not found");
-                    return null;
-                }
-
-                String errorMessage = "Line number " + linenumber + ": " + getNodeText(errorMessageNode);
-                LOG.debug("errorMessage is " + errorMessage);
-
-                errors.add(errorMessage);
-            }
-        } // if (! isSuccess())
-        return errors;
+            return errors;
+        }else{
+            return null;
+        }
     }
-
+    
+    public String toString(){
+        
+        ToStringBuilder toString = new ToStringBuilder(this);
+        toString.append("StatusCode",getStatusCode());
+        toString.append("StatusText",getStatusText());
+        toString.append("isSuccess",isSuccess());
+        toString.append("Errors",getPOResponseErrorMessages());
+        
+        return toString.toString();
+    }
 }

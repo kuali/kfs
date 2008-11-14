@@ -882,6 +882,9 @@ public class PurapConstants extends JSTLConstants {
     public static String FAX_TEST_PHONE_NUMBER = "FAX_TEST_PHONE_NUMBER";
     
     public static final String ELECTRONIC_INVOICE_FILE_TYPE_INDENTIFIER = "electronicInvoiceInputFileType";
+    public static final String B2B_PO_RESPONSE_FILE_TYPE_INDENTIFIER = "b2bPOResponseFileType";
+    public static final String B2B_PUNCH_OUT_ORDER_FILE_TYPE_INDENTIFIER = "b2bPunchOutOrderFileType";
+    public static final String B2B_PUNCH_OUT_RESPONSE_FILE_TYPE_INDENTIFIER = "b2bPunchOutResponseFileType";
 
     public static class CapitalAssetAvailability {
         public static final String NONE = "NONE";

@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+
+	<pattern value="cXML">
+        <object-create-rule classname="org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart" />
+
+			<!-- HEADER -->
+		   <pattern value="Header">
+			    <object-create-rule classname="org.kuali.kfs.module.purap.util.cxml.CxmlHeader" />
+			    
+			    <!-- FROM -->
+			    <set-properties-rule pattern="From/Credential">
+				   <alias attr-name="domain" prop-name="fromDomain" />
+			    </set-properties-rule>
+			    
+			    <call-method-rule pattern="From/Credential/Identity" methodname="setFromIdentity" paramcount="0" />
+			    <!-- <call-method-rule pattern="From/Credential/SharedSecret" methodname="setFromSharedSecret" paramcount="0" /> -->
+			    
+			    <!-- TO -->
+			    <set-properties-rule pattern="To/Credential">
+				   <alias attr-name="domain" prop-name="toDomain" />
+			    </set-properties-rule>
+			    
+			    <call-method-rule pattern="To/Credential/Identity" methodname="setToIdentity" paramcount="0" />
+	 		    <!-- <call-method-rule pattern="To/Credential/SharedSecret" methodname="setToSharedSecret" paramcount="0" /> -->
+	 		    
+			   <!-- SENDER -->
+			   <set-properties-rule pattern="Sender/Credential">
+				   <alias attr-name="domain" prop-name="senderDomain" />
+			   </set-properties-rule>
+			    
+			   <call-method-rule pattern="Sender/Credential/Identity" methodname="setSenderIdentity" paramcount="0" />
+			   <!-- <call-method-rule pattern="Sender/Credential/SharedSecret" methodname="setSenderSharedSecret" paramcount="0" /> -->
+			   <call-method-rule pattern="Sender/UserAgent" methodname="setSenderUserAgent" paramcount="0" />
+			    
+			   <set-next-rule methodname="setCxmlHeader" />
+			    
+		   </pattern> <!-- Header -->
+	   
+	   	   <pattern value="Message">
+	   	   
+	   	   		<set-properties-rule pattern="Status">
+				   <alias attr-name="code" prop-name="statusCode" />
+				   <alias attr-name="text" prop-name="statusText" />
+			    </set-properties-rule>
+	   	   	
+	   	   		<pattern value="PunchOutOrderMessage">
+	   	   			<call-method-rule pattern="BuyerCookie" methodname="setBuyerCookieText" paramcount="0" />
+	   	   			
+	   	   			<!-- <set-properties-rule pattern="PunchOutOrderMessageHeader">
+				   		<alias attr-name="operationAllowed" prop-name="xxxx" />
+			   		</set-properties-rule> --> 
+			   
+   	   				<call-method-rule pattern="PunchOutOrderMessageHeader/Total/Money" methodname="setTotal" paramcount="0" />
+   					<!-- <set-properties-rule pattern="PunchOutOrderMessageHeader/Total/Money">
+   						<alias attr-name="currency" prop-name="xxxxxx" />
+   					</set-properties-rule> -->
+	   	   			
+	   	   			<pattern value="ItemIn">
+	   	   				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.B2BShoppingCartItem" />
+	   	   				
+	   	   				<set-properties-rule>
+      						<alias attr-name="quantity" prop-name="quantity" />
+      					</set-properties-rule>	
+      					
+      					<call-method-rule pattern="ItemID/SupplierPartID" methodname="setSupplierPartId" paramcount="0" />
+      					<call-method-rule pattern="ItemID/SupplierPartAuxiliaryID" methodname="setSupplierPartAuxiliaryId" paramcount="0" />
+      					
+      					<call-method-rule pattern="ItemDetail/UnitPrice/Money" methodname="setUnitPrice" paramcount="0" />
+		    			<set-properties-rule pattern="ItemDetail/UnitPrice/Money">
+    						<alias attr-name="currency" prop-name="unitPriceCurrency" />
+    					</set-properties-rule>
+      					
+      					<call-method-rule pattern="ItemDetail/Description" methodname="setDescription" paramcount="0" />
+      					<call-method-rule pattern="ItemDetail/UnitOfMeasure" methodname="setUnitOfMeasure" paramcount="0" />
+      					
+      					<pattern value="ItemDetail/Classification">
+		                    <call-method-rule methodname="addClassification" paramcount="2" />
+		                    <call-param-rule attrname="domain" paramnumber="0"/>
+		                    <call-param-rule paramnumber="1" />
+	                	</pattern>
+      					
+      					<pattern value="ItemDetail/Extrinsic">
+		                    <call-method-rule methodname="addExtrinsic" paramcount="2" />
+		                    <call-param-rule attrname="name" paramnumber="0"/>
+		                    <call-param-rule paramnumber="1" />
+	                	</pattern>
+	                	
+	                	<pattern value="SupplierID">
+		                    <call-method-rule methodname="setSupplier" paramcount="2" />
+		                    <call-param-rule attrname="domain" paramnumber="0"/>
+		                    <call-param-rule paramnumber="1" />
+	                	</pattern>
+	                	
+      					<set-next-rule methodname="addShoppingCartItem" />
+      					
+	   	   			</pattern>
+	   	   			
+	   	   		</pattern> <!-- PunchOutOrderMessage  -->
+	   	   </pattern>
+    </pattern>
+</digester-rules>

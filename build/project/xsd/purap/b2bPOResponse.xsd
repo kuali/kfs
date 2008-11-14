@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+    
+<xsd:schema elementFormDefault="qualified"
+		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPOResponse"
+		    xmlns="http://www.kuali.org/kfs/purap/b2bPOResponse" 
+		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	
+	<xsd:element name="Error">
+	  	<xsd:complexType>
+	  		<xsd:sequence>
+	  			<xsd:element name="ErrorMessage" type="xsd:string"/>
+	  		</xsd:sequence>	
+	  	</xsd:complexType>
+  	</xsd:element>	
+		    
+	<xsd:element name="PurchaseOrderMessage">
+	    <xsd:complexType>
+	      <xsd:sequence>
+	      	<xsd:element name="Header">		    
+	        	<xsd:complexType>
+		            <xsd:sequence>
+		        		 <xsd:element name="MessageId" type="xsd:string"/>
+		        		 <xsd:element name="Timestamp" type="xsd:string"/>   	
+		            </xsd:sequence>
+		        </xsd:complexType>
+		     </xsd:element>       
+	        <xsd:element name="ResponseMessage">		    
+	        	<xsd:complexType>
+		            <xsd:sequence>
+        		      	<xsd:element name="Status">
+	        		      	<xsd:complexType>
+	        		      		<xsd:sequence>
+		        		      		<xsd:element name="StatusCode" type="xsd:string"/>
+		        		      		<xsd:element name="StatusText" type="xsd:string"/>
+	        		      			<xsd:element name="Errors" minOccurs="0">
+	        		      				<xsd:complexType>
+									  		<xsd:sequence>
+									  			<xsd:element ref="Error" maxOccurs="unbounded"/>
+									  		</xsd:sequence>
+									  	</xsd:complexType>	
+	        		      			</xsd:element>
+	       		      			</xsd:sequence>
+	       		      		</xsd:complexType>	
+        		      	</xsd:element>
+        		      	<xsd:element name="ObjectErrors" minOccurs="0">
+        		      		<xsd:complexType>
+	        		      		<xsd:sequence>
+	        		      			<xsd:element name="PurchaseOrderLineRef" maxOccurs="unbounded">
+	        		      				<xsd:complexType>
+									  		<xsd:sequence>
+										  		<xsd:element ref="Error" maxOccurs="unbounded"/>
+		                              		</xsd:sequence>	
+		                              		<xsd:attribute name="linenumber" type="xsd:unsignedInt" use="required" />
+		                              	</xsd:complexType>	
+	        		      			</xsd:element>
+	       		      			</xsd:sequence>
+	       		      			</xsd:complexType>
+        		      	</xsd:element>
+        		    </xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="version" type="xsd:string"/>
+       </xsd:complexType>
+    </xsd:element>    		      		
+
+</xsd:schema>		    

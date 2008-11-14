@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+    
+<xsd:schema elementFormDefault="qualified"
+		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPunchOutOrder"
+		    xmlns="http://www.kuali.org/kfs/purap/b2bPunchOutOrder" 
+		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		    
+<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+
+<xsd:element name="Credential">
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="Identity" type="xsd:string" />
+			<xsd:element name="SharedSecret" minOccurs="0" maxOccurs="1" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="domain" type="xsd:string" use="required" />
+	</xsd:complexType>
+</xsd:element>
+  
+<xsd:element name="Money" default="0">
+	<xsd:complexType>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:decimal">
+				<xsd:attribute name="currency" type="xsd:string"
+					use="required" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+</xsd:element>
+
+<xsd:element name="ItemID">
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="SupplierPartID" type="xsd:string" />
+			<xsd:element name="SupplierPartAuxiliaryID" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:element>
+
+<xsd:element name="UnitPrice">
+ 	<xsd:complexType>
+ 		<xsd:sequence>
+ 			<xsd:element ref="Money" />
+ 		</xsd:sequence>
+ 	</xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Description">
+ 	<xsd:complexType>
+ 		<xsd:simpleContent>
+ 			<xsd:extension base="xsd:string">
+ 				<xsd:attribute ref="xml:lang" use="required" />
+ 			</xsd:extension>
+ 		</xsd:simpleContent>
+ 	</xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Extrinsic">
+ 	<xsd:complexType>
+ 		<xsd:simpleContent>
+ 			<xsd:extension base="xsd:string">
+ 				<xsd:attribute name="name" type="xsd:string" />
+ 			</xsd:extension>
+ 		</xsd:simpleContent>
+ 	</xsd:complexType>
+</xsd:element>
+     						    
+<xsd:element name="cXML">
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="Header">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="From">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element ref="Credential" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="To">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element ref="Credential" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="Sender">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element ref="Credential" />
+									<xsd:element name="UserAgent"
+										type="xsd:string" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element> <!-- Header -->
+			<xsd:element name="Message">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Status">
+						  <xsd:complexType>
+						  	<xsd:simpleContent>
+						  		<xsd:extension base="xsd:string">
+						  			<xsd:attribute name="code" type="xsd:string" />
+						  			<xsd:attribute name="text" type="xsd:string" />
+						  		</xsd:extension>
+						  	</xsd:simpleContent>
+						  </xsd:complexType>
+						</xsd:element> <!-- Status -->
+						<xsd:element name="PunchOutOrderMessage">
+							<xsd:complexType>
+						  		<xsd:sequence>
+						  			<xsd:element name="BuyerCookie" type="xsd:string"/>
+						  			<xsd:element name="PunchOutOrderMessageHeader">
+						  				<xsd:complexType>
+						  					<xsd:sequence>
+										  		<xsd:element name="Total">
+										  			<xsd:complexType>
+									  					<xsd:sequence>
+									  						<xsd:element ref="Money" />
+									  					</xsd:sequence>
+									  				</xsd:complexType>
+										  		</xsd:element> <!-- Total -->
+		                              		</xsd:sequence>	
+		                              		<xsd:attribute name="operationAllowed" type="xsd:string"/>
+						  				</xsd:complexType>
+						  			</xsd:element>
+					  			
+									<xsd:element name="ItemIn" maxOccurs="unbounded">
+										<xsd:complexType>
+									  		<xsd:sequence>
+									  			<xsd:element ref="ItemID"/>
+									  			<xsd:element name="ItemDetail">
+									  				<xsd:complexType>
+									  					<xsd:sequence>
+									  						<xsd:element ref="UnitPrice"/>
+									  						<xsd:element ref="Description"/>
+									  						<xsd:element name="UnitOfMeasure" type="xsd:anyType" />
+									  						
+									  						<xsd:element name="Classification" maxOccurs="unbounded">
+															  	<xsd:complexType>
+															  		<xsd:simpleContent>
+															  			<xsd:extension base="xsd:string">
+															  				<xsd:attribute name="domain" type="xsd:string" />
+															  			</xsd:extension>
+															  		</xsd:simpleContent>
+															  	</xsd:complexType>
+															</xsd:element> <!-- Classification -->
+															<xsd:element name="ManufacturerName" type="xsd:string" minOccurs="0"/>
+															<xsd:element ref="Extrinsic" maxOccurs="unbounded"/>
+									  					</xsd:sequence>
+									  				</xsd:complexType>	
+									  			</xsd:element> <!-- ItemDetail -->
+									  			<xsd:element name="SupplierID" maxOccurs="unbounded">
+									  				<xsd:complexType>
+												 		<xsd:simpleContent>
+												 			<xsd:extension base="xsd:string">
+												 				<xsd:attribute name="domain" type="xsd:string" />
+												 			</xsd:extension>
+												 		</xsd:simpleContent>
+												 	</xsd:complexType>
+									  			</xsd:element> <!-- SupplierID -->
+									  		</xsd:sequence>
+									  		<xsd:attribute name="quantity" type="xsd:unsignedInt"/>
+									  	</xsd:complexType>	
+									</xsd:element> <!-- ItemIn -->
+									</xsd:sequence>
+					  		</xsd:complexType>	
+						</xsd:element>  <!-- PunchOutOrderMessage -->
+					</xsd:sequence>
+				</xsd:complexType>	
+			</xsd:element> <!-- Message -->
+		</xsd:sequence>
+		<xsd:attribute name="version" type="xsd:string" use="optional"/>
+      <xsd:attribute ref="xml:lang" use="optional" />
+      <xsd:attribute name="timestamp" type="xsd:string" use="required" />
+      <xsd:attribute name="payloadID" type="xsd:string" use="required" />
+	</xsd:complexType>
+</xsd:element>
+</xsd:schema>

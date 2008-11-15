@@ -21,8 +21,8 @@
 		<li><portal:portalLink displayTitle="true" title="Application Constants" url="${ConfigProperties.workflow.url}/ApplicationConstants.do" /></li>
 		<li><portal:portalLink displayTitle="true" title="Document Operation" url="${ConfigProperties.workflow.url}/DocumentOperation.do" /></li>
 		<li><portal:portalLink displayTitle="true" title="Document Type" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=DocumentTypeLookupableImplService" /></li>
-		<li><portal:portalLink displayTitle="true" title="Rule Attribute" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=RuleAttributeLookupableImplService" /></li>
-		<li><portal:portalLink displayTitle="true" title="Rule Template" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=RuleTemplateLookupableImplService" /></li>
+		<li><portal:portalLink displayTitle="true" title="Rule Attribute" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.rule.bo.RuleAttribute&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Rule Template" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.rule.bo.RuleTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="Statistics Report" url="${ConfigProperties.workflow.url}/Stats.do" /></li>
   	<%-- 				
   		<li><portal:portalLink displayTitle="true" title="Workgroup Type" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=WorkgroupTypeLookup" /></li>

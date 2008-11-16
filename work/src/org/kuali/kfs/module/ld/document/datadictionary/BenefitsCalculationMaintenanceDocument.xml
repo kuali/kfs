@@ -21,15 +21,12 @@
               p:attributeToHighlightOnFail="universityFiscalYear" />
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="positionFringeBenefitObject"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="positionFringeBenefitObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="positionBenefitType"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="positionBenefitTypeCode" />
       </list>
     </property>

@@ -18,11 +18,9 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="nonpersonnelCategory"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="budgetNonpersonnelCategoryCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="nonpersonnelSubCategory"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="budgetNonpersonnelSubCategoryCode" />
       </list>
     </property>

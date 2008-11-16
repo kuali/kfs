@@ -18,11 +18,9 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="bankState"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="bankStateCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="postalCode"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="bankZipCode" />
       </list>
     </property>

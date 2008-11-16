@@ -18,27 +18,21 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="cashOffsetFinancialChartOfAccount"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cashOffsetFinancialChartOfAccountCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashOffsetAccount"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cashOffsetAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashOffsetObject"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cashOffsetObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashOffsetSubAccount"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cashOffsetSubAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashOffsetSubObject"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cashOffsetSubObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="continuationBank"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="continuationBankCode" />
       </list>
     </property>

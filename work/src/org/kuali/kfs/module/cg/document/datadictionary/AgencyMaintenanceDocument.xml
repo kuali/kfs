@@ -18,7 +18,6 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="agencyType"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="agencyTypeCode" />
       </list>
     </property>

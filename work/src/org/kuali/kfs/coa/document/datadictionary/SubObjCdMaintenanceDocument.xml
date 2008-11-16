@@ -24,11 +24,9 @@
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="account"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="accountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialObject"
-              p:activeIndicatorAttributeName="financialObjectActiveCode"
               p:attributeToHighlightOnFail="financialObjectCode" />
       </list>
     </property>

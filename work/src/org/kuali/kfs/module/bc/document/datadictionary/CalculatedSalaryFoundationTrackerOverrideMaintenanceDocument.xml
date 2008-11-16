@@ -18,17 +18,14 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="chartOfAccountsCode"
               p:displayFieldName="Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="account"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="accountNumber"
               p:displayFieldName="Account Number" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialObject"
-              p:activeIndicatorAttributeName="financialObjectActiveCode"
               p:attributeToHighlightOnFail="financialObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="universityFiscal"

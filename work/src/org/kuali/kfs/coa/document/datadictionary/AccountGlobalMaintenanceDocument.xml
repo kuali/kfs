@@ -19,7 +19,6 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="organizationCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="accountState"
@@ -32,7 +31,6 @@
               p:attributeToHighlightOnFail="financialHigherEdFunctionCd" />
         <bean parent="ReferenceDefinition"
               p:attributeName="incomeStreamAccount"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="incomeStreamAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="sufficientFundsCode"

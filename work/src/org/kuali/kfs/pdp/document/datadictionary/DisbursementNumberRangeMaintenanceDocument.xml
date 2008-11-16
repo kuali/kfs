@@ -18,7 +18,6 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="bank"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="bankCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="disbursementType"

@@ -18,27 +18,22 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="chartOfAccountsCode"
               p:displayFieldName="Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="organizationCode"
               p:displayFieldName="Organization Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="reportsToChartOfAccounts"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="reportsToChartOfAccountsCode"
               p:displayFieldName="Reports To Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="reportsToOrganization"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="reportsToOrganizationCode"
               p:displayFieldName="Reports To Organization Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="responsibilityCenter"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="responsibilityCenterCode"
               p:displayFieldName="Responsibility Center Code" />
       </list>

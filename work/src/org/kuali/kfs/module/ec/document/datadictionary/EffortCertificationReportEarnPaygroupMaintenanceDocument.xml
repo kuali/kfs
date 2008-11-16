@@ -21,7 +21,6 @@
               p:attributeToHighlightOnFail="universityFiscalYear" />
         <bean parent="ReferenceDefinition"
               p:attributeName="effortCertificationReportType"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="effortCertificationReportTypeCode" />
       </list>
     </property>

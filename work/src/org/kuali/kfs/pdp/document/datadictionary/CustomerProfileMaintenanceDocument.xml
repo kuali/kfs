@@ -21,38 +21,30 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="defaultChart"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="defaultChartCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="defaultAccount"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="defaultAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="defaultSubAccount"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="defaultSubAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="defaultObject"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="defaultObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="defaultSubObject"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="defaultSubObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="defaultProcessingCampus"
               p:attributeToHighlightOnFail="defaultPhysicalCampusProcessingCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="state"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="stateCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="postalCode"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="zipCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="country"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="countryCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="transactionType"
@@ -60,12 +52,10 @@
         <bean parent="ReferenceDefinition"
               p:collection="customerBanks"
               p:attributeName="disbursementType"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="disbursementTypeCode" />
         <bean parent="ReferenceDefinition"
               p:collection="customerBanks"
               p:attributeName="bank"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="bankCode" />
       </list>
     </property>

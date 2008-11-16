@@ -77,21 +77,13 @@ public class DefaultExistenceCheckBeanDefinitionParser extends KualiBeanDefiniti
     protected ReferenceDefinition setStandardAttributes( Element checkElement ) {
         ReferenceDefinition rd = new ReferenceDefinition();
         String boAttribute = checkElement.getAttribute("boAttribute");
-        String activeIndicatorAttribute = checkElement.getAttribute("activeIndicatorAttribute");
         String attributeToHighlightOnFail = checkElement.getAttribute("attributeToHighlightOnFail");
-        String activeIndicatorReversed = checkElement.getAttribute("activeIndicatorReversed");
         String displayAttribute = checkElement.getAttribute("displayAttribute");
 
         rd.setAttributeName( boAttribute );
         rd.setAttributeToHighlightOnFail( attributeToHighlightOnFail );
-        if ( StringUtils.hasText(activeIndicatorAttribute) ) {
-            rd.setActiveIndicatorAttributeName( activeIndicatorAttribute );
-        }
         if ( StringUtils.hasText(displayAttribute) ) {
             rd.setDisplayFieldName( displayAttribute );
-        }
-        if ( StringUtils.hasText(activeIndicatorReversed) ) {
-            rd.setActiveIndicatorReversed( Boolean.valueOf( activeIndicatorReversed ) );
         }
         return rd;
     }

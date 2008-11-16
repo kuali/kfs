@@ -22,37 +22,29 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="proposalStatus"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="proposalStatusCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="agency"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="agencyNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="proposalAwardType"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="proposalAwardTypeCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="proposalPurpose"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="proposalPurposeCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="federalPassThroughAgency"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cfda"
-              p:activeIndicatorAttributeName="cfdaStatusCode"
               p:attributeToHighlightOnFail="cfdaNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"
               p:collection="proposalOrganizations"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="organizationCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="subcontractor"
               p:collection="proposalSubcontractors"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="subcontractorNumber" />
       </list>
     </property>

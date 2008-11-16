@@ -43,12 +43,10 @@
               p:attributeToHighlightOnFail="expenseTransferFiscalPeriodCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="effortCertificationReportType"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="effortCertificationReportTypeCode" />
         <bean parent="ReferenceDefinition"
               p:collection="effortCertificationReportPositions"
               p:attributeName="positionObjectGroup"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode" />
       </list>
     </property>

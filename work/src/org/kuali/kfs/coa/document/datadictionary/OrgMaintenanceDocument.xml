@@ -26,7 +26,6 @@
               p:attributeToHighlightOnFail="organizationManagerUniversal.principalName" />
         <bean parent="ReferenceDefinition"
               p:attributeName="responsibilityCenter"
-              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="responsibilityCenterCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organizationPhysicalCampus"

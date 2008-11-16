@@ -168,7 +168,7 @@ The business object attribute from which to use Data Dictionary metadata.
 	</xsd:attributeGroup>
     <!-- 
         dd:defaultExistenceChecks
-            dd:check boAttribute="" activeIndicatorAttribute="" attributeToHighlightOnFail="" activeIndicatorReversed="" displayFieldName=""
+            dd:check boAttribute="" attributeToHighlightOnFail="" displayFieldName=""
             dd:collectionAttributeCheck collectionAttribute="" (and all above)
             dd:userCheck userAttribute=""    
      -->
@@ -239,26 +239,10 @@ object whose existence needs to be checked.
                 </xsd:documentation>
             </xsd:annotation>
 		</xsd:attribute>	
-		<xsd:attribute name="activeIndicatorAttribute" type="xsd:string" use="optional">
-            <xsd:annotation>
-                <xsd:documentation>
-Name of an attribute on the related object which contains the active state.  
-If not set, the object's active status will not be checked.
-                </xsd:documentation>
-            </xsd:annotation>
-		</xsd:attribute>	
 		<xsd:attribute name="attributeToHighlightOnFail" type="xsd:string" use="required">
             <xsd:annotation>
                 <xsd:documentation>
 The name of an attribute (usually a field of the primary key) to highlight in the case of a failure.
-                </xsd:documentation>
-            </xsd:annotation>
-		</xsd:attribute>	
-		<xsd:attribute name="activeIndicatorReversed" type="xsd:boolean" use="optional" default="false">
-            <xsd:annotation>
-                <xsd:documentation>
-Whether the active indicator's sense is reversed.  (That is, a true value indicates that the
-object is inactive.) 
                 </xsd:documentation>
             </xsd:annotation>
 		</xsd:attribute>	

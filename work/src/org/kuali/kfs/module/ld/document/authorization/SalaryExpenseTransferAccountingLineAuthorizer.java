@@ -17,22 +17,33 @@ package org.kuali.kfs.module.ld.document.authorization;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Data dictionary definition that includes metadata for an accounting document about one of its groups of accounting lines (typically source vs. target, but this should open things up).
@@ -55,7 +66,10 @@ public class SalaryExpenseTransferAccountingLineAuthorizer extends AccountingLin
                 // actions.add(new AccountingLineViewAction(getAddMethod(line, accountingLineProperty), getAddLabel(groupTitle), riceImagesPath+"tinybutton-add1.gif"));
             } else {
                 String groupName = getActionInfixForExtantAccountingLine(line, accountingLineProperty);
-                actions.add(new AccountingLineViewAction(this.getCopyLineMethod(line, accountingLineProperty, accountingLineIndex), this.getCopyLineLabel(accountingLineIndex, groupTitle), kfsImagesPath+"tinybutton-copy2.gif"));
+                
+                if (groupName == KFSConstants.SOURCE) {
+                    actions.add(new AccountingLineViewAction(this.getCopyLineMethod(line, accountingLineProperty, accountingLineIndex), this.getCopyLineLabel(accountingLineIndex, groupTitle), kfsImagesPath+"tinybutton-copy2.gif"));
+                }
                 actions.add(new AccountingLineViewAction(getDeleteLineMethod(line, accountingLineProperty, accountingLineIndex), getDeleteLineLabel(accountingLineIndex, groupTitle), riceImagesPath+"tinybutton-delete1.gif"));
                 actions.add(new AccountingLineViewAction(getBalanceInquiryMethod(line, accountingLineProperty, accountingLineIndex), getBalanceInquiryLabel(accountingLineIndex, groupTitle), kfsImagesPath+"tinybutton-balinquiry.gif"));
             }            
@@ -82,5 +96,24 @@ public class SalaryExpenseTransferAccountingLineAuthorizer extends AccountingLin
      */
     protected String getCopyLineLabel(Integer accountingLineIndex, String groupTitle) {
         return "Copy "+groupTitle+" Accounting Line "+(accountingLineIndex.intValue()+1);
+    }
+    
+    /**
+     * Returns a new empty HashSet
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getReadOnlyBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean)
+     */
+    @Override
+    public Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
+        Set<String> editableFields = super.getReadOnlyBlocks(accountingDocument, accountingLine, newLine, currentUser);
+        if (accountingLine.isSourceAccountingLine()) {
+            editableFields.add(KFSPropertyConstants.CHART);
+            editableFields.add(KFSPropertyConstants.ACCOUNT);
+            editableFields.add(KFSPropertyConstants.ACCOUNT_EXPIRED_OVERRIDE);
+            editableFields.add("nonFringeAccountOverride");
+            editableFields.add(KFSPropertyConstants.SUB_ACCOUNT);
+            editableFields.add(KFSPropertyConstants.OBJECT_CODE);
+            editableFields.add("objectBudgetOverride");            
+        }
+        return editableFields;        
     }
 }

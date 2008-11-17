@@ -44,52 +44,32 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return PurapConstants.ELECTRONIC_INVOICE_FILE_TYPE_INDENTIFIER;
     }
 
-    /**
-     * Returns the class associated with the authorization workgroup for the input type, in this case ElectronicInvoiceStep
-     * 
-     * @return the ElectronicInvoiceStep class
-     */
-    public Class getUploadWorkgroupParameterComponent() {
-        return ElectronicInvoiceStep.class;
-    }
-
-    public String getFileName(Person user, 
-                              Object parsedFileContents, 
-                              String userIdentifier) {
-        
-//        ElectronicInvoice electronicInvoiceBatch = (ElectronicInvoice) parsedFileContents;
-//        Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
-//
-//        StringBuffer buf = new StringBuffer();
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-//        formatter.setLenient(false);
-//        formatter.format(currentTimestamp, buf, new FieldPosition(0));
-
-//        String fileName = "gl_idbilltrans_" + electronicInvoiceBatch.getChartOfAccountsCode() + electronicInvoiceBatch.getOrganizationCode();
-//        fileName += "_" + user.getPrincipalName().toLowerCase();
-//        if (StringUtils.isNotBlank(userIdentifier)) {
-//            fileName += "_" + userIdentifier;
-//        }
-//        fileName += "_" + buf.toString();
-//
-//        // remove spaces in filename
-//        fileName = StringUtils.remove(fileName, " ");
-
-        return null;
-    }
-
-    public String getTitleKey() {
+    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
+        // TODO Auto-generated method stub
         return null;
     }
 
     public boolean validate(Object parsedFileContents) {
+        // TODO Auto-generated method stub
         return false;
     }
 
     public boolean checkAuthorization(Person user, File batchFile) {
+        // TODO Auto-generated method stub
         return false;
     }
 
+    public String getTitleKey() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Class getUploadWorkgroupParameterComponent() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+   
 
 }
 

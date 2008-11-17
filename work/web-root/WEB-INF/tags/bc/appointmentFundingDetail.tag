@@ -60,7 +60,7 @@
 					adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
 					methodToCall="adjustSalarySettingLinePercent"
 					lineIndex="${lineIndex}"/>
-			</c:if>
+			</c:if>&nbsp;
 		</td>		
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"

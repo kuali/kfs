@@ -87,8 +87,8 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
             }
             Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
                 public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
-                    // sort descending based on loan date
-                    return o2.getLoanDate().compareTo(o1.getLoanDate());
+                    // sort descending based on document number
+                    return o2.getDocumentNumber().compareTo(o1.getDocumentNumber());
                 }
             };
             Collections.sort(sortableList, comparator);

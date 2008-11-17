@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -111,7 +112,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         return businessObjectService.countMatching(CustomerInvoiceWriteoffDocument.class, criteria) == 1;
     }    
-
+/*
     public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup() {
         // change this service call to a service method that actually takes in the lookup parameters
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments = customerInvoiceDocumentService.getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
@@ -124,6 +125,46 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         }
 
         return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocumentsWithOpenBalance);
+    }
+    */
+    public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup(Map<String, String> fieldValues) {
+        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
+        String customerName = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
+        String customerTypeCode = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_TYPE_CODE);
+        String customerInvoiceNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_INVOICE_NUMBER);
+        String age = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.AGE);
+
+        boolean eligibleInvoiceFlag;
+        
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = customerInvoiceDocumentService.getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
+        
+        Collection<CustomerInvoiceDocument> eligibleInvoices = new ArrayList<CustomerInvoiceDocument>();
+        for (Iterator itr = customerInvoiceDocuments.iterator(); itr.hasNext();) {
+            eligibleInvoiceFlag = true;
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) itr.next();
+            
+            if (invoice.getOpenAmount().isLessEqual(KualiDecimal.ZERO))
+                continue;
+            
+            if (StringUtils.isNotEmpty(customerNumber))
+                eligibleInvoiceFlag &= StringUtils.equals(customerNumber, invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
+            if (StringUtils.isNotEmpty(customerName))
+                eligibleInvoiceFlag &= StringUtils.equals(customerName, invoice.getAccountsReceivableDocumentHeader().getCustomer().getCustomerName());
+            if (StringUtils.isNotEmpty(customerTypeCode))
+                eligibleInvoiceFlag &= StringUtils.equals(customerTypeCode, invoice.getAccountsReceivableDocumentHeader().getCustomer().getCustomerTypeCode());
+            if (StringUtils.isNotEmpty(customerInvoiceNumber))
+                eligibleInvoiceFlag &= StringUtils.equals(customerInvoiceNumber, invoice.getDocumentNumber());
+            if (StringUtils.isNotEmpty(age))
+                if (ObjectUtils.isNotNull(invoice.getAge()))
+                    eligibleInvoiceFlag &= StringUtils.equals(age, invoice.getAge().toString());
+                else
+                    eligibleInvoiceFlag = false;
+            
+            if (eligibleInvoiceFlag)
+                eligibleInvoices.add(invoice);
+        }
+
+        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(eligibleInvoices);
     }
     
     /**

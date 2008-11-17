@@ -134,6 +134,15 @@ public class ArPropertyConstants {
         public static final String CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF = "customerInvoiceDetailsForWriteoff";
         public static final String CUSTOMER_INVOICE_WRITEOFF_EXPLANATION ="documentHeader.explanation";
     }
+    
+    // CustomerInvoiceWriteoffLookupResult
+    public static class CustomerInvoiceWriteoffLookupResultFields {
+        public static final String CUSTOMER_NUMBER = "customerNumber";
+        public static final String CUSTOMER_NAME = "customerName";
+        public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
+        public static final String CUSTOMER_INVOICE_NUMBER = "customerInvoiceNumber";
+        public static final String AGE = "age";
+    }
 
     // CustomerAgingReport
     public static class CustomerAgingReportFields {        

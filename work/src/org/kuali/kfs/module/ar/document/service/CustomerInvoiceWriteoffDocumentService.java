@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.service;
 
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
@@ -40,9 +41,10 @@ public interface CustomerInvoiceWriteoffDocumentService {
     
     /**
      * This method returns a collection of customer invoice documents that are eligible for writeoff
+     * @param fieldValues
      * @return
      */
-    public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup();
+    public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup(Map<String, String> fieldValues);
     
     /**
      * This method initiates customer invoice writeoff documents based on a collection of customer invoice writeoff lookup results

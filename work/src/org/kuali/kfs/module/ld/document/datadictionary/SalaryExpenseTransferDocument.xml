@@ -118,7 +118,7 @@
     <bean id="SalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />
     
     <bean id="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
+		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-Source-accountingLineView" />
    	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
     	<property name="groupLabel" value="From" />
     	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.SalaryExpenseTransferAccountingLineAuthorizer" />
@@ -131,7 +131,7 @@
     <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
     
     <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
+		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-Target-accountingLineView" />
    	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
     	<property name="groupLabel" value="To" />
     	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.SalaryExpenseTransferAccountingLineAuthorizer" />

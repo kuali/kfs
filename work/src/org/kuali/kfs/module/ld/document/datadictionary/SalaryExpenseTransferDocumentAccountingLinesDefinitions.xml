@@ -4,11 +4,67 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="labor-SalaryExpenseTransfer-accountingInformation"
-		parent="labor-SalaryExpenseTransfer-accountingInformation-parent" />
+	<bean id="labor-SalaryExpenseTransfer-Source-Readonly-Fields"
+		parent="labor-SalaryExpenseTransfer-Source-Readonly-Fields-parent" />
 
 	<bean parent="AccountingLineView-line"
-		id="labor-SalaryExpenseTransfer-accountingInformation-parent" abstract="true">
+		id="labor-SalaryExpenseTransfer-Source-Readonly-Fields-parent" abstract="true">
+		<property name="elementName" value="accountingInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="postingYear" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="overrideCode" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="sequenceNumber" p:hidden="true" />					
+				<bean parent="AccountingLineView-field"
+					p:name="versionNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="documentNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true" p:readOnly="true"  
+					p:webUILeaveFieldFunction="loadChartInfo"
+					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="accountNumber" p:required="true" p:useShortLabel="true" p:readOnly="true" 
+					p:webUILeaveFieldFunction="loadAccountInfo"
+					p:dynamicLabelProperty="account.accountName">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="accountExpiredOverride"  p:readOnly="true" />
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="nonFringeAccountOverride"  p:readOnly="true" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" 
+					p:name="subAccountNumber" p:useShortLabel="true" p:readOnly="true" 
+					p:webUILeaveFieldFunction="loadSubAccountInfo"
+					p:dynamicLabelProperty="subAccount.subAccountName" />
+				<bean parent="AccountingLineView-field"
+					p:name="financialObjectCode" p:required="true" p:useShortLabel="true" p:readOnly="true" 
+					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="objectBudgetOverride"  p:readOnly="true" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="labor-SalaryExpenseTransfer-Target-Editable-Fields"
+		parent="labor-SalaryExpenseTransfer-Target-Editable-Fields-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-SalaryExpenseTransfer-Target-Editable-Fields-parent" abstract="true">
 		<property name="elementName" value="accountingInformation" />
 		<property name="fields">
 			<list>
@@ -56,6 +112,18 @@
 						</list>
 					</property>
 				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="labor-SalaryExpenseTransfer-accountingInformation"
+		parent="labor-SalaryExpenseTransfer-accountingInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-SalaryExpenseTransfer-accountingInformation-parent" abstract="true">
+		<property name="elementName" value="accountingInformation" />
+		<property name="fields">
+			<list>
 				<bean parent="AccountingLineView-field"
 					p:name="financialSubObjectCode" p:useShortLabel="true" p:readOnly="true" 
 					p:webUILeaveFieldFunction="loadSubObjectInfo"
@@ -78,14 +146,53 @@
 		</property>
 	</bean>
 	
-	<bean id="labor-SalaryExpenseTransferDocument-accountingLineView"
-		parent="labor-SalaryExpenseTransferDocument-accountingLineView-parent" />
+	<bean id="labor-SalaryExpenseTransferDocument-Source-accountingLineView"
+		parent="labor-SalaryExpenseTransferDocument-Source-accountingLineView-parent" />
 
-	<bean id="labor-SalaryExpenseTransferDocument-accountingLineView-parent"
+	<bean id="labor-SalaryExpenseTransferDocument-Source-accountingLineView-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
 				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-SalaryExpenseTransfer-Source-Readonly-Fields" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-SalaryExpenseTransfer-accountingInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />				
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="labor-SalaryExpenseTransferDocument-Target-accountingLineView"
+		parent="labor-SalaryExpenseTransferDocument-Target-accountingLineView-parent" />
+
+	<bean id="labor-SalaryExpenseTransferDocument-Target-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-SalaryExpenseTransfer-Target-Editable-Fields" />
+						</list>
+					</property>
+				</bean>
+				
 				<bean parent="AccountingLineView-lines">
 					<property name="lines">
 						<list>
@@ -121,7 +228,7 @@
 	</bean>
 
     <bean id="labor-SalaryExpenseTransferDocument-AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">
-		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.datadictionary.SalaryExpenseTransferAccountingLineAuthorizerBase" />
+		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.SalaryExpenseTransferAccountingLineAuthorizer" />
     </bean>
  
 </beans>

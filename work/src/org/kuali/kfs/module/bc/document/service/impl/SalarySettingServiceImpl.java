@@ -175,7 +175,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);
         BigDecimal fundingMonthAsDecimal = BigDecimal.valueOf(fundingMonth);
         BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal, 4, BigDecimal.ROUND_HALF_EVEN);
-        
+
         BigDecimal fteQuantity = requestedTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
 
         return fteQuantity.setScale(4);
@@ -193,7 +193,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         return this.isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#isHourlyPaid(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
@@ -517,9 +517,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, org.kuali.core.bo.user.Person)
+     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, java.util.Map, org.kuali.rice.kim.bo.Person)
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Person person) {
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Map<String, String> editingMode, Person person) {
         String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
         String budgetAccountNumber = salarySettingFieldsHolder.getAccountNumber();
         String budgetSubAccountNumber = salarySettingFieldsHolder.getSubAccountNumber();
@@ -534,7 +534,14 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // just allow edit if budget by object mode (general case of single account mode)
         if (budgetByObjectMode && StringUtils.equals(chartOfAccountsCode, budgetChartOfAccountsCode) && StringUtils.equals(accountNumber, budgetAccountNumber) && StringUtils.equals(subAccountNumber, budgetSubAccountNumber)) {
-            appointmentFunding.setDisplayOnlyMode(false);
+            // use the editingMode already calculated for the home account during document open
+            if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+                appointmentFunding.setDisplayOnlyMode(false);
+            }
+            else {
+                // now we are either view only or something unexpected - default to view only
+                appointmentFunding.setDisplayOnlyMode(true);
+            }
             return true;
         }
 
@@ -605,7 +612,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public void recalculateDerivedInformation(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         this.preprocessFundingReason(appointmentFunding);
         this.preprocessLeaveRequest(appointmentFunding);
-        
+
         boolean isHourlyPaid = this.isHourlyPaid(appointmentFunding);
         appointmentFunding.setHourlyPaid(isHourlyPaid);
 
@@ -722,7 +729,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#hasExistingFundingReason(org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode)
      */
     public boolean hasExistingFundingReason(BudgetConstructionAppointmentFundingReasonCode budgetConstructionAppointmentFundingReasonCode) {
-        
+
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("appointmentFundingReasonCode", budgetConstructionAppointmentFundingReasonCode.getAppointmentFundingReasonCode());
 
@@ -783,4 +790,3 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         this.permissionService = permissionService;
     }
 }
-

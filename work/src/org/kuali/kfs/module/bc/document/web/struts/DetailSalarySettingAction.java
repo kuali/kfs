@@ -89,7 +89,13 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
         boolean isClose = StringUtils.equals(ConfirmationQuestion.YES, buttonClicked) || StringUtils.equals(ConfirmationQuestion.NO, buttonClicked);
         
-        ActionForward closeActionForward = super.close(mapping, salarySettingForm, request, response);
+        ActionForward closeActionForward;
+        if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
+            closeActionForward =  this.returnAfterClose(salarySettingForm, mapping, request, response);
+        }
+        else {
+            closeActionForward = super.close(mapping, salarySettingForm, request, response);
+        }
         
         // release all locks before closing the current expansion screen
         if (isClose && !salarySettingForm.isViewOnlyEntry() && salarySettingForm.isSalarySettingClosed()) {

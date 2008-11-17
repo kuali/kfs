@@ -118,10 +118,12 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
 
-        // return to the calller directly if the current user just can have view-only access
-        if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
-            return this.returnAfterClose(salarySettingForm, mapping, request, response);
-        }
+// TODO moving this to detail and quick since view only is specific to each 
+// remove when access refactoring is working
+//        // return to the calller directly if the current user just can have view-only access
+//        if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
+//            return this.returnAfterClose(salarySettingForm, mapping, request, response);
+//        }
 
         // ask a question before closing unless it has been answered
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);

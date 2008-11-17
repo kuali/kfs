@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,7 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -123,7 +125,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
         return true;
     }
-    
+
     /**
      * acquire position and funding locks for the given appointment funding
      * 
@@ -169,7 +171,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
 
         return true;
-    }    
+    }
 
     /**
      * update the access modes of all appointment fundings
@@ -199,7 +201,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
 
             // update the access flags of the current funding line
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getPerson());
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getEditingMode(), this.getPerson());
             if (!updated) {
                 errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS, appointmentFunding.getAppointmentFundingString());
                 return false;
@@ -262,12 +264,12 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             lockedPositionSet.add(fundingLine.getBudgetConstructionPosition());
             LOG.info("fundingLine: " + fundingLine);
         }
-        
+
         LOG.info("releasePositionAndFundingLocks()" + lockedPositionSet);
         List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
         lockedPositions.addAll(lockedPositionSet);
         lockService.unlockPostion(lockedPositions, this.getPerson());
-        for(BudgetConstructionPosition position : lockedPositionSet) {
+        for (BudgetConstructionPosition position : lockedPositionSet) {
             LOG.info("fundingLine: " + position.getPositionLockUserIdentifier());
         }
     }
@@ -513,5 +515,73 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     public void setName(String name) {
         this.name = name;
     }
-}
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getAppointmentFundings()
+     */
+    @Override
+    public List<PendingBudgetConstructionAppointmentFunding> getAppointmentFundings() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
+     */
+    @Override
+    public Map<String, Object> getKeyMapOfSalarySettingItem() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getRefreshCallerName()
+     */
+    @Override
+    public String getRefreshCallerName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * Gets the viewOnlyEntry attribute. In the detail salary setting context viewOnlyEntry checks for systemViewOnly and the
+     * calling context. SystemViewOnly overrides any other settings, otherwise, If the context is budgetByAccountMode the editing
+     * mode can either be viewOnly or fullEntry for the home account that the user originally opened and the screen level access
+     * must be edit, so the user can operate on other accounts based on the calculated access for the funding row. In the context of
+     * not budgetByAccountMode (Organization Salary Setting). The user gets edit access when fullEntry is found (and not
+     * systemViewOnly).
+     * 
+     * @return Returns the viewOnlyEntry.
+     */
+    public boolean isViewOnlyEntry() {
+
+        boolean viewOnly = false;
+
+        // check for systemViewOnly first
+        if (super.isViewOnlyEntry()){
+            return true;
+        }
+
+        if (this.isBudgetByAccountMode()){
+
+            // view or edit home account access should give edit access to the screen
+            if ((this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) ||(this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY))){
+                viewOnly = false;
+            }
+            else {
+                // getting here is unlikely - fail soft
+                viewOnly = true;
+            }
+        }
+        else {
+            // we are doing organization salary setting
+            if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
+                viewOnly = false;
+            }
+            else
+                // this is unlikely - fail soft
+                viewOnly = true;
+        }
+        return viewOnly;
+    }
+}

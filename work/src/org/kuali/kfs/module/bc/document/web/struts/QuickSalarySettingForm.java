@@ -24,6 +24,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 
 
@@ -51,7 +52,9 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
         this.populateBCAFLines();
 
-        this.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
+// TODO not sure why this is here? since SalarySettingBaseAction.execute() does this call 
+// verify that it is not needed and remove commented code
+//        this.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
     }
 
     /**
@@ -141,4 +144,41 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
     public boolean isBudgetByAccountMode() {
         return true;
     }
+
+    /**
+     * Gets the viewOnlyEntry attribute. In the quick salary setting context viewOnlyEntry checks the system view only and account
+     * access. Both system view only and full entry can both exist (be true), it just means that the user would have edit access if
+     * the system was not in view only mode. These facts are used to determine the effective viewOnlyEntry value
+     * 
+     * @return Returns the viewOnlyEntry.
+     */
+    @Override
+    public boolean isViewOnlyEntry() {
+
+        boolean viewOnly = false;
+        
+        // check for systemViewOnly first
+        if (super.isViewOnlyEntry()){
+            return true;
+        }
+
+        // Again, the existence of the editing mode means it is true, meaning edit access
+        if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+            viewOnly = !Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
+        }
+        else {
+            // no system view and no edit access, must be view only
+            viewOnly = true;
+        }
+        return viewOnly;
+
+
+        // // TODO: restore the logic above and remove this when ready
+        // List<String> messageList = GlobalVariables.getMessageList();
+        // if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
+        // messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
+        // }
+        // return false;
+    }
+
 }

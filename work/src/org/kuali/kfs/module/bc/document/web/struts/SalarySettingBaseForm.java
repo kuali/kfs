@@ -181,7 +181,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         }
         else {
             // user got here through organization salary setting - check that the user is a BC org approver somewhere
-            return documentAuthorizer.getEditMode();
+            return documentAuthorizer.getEditMode(this.getUniversityFiscalYear());
         }
     }
 
@@ -633,35 +633,44 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the readOnlyEntry attribute.
+     * Gets the viewOnlyEntry attribute. System view only trumps all, overriding methods should call this first
+     * and check the results for !viewOnly before continuing.
      * 
-     * @return Returns the readOnlyEntry.
+     * @return Returns the viewOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
-
+        
         boolean viewOnly = false;
-        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-            viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
-        }
-        if (viewOnly) {
-            return true;
-        }
 
-        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-            viewOnly = !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
-        }
-        else {
-            viewOnly = true;
+        // The existence of the editing mode means it is true, so the extra test is not really needed.
+        if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+            viewOnly = Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
         }
         return viewOnly;
-
-
-        // // TODO: restore the logic above and remove this when ready
-        // List<String> messageList = GlobalVariables.getMessageList();
-        // if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
-        // messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
-        // }
-        // return false;
+//
+//        boolean viewOnly = false;
+//        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+//            viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+//        }
+//        if (viewOnly) {
+//            return true;
+//        }
+//
+//        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+//            viewOnly = !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
+//        }
+//        else {
+//            viewOnly = true;
+//        }
+//        return viewOnly;
+//
+//
+//        // // TODO: restore the logic above and remove this when ready
+//        // List<String> messageList = GlobalVariables.getMessageList();
+//        // if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
+//        // messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
+//        // }
+//        // return false;
     }
 
     /**

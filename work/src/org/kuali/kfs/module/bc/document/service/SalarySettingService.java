@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -244,10 +245,11 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @param salarySettingFieldsHolder the field holder that contains the values passed from the user
      * @param budgetByObjectMode the budget by object mode flag
+     * @param editingMode the editing mode for the form
      * @param person the specified user
-     * @return true if the access flags are updated successfully; otherwsie, false
+     * @return true if the access flags are updated successfully; otherwise, false
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Person person);
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Map<String, String> editingMode, Person person);
 
     /**
      * update the access flags of the given appointment funding according to the user level and document organization level
@@ -271,7 +273,7 @@ public interface SalarySettingService {
      * @param appointmentFundings the given appointment funding
      */
     public void recalculateDerivedInformation(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * checks if a reason code has existing appointment funding reasons
      * 
@@ -280,4 +282,3 @@ public interface SalarySettingService {
      */
     public boolean hasExistingFundingReason(BudgetConstructionAppointmentFundingReasonCode budgetConstructionAppointmentFundingReasonCode);
 }
-

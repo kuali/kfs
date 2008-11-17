@@ -195,6 +195,23 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#close(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+
+        ActionForward closeActionForward;
+        if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
+            closeActionForward =  this.returnAfterClose(salarySettingForm, mapping, request, response);
+        }
+        else {
+            closeActionForward = super.close(mapping, salarySettingForm, request, response);
+        }
+        return closeActionForward;
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#save(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

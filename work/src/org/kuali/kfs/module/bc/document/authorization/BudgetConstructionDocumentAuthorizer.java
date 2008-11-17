@@ -119,10 +119,9 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
      * 
      * @return
      */
-    public Map getEditMode() {
+    public Map getEditMode(Integer universityFiscalYear) {
 
-        // TODO this eventually needs to check when the BC system itself is in viewonly mode
-        // probably need to change the signature to pass in fiscalYear from the Position/Incumbent expansion screens
+        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
         Map editModeMap = new HashMap();
 
@@ -149,6 +148,13 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
             LOG.error("Could not get list of pointOfViewOrgs from permissionService.getOrgReview() for: " + person, e);
             String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
             editModeMap.put(editMode, "TRUE");
+        }
+
+        // adding the case where system is in view only mode in case we need this fact for functionality
+        // getAccessMode() will not return FULL_ENTRY if the system is in view only mode,
+        // so we may or may not need this extra map row
+        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)){
+            editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
         }
 
         return editModeMap;

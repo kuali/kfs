@@ -69,7 +69,7 @@
                 attributes="${bcsfAttributes}"
                 field="csfAmount"
                 fieldAlign="right"
-                readOnly="${readOnly}"
+                readOnly="true"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
 		<td class="datacell">&nbsp;</td>
@@ -83,7 +83,7 @@
                 attributes="${bcsfAttributes}"
                 field="csfTimePercent"
                 fieldAlign="right"
-                readOnly="${readOnly}"
+                readOnly="true"
                 rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfTimePercent}">&nbsp;</bc:pbglLineDataCell>
         
         <fmt:formatNumber var="formattedCsfFteQuantity" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 

@@ -1294,7 +1294,8 @@
 					p:name="financialSubObjectCode"
 					p:webUILeaveFieldFunction="loadSubObjectInfo"
 					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" 
-					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField"/>
+					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField"
+					p:overrideLookupParameters="document.postingYear:universityFiscalYear" />
 				<bean parent="AccountingLineView-field"
 					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
 					p:dynamicLabelProperty="project.projectDescription" />

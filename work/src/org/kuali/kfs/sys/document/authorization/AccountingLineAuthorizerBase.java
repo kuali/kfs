@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kim.bo.Person;
@@ -137,9 +138,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return the name of the action infix
      */
     protected String getActionInfixForNewAccountingLine(AccountingLine accountingLine, String accountingLinePropertyName) {
-        if (accountingLine.isSourceAccountingLine()) return "Source";
-        if (accountingLine.isTargetAccountingLine()) return "Target";
-        return "";
+        if (accountingLine.isSourceAccountingLine()) return KFSConstants.SOURCE;
+        if (accountingLine.isTargetAccountingLine()) return KFSConstants.TARGET;
+        return KFSConstants.EMPTY_STRING;
     }
     
     /**
@@ -149,9 +150,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return the name of the action infix
      */
     protected String getActionInfixForExtantAccountingLine(AccountingLine accountingLine, String accountingLinePropertyName) {
-        if (accountingLine.isSourceAccountingLine()) return "Source";
-        if (accountingLine.isTargetAccountingLine()) return "Target";
-        return "";
+        if (accountingLine.isSourceAccountingLine()) return KFSConstants.SOURCE;
+        if (accountingLine.isTargetAccountingLine()) return KFSConstants.TARGET;
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**

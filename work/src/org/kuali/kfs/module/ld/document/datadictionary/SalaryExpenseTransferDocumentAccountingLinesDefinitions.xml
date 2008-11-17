@@ -23,36 +23,36 @@
 				<bean parent="AccountingLineView-field"
 					p:name="documentNumber" p:hidden="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true" p:readOnly="true"  
+					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true" p:readOnly="false"  
 					p:webUILeaveFieldFunction="loadChartInfo"
 					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
 				<bean parent="AccountingLineView-field"
-					p:name="accountNumber" p:required="true" p:useShortLabel="true" p:readOnly="true" 
+					p:name="accountNumber" p:required="true" p:useShortLabel="true" p:readOnly="false" 
 					p:webUILeaveFieldFunction="loadAccountInfo"
 					p:dynamicLabelProperty="account.accountName">
 					<property name="overrideFields">
 						<list>
 							<bean
 								parent="AccountingLineView-overrideField"
-								p:name="accountExpiredOverride"  p:readOnly="true" />
+								p:name="accountExpiredOverride"  p:readOnly="false" />
 							<bean
 								parent="AccountingLineView-overrideField"
-								p:name="nonFringeAccountOverride"  p:readOnly="true" />
+								p:name="nonFringeAccountOverride"  p:readOnly="false" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field" 
-					p:name="subAccountNumber" p:useShortLabel="true" p:readOnly="true" 
+					p:name="subAccountNumber" p:useShortLabel="true" p:readOnly="false" 
 					p:webUILeaveFieldFunction="loadSubAccountInfo"
 					p:dynamicLabelProperty="subAccount.subAccountName" />
 				<bean parent="AccountingLineView-field"
-					p:name="financialObjectCode" p:required="true" p:useShortLabel="true" p:readOnly="true" 
+					p:name="financialObjectCode" p:required="true" p:useShortLabel="true" p:readOnly="false" 
 					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
 					<property name="overrideFields">
 						<list>
 							<bean
 								parent="AccountingLineView-overrideField"
-								p:name="objectBudgetOverride"  p:readOnly="true" />
+								p:name="objectBudgetOverride"  p:readOnly="false" />
 						</list>
 					</property>
 				</bean>

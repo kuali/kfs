@@ -106,14 +106,15 @@ public class SalaryExpenseTransferAccountingLineAuthorizer extends AccountingLin
     public Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
         Set<String> editableFields = super.getReadOnlyBlocks(accountingDocument, accountingLine, newLine, currentUser);
         if (accountingLine.isSourceAccountingLine()) {
-            editableFields.add(KFSPropertyConstants.CHART);
-            editableFields.add(KFSPropertyConstants.ACCOUNT);
+            editableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+            editableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
             editableFields.add(KFSPropertyConstants.ACCOUNT_EXPIRED_OVERRIDE);
             editableFields.add("nonFringeAccountOverride");
-            editableFields.add(KFSPropertyConstants.SUB_ACCOUNT);
+            editableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
             editableFields.add(KFSPropertyConstants.OBJECT_CODE);
             editableFields.add("objectBudgetOverride");            
         }
+        
         return editableFields;        
     }
 }

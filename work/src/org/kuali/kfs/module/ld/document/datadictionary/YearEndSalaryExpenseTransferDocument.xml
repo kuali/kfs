@@ -111,28 +111,7 @@
   </bean>
       
   <!-- accounting line groups -->
-  <bean id="YearEndSalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />
-
-  <bean id="YearEndSalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-  	<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
-   	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
-    <property name="groupLabel" value="From" />
-    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.SalaryExpenseTransferAccountingLineAuthorizer" />
-    <property name="importedLinePropertyPrefix" value="source" />
-    <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
-  </bean>
-    
+  <bean id="YearEndSalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />   
   <bean id="YearEndSalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
-  
-  <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-  	<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
-   	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
-    <property name="groupLabel" value="To" />
-    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.SalaryExpenseTransferAccountingLineAuthorizer" />
-    <property name="importedLinePropertyPrefix" value="target" />
-    <property name="totals" ref="AccountingDocument-targetGroupTotals" />
-    <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
-  </bean> 
     
 </beans>

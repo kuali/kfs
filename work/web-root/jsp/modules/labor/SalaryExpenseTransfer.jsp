@@ -21,14 +21,6 @@
 	
 <c:set var="readOnly"
 	value="${empty KualiForm.editingMode['fullEntry']}" />
-	
-<c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
-	<c:set var="disabled" value="true"/>
-</c:if>
-
-<c:if test="${fn:length(KualiForm.document.targetAccountingLines)>0 || readOnly}">
-	<c:set var="targetDisabled" value="true"/>
-</c:if>
 
 <c:set var="documentTypeName" value="SalaryExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborSalaryExpenseTransfer"/>
@@ -111,72 +103,13 @@
 		</div>
 	</kul:tab>
 	
-	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"
-		tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-			<c:if test="${!disabled}">
-				<div class="tab-container" align=center>
-					<table cellpadding="0" cellspacing="0" class="datatable"			
-						<ld:importedAccountingLineGroup
-							isSource="true"
-				            columnCountUntilAmount="12"
-				            columnCount="14"
-				            optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"
-				            extraRowFields="${extraSourceRowFieldsMap}"
-				            editingMode="${KualiForm.editingMode}"
-				            editableAccounts="${editableAccountsMap}"
-				            debitCreditAmount="${debitCreditAmountString}"
-				            currentBaseAmount="${currentBaseAmountString}"
-				            extraHiddenFields="${extraHiddenFieldsMap}"
-				            useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-				            includeObjectTypeCode="false"
-				            displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-				            forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
-				            accountingLineAttributes="${accountingLineAttributesMap}" />
-				    </table>
-			    </div>
-			</c:if>
-
-			<c:if test="${disabled}">
-				<sys:accountingLines>
-				       	<sys:accountingLineGroup 
-				        		collectionPropertyName="document.sourceAccountingLines" 
-				        		collectionItemPropertyName="document.sourceAccountingLine" 
-				        		attributeGroupName="source" />
-				</sys:accountingLines>
-			</c:if>			
-			
-			<c:if test="${!targetDisabled}">
-				<div class="tab-container" align=center>
-					<table cellpadding="0" cellspacing="0" class="datatable"			
-						<ld:importedAccountingLineGroup
-							isSource="false"
-				            columnCountUntilAmount="12"
-				            columnCount="14"
-				            optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"
-				            extraRowFields="${extraSourceRowFieldsMap}"
-				            editingMode="${KualiForm.editingMode}"
-				            editableAccounts="${editableAccountsMap}"
-				            debitCreditAmount="${debitCreditAmountString}"
-				            currentBaseAmount="${currentBaseAmountString}"
-				            extraHiddenFields="${extraHiddenFieldsMap}"
-				            useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-				            includeObjectTypeCode="false"
-				            displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-				            forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
-				            accountingLineAttributes="${accountingLineAttributesMap}" />
-				    </table>
-			    </div>
-			</c:if>
-			
-			<c:if test="${targetDisabled}">
-				<sys:accountingLines>
-				       	<sys:accountingLineGroup 
-				        		collectionPropertyName="document.targetAccountingLines" 
-				        		collectionItemPropertyName="document.targetAccountingLine" 
-				        		attributeGroupName="target" />
-				</sys:accountingLines>
-			</c:if>
-	</kul:tab>      
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"	tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">			
+		<sys:accountingLines>
+			<sys:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine"	attributeGroupName="source" />
+	       	<sys:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target" />
+		</sys:accountingLines>
+	</kul:tab> 
+	     
 	<ld:laborLedgerPendingEntries />
     <kul:notes />
     <kul:adHocRecipients />

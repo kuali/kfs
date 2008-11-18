@@ -18,7 +18,7 @@
 <c:set var="readOnly" value="${KualiForm.viewOnlyEntry || KualiForm.salarySettingClosed}" />
 
 <kul:page showDocumentInfo="false" htmlFormAction="budgetIncumbentSalarySetting" renderMultipart="true"
-	showTabButtons="true" docTitle="Salary Setting by Incumbent" transactionalDocument="false">
+	showTabButtons="true" docTitle="${KualiForm.documentTitle}" transactionalDocument="false">
 
     <c:forEach items="${KualiForm.editingMode}" var="mode">
       <html:hidden property="editingMode(${mode.key})"/>

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:page showDocumentInfo="false" htmlFormAction="budgetPositionSalarySetting" renderMultipart="true"
-	showTabButtons="false" docTitle="Salary Setting by Position" transactionalDocument="false">
+	showTabButtons="false" docTitle="${KualiForm.documentTitle}" transactionalDocument="false">
 
     <div id="globalbuttons" class="globalbuttons">
 	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" 

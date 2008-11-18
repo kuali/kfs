@@ -31,9 +31,11 @@ import org.kuali.kfs.module.purap.exception.B2BConnectionException;
 import org.kuali.kfs.module.purap.exception.CxmlParseError;
 import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,7 +148,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("    <MessageId>KFS_cXML_PO</MessageId>\n");
 
         // Timestamp - it doesn't matter what's in the timezone, just that it's there (need "T" space between date/time)
-        Date d = new Date();
+        Date d = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss.sss");
         cxml.append("    <Timestamp>").append(date.format(d)).append("T").append(time.format(d)).append("+05:30").append("</Timestamp>\n");

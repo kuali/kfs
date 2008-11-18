@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -147,7 +148,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     public void setFileLevelData(ElectronicInvoice ei) {
-        this.invoiceProcessDate = new Timestamp((new Date()).getTime());
+        this.invoiceProcessDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
         this.invoiceFileHeaderTypeIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator());
         this.invoiceFileInformationOnlyIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isInformationOnly());
         this.invoiceFileTaxInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isTaxInLine());

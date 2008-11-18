@@ -8,7 +8,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -55,7 +57,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
                                     ElectronicInvoice eInvoice) {
     isEmpty = Boolean.FALSE;
     invoiceLoadFailCount = new Integer(invoiceLoadFailCount.intValue() + 1);
-    fileProcessDate = new Timestamp((new Date()).getTime());
+    fileProcessDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
     
     if (amount != null) {
       invoiceLoadFailAmount = invoiceLoadFailAmount.add(amount);

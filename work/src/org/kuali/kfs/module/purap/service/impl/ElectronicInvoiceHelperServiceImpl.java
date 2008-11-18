@@ -1077,7 +1077,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
 
-        String mailTitle = "E-Invoice Load Results for " + ElectronicInvoiceUtils.getDateDisplayText(new Date());
+        String mailTitle = "E-Invoice Load Results for " + ElectronicInvoiceUtils.getDateDisplayText(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         
         if (kualiConfigurationService.isProductionEnvironment()) {
             message.setSubject(mailTitle);

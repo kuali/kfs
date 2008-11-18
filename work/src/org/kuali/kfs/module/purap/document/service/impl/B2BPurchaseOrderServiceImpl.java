@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -139,7 +140,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
 
         StringBuffer cxml = new StringBuffer();
-        Date d = new Date();
+        Date d = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss.sss");
 

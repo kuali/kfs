@@ -44,7 +44,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
                                         ElectronicInvoice eInvoice) {
     isEmpty = Boolean.FALSE;
     invoiceLoadSuccessCount = new Integer(invoiceLoadSuccessCount.intValue() + 1);
-    fileProcessTimestamp = new Timestamp((new Date()).getTime());
+    fileProcessTimestamp = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
     
     if (amount != null) {
       invoiceLoadSuccessAmount = invoiceLoadSuccessAmount.add(amount);

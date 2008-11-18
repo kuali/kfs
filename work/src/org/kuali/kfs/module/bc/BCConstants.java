@@ -152,10 +152,12 @@ public class BCConstants extends JSTLConstants {
     public static final String POSITION_SALARY_SETTING_REFRESH_CALLER = "PositionSalarySetting";
     public static final String POSITION_SALARY_SETTING_ACTION = "budgetPositionSalarySetting.do";
     public static final String POSITION_SALARY_SETTING_METHOD = "loadExpansionScreen";
+    public static final String POSITION_SALARY_SETTING_TITLE = "Salary Setting by Position";
 
     public static final String INCUMBENT_SALARY_SETTING_REFRESH_CALLER = "IncumbentSalarySetting";
     public static final String INCUMBENT_SALARY_SETTING_ACTION = "budgetIncumbentSalarySetting.do";
     public static final String INCUMBENT_SALARY_SETTING_METHOD = "loadExpansionScreen";
+    public static final String INCUMBENT_SALARY_SETTING_TITLE = "Salary Setting by Incumbent";
 
     public static final String REPORT_RUNNER_ACTION = "budgetReportRunner.do";
 

@@ -17,7 +17,7 @@
           </visibility>
           <searchDefinition dataType="datetime" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/extractedDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/extractedTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

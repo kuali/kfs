@@ -454,8 +454,8 @@ public class PurchaseOrderPdf extends PurapPdf {
         p.add(new Chunk("  Order Date\n", ver_5_normal));
 
         String orderDate = "";
-        if (po.getPurchaseOrderInitialOpenDate() != null) {
-            orderDate = sdf.format(po.getPurchaseOrderInitialOpenDate());
+        if (po.getPurchaseOrderInitialOpenTimestamp() != null) {
+            orderDate = sdf.format(po.getPurchaseOrderInitialOpenTimestamp());
         }
         else { 
             // This date isn't set until the first time this document is printed, so will be null the first time; use today's date.

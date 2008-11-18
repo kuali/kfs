@@ -379,7 +379,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void updateCreditMemo(CreditMemoDocument creditMemoDocument, Person puser, Date processRunDate) {
         try {
             CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(creditMemoDocument.getDocumentNumber());
-            doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+            doc.setExtractedTimestamp(new Timestamp(processRunDate.getTime()));
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(doc);
         }
         catch (WorkflowException e) {
@@ -397,7 +397,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void updatePaymentRequest(PaymentRequestDocument paymentRequestDocument, Person puser, Date processRunDate) {
         try {
             PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(paymentRequestDocument.getDocumentNumber());
-            doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+            doc.setExtractedTimestamp(new Timestamp(processRunDate.getTime()));
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(doc);
         }
         catch (WorkflowException e) {

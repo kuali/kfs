@@ -146,8 +146,8 @@
         <ref bean="PurchaseOrderDocument-recurringPaymentDate" />
         <ref bean="PurchaseOrderDocument-purchaseOrderCommodityDescription" />
         <ref bean="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitDate" />
+        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" />
+        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" />
         <ref bean="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" />
         <ref bean="PurchaseOrderDocument-purchaseOrderQuoteDueDate" />
         <ref bean="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" />

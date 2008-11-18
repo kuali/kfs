@@ -329,7 +329,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canHold = false;
 
         String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ((!cmDocument.isHoldIndicator()) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode()))) {
+        if ((!cmDocument.isHoldIndicator()) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedTimestamp()) && (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode()))) {
             canHold = true;
         }
 
@@ -406,7 +406,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canCancel = false;
 
         String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ((!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup)) {
+        if ((!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedTimestamp() == null && !cmDocument.isHoldIndicator() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup)) {
             canCancel = true;
         }
 
@@ -487,7 +487,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             LOG.debug("resetExtractedCreditMemo() ended");
             return;
         }
-        cmDocument.setExtractedDate(null);
+        cmDocument.setExtractedTimestamp(null);
         cmDocument.setCreditMemoPaidTimestamp(null);
 
         Note noteObj;

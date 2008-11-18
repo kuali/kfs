@@ -87,7 +87,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             poService.retransmitPurchaseOrderPDF(poRetrans, baosPDF);
             assertTrue(baosPDF.size()>0);
             DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
-            assertEquals(poRetrans.getPurchaseOrderLastTransmitDate(), dtService.getCurrentSqlDate());
+            assertEquals(poRetrans.getPurchaseOrderLastTransmitTimestamp(), dtService.getCurrentSqlDate());
         }
         catch (ValidationException e) {
             LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
@@ -202,7 +202,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     
         assertEquals(doc1.getRequisitionIdentifier(), doc2.getRequisitionIdentifier());
         assertEquals(doc1.getPurchaseOrderPreviousIdentifier(), doc2.getPurchaseOrderPreviousIdentifier());
-        assertEquals(doc1.getPurchaseOrderCreateDate(), doc2.getPurchaseOrderCreateDate());
+        assertEquals(doc1.getPurchaseOrderCreateTimestamp(), doc2.getPurchaseOrderCreateTimestamp());
     }    
     
     /**

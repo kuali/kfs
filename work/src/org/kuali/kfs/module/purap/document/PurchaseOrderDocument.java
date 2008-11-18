@@ -21,6 +21,7 @@ import static org.kuali.rice.kns.util.KualiDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -50,7 +51,6 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
-import org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
@@ -96,7 +96,7 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
-    private Date purchaseOrderCreateDate;
+    private Timestamp purchaseOrderCreateTimestamp;
     private Integer requisitionIdentifier;
     private String purchaseOrderVendorChoiceCode;
     private String recurringPaymentFrequencyCode;
@@ -106,8 +106,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Date initialPaymentDate;
     private KualiDecimal finalPaymentAmount;
     private Date finalPaymentDate;
-    private Date purchaseOrderInitialOpenDate;
-    private Date purchaseOrderLastTransmitDate;
+    private Timestamp purchaseOrderInitialOpenTimestamp;
+    private Timestamp purchaseOrderLastTransmitTimestamp;
     private Date purchaseOrderQuoteDueDate;
     private String purchaseOrderQuoteTypeCode;
     private String purchaseOrderQuoteVendorNoteText;
@@ -121,7 +121,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private String alternateVendorName;
     private boolean purchaseOrderCurrentIndicator = false;
     private boolean pendingActionIndicator = false;
-    private Date purchaseOrderFirstTransmissionDate;
+    private Timestamp purchaseOrderFirstTransmissionTimestamp;
     private Integer contractManagerCode;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
@@ -384,7 +384,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      * @param requisitionDocument the Requisition Document from which field values are copied.
      */
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
-        this.setPurchaseOrderCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        this.setPurchaseOrderCreateTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
         this.getDocumentHeader().setDocumentDescription(requisitionDocument.getDocumentHeader().getDocumentDescription());
 
@@ -736,28 +736,28 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderConfirmedIndicator = purchaseOrderConfirmedIndicator;
     }
 
-    public Date getPurchaseOrderCreateDate() {
-        return purchaseOrderCreateDate;
+    public Timestamp getPurchaseOrderCreateTimestamp() {
+        return purchaseOrderCreateTimestamp;
     }
 
-    public void setPurchaseOrderCreateDate(Date purchaseOrderCreateDate) {
-        this.purchaseOrderCreateDate = purchaseOrderCreateDate;
+    public void setPurchaseOrderCreateTimestamp(Timestamp purchaseOrderCreateTimestamp) {
+        this.purchaseOrderCreateTimestamp = purchaseOrderCreateTimestamp;
     }
 
-    public Date getPurchaseOrderInitialOpenDate() {
-        return purchaseOrderInitialOpenDate;
+    public Timestamp getPurchaseOrderInitialOpenTimestamp() {
+        return purchaseOrderInitialOpenTimestamp;
     }
 
-    public void setPurchaseOrderInitialOpenDate(Date purchaseOrderInitialOpenDate) {
-        this.purchaseOrderInitialOpenDate = purchaseOrderInitialOpenDate;
+    public void setPurchaseOrderInitialOpenTimestamp(Timestamp purchaseOrderInitialOpenDate) {
+        this.purchaseOrderInitialOpenTimestamp = purchaseOrderInitialOpenDate;
     }
 
-    public Date getPurchaseOrderLastTransmitDate() {
-        return purchaseOrderLastTransmitDate;
+    public Timestamp getPurchaseOrderLastTransmitTimestamp() {
+        return purchaseOrderLastTransmitTimestamp;
     }
 
-    public void setPurchaseOrderLastTransmitDate(Date purchaseOrderLastTransmitDate) {
-        this.purchaseOrderLastTransmitDate = purchaseOrderLastTransmitDate;
+    public void setPurchaseOrderLastTransmitTimestamp(Timestamp PurchaseOrderLastTransmitTimestamp) {
+        this.purchaseOrderLastTransmitTimestamp = PurchaseOrderLastTransmitTimestamp;
     }
 
     public Integer getPurchaseOrderPreviousIdentifier() {
@@ -939,15 +939,15 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void setPurchaseOrderCurrentIndicator(boolean purchaseOrderCurrentIndicator) {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
     }
-
-    public Date getPurchaseOrderFirstTransmissionDate() {
-        return purchaseOrderFirstTransmissionDate;
-    }
-
-    public void setPurchaseOrderFirstTransmissionDate(Date purchaseOrderFirstTransmissionDate) {
-        this.purchaseOrderFirstTransmissionDate = purchaseOrderFirstTransmissionDate;
-    }
     
+    public Timestamp getPurchaseOrderFirstTransmissionTimestamp() {
+        return purchaseOrderFirstTransmissionTimestamp;
+    }
+
+    public void setPurchaseOrderFirstTransmissionTimestamp(Timestamp purchaseOrderFirstTransmissionTimestamp) {
+        this.purchaseOrderFirstTransmissionTimestamp = purchaseOrderFirstTransmissionTimestamp;
+    }
+
     /**
      * Gets the purchaseOrderQuoteAwardedDate attribute. 
      * @return Returns the purchaseOrderQuoteAwardedDate.
@@ -1135,7 +1135,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     public PurchaseOrderVendorQuote getAwardedVendorQuote() {
         for (PurchaseOrderVendorQuote vendorQuote : purchaseOrderVendorQuotes) {
-            if (vendorQuote.getPurchaseOrderQuoteAwardDate() != null) {
+            if (vendorQuote.getPurchaseOrderQuoteAwardTimestamp() != null) {
                 return vendorQuote;
             }
         }
@@ -1263,7 +1263,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 // If the PREQ is neither cancelled nor voided, check whether the PREQ has been paid.
                 // If it has not been paid, then this method will return true.
                 if (!PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(element.getStatusCode())) {
-                    if (element.getPaymentPaidDate() == null) {
+                    if (element.getPaymentPaidTimestamp() == null) {
                         return true;
                     }
                 }

@@ -694,7 +694,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             return valid;
         }
 
-        if (ObjectUtils.isNotNull(pr.getExtractedDate())) {
+        if (ObjectUtils.isNotNull(pr.getExtractedTimestamp())) {
             // send ERROR: PREQ has been extracted to Disbursement Engine
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_CANCEL_EXTRACTED);

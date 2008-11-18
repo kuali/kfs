@@ -713,7 +713,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         try {
             eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
             
-            eInvoiceRejectDocument.setInvoiceProcessDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            eInvoiceRejectDocument.setInvoiceProcessTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             eInvoiceRejectDocument.setVendorDunsNumber(fileDunsNumber);
             eInvoiceRejectDocument.setDocumentCreationInProgress(true);
             
@@ -804,7 +804,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
             eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
 
-            eInvoiceRejectDocument.setInvoiceProcessDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            eInvoiceRejectDocument.setInvoiceProcessTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             String rejectdocDesc = generateRejectDocumentDescription(eInvoice,electronicInvoiceOrder);
             eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription(rejectdocDesc);
             eInvoiceRejectDocument.setDocumentCreationInProgress(true);
@@ -1035,7 +1035,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 mailService.sendMessage(mailMessage);
             }catch (InvalidAddressException e) {
                 LOG.error("Invalid email address. Message not sent", e);
-        }
+            }
         }
         
         /**
@@ -1422,7 +1422,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         for (int i = 0; i < preqItems.size(); i++) {
 
             PaymentRequestItem preqItem = (PaymentRequestItem) preqItems.get(i);
-            
+
             if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM, orderHolder)) {
                 processAboveTheLineItem(preqItem, orderHolder);
             }else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, orderHolder)) {
@@ -1457,7 +1457,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         if (LOG.isDebugEnabled()){
             LOG.debug("Processing above the line item");
         }
-
+        
         ElectronicInvoiceItemHolder itemHolder = orderHolder.getItemByLineNumber(purapItem.getItemLineNumber().intValue());
         if (itemHolder == null){
             LOG.info("Electronic Invoice does not have item with Ref Item Line number " + purapItem.getItemLineNumber());

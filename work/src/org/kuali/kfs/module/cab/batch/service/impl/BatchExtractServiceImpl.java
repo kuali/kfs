@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -175,7 +174,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected Timestamp getCabLastRunTimestamp() {
         Timestamp lastRunTime;
         String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
-        Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
+        java.util.Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
             lastRunTime = lastRunTS == null ? new Timestamp(yesterday.getTime()) : new Timestamp(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DATE_FORMAT_TS }).getTime());
         }
@@ -193,7 +192,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected java.sql.Date getPreTagLastRunDate() {
         java.sql.Date lastRunDt;
         String lastRunTS = parameterService.getParameterValue(PreAssetTaggingStep.class, CabConstants.Parameters.LAST_EXTRACT_DATE);
-        Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
+        java.util.Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
             lastRunDt = lastRunTS == null ? new java.sql.Date(yesterday.getTime()) : new java.sql.Date(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DATE_FORMAT_DT }).getTime());
         }
@@ -512,8 +511,8 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         KualiDecimal quantity = purapItem.getItemQuantity();
                         pretag.setQuantityInvoiced(quantity != null ? quantity : new KualiDecimal(1));
                         pretag.setVendorName(purchaseOrder.getVendorName());
-                        pretag.setAssetTopsDescription(purapItem.getItemDescription());
-                        pretag.setPretagCreateDate(purchaseOrder.getPurchaseOrderInitialOpenDate());
+                        pretag.setAssetTopsDescription(purapItem.getItemDescription());                   
+                        pretag.setPretagCreateDate(new java.sql.Date(purchaseOrder.getPurchaseOrderInitialOpenTimestamp().getTime()));
                         pretag.setChartOfAccountsCode(purchaseOrder.getChartOfAccountsCode());
                         pretag.setOrganizationCode(purchaseOrder.getOrganizationCode());
                         pretag.setActive(true);

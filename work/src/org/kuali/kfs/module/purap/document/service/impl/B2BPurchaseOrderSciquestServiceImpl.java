@@ -166,7 +166,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("        </UserProfile>\n");
         cxml.append("      </Requestor>\n");
         cxml.append("      <Priority>High</Priority>\n");
-        cxml.append("      <AccountingDate>").append(purchaseOrder.getPurchaseOrderCreateDate()).append("</AccountingDate>\n");
+        cxml.append("      <AccountingDate>").append(purchaseOrder.getPurchaseOrderCreateTimestamp()).append("</AccountingDate>\n");
 
         /** *** SUPPLIER SECTION **** */
         cxml.append("      <Supplier>\n");
@@ -330,7 +330,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             LOG.error("verifyCxmlPOData()  The requisition initiator Network Id is required for the cXML PO but is missing.");
             errors.append("Missing Data: Requisition Initiator NetworkId\n");
         }
-        if (ObjectUtils.isNull(purchaseOrder.getPurchaseOrderCreateDate())) {
+        if (ObjectUtils.isNull(purchaseOrder.getPurchaseOrderCreateTimestamp())) {
             LOG.error("verifyCxmlPOData()  The PO create date is required for the cXML PO but is null.");
             errors.append("Create Date\n");
         }

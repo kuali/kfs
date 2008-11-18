@@ -19,7 +19,7 @@
             <column visible="false" />
           </visibility>
           <fieldEvaluation>
-            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedDate'))</xpathexpression>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedTimestamp'))</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

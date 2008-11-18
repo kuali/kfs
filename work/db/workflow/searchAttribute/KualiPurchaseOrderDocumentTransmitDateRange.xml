@@ -17,7 +17,7 @@
           </visibility>
           <searchDefinition dataType="datetime" rangeSearch="true" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderLastTransmitDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderLastTransmitTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

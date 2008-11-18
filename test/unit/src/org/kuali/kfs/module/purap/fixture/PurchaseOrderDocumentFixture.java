@@ -16,13 +16,14 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Fixture class for Purchase Order Document.
@@ -42,8 +43,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -57,7 +58,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
@@ -74,8 +75,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -89,7 +90,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
@@ -107,8 +108,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -122,7 +123,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_WITH_VENDOR_CONTRACT, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
@@ -138,8 +139,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -153,7 +154,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS_2, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_QTY_APO_ITEM_1 } // purchaseOrderItemMultiFixtures
@@ -168,8 +169,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -183,7 +184,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS_2, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_QTY_APO_ITEM_1 } // purchaseOrderItemMultiFixtures
@@ -198,8 +199,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -213,7 +214,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS_2, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_QTY_APO_ITEM_1 } // purchaseOrderItemMultiFixtures
@@ -228,8 +229,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -243,7 +244,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS_2, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_QTY_APO_ITEM_1 } // purchaseOrderItemMultiFixtures
@@ -258,8 +259,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -273,7 +274,7 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS_2, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_QTY_APO_ITEM_1 } // purchaseOrderItemMultiFixtures
@@ -288,8 +289,8 @@ public enum PurchaseOrderDocumentFixture {
             null, // initialPaymentDate
             null, // finalPaymentAmount
             null, // finalPaymentDate
-            null, // purchaseOrderInitialOpenDate
-            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderInitialOpenTimestamp
+            null, // purchaseOrderLastTransmitTimestamp
             null, // purchaseOrderQuoteDueDate
             null, // purchaseOrderQuoteTypeCode
             null, // purchaseOrderQuoteVendorNoteText
@@ -303,14 +304,14 @@ public enum PurchaseOrderDocumentFixture {
             null, // alternateVendorName
             true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
-            null, // purchaseOrderFirstTransmissionDate
+            null, // purchaseOrderFirstTransmissionTimestamp
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
                     PurchaseOrderItemFixture.PO_ITEM_THRESHOLD_CHECK }
     );
 
-    public final Date purchaseOrderCreateDate;
+    public final Timestamp purchaseOrderCreateDate;
     public final Integer requisitionIdentifier;
     public final String purchaseOrderVendorChoiceCode;
     public final String recurringPaymentFrequencyCode;
@@ -320,8 +321,8 @@ public enum PurchaseOrderDocumentFixture {
     public final Date initialPaymentDate;
     public final KualiDecimal finalPaymentAmount;
     public final Date finalPaymentDate;
-    public final Date purchaseOrderInitialOpenDate;
-    public final Date purchaseOrderLastTransmitDate;
+    public final Timestamp purchaseOrderInitialOpenTimestamp;
+    public final Timestamp purchaseOrderLastTransmitTimestamp;
     public final Date purchaseOrderQuoteDueDate;
     public final String purchaseOrderQuoteTypeCode;
     public final String purchaseOrderQuoteVendorNoteText;
@@ -335,7 +336,7 @@ public enum PurchaseOrderDocumentFixture {
     public final String alternateVendorName;
     public final boolean purchaseOrderCurrentIndicator;
     public final boolean pendingActionIndicator;
-    public final Date purchaseOrderFirstTransmissionDate;
+    public final Timestamp purchaseOrderFirstTransmissionTimestamp;
     private PurchasingAccountsPayableDocumentFixture purapDocumentFixture;
     private PurchasingDocumentFixture purchasingDocumentFixture;
     private PurchaseOrderItemFixture[] purchaseOrderItemFixtures;
@@ -343,7 +344,7 @@ public enum PurchaseOrderDocumentFixture {
     /**
      * Private Constructor.
      */
-    private PurchaseOrderDocumentFixture(Date purchaseOrderCreateDate, Integer requisitionIdentifier, String purchaseOrderVendorChoiceCode, String recurringPaymentFrequencyCode, KualiDecimal recurringPaymentAmount, Date recurringPaymentDate, KualiDecimal initialPaymentAmount, Date initialPaymentDate, KualiDecimal finalPaymentAmount, Date finalPaymentDate, Date purchaseOrderInitialOpenDate, Date purchaseOrderLastTransmitDate, Date purchaseOrderQuoteDueDate, String purchaseOrderQuoteTypeCode, String purchaseOrderQuoteVendorNoteText, boolean purchaseOrderConfirmedIndicator, String purchaseOrderCommodityDescription, Integer purchaseOrderPreviousIdentifier, Integer alternateVendorHeaderGeneratedIdentifier, Integer alternateVendorDetailAssignedIdentifier, Integer newQuoteVendorHeaderGeneratedIdentifier, Integer newQuoteVendorDetailAssignedIdentifier, String alternateVendorName, boolean purchaseOrderCurrentIndicator, boolean pendingActionIndicator, Date purchaseOrderFirstTransmissionDate,
+    private PurchaseOrderDocumentFixture(Timestamp purchaseOrderCreateDate, Integer requisitionIdentifier, String purchaseOrderVendorChoiceCode, String recurringPaymentFrequencyCode, KualiDecimal recurringPaymentAmount, Date recurringPaymentDate, KualiDecimal initialPaymentAmount, Date initialPaymentDate, KualiDecimal finalPaymentAmount, Date finalPaymentDate, Timestamp purchaseOrderInitialOpenTimestamp, Timestamp purchaseOrderLastTransmitTimestamp, Date purchaseOrderQuoteDueDate, String purchaseOrderQuoteTypeCode, String purchaseOrderQuoteVendorNoteText, boolean purchaseOrderConfirmedIndicator, String purchaseOrderCommodityDescription, Integer purchaseOrderPreviousIdentifier, Integer alternateVendorHeaderGeneratedIdentifier, Integer alternateVendorDetailAssignedIdentifier, Integer newQuoteVendorHeaderGeneratedIdentifier, Integer newQuoteVendorDetailAssignedIdentifier, String alternateVendorName, boolean purchaseOrderCurrentIndicator, boolean pendingActionIndicator, Timestamp purchaseOrderFirstTransmissionTimestamp,
             PurchasingAccountsPayableDocumentFixture purapDocumentFixture, PurchasingDocumentFixture purchasingDocumentFixture, PurchaseOrderItemFixture[] purchaseOrderItemFixtures) {
         this.purchaseOrderCreateDate = purchaseOrderCreateDate;
         this.requisitionIdentifier = requisitionIdentifier;
@@ -355,8 +356,8 @@ public enum PurchaseOrderDocumentFixture {
         this.initialPaymentDate = initialPaymentDate;
         this.finalPaymentAmount = finalPaymentAmount;
         this.finalPaymentDate = finalPaymentDate;
-        this.purchaseOrderInitialOpenDate = purchaseOrderInitialOpenDate;
-        this.purchaseOrderLastTransmitDate = purchaseOrderLastTransmitDate;
+        this.purchaseOrderInitialOpenTimestamp = purchaseOrderInitialOpenTimestamp;
+        this.purchaseOrderLastTransmitTimestamp = purchaseOrderLastTransmitTimestamp;
         this.purchaseOrderQuoteDueDate = purchaseOrderQuoteDueDate;
         this.purchaseOrderQuoteTypeCode = purchaseOrderQuoteTypeCode;
         this.purchaseOrderQuoteVendorNoteText = purchaseOrderQuoteVendorNoteText;
@@ -370,7 +371,7 @@ public enum PurchaseOrderDocumentFixture {
         this.alternateVendorName = alternateVendorName;
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
         this.pendingActionIndicator = pendingActionIndicator;
-        this.purchaseOrderFirstTransmissionDate = purchaseOrderFirstTransmissionDate;
+        this.purchaseOrderFirstTransmissionTimestamp = purchaseOrderFirstTransmissionTimestamp;
         this.purapDocumentFixture = purapDocumentFixture;
         this.purchasingDocumentFixture = purchasingDocumentFixture;
         this.purchaseOrderItemFixtures = purchaseOrderItemFixtures;
@@ -383,7 +384,7 @@ public enum PurchaseOrderDocumentFixture {
      */
     public PurchaseOrderDocument createPurchaseOrderDocument() {
         PurchaseOrderDocument doc = purchasingDocumentFixture.createPurchaseOrderDocument(purapDocumentFixture);
-        doc.setPurchaseOrderCreateDate(this.purchaseOrderCreateDate);
+        doc.setPurchaseOrderCreateTimestamp(this.purchaseOrderCreateDate);
         doc.setRequisitionIdentifier(this.requisitionIdentifier);
         doc.setPurchaseOrderVendorChoiceCode(this.purchaseOrderVendorChoiceCode);
         doc.setRecurringPaymentFrequencyCode(this.recurringPaymentFrequencyCode);
@@ -393,8 +394,8 @@ public enum PurchaseOrderDocumentFixture {
         doc.setInitialPaymentDate(this.initialPaymentDate);
         doc.setFinalPaymentAmount(this.finalPaymentAmount);
         doc.setFinalPaymentDate(this.finalPaymentDate);
-        doc.setPurchaseOrderInitialOpenDate(this.purchaseOrderInitialOpenDate);
-        doc.setPurchaseOrderLastTransmitDate(this.purchaseOrderLastTransmitDate);
+        doc.setPurchaseOrderInitialOpenTimestamp(this.purchaseOrderInitialOpenTimestamp);
+        doc.setPurchaseOrderLastTransmitTimestamp(this.purchaseOrderLastTransmitTimestamp);
         doc.setPurchaseOrderQuoteDueDate(this.purchaseOrderQuoteDueDate);
         doc.setPurchaseOrderQuoteTypeCode(this.purchaseOrderQuoteTypeCode);
         doc.setPurchaseOrderQuoteVendorNoteText(this.purchaseOrderQuoteVendorNoteText);
@@ -408,7 +409,7 @@ public enum PurchaseOrderDocumentFixture {
         doc.setAlternateVendorName(this.alternateVendorName);
         doc.setPurchaseOrderCurrentIndicator(this.purchaseOrderCurrentIndicator);
         doc.setPendingActionIndicator(this.pendingActionIndicator);
-        doc.setPurchaseOrderFirstTransmissionDate(this.purchaseOrderFirstTransmissionDate);
+        doc.setPurchaseOrderFirstTransmissionTimestamp(this.purchaseOrderFirstTransmissionTimestamp);
 
         for (PurchaseOrderItemFixture purchaseOrderItemFixture : purchaseOrderItemFixtures) {
             purchaseOrderItemFixture.addTo(doc);

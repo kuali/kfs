@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -50,11 +50,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
-    private Date accountsPayableApprovalDate;
+    private Timestamp accountsPayableApprovalTimestamp;
     private String lastActionPerformedByPersonId;
     private String accountsPayableProcessorIdentifier;
     private boolean holdIndicator;
-    private Date extractedDate;
+    private Timestamp extractedTimestamp;
     private Integer purchaseOrderIdentifier;
     private String processingCampusCode;
     private String noteLine1Text;
@@ -267,20 +267,20 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.processingCampusCode = processingCampusCode;
     }
 
-    public Date getAccountsPayableApprovalDate() {
-        return accountsPayableApprovalDate;
+    public Timestamp getAccountsPayableApprovalTimestamp() {
+        return accountsPayableApprovalTimestamp;
     }
 
-    public void setAccountsPayableApprovalDate(Date accountsPayableApprovalDate) {
-        this.accountsPayableApprovalDate = accountsPayableApprovalDate;
+    public void setAccountsPayableApprovalTimestamp(Timestamp accountsPayableApprovalTimestamp) {
+        this.accountsPayableApprovalTimestamp = accountsPayableApprovalTimestamp;
     }
 
-    public Date getExtractedDate() {
-        return extractedDate;
+    public Timestamp getExtractedTimestamp() {
+        return extractedTimestamp;
     }
 
-    public void setExtractedDate(Date extractedDate) {
-        this.extractedDate = extractedDate;
+    public void setExtractedTimestamp(Timestamp extractedTimestamp) {
+        this.extractedTimestamp = extractedTimestamp;
     }
 
     public boolean isHoldIndicator() {
@@ -469,7 +469,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public boolean isExtracted() {
-        return (ObjectUtils.isNotNull(getExtractedDate()));
+        return (ObjectUtils.isNotNull(getExtractedTimestamp()));
     }
 
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();

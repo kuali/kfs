@@ -17,7 +17,7 @@
           </visibility>
           <searchDefinition dataType="datetime" rangeSearch="true" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

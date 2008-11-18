@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
@@ -27,7 +28,6 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PurapTestConstants {
@@ -79,7 +79,7 @@ public class PurapTestConstants {
     @SuppressWarnings("deprecation")
     static class PO {
         static final Integer REQ_ID = new Integer("8888");
-        static final Date CREATE_DATE = new Date(107, 10, 10); // 2007-10-10
+        static final Timestamp CREATE_DATE = new Timestamp(107, 10, 10, 0, 0, 0, 0); // 2007-10-10
         static final KualiDecimal AMOUNT = new KualiDecimal(32);
     }
 

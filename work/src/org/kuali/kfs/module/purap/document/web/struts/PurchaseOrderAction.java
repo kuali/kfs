@@ -1039,7 +1039,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         PurchaseOrderVendorQuote vendorQuote = (PurchaseOrderVendorQuote) po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
         if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
-            vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            vendorQuote.setPurchaseOrderQuoteTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             vendorQuote.setTransmitPrintDisplayed(true);
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         }
@@ -1049,7 +1049,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             FaxService faxService = SpringContext.getBean(FaxService.class);
             faxService.faxPurchaseOrderPdf(po, false);
             if (GlobalVariables.getErrorMap().size() == 0) {
-                vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                vendorQuote.setPurchaseOrderQuoteTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
             }
         }
@@ -1557,7 +1557,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
             String tempRow = vendorRow;
             tempRow = StringUtils.replace(tempRow, "{0}", poQuote.getVendorName());
-            if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
+            if (poQuote.getPurchaseOrderQuoteAwardTimestamp() == null) {
                 if (awardedQuote.getVendorNumber().equals(poQuote.getVendorNumber())) {
                     tempRow = StringUtils.replace(tempRow, "{1}", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
                 }
@@ -1566,7 +1566,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
             }
             else {
-                tempRow = StringUtils.replace(tempRow, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
+                tempRow = StringUtils.replace(tempRow, "{1}", poQuote.getPurchaseOrderQuoteAwardTimestamp().toString());
             }
             if (poQuote.getPurchaseOrderQuoteStatusCode() != null) {
                 poQuote.refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER_QUOTE_STATUS);
@@ -1596,7 +1596,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if ((PODocumentsStrings.CONFIRM_AWARD_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // set awarded date
-                awardedQuote.setPurchaseOrderQuoteAwardDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                awardedQuote.setPurchaseOrderQuoteAwardTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
                 Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
                 document.setPurchaseOrderQuoteAwardedDate(currentSqlDate);
@@ -1640,7 +1640,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
 
         for (PurchaseOrderVendorQuote quotedVendors : document.getPurchaseOrderVendorQuotes()) {
-            if (quotedVendors.getPurchaseOrderQuoteTransmitDate() != null) {
+            if (quotedVendors.getPurchaseOrderQuoteTransmitTimestamp() != null) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_ALREADY_TRASNMITTED);
 
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);

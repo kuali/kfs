@@ -15,7 +15,7 @@
         <ref bean="VendorTaxChange-vendorTaxChangePersonIdentifier" />
         <ref bean="VendorTaxChange-vendorTaxChangePerson.principalName" />
         <ref bean="VendorTaxChange-vendorTaxChangePerson.name" />
-        <ref bean="VendorTaxChange-vendorTaxChangeDate" />
+        <ref bean="VendorTaxChange-vendorTaxChangeTimestamp" />
         <ref bean="VendorTaxChange-vendorPreviousTaxTypeCode" />
         <ref bean="VendorTaxChange-vendorPreviousTaxNumber" />
         <ref bean="VendorTaxChange-vendorHeaderGeneratedIdentifier" />
@@ -74,10 +74,10 @@
     <property name="label" value="Vendor Tax Change Person" />
     <property name="required" value="false" />
   </bean>
-  <bean id="VendorTaxChange-vendorTaxChangeDate" parent="VendorTaxChange-vendorTaxChangeDate-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangeTimestamp" parent="VendorTaxChange-vendorTaxChangeTimestamp-parentBean" />
 
-  <bean id="VendorTaxChange-vendorTaxChangeDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="vendorTaxChangeDate" />
+  <bean id="VendorTaxChange-vendorTaxChangeTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="vendorTaxChangeTimestamp" />
     <property name="label" value="Vendor Tax Change Date" />
     <property name="shortLabel" value="Vendor Tax Change Date" />
   </bean>

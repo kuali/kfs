@@ -38,7 +38,7 @@ public class CreditMemoView extends AbstractRelatedView {
     private String creditMemoStatusCode;
     private boolean creditHoldIndicator;
     private String vendorCustomerNumber;
-    private Date accountsPayableApprovalDate;
+    private Timestamp accountsPayableApprovalTimestamp;
     private Date creditMemoExtractedDate;
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
@@ -47,12 +47,12 @@ public class CreditMemoView extends AbstractRelatedView {
     // REFERENCE OBJECTS
     private Status status;
 
-    public Object getAccountsPayableApprovalDate() {
-        return (new DateFormatter()).format(accountsPayableApprovalDate);
+    public Object getAccountsPayableApprovalTimestamp() {
+        return (new DateFormatter()).format(accountsPayableApprovalTimestamp);
     }
 
-    public void setAccountsPayableApprovalDate(Date accountsPayableApprovalDate) {
-        this.accountsPayableApprovalDate = accountsPayableApprovalDate;
+    public void setAccountsPayableApprovalTimestamp(Timestamp accountsPayableApprovalTimestamp) {
+        this.accountsPayableApprovalTimestamp = accountsPayableApprovalTimestamp;
     }
 
     public boolean isCreditHoldIndicator() {

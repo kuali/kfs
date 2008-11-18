@@ -130,11 +130,11 @@
             </tr>
 			<tr>
                     <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.extractedDate}" /></div>
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.extractedTimestamp}" /></div>
 	                </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.extractedDate}" property="document.extractedDate" readOnly="${true}" />
-                        <c:if test="${not empty KualiForm.document.extractedDate}">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.extractedTimestamp}" property="document.extractedTimestamp" readOnly="${true}" />
+                        <c:if test="${not empty KualiForm.document.extractedTimestamp}">
  	        			   <c:url var="page" value="/pdp/epicpaymentdetail.do">
 	        			     <c:param name="sourceDocNbr" value="${KualiForm.document.documentNumber}"/>
 	        			     <c:param name="docTypeCode" value="PREQ"/>
@@ -144,10 +144,10 @@
 						</c:if>
                     </td>
                     <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.accountsPayableApprovalDate}" /></div>
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.accountsPayableApprovalTimestamp}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.iaccountsPayableApprovalDate}" property="document.accountsPayableApprovalDate" readOnly="${not displayInitTab}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.accountsPayableApprovalTimestamp}" property="document.accountsPayableApprovalTimestamp" readOnly="${not displayInitTab}" />
                     </td>
                 
             </tr>

@@ -162,7 +162,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
                 String vendorTaxTypeCode = newVendorHeader.getVendorTaxTypeCode();
 
                 if ((!StringUtils.equals(vendorTaxNumber, oldVendorTaxNumber)) || (!StringUtils.equals(vendorTaxTypeCode, oldVendorTaxTypeCode))) {
-                    VendorTaxChange taxChange = new VendorTaxChange(newVendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(), oldVendorTaxNumber, oldVendorTaxTypeCode, getPersonId());
+                    VendorTaxChange taxChange = new VendorTaxChange(newVendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp(), oldVendorTaxNumber, oldVendorTaxTypeCode, getPersonId());
                     List<VendorTaxChange> changes = newVendorHeader.getVendorTaxChanges();
                     if (ObjectUtils.isNull(changes)) {
                         changes = new ArrayList();

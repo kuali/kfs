@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cab.batch.dataaccess.impl;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -27,7 +29,9 @@ import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
     /**
@@ -58,7 +62,8 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         statusCodeOrCond.addIsNull(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE);
         statusCodeOrCond.addOrCriteria(statusCodeCond1);
         Criteria criteria = new Criteria();
-        criteria.addGreaterThan(CabPropertyConstants.PreTagExtract.PO_INITIAL_OPEN_DATE, batchParameters.getLastRunDate());
+        Timestamp lastRunTimestamp = new Timestamp(((java.util.Date)batchParameters.getLastRunDate()).getTime());
+        criteria.addGreaterThan(CabPropertyConstants.PreTagExtract.PO_INITIAL_OPEN_TIMESTAMP, lastRunTimestamp);
         criteria.addEqualTo(CabPropertyConstants.PreTagExtract.PO_STATUS_CODE, CabConstants.PO_STATUS_CODE_OPEN);
         criteria.addAndCriteria(statusCodeOrCond);
         criteria.addGreaterOrEqualThan(CabPropertyConstants.PreTagExtract.PURAP_ITEM_UNIT_PRICE, batchParameters.getCapitalizationLimitAmount());

@@ -185,7 +185,7 @@
 
 		<c:set var="isAnyQuoteTransmitted" value="false" />
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.purchaseOrderVendorQuotes" id="quoteLine">
-			<c:if test="${not empty quoteLine.purchaseOrderQuoteTransmitDate}">
+			<c:if test="${not empty quoteLine.purchaseOrderQuoteTransmitTimestamp}">
 				<c:set var="isAnyQuoteTransmitted" value="true" />
 			</c:if>
 		    <purap:quoteVendor
@@ -193,9 +193,9 @@
 		        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
 		        isSysVendor="${not empty quoteLine.vendorHeaderGeneratedIdentifier}"
 		        isPurchaseOrderAwarded="${isPurchaseOrderAwarded}"
-				isAwarded="${not empty quoteLine.purchaseOrderQuoteAwardDate}"
+				isAwarded="${not empty quoteLine.purchaseOrderQuoteAwardTimestamp}"
 				isTransmitPrintDisplayed="${quoteLine.transmitPrintDisplayed}"
-				isTrasnmitted="${not empty quoteLine.purchaseOrderQuoteTransmitDate}"
+				isTrasnmitted="${not empty quoteLine.purchaseOrderQuoteTransmitTimestamp}"
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 

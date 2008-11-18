@@ -294,8 +294,8 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p.add(new Chunk("\n     R.Q. Number: ", ver_8_bold));
         p.add(new Chunk(po.getPurapDocumentIdentifier() + "\n", cour_10_normal));
         Date requestDate = getDateTimeService().getCurrentSqlDate();
-        if (poqv.getPurchaseOrderQuoteTransmitDate() != null) {
-            requestDate = (new Date(poqv.getPurchaseOrderQuoteTransmitDate().getTime()));
+        if (poqv.getPurchaseOrderQuoteTransmitTimestamp() != null) {
+            requestDate = (new Date(poqv.getPurchaseOrderQuoteTransmitTimestamp().getTime()));
         }
         p.add(new Chunk("     R.Q. Date: ", ver_8_bold));
         p.add(new Chunk(sdf.format(requestDate) + "\n", cour_10_normal));

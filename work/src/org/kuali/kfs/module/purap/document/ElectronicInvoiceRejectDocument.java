@@ -42,7 +42,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     private Integer purapDocumentIdentifier;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private Integer invoiceLoadSummaryIdentifier;
-    private Date invoiceProcessDate;
+    private Timestamp invoiceProcessTimestamp;
     private Boolean invoiceFileHeaderTypeIndicator = Boolean.FALSE;
     private Boolean invoiceFileInformationOnlyIndicator = Boolean.FALSE;
     private Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
@@ -128,7 +128,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     private boolean invoiceNumberAcceptIndicator = false;
     private boolean invoiceResearchIndicator = false;
     
-    private Date accountsPayableApprovalDate;
+    private Timestamp accountsPayableApprovalTimestamp;
     
     private transient PurApRelatedViews relatedViews;
     private PurchaseOrderDocument currentPurchaseOrderDocument;
@@ -148,7 +148,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     public void setFileLevelData(ElectronicInvoice ei) {
-        this.invoiceProcessDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        this.invoiceProcessTimestamp = new Timestamp((new Date()).getTime());
         this.invoiceFileHeaderTypeIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator());
         this.invoiceFileInformationOnlyIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isInformationOnly());
         this.invoiceFileTaxInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isTaxInLine());
@@ -973,12 +973,12 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         this.invoiceResearchIndicator = invoiceResearchIndicator;
     }
 
-    public Date getAccountsPayableApprovalDate() {
-        return accountsPayableApprovalDate;
+    public Timestamp getAccountsPayableApprovalTimestamp() {
+        return accountsPayableApprovalTimestamp;
     }
 
-    public void setAccountsPayableApprovalDate(Date accountsPayableApprovalDate) {
-        this.accountsPayableApprovalDate = accountsPayableApprovalDate;
+    public void setAccountsPayableApprovalTimestamp(Timestamp accountsPayableApprovalTimestamp) {
+        this.accountsPayableApprovalTimestamp = accountsPayableApprovalTimestamp;
     }
 
     /**
@@ -1038,17 +1038,17 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     /**
-     * @return Returns the invoiceProcessDate.
+     * @return Returns the invoiceProcessTimestamp.
      */
-    public Date getInvoiceProcessDate() {
-        return invoiceProcessDate;
+    public Timestamp getInvoiceProcessTimestamp() {
+        return invoiceProcessTimestamp;
     }
 
     /**
-     * @param invoiceProcessDate The invoiceProcessDate to set.
+     * @param invoiceProcessTimestamp The invoiceProcessTimestamp to set.
      */
-    public void setInvoiceProcessDate(Date invoiceProcessTimestamp) {
-        this.invoiceProcessDate = invoiceProcessTimestamp;
+    public void setInvoiceProcessTimestamp(Timestamp invoiceProcessTimestamp) {
+        this.invoiceProcessTimestamp = invoiceProcessTimestamp;
     }
 
     /**

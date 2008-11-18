@@ -18,7 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadSummaryIdentifier" />
-        <ref bean="ElectronicInvoiceLoadSummary-fileProcessDate" />
+        <ref bean="ElectronicInvoiceLoadSummary-fileProcessTimestamp" />
         <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadFailAmount" />
         <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadFailCount" />
         <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadSuccessAmount" />
@@ -47,10 +47,10 @@
             p:size="16" />
     </property>
   </bean>
-  <bean id="ElectronicInvoiceLoadSummary-fileProcessDate" parent="ElectronicInvoiceLoadSummary-fileProcessDate-parentBean" />
+  <bean id="ElectronicInvoiceLoadSummary-fileProcessTimestamp" parent="ElectronicInvoiceLoadSummary-fileProcessTimestamp-parentBean" />
 
-  <bean id="ElectronicInvoiceLoadSummary-fileProcessDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fileProcessDate" />
+  <bean id="ElectronicInvoiceLoadSummary-fileProcessTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileProcessTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="File Process Date" />
     <property name="shortLabel" value="Date" />
@@ -161,7 +161,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="invoiceLoadSummaryIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="fileProcessDate" />
+                    p:attributeName="fileProcessTimestamp" />
               <bean parent="FieldDefinition"
                     p:attributeName="invoiceLoadFailAmount" />
               <bean parent="FieldDefinition"
@@ -196,7 +196,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="invoiceLoadSummaryIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="fileProcessDate" />
+              p:attributeName="fileProcessTimestamp" />
         <bean parent="FieldDefinition"
               p:attributeName="invoiceLoadFailAmount" />
         <bean parent="FieldDefinition"
@@ -214,7 +214,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="invoiceLoadSummaryIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="fileProcessDate" />
+              p:attributeName="fileProcessTimestamp" />
         <bean parent="FieldDefinition"
               p:attributeName="invoiceLoadFailAmount" />
         <bean parent="FieldDefinition"

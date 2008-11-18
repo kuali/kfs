@@ -294,7 +294,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             LOG.error("verifyCxmlPOData()  The requisition initiator Network Id is required for the cXML PO but is missing.");
             errors.append("Missing Data: Requisition Initiator NetworkId\n");
         }
-        if (ObjectUtils.isNull(purchaseOrder.getPurchaseOrderCreateDate())) {
+        if (ObjectUtils.isNull(purchaseOrder.getPurchaseOrderCreateTimestamp())) {
             LOG.error("verifyCxmlPOData()  The PO create date is required for the cXML PO but is null.");
             errors.append("Create Date\n");
         }

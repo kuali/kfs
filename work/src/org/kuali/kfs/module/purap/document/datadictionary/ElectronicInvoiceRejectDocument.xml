@@ -86,7 +86,7 @@
         <ref bean="ElectronicInvoiceRejectDocument-invoiceOrderReferenceOrderIdentifier" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceOrderSupplierOrderInformationIdentifier" />
         
-        <ref bean="ElectronicInvoiceRejectDocument-invoiceProcessDate" />
+        <ref bean="ElectronicInvoiceRejectDocument-invoiceProcessTimestamp" />
         <ref bean="ElectronicInvoiceRejectDocument-invoicePurchaseOrderNumber" />
         <!-- 
         <ref bean="ElectronicInvoiceRejectDocument-invoiceRejectExtractDate" />
@@ -856,10 +856,10 @@
             p:size="102" />
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectDocument-invoiceProcessDate" parent="ElectronicInvoiceRejectDocument-invoiceProcessDate-parentBean" />
+  <bean id="ElectronicInvoiceRejectDocument-invoiceProcessTimestamp" parent="ElectronicInvoiceRejectDocument-invoiceProcessTimestamp-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectDocument-invoiceProcessDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceProcessDate" />
+  <bean id="ElectronicInvoiceRejectDocument-invoiceProcessTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceProcessTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Process Date" />
     <property name="shortLabel" value="Date" />

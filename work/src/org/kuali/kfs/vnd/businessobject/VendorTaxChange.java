@@ -17,12 +17,12 @@
 package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Records any changes to a Vendor's Tax Number or Type. Not shown on the screen.
@@ -31,7 +31,7 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
 
     private Integer vendorTaxChangeGeneratedIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;
-    private Date vendorTaxChangeDate;
+    private Timestamp vendorTaxChangeTimestamp;
     private String vendorPreviousTaxNumber;
     private String vendorPreviousTaxTypeCode;
     private String vendorTaxChangePersonIdentifier;
@@ -54,9 +54,9 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
      * @param prevTaxTypeCode The tax type previously
      * @param taxChangePersonId The Id of the user who is making this change
      */
-    public VendorTaxChange(Integer vndrHdrGenId, Date taxChangeDate, String prevTaxNum, String prevTaxTypeCode, String taxChangePersonId) {
+    public VendorTaxChange(Integer vndrHdrGenId, Timestamp taxChangeTimestamp, String prevTaxNum, String prevTaxTypeCode, String taxChangePersonId) {
         this.vendorHeaderGeneratedIdentifier = vndrHdrGenId;
-        this.vendorTaxChangeDate = taxChangeDate;
+        this.vendorTaxChangeTimestamp = taxChangeTimestamp;
         this.vendorPreviousTaxNumber = prevTaxNum;
         this.vendorPreviousTaxTypeCode = prevTaxTypeCode;
         this.vendorTaxChangePersonIdentifier = taxChangePersonId;
@@ -78,12 +78,12 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
     }
 
-    public Date getVendorTaxChangeDate() {
-        return vendorTaxChangeDate;
+    public Timestamp getVendorTaxChangeTimestamp() {
+        return vendorTaxChangeTimestamp;
     }
 
-    public void setVendorTaxChangeDate(Date vendorTaxChangeDate) {
-        this.vendorTaxChangeDate = vendorTaxChangeDate;
+    public void setVendorTaxChangeTimestamp(Timestamp vendorTaxChangeTimestamp) {
+        this.vendorTaxChangeTimestamp = vendorTaxChangeTimestamp;
     }
 
     public String getVendorPreviousTaxNumber() {

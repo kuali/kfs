@@ -16,11 +16,9 @@
 package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -31,8 +29,11 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ParameterService;
-
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = UserNameFixture.appleton)
 public class PaymentRequestServiceTest extends KualiTestBase {
@@ -92,7 +93,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         paymentRequestDocument.setInvoiceDate(today);
         paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);// IN_PROCESS);
         paymentRequestDocument.setPaymentRequestCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
-        purchaseOrderDocument.setPurchaseOrderCreateDate(today);
+        purchaseOrderDocument.setPurchaseOrderCreateTimestamp(new Timestamp(today.getTime()));
         // purchaseOrderDocument.setDefaultValuesForAPO();
         // purchaseOrderDocument.setP
 

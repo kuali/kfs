@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +54,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
     private boolean purchaseOrderAutomatedIndicator;
     private boolean isUserAuthorized;
     private boolean hasPaymentRequest;
-    private Date lastTransmitDate;
+    private Timestamp lastTransmitDate;
 
     private boolean apUser;
     private boolean apSupervisor;
@@ -92,7 +92,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
             this.isUserAuthorized = false;
         }
         
-        this.lastTransmitDate = po.getPurchaseOrderLastTransmitDate();
+        this.lastTransmitDate = po.getPurchaseOrderLastTransmitTimestamp();
         
     }
 
@@ -119,7 +119,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * @return boolean true if the retransmit button can be displayed.
      */
     public boolean canRetransmit() {
-        if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || (purchaseOrder.getPurchaseOrderAutomaticIndicator()))) {
+        if (purchaseOrder.getPurchaseOrderLastTransmitTimestamp() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || (purchaseOrder.getPurchaseOrderAutomaticIndicator()))) {
             return true;
         }
         return false;
@@ -154,7 +154,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         }
         //This is so that the user can still do the print po if the transmission method is changed to PRINT during amendment, so that
         //we can fill in the last transmit date to some dates.
-        if (purchaseOrder.getPurchaseOrderTransmissionMethodCode() != null && purchaseOrder.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT) && purchaseOrder.getPurchaseOrderLastTransmitDate() == null && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        if (purchaseOrder.getPurchaseOrderTransmissionMethodCode() != null && purchaseOrder.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT) && purchaseOrder.getPurchaseOrderLastTransmitTimestamp() == null && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             return true;
         }
         return false;

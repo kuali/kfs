@@ -19,7 +19,7 @@
             <field visible="false" />
           </visibility>
           <fieldEvaluation>
-            <xpathexpression>boolean(wf:xstreamsafe('//document/paymentPaidDate'))</xpathexpression>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/paymentPaidTimestamp'))</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

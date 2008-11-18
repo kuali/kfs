@@ -114,7 +114,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
     public Integer purapDocumentIdentifier;
     public Integer accountsPayablePurchasingDocumentLinkIdentifier;
     public Integer invoiceLoadSummaryIdentifier;
-    public Timestamp invoiceProcessDate;
+    public Timestamp invoiceProcessTimestamp;
     public Boolean invoiceFileHeaderTypeIndicator = Boolean.FALSE;
     public Boolean invoiceFileInformationOnlyIndicator = Boolean.FALSE;
     public Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
@@ -200,7 +200,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
     public ElectronicInvoiceRejectItemFixture[] invoiceRejectItemFixtures;
     public ElectronicInvoiceRejectReasonFixture[] invoiceRejectReasonFixtures;
 
-    private ElectronicInvoiceRejectDocumentFixture(Timestamp invoiceProcessDate, Boolean invoiceFileHeaderTypeIndicator, Boolean invoiceFileInformationOnlyIndicator, Boolean invoiceFileTaxInLineIndicator, Boolean invoiceFileSpecialHandlingInLineIndicator, Boolean invoiceFileShippingInLineIndicator, Boolean invoiceFileDiscountInLineIndicator, String invoiceFileName, String vendorDunsNumber,
+    private ElectronicInvoiceRejectDocumentFixture(Timestamp invoiceProcessTimestamp, Boolean invoiceFileHeaderTypeIndicator, Boolean invoiceFileInformationOnlyIndicator, Boolean invoiceFileTaxInLineIndicator, Boolean invoiceFileSpecialHandlingInLineIndicator, Boolean invoiceFileShippingInLineIndicator, Boolean invoiceFileDiscountInLineIndicator, String invoiceFileName, String vendorDunsNumber,
             Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, String invoiceFileDate, String invoiceFileNumber, String invoiceFilePurposeIdentifier, String invoiceFileOperationIdentifier, String invoiceFileDeploymentModeValue, String invoiceOrderReferenceOrderIdentifier, String invoiceOrderReferenceDocumentReferencePayloadIdentifier, String invoiceOrderReferenceDocumentReferenceText,
             String invoiceOrderMasterAgreementReferenceIdentifier, String invoiceOrderMasterAgreementReferenceDate, String invoiceOrderMasterAgreementInformationIdentifier, String invoiceOrderMasterAgreementInformationDate, String invoiceOrderPurchaseOrderIdentifier, String invoiceOrderPurchaseOrderDate, String invoiceOrderSupplierOrderInformationIdentifier, String invoiceShipDate,
             String invoiceShipToAddressName, String invoiceShipToAddressType, String invoiceShipToAddressLine1, String invoiceShipToAddressLine2, String invoiceShipToAddressLine3, String invoiceShipToAddressCityName, String invoiceShipToAddressStateCode, String invoiceShipToAddressPostalCode, String invoiceShipToAddressCountryCode, String invoiceShipToAddressCountryName,
@@ -212,7 +212,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             ElectronicInvoiceRejectItemFixture[] invoiceRejectItemFixtures,
             ElectronicInvoiceRejectReasonFixture[] invoiceRejectReasonFixtures) {
 
-        this.invoiceProcessDate = invoiceProcessDate;
+        this.invoiceProcessTimestamp = invoiceProcessTimestamp;
         this.invoiceFileHeaderTypeIndicator = invoiceFileHeaderTypeIndicator;
         this.invoiceFileInformationOnlyIndicator = invoiceFileInformationOnlyIndicator;
         this.invoiceFileTaxInLineIndicator = invoiceFileTaxInLineIndicator;
@@ -308,7 +308,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             throw new RuntimeException("Document creation failed.");
         }
         
-        doc.setInvoiceProcessDate(invoiceProcessDate);
+        doc.setInvoiceProcessTimestamp(invoiceProcessTimestamp);
         doc.setInvoiceFileHeaderTypeIndicator(invoiceFileHeaderTypeIndicator);
         doc.setInvoiceFileInformationOnlyIndicator(invoiceFileInformationOnlyIndicator);
         doc.setInvoiceFileTaxInLineIndicator(invoiceFileTaxInLineIndicator);

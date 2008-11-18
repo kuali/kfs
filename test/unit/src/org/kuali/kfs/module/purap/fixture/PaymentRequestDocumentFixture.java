@@ -16,11 +16,12 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PaymentRequestDocumentFixture {
 
@@ -38,7 +39,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1010,   //originalVendorHeaderGeneratedIdentifier,
@@ -65,7 +66,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1010,   //originalVendorHeaderGeneratedIdentifier,
@@ -94,7 +95,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1010,   //originalVendorHeaderGeneratedIdentifier,
@@ -121,7 +122,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1000,   //originalVendorHeaderGeneratedIdentifier,
@@ -148,7 +149,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1010,   //originalVendorHeaderGeneratedIdentifier,
@@ -175,7 +176,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1010,   //originalVendorHeaderGeneratedIdentifier,
@@ -202,7 +203,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1010,   //originalVendorHeaderGeneratedIdentifier,
@@ -229,7 +230,7 @@ public enum PaymentRequestDocumentFixture {
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
-            null,   //paymentPaidDate,
+            null,   //paymentPaidTimestamp,
             false,  //paymentRequestElectronicInvoiceIndicator,
             null,   //accountsPayableRequestCancelIdentifier,
             1010,   //originalVendorHeaderGeneratedIdentifier,
@@ -256,7 +257,7 @@ public enum PaymentRequestDocumentFixture {
     public final String specialHandlingInstructionLine1Text;
     public final String specialHandlingInstructionLine2Text;
     public final String specialHandlingInstructionLine3Text;
-    public final Date paymentPaidDate;
+    public final Timestamp paymentPaidTimestamp;
     public final boolean paymentRequestElectronicInvoiceIndicator;
     public final String accountsPayableRequestCancelIdentifier;
     public final Integer originalVendorHeaderGeneratedIdentifier;
@@ -284,7 +285,7 @@ public enum PaymentRequestDocumentFixture {
             String specialHandlingInstructionLine1Text,
             String specialHandlingInstructionLine2Text,
             String specialHandlingInstructionLine3Text,
-            Date paymentPaidDate,
+            Timestamp paymentPaidTimestamp,
             boolean paymentRequestElectronicInvoiceIndicator,
             String accountsPayableRequestCancelIdentifier,
             Integer originalVendorHeaderGeneratedIdentifier,
@@ -310,7 +311,7 @@ public enum PaymentRequestDocumentFixture {
         this.specialHandlingInstructionLine1Text = specialHandlingInstructionLine1Text;
         this.specialHandlingInstructionLine2Text = specialHandlingInstructionLine2Text;
         this.specialHandlingInstructionLine3Text = specialHandlingInstructionLine3Text;
-        this.paymentPaidDate = paymentPaidDate;
+        this.paymentPaidTimestamp = paymentPaidTimestamp;
         this.paymentRequestElectronicInvoiceIndicator = paymentRequestElectronicInvoiceIndicator;
         this.accountsPayableRequestCancelIdentifier = accountsPayableRequestCancelIdentifier;
         this.originalVendorHeaderGeneratedIdentifier = originalVendorHeaderGeneratedIdentifier;
@@ -342,7 +343,7 @@ public enum PaymentRequestDocumentFixture {
         doc.setSpecialHandlingInstructionLine1Text(this.specialHandlingInstructionLine1Text);
         doc.setSpecialHandlingInstructionLine2Text(this.specialHandlingInstructionLine2Text);
         doc.setSpecialHandlingInstructionLine3Text(this.specialHandlingInstructionLine3Text);
-        doc.setPaymentPaidDate(this.paymentPaidDate);
+        doc.setPaymentPaidTimestamp(this.paymentPaidTimestamp);
         doc.setPaymentRequestElectronicInvoiceIndicator(this.paymentRequestElectronicInvoiceIndicator);
         doc.setAccountsPayableRequestCancelIdentifier(this.accountsPayableRequestCancelIdentifier);
         doc.setOriginalVendorHeaderGeneratedIdentifier(this.originalVendorHeaderGeneratedIdentifier);

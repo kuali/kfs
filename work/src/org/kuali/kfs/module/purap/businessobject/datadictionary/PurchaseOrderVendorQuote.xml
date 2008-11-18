@@ -19,11 +19,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp" />
         <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate" />
         <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber" />
         <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode" />
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp" />
         <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode" />
         <ref bean="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier" />
         <ref bean="PurchaseOrderVendorQuote-vendorName" />
@@ -54,10 +54,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp-parentBean" />
 
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteAwardDate" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteAwardTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Award Date" />
     <property name="shortLabel" value="Date" />
@@ -122,10 +122,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp-parentBean" />
 
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteTransmitDate" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteTransmitTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Transmit Date" />
     <property name="shortLabel" value="Date" />
@@ -259,7 +259,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteAwardDate" />
+                    p:attributeName="purchaseOrderQuoteAwardTimestamp" />
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderQuotePriceExpirationDate" />
               <bean parent="FieldDefinition"
@@ -267,7 +267,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderQuoteStatusCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteTransmitDate" />
+                    p:attributeName="purchaseOrderQuoteTransmitTimestamp" />
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
               <bean parent="FieldDefinition"
@@ -318,7 +318,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteAwardDate" />
+              p:attributeName="purchaseOrderQuoteAwardTimestamp" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderQuotePriceExpirationDate" />
         <bean parent="FieldDefinition"
@@ -326,7 +326,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderQuoteStatusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteTransmitDate" />
+              p:attributeName="purchaseOrderQuoteTransmitTimestamp" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
         <bean parent="FieldDefinition"
@@ -360,7 +360,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteAwardDate" />
+              p:attributeName="purchaseOrderQuoteAwardTimestamp" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderQuotePriceExpirationDate" />
         <bean parent="FieldDefinition"
@@ -368,7 +368,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderQuoteStatusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteTransmitDate" />
+              p:attributeName="purchaseOrderQuoteTransmitTimestamp" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
         <bean parent="FieldDefinition"

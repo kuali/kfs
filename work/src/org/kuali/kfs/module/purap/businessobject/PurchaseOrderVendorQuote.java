@@ -17,13 +17,14 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -46,10 +47,10 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
     private String vendorEmailAddress;
     private String vendorAttentionName;
     private String purchaseOrderQuoteTransmitTypeCode;
-    private Date purchaseOrderQuoteTransmitDate;
+    private Timestamp purchaseOrderQuoteTransmitTimestamp;
     private Date purchaseOrderQuotePriceExpirationDate;
     private String purchaseOrderQuoteStatusCode;
-    private Date purchaseOrderQuoteAwardDate;
+    private Timestamp purchaseOrderQuoteAwardTimestamp;
     private String purchaseOrderQuoteRankNumber;
     private String vendorCountryCode;
     private String vendorAddressInternationalProvinceName;
@@ -218,12 +219,12 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
         this.purchaseOrderQuoteTransmitTypeCode = purchaseOrderQuoteTransmitTypeCode;
     }
 
-    public Date getPurchaseOrderQuoteTransmitDate() {
-        return purchaseOrderQuoteTransmitDate;
+    public Timestamp getPurchaseOrderQuoteTransmitTimestamp() {
+        return purchaseOrderQuoteTransmitTimestamp;
     }
 
-    public void setPurchaseOrderQuoteTransmitDate(Date purchaseOrderQuoteTransmitDate) {
-        this.purchaseOrderQuoteTransmitDate = purchaseOrderQuoteTransmitDate;
+    public void setPurchaseOrderQuoteTransmitTimestamp(Timestamp purchaseOrderQuoteTransmitTimestamp) {
+        this.purchaseOrderQuoteTransmitTimestamp = purchaseOrderQuoteTransmitTimestamp;
     }
 
     public Date getPurchaseOrderQuotePriceExpirationDate() {
@@ -242,12 +243,12 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
         this.purchaseOrderQuoteStatusCode = purchaseOrderQuoteStatusCode;
     }
 
-    public Date getPurchaseOrderQuoteAwardDate() {
-        return purchaseOrderQuoteAwardDate;
+    public Timestamp getPurchaseOrderQuoteAwardTimestamp() {
+        return purchaseOrderQuoteAwardTimestamp;
     }
 
-    public void setPurchaseOrderQuoteAwardDate(Date purchaseOrderQuoteAwardDate) {
-        this.purchaseOrderQuoteAwardDate = purchaseOrderQuoteAwardDate;
+    public void setPurchaseOrderQuoteAwardTimestamp(Timestamp purchaseOrderQuoteAwardTimestamp) {
+        this.purchaseOrderQuoteAwardTimestamp = purchaseOrderQuoteAwardTimestamp;
     }
 
     public String getPurchaseOrderQuoteRankNumber() {

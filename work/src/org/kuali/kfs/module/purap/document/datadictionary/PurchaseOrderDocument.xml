@@ -151,8 +151,8 @@
         <ref bean="PurchaseOrderDocument-recurringPaymentDate" />
         <ref bean="PurchaseOrderDocument-purchaseOrderCommodityDescription" />
         <ref bean="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitDate" />
+        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" />
+        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" />
         <ref bean="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" />
         <ref bean="PurchaseOrderDocument-purchaseOrderQuoteDueDate" />
         <ref bean="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" />
@@ -986,10 +986,10 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenDate" parent="PurchaseOrderDocument-purchaseOrderInitialOpenDate-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" parent="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderInitialOpenDate" />
+  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderInitialOpenTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Purchase Order Initial Open Date" />
     <property name="shortLabel" value="Date" />
@@ -1002,10 +1002,10 @@
             p:size="9" />
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitDate" parent="PurchaseOrderDocument-purchaseOrderLastTransmitDate-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" parent="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderLastTransmitDate" />
+  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderLastTransmitTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Purchase Order Last Transmit Date" />
     <property name="shortLabel" value="Date" />

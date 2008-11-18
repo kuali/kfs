@@ -29,8 +29,8 @@
 			<ref bean="PurApGenericAttributes-purchaseOrderStatus"/>
 			<ref bean="PurApGenericAttributes-paymentRequestStatus"/>
 			<ref bean="PurApGenericAttributes-creditMemoStatus"/>
-			<ref bean="PurApGenericAttributes-extractedDate"/>
-			<ref bean="PurApGenericAttributes-paymentPaidDate"/>
+			<ref bean="PurApGenericAttributes-extractedTimestamp"/>
+			<ref bean="PurApGenericAttributes-paymentPaidTimestamp"/>
 			<ref bean="PurApGenericAttributes-creditMemoPaidTimestamp"/>
 			<ref bean="PurApGenericAttributes-genericItemAmount"/>
 		</list>
@@ -239,17 +239,17 @@
     <property name="label" value="Credit Memo Status" />
     <property name="shortLabel" value="CM Status" />
   </bean>
-  <bean id="PurApGenericAttributes-extractedDate" parent="PurApGenericAttributes-extractedDate-parentBean" />
+  <bean id="PurApGenericAttributes-extractedTimestamp" parent="PurApGenericAttributes-extractedTimestamp-parentBean" />
 
-  <bean id="PurApGenericAttributes-extractedDate-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="extractedDate" />
+  <bean id="PurApGenericAttributes-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="extractedTimestamp" />
     <property name="label" value="Extracted For Payment Indicator" />
     <property name="shortLabel" value="Extracted" />
   </bean>
-  <bean id="PurApGenericAttributes-paymentPaidDate" parent="PurApGenericAttributes-paymentPaidDate-parentBean" />
+  <bean id="PurApGenericAttributes-paymentPaidTimestamp" parent="PurApGenericAttributes-paymentPaidTimestamp-parentBean" />
 
-  <bean id="PurApGenericAttributes-paymentPaidDate-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="paymentPaidDate" />
+  <bean id="PurApGenericAttributes-paymentPaidTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="paymentPaidTimestamp" />
     <property name="label" value="Paid Indicator" />
     <property name="shortLabel" value="Paid" />
   </bean>

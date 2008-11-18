@@ -609,7 +609,7 @@ public class ElectronicInvoiceOrderHolder {
     
     public Date getInvoiceProcessedDate(){
         if (isRejectDocumentHolder()){
-            return ElectronicInvoiceUtils.getSQLDate(rejectDocument.getInvoiceProcessDate());
+            return ElectronicInvoiceUtils.getSQLDate(rejectDocument.getInvoiceProcessTimestamp());
         }else{
             return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         }

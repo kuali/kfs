@@ -250,7 +250,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             SpringContext.getBean(AccountsPayableService.class).performLogicForFullEntryCompleted(this);
         }
         else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
-            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         }
         return true;
     }

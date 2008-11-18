@@ -469,15 +469,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             throw new ValidationException("printing purchase order for first transmission failed");
         }
-        if (ObjectUtils.isNotNull(po.getPurchaseOrderFirstTransmissionDate())) {
+        if (ObjectUtils.isNotNull(po.getPurchaseOrderFirstTransmissionTimestamp())) {
             // should not call this method for first transmission if document has already been transmitted
             String errorMsg = "Method to perform first transmit was called on document (doc id " + documentNumber + ") with already filled in 'first transmit date'";
             LOG.error(errorMsg);
             throw new RuntimeException(errorMsg);
         }
-        Date currentDate = dateTimeService.getCurrentSqlDate();
-        po.setPurchaseOrderFirstTransmissionDate(currentDate);
-        po.setPurchaseOrderLastTransmitDate(currentDate);
+        Timestamp currentDate = dateTimeService.getCurrentTimestamp();
+        po.setPurchaseOrderFirstTransmissionTimestamp(currentDate);
+        po.setPurchaseOrderLastTransmitTimestamp(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson(), null);
         if (!performedAction) {
@@ -586,7 +586,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             throw new ValidationException("found errors while trying to print po with doc id " + po.getDocumentNumber());
         }
-        po.setPurchaseOrderLastTransmitDate(dateTimeService.getCurrentSqlDate());
+        po.setPurchaseOrderLastTransmitTimestamp(dateTimeService.getCurrentTimestamp());
         purapService.saveDocumentNoValidation(po);
     }
 
@@ -901,7 +901,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (StringUtils.isEmpty(errors)) {
             //PO sent successfully; change status to OPEN
             attemptSetupOfInitialOpenOfDocument(po);
-            po.setPurchaseOrderLastTransmitDate(dateTimeService.getCurrentSqlDate());
+            po.setPurchaseOrderLastTransmitTimestamp(dateTimeService.getCurrentTimestamp());
             return true;
         }
         else {
@@ -1115,12 +1115,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
         boolean documentWasSaved = false;
         if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
-            if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenDate())) {
+            if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenTimestamp())) {
                 LOG.debug("attemptSetupOfInitialOpenOfDocument() setting initial open date on document");
-                po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
+                po.setPurchaseOrderInitialOpenTimestamp(dateTimeService.getCurrentTimestamp());
             }
             else {
-                throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenDate());
+                throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenTimestamp());
             }
             LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'");
             purapService.updateStatus(po, PurchaseOrderStatuses.OPEN);

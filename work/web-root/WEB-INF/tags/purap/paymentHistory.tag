@@ -89,8 +89,8 @@
 		        				<c:out value="${preqHistory.paymentRequestPayDate}"/>
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">
-			        		<c:out value="${preqHistory.paymentExtractedDate}" />
-		        			<c:if test="${not empty preqHistory.paymentExtractedDate}">
+			        		<c:out value="${preqHistory.paymentExtractedTimestamp}" />
+		        			<c:if test="${not empty preqHistory.paymentExtractedTimestamp}">
 		        			  <c:url var="page" value="/pdp/epicpaymentdetail.do">
 		        			    <c:param name="sourceDocNbr" value="${preqHistory.documentNumber}"/>
 		        			    <c:param name="docTypeCode" value="PREQ"/>
@@ -101,7 +101,7 @@
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">
 			        			<c:choose>
-			        				<c:when test="${not empty preqHistory.paymentPaidDate}">Yes</c:when>
+			        				<c:when test="${not empty preqHistory.paymentPaidTimestamp}">Yes</c:when>
 		        					<c:otherwise>No</c:otherwise>
 		        				</c:choose>
 			        		</td>
@@ -169,11 +169,11 @@
 		        				<c:out value="${cmHistory.totalAmount}" />
 			        		</td>
 		        			<td align="left" valign="middle" class="datacell">
-		        				<c:out value="${cmHistory.accountsPayableApprovalDate}" />
+		        				<c:out value="${cmHistory.accountsPayableApprovalTimestamp}" />
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">
-		        				<c:out value="${cmHistory.creditMemoExtractedDate}" />
-	                			<c:if test="${not empty cmHistory.creditMemoExtractedDate}">
+		        				<c:out value="${cmHistory.creditMemoExtractedTimestamp}" />
+	                			<c:if test="${not empty cmHistory.creditMemoExtractedTimestamp}">
 		                          <c:url var="page" value="/pdp/epicpaymentdetail.do">
 		        			        <c:param name="sourceDocNbr" value="${cmHistory.documentNumber}"/>
 		        			        <c:param name="docTypeCode" value="CM"/>

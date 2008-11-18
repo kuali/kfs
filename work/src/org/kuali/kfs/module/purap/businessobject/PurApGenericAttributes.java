@@ -39,8 +39,8 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
     private String purchaseOrderStatus;
     private String paymentRequestStatus;
     private String creditMemoStatus;
-    private String extractedDate;
-    private String paymentPaidDate;
+    private String extractedTimestamp;
+    private String paymentPaidTimestamp;
     private String creditMemoPaidTimestamp;
     private String purchaseOrderDocumentCurrentIndicator;
     private String statusCode;
@@ -63,20 +63,20 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
         this.creditMemoPaidTimestamp = creditMemoPaidTimestamp;
     }
 
-    public String getExtractedDate() {
-        return extractedDate;
+    public String getExtractedTimestamp() {
+        return extractedTimestamp;
     }
 
-    public void setExtractedDate(String extractedDate) {
-        this.extractedDate = extractedDate;
+    public void setExtractedTimestamp(String extractedTimestamp) {
+        this.extractedTimestamp = extractedTimestamp;
     }
 
-    public String getPaymentPaidDate() {
-        return paymentPaidDate;
+    public String getPaymentPaidTimestamp() {
+        return paymentPaidTimestamp;
     }
 
-    public void setPaymentPaidDate(String paymentPaidDate) {
-        this.paymentPaidDate = paymentPaidDate;
+    public void setPaymentPaidTimestamp(String paymentPaidTimestamp) {
+        this.paymentPaidTimestamp = paymentPaidTimestamp;
     }
 
     public BigDecimal getGenericItemUnitPrice() {

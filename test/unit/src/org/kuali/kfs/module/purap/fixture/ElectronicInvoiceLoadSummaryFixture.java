@@ -32,7 +32,7 @@ public enum ElectronicInvoiceLoadSummaryFixture {
             new Integer(0), // invoiceLoadFailCount
             new KualiDecimal(0.00), // invoiceLoadFailAmount
             Boolean.TRUE, // isEmpty
-            new Timestamp(new java.util.Date().getTime()) // fileProcessDate
+            new Timestamp(new java.util.Date().getTime()) // fileProcessTimestamp
     ), ;
 
     private Integer invoiceLoadSummaryIdentifier;
@@ -45,11 +45,11 @@ public enum ElectronicInvoiceLoadSummaryFixture {
     private Integer invoiceLoadFailCount = new Integer(0);
     private KualiDecimal invoiceLoadFailAmount = new KualiDecimal(0.00);
     private Boolean isEmpty = Boolean.TRUE;
-    private Timestamp fileProcessDate;
+    private Timestamp fileProcessTimestamp;
 
     private ElectronicInvoiceLoadSummaryFixture(String vendorDunsNumber,
         Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, String vendorName, Integer invoiceLoadSuccessCount,
-        KualiDecimal invoiceLoadSuccessAmount, Integer invoiceLoadFailCount, KualiDecimal invoiceLoadFailAmount, Boolean isEmpty, Timestamp fileProcessDate) {
+        KualiDecimal invoiceLoadSuccessAmount, Integer invoiceLoadFailCount, KualiDecimal invoiceLoadFailAmount, Boolean isEmpty, Timestamp fileProcessTimestamp) {
 
         this.vendorDunsNumber = vendorDunsNumber;
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
@@ -60,7 +60,7 @@ public enum ElectronicInvoiceLoadSummaryFixture {
         this.invoiceLoadFailCount = invoiceLoadFailCount;
         this.invoiceLoadFailAmount = invoiceLoadFailAmount;
         this.isEmpty = isEmpty;
-        this.fileProcessDate = fileProcessDate;
+        this.fileProcessTimestamp = fileProcessTimestamp;
     }
 
     public ElectronicInvoiceLoadSummary createElectronicInvoiceLoadSummary() {
@@ -76,7 +76,7 @@ public enum ElectronicInvoiceLoadSummaryFixture {
         eils.setInvoiceLoadFailCount(invoiceLoadFailCount);
         eils.setInvoiceLoadFailAmount(invoiceLoadFailAmount);
         eils.setIsEmpty(isEmpty);
-        eils.setFileProcessDate(fileProcessDate);
+        eils.setFileProcessTimestamp(fileProcessTimestamp);
 
         return eils;
     }

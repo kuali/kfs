@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String specialHandlingInstructionLine1Text;
     private String specialHandlingInstructionLine2Text;
     private String specialHandlingInstructionLine3Text;
-    private Date paymentPaidDate;
+    private Timestamp paymentPaidTimestamp;
     private boolean paymentRequestElectronicInvoiceIndicator;
     private String accountsPayableRequestCancelIdentifier;
     private Integer originalVendorHeaderGeneratedIdentifier;
@@ -313,13 +314,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setSpecialHandlingInstructionLine3Text(String specialHandlingInstructionLine3Text) {
         this.specialHandlingInstructionLine3Text = specialHandlingInstructionLine3Text;
     }
-
-    public Date getPaymentPaidDate() {
-        return paymentPaidDate;
+    
+    public Timestamp getPaymentPaidTimestamp() {
+        return paymentPaidTimestamp;
     }
 
-    public void setPaymentPaidDate(Date paymentPaidDate) {
-        this.paymentPaidDate = paymentPaidDate;
+    public void setPaymentPaidTimestamp(Timestamp paymentPaidTimestamp) {
+        this.paymentPaidTimestamp = paymentPaidTimestamp;
     }
 
     public boolean getPaymentRequestElectronicInvoiceIndicator() {
@@ -734,7 +735,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             SpringContext.getBean(AccountsPayableService.class).performLogicForFullEntryCompleted(this);
         }
         else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
-            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         }
         return true;
     }

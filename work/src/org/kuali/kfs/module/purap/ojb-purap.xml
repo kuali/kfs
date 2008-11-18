@@ -458,7 +458,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -487,8 +487,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -500,7 +500,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -695,7 +695,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -724,8 +724,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -737,7 +737,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -932,7 +932,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -961,8 +961,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -974,7 +974,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -1169,7 +1169,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -1198,8 +1198,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -1211,7 +1211,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -1407,7 +1407,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -1436,8 +1436,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -1449,7 +1449,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -1644,7 +1644,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -1673,8 +1673,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -1686,7 +1686,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -1881,7 +1881,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -1910,8 +1910,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -1923,7 +1923,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -2118,7 +2118,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -2147,8 +2147,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -2160,7 +2160,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -2355,7 +2355,7 @@
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderCreateDate" column="PO_CRTE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
@@ -2384,8 +2384,8 @@
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderInitialOpenDate" column="PO_INIT_OPEN_DT" jdbc-type="DATE" index="true"/>
-    <field-descriptor name="purchaseOrderLastTransmitDate" column="PO_LST_TRNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP" index="true"/>
+    <field-descriptor name="purchaseOrderLastTransmitTimestamp" column="PO_LST_TRNS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
@@ -2397,7 +2397,7 @@
     <field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pendingActionIndicator" column="PEND_ACTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="purchaseOrderFirstTransmissionDate" column="PO_1ST_TRNS_DT" jdbc-type="DATE"/>      
+    <field-descriptor name="purchaseOrderFirstTransmissionTimestamp" column="PO_1ST_TRNS_DT" jdbc-type="TIMESTAMP"/>      
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -2565,7 +2565,7 @@
     <field-descriptor name="specialHandlingInstructionLine1Text" column="PMT_SPCL_HANDLG_INSTRC_LN1_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="specialHandlingInstructionLine2Text" column="PMT_SPCL_HANDLG_INSTRC_LN2_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="specialHandlingInstructionLine3Text" column="PMT_SPCL_HANDLG_INSTRC_LN3_TXT" jdbc-type="VARCHAR"/>
-    <field-descriptor name="paymentPaidDate" column="PMT_PD_DT" jdbc-type="DATE"/>
+    <field-descriptor name="paymentPaidTimestamp" column="PMT_PD_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="paymentRequestElectronicInvoiceIndicator" column="PMT_RQST_ELCTRNC_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -2576,12 +2576,12 @@
     <field-descriptor name="vendorStateCode" column="VNDR_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorPostalCode" column="VNDR_PSTL_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorCountryCode" column="VNDR_CNTRY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="extractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>
+    <field-descriptor name="extractedTimestamp" column="PMT_EXTRT_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="accountsPayableProcessorIdentifier" column="AP_PRCSR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayableRequestCancelIdentifier" column="AP_RQST_CNCL_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastActionPerformedByPersonId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="processingCampusCode" column="PRCS_CMP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
+    <field-descriptor name="accountsPayableApprovalTimestamp" column="AP_APRVL_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="originalVendorHeaderGeneratedIdentifier" column="ORIG_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="originalVendorDetailAssignedIdentifier" column="ORIG_VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="alternateVendorHeaderGeneratedIdentifier" column="ALTRNT_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
@@ -3100,10 +3100,10 @@
     <field-descriptor name="vendorEmailAddress" column="VNDR_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderQuoteTransmitTypeCode" column="PO_QT_TRANS_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="purchaseOrderQuoteTransmitDate" column="PO_QT_TRANS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderQuoteTransmitTimestamp" column="PO_QT_TRANS_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuotePriceExpirationDate" column="PO_QT_PRCE_EXPR_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteStatusCode" column="PO_QT_STAT_CD" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="purchaseOrderQuoteAwardDate" column="PO_QT_AWD_DT" jdbc-type="DATE"/>
+    <field-descriptor name="purchaseOrderQuoteAwardTimestamp" column="PO_QT_AWD_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderQuoteRankNumber" column="PO_QT_RANK_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorCountryCode" column="VNDR_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
@@ -3143,10 +3143,10 @@
     <field-descriptor name="invoicePurchaseOrderNumber" column="INV_PO_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceCustomerNumber" column="INV_CUST_NBR" jdbc-type="VARCHAR"/>
     
-    <field-descriptor name="invoiceProcessDate" column="INV_PROC_DT" jdbc-type="DATE"/>
+    <field-descriptor name="invoiceProcessTimestamp" column="INV_PROC_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="invoiceShipDate" column="INV_SHP_DT_TXT" jdbc-type="VARCHAR"/>
     <!--
-    <field-descriptor name="invoiceRejectExtractDate" column="INV_RJT_EXTRT_DT" jdbc-type="DATE"/>
+    <field-descriptor name="invoiceRejectExtractTimestamp" column="INV_RJT_EXTRT_DT" jdbc-type="TIMESTAMP"/>
     -->
       
     <field-descriptor name="invoiceFileDate" column="INV_FL_DT_TXT" jdbc-type="VARCHAR"/>
@@ -3224,7 +3224,7 @@
     <field-descriptor name="invoiceRemitToAddressCountryName" column="INV_RMT_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceNumberAcceptIndicator" column="INV_NUM_ACPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="invoiceResearchIndicator" column="INV_RJT_RSRCH_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
+    <field-descriptor name="accountsPayableApprovalTimestamp" column="AP_APRVL_DT" jdbc-type="TIMESTAMP"/>
 
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
@@ -3348,7 +3348,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="fileProcessDate" column="FL_PROC_DT" jdbc-type="DATE"/>
+    <field-descriptor name="fileProcessTimestamp" column="FL_PROC_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="invoiceLoadSuccessCount" column="INV_LOAD_SCCSS_CNT" jdbc-type="INTEGER"/>
     <field-descriptor name="invoiceLoadSuccessAmount" column="INV_LOAD_SCCSS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="invoiceLoadFailCount" column="INV_LOAD_FAIL_CNT" jdbc-type="INTEGER"/>
@@ -3458,7 +3458,7 @@
     <field-descriptor name="vendorCustomerNumber" column="VNDR_CUST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentRequestPayDate" column="PMT_RQST_PAY_DT" jdbc-type="DATE"/>  
     <field-descriptor name="paymentExtractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>      
-    <field-descriptor name="paymentPaidDate" column="PMT_PD_DT" jdbc-type="DATE"/>
+    <field-descriptor name="paymentPaidTimestamp" column="PMT_PD_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="statusCode" />
@@ -3503,9 +3503,9 @@
     <field-descriptor name="holdIndicator" column="CRDT_HLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="accountsPayableProcessorIdentifier" column="AP_PRCSR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="processingCampusCode" column="PRCS_CMP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
+    <field-descriptor name="accountsPayableApprovalTimestamp" column="AP_APRVL_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="itemMiscellaneousCreditDescription" column="ITM_MISC_CRDT_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="extractedDate" column="CRDT_MEMO_EXTRT_DT" jdbc-type="DATE"/>
+    <field-descriptor name="extractedTimestamp" column="CRDT_MEMO_EXTRT_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="lastActionPerformedByPersonId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="continuationAccountIndicator" column="CONT_ACCT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -3715,7 +3715,7 @@
     <field-descriptor name="creditMemoStatusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR"/>    
     <field-descriptor name="creditHoldIndicator" column="CRDT_HLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>  
     <field-descriptor name="vendorCustomerNumber" column="VNDR_CUST_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
+    <field-descriptor name="accountsPayableApprovalTimestamp" column="AP_APRVL_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="creditMemoExtractedDate" column="CRDT_MEMO_EXTRT_DT" jdbc-type="DATE"/>         
     <field-descriptor name="creditMemoPaidTimestamp" column="CRDT_MEMO_PD_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>

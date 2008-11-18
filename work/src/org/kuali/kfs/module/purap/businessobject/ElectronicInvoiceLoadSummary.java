@@ -29,7 +29,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   private Integer invoiceLoadFailCount = new Integer(0);
   private KualiDecimal invoiceLoadFailAmount = new KualiDecimal(0.00);
   private Boolean isEmpty = Boolean.TRUE;
-  private Date fileProcessDate;
+  private Timestamp fileProcessTimestamp;
   
   public ElectronicInvoiceLoadSummary() {
     super();
@@ -44,7 +44,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
                                         ElectronicInvoice eInvoice) {
     isEmpty = Boolean.FALSE;
     invoiceLoadSuccessCount = new Integer(invoiceLoadSuccessCount.intValue() + 1);
-    fileProcessDate = new Timestamp((new Date()).getTime());
+    fileProcessTimestamp = new Timestamp((new Date()).getTime());
     
     if (amount != null) {
       invoiceLoadSuccessAmount = invoiceLoadSuccessAmount.add(amount);
@@ -57,7 +57,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
                                     ElectronicInvoice eInvoice) {
     isEmpty = Boolean.FALSE;
     invoiceLoadFailCount = new Integer(invoiceLoadFailCount.intValue() + 1);
-    fileProcessDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+    fileProcessTimestamp = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
     
     if (amount != null) {
       invoiceLoadFailAmount = invoiceLoadFailAmount.add(amount);
@@ -239,12 +239,12 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
     this.vendorDunsNumber = vendorDunsNumber;
   }
 
-  public Date getFileProcessDate() {
-      return fileProcessDate;
+  public Timestamp getFileProcessTimestamp() {
+      return fileProcessTimestamp;
   }
 
-  public void setFileProcessDate(Date fileProcessDate) {
-      this.fileProcessDate = fileProcessDate;
+  public void setFileProcessTimestamp(Timestamp fileProcessTimestamp) {
+      this.fileProcessTimestamp = fileProcessTimestamp;
   }
 
 /**

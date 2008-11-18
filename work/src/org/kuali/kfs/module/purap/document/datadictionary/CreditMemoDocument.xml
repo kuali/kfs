@@ -60,9 +60,9 @@
         <ref bean="CreditMemoDocument-vendorLine1Address" />
         <ref bean="CreditMemoDocument-vendorCityName" />
         <ref bean="CreditMemoDocument-vendorCountryCode" />
-        <ref bean="CreditMemoDocument-accountsPayableApprovalDate" />
+        <ref bean="CreditMemoDocument-accountsPayableApprovalTimestamp" />
         <ref bean="CreditMemoDocument-holdIndicator" />
-        <ref bean="CreditMemoDocument-extractedDate" />
+        <ref bean="CreditMemoDocument-extractedTimestamp" />
         <ref bean="CreditMemoDocument-processingCampusCode" />
         <ref bean="CreditMemoDocument-noteLine1Text" />
         <ref bean="CreditMemoDocument-noteLine2Text" />
@@ -182,10 +182,10 @@
     <property name="name" value="vendorCountryCode" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-accountsPayableApprovalDate" parent="CreditMemoDocument-accountsPayableApprovalDate-parentBean" />
+  <bean id="CreditMemoDocument-accountsPayableApprovalTimestamp" parent="CreditMemoDocument-accountsPayableApprovalTimestamp-parentBean" />
 
-  <bean id="CreditMemoDocument-accountsPayableApprovalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="accountsPayableApprovalDate" />
+  <bean id="CreditMemoDocument-accountsPayableApprovalTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="accountsPayableApprovalTimestamp" />
     <property name="label" value="AP Processed Date" />
     <property name="shortLabel" value="Date" />
   </bean>
@@ -201,10 +201,10 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-extractedDate" parent="CreditMemoDocument-extractedDate-parentBean" />
+  <bean id="CreditMemoDocument-extractedTimestamp" parent="CreditMemoDocument-extractedTimestamp-parentBean" />
 
-  <bean id="CreditMemoDocument-extractedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="extractedDate" />
+  <bean id="CreditMemoDocument-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="extractedTimestamp" />
     <property name="label" value="Extract Date" />
     <property name="shortLabel" value="Extract Date" />
   </bean>

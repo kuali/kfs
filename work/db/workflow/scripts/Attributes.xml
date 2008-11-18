@@ -661,7 +661,7 @@
           </visibility>
           <searchDefinition dataType="datetime" rangeSearch="true" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderLastTransmitDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderLastTransmitTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
@@ -1278,7 +1278,7 @@
           </visibility>
           <searchDefinition dataType="datetime" rangeSearch="true" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
@@ -1317,7 +1317,7 @@
           </visibility>
           <searchDefinition dataType="datetime" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/extractedDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/extractedTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
@@ -1340,7 +1340,7 @@
             <column visible="false" />
           </visibility>
           <fieldEvaluation>
-            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedDate'))</xpathexpression>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedTimestamp'))</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
@@ -1403,7 +1403,7 @@
             <field visible="false" />
           </visibility>
           <fieldEvaluation>
-            <xpathexpression>boolean(wf:xstreamsafe('//document/paymentPaidDate'))</xpathexpression>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/paymentPaidTimestamp'))</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
@@ -1646,7 +1646,7 @@
           </display>
           <searchDefinition dataType="datetime" rangeSearch="true" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
@@ -1667,7 +1667,7 @@
           </visibility>
           <searchDefinition dataType="datetime" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/extractedDate')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/extractedTimestamp')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
@@ -1690,7 +1690,7 @@
             <column visible="false" />
           </visibility>
           <fieldEvaluation>
-            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedDate'))</xpathexpression>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedTimestamp'))</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

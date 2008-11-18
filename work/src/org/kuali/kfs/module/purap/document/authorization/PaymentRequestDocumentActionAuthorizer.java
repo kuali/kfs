@@ -64,7 +64,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
         this.docStatus = preq.getStatusCode();
         this.requestCancelIndicator = preq.getPaymentRequestedCancelIndicator();
         this.holdIndicator = preq.isHoldIndicator();
-        this.extracted = (preq.getExtractedDate() == null ? false : true);
+        this.extracted = (preq.getExtractedTimestamp() == null ? false : true);
         this.fullEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq);
         this.adHocRequested = preq.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
         

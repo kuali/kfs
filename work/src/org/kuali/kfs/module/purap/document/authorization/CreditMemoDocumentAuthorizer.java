@@ -96,7 +96,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
 
         if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) && 
-                (creditMemoDocument.getExtractedDate() == null) && 
+                (creditMemoDocument.getExtractedTimestamp() == null) && 
                 (! workflowDocument.isAdHocRequested()) &&
                 (! PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(creditMemoDocument.getStatusCode()))) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");

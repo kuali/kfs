@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,7 +41,7 @@ public class PaymentRequestView extends AbstractRelatedView {
     private String vendorCustomerNumber;
     private Date paymentRequestPayDate;
     private Date paymentExtractedDate;
-    private Date paymentPaidDate;
+    private Timestamp paymentPaidTimestamp;
     private KualiDecimal totalAmount;
     
     // REFERENCE OBJECTS
@@ -69,13 +70,13 @@ public class PaymentRequestView extends AbstractRelatedView {
     public void setPaymentHoldIndicator(boolean paymentHoldIndicator) {
         this.paymentHoldIndicator = paymentHoldIndicator;
     }
-
-    public Date getPaymentPaidDate() {
-        return paymentPaidDate;
+        
+    public Timestamp getPaymentPaidTimestamp() {
+        return paymentPaidTimestamp;
     }
 
-    public void setPaymentPaidDate(Date paymentPaidDate) {
-        this.paymentPaidDate = paymentPaidDate;
+    public void setPaymentPaidTimestamp(Timestamp paymentPaidTimestamp) {
+        this.paymentPaidTimestamp = paymentPaidTimestamp;
     }
 
     public boolean isPaymentRequestedCancelIndicator() {

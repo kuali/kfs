@@ -64,9 +64,9 @@
         <ref bean="PaymentRequestDocument-vendorLine1Address" />
         <ref bean="PaymentRequestDocument-vendorCityName" />
         <ref bean="PaymentRequestDocument-vendorCountryCode" />
-        <ref bean="PaymentRequestDocument-accountsPayableApprovalDate" />
+        <ref bean="PaymentRequestDocument-accountsPayableApprovalTimestamp" />
         <ref bean="PaymentRequestDocument-holdIndicator" />
-        <ref bean="PaymentRequestDocument-extractedDate" />
+        <ref bean="PaymentRequestDocument-extractedTimestamp" />
         <ref bean="PaymentRequestDocument-processingCampusCode" />
         <ref bean="PaymentRequestDocument-noteLine1Text" />
         <ref bean="PaymentRequestDocument-noteLine2Text" />
@@ -86,7 +86,7 @@
         <ref bean="PaymentRequestDocument-specialHandlingInstructionLine1Text" />
         <ref bean="PaymentRequestDocument-specialHandlingInstructionLine2Text" />
         <ref bean="PaymentRequestDocument-specialHandlingInstructionLine3Text" />
-        <ref bean="PaymentRequestDocument-paymentPaidDate" />
+        <ref bean="PaymentRequestDocument-paymentPaidTimestamp" />
         <ref bean="PaymentRequestDocument-paymentRequestElectronicInvoiceIndicator" />
         <ref bean="PaymentRequestDocument-accountsPayableProcessorIdentifier" />
         <ref bean="PaymentRequestDocument-paymentRequestedCancelIndicator" />
@@ -225,10 +225,10 @@
     <property name="name" value="vendorCountryCode" />
     <property name="required" value="true" />
   </bean>
-  <bean id="PaymentRequestDocument-accountsPayableApprovalDate" parent="PaymentRequestDocument-accountsPayableApprovalDate-parentBean" />
+  <bean id="PaymentRequestDocument-accountsPayableApprovalTimestamp" parent="PaymentRequestDocument-accountsPayableApprovalTimestamp-parentBean" />
 
-  <bean id="PaymentRequestDocument-accountsPayableApprovalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="accountsPayableApprovalDate" />
+  <bean id="PaymentRequestDocument-accountsPayableApprovalTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="accountsPayableApprovalTimestamp" />
     <property name="label" value="AP Processed Date" />
     <property name="shortLabel" value="Date" />
   </bean>
@@ -244,10 +244,10 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  <bean id="PaymentRequestDocument-extractedDate" parent="PaymentRequestDocument-extractedDate-parentBean" />
+  <bean id="PaymentRequestDocument-extractedTimestamp" parent="PaymentRequestDocument-extractedTimestamp-parentBean" />
 
-  <bean id="PaymentRequestDocument-extractedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="extractedDate" />
+  <bean id="PaymentRequestDocument-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="extractedTimestamp" />
     <property name="label" value="Extract Date" />
     <property name="shortLabel" value="Extract Date" />
   </bean>
@@ -484,10 +484,10 @@
             p:size="45" />
     </property>
   </bean>
-  <bean id="PaymentRequestDocument-paymentPaidDate" parent="PaymentRequestDocument-paymentPaidDate-parentBean" />
+  <bean id="PaymentRequestDocument-paymentPaidTimestamp" parent="PaymentRequestDocument-paymentPaidTimestamp-parentBean" />
 
-  <bean id="PaymentRequestDocument-paymentPaidDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="paymentPaidDate" />
+  <bean id="PaymentRequestDocument-paymentPaidTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="paymentPaidTimestamp" />
     <property name="label" value="Payment Request Paid Date" />
     <property name="shortLabel" value="paymentRequestPaidDate" />
   </bean>

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -66,7 +67,6 @@ import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -844,7 +844,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is an approver of the document, The user is a member of the Accounts Payable group
          */
-        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && document.getExtractedDate() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
+        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && document.getExtractedTimestamp() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
 
             canHold = true;
         }
@@ -927,7 +927,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isExtracted(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     public boolean isExtracted(PaymentRequestDocument document) {
-        return (ObjectUtils.isNull(document.getExtractedDate()) ? false : true);
+        return (ObjectUtils.isNull(document.getExtractedTimestamp()) ? false : true);
     }
 
     /**
@@ -938,7 +938,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is an approver of the document,
          */
-        if (document.getPaymentRequestedCancelIndicator() == false && document.isHoldIndicator() == false && document.getExtractedDate() == null && (document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
+        if (document.getPaymentRequestedCancelIndicator() == false && document.isHoldIndicator() == false && document.getExtractedTimestamp() == null && (document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
             return true;
         }
         return false;
@@ -1002,8 +1002,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             LOG.debug("resetExtractedPaymentRequest() ended");
             return;
         }
-        paymentRequest.setExtractedDate(null);
-        paymentRequest.setPaymentPaidDate(null);
+        paymentRequest.setExtractedTimestamp(null);
+        paymentRequest.setPaymentPaidTimestamp(null);
         String noteText = "This Payment Request is being reset for extraction by PDP " + note;
         try {
             Note resetNote = documentService.createNoteFromDocument(paymentRequest, noteText);
@@ -1186,7 +1186,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void markPaid(PaymentRequestDocument pr, Date processDate) {
         LOG.debug("markPaid() started");
 
-        pr.setPaymentPaidDate(processDate);
+        pr.setPaymentPaidTimestamp(new Timestamp(processDate.getTime()));
         purapService.saveDocumentNoValidation(pr);
     }
 

@@ -76,7 +76,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             criteria.addEqualTo("processingCampusCode", chartCode);
         }
         criteria.addIn("statusCode", Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
-        criteria.addIsNull("extractedDate");
+        criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
         if (onlySpecialPayments) {
@@ -130,7 +130,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         }
 
         criteria.addIn("statusCode", Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
-        criteria.addIsNull("extractedDate");
+        criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
@@ -150,7 +150,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
         criteria.addIn("statusCode", statuses);
-        criteria.addIsNull("extractedDate");
+        criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
         Criteria c1 = new Criteria();
@@ -188,7 +188,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
         criteria.addIn("statusCode", statuses);
-        criteria.addIsNull("extractedDate");
+        criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
         Criteria c1 = new Criteria();

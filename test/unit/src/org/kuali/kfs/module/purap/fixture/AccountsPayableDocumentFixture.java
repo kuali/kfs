@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
@@ -29,7 +30,7 @@ public enum AccountsPayableDocumentFixture {
             null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
-            null,  // extractedDate
+            null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier
             null,  // processingCampusCode
             null,  // noteLine1Text
@@ -43,7 +44,7 @@ public enum AccountsPayableDocumentFixture {
             null,  // lastActionPerformedByPersonId
             "kuluser",    // accountsPayableProcessorIdentifier
             false, // holdIndicator
-            null,  // extractedDate
+            null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier
             null,  // processingCampusCode
             null,  // noteLine1Text
@@ -57,7 +58,7 @@ public enum AccountsPayableDocumentFixture {
             null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
-            null,  // extractedDate
+            null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier
             null,  // processingCampusCode
             null,  // noteLine1Text
@@ -71,7 +72,7 @@ public enum AccountsPayableDocumentFixture {
             null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
-            null,  // extractedDate
+            null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier
             null,  // processingCampusCode
             null,  // noteLine1Text
@@ -85,7 +86,7 @@ public enum AccountsPayableDocumentFixture {
             null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
-            null,  // extractedDate
+            null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier
             null,  // processingCampusCode
             null,  // noteLine1Text
@@ -99,7 +100,7 @@ public enum AccountsPayableDocumentFixture {
             null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             true, // holdIndicator
-            null,  // extractedDate
+            null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier
             null,  // processingCampusCode
             null,  // noteLine1Text
@@ -115,7 +116,7 @@ public enum AccountsPayableDocumentFixture {
             null, // lastActionPerformedByPersonId
             null, // accountsPayableProcessorIdentifier
             false, // holdIndicator
-            null, // extractedDate
+            null, // extractedTimestamp
             null, // purchaseOrderIdentifier
             "BL", // processingCampusCode
             null, // noteLine1Text
@@ -127,11 +128,11 @@ public enum AccountsPayableDocumentFixture {
 	);
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
-    public final Date accountsPayableApprovalDate;
+    public final Timestamp accountsPayableApprovalDate;
     public final String lastActionPerformedByPersonId;
     public final String accountsPayableProcessorIdentifier;
     public final boolean holdIndicator;
-    public final Date extractedDate;
+    public final Timestamp extractedTimestamp;
     public final Integer purchaseOrderIdentifier;
     public final String processingCampusCode;
     public final String noteLine1Text;
@@ -147,12 +148,12 @@ public enum AccountsPayableDocumentFixture {
      * chartOfAccountsCode; private String organizationCode; // NOT PERSISTED IN DB // BELOW USED BY GL ENTRY CREATION private
      * boolean generateEncumbranceEntries; private String debitCreditCodeForGLEntries;
      */
-    private AccountsPayableDocumentFixture(Date accountsPayableApprovalDate, String lastActionPerformedByPersonId, String accountsPayableProcessorIdentifier, boolean holdIndicator, Date extractedDate, Integer purchaseOrderIdentifier, String processingCampusCode, String noteLine1Text, String noteLine2Text, String noteLine3Text, boolean continuationAccountIndicator, boolean closePurchaseOrderIndicator, boolean reopenPurchaseOrderIndicator) {
+    private AccountsPayableDocumentFixture(Timestamp accountsPayableApprovalDate, String lastActionPerformedByPersonId, String accountsPayableProcessorIdentifier, boolean holdIndicator, Timestamp extractedTimestamp, Integer purchaseOrderIdentifier, String processingCampusCode, String noteLine1Text, String noteLine2Text, String noteLine3Text, boolean continuationAccountIndicator, boolean closePurchaseOrderIndicator, boolean reopenPurchaseOrderIndicator) {
         this.accountsPayableApprovalDate = accountsPayableApprovalDate;
         this.lastActionPerformedByPersonId = lastActionPerformedByPersonId;
         this.accountsPayableProcessorIdentifier = accountsPayableProcessorIdentifier;
         this.holdIndicator = holdIndicator;
-        this.extractedDate = extractedDate;
+        this.extractedTimestamp = extractedTimestamp;
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
         this.processingCampusCode = processingCampusCode;
         this.noteLine1Text = noteLine1Text;
@@ -173,11 +174,11 @@ public enum AccountsPayableDocumentFixture {
 
     private AccountsPayableDocument createAccountsPayableDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {
         AccountsPayableDocument doc = (AccountsPayableDocument) purapFixture.createPurchasingAccountsPayableDocument(clazz);
-        doc.setAccountsPayableApprovalDate(this.accountsPayableApprovalDate);
+        doc.setAccountsPayableApprovalTimestamp(this.accountsPayableApprovalDate);
         doc.setLastActionPerformedByPersonId(this.lastActionPerformedByPersonId);
         doc.setAccountsPayableProcessorIdentifier(this.accountsPayableProcessorIdentifier);
         doc.setHoldIndicator(this.holdIndicator);
-        doc.setExtractedDate(this.extractedDate);
+        doc.setExtractedTimestamp(this.extractedTimestamp);
         doc.setPurchaseOrderIdentifier(this.purchaseOrderIdentifier);
         doc.setProcessingCampusCode(this.processingCampusCode);
         doc.setNoteLine1Text(this.noteLine1Text);

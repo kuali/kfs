@@ -1139,7 +1139,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 
       // no errors on PREQ calculation and validation
       Collection emailErrors = paymentRequestService.apApprove(pr,pr.getDocumentHeader().getLastUpdateUser(),null);
-//      pr.setAccountsPayableApprovalDate(new Timestamp((new Date()).getTime()));
+//      pr.setAccountsPayableApprovalTimestamp(new Timestamp((new Date()).getTime()));
 //      Collection emailErrors = new ArrayList();
 //      paymentRequestService.savePaymentRequest(pr, pr.getDocumentHeader().getLastUpdateUser(),emailErrors,null);
       ElectronicInvoicePostalAddress shipToAddress = ei.getCxmlPostalAddress(eio,ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_ROLE_ID,

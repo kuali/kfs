@@ -53,7 +53,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", chartCode);
         criteria.addIn("statusCode", Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
-        criteria.addIsNull("extractedDate");
+        criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(CreditMemoDocument.class, criteria));
@@ -69,7 +69,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         Criteria criteria = new Criteria();
         criteria.addEqualTo( "processingCampusCode", chartCode );
         criteria.addIn( "statusCode", Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION) );
-        criteria.addIsNull( "extractedDate" );
+        criteria.addIsNull( "extractedTimestamp" );
         criteria.addEqualTo( "holdIndicator", Boolean.FALSE );
         criteria.addEqualTo( "vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier() );
         criteria.addEqualTo( "vendorDetailAssignedIdentifier", vendor.getVendorDetailAssignedIdentifier() );

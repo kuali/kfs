@@ -130,6 +130,10 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             String[] requestParm = (String[]) requestParameters.get(KNSConstants.DOC_FORM_KEY);
             parameters.put(BCConstants.RETURN_FORM_KEY, requestParm[0]);
         }
+        else  if (requestParameters.containsKey(KFSConstants.FORM_KEY)) {
+            String[] requestParm = (String[]) requestParameters.get(KFSConstants.FORM_KEY);
+            parameters.put(BCConstants.RETURN_FORM_KEY, requestParm[0]);
+        }
 
         if (requestParameters.containsKey(KFSConstants.BACK_LOCATION)) {
             String[] requestParm = (String[]) requestParameters.get(KFSConstants.BACK_LOCATION);

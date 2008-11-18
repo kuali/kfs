@@ -26,6 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class ElectronicInvoiceUtils {
     
@@ -50,9 +52,8 @@ public class ElectronicInvoiceUtils {
             }
             else if (PurapConstants.ElectronicInvoice.KUALI_DATE_FORMAT.equals(formattedDateString)) {
                 //We need to minus the month by one since the date string has 1 month added for display purposes 
-                SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.KUALI_SIMPLE_DATE_FORMAT, Locale.US);
                 try {
-                    java.util.Date javaDate = sdf.parse(invoiceDateString);
+                    java.util.Date javaDate = SpringContext.getBean(DateTimeService.class).convertToDate(invoiceDateString);
                     javaDate = DateUtils.addMonths(javaDate, -1);
                     return getSQLDate(javaDate);
                 }

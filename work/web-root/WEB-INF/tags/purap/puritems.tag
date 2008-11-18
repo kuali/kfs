@@ -163,7 +163,10 @@
                         onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
                     <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                             fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"
-                            lookupParameters="'Y':active"/>            
+                            lookupParameters="'Y':active"/>     
+                    <div id="newPurchasingItemLine.commodityCode.commodityDescription.div" class="fineprint">
+                        <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
+                    </div>                     
                 </td>			    
 				<td class="infoline">
 				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
@@ -365,6 +368,9 @@
                                 fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
                                 lookupParameters="'Y':active"/>    
                         </c:if>
+                        <div id="document.item[${ctr}].commodityCode.commodityDescription.div" class="fineprint">
+                            <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  
+                        </div>                        
                     </td>				    
 					<td class="infoline">
 						 <kul:htmlControlAttribute

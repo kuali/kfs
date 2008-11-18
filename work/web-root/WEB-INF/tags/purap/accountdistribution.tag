@@ -106,16 +106,16 @@
 	            <kul:htmlControlAttribute 
 	            	attributeEntry="${itemAttributes.purchasingCommodityCode}" 
 	                property="distributePurchasingCommodityCode"
-	                readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	            <!--  onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/> -->
+	                readOnly="${not (fullEntryMode or amendmentEntry)}"
+	                onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/>
                 <c:if test="${fullEntryMode}">   
                 	<kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                                 fieldConversions="purchasingCommodityCode:distributePurchasingCommodityCode,commodityDescription:distributePurchasingCommodityDescription"
                                 lookupParameters="'Y':active"/>    
                 </c:if>
                 <div id="distributePurchasingCommodityDescription.div" class="fineprint">
-                	<bean:write name="KualiForm" property="distributePurchasingCommodityDescription"/>&nbsp; 
-                </div>
+                    <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
+                </div>    
 	        </td>
 	    </tr>
         <tr>

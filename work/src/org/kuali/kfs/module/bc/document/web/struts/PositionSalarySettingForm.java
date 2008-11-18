@@ -118,4 +118,12 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     public void setRefreshPositionBeforeSalarySetting(boolean refreshPositionBeforeSalarySetting) {
         this.refreshPositionBeforeSalarySetting = refreshPositionBeforeSalarySetting;
     }
+
+    /**
+     * Gets the documentTitle
+     * @return
+     */
+    public String getDocumentTitle() {
+        return BCConstants.POSITION_SALARY_SETTING_TITLE;
+    }
 }

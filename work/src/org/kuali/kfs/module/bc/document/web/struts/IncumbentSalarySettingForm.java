@@ -116,4 +116,12 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
         this.refreshIncumbentBeforeSalarySetting = refreshIncumbentBeforeSalarySetting;
     }
 
+    /**
+     * Gets the documentTitle
+     * @return
+     */
+    public String getDocumentTitle() {
+        return BCConstants.INCUMBENT_SALARY_SETTING_TITLE;
+    }
+
 }

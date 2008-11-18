@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
@@ -57,6 +58,13 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
+        ErrorMap errorMap;
+        if (positionSalarySettingForm.isBudgetByAccountMode()){
+            errorMap = positionSalarySettingForm.getCallBackErrors();
+        }
+        else {
+            errorMap = GlobalVariables.getErrorMap();
+        }
 
         // update the position record if required
         ActionForward resyncAction = this.resyncPositionBeforeSalarySetting(mapping, form, request, response);
@@ -64,7 +72,6 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             return resyncAction;
         }
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
         Map<String, Object> fieldValues = positionSalarySettingForm.getKeyMapOfSalarySettingItem();
         BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, fieldValues);
         if (budgetConstructionPosition == null) {
@@ -72,7 +79,12 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             String fiscalYear = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
             errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_POSITION_NOT_FOUND, positionNumber, fiscalYear);
 
-            return this.returnToCaller(mapping, form, request, response);
+            if (positionSalarySettingForm.isBudgetByAccountMode()){
+                return this.returnToCaller(mapping, form, request, response);
+            }
+            else {
+                return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+            }
         }
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
@@ -87,12 +99,22 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             
             boolean accessModeUpdated = positionSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
-                return this.returnToCaller(mapping, form, request, response);
+                if (positionSalarySettingForm.isBudgetByAccountMode()){
+                    return this.returnToCaller(mapping, form, request, response);
+                }
+                else {
+                    return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+                }
             }
 
             boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
-                return this.returnToCaller(mapping, form, request, response);
+                if (positionSalarySettingForm.isBudgetByAccountMode()){
+                    return this.returnToCaller(mapping, form, request, response);
+                }
+                else {
+                    return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+                }
             }
         }
 

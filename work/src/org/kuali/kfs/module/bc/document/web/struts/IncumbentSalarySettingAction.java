@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
@@ -50,7 +51,13 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
-        ErrorMap callBackErrors = incumbentSalarySettingForm.getCallBackErrors();
+        ErrorMap errorMap;
+        if (incumbentSalarySettingForm.isBudgetByAccountMode()){
+            errorMap = incumbentSalarySettingForm.getCallBackErrors();
+        }
+        else {
+            errorMap = GlobalVariables.getErrorMap();
+        }
 
         // update incumbent record if required
         if (incumbentSalarySettingForm.isRefreshIncumbentBeforeSalarySetting()) {
@@ -64,8 +71,13 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
         if (budgetConstructionIntendedIncumbent == null) {
             String emplid = (String) fieldValues.get(KFSPropertyConstants.EMPLID);
             
-            callBackErrors.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_INCUMBENT_NOT_FOUND, emplid);
-            return this.returnToCaller(mapping, form, request, response);
+            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_INCUMBENT_NOT_FOUND, emplid);
+            if (incumbentSalarySettingForm.isBudgetByAccountMode()){
+                return this.returnToCaller(mapping, form, request, response);
+            }
+            else {
+                return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+            }
         }
 
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
@@ -78,14 +90,24 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
             incumbentSalarySettingForm.postProcessBCAFLines();
             incumbentSalarySettingForm.setNewBCAFLine(incumbentSalarySettingForm.createNewAppointmentFundingLine());
             
-            boolean accessModeUpdated = incumbentSalarySettingForm.updateAccessMode(callBackErrors);
+            boolean accessModeUpdated = incumbentSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
-                return this.returnToCaller(mapping, form, request, response);
+                if (incumbentSalarySettingForm.isBudgetByAccountMode()){
+                    return this.returnToCaller(mapping, form, request, response);
+                }
+                else {
+                    return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+                }
             }
 
-            boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks(callBackErrors);
+            boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
-                return this.returnToCaller(mapping, form, request, response);
+                if (incumbentSalarySettingForm.isBudgetByAccountMode()){
+                    return this.returnToCaller(mapping, form, request, response);
+                }
+                else {
+                    return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+                }
             }
         }
 

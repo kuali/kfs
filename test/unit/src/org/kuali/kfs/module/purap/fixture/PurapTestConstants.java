@@ -202,4 +202,9 @@ public class PurapTestConstants {
         static final String VENDOR_NUMBER_INVALID = "0000-0";
         static final KualiDecimal THRESHOLD_AMOUNT = new KualiDecimal(100);
     }
+    
+    @SuppressWarnings("deprecation")
+    static class BulkReceiving {
+        static final Date SHIPMENT_RECEIVIED_DATE = new Date(108, 1, 1); // 2008-01-01
+    }
 }

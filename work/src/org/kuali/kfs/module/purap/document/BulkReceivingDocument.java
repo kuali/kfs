@@ -29,10 +29,8 @@ import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -42,11 +40,12 @@ import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.exception.KEWUserNotFoundException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.user.UserService;
 import org.kuali.rice.kew.user.WorkflowUser;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -211,18 +210,19 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setRequestorPersonEmailAddress(po.getRequestorPersonEmailAddress());
         
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
-        String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        
-        /**
-         * This is to get the user name for display
-         */
-        try {
-            UserIdDTO userDTO = new NetworkIdDTO(requisitionPreparer);
-            WorkflowUser wfUser = KEWServiceLocator.getUserService().getWorkflowUser(userDTO);
-            setPreparerPersonName(wfUser.getDisplayName());
-        }
-        catch (KEWUserNotFoundException e) {
-            throw new RuntimeException(e);
+        if (reqDoc != null){ // reqDoc is null when called from unit test
+            String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+            /**
+             * This is to get the user name for display
+             */
+            try {
+                UserIdDTO userDTO = new NetworkIdDTO(requisitionPreparer);
+                WorkflowUser wfUser = KEWServiceLocator.getUserService().getWorkflowUser(userDTO);
+                setPreparerPersonName(wfUser.getDisplayName());
+            }
+            catch (KEWUserNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
         
         if (getVendorNumber() != null){

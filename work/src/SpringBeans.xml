@@ -372,8 +372,12 @@
 		<property name="kualiModuleService" ref="kualiModuleService" />
         <property name="baselinePackages">
             <list>
+		        <value>classpath:org/kuali/rice/kew/bo/datadictionary/RuleAttribute.xml</value>
+		        <value>classpath:org/kuali/rice/kew/bo/datadictionary/RuleTemplate.xml</value>
+
 		        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonImpl.xml</value>
         		<value>classpath:org/kuali/rice/kim/bo/datadictionary/KimBaseBeans.xml</value>
+
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AdHocRoutePerson.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AdHocRouteWorkgroup.xml</value>

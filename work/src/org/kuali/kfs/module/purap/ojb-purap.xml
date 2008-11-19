@@ -3043,7 +3043,7 @@
 	<field-descriptor name="sensitiveDataCode" column="SNSTV_DTA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="senstiveDataAssignment" class-ref="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	<reference-descriptor name="sensitiveDataAssignment" class-ref="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="sensitiveDataAssignmentIdentifier" />
     </reference-descriptor>
     <reference-descriptor name="sensitiveData" class-ref="org.kuali.kfs.module.purap.businessobject.SensitiveData" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

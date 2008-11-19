@@ -85,6 +85,13 @@ public interface SensitiveDataService {
     public void saveSensitiveDataAssignment(SensitiveDataAssignment sda);
 
     /**
+     * Gets the latest sensitive data assignment details for the specified purchase order.
+     * @param poId the ID of the specified PO
+     * @return the latest sensitive data assignment details for the PO
+     */
+    public List<SensitiveDataAssignmentDetail> getLastSensitiveDataAssignmentDetails(Integer poId);
+    
+    /**
      * Saves the specified list of SensitiveDataAssignmentDetail objects into the database.
      * @param sdads the SensitiveDataAssignmentDetail objects to be saved
      */

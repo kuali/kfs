@@ -43,7 +43,7 @@ import org.kuali.rice.kns.service.DocumentService;
 public class SensitiveDataRuleTest extends PurapRuleTestBase {
 
     private SensitiveDataRule sensitiveDataRule;    
-    private AssignSensitiveDataRule assignSensitiveDataRule;  
+    private AssignSensitiveDataRule<PurchaseOrderDocument> assignSensitiveDataRule;  
     PurchaseOrderDocument po;
     
     @Override
@@ -85,6 +85,10 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
         assertFalse(assignSensitiveDataRule.processAssignSensitiveDataBusinessRules(po, sds));
     }
     
+    /**
+     * This test combines the test for SensitiveDataService and SensitiveDataRule on InactivationBlocking
+     * since the latter involves all major operations provided by the service class. 
+     */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testSensitiveDataInactivationBlocking() {
         // create a new sensitive data entry and save it (if not exists yet) for this test     
@@ -125,7 +129,7 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
         
         // update table PurchaseOrderSensitiveData
         sdService.deletePurchaseOrderSensitiveDatas(poId);
-        List<PurchaseOrderSensitiveData> posds = new ArrayList();
+        List<PurchaseOrderSensitiveData> posds = new ArrayList<PurchaseOrderSensitiveData>();
         for (SensitiveData sd : sds) {
             PurchaseOrderSensitiveData posd = new PurchaseOrderSensitiveData();
             posd.setPurapDocumentIdentifier(poId);
@@ -133,6 +137,7 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
             posd.setSensitiveDataCode(sd.getSensitiveDataCode());
             posds.add(posd);
         }
+        sdService.deletePurchaseOrderSensitiveDatas(poId);
         sdService.savePurchaseOrderSensitiveDatas(posds);
         
         // try to inactivate the sensitive data just assigned to the PO, should fail rule

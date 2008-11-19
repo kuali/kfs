@@ -47,10 +47,9 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("purapDocumentIdentifier", poId);
-        Collection sdColl = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PurchaseOrderSensitiveData.class, criteria));
+        Collection<PurchaseOrderSensitiveData> posdColl = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PurchaseOrderSensitiveData.class, criteria));
         List<SensitiveData> sdList = new ArrayList<SensitiveData>();
-        for (Iterator iter = sdColl.iterator(); iter.hasNext();) {
-            PurchaseOrderSensitiveData posd = (PurchaseOrderSensitiveData)iter.next();
+        for (PurchaseOrderSensitiveData posd : posdColl) {
             sdList.add(posd.getSensitiveData());
         }
         
@@ -65,10 +64,9 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("requisitionIdentifier", reqId);
-        Collection sdColl = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PurchaseOrderSensitiveData.class, criteria));
+        Collection<PurchaseOrderSensitiveData> posdColl = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PurchaseOrderSensitiveData.class, criteria));
         List<SensitiveData> sdList = new ArrayList<SensitiveData>();
-        for (Iterator iter = sdColl.iterator(); iter.hasNext();) {
-            PurchaseOrderSensitiveData posd = (PurchaseOrderSensitiveData)iter.next();
+        for (PurchaseOrderSensitiveData posd : posdColl) {
             sdList.add(posd.getSensitiveData());
         }
         
@@ -105,13 +103,12 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("purapDocumentIdentifier", poId);
-        Collection sdaColl = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(SensitiveDataAssignment.class, criteria));
+        Collection<SensitiveDataAssignment> sdaColl = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(SensitiveDataAssignment.class, criteria));
         
         // look for the greatest assignment ID, which will be the latest one for this PO
         int max = 0;
         SensitiveDataAssignment lastsda = null;
-        for (Iterator iter = sdaColl.iterator(); iter.hasNext();) {
-            SensitiveDataAssignment sda = (SensitiveDataAssignment)iter.next();
+        for (SensitiveDataAssignment sda : sdaColl) {
             if (sda.getSensitiveDataAssignmentIdentifier() >= max) {
                 max = sda.getSensitiveDataAssignmentIdentifier();
                 lastsda = sda;
@@ -144,7 +141,7 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
         LOG.debug("saveSensitiveDataAssignment(SensitiveDataAssignment) started");
         getPersistenceBrokerTemplate().store(sda);        
     }
-
+   
     /**
      * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>)
      */

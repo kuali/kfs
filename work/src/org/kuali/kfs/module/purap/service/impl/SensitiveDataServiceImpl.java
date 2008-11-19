@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
@@ -49,7 +50,7 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
      */
     public SensitiveData getSensitiveDataByCode(String sensitiveDataCode) {
         LOG.debug("getSensitiveDataByCode(String) started");        
-        Map primaryKeys = new HashMap();
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("sensitiveDataCode", sensitiveDataCode);
         return (SensitiveData)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
     }
@@ -61,7 +62,7 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
         LOG.debug("getSensitiveDataByPoId(Integer) started");     
         
         List<SensitiveData> sds = new ArrayList<SensitiveData>();
-        Collection sdColl = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
+        Collection<SensitiveData> sdColl = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
         for (Object sd: sdColl) {
             sds.add((SensitiveData)sd);
         }
@@ -125,6 +126,17 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
         sensitiveDataDao.saveSensitiveDataAssignment(sda);
     }
 
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#getLastSensitiveDataAssignmentDetails(Integer)
+     */
+    public List<SensitiveDataAssignmentDetail> getLastSensitiveDataAssignmentDetails(Integer poId) {
+        LOG.debug("getLastSensitiveDataAssignmentDetails(Integer) started");
+        Integer sdaId = getLastSensitiveDataAssignmentId(poId);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("sensitiveDataAssignmentIdentifier", sdaId);
+        return (List<SensitiveDataAssignmentDetail>)SpringContext.getBean(BusinessObjectService.class).findMatching(SensitiveDataAssignmentDetail.class, fieldValues);
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.service.SensitiveDataService#saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>)
      */

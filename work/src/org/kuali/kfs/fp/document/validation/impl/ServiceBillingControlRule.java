@@ -19,13 +19,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.WorkgroupDTO;
-import org.kuali.rice.kew.dto.WorkgroupNameIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
  * This class validates the ServiceBillingControl maintenance document.
@@ -99,10 +97,10 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
      */
     private static boolean workgroupExistsAndIsActive(String name) {
         try {
-            WorkgroupDTO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdDTO(name));
-            return workgroupVo != null && workgroupVo.isActiveInd();
+            KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, name);
+            return group != null && group.isActive();
         }
-        catch (WorkflowException e) {
+        catch (Exception e) {
             return false;
         }
     }

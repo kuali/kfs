@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.dto.WorkgroupDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kim.bo.Person;
@@ -43,7 +42,6 @@ import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowGroupService;
 
 public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(ResearchDocumentAuthorizer.class);
@@ -77,16 +75,10 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         List<? extends KimGroup> personGroups = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupsForPrincipal(u.getPrincipalId());
 
         for (AdhocWorkgroup adhocWorkgroup : adhocWorkgroups) {
-            WorkgroupDTO workgroup;
-            try {
-                workgroup = SpringContext.getBean(WorkflowGroupService.class).getWorkgroupByGroupName(adhocWorkgroup.getWorkgroupName());
-            }
-            catch (WorkflowException ex) {
-                throw new RuntimeException("Caught workflow exception: " + ex);
-            }
+            KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adhocWorkgroup.getWorkgroupName());
 
-            if (!ObjectUtils.isNull(workgroup)) {
-                if (kimGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
+            if (!ObjectUtils.isNull(group)) {
+                if (kimGroupsContainWorkgroup(group, personGroups)) {
                     if (adhocWorkgroup.getPermissionCode().equals(CGConstants.PERMISSION_MOD_CODE)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
                         break;
@@ -107,8 +99,8 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
             for (int i = 0; i < requests.length; i++) {
                 ActionRequestDTO request = (ActionRequestDTO) requests[i];
                 if (request.isWorkgroupRequest()) {
-                    WorkgroupDTO workgroup = request.getWorkgroupDTO();
-                    if (kimGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
+                    KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroup("" + request.getWorkgroupId());
+                    if (kimGroupsContainWorkgroup(group, personGroups)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                         break;
                     }
@@ -175,9 +167,9 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         return editModeMap;
     }
 
-    private boolean kimGroupsContainWorkgroup(String workgroupId, List<? extends KimGroup> groups) {
+    private boolean kimGroupsContainWorkgroup(KimGroup groupToCheck, List<? extends KimGroup> groups) {
         for (KimGroup group : groups) {
-            if (group.getGroupName().equals(workgroupId)) {
+            if (group.getGroupId().equals(groupToCheck.getGroupId())) {
                 return true;
             }
         }

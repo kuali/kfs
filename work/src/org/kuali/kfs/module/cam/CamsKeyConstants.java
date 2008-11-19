@@ -20,9 +20,9 @@ package org.kuali.kfs.module.cam;
  * Holds error key constants.
  */
 public class CamsKeyConstants {
-    //public static final String ERROR_ASSET_LOCKED_BY_DOC="error.document.asset.locked";
-    
-    public static final String CONTINUE_QUESTION="document.question.continue.text";
+    // public static final String ERROR_ASSET_LOCKED_BY_DOC="error.document.asset.locked";
+
+    public static final String CONTINUE_QUESTION = "document.question.continue.text";
     public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
     public static final String ERROR_PRE_TAG_NUMBER = "error.invalid.pre.tag.number";
@@ -31,7 +31,7 @@ public class CamsKeyConstants {
     public static final String ERROR_INVALID_IN_SERVICE_DATE = "error.invalid.in.service.date";
 
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
-    
+
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";
 
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
@@ -49,7 +49,7 @@ public class CamsKeyConstants {
     public static final String ORGANIZATION_OWNER_ACCOUNT_INACTIVE = "error.asset.org.owner.account.inactive";
     public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_PAST = "error.asset.fabrication.completionDate.past";
     public static final String ERROR_CAPITAL_ASSET_TYPE_CODE_FABRICATION = "error.asset.fabrication.assetType.invalid";
-    
+
     public static class Depreciation {
         public static final String NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND = "error.batch.depreciation.assetsNotFound";
         public static final String ERROR_WHEN_CALCULATING_BASE_AMOUNT = "error.batch.depreciation.baseAmountCalculationError";
@@ -66,12 +66,12 @@ public class CamsKeyConstants {
     public static class Payment {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
-        public static final String ERROR_INVALID_OBJECT_SUBTYPE="error.asset.payment.invalidObjectSubtypeCode";                
+        public static final String ERROR_INVALID_OBJECT_SUBTYPE = "error.asset.payment.invalidObjectSubtypeCode";
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
         public static final String ERROR_NON_CAPITAL_ASSET = "error.non.capital.asset.payment";
-        public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT="error.asset.exists.in.payment.document";        
-        public static final String ERROR_NON_ASSETS_IN_DOCUMENT="error.payment.document.noAssetsInDocumentFound";
-        public static final String ERROR_NON_ZERO_COST_ASSETS_ALLOWED="error.payment.document.noZeroValueAssetsAllowed";
+        public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT = "error.asset.exists.in.payment.document";
+        public static final String ERROR_NON_ASSETS_IN_DOCUMENT = "error.payment.document.noAssetsInDocumentFound";
+        public static final String ERROR_NON_ZERO_COST_ASSETS_ALLOWED = "error.payment.document.noZeroValueAssetsAllowed";
     }
 
     public static class Transfer {
@@ -128,10 +128,10 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_RETIREMENT_GLOBAL_NO_ASSET = "error.asset.retirement.global.no.asset";
         public static final String ERROR_DISALLOWED_MERGE_RETIREMENT_REASON_CODE = "error.disallowed.merge.retirement.reason.code";
         public static final String ERROR_DISALLOWED_RETIREMENT_REASON_CODE = "error.disallowed.retirement.reason.code";
-        
+
         public static final String ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE = "error.disallowed.merge.separate.reason.code";
         public static final String ERROR_DISALLOWED_RAZE_REASON_CODE = "error.disallowed.raze.reason.code";
-        
+
         public static final String ERROR_MULTIPLE_ASSET_RETIRED = "error.multiple.asset.retired";
         public static final String ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE = "error.invalid.asset.object.code";
         public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";
@@ -143,6 +143,7 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_BUILDING_CODE = "error.asset.location.invalid.building.code";
         public static final String ERROR_INVALID_ROOM_NUMBER = "error.asset.location.invalid.room.code";
         public static final String ERROR_DUPLICATE_TAG_NUMBER_FOUND = "error.asset.location.duplicate.tag.number";
+        public static final String ERROR_DUPLICATE_TAG_NUMBER_WITHIN_DOCUMENT = "error.asset.location.duplicate.tag.within.document";
         public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL = "error.asset.location.no.asset.location.detail.line";
         public static final String ERROR_CAMPUS_CODE_REQUIRED = "error.asset.location.campus.code.required";
         public static final String ERROR_BUILDING_CODE_REQUIRED = "error.asset.location.building.code.required";
@@ -151,19 +152,20 @@ public class CamsKeyConstants {
     }
 
     public static class BarcodeInventory {
-        public static final String TITLE_BAR_CODE_INVENTORY = "message.upload.title.barCodeInventory";        
-        public static final String ERROR_INVALID_FIELD="error.document.invalid.field";
-        public static final String ERROR_CAPITAL_ASSET_DOESNT_EXIST="error.document.capitalAsset.not.found";
-        public static final String ERROR_CAPITAL_ASSET_IS_RETIRED="error.document.capitalAsset.retired";        
-        public static final String ERROR_DUPLICATED_TAG_NUMBER="error.document.duplicated.tagNumber";
-        public static final String ERROR_ASSET_LOCKED="error.document.locked.asset";
-        public static final String ERROR_INVALID_FILE_TYPE="error.uploadFile.invalid.type";
+        public static final String TITLE_BAR_CODE_INVENTORY = "message.upload.title.barCodeInventory";
+        public static final String ERROR_INVALID_FIELD = "error.document.invalid.field";
+        public static final String ERROR_CAPITAL_ASSET_DOESNT_EXIST = "error.document.capitalAsset.not.found";
+        public static final String ERROR_CAPITAL_ASSET_IS_RETIRED = "error.document.capitalAsset.retired";
+        public static final String ERROR_DUPLICATED_TAG_NUMBER = "error.document.duplicated.tagNumber";
+        public static final String ERROR_ASSET_LOCKED = "error.document.locked.asset";
+        public static final String ERROR_INVALID_FILE_TYPE = "error.uploadFile.invalid.type";
     }
 
     public static class EquipmentLoanOrReturn {
         public static final String ERROR_INVALID_BORROWER_ID = "error.invalid.borrower.id";
         public static final String ERROR_INVALID_LOAN_DATE = "error.invalid.loan.date";
         public static final String ERROR_INVALID_EXPECTED_RETURN_DATE = "error.invalid.expected.return.date";
+        public static final String ERROR_INVALID_EXPECTED_MAX_DATE = "error.invalid.expected.max.date";
         public static final String ERROR_INVALID_LOAN_RETURN_DATE = "error.invalid.loan.return.date";
         public static final String ERROR_INVALID_BORROWER_STATE = "error.invalid.borrower.state.code";
         public static final String ERROR_INVALID_BORROWER_STORAGE_STATE = "error.invalid.borrower.storage.state.code";
@@ -203,7 +205,7 @@ public class CamsKeyConstants {
         public static final String ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED = "error.financial.document.posting.year.required";
         public static final String ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE = "error.university.not.defined.for.date";
     }
-    
+
     public static class AssetSeparate {
         public static final String ERROR_ASSET_SPLIT_MAX_LIMIT = "error.max.payments.limit";
         public static final String ERROR_CAPITAL_ASSET_TYPE_CODE_REQUIRED = "error.capital.asset.type.code.required";

@@ -16,7 +16,9 @@
 
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -25,7 +27,6 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -63,16 +64,19 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         // validate multi add w/red highlight (collection)
         int index = 0;
-        String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetLocationGlobal.ASSET_LOCATION_GLOBAL_DETAILS + "[" + index + "]";
 
         if (hasAssetLocationGlobalDetails(oldAssetLocationGlobalDetail)) {
+            Set<String> tags = new HashSet<String>();
+            int pos = 0;
             for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
+                String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetLocationGlobal.ASSET_LOCATION_GLOBAL_DETAILS + "[" + index + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 success &= validateActiveCapitalAsset(detail);
                 success &= validateCampusCode(detail);
                 success &= validateBuildingCode(detail);
                 success &= validateBuildingRoomNumber(detail);
-                success &= validateTagNumber(detail);
+                success &= validateTagDuplicationWithinDocument(detail, tags);
+                success &= validateTagDuplication(detail.getCapitalAssetNumber(), detail.getCampusTagNumber());
                 success &= checkRequiredFieldsAfterAdd(detail);
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                 index++;
@@ -91,15 +95,22 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument documentCopy, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
-
-        AssetLocationGlobalDetail assetLocationGlobalDetail = (AssetLocationGlobalDetail) bo;
-
-        success &= validateActiveCapitalAsset(assetLocationGlobalDetail);
-        success &= validateCampusCode(assetLocationGlobalDetail);
-        success &= validateBuildingCode(assetLocationGlobalDetail);
-        success &= validateBuildingRoomNumber(assetLocationGlobalDetail);
-        success &= validateTagNumber(assetLocationGlobalDetail);
-
+        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) documentCopy.getNewMaintainableObject().getBusinessObject();
+        Set<String> tags = new HashSet<String>();
+        for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
+            if (detail.getCampusTagNumber() != null) {
+                tags.add(detail.getCampusTagNumber());
+            }
+        }
+        AssetLocationGlobalDetail newLineDetail = (AssetLocationGlobalDetail) bo;
+        success &= validateActiveCapitalAsset(newLineDetail);
+        success &= validateCampusCode(newLineDetail);
+        success &= validateBuildingCode(newLineDetail);
+        success &= validateBuildingRoomNumber(newLineDetail);
+        success &= validateTagDuplicationWithinDocument(newLineDetail, tags);
+        if (success) {
+            success &= validateTagDuplication(newLineDetail.getCapitalAssetNumber(), newLineDetail.getCampusTagNumber());
+        }
         return success & super.processCustomAddCollectionLineBusinessRules(documentCopy, collectionName, bo);
     }
 
@@ -214,22 +225,35 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetLocationGlobalDetail
      * @return boolean
      */
-    protected boolean validateTagNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+    protected boolean validateTagDuplication(Long capitalAssetNumber, String campusTagNumber) {
         boolean success = true;
-
-        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber()) && ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber()) && !assetLocationGlobalDetail.getCampusTagNumber().equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
+        if (capitalAssetNumber != null && ObjectUtils.isNotNull(campusTagNumber) && !CamsConstants.NON_TAGGABLE_ASSET.equalsIgnoreCase(campusTagNumber)) {
             // call AssetService, get Assets from doc, gather all assets matching this tag number
-            List<Asset> activeAssetsMatchingTagNumber = assetService.findActiveAssetsMatchingTagNumber(assetLocationGlobalDetail.getCampusTagNumber());
+            List<Asset> activeAssetsMatchingTagNumber = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
             for (Asset asset : activeAssetsMatchingTagNumber) {
                 // compare asset numbers
-                if (!asset.getCapitalAssetNumber().equals(assetLocationGlobalDetail.getCapitalAssetNumber())) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { assetLocationGlobalDetail.getCampusTagNumber(), String.valueOf(asset.getCapitalAssetNumber()), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                if (!asset.getCapitalAssetNumber().equals(capitalAssetNumber)) {
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { campusTagNumber, String.valueOf(asset.getCapitalAssetNumber()), capitalAssetNumber.toString() });
                     success = false;
                     break;
                 }
             }
         }
 
+        return success;
+    }
+
+    protected boolean validateTagDuplicationWithinDocument(AssetLocationGlobalDetail assetLocationGlobalDetail, Set<String> tagsList) {
+        boolean success = true;
+        Long capitalAssetNumber = assetLocationGlobalDetail.getCapitalAssetNumber();
+        String campusTagNumber = assetLocationGlobalDetail.getCampusTagNumber();
+        if (capitalAssetNumber != null && ObjectUtils.isNotNull(campusTagNumber) && !CamsConstants.NON_TAGGABLE_ASSET.equalsIgnoreCase(campusTagNumber)) {
+            // if duplicate within list
+            if (!tagsList.add(campusTagNumber)) {
+                success &= false;
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_WITHIN_DOCUMENT, new String[] { campusTagNumber, capitalAssetNumber.toString() });
+            }
+        }
         return success;
     }
 

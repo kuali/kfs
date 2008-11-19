@@ -38,7 +38,7 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     private EquipmentLoanOrReturnServiceImpl equipmentLoanOrReturnService;
     private Asset asset;
 
-    private static EquipmentLoanOrReturnDocument createEquipmentLoanDoc(int loanDaysToadd, String docStatus) {
+    private static EquipmentLoanOrReturnDocument createEquipmentLoanDoc(String docNum, int loanDaysToadd, String docStatus) {
         EquipmentLoanOrReturnDocument doc = new EquipmentLoanOrReturnDocument() {
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
@@ -48,6 +48,7 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
         FinancialSystemDocumentHeader header = new FinancialSystemDocumentHeader();
         header.setFinancialDocumentStatusCode(docStatus);
         doc.setDocumentHeader(header);
+        doc.setDocumentNumber(docNum);
         return doc;
     }
 
@@ -60,13 +61,11 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
             @Override
             public Collection findMatching(Class clazz, Map fieldValues) {
                 List<EquipmentLoanOrReturnDocument> docs = new ArrayList<EquipmentLoanOrReturnDocument>();
-                docs.add(createEquipmentLoanDoc(3, KFSConstants.DocumentStatusCodes.APPROVED));
-                docs.add(createEquipmentLoanDoc(5, KFSConstants.DocumentStatusCodes.APPROVED));
-                docs.add(createEquipmentLoanDoc(5, KFSConstants.DocumentStatusCodes.DISAPPROVED));
+                docs.add(createEquipmentLoanDoc("1", 3, KFSConstants.DocumentStatusCodes.APPROVED));
+                docs.add(createEquipmentLoanDoc("2", 5, KFSConstants.DocumentStatusCodes.APPROVED));
+                docs.add(createEquipmentLoanDoc("3", 5, KFSConstants.DocumentStatusCodes.DISAPPROVED));
                 return docs;
             }
-
-
         });
         this.asset = new Asset();
         this.asset.setExpectedReturnDate(new java.sql.Date(new Date().getTime()));
@@ -79,4 +78,3 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     }
 
 }
-

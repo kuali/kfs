@@ -34,6 +34,7 @@ import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -87,8 +88,12 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      */
     protected boolean processValidation(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
+        if (equipmentLoanOrReturnDocument.getBorrowerPerson() == null) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + "borrowerPerson.principalName", CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
+        }
         // validate campus tag number
-        //Asset asset = SpringContext.getBean(Asset.class);
+        // Asset asset = SpringContext.getBean(Asset.class);
         valid &= validateTagNumber(equipmentLoanOrReturnDocument);
 
         // validate both loan return date and expected loan return date
@@ -108,11 +113,11 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      */
     protected boolean validateTagNumber(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
-        
+
         HashMap<String, Long> map = new HashMap<String, Long>();
         map.put(CamsPropertyConstants.EquipmentLoanOrReturnDocument.CAPITAL_ASSET_NUMBER, equipmentLoanOrReturnDocument.getCapitalAssetNumber());
         Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
-        
+
         if (asset.getCampusTagNumber() == null) {
             valid &= false;
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_CAMPUS_TAG_NUMBER_REQUIRED);
@@ -139,7 +144,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         // Loan can not be before today
         Date loanReturnDate = equipmentLoanOrReturnDocument.getLoanReturnDate();
         DateUtils.clearTimeFields(loanDate);
-        if (loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
+        if (equipmentLoanOrReturnDocument.isNewLoan() && loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_DATE);
         }
 
@@ -151,14 +156,13 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_RETURN_DATE);
             }
+            if (maxDate.before(expectReturnDate)) {
+                valid &= false;
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_MAX_DATE);
+            }
         }
 
-        if (maxDate.before(expectReturnDate)) {
-            valid &= false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_RETURN_DATE);
-        }
-
-        // loan return date must be >= loan date and withing 2 years limit
+        // loan return date must be >= loan date and within 2 years limit
         if (loanReturnDate != null) {
             DateUtils.clearTimeFields(loanReturnDate);
             if (loanDate.after(loanReturnDate) || maxDate.before(loanReturnDate)) {

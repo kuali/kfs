@@ -910,4 +910,11 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }
+
+    public void clearGlPostables() {
+        getGeneralLedgerPendingEntries().clear();
+        getSourceAssetGlpeSourceDetails().clear();
+        getTargetAssetGlpeSourceDetails().clear();
+
+    }
 }

@@ -132,6 +132,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @see org.kuali.kfs.module.cam.document.service.AssetTransferService#createGLPostables(org.kuali.kfs.module.cam.document.AssetTransferDocument)
      */
     public void createGLPostables(AssetTransferDocument document) {
+        document.clearGlPostables();
         // Create GL entries only for capital assets
         Asset asset = document.getAsset();
         if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {

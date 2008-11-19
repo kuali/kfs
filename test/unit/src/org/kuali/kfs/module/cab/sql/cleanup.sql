@@ -21,10 +21,10 @@ delete from pur_po_cptl_ast_itm_t where fdoc_nbr in ('11','12','13','21','22','2
 delete from pur_po_acct_t where fdoc_nbr in ('11','12','13','21','22','23','31','32','33','34','35','36','41','51','52');
 delete from pur_po_itm_t where fdoc_nbr in ('11','12','13','21','22','23','31','32','33','34','35','36','41','51','52');
 delete from pur_po_t where fdoc_nbr in ('11','12','13','21','22','23','31','32','33','34','35','36','41','51','52');
-delete from pur_po_cptl_ast_itm_t t where t.CPTL_AST_ITM_ID <1010 and t.CPTL_AST_ITM_ID>999;
-delete from pur_po_cptl_ast_itm_ast_t t where t.PO_ITM_CPTL_AST_ID > 1199 and t.PO_ITM_CPTL_AST_ID<1210;
-delete from pur_po_cptl_ast_loc_t t where t.CPTL_AST_LOC_ID > 1299 and t.CPTL_AST_LOC_ID < 1310;
-delete from pur_po_cptl_ast_sys_t t where t.CPTL_AST_SYS_ID > 1099 and t.CPTL_AST_SYS_ID<1110;
+delete from pur_po_cptl_ast_itm_t where CPTL_AST_ITM_ID <1010 and CPTL_AST_ITM_ID>999;
+delete from pur_po_cptl_ast_itm_ast_t where PO_ITM_CPTL_AST_ID > 1199 and PO_ITM_CPTL_AST_ID<1210;
+delete from pur_po_cptl_ast_loc_t where CPTL_AST_LOC_ID > 1299 and CPTL_AST_LOC_ID < 1310;
+delete from pur_po_cptl_ast_sys_t where CPTL_AST_SYS_ID > 1099 and CPTL_AST_SYS_ID<1110;
 -------
 delete from pur_reqs_acct_t where reqs_acct_id < 1000;
 delete from pur_reqs_itm_t where reqs_itm_id < 1000;

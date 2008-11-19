@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRu
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -80,30 +81,45 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             return false;
         }
-
-        return checkReferencesExist(assetTransferDocument);
-    }
-
-    private boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
-        boolean valid = true;
-        List<AssetPayment> assetPayments = asset.getAssetPayments();
-        for (AssetPayment assetPayment : assetPayments) {
-            if (SpringContext.getBean(AssetPaymentService.class).isPaymentEligibleForGLPosting(assetPayment) && !assetPayment.getAccountChargeAmount().isZero()) {
-                // validate if asset object code
-                AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                if (ObjectUtils.isNull(originAssetObjectCode)) {
-                    putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                    valid &= false;
-                }
-
-                AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                if (ObjectUtils.isNull(targetAssetObjectCode)) {
-                    putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                    valid &= false;
-                }
+        boolean valid = checkReferencesExist(assetTransferDocument);
+        assetTransferDocument.clearGlPostables();
+        if (valid && (valid &= validateAssetObjectCodeDefn(assetTransferDocument, asset))) {
+            SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
+            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
+                throw new ValidationException("General Ledger GLPE generation failed");
             }
         }
         return valid;
+    }
+
+
+    private boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
+
+        if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode()) && StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
+            boolean valid = true;
+            List<AssetPayment> assetPayments = asset.getAssetPayments();
+            for (AssetPayment assetPayment : assetPayments) {
+                if (SpringContext.getBean(AssetPaymentService.class).isPaymentEligibleForGLPosting(assetPayment) && !assetPayment.getAccountChargeAmount().isZero()) {
+                    // validate if asset object code
+                    AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+                    if (ObjectUtils.isNull(originAssetObjectCode)) {
+                        putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+                        valid &= false;
+                    }
+
+                    AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+                    if (ObjectUtils.isNull(targetAssetObjectCode)) {
+                        putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+                        valid &= false;
+                    }
+                }
+            }
+            return valid;
+        }
+        else {
+            return true;
+        }
+
     }
 
     /**
@@ -130,16 +146,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             valid &= applyRules(document);
         }
 
-        if (validateAssetObjectCodeDefn(assetTransferDocument, asset)) {
-            SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
-            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
-                throw new ValidationException("General Ledger GLPE generation failed");
-            }
-            valid &= true;
-        }
-        else {
-            valid &= false;
-        }
+
         return valid;
     }
 
@@ -250,7 +257,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getAssetRepresentative().getPrincipalName())) {
-            org.kuali.rice.kim.service.PersonService personService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
+            PersonService personService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
             Person person = personService.getPersonByPrincipalName(assetTransferDocument.getAssetRepresentative().getPrincipalName());
             if (person != null) {
                 assetTransferDocument.setAssetRepresentative(person);

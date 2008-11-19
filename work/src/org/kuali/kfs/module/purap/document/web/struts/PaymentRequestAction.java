@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -103,6 +104,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // force calculation
         preqForm.setCalculated(false);
 
+        //TODO if better, move this to the action just before preq goes into ATAX status
+        // force calculation for tax
+        preqForm.setCalculatedTax(false);
+        
         // sort below the line
         SpringContext.getBean(PurapService.class).sortBelowTheLine(paymentRequestDocument);
 
@@ -331,8 +336,28 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             }
         }
         else {
+            // if tax is not yet calculated, return and prompt user to calculate
+            if (requiresCalculateTax((PaymentRequestForm)form)) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+
             return super.route(mapping, form, request, response);
         }
     }
 
+    /**
+     * Checks if tax calculation is required. 
+     * Currently it is required when preq is awaiting for tax approval and tax has not already been calculated. 
+     * 
+     * @param apForm A Form, which must inherit from <code>AccountsPayableFormBase</code>
+     * @return true if calculation is required, false otherwise
+     */
+    protected boolean requiresCalculateTax(PaymentRequestForm preqForm) {
+        boolean requiresCalculateTax = true;
+        PaymentRequestDocument preq = (PaymentRequestDocument) preqForm.getDocument();
+        requiresCalculateTax = !preqForm.isCalculatedTax() && preq.getStatusCode().equalsIgnoreCase("ATAX");
+        return requiresCalculateTax;
+    }
+    
 }

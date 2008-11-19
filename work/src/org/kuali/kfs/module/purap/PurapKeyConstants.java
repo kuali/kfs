@@ -189,6 +189,13 @@ public class PurapKeyConstants {
     public static final String MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS = "message.paymentRequest.payDate.over.threshold.days";
     public static final String WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID = "warning.paymentRequest.vendorInvoiceAmount.invalid";
 
+    public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED = "errors.paymentRequest.tax.field.required";
+    public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF = "errors.paymentRequest.tax.field.required.if";
+    public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF = "errors.paymentRequest.tax.field.disallowed.if";
+    public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF = "errors.paymentRequest.tax.field.value.invalid.if";
+    public static final String ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF = "errors.paymentRequest.tax.rate.must.zero.if";
+    public static final String ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF = "errors.paymentRequest.tax.rate.must.not.zero.if";
+    
     // Item parser
     public static final String ERROR_ITEMPARSER_INVALID_FILE_FORMAT = "error.itemParser.invalidFileFormat";
     public static final String ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER = "error.itemParser.wrongPropertyNumber";

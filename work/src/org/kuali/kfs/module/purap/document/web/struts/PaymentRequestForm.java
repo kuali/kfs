@@ -46,6 +46,12 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
 
     /**
+     * Indicates whether tax has been calculated based on the tax area data.
+     * Tax calculation is enforced before preq can be routed for tax approval.
+     */
+    private boolean calculatedTax;
+
+    /**
      * Constructs a PaymentRequestForm instance and sets up the appropriately casted document.
      */
     public PaymentRequestForm() {
@@ -53,6 +59,14 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         setDocument(new PaymentRequestDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
+    }
+    
+    public boolean isCalculatedTax() {
+        return calculatedTax;
+    }
+
+    public void setCalculatedTax(boolean calculatedTax) {
+        this.calculatedTax = calculatedTax;
     }
 
     public PaymentRequestDocument getPaymentRequestDocument() {

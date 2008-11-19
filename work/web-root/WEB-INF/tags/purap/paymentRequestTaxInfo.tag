@@ -89,7 +89,7 @@
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.taxCountryCode}" /></div>
+                	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.taxCountryCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxCountryCode}" property="document.taxCountryCode" readOnly="${not taxAreaEditable}" />

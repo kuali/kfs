@@ -193,6 +193,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF = "errors.paymentRequest.tax.field.required.if";
     public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF = "errors.paymentRequest.tax.field.disallowed.if";
     public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF = "errors.paymentRequest.tax.field.value.invalid.if";
+    public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_MUST_NOT_NEGATIVE = "errors.paymentRequest.tax.field.value.must.not.negative";
     public static final String ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF = "errors.paymentRequest.tax.rate.must.zero.if";
     public static final String ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF = "errors.paymentRequest.tax.rate.must.not.zero.if";
     

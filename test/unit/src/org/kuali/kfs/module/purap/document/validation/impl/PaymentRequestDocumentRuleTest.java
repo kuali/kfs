@@ -523,12 +523,13 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         assertTrue(rule.ProcessPreCalculateTaxAreaBusinessRules(preq));
         
         errMap.clear();
-        PaymentRequestTaxTabFixture.SW4_INCOME_NOTF_TAX_NOTZERO.populate(preq);
+        PaymentRequestTaxTabFixture.SW4_NEG_INCOME_NOTF_TAX_NOTZERO.populate(preq);
         assertFalse(rule.ProcessPreCalculateTaxAreaBusinessRules(preq));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_MUST_NOT_NEGATIVE));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
-        assertTrue(errMap.getErrorCount() == 3);
+        assertTrue(errMap.getErrorCount() == 4);
 
         // most indicators shall be mutual exclusive
         errMap.clear();

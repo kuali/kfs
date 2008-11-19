@@ -70,7 +70,7 @@ public enum PaymentRequestTaxTabFixture {
     OTHER_TAX_NOTZERO("I", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, true), // F
     
     SW4_INCOME_F_TAX_ZERO("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", new KualiDecimal(1), null, null, null, null, null), // S
-    SW4_INCOME_NOTF_TAX_NOTZERO("O", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", new KualiDecimal(-1), null, null, null, null, null), // F
+    SW4_NEG_INCOME_NOTF_TAX_NOTZERO("O", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", new KualiDecimal(-1), null, null, null, null, null), // F
     
     SW4_TREATY_GROSS_FOREIGN_USAID_OTHER("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", new KualiDecimal(1), true, true, true, true, true); // F
     

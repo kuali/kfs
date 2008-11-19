@@ -1126,6 +1126,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                valid = false;
                errorMap.putError(PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR);
            }               
+           if (preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) < 0) { 
+               valid = false;
+               errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_MUST_NOT_NEGATIVE, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
+           }                          
            if (StringUtils.isEmpty(preq.getTaxClassificationCode()) || !StringUtils.equalsIgnoreCase(preq.getTaxClassificationCode(), "F")) {
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_CLASSIFICATION_CODE);

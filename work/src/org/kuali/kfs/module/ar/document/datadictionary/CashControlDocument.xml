@@ -30,6 +30,7 @@
       <list>
         <ref bean="CashControlDocument-referenceFinancialDocumentNumber" />
         <ref bean="CashControlDocument-customerPaymentMediumCode" />
+        <ref bean="CashControlDocument-bankCode" />
       </list>
     </property>
     <property name="workflowProperties" >
@@ -66,6 +67,15 @@
     </property>
     <property name="summary" value="customerPaymentMediumCode" />
     <property name="description" value="customerPaymentMediumCode description..." />
+  </bean>
+  
+  <bean id="CashControlDocument-bankCode" parent="CashControlDocument-bankCode-parentBean" />
+
+  <bean id="CashControlDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="bankCode" />
+    <property name="label" value="Bank Code" />
+    <property name="shortLabel" value="Bank Cd" />
+    <property name="required" value="false" />
   </bean>
   
   <!-- Exported Workflow Properties -->

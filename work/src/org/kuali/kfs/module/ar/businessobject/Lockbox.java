@@ -23,7 +23,8 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 	private Date processedInvoiceDate; //the date when the invoices/payments were processed.
 	private Integer batchSequenceNumber; //a batch of invoices/payments processed.
 	private String proxyInitiator;
-
+	private String bankCode; //a unique code used to identify the bank associated with this lockbox.
+	
     private PaymentMedium customerPaymentMedium;
 
 	/**
@@ -304,11 +305,37 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 	    return m;
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public String getProxyInitiator() {
         return proxyInitiator;
     }
 
+    /**
+     * 
+     * This method...
+     * @param proxyInitiator
+     */
     public void setProxyInitiator(String proxyInitiator) {
         this.proxyInitiator = proxyInitiator;
+    }
+
+    /**
+     * Gets the bankCode attribute. 
+     * @return Returns the bankCode.
+     */
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 }

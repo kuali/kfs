@@ -21,8 +21,8 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -36,7 +36,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
+public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
 
     private String referenceFinancialDocumentNumber;
     private Integer universityFiscalYear;
@@ -44,7 +44,8 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     private String customerPaymentMediumCode;
     private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;
     private String lockboxNumber;
-
+    private String bankCode;
+    
     private PaymentMedium customerPaymentMedium;
     private AccountingPeriod universityFiscalPeriod;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
@@ -543,6 +544,22 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
             
         }
         return document;
+    }
+
+    /**
+     * Gets the bankCode attribute. 
+     * @return Returns the bankCode.
+     */
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
     
 }

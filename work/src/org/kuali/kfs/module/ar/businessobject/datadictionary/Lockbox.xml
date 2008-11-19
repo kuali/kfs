@@ -28,6 +28,7 @@
         <ref bean="Lockbox-lockboxNumber" />
         <ref bean="Lockbox-processedInvoiceDate" />
         <ref bean="Lockbox-scannedInvoiceDate" />
+        <ref bean="Lockbox-bankCode" />
       </list>
     </property>
   </bean>
@@ -234,6 +235,15 @@
     <property name="description" value="scannedInvoiceDate description..." />
   </bean>
 
+  <bean id="Lockbox-bankCode" parent="Lockbox-bankCode-parentBean" />
+
+  <bean id="Lockbox-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="bankCode" />
+    <property name="label" value="Bank Code" />
+    <property name="shortLabel" value="Bank Cd" />
+    <property name="required" value="true" />
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -270,6 +280,8 @@
                     p:attributeName="processedInvoiceDate" />
               <bean parent="FieldDefinition"
                     p:attributeName="scannedInvoiceDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankCode" />
             </list>
           </property>
         </bean>
@@ -339,6 +351,8 @@
               p:attributeName="processedInvoiceDate" />
         <bean parent="FieldDefinition"
               p:attributeName="scannedInvoiceDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankCode" />
       </list>
     </property>
   </bean>

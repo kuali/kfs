@@ -416,11 +416,20 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * Validates that if the vendor is set to be inactive, the inactive reason is required.
      * 
      * @param vendorDetail the VendorDetail object to be validated
-     * @return boolean false if the vendor is inactive and the inactive reason is empty
+     * @return boolean false if the vendor is inactive and the inactive reason is empty or if the vendor is active and the inactive reason is not empty
      */
     boolean validateInactiveReasonRequiredness(VendorDetail vendorDetail) {
-        if (!vendorDetail.isActiveIndicator() && StringUtils.isEmpty(vendorDetail.getVendorInactiveReasonCode())) {
+        boolean activeIndicator = vendorDetail.isActiveIndicator();
+        boolean emptyInactiveReason = StringUtils.isEmpty(vendorDetail.getVendorInactiveReasonCode());
+        
+        // return false if the vendor is inactive and the inactive reason is empty
+        if (!activeIndicator && emptyInactiveReason) {
             putFieldError(VendorPropertyConstants.VENDOR_INACTIVE_REASON, VendorKeyConstants.ERROR_INACTIVE_REASON_REQUIRED);
+            return false;
+        }
+        // return false if the vendor is active and the inactive reason is not empty
+        if (activeIndicator && !emptyInactiveReason) {
+            putFieldError(VendorPropertyConstants.VENDOR_INACTIVE_REASON, VendorKeyConstants.ERROR_INACTIVE_REASON_NOT_ALLOWED);
             return false;
         }
         return true;

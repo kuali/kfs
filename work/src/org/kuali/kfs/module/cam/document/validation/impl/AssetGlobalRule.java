@@ -654,6 +654,16 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
         boolean valid = getDictionaryValidationService().validateDefaultExistenceChecks(assetGlobal);
         GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
+
+        List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
+        int index = 0;
+        for (AssetGlobalDetail assetLocationDetail : assetSharedDetails) {
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + index + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            valid &= checkReferenceExists(assetLocationDetail);
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            index++;
+        }
         return valid && super.processSaveDocument(document);
     }
 

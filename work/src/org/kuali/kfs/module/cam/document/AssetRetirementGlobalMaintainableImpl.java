@@ -135,10 +135,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             if (ObjectUtils.isNotNull(assetRetirementGlobal.getMergedTargetCapitalAssetNumber())) {
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
-            else {
-//                assetRetirementGlobal.setMergedTargetCapitalAssetDescription(CamsConstants.AssetActions.MERGE);
-                assetRetirementGlobal.setMergedTargetCapitalAssetDescription(" ");
-            }
         }
     }
 

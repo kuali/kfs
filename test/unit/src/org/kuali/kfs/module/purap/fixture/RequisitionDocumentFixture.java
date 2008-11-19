@@ -40,6 +40,20 @@ public enum RequisitionDocumentFixture {
             PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 } // requisitionItemMultiFixtures
     ),
+    REQ_TWO_ITEMS(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1,
+                                           RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_2 } // requisitionItemMultiFixtures
+    ),
     REQ_ONLY_REQUIRED_FIELDS_MULTIPLE_ACCOUNTS(null, // requisitionOrganizationReference1Text
             null, // requisitionOrganizationReference2Text
             null, // requisitionOrganizationReference3Text

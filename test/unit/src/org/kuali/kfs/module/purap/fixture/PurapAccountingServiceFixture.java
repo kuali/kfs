@@ -24,7 +24,9 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -88,20 +90,29 @@ public enum PurapAccountingServiceFixture {
         }
     }
     
-    public PaymentRequestDocument generatePaymentRequestDocument_OneItem() {
-        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS.createPaymentRequestDocument();
-        PaymentRequestItem item = (PaymentRequestItem)preq.getItems().get(0);
-        item.setTotalAmount(this.totalAmount);
-        item.setSourceAccountingLines(purApAccountingLineList);
-        List<PurApItem> items = new TypedArrayList(PaymentRequestItem.class);
-        items.add(item);
-        preq.setItems(items);
-        return preq;
+    private RequisitionDocument augmentRequisitionDocument(RequisitionDocument req) {
+        List<RequisitionItem> augmentedItems = new TypedArrayList(RequisitionItem.class);
+        for(RequisitionItem item : (List<RequisitionItem>)req.getItems()) {
+            item.setTotalAmount(this.totalAmount);
+            item.setSourceAccountingLines(purApAccountingLineList);        
+            augmentedItems.add(item);
+        }
+        req.setItems(augmentedItems);
+        return req;
     }
     
-    public PaymentRequestDocument generatePaymentRequestDocument_TwoItems() {
-        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_TWO_ITEM.createPaymentRequestDocument();
-        List<PurApItem> augmentedItems = new TypedArrayList(PaymentRequestItem.class);
+    public RequisitionDocument generateRequisitionDocument_OneItem() {
+        RequisitionDocument req = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+        return augmentRequisitionDocument(req);
+    }
+    
+    public RequisitionDocument generateRequisitionDocument_TwoItems() {
+        RequisitionDocument req = RequisitionDocumentFixture.REQ_TWO_ITEMS.createRequisitionDocument();
+        return augmentRequisitionDocument(req);
+    }
+    
+    private PaymentRequestDocument augmentPaymentRequestDocument(PaymentRequestDocument preq) {
+        List<PaymentRequestItem> augmentedItems = new TypedArrayList(PaymentRequestItem.class);
         for(PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
             item.setTotalAmount(this.totalAmount);
             item.setSourceAccountingLines(purApAccountingLineList);        
@@ -109,6 +120,16 @@ public enum PurapAccountingServiceFixture {
         }
         preq.setItems(augmentedItems);
         return preq;
+    }
+    
+    public PaymentRequestDocument generatePaymentRequestDocument_OneItem() {
+        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS.createPaymentRequestDocument();
+        return augmentPaymentRequestDocument(preq);
+    }
+    
+    public PaymentRequestDocument generatePaymentRequestDocument_TwoItems() {
+        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_TWO_ITEM.createPaymentRequestDocument();
+        return augmentPaymentRequestDocument(preq);
     }
 
     public KualiDecimal getTotalAmount() {

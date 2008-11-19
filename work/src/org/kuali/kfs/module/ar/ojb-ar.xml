@@ -167,7 +167,7 @@
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerPaymentMediumCode" column="CUST_PMT_MEDIUM_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="bankCode" column="BANK_CODE" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashControlTotalAmount" column="AR_CSHCTRL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 
 	<reference-descriptor name="customerPaymentMedium" class-ref="org.kuali.kfs.module.ar.businessobject.PaymentMedium" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

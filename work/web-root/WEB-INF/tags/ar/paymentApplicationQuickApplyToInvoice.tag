@@ -17,8 +17,6 @@
 <%@ attribute name="hasRelatedCashControlDocument" required="true" description="If has related cash control document"%>
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 <%@ attribute name="isCustomerSelected" required="true" description="Whether or not the customer is set" %>
-
-
     <kul:tab tabTitle="Quick Apply to Invoice"
         defaultOpen="${isCustomerSelected}"
         tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">

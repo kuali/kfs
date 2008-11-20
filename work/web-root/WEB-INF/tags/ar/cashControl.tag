@@ -30,17 +30,6 @@
 <c:set var="arDocHeaderAttributes"
 	value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 
-<html:hidden
-	property="document.accountsReceivableDocumentHeader.documentNumber" />
-<html:hidden
-	property="document.accountsReceivableDocumentHeader.objectId" />
-<html:hidden
-	property="document.accountsReceivableDocumentHeader.versionNumber" />
-<html:hidden
-	property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
-<html:hidden
-	property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
-
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
 	<div class="tab-container" align=center>
@@ -73,9 +62,8 @@
 								onchange="submitForm()" forceRequired="true" />
 						</c:when>
 						<c:otherwise>
-							<html:hidden property="document.customerPaymentMediumCode" />
-					 ${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}
-					 </c:otherwise>
+							${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}
+						</c:otherwise>
 					</c:choose>
 				</td>
 			</tr>

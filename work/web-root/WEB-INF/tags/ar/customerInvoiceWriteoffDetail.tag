@@ -23,8 +23,6 @@
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 
-<html:hidden property="${invPropertyName}.customerInvoiceWriteoffDocumentNumber" /> 
-
 <tr>
 	<!--  Line Number -->
 	<th class="${cssClass}" style="text-align:right">

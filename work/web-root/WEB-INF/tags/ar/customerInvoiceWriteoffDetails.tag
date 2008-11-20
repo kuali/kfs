@@ -36,11 +36,10 @@
 				name="KualiForm"
 				property="document.customerInvoiceDetailsForWriteoff"
 				indexId="ctr">
-						<ar:customerInvoiceWriteoffDetail
-							rowHeader="${ctr+1}"
-							invPropertyName="document.customerInvoiceDetailsForWriteoff[${ctr}]"
-			        		cssClass="datacell"
-			        		 />
+				<ar:customerInvoiceWriteoffDetail
+					rowHeader="${ctr+1}"
+					invPropertyName="document.customerInvoiceDetailsForWriteoff[${ctr}]"
+	        		cssClass="datacell" />
 			</logic:iterate>
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.invoiceWriteoffAmount}" hideRequiredAsterisk="true" align="right" colspan="4"/>

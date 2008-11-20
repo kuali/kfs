@@ -20,10 +20,10 @@
  
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />             
 <c:set var="customerAttributes" value="${DataDictionary.Customer.attributes}" />
-              
+
 <kul:tab tabTitle="General" defaultOpen="true" >
     <div class="tab-container" align=center>
-        	<h3>General</h3>
+       	<h3>General</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="General Section">
 
         	<tr>
@@ -35,12 +35,11 @@
         		<td>
 					<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.financialDocumentReferenceInvoiceNumber}&command=displayDocSearchView" target="blank">
         			<kul:htmlControlAttribute attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}"
-        			                      	  property="document.financialDocumentReferenceInvoiceNumber"
-        			                          readOnly="true" />	
+                      	  property="document.financialDocumentReferenceInvoiceNumber"
+                          readOnly="true" />	
 					</a>
         		</td>
         	</tr>
-        
         	<tr>
         		<th align=right valign=middle class="bord-l-b">
         			<div align="right">
@@ -49,8 +48,8 @@
         		</th>
         		<td>
         			<kul:htmlControlAttribute attributeEntry="${customerAttributes.customerNumber}"
-        			                      	  property="document.invoice.accountsReceivableDocumentHeader.customerNumber"
-        			                          readOnly="true" />
+                      	  property="document.invoice.accountsReceivableDocumentHeader.customerNumber"
+                          readOnly="true" />
         		</td>
         	</tr>
         	
@@ -62,8 +61,8 @@
             	</th>
         		<td>
         			<kul:htmlControlAttribute attributeEntry="${customerAttributes.customerNumber}"
-        			                      	property="document.invoice.accountsReceivableDocumentHeader.customer.customerName"
-        			                      	readOnly="true" />
+                      	property="document.invoice.accountsReceivableDocumentHeader.customer.customerName"
+                      	readOnly="true" />
         		</td>
         	</tr>
         	
@@ -75,8 +74,8 @@
 				</th>
 				<td>
 					<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.billingDate}"
-				                          	property="document.invoice.billingDateForDisplay"
-				                          	readOnly="true" />
+                       	property="document.invoice.billingDateForDisplay"
+                       	readOnly="true" />
 				</td>
 			</tr>
 			
@@ -88,8 +87,8 @@
 				</th>
 				<td style="width: 50%;">
 					<kul:htmlControlAttribute attributeEntry="${documentAttributes.invOutstandingDays}"
-				                          	property="document.invOutstandingDays"
-				                          	readOnly="true" />
+                       	property="document.invOutstandingDays"
+                       	readOnly="true" />
 				</td>
             <%--
         		<kul:htmlAttributeHeaderCell align="right" literalLabel="Invoice Outstanding Days:" scope="row" />
@@ -97,7 +96,6 @@
         		<td align=left valign=middle class="datacell" style="width: 50%;"></td>
         	--%>
         	</tr>
-        	
 		</table>
 	</div>
 </kul:tab>

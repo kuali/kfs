@@ -23,11 +23,6 @@
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 
-<%-- hidden attribute for document number since it isn't displayed--%>
-<html:hidden property="document.accountsReceivableDocumentHeader.documentNumber" />
-<html:hidden property="document.accountsReceivableDocumentHeader.versionNumber" />
-<html:hidden property="document.accountsReceivableDocumentHeader.objectId" />
-
 <kul:tab tabTitle="Organization" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_ORGANIZATION_ERRORS}">
     <div class="tab-container" align=center>	
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">

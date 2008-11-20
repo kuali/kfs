@@ -26,11 +26,6 @@
                  
 <c:set var="customerInvoiceRecurrenceAttributes" value="${DataDictionary.CustomerInvoiceRecurrenceDetails.attributes}" />
 
-<%-- hidden attribute for document number since it isn't displayed--%>
-<html:hidden property="document.customerInvoiceRecurrenceDetails.invoiceNumber" />
-<html:hidden property="document.customerInvoiceRecurrenceDetails.versionNumber" />
-<html:hidden property="document.customerInvoiceRecurrenceDetails.objectId" />
-
 <kul:tab tabTitle="Recurrence Details" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS}">
     <div class="tab-container" align=center>	
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">

@@ -18,11 +18,9 @@
 <%@ attribute name="documentAttributes" required="true"
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for cash control document fields."%>
-
 <%@ attribute name="cashControlDetailAttributes" required="true"
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for cash control detail fields."%>
-
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
 <%@ attribute name="editDetails" required="true"

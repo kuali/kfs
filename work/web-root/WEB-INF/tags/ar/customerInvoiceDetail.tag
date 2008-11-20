@@ -28,11 +28,6 @@
 
 <tr>
     <kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row" rowspan="2">
-        <%-- Outside this th, these hidden fields would be invalid HTML. --%>
-        <html:hidden property="${propertyName}.documentNumber" />
-        <html:hidden property="${propertyName}.invoiceItemNumber" />
-        <html:hidden property="${propertyName}.versionNumber" />
-        <html:hidden property="${propertyName}.objectId" />
     </kul:htmlAttributeHeaderCell>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity }" property="${propertyName}.invoiceItemQuantity" readOnly="${readOnly}"/>

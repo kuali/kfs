@@ -29,15 +29,8 @@
 <%@ attribute name="rowHeader" required="true"
 	description="The value of the header cell of this row.
               It would be the number of this row's accounting line within its group."%>
-
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />
-
-<html:hidden property="${crmPropertyName}.documentNumber" /> 
-<html:hidden property="${crmPropertyName}.financialDocumentReferenceInvoiceNumber" />
-<html:hidden property="${crmPropertyName}.referenceInvoiceItemNumber" />
-<html:hidden property="${crmPropertyName}.versionNumber" />
-
 <tr>
 	<!--  Line Number -->
 	<th class="${cssClass}" style="text-align:right" rowspan="4" >
@@ -89,9 +82,6 @@
 			property="${invPropertyName}.invoiceItemPreTaxAmount"
 			readOnly="true" />
 			
-	<!--  Hidden Duplicate Item Amount -->
-	<html:hidden property="${crmPropertyName}.duplicateCreditMemoItemTotalAmount" />
-
 	<!--  Tax Amount -->
 	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute

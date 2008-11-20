@@ -35,8 +35,8 @@
 
         <c:choose>
             <c:when test="${!hasRelatedCashControlDocument}">
-            No related Cash Control Document.
-        </c:when>
+    	        No related Cash Control Document.
+	        </c:when>
         <c:otherwise>
           <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 98%;'>
             <style type='text/css'>

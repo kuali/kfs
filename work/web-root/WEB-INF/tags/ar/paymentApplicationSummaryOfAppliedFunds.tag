@@ -63,23 +63,8 @@
 										<logic:iterate id="invoicePaidApplied" name="KualiForm"
 											property="document.invoicePaidApplieds" indexId="ctr">
 											<tr>
-												<html:hidden
-													property="document.invoicePaidApplied[${ctr}].documentNumber" />
-												<html:hidden
-													property="document.invoicePaidApplied[${ctr}].versionNumber" />
-												<html:hidden
-													property="document.invoicePaidApplied[${ctr}].objectId" />
-												<html:hidden
-													property="document.invoicePaidApplied[${ctr}].paidAppliedItemNumber" />
-												<html:hidden
-													property="document.invoicePaidApplied[${ctr}].universityFiscalYear" />
-												<html:hidden
-													property="document.invoicePaidApplied[${ctr}].universityFiscalPeriodCode" />
 												<td>
-													<c:out
-														value="${invoicePaidApplied.financialDocumentReferenceInvoiceNumber}" />
-													<html:hidden
-														property="document.invoicePaidApplied[${ctr}].financialDocumentReferenceInvoiceNumber" />
+													<c:out value="${invoicePaidApplied.financialDocumentReferenceInvoiceNumber}" />
 												</td>
 												<td>
 													<kul:htmlControlAttribute
@@ -88,20 +73,13 @@
 														readOnly="true" />
 												</td>
 												<td>
-													<c:out
-														value="${invoicePaidApplied.invoiceItem.financialDocumentLineDescription}" />&nbsp;
-													<html:hidden
-														property="document.invoicePaidApplied[${ctr}].invoiceItem.financialDocumentLineDescription" />
+													<c:out value="${invoicePaidApplied.invoiceItem.financialDocumentLineDescription}" />&nbsp;
 												</td>
 												<td>
-													$
-													<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />
-													<html:hidden
-														property="document.invoicePaidApplied[${ctr}].invoiceItemAppliedAmount" />
+													$<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />
 												</td>
 											</tr>
 										</logic:iterate>
-
 									</table>
 								</c:otherwise>
 							</c:choose>

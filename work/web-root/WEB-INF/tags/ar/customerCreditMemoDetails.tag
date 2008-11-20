@@ -21,7 +21,7 @@
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />              
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />       
-              
+
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS}">
     <div class="tab-container" align=center>		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Items">
@@ -57,17 +57,16 @@
 				name="KualiForm"
 				property="document.creditMemoDetails"
 				indexId="ctr">
-				        <c:set var="displayOrangeFlower" value="${KualiForm.document.creditMemoDetails[ctr].creditMemoLineTotalAmount != 0}" />
-						<ar:customerCreditMemoDetail
-							rowHeader="${ctr+1}"
-							invPropertyName="document.invoice.customerInvoiceDetailsWithoutDiscounts[${ctr}]"
-							crmPropertyName="document.creditMemoDetails[${ctr}]" 
-			        		refreshMethod="refreshCustomerCreditMemoDetail.line${ctr}"
-			        		recalculateMethod="recalculateCustomerCreditMemoDetail.line${ctr}"
-			        		displayOrangeFlower="${displayOrangeFlower}"
-			        		cssClass="datacell"
-			        		readOnly="${readOnly}"
-			        		 />
+		        <c:set var="displayOrangeFlower" value="${KualiForm.document.creditMemoDetails[ctr].creditMemoLineTotalAmount != 0}" />
+				<ar:customerCreditMemoDetail
+					rowHeader="${ctr+1}"
+					invPropertyName="document.invoice.customerInvoiceDetailsWithoutDiscounts[${ctr}]"
+					crmPropertyName="document.creditMemoDetails[${ctr}]" 
+	        		refreshMethod="refreshCustomerCreditMemoDetail.line${ctr}"
+	        		recalculateMethod="recalculateCustomerCreditMemoDetail.line${ctr}"
+	        		displayOrangeFlower="${displayOrangeFlower}"
+	        		cssClass="datacell"
+	        		readOnly="${readOnly}" />
 			</logic:iterate>
 			<tr>
 				<td class="total-line" colspan="6">
@@ -76,20 +75,14 @@
 				<!--  Customer Credit Memo Total Item Amount -->
 				<td class="total-line">
 					<strong>${KualiForm.document.currencyFormattedCrmTotalItemAmount}</strong>
-					<html:hidden write="false"
-						property="document.crmTotalItemAmount" />
 				</td>
 				<!-- Customer Credit Memo Total Tax Amount -->
 				<td class="total-line">
 					<strong>${KualiForm.document.currencyFormattedCrmTotalTaxAmount}</strong>
-					<html:hidden write="false"
-						property="document.crmTotalTaxAmount" />
 				</td>
 				<!--  Customer Credit Memo Total Amount -->
 				<td class="total-line">
 					<strong>${KualiForm.document.currencyFormattedCrmTotalAmount}</strong>
-					<html:hidden write="false"
-						property="document.crmTotalAmount" />
 				</td>
 				<td />
 				<td />
@@ -97,16 +90,16 @@
 				<c:if test="${not readOnly}" >
 					<td><div align="center" valign="middle" >
 						<html:image property="methodToCall.recalculateCustomerCreditMemoDocument"
-	    							src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
-	    							title="Recalculate Credit Memo Line Amounts"
-	    							alt="Recalculate Credit Memo Line Amounts"
-	                            	styleClass="tinybutton" />
+   							src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
+   							title="Recalculate Credit Memo Line Amounts"
+   							alt="Recalculate Credit Memo Line Amounts"
+                           	styleClass="tinybutton" />
 	                	&nbsp;
 						<html:image property="methodToCall.refreshCustomerCreditMemoDocument"
-	    							src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
-	    							title="Refresh Credit Memo Lines"
-	    							alt="Refresh Credit Memo Lines"
-	                            	styleClass="tinybutton" />
+   							src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
+   							title="Refresh Credit Memo Lines"
+   							alt="Refresh Credit Memo Lines"
+                           	styleClass="tinybutton" />
 	            	</div>     
 					</td>
 				</c:if>

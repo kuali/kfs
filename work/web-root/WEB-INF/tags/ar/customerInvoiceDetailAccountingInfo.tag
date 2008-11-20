@@ -18,7 +18,7 @@
 <%@ attribute name="propertyName" required="true" description="The customer invoice detail" %>              
 <%@ attribute name="cssClass" required="true" description="The cssClass" %>
 <%@ attribute name="readOnly" required="true" description="If its readOnly mode" %>
-              
+
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 
 <%-- generate unique tab key from propertyName --%>

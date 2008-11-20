@@ -19,12 +19,12 @@
               
 <kul:tabTop tabTitle="Customer Credit Memo Initiation" defaultOpen="true" tabErrorKey="*">
     <div class="tab-container" align=center>
-            <h3>Credit Memo Initiation</h3>
+        <h3>Credit Memo Initiation</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Init Section" >
             <tr>
                 <th align=right valign=middle class="bord-l-b" >
                    <div align="right">
-                   	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}" />
+                   		<kul:htmlAttributeLabel attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}" />
                    </div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 50%;" >

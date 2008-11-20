@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="documentAttributes" value="${DataDictionary.CustomerInvoiceWriteoffDocument.attributes}" />
-              
+
 <kul:tabTop tabTitle="Customer Invoice Writeoff Initiation" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_WRITEOFF_INIT_ERRORS}">
     <div class="tab-container" align=center>
             <h3>Customer Invoice Writeoff Initiation</h3>

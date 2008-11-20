@@ -39,16 +39,6 @@
 <tr>
 	<kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row"
 		rowspan="2">
-		<%-- Outside this th, these hidden fields would be invalid HTML. --%>
-		<html:hidden property="${propertyName}.documentNumber" />
-		<html:hidden property="${propertyName}.versionNumber" />
-		<html:hidden property="${propertyName}.objectId" />
-		<html:hidden
-			property="${propertyName}.referenceFinancialDocument.documentNumber" />
-		<html:hidden
-			property="${propertyName}.referenceFinancialDocument.objectId" />
-		<html:hidden
-			property="${propertyName}.referenceFinancialDocument.versionNumber" />
 	</kul:htmlAttributeHeaderCell>
 
 	<td align=left class="${cssClass}">
@@ -83,8 +73,8 @@
 			attributeEntry="${cashControlDetailAttributes.customerNumber}"
 			property="${propertyName}.customerNumber" readOnly="${readOnly}" />
 		<c:if test="${not readOnly}">
-		&nbsp;
-		<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
+			&nbsp;
+			<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
 				fieldConversions="customerNumber:${propertyName}.customerNumber" />
 		</c:if>
 	</td>
@@ -125,7 +115,6 @@
 			</div>
 		</td>
 	</c:if>
-
 </tr>
 <tr>
 	<kul:htmlAttributeHeaderCell

@@ -27,7 +27,6 @@
 	<h3>Invoices to Writeoff</h3>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 		<thead>
-			
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.documentNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.age}" />
@@ -38,11 +37,9 @@
 		</thead>
 		<logic:iterate id="customerInvoiceDocument" name="KualiForm"
 				property="${propertyName}.customerInvoiceDocuments" indexId="ctr">
-
 			<ar:customerInvoiceWriteoffSummarySubResult
 				customerInvoiceDocumentAttributes="${customerInvoiceDocumentAttributes}"
-				propertyName="${propertyName}.customerInvoiceDocument[${ctr}]"
-				/>
+				propertyName="${propertyName}.customerInvoiceDocument[${ctr}]" />
 		</logic:iterate>
 	</table>
 	<h3>Customer Note</h3>
@@ -53,12 +50,12 @@
 			</th>
 			<td>
 				<c:if test="${KualiForm.sentToBatch}">
-				<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" readOnly="true" />
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" readOnly="true" />
 				</c:if>
 				<c:if test="${!KualiForm.sentToBatch}">
-				<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" />
-				<!--  pass through customerNumber so you can tie customer note to appropriate customer -->
-				<html:hidden property="${propertyName}.customerNumber" />				
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" />
+					<!--  pass through customerNumber so you can tie customer note to appropriate customer -->
+					<html:hidden property="${propertyName}.customerNumber" />				
 				</c:if>
 			</td>
 		</tr>	

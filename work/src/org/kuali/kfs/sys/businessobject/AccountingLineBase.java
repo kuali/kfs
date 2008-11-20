@@ -618,7 +618,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         m.put("subObjectCode", getFinancialSubObjectCode());
         m.put("projectCode", getProjectCode());
         m.put("balanceTyp", getBalanceTypeCode());
-        m.put("objectType", getObjectTypeCode());
 
         m.put("orgRefId", getOrganizationReferenceId());
 

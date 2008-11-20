@@ -131,7 +131,15 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
             bufOut = new BufferedOutputStream(out);
 
             URL url = new URL(completeUrl);
-            in = url.openStream();
+            try {
+                in = url.openStream();
+            }
+            catch (IOException ioe1) {
+                //If we caught the IO Exception during the first attempt using the url,
+                //we should try to open the file in the file system 
+                url = new URL("file:/java/projects/kfs/work/web-root/static/images/" + prefix + "_" + fileKey.toLowerCase() + extension);
+                in = url.openStream();
+            }
             bufIn = new BufferedInputStream(in);
 
             // Repeat until end of file

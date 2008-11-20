@@ -477,7 +477,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the appointmentRequestedCsfTimePercentTotal.
      */
     public BigDecimal getAppointmentRequestedCsfTimePercentTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedCsfTimePercentTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedCsfTimePercentTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -486,7 +486,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the appointmentRequestedCsfStandardHoursTotal.
      */
     public BigDecimal getAppointmentRequestedCsfStandardHoursTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedCsfStandardHoursTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedCsfStandardHoursTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -495,7 +495,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the appointmentRequestedCsfFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedCsfFteQuantityTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedCsfFteQuantityTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedCsfFteQuantityTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -513,7 +513,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the appointmentRequestedTimePercentTotal.
      */
     public BigDecimal getAppointmentRequestedTimePercentTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedTimePercentTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedTimePercentTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -522,7 +522,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the appointmentRequestedStandardHoursTotal.
      */
     public BigDecimal getAppointmentRequestedStandardHoursTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedStandardHoursTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedStandardHoursTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -531,7 +531,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the appointmentRequestedFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedFteQuantityTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedFteQuantityTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedFteQuantityTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -540,7 +540,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the csfAmountTotal.
      */
     public KualiInteger getCsfAmountTotal() {
-        return SalarySettingCalculator.getCsfAmountTotal(this.getAppointmentFundings());
+        return SalarySettingCalculator.getCsfAmountTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
     }
 
     /**

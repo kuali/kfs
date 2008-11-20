@@ -31,6 +31,7 @@
 <c:set var="hourlyPaid" value="${fundingLine.hourlyPaid}" />
 <c:set var="newLine" value="${fundingLine.newLineIndicator}" />
 <c:set var="vacantLine" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
+<c:set var="excludedFromTotal" value="${fundingLine.excludedFromTotal}" />
 
 <c:if test="${isSetteingByIncumbent}" >
 	<c:set var="postionFieldPrefix" value="${fundingLineName}." />
@@ -54,7 +55,7 @@
 		<th style="text-align: right;">CSF:</th>	
 		
 		<td class="datacell">
-			<c:if test="${!readOnly}">
+			<c:if test="${!readOnly && !excludedFromTotal}">
 				<bc:salaryAdjustment attributes="${pbcafAttributes}" 
 					adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
 					adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
@@ -70,6 +71,7 @@
                 field="csfAmount"
                 fieldAlign="right"
                 readOnly="true"
+                excludedFromTotal="${excludedFromTotal}"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
 		<td class="datacell">&nbsp;</td>
@@ -104,13 +106,14 @@
 	<tr>
 		<th style="text-align: right;">Request:</th>	
 		<td class="datacell">&nbsp;</td>				
-		
+
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedAmount"
                 fieldAlign="right"
                 readOnly="${readOnly}"
+                excludedFromTotal="${excludedFromTotal}"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -119,6 +122,7 @@
                 field="appointmentRequestedPayRate"
                 fieldAlign="right"
                 readOnly="${readOnly || not (hourlyPaid || newLine)}"
+                excludedFromTotal="${excludedFromTotal}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -192,6 +196,7 @@
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedCsfAmount"
                 fieldAlign="right"
+                excludedFromTotal="${excludedFromTotal}"
                 readOnly="${readOnly || vacantLine}" disabled="${disabled}"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
@@ -231,6 +236,7 @@
                 field="appointmentTotalIntendedAmount"
                 fieldAlign="right"
                 readOnly="${readOnly}"
+                excludedFromTotal="${excludedFromTotal}"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
 		<td>&nbsp;</td>		

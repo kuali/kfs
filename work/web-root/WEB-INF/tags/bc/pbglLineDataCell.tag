@@ -117,6 +117,17 @@
               description="number to format instead of property" %>
 <%@ attribute name="fieldTrailerValue" required="false"
               description="Extra text added right after the field" %>
+              
+<%@ attribute name="excludedFromTotal" required="false"
+			  description="boolean to indicate a funding total that should not be displayed
+			  and the value should not be a hidden. Defaults to false." %>
+<%@ attribute name="encryptValue" required="false"
+			  description="when readOnly or hidden field, boolean to indicate whether the value should
+			  be encrypted and display masked. Defaults to false." %>
+<%@ attribute name="displayMask" required="false"
+			  description="when a field is not to be displayed in clear text and encrypted as hidden, the
+			  string to display." %>
+
 
 <c:if test="${empty fieldAlign}">
     <c:set var="fieldAlign" value="left"/>
@@ -127,6 +138,9 @@
 </c:if>
 <c:if test="${empty conversionField}">
     <c:set var="conversionField" value="${field}"/>
+</c:if>
+<c:if test="${empty excludedFromTotal}">
+    <c:set var="excludedFromTotal" value="false"/>
 </c:if>
 <c:if test="${empty dataFieldCssClass}">
     <c:set var="dataFieldCssClass" value=""/>
@@ -175,6 +189,7 @@
     <c:if test="${csfInquiry == 'true'}">
     	<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
     </c:if>
+    <c:if test="${!excludedFromTotal}">
     <kul:htmlControlAttribute
         property="${cellProperty}"
         attributeEntry="${attributes[field]}"
@@ -197,6 +212,10 @@
             formattedNumberValue="${formattedNumberValue}"
             />
     </kul:htmlControlAttribute>
+    </c:if>
+    <c:if test="${excludedFromTotal}">
+      *
+    </c:if>
     <c:if test="${csfInquiry == 'true'}">
     	</a>
     </c:if>${fieldTrailerValue}

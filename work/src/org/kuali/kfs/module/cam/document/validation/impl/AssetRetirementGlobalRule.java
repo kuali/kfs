@@ -53,8 +53,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalRule.class);
 
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
-    private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
     private PersistableBusinessObject bo;
 
 
@@ -91,11 +89,11 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         setupConvenienceObjects();
         valid &= assetRetirementValidation(assetRetirementGlobal);
 
-        if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && validateAssetObjectCodeExistence(assetRetirementGlobal)) {
+        if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && validateAssetObjectCodeExistence(assetRetirementGlobal)) {
             // create poster
             AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
             // create postables
-            if (!(valid = assetRetirementService.createGLPostables(assetRetirementGlobal, assetRetirementGlPoster))) {
+            if (!(valid = getAssetRetirementService().createGLPostables(assetRetirementGlobal, assetRetirementGlPoster))) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
                 return valid;
             }
@@ -111,8 +109,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * Validates object code
+     * 
      * @param assetRetirementGlobal
      * @return boolean
      */
@@ -122,7 +120,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
             Asset asset = assetRetirementGlobalDetail.getAsset();
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
-                AssetObjectCode assetObjectCode = assetRetirementService.getAssetObjectCode(asset, assetPayment);
+                AssetObjectCode assetObjectCode = getAssetRetirementService().getAssetObjectCode(asset, assetPayment);
                 if (ObjectUtils.isNull(assetObjectCode)) {
                     putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
                     valid = false;
@@ -155,7 +153,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         // Calculate summary fields in order to show the values even though add new line fails.
         for (AssetRetirementGlobalDetail detail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-            assetService.setAssetSummaryFields(detail.getAsset());
+            getAssetService().setAssetSummaryFields(detail.getAsset());
         }
         return success & super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
     }
@@ -171,7 +169,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber) {
         boolean success = true;
 
-        if (assetRetirementDetails.size() > maxNumber && !assetRetirementService.isAllowedRetireMultipleAssets(retirementReasonCode)) {
+        if (assetRetirementDetails.size() > maxNumber && !getAssetRetirementService().isAllowedRetireMultipleAssets(retirementReasonCode)) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
             success = false;
         }
@@ -231,12 +229,12 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateActiveCapitalAsset(asset);
             success &= validateNonMoveableAsset(asset);
 
-            if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+            if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
                 success &= validateDuplicateAssetNumber(assetRetirementGlobal.getMergedTargetCapitalAssetNumber(), assetRetirementGlobalDetail.getCapitalAssetNumber());
             }
 
             // Set asset non persistent fields
-            assetService.setAssetSummaryFields(asset);
+            getAssetService().setAssetSummaryFields(asset);
         }
 
         return success;
@@ -252,7 +250,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateDuplicateAssetNumber(Long targetAssetNumber, Long sourceAssetNumber) {
         boolean success = true;
 
-        if (assetService.isCapitalAssetNumberDuplicate(targetAssetNumber, sourceAssetNumber)) {
+        if (getAssetService().isCapitalAssetNumberDuplicate(targetAssetNumber, sourceAssetNumber)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_DUPLICATE_CAPITAL_ASSET_NUMBER_WITH_TARGET, sourceAssetNumber.toString());
             success = false;
         }
@@ -269,7 +267,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         Person user = GlobalVariables.getUserSession().getPerson();
-        if (!assetService.isAssetMovable(asset) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+        if (!getAssetService().isAssetMovable(asset) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_USER_GROUP_FOR_NON_MOVEABLE_ASSET, asset.getCapitalAssetNumber().toString());
             success = false;
         }
@@ -288,9 +286,9 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         valid &= validateRequiredSharedInfoFields(assetRetirementGlobal);
-        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+        if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             valid &= validateMergeTargetAsset(assetRetirementGlobal);
-        } 
+        }
         valid &= validateRetirementDetails(assetRetirementGlobal);
         valid &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1));
 
@@ -318,23 +316,23 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         }
         else {
             // Check asset of capital and active
-            if (!assetService.isCapitalAsset(targetAsset)) {
+            if (!getAssetService().isCapitalAsset(targetAsset)) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_CAPITAL_ASSET_RETIREMENT, targetAssetNumber.toString());
                 valid = false;
             }
-            if (assetService.isAssetRetired(targetAsset)) {
+            if (getAssetService().isAssetRetired(targetAsset)) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, targetAssetNumber.toString());
                 valid = false;
             }
         }
-        
-        //Validating the mergeAssetDescription is not blank
+
+        // Validating the mergeAssetDescription is not blank
         if (!checkEmptyValue(assetRetirementGlobal.getMergedTargetCapitalAssetDescription())) {
-            String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetRetirementGlobal.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC).getLabel();            
-            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC, KFSKeyConstants.ERROR_REQUIRED,label);
-            valid = false;            
+            String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetRetirementGlobal.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC).getLabel();
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
         }
-        
+
         return valid;
     }
 
@@ -349,11 +347,11 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateActiveCapitalAsset(Asset asset) {
         boolean valid = true;
 
-        if (!assetService.isCapitalAsset(asset)) {
+        if (!getAssetService().isCapitalAsset(asset)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_CAPITAL_ASSET_RETIREMENT, asset.getCapitalAssetNumber().toString());
             valid = false;
         }
-        else if (assetService.isAssetRetired(asset)) {
+        else if (getAssetService().isAssetRetired(asset)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, asset.getCapitalAssetNumber().toString());
             valid = false;
         }
@@ -373,32 +371,34 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         AssetRetirementGlobalDetail sharedRetirementInfo = assetRetirementGlobal.getSharedRetirementInfo();
 
-        if (assetRetirementService.isAssetRetiredBySold(assetRetirementGlobal)) {
+        if (getAssetRetirementService().isAssetRetiredBySold(assetRetirementGlobal)) {
             if (StringUtils.isBlank(sharedRetirementInfo.getBuyerDescription())) {
-                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.BUYER_DESCRIPTION, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.BUYER_DESCRIPTION, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.BUYER_DESCRIPTION, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.BUYER_DESCRIPTION, getAssetRetirementService().getAssetRetirementReasonName(assetRetirementGlobal) });
                 valid = false;
             }
             if (sharedRetirementInfo.getSalePrice() == null) {
-                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.SALE_PRICE, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.SALE_PRICE, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.SALE_PRICE, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.SALE_PRICE, getAssetRetirementService().getAssetRetirementReasonName(assetRetirementGlobal) });
                 valid = false;
-            }          
+            }
             valid &= validateCashReceiptFinancialDocumentNumber(sharedRetirementInfo);
-        } else if (assetRetirementService.isAssetRetiredByAuction(assetRetirementGlobal)) {
+        }
+        else if (getAssetRetirementService().isAssetRetiredByAuction(assetRetirementGlobal)) {
             valid = validateCashReceiptFinancialDocumentNumber(sharedRetirementInfo);
-        } else if (assetRetirementService.isAssetRetiredByExternalTransferOrGift(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getRetirementInstitutionName())) {
-            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_INSTITUTION_NAME, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.RETIREMENT_INSTITUTION_NAME, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+        }
+        else if (getAssetRetirementService().isAssetRetiredByExternalTransferOrGift(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getRetirementInstitutionName())) {
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_INSTITUTION_NAME, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.RETIREMENT_INSTITUTION_NAME, getAssetRetirementService().getAssetRetirementReasonName(assetRetirementGlobal) });
             valid = false;
         }
-        else if (assetRetirementService.isAssetRetiredByTheft(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getPaidCaseNumber())) {
-            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.PAID_CASE_NUMBER, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.PAID_CASE_NUMBER, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+        else if (getAssetRetirementService().isAssetRetiredByTheft(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getPaidCaseNumber())) {
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.PAID_CASE_NUMBER, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.PAID_CASE_NUMBER, getAssetRetirementService().getAssetRetirementReasonName(assetRetirementGlobal) });
             valid = false;
         }
         return valid;
     }
 
     /**
-     * 
      * validates Cash Receipt Financial Document Number
+     * 
      * @param sharedRetirementInfo
      * @return boolean
      */
@@ -415,5 +415,12 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-}
 
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
+
+    private AssetRetirementService getAssetRetirementService() {
+        return SpringContext.getBean(AssetRetirementService.class);
+    }
+}

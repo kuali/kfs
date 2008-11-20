@@ -135,7 +135,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      */
     protected boolean validateLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
-        Date loanDate = equipmentLoanOrReturnDocument.getLoanDate();
+        Date loanDate = DateUtils.clearTimeFields(equipmentLoanOrReturnDocument.getLoanDate());
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(loanDate);
         cal.add(Calendar.YEAR, 2);
@@ -143,7 +143,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
         // Loan can not be before today
         Date loanReturnDate = equipmentLoanOrReturnDocument.getLoanReturnDate();
-        DateUtils.clearTimeFields(loanDate);
         if (equipmentLoanOrReturnDocument.isNewLoan() && loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_DATE);
         }
@@ -152,7 +151,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         Date expectReturnDate = equipmentLoanOrReturnDocument.getExpectedReturnDate();
         if (expectReturnDate != null) {
             DateUtils.clearTimeFields(expectReturnDate);
-            if (loanDate.after(expectReturnDate)) {
+            if (expectReturnDate.before(loanDate)) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_RETURN_DATE);
             }

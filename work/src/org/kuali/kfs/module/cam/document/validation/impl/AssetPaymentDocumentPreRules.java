@@ -39,16 +39,13 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * 
  * This prerule is ex..
  */
 public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentPreRules.class);
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-    
-    public boolean doRules(Document document) {        
+
+    public boolean doRules(Document document) {
         if (hasDifferentObjectSubTypes((AssetPaymentDocument) document)) {
             if (!isOkHavingDifferentObjectSubTypes()) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);
@@ -59,7 +56,6 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
     }
 
     /**
-     * 
      * This method determines whether or not an asset has different object sub type codes in its documents.
      * 
      * @return true when the asset has payments with object codes that point to different object sub type codes
@@ -69,7 +65,7 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
         if (!document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
             return false;
         }
-        
+
         List<String> subTypes = new ArrayList<String>();
         subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
 
@@ -85,27 +81,27 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
         // Getting the list of object sub type codes from the asset payments on the jsp.
         List<String> objectSubTypeList = new ArrayList<String>();
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-            assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);            
+            assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
             if (ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
                 return false;
-            }            
+            }
             objectSubTypeList.add(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
         }
 
-        if (!assetService.isObjectSubTypeCompatible(objectSubTypeList)) {
+        if (!getAssetService().isObjectSubTypeCompatible(objectSubTypeList)) {
             return true;
         }
 
-        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail(); 
-        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
+        for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
             assetPaymentAssetDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
             List<AssetPayment> assetPayments = assetPaymentAssetDetail.getAsset().getAssetPayments();
-            
+
             // Comparing against the already approved asset payments
             if (!assetPayments.isEmpty()) {
                 for (AssetPayment assetPayment : assetPayments) {
                     String paymentSubObjectType = assetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
-    
+
                     validObjectSubTypes = new ArrayList<String>();
                     for (String subType : subTypes) {
                         validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
@@ -116,7 +112,7 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
                     }
                     if (validObjectSubTypes.isEmpty())
                         validObjectSubTypes.add(paymentSubObjectType);
-    
+
                     // Comparing the same asset payment document
                     for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
                         if (!validObjectSubTypes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
@@ -132,11 +128,19 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
     }
 
     private boolean isOkHavingDifferentObjectSubTypes() {
-        String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";        
+        String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-        
+
         String continueQuestion = kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
-        String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES)+ " "+CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail+". "+continueQuestion;
+        String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
         return super.askOrAnalyzeYesNoQuestion(CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
+    }
+
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
+
+    private ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
     }
 }

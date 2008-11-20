@@ -15,21 +15,16 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import java.util.Calendar;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
-import org.kuali.kfs.module.ld.document.web.struts.LaborDocumentFormBase;
-import org.kuali.kfs.module.ld.document.web.struts.MultipleValueLookupBroker;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -37,29 +32,22 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.bo.DocumentType;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class AssetPaymentForm extends KualiAccountingDocumentFormBase { 
+public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
-    private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-    private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
 
     private String lookupResultsSequenceNumber; // Indicates which result set we are using when refreshing/returning from a
-                                                    // multi-value lookup.
+    // multi-value lookup.
     private String lookupResultsBOClassName; // Type of result returned by the multi-value lookup. ?to be persisted in the lookup
-                                                    // results service instead?
+    // results service instead?
     private String lookedUpCollectionName; // The name of the collection looked up (by a multiple value lookup)
-    
-    
+
+
     String capitalAssetNumber = "";
-    //AssetPaymentAssetDetail newAssetPaymentAssetDetail;
-    
+
     /**
-     * 
      * Constructs a AssetPaymentForm.java.
      */
     public AssetPaymentForm() {
@@ -68,7 +56,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * 
      * This method gets the asset payment document
      * 
      * @return AssetPaymentDocument
@@ -78,7 +65,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
      */
     @Override
@@ -91,7 +77,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * 
      * This method sets the asset# selected
      * 
      * @param capitalAssetNumber
@@ -101,7 +86,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * 
      * gets the asset# that was previously selected
      * 
      * @return
@@ -110,14 +94,13 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         return this.capitalAssetNumber;
     }
 
-    
+
     /**
-     * 
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getNewSourceLine()
      */
     @Override
-    public SourceAccountingLine getNewSourceLine() {        
-        //Getting the workflow document number created for the asset payment document.
+    public SourceAccountingLine getNewSourceLine() {
+        // Getting the workflow document number created for the asset payment document.
         String worflowDocumentNumber = "";
         try {
             if (GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()) != null)
@@ -129,24 +112,24 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
         AssetPaymentDetail newSourceLine = (AssetPaymentDetail) super.getNewSourceLine();
 
-        //Getting the document type code in order set it as default in the new source accounting line.
+        // Getting the document type code in order set it as default in the new source accounting line.
         String documentTypeCode = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(AssetPaymentDocument.class);
-        
-        //Setting default document type.
+
+        // Setting default document type.
         if (newSourceLine.getExpenditureFinancialDocumentTypeCode() == null || newSourceLine.getExpenditureFinancialDocumentTypeCode().trim().equals("")) {
             newSourceLine.setExpenditureFinancialDocumentTypeCode(documentTypeCode);
         }
-        
-        //Setting the default asset payment row document number.
-        if (newSourceLine.getExpenditureFinancialDocumentNumber() == null || newSourceLine.getExpenditureFinancialDocumentNumber().trim().equals("")) {        
+
+        // Setting the default asset payment row document number.
+        if (newSourceLine.getExpenditureFinancialDocumentNumber() == null || newSourceLine.getExpenditureFinancialDocumentNumber().trim().equals("")) {
             newSourceLine.setExpenditureFinancialDocumentNumber(worflowDocumentNumber);
         }
 
-        //Setting the default asset payment row origination code.
-        if (newSourceLine.getExpenditureFinancialSystemOriginationCode() == null || newSourceLine.getExpenditureFinancialSystemOriginationCode().trim().equals("")) {        
+        // Setting the default asset payment row origination code.
+        if (newSourceLine.getExpenditureFinancialSystemOriginationCode() == null || newSourceLine.getExpenditureFinancialSystemOriginationCode().trim().equals("")) {
             newSourceLine.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
-        }        
-        
+        }
+
         return (SourceAccountingLine) newSourceLine;
     }
 
@@ -157,10 +140,10 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        //Refreshing reference to the asset table.
-        for(AssetPaymentAssetDetail assetPaymentAssetDetail:this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
+        // Refreshing reference to the asset table.
+        for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
             assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
-        }        
+        }
     }
 
     public String getLookupResultsSequenceNumber() {

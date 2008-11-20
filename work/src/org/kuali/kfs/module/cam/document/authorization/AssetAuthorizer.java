@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -42,10 +41,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * AssetAuthorizer for Asset edit.
  */
 public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
-    private static PersonService personService = SpringContext.getBean(PersonService.class);
-
 
     /**
      * Returns the set of authorization restrictions (if any) that apply to this Asset in this context.
@@ -70,12 +65,12 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         else {
             // Asset edit: work group authorization
             if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-                makeReadOnlyFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MERGE_SEPARATE_EDITABLE_FIELDS));
+                makeReadOnlyFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.MERGE_SEPARATE_EDITABLE_FIELDS));
             }
             else if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
                 // If departmental user
-                hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
-                makeReadOnlyFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_EDITABLE_FIELDS));
+                hideFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
+                makeReadOnlyFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_EDITABLE_FIELDS));
             }
             // acquisition type code is read-only during edit
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
@@ -105,11 +100,12 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         // WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
         if (asset.isTagged() & !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
             // if tag was created in a prior fiscal year, set tag number, asset type code and description as view only
-            if (assetService.isAssetTaggedInPriorFiscalYear(asset)) {
-                makeReadOnlyFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR ));
-            } else {
+            if (getAssetService().isAssetTaggedInPriorFiscalYear(asset)) {
+                makeReadOnlyFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
+            }
+            else {
                 // Set the Tag Number as view only
-                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);                
+                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
             }
         }
     }
@@ -148,7 +144,7 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
 
         // If asset is retired then deny "Save", "Submit" and "Approve"
         Asset asset = (Asset) document.getDocumentBusinessObject();
-        if (assetService.isAssetRetired(asset)) {
+        if (getAssetService().isAssetRetired(asset)) {
             GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_NOEDIT, new String[] {});
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
@@ -159,4 +155,11 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         return actionFlags;
     }
 
+    private ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
+    }
+
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
 }

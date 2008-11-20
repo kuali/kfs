@@ -42,52 +42,41 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
- * 
- * Action class for the asset barcode inventory error document 
+ * Action class for the asset barcode inventory error document
  */
 public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
 
-    private static final KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
-    private static final DocumentService documentService = SpringContext.getBean(DocumentService.class);
-    private static final AssetBarcodeInventoryLoadService assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
-    private static final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    private static final DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
     /**
      * Adds handling for cash control detail amount updates.
      * 
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     *
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BarcodeInventoryErrorForm apForm = (BarcodeInventoryErrorForm) form;
-        String command = ((BarcodeInventoryErrorForm) form).getCommand();
-        String docID = ((BarcodeInventoryErrorForm) form).getDocId();
-
-        LOG.info("***BarcodeInventoryErrorAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID);
-        return super.execute(mapping, form, request, response);
-    }*/
+     * @Override public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+     *           HttpServletResponse response) throws Exception { BarcodeInventoryErrorForm apForm = (BarcodeInventoryErrorForm)
+     *           form; String command = ((BarcodeInventoryErrorForm) form).getCommand(); String docID = ((BarcodeInventoryErrorForm)
+     *           form).getDocId(); LOG.info("***BarcodeInventoryErrorAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " -
+     *           Command:" + command + " - DocId:" + docID); return super.execute(mapping, form, request, response); }
+     */
 
     /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
 
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
-        BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();        
-        
-        this.invokeRules(document,false);
+        BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
+
+        this.invokeRules(document, false);
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
     /**
-     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -97,14 +86,13 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
 
-        //Validating records.
-        this.invokeRules(document,false);
+        // Validating records.
+        this.invokeRules(document, false);
     }
 
     /**
-     * 
      * Searches and replaces BCIE document data on the document
-     *    
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -120,27 +108,27 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         String currentUserID = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument());
-        //BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
+        // BarcodeInventoryErrorDetailPredicate predicatedClosure = new
+        // BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
 
-        //searches and replaces
+        // searches and replaces
         CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
 
         document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
         barcodeInventoryErrorForm.setDocument(document);
 
-        //Validating.
-        this.invokeRules(document,false);
-        
-        //Search fields initialization.
+        // Validating.
+        this.invokeRules(document, false);
+
+        // Search fields initialization.
         barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument().resetSearchFields();
 
-        //Displaying JSP
+        // Displaying JSP
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * 
-     * Validates all the selected records and saves them    
+     * Validates all the selected records and saves them
      * 
      * @param mapping
      * @param form
@@ -161,38 +149,38 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         // If rows were selected.....
         if (selectedCheckboxes != null) {
 
-            //Validate
-            this.invokeRules(document,true);
+            // Validate
+            this.invokeRules(document, true);
 
             barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
             for (int i = 0; i < selectedCheckboxes.length; i++) {
                 for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
                         if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
-                            detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
+                            detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
                             detail.setCorrectorUniversalIdentifier(currentUserID);
 
-                            assetBarcodeInventoryLoadService.updateAssetInformation(detail);
+                            getAssetBarcodeInventoryLoadService().updateAssetInformation(detail);
                         }
                     }
                 }
             }
 
-            if (this.isFullyProcessed(document)) {                    
-                //If the same person that uploaded the bcie is the one processing it, then....
+            if (this.isFullyProcessed(document)) {
+                // If the same person that uploaded the bcie is the one processing it, then....
                 if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
                     this.blanketApprove(mapping, form, request, response);
                 }
             }
             else {
-                businessObjectService.save(document.getBarcodeInventoryErrorDetail());
+                getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
             }
         }
 
-        //Loading changes on page
+        // Loading changes on page
         this.loadDocument((KualiDocumentFormBase) form);
 
-        //resetting the checkboxes
+        // resetting the checkboxes
         barcodeInventoryErrorForm.resetCheckBoxes();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -200,8 +188,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
 
     /**
-     * 
      * Deletes selected lines from the document
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -219,20 +207,20 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         int selectedCheckboxes[] = barcodeInventoryErrorForm.getRowCheckbox();
 
-        //If rows were selected
+        // If rows were selected
         if (!(selectedCheckboxes == null)) {
             for (int i = 0; i < selectedCheckboxes.length; i++) {
                 for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
                         detail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_DELETED);
-                        detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
+                        detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
                         detail.setCorrectorUniversalIdentifier(currentUserID);
                     }
                 }
             }
 
             if (this.isFullyProcessed(document)) {
-                //If the same person that uploaded the bcie is the one processing it, then....
+                // If the same person that uploaded the bcie is the one processing it, then....
                 if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
                     this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
                 }
@@ -247,14 +235,13 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * 
-     * Invokes the method that validates the bar code inventory error records and that resides in 
-     * the rule class BarcodeInventoryErrorDocumentRule
+     * Invokes the method that validates the bar code inventory error records and that resides in the rule class
+     * BarcodeInventoryErrorDocumentRule
      * 
      * @param document
      */
     private void invokeRules(BarcodeInventoryErrorDocument document, boolean updateStatus) {
-        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", document,updateStatus));
+        getKualiRuleService().applyRules(new ValidateBarcodeInventoryEvent("", document, updateStatus));
     }
 
 
@@ -276,5 +263,22 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
             }
         }
         return result;
+    }
+
+    private KualiRuleService getKualiRuleService() {
+        return SpringContext.getBean(KualiRuleService.class);
+    }
+
+
+    private AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
+        return SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
+
+    private DateTimeService getDateTimeService() {
+        return SpringContext.getBean(DateTimeService.class);
     }
 }

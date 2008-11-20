@@ -43,8 +43,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
-    private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
     /**
      * Hide or set specific fields as non-editable.
@@ -58,7 +56,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         // "Asset Separate" document functionality
-        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, false);
         }
@@ -74,7 +72,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);
 
-            if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
+            if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
                 // Fields in the add section
                 auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
                 auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);
@@ -229,10 +227,17 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, acquisitonTypeCode);
 
-        AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) businessObjectService.findByPrimaryKey(AssetAcquisitionType.class, pkMap);
+        AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) getBusinessObjectService().findByPrimaryKey(AssetAcquisitionType.class, pkMap);
         if (ObjectUtils.isNotNull(assetAcquisitionType) && !assetAcquisitionType.isActive()) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });
         }
     }
 
+    private AssetGlobalService getAssetGlobalService() {
+        return SpringContext.getBean(AssetGlobalService.class);
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
 }

@@ -22,7 +22,6 @@ import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -35,15 +34,13 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetGlobalPreRules extends MaintenancePreRulesBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalPreRules.class);
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
     /**
      * Sets up a convenience object and few other Asset attributes
      * 
      * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-    @Override  
+    @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         if (hasDifferentObjectSubTypes(document)) {
             if (!isOkHavingDifferentObjectSubTypes()) {
@@ -65,7 +62,7 @@ public class AssetGlobalPreRules extends MaintenancePreRulesBase {
     public boolean hasDifferentObjectSubTypes(MaintenanceDocument document) {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
-        boolean invalid=false;
+        boolean invalid = false;
         List<String> objectSubTypeList = new ArrayList<String>();
 
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
@@ -74,19 +71,27 @@ public class AssetGlobalPreRules extends MaintenancePreRulesBase {
                 objectSubTypeList.add(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
             }
         }
-        if (!assetService.isObjectSubTypeCompatible(objectSubTypeList)) {
+        if (!getAssetService().isObjectSubTypeCompatible(objectSubTypeList)) {
             invalid = true;
         }
         return invalid;
     }
 
-    
+
     private boolean isOkHavingDifferentObjectSubTypes() {
-        String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";        
+        String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-        
+
         String continueQuestion = kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
-        String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES)+ " "+CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail+". "+continueQuestion;
+        String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
         return super.askOrAnalyzeYesNoQuestion(CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
+    }
+
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
+
+    private ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
     }
 }

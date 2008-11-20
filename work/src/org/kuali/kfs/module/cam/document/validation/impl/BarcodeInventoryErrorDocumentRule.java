@@ -46,7 +46,6 @@ import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -56,13 +55,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocumentRule.class);
-
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
-    private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-    private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    private static DocumentLockingService documentLockingService= SpringContext.getBean(DocumentLockingService.class);
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -86,7 +78,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
         Long lineNumber = new Long(0);
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
-            barcodeInventoryErrorDetail.setErrorDescription("");                    
+            barcodeInventoryErrorDetail.setErrorDescription("");
             if (barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
                 valid = true;
                 errorPath = CamsConstants.DOCUMENT_PATH + "." + CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue()) + "]";
@@ -98,7 +90,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 valid &= this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
                 valid &= this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail);
                 valid &= this.validateInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
-                valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber(),document.getDocumentNumber());
+                valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber(), document.getDocumentNumber());
 
                 if (!valid) {
                     barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
@@ -118,10 +110,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         }
 
         /*
-         * Since this document displays the asset lock error messages on the error description field, we don't want to
-         * display the same message at the top of the document. Therefore, deleteLockErrorMessages method deletes such
-         * errors from the GlobalVariables object. 
-         */         
+         * Since this document displays the asset lock error messages on the error description field, we don't want to display the
+         * same message at the top of the document. Therefore, deleteLockErrorMessages method deletes such errors from the
+         * GlobalVariables object.
+         */
         deleteLockErrorMessages();
 
         return true;
@@ -137,22 +129,23 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     private boolean validateTagNumber(String tagNumber) {
         boolean result = true;
         // Getting a list of active assets.
-        Collection<Asset> assets = assetService.findAssetsMatchingTagNumber(tagNumber);
+        Collection<Asset> assets = getAssetService().findAssetsMatchingTagNumber(tagNumber);
 
         if (ObjectUtils.isNull(assets) || assets.isEmpty()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_CAPITAL_ASSET_DOESNT_EXIST);
             result = false;
         }
         else {
-            int activeAssets=assets.size();
+            int activeAssets = assets.size();
             for (Asset asset : assets) {
-               if (assetService.isAssetRetired(asset))
-                  activeAssets--;  
-            }                        
+                if (getAssetService().isAssetRetired(asset))
+                    activeAssets--;
+            }
             if (activeAssets == 0) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_CAPITAL_ASSET_IS_RETIRED);
-                result = false;                
-            } else if (activeAssets > 1) {
+                result = false;
+            }
+            else if (activeAssets > 1) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_DUPLICATED_TAG_NUMBER);
                 result = false;
             }
@@ -192,7 +185,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         Campus campus;
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
-        campus = (Campus) businessObjectService.findByPrimaryKey(Campus.class, fields);
+        campus = (Campus) getBusinessObjectService().findByPrimaryKey(Campus.class, fields);
 
         if (ObjectUtils.isNull(campus)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
@@ -217,7 +210,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
         fields.put(KFSPropertyConstants.BUILDING_CODE, detail.getBuildingCode());
-        building = (Building) businessObjectService.findByPrimaryKey(Building.class, fields);
+        building = (Building) getBusinessObjectService().findByPrimaryKey(Building.class, fields);
 
         if (ObjectUtils.isNull(building)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
@@ -243,7 +236,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
         fields.put(KFSPropertyConstants.BUILDING_CODE, detail.getBuildingCode());
         fields.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, detail.getBuildingRoomNumber());
-        room = (Room) businessObjectService.findByPrimaryKey(Room.class, fields);
+        room = (Room) getBusinessObjectService().findByPrimaryKey(Room.class, fields);
 
         if (ObjectUtils.isNull(room)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
@@ -266,7 +259,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         AssetCondition condition;
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE, detail.getAssetConditionCode());
-        condition = (AssetCondition) businessObjectService.findByPrimaryKey(AssetCondition.class, fields);
+        condition = (AssetCondition) getBusinessObjectService().findByPrimaryKey(AssetCondition.class, fields);
 
         if (ObjectUtils.isNull(condition)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
@@ -282,33 +275,33 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param tagNumber
      * @return boolean
      */
-    private boolean validateTaggingLock(String tagNumber,String documentNumber) {
+    private boolean validateTaggingLock(String tagNumber, String documentNumber) {
         boolean result = true;
         boolean isAssetLocked = false;
         String skipAssetLockValidation;
 
         // Getting system parameter in order to determine whether or not the asset locks will be ignored.
-        if (parameterService.parameterExists(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS)) {
-            skipAssetLockValidation = parameterService.getParameterValue(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS);
+        if (getParameterService().parameterExists(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS)) {
+            skipAssetLockValidation = getParameterService().getParameterValue(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS);
         }
         else {
-            LOG.warn("CAMS Parameter '" + CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS + "' not found! - Setting default value to 'N' ");            
+            LOG.warn("CAMS Parameter '" + CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS + "' not found! - Setting default value to 'N' ");
             skipAssetLockValidation = CamsConstants.BarcodeInventoryError.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO;
         }
 
         if (skipAssetLockValidation == null || StringUtils.isEmpty(skipAssetLockValidation) || StringUtils.equals(skipAssetLockValidation, CamsConstants.BarcodeInventoryError.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO)) {
             // Getting a list of active assets.
-            List<Asset> assets = assetService.findActiveAssetsMatchingTagNumber(tagNumber);
+            List<Asset> assets = getAssetService().findActiveAssetsMatchingTagNumber(tagNumber);
             if (assets.size() > 1) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_DUPLICATED_TAG_NUMBER);
                 result = false;
             }
             else if ((assets.size() > 0)) {
-                isAssetLocked = assetService.isAssetLocked("", assets.get(0).getCapitalAssetNumber());
+                isAssetLocked = getAssetService().isAssetLocked("", assets.get(0).getCapitalAssetNumber());
                 if (isAssetLocked) {
-                    String lockingDocumentId = assetService.getLockingDocumentId(documentNumber, assets.get(0).getCapitalAssetNumber());
+                    String lockingDocumentId = getAssetService().getLockingDocumentId(documentNumber, assets.get(0).getCapitalAssetNumber());
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_ASSET_LOCKED, lockingDocumentId);
-                    result = false;                    
+                    result = false;
                 }
             }
         }
@@ -333,7 +326,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             String propertyName = errorPath + "." + fields[i];
             if (GlobalVariables.getErrorMap().containsKey(propertyName)) {
                 for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(propertyName)) {
-                    String errorMsg = kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    String errorMsg = getKualiConfigurationService().getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
                     message += ", " + MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }
@@ -343,12 +336,12 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
 
     /**
-     * 
      * Deletes the asset locking error messages from the GlobalVariables.
-     * @return none 
+     * 
+     * @return none
      */
     private void deleteLockErrorMessages() {
-        //Finding locking error messages
+        // Finding locking error messages
         List<ErrorMessage> el = new ArrayList<ErrorMessage>();
 
         if (GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS) == null) {
@@ -356,15 +349,35 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         }
 
         for (Iterator<ErrorMessage> iterator = GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).iterator(); iterator.hasNext();) {
-            ErrorMessage errorMessage= (ErrorMessage)iterator.next();
+            ErrorMessage errorMessage = (ErrorMessage) iterator.next();
             if (errorMessage.getErrorKey().equals(KFSKeyConstants.ERROR_MAINTENANCE_LOCKED)) {
-                el.add(errorMessage);                        
+                el.add(errorMessage);
             }
         }
 
-        //Deleting asset locked error messages from global variable.
-        for(ErrorMessage em : el) {
+        // Deleting asset locked error messages from global variable.
+        for (ErrorMessage em : el) {
             GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).remove(em);
-        }        
+        }
+    }
+
+    private ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
+    }
+
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
+
+    private DateTimeService getDateTimeService() {
+        return SpringContext.getBean(DateTimeService.class);
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
+
+    private DocumentLockingService getDocumentLockingService() {
+        return SpringContext.getBean(DocumentLockingService.class);
     }
 }

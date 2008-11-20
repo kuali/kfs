@@ -17,7 +17,6 @@ package org.kuali.kfs.module.cam.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +39,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
-import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
@@ -71,12 +69,7 @@ import org.kuali.rice.kns.web.ui.Section;
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
 public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
-    private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-    private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
-    private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-
     private Set<RoutingData> routingInfo;
 
     /**
@@ -98,7 +91,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 
         // populate required fields for "Asset Separate" doc
-        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             Asset asset = getAsset(assetGlobal);
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
             populateAssetInformation(assetGlobal, asset);
@@ -272,7 +265,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         // hide "Asset Information", "Recalculate Total Amount" tabs if not "Asset Separate" doc
-        if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+        if (!getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             for (Section section : sections) {
                 if (CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION.equals(section.getSectionId())) {
                     section.setHidden(true);
@@ -321,7 +314,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
 
             // if not set, populate unique asset fields using original asset data. "Asset Separate" doc (location tab)
             if (ObjectUtils.isNotNull(assetGlobal)) {
-                if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+                if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
                     if (assetGlobalDetail.getCapitalAssetTypeCode() == null) {
                         assetGlobalDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                     }
@@ -353,7 +346,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             newAssetUnique.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
 
             // populate unique asset fields using original asset data. "Asset Separate" doc (location tab)
-            if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
                 newAssetUnique.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                 newAssetUnique.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
                 newAssetUnique.setManufacturerName(assetGlobal.getManufacturerName());
@@ -376,7 +369,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         if (assetPaymentDetail != null) {
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             // Set for document number and document type code
-            if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
+            if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
                 assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
@@ -552,7 +545,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         }
 
         // button actions for Asset Separate document
-        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
 
             // calculate equal source total amounts and set separate source amount fields
@@ -565,9 +558,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             // calculate source asset remaining amount
             if (customAction != null && "calculateSeparateSourceRemainingAmountButton".equals(customAction[0]) && sharedDetailsList.size() >= 1) {
                 // set Less Additions
-                assetGlobal.setSeparateSourceTotalAmount(assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal));
+                assetGlobal.setSeparateSourceTotalAmount(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal));
                 // set Remaining Total Amount
-                assetGlobal.setSeparateSourceRemainingAmount(assetGlobal.getTotalCostAmount().subtract(assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal)));
+                assetGlobal.setSeparateSourceRemainingAmount(assetGlobal.getTotalCostAmount().subtract(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal)));
             }
         }
     }
@@ -668,5 +661,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return Asset.class;
+    }
+
+    private AssetGlobalService getAssetGlobalService() {
+        return SpringContext.getBean(AssetGlobalService.class);
     }
 }

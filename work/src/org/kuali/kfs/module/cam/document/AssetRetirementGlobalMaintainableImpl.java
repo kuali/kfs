@@ -50,7 +50,6 @@ import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -65,10 +64,7 @@ import org.kuali.rice.kns.web.ui.Section;
 public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
-    private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
-    private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
 
     private static final Map<String, String[]> NON_VIEWABLE_SECTION_MAP = new HashMap<String, String[]>();
     static {
@@ -93,7 +89,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
 
         // Lock the merge target capital asset if it exists
-        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+        if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             MaintenanceLock maintenanceLock = new MaintenanceLock();
             StringBuffer lockRep = new StringBuffer();
 
@@ -131,7 +127,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         super.setupNewFromExisting(document, parameters);
 
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)){
+        if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             if (ObjectUtils.isNotNull(assetRetirementGlobal.getMergedTargetCapitalAssetNumber())) {
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
@@ -160,7 +156,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
                 section.setHidden(true);
             }
 
-            if (!assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+            if (!getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
                 if (CamsConstants.AssetRetirementGlobal.SECTION_TARGET_ASSET_RETIREMENT_INFO.equals(section.getSectionId())) {
                     section.setHidden(true);
                 }
@@ -235,7 +231,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
                 assetRetirementGlobal.setSharedRetirementInfo(sharedRetirementInfo);
             }
             // Set non-persistent values. So the screen can show them after submit.
-            assetService.setAssetSummaryFields(assetRetirementGlobalDetail.getAsset());
+            getAssetService().setAssetSummaryFields(assetRetirementGlobalDetail.getAsset());
         }
     }
 
@@ -251,7 +247,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
 
         if (KFSConstants.MULTIPLE_VALUE.equalsIgnoreCase(refreshCaller)) {
-            if (!assetRetirementService.isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode()) && assetRetirementGlobalDetails.size() > new Integer(1)) {
+            if (!getAssetRetirementService().isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode()) && assetRetirementGlobalDetails.size() > new Integer(1)) {
                 String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
@@ -260,18 +256,18 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             // Set non-persistent values in multiple lookup result collection. So the screen can show them when return from multiple
             // lookup.
             for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
-                assetService.setAssetSummaryFields(assetRetirementGlobalDetail.getAsset());
+                getAssetService().setAssetSummaryFields(assetRetirementGlobalDetail.getAsset());
             }
         }
         else if (CamsConstants.ASSET_LOOKUPABLE_ID.equalsIgnoreCase(refreshCaller)) {
             // Set non-persistent values in the result from asset lookup. So the screen can show them when return from sigle asset
             // lookup.
             String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
-            if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && referencesToRefresh.equals(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET)) {
+            if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && referencesToRefresh.equals(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET)) {
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
             AssetRetirementGlobalDetail newDetail = (AssetRetirementGlobalDetail) newCollectionLines.get(CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS);
-            assetService.setAssetSummaryFields(newDetail.getAsset());
+            getAssetService().setAssetSummaryFields(newDetail.getAsset());
         }
     }
 
@@ -288,7 +284,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             assetRetirementGlobal.setRetirementDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal);
 
-            if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+            if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
                 assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
                 SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal.getMergedTargetCapitalAsset());
             }
@@ -334,7 +330,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
-        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+        if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             Asset mergedTargetCapitalAsset = assetRetirementGlobal.getMergedTargetCapitalAsset();
             if (ObjectUtils.isNotNull(mergedTargetCapitalAsset)) {
                 chartOfAccountsCode = mergedTargetCapitalAsset.getOrganizationOwnerChartOfAccountsCode();
@@ -394,5 +390,13 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return Asset.class;
+    }
+
+    private AssetRetirementService getAssetRetirementService() {
+        return SpringContext.getBean(AssetRetirementService.class);
+    }
+
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
     }
 }

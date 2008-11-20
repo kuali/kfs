@@ -45,10 +45,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementAuthorizer.class);
 
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-    private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
-    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-
 
     /**
      * Returns the set of authorization restrictions (if any) that apply to this Asset Retirement in this context.
@@ -62,7 +58,7 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
-        if (!assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+        if (!getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC);
         }
@@ -98,17 +94,31 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(CamsPropertyConstants.AssetRetirementReason.RETIREMENT_REASON_CODE, reasonCode);
 
-        AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObjectService.findByPrimaryKey(AssetRetirementReason.class, pkMap);
+        AssetRetirementReason assetRetirementReason = (AssetRetirementReason) getBusinessObjectService().findByPrimaryKey(AssetRetirementReason.class, pkMap);
         if (assetRetirementReason != null && assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
- //       else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
-        else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
+        // else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class,
+        // CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) &&
+        // !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(),
+        // org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
+        else if (Arrays.asList(getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
-        else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
+        else if (Arrays.asList(getParameterService().getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RAZE_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
     }
 
+    private ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
+    }
+
+    private AssetRetirementService getAssetRetirementService() {
+        return SpringContext.getBean(AssetRetirementService.class);
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
 }

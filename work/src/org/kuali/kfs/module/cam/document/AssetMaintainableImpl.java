@@ -50,7 +50,6 @@ import org.kuali.rice.kns.web.ui.Section;
  * This class implements custom data preparation for displaying asset edit screen.
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable, GenericRoutingInfo {
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
     private Asset newAsset;
     private Asset copyAsset;
@@ -76,8 +75,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
 
         // Identifies the merge history and separation history based on asset disposition records
-        assetService.setSeparateHistory(copyAsset);
-        assetService.setSeparateHistory(newAsset);
+        getAssetService().setSeparateHistory(copyAsset);
+        getAssetService().setSeparateHistory(newAsset);
 
         // Finds out the latest retirement info, is asset is currently retired.
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
@@ -125,7 +124,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                     section.setHidden(true);
                 }
                 // if asset is not retired, hide retirement information
-                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !assetService.isAssetRetired(asset)) {
+                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !getAssetService().isAssetRetired(asset)) {
                     section.setHidden(true);
                 }
                 if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() == 0) {
@@ -193,7 +192,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             newAsset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
             newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
             newAsset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
-            assetService.setFiscalPeriod(newAsset);
+            getAssetService().setFiscalPeriod(newAsset);
         }
     }
 
@@ -267,4 +266,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         // }
     }
 
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
 }

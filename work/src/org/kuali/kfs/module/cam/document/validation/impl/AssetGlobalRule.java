@@ -304,7 +304,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // TODO: Do we need this rule? This rule violates PurAP Credit memo payment lines. In that case, payment will be negative.
         // handle payment information amount should be positive
-        if (assetPaymentDetail.getAmount() != null && !assetPaymentDetail.getAmount().isPositive()) {
+        if (assetPaymentDetail.getAmount() != null && assetPaymentDetail.getAmount().isNegative()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
             success &= false;
         }
@@ -539,8 +539,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateSeparateSourceAmount(AssetGlobalDetail uniqueLocationDetails) {
         boolean success = true;
-        if (StringUtils.isBlank(uniqueLocationDetails.getSeparateSourceAmount().toString()) || uniqueLocationDetails.getSeparateSourceAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED, uniqueLocationDetails.getSeparateSourceAmount().toString());
+        KualiDecimal separateSourceAmount = uniqueLocationDetails.getSeparateSourceAmount();
+        if (separateSourceAmount == null || separateSourceAmount.isLessEqual(KualiDecimal.ZERO)) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED);
             success &= false;
         }
         return success;

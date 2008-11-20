@@ -40,7 +40,7 @@ public class PaymentRequestView extends AbstractRelatedView {
     private String vendorName;
     private String vendorCustomerNumber;
     private Date paymentRequestPayDate;
-    private Date paymentExtractedDate;
+    private Timestamp paymentExtractedTimestamp;
     private Timestamp paymentPaidTimestamp;
     private KualiDecimal totalAmount;
     
@@ -55,12 +55,12 @@ public class PaymentRequestView extends AbstractRelatedView {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public Date getPaymentExtractedDate() {
-        return paymentExtractedDate;
+    public Timestamp getPaymentExtractedTimestamp() {
+        return paymentExtractedTimestamp;
     }
 
-    public void setPaymentExtractedDate(Date paymentExtractedDate) {
-        this.paymentExtractedDate = paymentExtractedDate;
+    public void setPaymentExtractedTimestamp(Timestamp paymentExtractedTimestamp) {
+        this.paymentExtractedTimestamp = paymentExtractedTimestamp;
     }
 
     public boolean isPaymentHoldIndicator() {

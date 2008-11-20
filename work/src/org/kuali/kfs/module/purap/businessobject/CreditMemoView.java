@@ -39,7 +39,7 @@ public class CreditMemoView extends AbstractRelatedView {
     private boolean creditHoldIndicator;
     private String vendorCustomerNumber;
     private Timestamp accountsPayableApprovalTimestamp;
-    private Date creditMemoExtractedDate;
+    private Timestamp creditMemoExtractedTimestamp;
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
     private KualiDecimal totalAmount;
@@ -63,12 +63,12 @@ public class CreditMemoView extends AbstractRelatedView {
         this.creditHoldIndicator = creditHoldIndicator;
     }
 
-    public Date getCreditMemoExtractedDate() {
-        return creditMemoExtractedDate;
+    public Timestamp getCreditMemoExtractedTimestamp() {
+        return creditMemoExtractedTimestamp;
     }
 
-    public void setCreditMemoExtractedDate(Date creditMemoExtractedDate) {
-        this.creditMemoExtractedDate = creditMemoExtractedDate;
+    public void setCreditMemoExtractedTimestamp(Timestamp creditMemoExtractedTimestamp) {
+        this.creditMemoExtractedTimestamp = creditMemoExtractedTimestamp;
     }
 
     public String getCreditMemoNumber() {

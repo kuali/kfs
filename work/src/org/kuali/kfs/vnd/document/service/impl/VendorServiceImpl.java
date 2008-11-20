@@ -309,9 +309,9 @@ public class VendorServiceImpl implements VendorService {
         if (VendorConstants.TAX_TYPE_SSN.equals(vendorToUse.getVendorHeader().getVendorTaxTypeCode())) {
             String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
             if (StringUtils.isNotBlank(ssnTaxId)) {
-                Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnTaxId).get(0);
-                if (person != null) {
-                    return ObjectUtils.isNotNull(person);
+                List<Person> personList = SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnTaxId);
+                if (personList != null && !personList.isEmpty()) {
+                    return ObjectUtils.isNotNull(personList.get(0));
                 } else {
                     // user is not in the system... assume non-person
                     return false;

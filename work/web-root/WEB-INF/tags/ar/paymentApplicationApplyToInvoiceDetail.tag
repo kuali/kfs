@@ -32,12 +32,6 @@
 
 <kul:tab tabTitle="Apply to Invoice Detail" defaultOpen="true"
 	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
-	<html:hidden property="document.accountsReceivableDocumentHeader.documentNumber" />
-	<html:hidden property="document.accountsReceivableDocumentHeader.objectId" />
-	<html:hidden property="document.accountsReceivableDocumentHeader.versionNumber" />
-	<html:hidden property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
-	<html:hidden property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
-	<html:hidden property="selectedInvoiceDocument.documentNumber" />
 	<div class="tab-container" align="center">
         <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>

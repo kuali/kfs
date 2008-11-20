@@ -49,6 +49,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -114,13 +115,13 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writePayee(os, 4, history.getPaymentGroup());
 
                 writeTag(os, 4, "netAmount", history.getPaymentGroup().getNetPaymentAmount().toString());
-                if (history.getOrigDisburseNbr() != null) {
+                if (ObjectUtils.isNotNull(history.getOrigDisburseNbr()) ) {
                     writeTag(os, 4, "disbursementNumber", history.getOrigDisburseNbr().toString());
                 }
                 else {
                     writeTag(os, 4, "disbursementNumber", history.getPaymentGroup().getDisbursementNbr().toString());
                 }
-                if (history.getPaymentGroup().getDisbursementType() != null) {
+                if (ObjectUtils.isNotNull(history.getPaymentGroup().getDisbursementType()) ) {
                     writeTag(os, 4, "disbursementType", history.getPaymentGroup().getDisbursementType().getCode());
                 }
                 else {
@@ -224,7 +225,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                     PaymentDetail pd = (PaymentDetail) i.next();
                     PaymentGroup pg = pd.getPaymentGroup();
                     if (!testMode) {
-                        if (pg.getDisbursementDate() == null) {
+                        if (ObjectUtils.isNull(pg.getDisbursementDate()) ) {
                             pg.setDisbursementDate(new Timestamp(processDate.getTime()));
                             this.businessObjectService.save(pg);
                         }

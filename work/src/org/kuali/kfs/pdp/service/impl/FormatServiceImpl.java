@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
@@ -62,11 +61,11 @@ import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -341,15 +340,15 @@ public class FormatServiceImpl implements FormatService {
             paymentGroup.setPaymentStatus(paymentStatus);
 
             // set bank, use group bank unless not given or not valid for checks
-            if (paymentGroup.getBank() == null || !paymentGroup.getBank().isBankCheckIndicator()) {
+            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankCheckIndicator()) {
                 CustomerBank customerBank = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.CHECK);
-                if (customerBank != null && customerBank.isActive()) {
+                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive()) {
                     paymentGroup.setBankCode(customerBank.getBankCode());
                     paymentGroup.setBank(customerBank.getBank());
                 }
             }
 
-            if (paymentGroup.getBank() == null) {
+            if (ObjectUtils.isNull(paymentGroup.getBank()) ) {
                 LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
 
@@ -363,15 +362,15 @@ public class FormatServiceImpl implements FormatService {
             paymentGroup.setPaymentStatus(paymentStatus);
 
             // set bank, use group bank unless not given or not valid for ACH
-            if (paymentGroup.getBank() == null || !paymentGroup.getBank().isBankAchIndicator()) {
+            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankAchIndicator()) {
                 CustomerBank customerBank = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.ACH);
-                if (customerBank != null && customerBank.isActive()) {
+                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive()) {
                     paymentGroup.setBankCode(customerBank.getBankCode());
                     paymentGroup.setBank(customerBank.getBank());
                 }
             }
 
-            if (paymentGroup.getBank() == null) {
+            if (ObjectUtils.isNull(paymentGroup.getBank()) ) {
                 LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
 

@@ -52,6 +52,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -357,7 +358,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
         if (!(PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
-            if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
+            if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (ObjectUtils.isNotNull(paymentGroup.getDisbursementDate()) )) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
@@ -366,7 +367,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
 
-                    if ((element.getDisbursementType() != null) && (element.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
+                    if ((ObjectUtils.isNotNull(element.getDisbursementType()) ) && (element.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
                         pgh.setPmtCancelExtractStat(Boolean.FALSE);
                     }
 
@@ -418,7 +419,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
         if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
-            if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
+            if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (ObjectUtils.isNotNull(paymentGroup.getDisbursementDate()) )) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
@@ -426,7 +427,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 for (PaymentGroup pg : allDisbursementPaymentGroups) {
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
 
-                    if ((pg.getDisbursementType() != null) && (pg.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
+                    if ((ObjectUtils.isNotNull(pg.getDisbursementType()) ) && (pg.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
                         pgh.setPmtCancelExtractStat(Boolean.FALSE);
                     }
 
@@ -447,7 +448,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                     AchAccountNumber achAccountNumber = pg.getAchAccountNumber();
 
-                    if (achAccountNumber != null) {
+                    if (ObjectUtils.isNotNull(achAccountNumber) ) {
                         this.businessObjectService.delete(achAccountNumber);
                         pg.setAchAccountNumber(null);
                     }

@@ -47,14 +47,6 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.form.AccountingDocumentFormBase#getRefreshCaller()
-     */
-    @Override
-    public String getRefreshCaller() {
-        return KFSConstants.MULTIPLE_VALUE;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ld.document.web.struts.MultipleValueLookupBroker#getLookupResultsSequenceNumber()
      */
     public String getLookupResultsSequenceNumber() {

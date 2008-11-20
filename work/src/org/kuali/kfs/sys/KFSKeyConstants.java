@@ -772,4 +772,13 @@ public class KFSKeyConstants {
     public static final String LABEL_ACCOUNTING_LINE_FIELD = "accounting.line.field.line.label";
     public static final String ERROR_INVALID_CAPITAL_ASSET_QUANTITY = "error.document.capitalAssetEdit.invalidAssetQuantity";
     public static final String ERROR_DV_PAYMENT_REASON_NOT_SELECTED = "error.document.paymentReasonNotSelected";
+    
+    public static final String WARNING_DV_PAYMENT_REASON_VALID_FOR_MULTIPLE_PAYEE_TYPES = "warning.dv.paymentReason.mutilpeValidPayeeTypes";
+    public static final String WARNING_DV_PAYMENT_REASON_VALID_FOR_SINGEL_PAYEE_TYPE = "warning.dv.paymentReason.singleValidPayeeType";
+    public static final String WARNING_DV_REASERCH_PAYMENT_REASON = "warning.dv.paymentReason.research";
+    public static final String WARNING_DV_MOVING_PAYMENT_REASON = "warning.dv.paymentReason.moving";
+    public static final String WARNING_DV_PREPAID_TRAVEL_PAYMENT_REASON = "warning.dv.paymentReason.prepaidTravel";
+    
+    public static final String ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION = "error.dv.vendorNamePersonNameConfusion";
+    public static final String ERROR_DV_VENDOR_EMPLOYEE_CONFUSION = "error.dv.vendorEmployeeConfusion";
 }

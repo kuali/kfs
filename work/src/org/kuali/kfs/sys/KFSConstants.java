@@ -224,6 +224,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String RICE_PATH_PREFIX = "kr/";
     public static final String USE_CONTINUATION_BANK_QUESTION = "UseContinuationBankQuestion";
     public static final String NEW_WINDOW_URL_TARGET = "_blank";
+    public static final String AND = "and";
+    public static final String COMMA = ",";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field

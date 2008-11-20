@@ -506,6 +506,7 @@ public class KFSPropertyConstants {
     public static final String EMAIL_ADDRESS = KNSPropertyConstants.EMAIL_ADDRESS;
     public static final String EMPLID = "emplid";
     public static final String EMPLOYEE = "employee";
+    public static final String EMPLOYEE_ID = "employeeId";
     public static final String EMPLOYEE_RECORD = "employeeRecord";
     public static final String EMPLOYEE_STATUS_CODE = KNSPropertyConstants.EMPLOYEE_STATUS_CODE;
     public static final String EMPLOYEE_TYPE_CODE = KNSPropertyConstants.EMPLOYEE_TYPE_CODE;
@@ -1216,5 +1217,8 @@ public class KFSPropertyConstants {
     public static final String PAYEE_NAME = "payeeName";
     public static final String VENDOR_ADDRESSES = "vendorAddresses";
     public static final String PAYMENT_REASON_CODE = "paymentReasonCode";
+    public static final String TAX_NUMBER = "taxNumber";
+    public static final String VENDOR_TYPE_CODE = "vendorTypeCode";
+    public static final String PRINCIPAL_ID = "principalId";
 }
 

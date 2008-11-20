@@ -36,34 +36,27 @@
 		<br />
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedRequisitionViews"
-			documentTypeLabel="Requisitions" /> 
+			viewList="document.relatedViews.relatedRequisitionViews" /> 
 		
 		<purap:relatedPurchaseOrderDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.groupedRelatedPurchaseOrderViews"
-			limitByPoId="${limitByPoId}"
-			documentTypeLabel="Purchase Order" /> 
+			limitByPoId="${limitByPoId}" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedPaymentRequestViews"
-			limitByPoId="${limitByPoId}"
-			documentTypeLabel="Payment Request" /> 
+			limitByPoId="${limitByPoId}" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedCreditMemoViews"
-			limitByPoId="${limitByPoId}"
-			documentTypeLabel="Credit Memo" /> 
+			limitByPoId="${limitByPoId}" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedLineItemReceivingViews"
-			documentTypeLabel="Receiving Line" /> 
+			viewList="document.relatedViews.relatedLineItemReceivingViews" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedCorrectionReceivingViews"
-			documentTypeLabel="Receiving Correction" /> 
+			viewList="document.relatedViews.relatedCorrectionReceivingViews" /> 
 			
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedBulkReceivingViews"
-			documentTypeLabel="Bulk Receiving" /> 
+			viewList="document.relatedViews.relatedBulkReceivingViews" /> 
     </div>
 </kul:tab>

@@ -20,8 +20,11 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -84,6 +87,17 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
     }
 
+    /**
+     * Returns the document label according to the label specified in the data dictionary.
+     * 
+     * @return
+     * @throws WorkflowException
+     */
+    public String getDocumentLabel() throws WorkflowException{
+        Class documentClass = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentNumber()).getClass();
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(documentClass);      
+    }
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

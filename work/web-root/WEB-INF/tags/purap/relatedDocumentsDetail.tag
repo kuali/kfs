@@ -18,7 +18,6 @@
               description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <%@ attribute name="viewList" required="true" %>
-<%@ attribute name="documentTypeLabel" required="true" %>
 <%@ attribute name="limitByPoId" required="false" %>
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
@@ -36,11 +35,11 @@
 				<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purchaseOrderIdentifier)}">
 					<c:choose>
 						<c:when test="${isRequisition}">
-				    		<h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a>
-				    			&nbsp;(Purchase Order - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purchaseOrderIdentifier}" /></a>)</h3>
+				    		<h3>${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a>
+				    			&nbsp;(Purchase Order - ${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purchaseOrderIdentifier}" /></a>)</h3>
 				    	</c:when>
 				    	<c:otherwise>
-				    		<h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
+				    		<h3>${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
 				    	</c:otherwise>
 				    </c:choose>
 				    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">

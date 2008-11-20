@@ -18,7 +18,6 @@
               description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <%@ attribute name="viewList" required="true" %>
-<%@ attribute name="documentTypeLabel" required="true" %>
 <%@ attribute name="limitByPoId" required="true" %>
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
@@ -37,13 +36,13 @@
 					<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purapDocumentIdentifier)}">
 					    <c:choose>
 					        <c:when test= "${view.purchaseOrderCurrentIndicator}">
-		        	            <h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h3>
+		        	            <h3> ${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h3>
 					        </c:when>
 					        <c:otherwise>
 					            <c:if test="${viewCtr.count eq 1}">
-		                            <h3><c:out value="${documentTypeLabel}"/></h3>
+		                            <h3><c:out value="${view.documentLabel}"/></h3>
 					            </c:if>
-		                        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="Doc #"/> <a href="<c:out value="${view.url}" />"  target="_BLANK"><c:out value="${view.documentNumber}" /></a></h3>
+		                        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${view.documentLabel} - <c:out value="Doc #"/> <a href="<c:out value="${view.url}" />"  target="_BLANK"><c:out value="${view.documentNumber}" /></a></h3>
 					        </c:otherwise>
 					    </c:choose>
 					    <c:if test="${not empty view.notes}">

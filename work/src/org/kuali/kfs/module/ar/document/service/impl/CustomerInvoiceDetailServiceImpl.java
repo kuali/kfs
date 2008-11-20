@@ -126,7 +126,8 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
         customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT);
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
-
+        customerInvoiceDetail.setTaxableIndicator(false);
+        
         return customerInvoiceDetail;
     }
 

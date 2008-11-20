@@ -21,6 +21,7 @@
 	showTabButtons="true">
 
 	<kfs:hiddenDocumentFields />
+	<kfs:accountingLineScriptImports />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
@@ -41,53 +42,12 @@
       	receivableValuesMap="${KualiForm.document.valuesMap}"  />
     </c:if>
      
-	<c:set var="actionInfixVar" value="" scope="request" />
-	<c:set var="accountingLineIndexVar" value="" scope="request" />     
-	<fin:accountingLines
-	    editingMode="${KualiForm.editingMode}"
-	    editableAccounts="${KualiForm.editableAccounts}"
-	    optionalFields="invoiceItemCode,invoiceItemQuantity,invoiceItemDescription,invoiceItemServiceDate,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,taxableIndicator,invoiceItemTaxAmount,openAmount"
-	    extraHiddenFields=",accountsReceivableObjectCode,invoiceItemDiscountLineNumber"
-	    isOptionalFieldsInNewRow="true"
-	    sourceAccountingLinesOnly="true"
-	    forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
-	    >
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys:accountingLines>
+	</kul:tab>
 	    
-	    <jsp:attribute name="newLineCustomActions">
-			<c:set var="refreshMethod"
-				value="refreshNewSourceLine"
-				scope="request" />
-			<html:image
-				property="methodToCall.${refreshMethod}"
-				src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh New Source Line"
-				alt="Refresh New Source Line" styleClass="tinybutton" />
-		</jsp:attribute>		    
-		
-		<jsp:attribute name="customActions">
-			<c:set var="isDiscountLineParent" value="${KualiForm.document.sourceAccountingLines[accountingLineIndexVar].discountLineParent}" />
-			<c:set var="isDiscountLine" value="${KualiForm.document.sourceAccountingLines[accountingLineIndexVar].discountLine}" />
-		
-			<c:set var="recalculateMethod"
-				value="recalculateSourceLine.line${accountingLineIndexVar}"
-				scope="request" />
-			<html:image
-				property="methodToCall.${recalculateMethod}.anchoraccounting${actionInfixVar}Anchor"
-				src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate a Source Accounting Line"
-				alt="Recalculate Source Accounting Line" styleClass="tinybutton" /><br/>
-				
-			<c:if test="${!isDiscountLine && !isDiscountLineParent}">
-				<c:set var="discountMethod"
-					value="discountSourceLine.line${accountingLineIndexVar}"
-					scope="request" />
-				<html:image
-					property="methodToCall.${discountMethod}.anchoraccounting${actionInfixVar}Anchor"
-					src="${ConfigProperties.externalizable.images.url}tinybutton-discount.gif" title="Discount a Source Accounting Line"
-					alt="Discount a Source Accounting Line" styleClass="tinybutton" /><br/>
-			</c:if>				
-		</jsp:attribute>
-
-	</fin:accountingLines>
-	
 	<gl:generalLedgerPendingEntries />
 		            
 	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 

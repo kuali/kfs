@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="invoiceItemInformation" parent="invoiceItemInformation-parent" />
+
+	<bean id="invoiceItemInformation-parent" parent="AccountingLineView-line" abstract="true">
+		<property name="elementName" value="invoiceItemInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemCode"                       p:required="false" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemQuantity"                   p:required="true" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemDescription"	               p:required="false" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemServiceDate"	               p:required="true" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemUnitOfMeasureCode"          p:required="false" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemUnitPrice"                  p:required="true" />
+				<bean parent="AccountingLineView-field"	p:name="taxableIndicator"                      p:required="false">
+					<property name="defaultValue">
+						<value>False</value>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field"	p:name="accountsReceivableObjectCode"          p:required="false" p:hidden="true" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemDiscountLineNumber"         p:required="false" p:hidden="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="invoiceSubAmountsInformation" parent="invoiceSubAmountsInformation-parent" />
+
+	<bean id="invoiceSubAmountsInformation-parent" parent="AccountingLineView-line" abstract="true">
+		<property name="elementName" value="invoiceSubAmountsInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemTaxAmount"         p:required="false" p:readOnly="true" />
+				<bean parent="AccountingLineView-field"	p:name="openAmount"                   p:required="false" p:readOnly="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AccountsReceivable-CustomerInvoice-accountingLineView"
+		parent="AccountsReceivable-CustomerInvoice-accountingLineView-parent" />
+
+	<bean id="AccountsReceivable-CustomerInvoice-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation" />
+							<ref bean="invoiceItemInformation" />
+							<ref bean="invoiceSubAmountsInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount" p:required="true" p:readOnly="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

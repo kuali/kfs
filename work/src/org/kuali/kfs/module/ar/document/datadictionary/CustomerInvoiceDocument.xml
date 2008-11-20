@@ -29,6 +29,16 @@
         </bean>
       </list>
     </property>
+
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="CustomerInvoiceDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
+
     <property name="attributes" >
       <list>
         <ref bean="CustomerInvoiceDocument-documentHeader.documentDescription" />
@@ -93,6 +103,19 @@
 
 <!-- Attribute Definitions -->
 
+  <!-- accounting line groups -->
+  <bean id="CustomerInvoiceDocument-sourceAccountingLineGroup" parent="CustomerInvoiceDocument-sourceAccountingLineGroup-parentBean" />
+  
+  <bean id="CustomerInvoiceDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="AccountsReceivable-CustomerInvoice-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentSourceLinesAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+  </bean>
+  
   <bean id="CustomerInvoiceDocument-documentNumber" parent="CustomerInvoiceDocument-documentNumber-parentBean" />
 
   <bean id="CustomerInvoiceDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />

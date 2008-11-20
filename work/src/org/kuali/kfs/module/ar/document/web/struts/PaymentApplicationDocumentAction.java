@@ -601,7 +601,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm _form = (PaymentApplicationDocumentForm) form;
         if(null == _form.getCashControlDocument()) {
-            super.cancel(mapping, form, request, response);
+            return super.cancel(mapping, form, request, response);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -17,7 +17,10 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
@@ -48,6 +51,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -528,17 +532,31 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             java.util.Date _today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
             java.sql.Date today = new java.sql.Date(_today.getTime());
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            // This map structure should allow me to keep unique documents.a
+            Map<String,Document> documents = new HashMap<String,Document>();
             for(InvoicePaidApplied ipa : getInvoicePaidApplieds()) {
                 String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
-                CustomerInvoiceDocumentService invoiceService =
-                    SpringContext.getBean(CustomerInvoiceDocumentService.class);
-                CustomerInvoiceDocument invoice = 
-                    invoiceService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
-                // KULAR-384
-                invoice.setClosedDate(today);
-                invoice.setOpenInvoiceIndicator(false);
                 try {
-                    documentService.saveDocument(invoice);
+                    CustomerInvoiceDocument invoice = 
+                        (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceDocumentNumber);
+                    
+                    // KULAR-384
+                    invoice.setClosedDate(today);
+                    invoice.setOpenInvoiceIndicator(false);
+                    
+                    documents.put(invoiceDocumentNumber,invoice);
+                    
+                    // Don't save the documents here. It'll cause OptimisticLockExceptions.
+                    
+                } catch(WorkflowException we) {
+                    LOG.error("Failed to update closed date on Invoice.", we);
+                }
+            }
+            
+            // Save each document.
+            for(Document d : documents.values()) {
+                try {
+                    documentService.saveDocument(d);
                 } catch(WorkflowException we) {
                     LOG.error("Failed to update closed date on Invoice.", we);
                 }

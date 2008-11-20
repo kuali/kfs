@@ -129,7 +129,7 @@ public class PaymentApplicationDocumentRuleUtil {
         }
         
         // Can't apply more than the total amount outstanding on the cash control document.
-        if(document.getCashControlTotalAmount().doubleValue() < amountWeWouldApply) {
+        if(ObjectUtils.isNotNull(document.getCashControlDocument()) && document.getCashControlTotalAmount().doubleValue() < amountWeWouldApply) {
             isValid = false;
             errorMap.putError(
                 ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,

@@ -63,6 +63,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Business rule(s) applicable to Disbursement Voucher documents.
  */
+@Deprecated 
 public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
 

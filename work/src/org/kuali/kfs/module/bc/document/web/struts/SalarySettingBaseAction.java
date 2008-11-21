@@ -228,54 +228,25 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
-
-        return this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding);
-    }
-
-    /**
-     * adjust the salary amounts of all funding lines
-     */
-    public ActionForward adjustAllSalarySettingLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
-        KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
-        String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
-
-        // the adjustment measurement and amount must be provided
-        if (StringUtils.isBlank(adjustmentMeasurement)) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_MEASUREMENT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        if (ObjectUtils.isNull(adjustmentAmount)) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            appointmentFunding.setAdjustmentAmount(adjustmentAmount);
-            appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
-
-            ActionForward adjustAction = this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding);
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * adjust the requested salary amount of the given appointment funding line by pecent or given amount
-     */
-    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
         String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, appointmentFunding);
-
+        
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
             GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+
+        return this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding, document, errorKeyPrefix);
+    }
+
+    /**
+     * adjust the requested salary amount of the given appointment funding line by pecent or given amount
+     */
+    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, PendingBudgetConstructionAppointmentFunding appointmentFunding, BudgetConstructionDocument document, String errorKeyPrefix) {
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
 
         // validate the new appointment funding line
         BudgetExpansionEvent adjustPercentEvent = new AdjustSalarySettingLinePercentEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, appointmentFunding);

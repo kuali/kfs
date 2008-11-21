@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.bc.businessobject;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
@@ -66,6 +67,15 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
         String objectCode = this.getFinancialObjectCode();
         
         return SpringContext.getBean(SalarySettingService.class).isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
+    }
+
+    /**
+     * build the given salary expansion key string
+     */
+    public String getSalarySettingExpansionString() {
+        String pattern = "{0};{1};{2};{3};{4}";
+
+        return MessageFormat.format(pattern, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode());
     }
 
     /**

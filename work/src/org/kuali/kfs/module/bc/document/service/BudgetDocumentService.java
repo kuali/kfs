@@ -31,6 +31,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 
@@ -206,6 +207,14 @@ public interface BudgetDocumentService {
      * @return the budget document with the information provided by the given appointment funding
      */
     public BudgetConstructionDocument getBudgetConstructionDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * get the budget document with the information provided by the given salary setting expansion
+     * 
+     * @param salarySettingExpansion
+     * @return the budget document with the information provided by the given salary setting expansion
+     */
+    public BudgetConstructionDocument getBudgetConstructionDocument(SalarySettingExpansion salarySettingExpansion);
 
     /**
      * determine whether the given document is budgetable

@@ -45,6 +45,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -183,6 +185,48 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     }
 
     /**
+     * adjust the salary amounts of all funding lines
+     */
+    public ActionForward adjustAllSalarySettingLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
+
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
+
+        KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
+        String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
+
+        // the adjustment measurement and amount must be provided
+        if (StringUtils.isBlank(adjustmentMeasurement)) {
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_MEASUREMENT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        if (ObjectUtils.isNull(adjustmentAmount)) {
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        // retrieve corresponding document in advance in order to use the rule framework
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(salarySettingExpansion);
+        if (document == null) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, salarySettingExpansion.getSalarySettingExpansionString());
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            appointmentFunding.setAdjustmentAmount(adjustmentAmount);
+            appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
+
+            String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, appointmentFunding);
+
+            ActionForward adjustAction = this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding, document, errorKeyPrefix);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+
+    /**
      * perform salary setting by position with the specified funding line
      */
     public ActionForward toggleAdjustmentMeasurement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -229,17 +273,19 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     private boolean save(ActionForm form) {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
+
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(salarySettingExpansion);        
+        if(document == null) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, salarySettingExpansion.getSalarySettingExpansionString());
+            return false;
+        }
+        
+        
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getAppointmentFundings();
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();  
         
         for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
             String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, savableFunding);
-            
-            BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
-            if(document == null) {
-                GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
-                return false;
-            }
             
             salarySettingService.recalculateDerivedInformation(savableFunding);
                        

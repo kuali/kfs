@@ -45,6 +45,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
@@ -909,17 +910,32 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, appointmentFunding.getAccountNumber());
         fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, appointmentFunding.getSubAccountNumber());
 
+        // fiscalyear, chart, account, subaccount is a candidate key for BC document
+        // This should not need the special handling and just return the first (only document) in the collection
         Collection<BudgetConstructionDocument> documents = businessObjectService.findMatching(BudgetConstructionDocument.class, fieldValues);
         for (BudgetConstructionDocument document : documents) {
             try {
                 return (BudgetConstructionDocument) documentService.getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
             }
             catch (WorkflowException e) {
-                throw new RuntimeException("Fail to retrieve the document for applointment fundinf" + appointmentFunding, e);
+                throw new RuntimeException("Fail to retrieve the document for appointment funding" + appointmentFunding, e);
             }
         }
 
         return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getBudgetConstructionDocument(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
+     */
+    @NonTransactional
+    public BudgetConstructionDocument getBudgetConstructionDocument(SalarySettingExpansion salarySettingExpansion){
+        try {
+            return (BudgetConstructionDocument) documentService.getByDocumentHeaderId(salarySettingExpansion.getDocumentNumber());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Fail to retrieve the document for salary expansion" + salarySettingExpansion, e);
+        }
     }
 
     /**

@@ -36,6 +36,9 @@
 
 	<kul:panelFooter />
 
+    <%-- add another copy of the global errors since this screen can get long --%>
+    <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}" errorTitle=" " />
+    
     <div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" 

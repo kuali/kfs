@@ -285,6 +285,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         PaymentApplicationDocumentForm applicationForm = (PaymentApplicationDocumentForm) form;
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) applicationForm.getDocument();
         NonInvoiced nonInvoiced = applicationForm.getNonInvoicedAddLine();
+        nonInvoiced.setFinancialDocumentPostingYear(applicationDocument.getPostingYear());
         nonInvoiced.setDocumentNumber(applicationDocument.getDocumentNumber());
         nonInvoiced.setFinancialDocumentLineNumber(applicationForm.getNextNonInvoicedLineNumber());
         

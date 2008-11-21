@@ -55,7 +55,6 @@
               <tr>
                 <th>Control Total</th>
                 <td>${KualiForm.document.documentHeader.financialDocumentTotalAmount}</td>
-                <html:hidden property="document.documentHeader.financialDocumentTotalAmount" />
               </tr>
               <tr>
                 <th>Balance</th>

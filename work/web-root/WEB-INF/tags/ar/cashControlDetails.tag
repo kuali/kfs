@@ -84,8 +84,6 @@
 				<td class="total-line">
 					<strong>Total:
 						${KualiForm.document.currencyFormattedTotalCashControlAmount}</strong>
-					<html:hidden write="false"
-						property="document.cashControlTotalAmount" />
 				</td>
 				<c:if test="${!readOnly}">
 					<td class="total-line">

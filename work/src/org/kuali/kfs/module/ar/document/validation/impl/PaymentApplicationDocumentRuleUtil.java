@@ -146,7 +146,9 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateUnapplied(PaymentApplicationDocument applicationDocument) throws WorkflowException {
-        boolean isValid = applicationDocument.getCashControlTotalAmount().isGreaterThan(applicationDocument.getTotalUnapplied());
+        KualiDecimal cashControlTotalAmount = applicationDocument.getCashControlTotalAmount();
+        KualiDecimal totalUnapplied = applicationDocument.getTotalUnapplied();
+        boolean isValid = cashControlTotalAmount.isGreaterEqual(totalUnapplied);
         if(!isValid) {
             String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
             String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT;

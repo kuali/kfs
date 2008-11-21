@@ -100,8 +100,6 @@
 										</select>
 										<logic:iterate id="invoices" name="KualiForm"
 											property="invoices" indexId="ctr">
-											<html:hidden
-												property="customerInvoiceDocument[${ctr}].documentNumber" />
 										</logic:iterate>
 										<html:image property="methodToCall.goToInvoice"
 											src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
@@ -230,21 +228,8 @@
 														<logic:iterate id="customerInvoiceDetail" name="KualiForm"
 															property="customerInvoiceDetails" indexId="ctr">
 															<c:set var="isDiscount" value="${customerInvoiceDetail.amount < 0}" />
-															<html:hidden
-																property="customerInvoiceDetail[${ctr}].documentNumber" />
-															<html:hidden
-																property="customerInvoiceDetail[${ctr}].invoiceItemDescription" />
-															<html:hidden
-																property="customerInvoiceDetail[${ctr}].appliedAmount" />
 															<c:choose>
 																<c:when test="${isDiscount}">
-																	<html:hidden property="customerInvoiceDetail[${ctr}].sequenceNumber" />
-																	<html:hidden property="customerInvoiceDetail[${ctr}].chartOfAccountsCode" />
-																	<html:hidden property="customerInvoiceDetail[${ctr}].accountNumber" />
-																	<html:hidden property="customerInvoiceDetail[${ctr}].invoiceItemDescription" />
-																	<html:hidden property="customerInvoiceDetail[${ctr}].amount" />
-																	<html:hidden property="customerInvoiceDetail[${ctr}].balance" />
-																	<html:hidden property="customerInvoiceDetail[${ctr}].amountToBeApplied" />
 																</c:when>
 																<c:otherwise>
 																	<tr>

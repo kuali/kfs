@@ -133,7 +133,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     private final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
     private final String INVOICE_FILE_MIME_TYPE = "text/xml";  
     
-    private StringBuffer emailTextErrorList = new StringBuffer();
+    private StringBuffer emailTextErrorList;
     
     private Map<String, Map> itemTypeMappingsCache = new WeakHashMap<String, Map>();  
     private Map<String,ItemType> kualiItemTypes = new HashMap<String, ItemType>();
@@ -154,6 +154,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         String rejectDirName = getRejectDirName();
         String acceptDirName = getAcceptDirName();
         String sourceDirName = getSourceDirName();
+        emailTextErrorList = new StringBuffer();
 
         boolean moveFiles = BooleanUtils.toBoolean(SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND));
 

@@ -159,7 +159,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         }
 
         if (this.isResearchPaymentReason(paymentReasonCode)) {
-            String limit = this.getReserchNonVendorPayLimit();
+            String payLimit = this.getReserchNonVendorPayLimit();
             String messageKey = KFSKeyConstants.WARNING_DV_REASERCH_PAYMENT_REASON;
 
             List<String> vendorTypeCodes = new ArrayList<String>();
@@ -167,12 +167,15 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
             vendorTypeCodes.remove(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
             String vendorTypes = this.getDescriptivePayeeTypes(vendorTypeCodes);
 
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, descriptivePaymentReason, descriptivePayeeTypes, vendorTypes, limit);
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, descriptivePaymentReason, descriptivePayeeTypes, vendorTypes, payLimit);
         }
 
         if (this.isMovingPaymentReason(paymentReasonCode)) {
+            List<String> individualOwnerShipTypeCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM);
+            String ownerShipTypeAsString = this.convertListToString(individualOwnerShipTypeCodes);
+
             String messageKey = KFSKeyConstants.WARNING_DV_MOVING_PAYMENT_REASON;
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey);
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, ownerShipTypeAsString);
         }
 
         if (this.isPrepaidTravelPaymentReason(paymentReasonCode)) {
@@ -207,6 +210,31 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         return payeeTypesAsString.toString();
     }
 
+    // concatenates the emlements of the given String list as a String
+    private String convertListToString(List<String> list) {
+        if (list == null || list.isEmpty()) {
+            return StringUtils.EMPTY;
+        }
+
+        String oneSpace = " ";
+        StringBuilder listAsString = new StringBuilder();
+        for (String emlement : list) {
+            int index = list.indexOf(emlement);
+            
+            if (index == 0) {
+                listAsString.append(emlement);
+            }
+            else if (index < list.size() - 1) {
+                listAsString.append(KFSConstants.COMMA).append(oneSpace).append(emlement);
+            }
+            else if (index == list.size() - 1) {
+                listAsString.append(oneSpace).append(KFSConstants.AND).append(oneSpace).append(emlement);
+            }
+        }
+
+        return listAsString.toString();
+    }
+    
     /**
      * determine whether the given payment reason is of type that is specified by typeParameterName
      * 

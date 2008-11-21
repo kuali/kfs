@@ -149,8 +149,6 @@
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
-    <property name="summary" value="totalDollarAmount" />
-    <property name="description" value="totalDollarAmount description..." />
   </bean>
   <bean id="CreditMemoDocument-vendorAddressGeneratedIdentifier" parent="CreditMemoDocument-vendorAddressGeneratedIdentifier-parentBean" />
 

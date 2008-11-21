@@ -98,8 +98,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-lineItemReceivingDocumentNumber" parent="CorrectionReceivingDocument-lineItemReceivingDocumentNumber-parentBean" />
 
@@ -116,8 +114,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="lineItemReceivingDocumentNumber" />
-    <property name="description" value="lineItemReceivingDocumentNumber description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-carrierCode" parent="CorrectionReceivingDocument-carrierCode-parentBean" />
 
@@ -134,8 +130,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="carrierCode" />
-    <property name="description" value="carrierCode description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-deliveryBuildingCode" parent="CorrectionReceivingDocument-deliveryBuildingCode-parentBean" />
 
@@ -152,8 +146,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="deliveryBuildingCode" />
-    <property name="description" value="deliveryBuildingCode description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-deliveryBuildingLine1Address" parent="CorrectionReceivingDocument-deliveryBuildingLine1Address-parentBean" />
 
@@ -320,8 +312,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentBillOfLadingNumber" />
-    <property name="description" value="shipmentBillOfLadingNumber description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-shipmentPackingSlipNumber" parent="CorrectionReceivingDocument-shipmentPackingSlipNumber-parentBean" />
 
@@ -338,8 +328,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentPackingSlipNumber" />
-    <property name="description" value="shipmentPackingSlipNumber description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-shipmentReceivedDate" parent="CorrectionReceivingDocument-shipmentReceivedDate-parentBean" />
 
@@ -356,8 +344,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="shipmentReceivedDate" />
-    <property name="description" value="shipmentReceivedDate description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-shipmentReferenceNumber" parent="CorrectionReceivingDocument-shipmentReferenceNumber-parentBean" />
 
@@ -374,8 +360,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentReferenceNumber" />
-    <property name="description" value="shipmentReferenceNumber description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier" parent="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -392,8 +376,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="vendorHeaderGeneratedIdentifier" />
-    <property name="description" value="vendorHeaderGeneratedIdentifier description..." />
   </bean>
   <bean id="CorrectionReceivingDocument-vendorName" parent="CorrectionReceivingDocument-vendorName-parentBean" />
 

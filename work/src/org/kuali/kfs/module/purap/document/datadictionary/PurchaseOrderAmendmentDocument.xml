@@ -61,7 +61,6 @@
     <property name="name" value="newUnorderedItem" />
     <property name="label" value="New Unordered Items on Amendment" />
     <property name="shortLabel" value="New Unordered Items" />
-    <property name="description" value="New Unordered Items on Purchase Order Amendment" />
     <property name="control" >
        <bean parent="CheckboxControlDefinition" />
     </property>

@@ -91,8 +91,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="LineItemReceivingDocument-purchaseOrderIdentifier" parent="LineItemReceivingDocument-purchaseOrderIdentifier-parentBean" />
 
@@ -109,8 +107,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="purchaseOrderIdentifier" />
-    <property name="description" value="purchaseOrderIdentifier description..." />
   </bean>
   <bean id="LineItemReceivingDocument-carrierCode" parent="LineItemReceivingDocument-carrierCode-parentBean" />
 
@@ -128,8 +124,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CarrierValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="carrierCode" />
-    <property name="description" value="carrierCode description..." />
   </bean>
   <bean id="LineItemReceivingDocument-deliveryBuildingCode" parent="LineItemReceivingDocument-deliveryBuildingCode-parentBean" />
 
@@ -146,8 +140,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="deliveryBuildingCode" />
-    <property name="description" value="deliveryBuildingCode description..." />
   </bean>
   <bean id="LineItemReceivingDocument-deliveryBuildingLine1Address" parent="LineItemReceivingDocument-deliveryBuildingLine1Address-parentBean" />
 
@@ -314,8 +306,6 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentBillOfLadingNumber" />
-    <property name="description" value="shipmentBillOfLadingNumber description..." />
   </bean>
   <bean id="LineItemReceivingDocument-shipmentPackingSlipNumber" parent="LineItemReceivingDocument-shipmentPackingSlipNumber-parentBean" />
 
@@ -332,8 +322,6 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentPackingSlipNumber" />
-    <property name="description" value="shipmentPackingSlipNumber description..." />
   </bean>
   <bean id="LineItemReceivingDocument-shipmentReceivedDate" parent="LineItemReceivingDocument-shipmentReceivedDate-parentBean" />
 
@@ -351,8 +339,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="shipmentReceivedDate" />
-    <property name="description" value="shipmentReceivedDate description..." />
   </bean>
   <bean id="LineItemReceivingDocument-shipmentReferenceNumber" parent="LineItemReceivingDocument-shipmentReferenceNumber-parentBean" />
 
@@ -369,8 +355,6 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentReferenceNumber" />
-    <property name="description" value="shipmentReferenceNumber description..." />
   </bean>
   <bean id="LineItemReceivingDocument-vendorHeaderGeneratedIdentifier" parent="LineItemReceivingDocument-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -387,8 +371,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="vendorHeaderGeneratedIdentifier" />
-    <property name="description" value="vendorHeaderGeneratedIdentifier description..." />
   </bean>
   <bean id="LineItemReceivingDocument-vendorName" parent="LineItemReceivingDocument-vendorName-parentBean" />
 
@@ -450,7 +432,6 @@
     <property name="name" value="awaitingPurchaseOrderOpen" />
     <property name="label" value="Awaiting Purchase Order Open" />
     <property name="shortLabel" value="Awaiting Purchase Order Open" />
-    <property name="description" value="Receiving Document is awaiting Purchase Order Open State" />
     <property name="control" >
        <bean parent="CheckboxControlDefinition" />
     </property>

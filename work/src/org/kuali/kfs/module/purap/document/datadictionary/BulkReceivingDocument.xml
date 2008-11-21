@@ -128,8 +128,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="BulkReceivingDocument-purchaseOrderIdentifier" parent="BulkReceivingDocument-purchaseOrderIdentifier-parentBean" />
 
@@ -146,8 +144,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="purchaseOrderIdentifier" />
-    <property name="description" value="purchaseOrderIdentifier description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-carrierCode" parent="BulkReceivingDocument-carrierCode-parentBean" />
@@ -166,8 +162,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CarrierValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="carrierCode" />
-    <property name="description" value="carrierCode description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-deliveryBuildingLine1Address" parent="BulkReceivingDocument-deliveryBuildingLine1Address-parentBean" />
@@ -358,8 +352,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentBillOfLadingNumber" />
-    <property name="description" value="shipmentBillOfLadingNumber description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-goodsDeliveredVendorName" parent="BulkReceivingDocument-goodsDeliveredVendorName-parentBean" />
@@ -386,8 +378,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentPackingSlipNumber" />
-    <property name="description" value="shipmentPackingSlipNumber description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-shipmentReceivedDate" parent="BulkReceivingDocument-shipmentReceivedDate-parentBean" />
@@ -414,8 +404,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="shipmentReferenceNumber" />
-    <property name="description" value="shipmentReferenceNumber description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-trackingNumber" parent="BulkReceivingDocument-trackingNumber-parentBean" />
@@ -433,8 +421,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="trackingNumber" />
-    <property name="description" value="trackingNumber description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-vendorHeaderGeneratedIdentifier" parent="BulkReceivingDocument-vendorHeaderGeneratedIdentifier-parentBean" />
@@ -622,8 +608,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="Requestor Name" />
-    <property name="description" value="Requestor Name description..." />
   </bean>
   
    <bean id="BulkReceivingDocument-requestorPersonPhoneNumber" parent="BulkReceivingDocument-requestorPersonPhoneNumber-parentBean" />
@@ -640,8 +624,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="Requestor PhoneNumber" />
-    <property name="description" value="Requestor PhoneNumber  description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-preparerPersonName" parent="BulkReceivingDocument-preparerPersonName-parentBean" />
@@ -677,8 +659,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="Requisition Preparer Phone" />
-    <property name="description" value="Requisition Preparer Phone description..." />
   </bean>
   
   <bean id="BulkReceivingDocument-institutionContactEmailAddress" parent="BulkReceivingDocument-institutionContactEmailAddress-parentBean" />

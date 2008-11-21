@@ -192,8 +192,6 @@
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
-    <property name="summary" value="totalDollarAmount" />
-    <property name="description" value="totalDollarAmount description..." />
   </bean>
   <bean id="PaymentRequestDocument-vendorAddressGeneratedIdentifier" parent="PaymentRequestDocument-vendorAddressGeneratedIdentifier-parentBean" />
 
@@ -696,7 +694,6 @@
     <property name="name" value="awaitingReceiving" />
     <property name="label" value="Awaiting Receiving" />
     <property name="shortLabel" value="Awaiting Receiving" />
-    <property name="description" value="Payment Request is awaiting creation of a Receiving Document" />
     <property name="control" >
        <bean parent="CheckboxControlDefinition" />
     </property>

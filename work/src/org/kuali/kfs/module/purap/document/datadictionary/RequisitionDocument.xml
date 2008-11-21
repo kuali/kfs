@@ -219,8 +219,6 @@
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
-    <property name="summary" value="totalDollarAmount" />
-    <property name="description" value="totalDollarAmount description..." />
   </bean>
   <bean id="RequisitionDocument-totalPreTaxDollarAmount" parent="RequisitionDocument-totalPreTaxDollarAmount-parentBean" />
 
@@ -228,8 +226,6 @@
     <property name="name" value="totalPreTaxDollarAmount" />
     <property name="label" value="Total Prior to Tax" />
     <property name="shortLabel" value="Total Prior to Tax" />
-    <property name="summary" value="totalPreTaxDollarAmount" />
-    <property name="description" value="totalPreTaxDollarAmount description..." />
   </bean>
   <bean id="RequisitionDocument-totalTaxAmount" parent="RequisitionDocument-totalTaxAmount-parentBean" />
 
@@ -237,8 +233,6 @@
     <property name="name" value="totalTaxAmount" />
     <property name="label" value="Total Tax" />
     <property name="shortLabel" value="Total Tax" />
-    <property name="summary" value="totalTaxAmount" />
-    <property name="description" value="totalTaxAmount description..." />
   </bean>
   <bean id="RequisitionDocument-purapDocumentIdentifier" parent="RequisitionDocument-purapDocumentIdentifier-parentBean" />
 

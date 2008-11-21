@@ -32,21 +32,15 @@ import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.datadictionary.WorkflowProperties;
-import org.kuali.rice.kns.datadictionary.WorkflowProperty;
-import org.kuali.rice.kns.datadictionary.WorkflowPropertyGroup;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.documentserializer.AlwaysFalsePropertySerializabilityEvaluator;
 import org.kuali.rice.kns.util.documentserializer.AlwaysTruePropertySerializibilityEvaluator;
-import org.kuali.rice.kns.util.documentserializer.BusinessObjectPropertySerializibilityEvaluator;
 import org.kuali.rice.kns.util.documentserializer.PropertySerializabilityEvaluator;
 
 /**
@@ -265,4 +259,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
             return evaluator;
         } 
     }
+    
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("FinancialSystemTransactionalDocumentBase does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName); 
+    }
+
 }

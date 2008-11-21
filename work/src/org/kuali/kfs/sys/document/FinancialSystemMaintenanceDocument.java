@@ -30,8 +30,6 @@ import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.datadictionary.WorkflowProperties;
-import org.kuali.rice.kns.datadictionary.WorkflowProperty;
-import org.kuali.rice.kns.datadictionary.WorkflowPropertyGroup;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -206,5 +204,17 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
             evaluator.initializeEvaluator(this);
             return evaluator;
         } 
+    }
+    
+    public boolean answerSplitNodeQuestion(String nodeName) {
+        Class<? extends Maintainable> maintainableClass = getNewMaintainableObject().getClass();
+        
+        FinancialSystemMaintainable fsMaintainable = null;
+        try {
+            fsMaintainable = (FinancialSystemMaintainable)maintainableClass.newInstance();
+        } catch (Exception e) {
+            
+        }
+        return (fsMaintainable == null ? null :fsMaintainable.answerSplitNodeQuestion(nodeName));
     }
 }

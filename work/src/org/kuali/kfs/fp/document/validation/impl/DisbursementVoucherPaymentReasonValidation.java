@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -33,12 +35,14 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class DisbursementVoucherPaymentReasonValidation extends GenericValidation implements DisbursementVoucherConstants{
+public class DisbursementVoucherPaymentReasonValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
 
     private ParameterService parameterService;
     private AccountingDocument accountingDocumentForValidation;
-    
+    private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
+    private DisbursementVoucherPayeeService disbursementVoucherPayeeService;
+
     public static final String DV_PAYMENT_REASON_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
 
@@ -46,21 +50,24 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.debug("validate start");       
+        LOG.debug("validate start");
         boolean isValid = true;
-        
+
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail dvPayeeDetail = document.getDvPayeeDetail();
         String paymentReasonCode = dvPayeeDetail.getDisbVchrPaymentReasonCode();
-        
+
+        boolean isVendor = dvPayeeDetail.isVendor();
+        boolean isEmployee = dvPayeeDetail.isEmployee();
+
         ErrorMap errors = GlobalVariables.getErrorMap();
         int initialErrorCount = errors.getErrorCount();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+
         /* check payment reason is allowed for payee type */
         ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), paymentReasonCode);
         paymentReasonsByTypeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
-       
+
         // restrictions on payment reason when alien indicator is checked
         if (dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
             ParameterEvaluator alienPaymentReasonsEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
@@ -68,37 +75,37 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         }
 
         /* for vendors with a payee type of revolving fund, the payment reason must be a revolving fund payment reason */
-        if(dvPayeeDetail.isVendor()) {
-            if(SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger())) {
-                ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
-                revolvingFundPaymentReasonCodeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
-            }
+        boolean isRevolvingFundCodeVendor = SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger());
+        if (isVendor && isRevolvingFundCodeVendor) {
+            ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
+            revolvingFundPaymentReasonCodeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
         }
-        
+
         // if payment reason is revolving fund, then payee must be a revolving fund vendor
-        ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
-        if (revolvingFundPaymentReasonCodeEvaluator.evaluationSucceeds()) {
-            if(dvPayeeDetail.isVendor()) {
+        boolean isRevolvingFundPaymentReason = disbursementVoucherPaymentReasonService.isRevolvingFundPaymentReason(paymentReasonCode);
+        if (isRevolvingFundPaymentReason) {
+            if (isVendor) {
                 // If vendor is not a revolving fund vendor, report an error
-                if(!SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger())) {
+                if (!isRevolvingFundCodeVendor) {
                     errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
                     isValid = false;
                 }
-            } else {
+            }
+            else {
                 errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
                 isValid = false;
             }
         }
-        
+
         // if payment reason is moving, payee must be an employee or have vendor ownership type I (individual)
-        ParameterEvaluator movingPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, MOVING_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
-        if (movingPaymentReasonCodeEvaluator.evaluationSucceeds()) {
+        boolean isMovingPaymentReason = disbursementVoucherPaymentReasonService.isMovingPaymentReason(paymentReasonCode);
+        if (isMovingPaymentReason) {
             // only need to review this rule if the payee is a vendor; NOTE that a vendor can be an employee also
-            if(dvPayeeDetail.isVendor() && !dvPayeeDetail.isEmployee()) { 
-                boolean invalidMovingPayee = false;
-                VendorDetail vendor = retrieveVendorDetail(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), dvPayeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
-                // only vendors who are  individuals can be paid moving expenses
-                if (!OWNERSHIP_TYPE_INDIVIDUAL.equals(vendor.getVendorHeader().getVendorOwnershipCode())) {
+            if (isVendor && !isEmployee) {
+                boolean isPayeeIndividualVendor = disbursementVoucherPayeeService.isPayeeIndividualVendor(dvPayeeDetail);
+
+                // only vendors who are individuals can be paid moving expenses
+                if (!isPayeeIndividualVendor) {
                     errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_MOVING_PAYMENT_PAYEE);
                     isValid = false;
                 }
@@ -106,30 +113,26 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         }
 
         // for research payments over a certain limit the payee must be a vendor
-        ParameterEvaluator researchPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, RESEARCH_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
-        if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
-            // check rule is active
-            if (parameterService.parameterExists(DisbursementVoucherDocument.class, RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
-                String researchPayLimit = parameterService.getParameterValue(DisbursementVoucherDocument.class, RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
-                if(StringUtils.isNotBlank(researchPayLimit)) {
-                    KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
-    
-                    if (document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && dvPayeeDetail.isDvPayeeSubjectPaymentCode()) {
-                        if(!dvPayeeDetail.isVendor()) {
-                            errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
-                            isValid = false;
-                        }
-                    }
+        boolean isResearchPaymentReason = disbursementVoucherPaymentReasonService.isResearchPaymentReason(paymentReasonCode);
+        if (isResearchPaymentReason) {
+            String researchPayLimit = disbursementVoucherPaymentReasonService.getReserchNonVendorPayLimit();
+
+            if (StringUtils.isNotBlank(researchPayLimit)) {
+                KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
+
+                if (!isVendor && document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && dvPayeeDetail.isDvPayeeSubjectPaymentCode()) {
+                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
+                    isValid = false;
                 }
             }
         }
-        
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);    
-        
+
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+
         isValid = initialErrorCount == errors.getErrorCount();
         return isValid;
     }
-    
+
     /**
      * Retrieves the VendorDetail object from the vendor id number.
      * 
@@ -143,6 +146,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
+     * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
@@ -151,6 +155,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
 
     /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -158,10 +163,29 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
+     * Gets the accountingDocumentForValidation attribute.
+     * 
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {
         return accountingDocumentForValidation;
+    }
+
+    /**
+     * Sets the disbursementVoucherPaymentReasonService attribute value.
+     * 
+     * @param disbursementVoucherPaymentReasonService The disbursementVoucherPaymentReasonService to set.
+     */
+    public void setDisbursementVoucherPaymentReasonService(DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService) {
+        this.disbursementVoucherPaymentReasonService = disbursementVoucherPaymentReasonService;
+    }
+
+    /**
+     * Sets the disbursementVoucherPayeeService attribute value.
+     * 
+     * @param disbursementVoucherPayeeService The disbursementVoucherPayeeService to set.
+     */
+    public void setDisbursementVoucherPayeeService(DisbursementVoucherPayeeService disbursementVoucherPayeeService) {
+        this.disbursementVoucherPayeeService = disbursementVoucherPayeeService;
     }
 }

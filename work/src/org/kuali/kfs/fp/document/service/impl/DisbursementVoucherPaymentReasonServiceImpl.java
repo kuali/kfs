@@ -110,6 +110,18 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         String typeParameterName = DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM;
         return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
     }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isRevolvingFundPaymentReason(java.lang.String)
+     */
+    public boolean isRevolvingFundPaymentReason(String paymentReasonCode) {
+        String typeParameterName = DisbursementVoucherConstants.REVOLVING_FUND_PAYMENT_REASONS_PARM_NM;
+        return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
+    }
+    
+    public String getReserchNonVendorPayLimit() {
+        return parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
+    }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#getPayeeTypesByPaymentReason(java.lang.String)
@@ -147,7 +159,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         }
 
         if (this.isResearchPaymentReason(paymentReasonCode)) {
-            String limit = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
+            String limit = this.getReserchNonVendorPayLimit();
             String messageKey = KFSKeyConstants.WARNING_DV_REASERCH_PAYMENT_REASON;
 
             List<String> vendorTypeCodes = new ArrayList<String>();

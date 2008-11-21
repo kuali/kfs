@@ -66,9 +66,24 @@ public interface DisbursementVoucherPaymentReasonService {
      * determine whether the given payment reason is a research payment reason
      * 
      * @param paymentReasonCode the givne payment reason code
-     * @return true if the given payment reason is aresearch payment reason; otherwise, return false
+     * @return true if the given payment reason is a research payment reason; otherwise, return false
      */
     public boolean isResearchPaymentReason(String paymentReasonCode);
+    
+    /**
+     * determine whether the given payment reason is a revolving fund payment reason
+     * 
+     * @param paymentReasonCode the givne payment reason code
+     * @return true if the given payment reason is a revolving fund payment reason; otherwise, return false
+     */
+    public boolean isRevolvingFundPaymentReason(String paymentReasonCode);
+    
+    /**
+     * get the payment limit to research non-vendor employee for research payment reason
+     * 
+     * @return the payment limit to research non-vendor employee for research payment reason.
+     */
+    public String getReserchNonVendorPayLimit();
 
     /**
      * get the payee type codes valid for the given payment reason

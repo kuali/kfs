@@ -119,6 +119,17 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
     }
 
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isPaymentReasonOfType(java.lang.String,
+     *      java.lang.String)
+     */
+    public boolean isPaymentReasonOfType(String typeParameterName, String paymentReasonCode) {
+        return parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, typeParameterName, paymentReasonCode).evaluationSucceeds();
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#getReserchNonVendorPayLimit()
+     */
     public String getReserchNonVendorPayLimit() {
         return parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
     }
@@ -190,9 +201,9 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
     // get and concatenate the descriptive payee types of the given codes
     private String getDescriptivePayeeTypesAsString(List<String> payeeTypeCodes) {
         List<String> payeeTypeDescriptions = new ArrayList<String>();
-        
+
         for (String payeeTypeCode : payeeTypeCodes) {
-            String description = SpringContext.getBean(DisbursementVoucherPayeeService.class).getPayeeTypeDescription(payeeTypeCode);            
+            String description = SpringContext.getBean(DisbursementVoucherPayeeService.class).getPayeeTypeDescription(payeeTypeCode);
             payeeTypeDescriptions.add(description);
         }
 
@@ -207,8 +218,8 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
 
         String oneSpace = " ";
         StringBuilder listAsString = new StringBuilder();
-        for (String emlement : list) {
-            int index = list.indexOf(emlement);
+        for (int index = 0; index < list.size(); index++) {
+            String emlement = list.get(index);
 
             if (index == 0) {
                 listAsString.append(emlement);
@@ -222,17 +233,6 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         }
 
         return listAsString.toString();
-    }
-
-    /**
-     * determine whether the given payment reason is of type that is specified by typeParameterName
-     * 
-     * @param typeParameterName the given type parameter name
-     * @param paymentReasonCode the given reason code
-     * @return true if the given payment reason is of type that is specified by typeParameterName; otherwise, false
-     */
-    private boolean isPaymentReasonOfType(String typeParameterName, String paymentReasonCode) {
-        return parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, typeParameterName, paymentReasonCode).evaluationSucceeds();
     }
 
     /**

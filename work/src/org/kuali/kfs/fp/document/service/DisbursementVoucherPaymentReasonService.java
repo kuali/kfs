@@ -69,7 +69,7 @@ public interface DisbursementVoucherPaymentReasonService {
      * @return true if the given payment reason is a research payment reason; otherwise, return false
      */
     public boolean isResearchPaymentReason(String paymentReasonCode);
-    
+
     /**
      * determine whether the given payment reason is a revolving fund payment reason
      * 
@@ -77,7 +77,17 @@ public interface DisbursementVoucherPaymentReasonService {
      * @return true if the given payment reason is a revolving fund payment reason; otherwise, return false
      */
     public boolean isRevolvingFundPaymentReason(String paymentReasonCode);
-    
+
+    /**
+     * determine whether the given payment reason is of type that is specified by the given type parameter name. The type parameter
+     * must be defined as an application parameter(@see org.kuali.rice.kns.bo.Parameter)
+     * 
+     * @param typeParameterName the given type parameter name
+     * @param paymentReasonCode the given reason code
+     * @return true if the given payment reason is of type that is specified by typeParameterName; otherwise, false
+     */
+    public boolean isPaymentReasonOfType(String typeParameterName, String paymentReasonCode);
+
     /**
      * get the payment limit to research non-vendor employee for research payment reason
      * 

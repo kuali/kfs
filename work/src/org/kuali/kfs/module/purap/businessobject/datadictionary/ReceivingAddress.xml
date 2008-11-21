@@ -120,8 +120,6 @@
     <property name="name" value="useReceivingIndicator" />
     <property name="label" value="Use Receiving Address Indicator" />
     <property name="shortLabel" value="Use Receiving" />
-    <property name="summary" value="Use Receiving Indicator indicates whether to use the receiving address as the address to vendor." />
-    <property name="description" value="This attribute is used to describe whether the associated receiving address, instead of the final delivery address, shall be used as the default address to vendor." />
   </bean>
   <bean id="ReceivingAddress-defaultIndicator" parent="ReceivingAddress-defaultIndicator-parentBean" />
 
@@ -129,8 +127,6 @@
     <property name="name" value="defaultIndicator" />
     <property name="label" value="Default Indicator" />
     <property name="shortLabel" value="Default" />
-    <property name="summary" value="Default Indicator indicates whether the receiving address is the default one." />
-    <property name="description" value="This attribute is used to describe whether the associated receiving address is the default one for its chart/org." />
   </bean>
   <bean id="ReceivingAddress-active" parent="ReceivingAddress-active-parentBean" />
 

@@ -64,8 +64,6 @@
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
-    <property name="description" value="capitalAssetNotReceivedCurrentFiscalYearIndicator description..." />
   </bean>
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetSystemDescription" parent="PurchaseOrderCapitalAssetSystem-capitalAssetSystemDescription-parentBean" />
 
@@ -82,8 +80,6 @@
             p:rows="4"
             p:cols="60" />
     </property>
-    <property name="summary" value="capitalAssetSystemDescription" />
-    <property name="description" value="capitalAssetSystemDescription description..." />
   </bean>
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetSystemIdentifier" parent="PurchaseOrderCapitalAssetSystem-capitalAssetSystemIdentifier-parentBean" />
 
@@ -100,8 +96,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="capitalAssetSystemIdentifier" />
-    <property name="description" value="capitalAssetSystemIdentifier description..." />
   </bean>
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetTypeCode" parent="PurchaseOrderCapitalAssetSystem-capitalAssetTypeCode-parentBean" />
 
@@ -118,8 +112,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="capitalAssetTypeCode" />
-    <property name="description" value="capitalAssetTypeCode description..." />
   </bean>
   <bean id="PurchaseOrderCapitalAssetSystem-documentNumber" parent="PurchaseOrderCapitalAssetSystem-documentNumber-parentBean" />
 
@@ -136,8 +128,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetNoteText" parent="PurchaseOrderCapitalAssetSystem-capitalAssetNoteText-parentBean" />

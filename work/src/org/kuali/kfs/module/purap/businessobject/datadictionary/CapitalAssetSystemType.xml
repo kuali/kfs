@@ -44,8 +44,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="capitalAssetSystemTypeCode" />
-    <property name="description" value="capitalAssetSystemTypeCode description..." />
   </bean>
   <bean id="CapitalAssetSystemType-capitalAssetSystemTypeDescription" parent="CapitalAssetSystemType-capitalAssetSystemTypeDescription-parentBean" />
 
@@ -62,8 +60,6 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="capitalAssetSystemTypeDescription" />
-    <property name="description" value="capitalAssetSystemTypeDescription description..." />
   </bean>
   <bean id="CapitalAssetSystemType-active" parent="CapitalAssetSystemType-active-parentBean" />
 

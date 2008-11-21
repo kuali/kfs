@@ -54,8 +54,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemCatalogNumber" parent="LineItemReceivingItem-itemCatalogNumber-parentBean" />
 
@@ -72,8 +70,6 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="itemCatalogNumber" />
-    <property name="description" value="itemCatalogNumber description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemDamagedTotalQuantity" parent="LineItemReceivingItem-itemDamagedTotalQuantity-parentBean" />
 
@@ -90,8 +86,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemDamagedTotalQuantity" />
-    <property name="description" value="itemDamagedTotalQuantity description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemDescription" parent="LineItemReceivingItem-itemDescription-parentBean" />
 
@@ -109,8 +103,6 @@
             p:rows="1"
             p:cols="45" />
     </property>
-    <property name="summary" value="itemDescription" />
-    <property name="description" value="itemDescription description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemLineNumber" parent="LineItemReceivingItem-itemLineNumber-parentBean" />
 
@@ -127,8 +119,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="itemLineNumber" />
-    <property name="description" value="itemLineNumber description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemOrderedQuantity" parent="LineItemReceivingItem-itemOrderedQuantity-parentBean" />
 
@@ -136,8 +126,6 @@
     <property name="name" value="itemOrderedQuantity" />
     <property name="label" value="Item Ordered Quantity" />
     <property name="shortLabel" value="Qty Ordered" />
-    <property name="summary" value="itemOrderedQuantity" />
-    <property name="description" value="itemOrderedQuantity description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemReceivedPriorQuantity" parent="LineItemReceivingItem-itemReceivedPriorQuantity-parentBean" />
 
@@ -145,8 +133,6 @@
     <property name="name" value="itemReceivedPriorQuantity" />
     <property name="label" value="Prior Qty Received" />
     <property name="shortLabel" value="Prior Qty Received" />
-    <property name="summary" value="itemReceivedPriorQuantity" />
-    <property name="description" value="itemReceivedPriorQuantity description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemReceivedToBeQuantity" parent="LineItemReceivingItem-itemReceivedToBeQuantity-parentBean" />
 
@@ -154,8 +140,6 @@
     <property name="name" value="itemReceivedToBeQuantity" />
     <property name="label" value="To be Received" />
     <property name="shortLabel" value="To be Received" />
-    <property name="summary" value="itemReceivedToBeQuantity" />
-    <property name="description" value="itemReceivedToBeQuantity description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemReasonAddedCode" parent="LineItemReceivingItem-itemReasonAddedCode-parentBean" />
 
@@ -173,8 +157,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.ItemReasonAddedValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="itemReasonAddedCode" />
-    <property name="description" value="itemReasonAddedCode description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemReceivedTotalQuantity" parent="LineItemReceivingItem-itemReceivedTotalQuantity-parentBean" />
 
@@ -182,8 +164,6 @@
     <property name="name" value="itemReceivedTotalQuantity" />
     <property name="label" value="Item Received Total Quantity" />
     <property name="shortLabel" value="Qty Received" />
-    <property name="summary" value="itemReceivedTotalQuantity" />
-    <property name="description" value="itemReceivedTotalQuantity description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemReturnedTotalQuantity" parent="LineItemReceivingItem-itemReturnedTotalQuantity-parentBean" />
 
@@ -191,8 +171,6 @@
     <property name="name" value="itemReturnedTotalQuantity" />
     <property name="label" value="Item Returned Total Quantity" />
     <property name="shortLabel" value="Qty Returned" />
-    <property name="summary" value="itemReturnedTotalQuantity" />
-    <property name="description" value="itemReturnedTotalQuantity description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemTypeCode" parent="LineItemReceivingItem-itemTypeCode-parentBean" />
 
@@ -209,8 +187,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="itemTypeCode" />
-    <property name="description" value="itemTypeCode description..." />
   </bean>
   <bean id="LineItemReceivingItem-itemUnitOfMeasureCode" parent="LineItemReceivingItem-itemUnitOfMeasureCode-parentBean" />
 
@@ -244,8 +220,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="purchaseOrderIdentifier" />
-    <property name="description" value="purchaseOrderIdentifier description..." />
   </bean>
   <bean id="LineItemReceivingItem-receivingItemIdentifier" parent="LineItemReceivingItem-receivingItemIdentifier-parentBean" />
 
@@ -262,8 +236,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="receivingItemIdentifier" />
-    <property name="description" value="receivingItemIdentifier description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

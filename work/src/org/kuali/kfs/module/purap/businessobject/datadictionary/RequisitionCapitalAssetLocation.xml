@@ -51,8 +51,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="buildingCode" />
-    <property name="description" value="buildingCode description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-buildingRoomNumber" parent="RequisitionCapitalAssetLocation-buildingRoomNumber-parentBean" />
 
@@ -69,8 +67,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="buildingRoomNumber" />
-    <property name="description" value="buildingRoomNumber description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-campusCode" parent="RequisitionCapitalAssetLocation-campusCode-parentBean" />
 
@@ -87,8 +83,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="campusCode" />
-    <property name="description" value="campusCode description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName" parent="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean" />
 
@@ -105,8 +99,6 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="capitalAssetCityName" />
-    <property name="description" value="capitalAssetCityName description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode" parent="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean" />
 
@@ -123,8 +115,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="capitalAssetCountryCode" />
-    <property name="description" value="capitalAssetCountryCode description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address" parent="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean" />
 
@@ -141,8 +131,6 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="capitalAssetLine1Address" />
-    <property name="description" value="capitalAssetLine1Address description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier-parentBean" />
 
@@ -159,8 +147,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="capitalAssetLocationIdentifier" />
-    <property name="description" value="capitalAssetLocationIdentifier description..." />
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" />
@@ -190,8 +176,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="capitalAssetStateCode" />
-    <property name="description" value="capitalAssetStateCode description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean" />
 
@@ -208,8 +192,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="capitalAssetSystemIdentifier" />
-    <property name="description" value="capitalAssetSystemIdentifier description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-itemQuantity" parent="RequisitionCapitalAssetLocation-itemQuantity-parentBean" />
 
@@ -226,8 +208,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemQuantity" />
-    <property name="description" value="itemQuantity description..." />
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-offCampusIndicator" parent="RequisitionCapitalAssetLocation-offCampusIndicator-parentBean" />

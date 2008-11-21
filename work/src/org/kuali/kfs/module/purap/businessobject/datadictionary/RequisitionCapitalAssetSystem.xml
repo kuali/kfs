@@ -64,8 +64,6 @@
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
-    <property name="description" value="capitalAssetNotReceivedCurrentFiscalYearIndicator description..." />
   </bean>
   <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText" parent="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" />
   
@@ -102,8 +100,6 @@
             p:rows="4"
             p:cols="60" />
     </property>
-    <property name="summary" value="capitalAssetSystemDescription" />
-    <property name="description" value="capitalAssetSystemDescription description..." />
   </bean>  
   <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier-parentBean" />
 
@@ -120,8 +116,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="capitalAssetSystemIdentifier" />
-    <property name="description" value="capitalAssetSystemIdentifier description..." />
   </bean>  
   <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode" parent="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" />
 
@@ -146,8 +140,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="purapDocumentIdentifier" />
-    <property name="description" value="purapDocumentIdentifier description..." />
   </bean>
   
   <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber" parent="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" />

@@ -54,8 +54,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemCatalogNumber" parent="CorrectionReceivingItem-itemCatalogNumber-parentBean" />
 
@@ -72,8 +70,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="itemCatalogNumber" />
-    <property name="description" value="itemCatalogNumber description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemDamagedTotalQuantity" parent="CorrectionReceivingItem-itemDamagedTotalQuantity-parentBean" />
 
@@ -90,8 +86,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemDamagedTotalQuantity" />
-    <property name="description" value="itemDamagedTotalQuantity description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemReceivedTotalQuantity" parent="CorrectionReceivingItem-itemReceivedTotalQuantity-parentBean" />
 
@@ -108,8 +102,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemReceivedTotalQuantity" />
-    <property name="description" value="itemReceivedTotalQuantity description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemReturnedTotalQuantity" parent="CorrectionReceivingItem-itemReturnedTotalQuantity-parentBean" />
 
@@ -126,8 +118,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemReturnedTotalQuantity" />
-    <property name="description" value="itemReturnedTotalQuantity description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemDescription" parent="CorrectionReceivingItem-itemDescription-parentBean" />
 
@@ -145,8 +135,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="itemDescription" />
-    <property name="description" value="itemDescription description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemLineNumber" parent="CorrectionReceivingItem-itemLineNumber-parentBean" />
 
@@ -163,8 +151,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="itemLineNumber" />
-    <property name="description" value="itemLineNumber description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemOriginalDamagedTotalQuantity" parent="CorrectionReceivingItem-itemOriginalDamagedTotalQuantity-parentBean" />
 
@@ -181,8 +167,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemOriginalDamagedTotalQuantity" />
-    <property name="description" value="itemOriginalDamagedTotalQuantity description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemOriginalReceivedTotalQuantity" parent="CorrectionReceivingItem-itemOriginalReceivedTotalQuantity-parentBean" />
 
@@ -199,8 +183,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemOriginalReceivedTotalQuantity" />
-    <property name="description" value="itemOriginalReceivedTotalQuantity description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemOriginalReturnedTotalQuantity" parent="CorrectionReceivingItem-itemOriginalReturnedTotalQuantity-parentBean" />
 
@@ -217,8 +199,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemOriginalReturnedTotalQuantity" />
-    <property name="description" value="itemOriginalReturnedTotalQuantity description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemReasonAddedCode" parent="CorrectionReceivingItem-itemReasonAddedCode-parentBean" />
 
@@ -235,8 +215,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="itemReasonAddedCode" />
-    <property name="description" value="itemReasonAddedCode description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemTypeCode" parent="CorrectionReceivingItem-itemTypeCode-parentBean" />
 
@@ -253,8 +231,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="itemTypeCode" />
-    <property name="description" value="itemTypeCode description..." />
   </bean>
   <bean id="CorrectionReceivingItem-itemUnitOfMeasureCode" parent="CorrectionReceivingItem-itemUnitOfMeasureCode-parentBean" />
 
@@ -271,8 +247,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="itemUnitOfMeasureCode" />
-    <property name="description" value="itemUnitOfMeasureCode description..." />
   </bean>
   <bean id="CorrectionReceivingItem-purchaseOrderIdentifier" parent="CorrectionReceivingItem-purchaseOrderIdentifier-parentBean" />
 
@@ -289,8 +263,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="purchaseOrderIdentifier" />
-    <property name="description" value="purchaseOrderIdentifier description..." />
   </bean>
   <bean id="CorrectionReceivingItem-receivingItemIdentifier" parent="CorrectionReceivingItem-receivingItemIdentifier-parentBean" />
 
@@ -307,8 +279,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="receivingItemIdentifier" />
-    <property name="description" value="receivingItemIdentifier description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -266,7 +266,6 @@
     <property name="name" value="genericItemAmount" />
     <property name="label" value="Generic Item Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="summary" value="A generic item amount." />
   </bean>
 
 </beans>

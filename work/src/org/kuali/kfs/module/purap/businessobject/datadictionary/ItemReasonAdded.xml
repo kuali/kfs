@@ -39,8 +39,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="active" />
-    <property name="description" value="active description..." />
   </bean>
   <bean id="ItemReasonAdded-itemReasonAddedCode" parent="ItemReasonAdded-itemReasonAddedCode-parentBean" />
 
@@ -57,8 +55,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="itemReasonAddedCode" />
-    <property name="description" value="itemReasonAddedCode description..." />
   </bean>
   <bean id="ItemReasonAdded-itemReasonAddedDescription" parent="ItemReasonAdded-itemReasonAddedDescription-parentBean" />
 
@@ -75,8 +71,6 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
-    <property name="summary" value="itemReasonAddedDescription" />
-    <property name="description" value="itemReasonAddedDescription description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -44,8 +44,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="campusCode" />
-    <property name="description" value="campusCode description..." />
   </bean>
   <bean id="CommodityContractManager-contractManagerCode" parent="CommodityContractManager-contractManagerCode-parentBean" />
 
@@ -63,8 +61,6 @@
             p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ContractManagerValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="contractManagerCode" />
-    <property name="description" value="contractManagerCode description..." />
   </bean>
   <bean id="CommodityContractManager-newCollectionRecord" parent="CommodityContractManager-newCollectionRecord-parentBean" />
 

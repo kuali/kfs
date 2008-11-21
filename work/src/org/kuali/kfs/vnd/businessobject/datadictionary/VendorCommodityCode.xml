@@ -45,8 +45,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="commodityDefaultIndicator" />
-    <property name="description" value="commodityDefaultIndicator description..." />
   </bean>
   <bean id="VendorCommodityCode-purchasingCommodityCode" parent="VendorCommodityCode-purchasingCommodityCode-parentBean" />
 

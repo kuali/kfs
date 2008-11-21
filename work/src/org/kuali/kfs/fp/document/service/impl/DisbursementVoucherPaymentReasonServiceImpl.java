@@ -110,7 +110,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         String typeParameterName = DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM;
         return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
     }
-    
+
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isRevolvingFundPaymentReason(java.lang.String)
      */
@@ -118,7 +118,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         String typeParameterName = DisbursementVoucherConstants.REVOLVING_FUND_PAYMENT_REASONS_PARM_NM;
         return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
     }
-    
+
     public String getReserchNonVendorPayLimit() {
         return parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
     }
@@ -140,7 +140,10 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         return (PaymentReasonCode) businessObjectService.findByPrimaryKey(PaymentReasonCode.class, primaryKeys);
     }
 
-    // post the usage of the given payee type code
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#postPaymentReasonCodeUsage(java.lang.String,
+     *      org.kuali.rice.kns.util.ErrorMap)
+     */
     public void postPaymentReasonCodeUsage(String paymentReasonCode, ErrorMap errorMap) {
         List<String> payeeTypeCodes = this.getPayeeTypesByPaymentReason(paymentReasonCode);
         if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
@@ -220,7 +223,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         StringBuilder listAsString = new StringBuilder();
         for (String emlement : list) {
             int index = list.indexOf(emlement);
-            
+
             if (index == 0) {
                 listAsString.append(emlement);
             }
@@ -234,7 +237,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
 
         return listAsString.toString();
     }
-    
+
     /**
      * determine whether the given payment reason is of type that is specified by typeParameterName
      * 

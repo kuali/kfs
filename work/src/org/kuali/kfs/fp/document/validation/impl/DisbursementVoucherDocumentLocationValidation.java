@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class DisbursementVoucherDocumentLocationValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
+public class DisbursementVoucherDocumentLocationValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentLocationValidation.class);
 
     private ParameterService parameterService;
@@ -54,7 +55,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
 
         // payment reason restrictions
         if (ObjectUtils.isNotNull(payeeDetail.getDisbVchrPaymentReasonCode())) {
-            ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, payeeDetail.getDisbVchrPaymentReasonCode(), documentationLocationCode);
+            ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, payeeDetail.getDisbVchrPaymentReasonCode(), documentationLocationCode);
             parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
         }
 
@@ -69,7 +70,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? null : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
 
         // initiator campus code restrictions
-        ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode);
+        ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode);
         parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
 
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);  

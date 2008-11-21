@@ -31,12 +31,12 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.WireCharge;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
-import org.kuali.kfs.fp.document.service.impl.DisbursementVoucherCoverSheetServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -143,11 +143,11 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DisbursementVoucherCoverSheetService coverSheetService = SpringContext.getBean(DisbursementVoucherCoverSheetService.class);
 
-        coverSheetService.generateDisbursementVoucherCoverSheet(directory, DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_NM, document, baos);
+        coverSheetService.generateDisbursementVoucherCoverSheet(directory, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_NM, document, baos);
         String fileName = document.getDocumentNumber() + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
+        
         return (null);
-
     }
 
     /**
@@ -176,7 +176,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
     }
 
     /**
@@ -192,13 +191,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
     }
 
     /**
-     * This method...
-     * 
-     * @param dvNet
+     * clear travel perdiem amounts
      */
     private void clearTravelPerDiem(DisbursementVoucherNonEmployeeTravel dvNet) {
         dvNet.setDisbVchrPerdiemCalculatedAmt(null);
@@ -255,7 +251,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         dvNet.setDisbVchrMileageCalculatedAmt(null);
         dvNet.setDisbVchrPersonalCarAmount(null);
     }
-
 
     /**
      * Adds a new employee travel expense line.
@@ -370,7 +365,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
     }
 
     /**
@@ -384,7 +378,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         dvDocument.getDvPreConferenceDetail().getDvPreConferenceRegistrants().remove(deleteIndex);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
     }
 
     /**
@@ -486,9 +479,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         dvForm.setPayeeIdNumber(payeeIdNumber);
         dvForm.setHasMultipleAddresses(false);
-        document.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(dvForm.getPayeeTypeCode());
-        document.getDvPayeeDetail().setDisbVchrPaymentReasonCode(dvForm.getPaymentReasonCode());
-        
+
         // determine whether the selected vendor has multiple addresses. If so, redirect to the address selection screen
         if (isPayeeLookupable && dvForm.isVendor()) {
             VendorDetail refreshVendorDetail = new VendorDetail();
@@ -521,7 +512,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         String payeeAddressIdentifier = request.getParameter(KFSPropertyConstants.VENDOR_ADDRESS_GENERATED_ID);
-        if (isAddressLookupable && payeeAddressIdentifier != null) {
+        if (isAddressLookupable && StringUtils.isNotBlank(payeeAddressIdentifier)) {
             setupPayeeAsVendor(dvForm, payeeIdNumber, payeeAddressIdentifier);
         }
 
@@ -549,7 +540,11 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         props.put(KNSConstants.LOOKUP_ANCHOR, KNSConstants.ANCHOR_TOP_OF_FORM);
         props.put(KNSConstants.LOOKED_UP_COLLECTION_NAME, KFSPropertyConstants.VENDOR_ADDRESSES);
 
-        String filedConversion = "vendorAddressGeneratedIdentifier:vendorAddressGeneratedIdentifier,vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier";
+        String conversionPatttern = "{0}" + KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR + "{0}";
+        StringBuilder filedConversion = new StringBuilder();
+        filedConversion.append(MessageFormat.format(conversionPatttern, KFSPropertyConstants.VENDOR_ADDRESS_GENERATED_ID)).append(KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
+        filedConversion.append(MessageFormat.format(conversionPatttern, KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID)).append(KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
+        filedConversion.append(MessageFormat.format(conversionPatttern, KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID));
         props.put(KNSConstants.CONVERSION_FIELDS_PARAMETER, filedConversion);
 
         props.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, dvForm.getVendorHeaderGeneratedIdentifier());
@@ -569,12 +564,12 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         return new ActionForward(url, true);
     }
-    
+
     /**
      * setup the payee as an employee with the given id number
      */
     private void setupPayeeAsEmployee(DisbursementVoucherForm dvForm, String payeeIdNumber) {
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPerson(payeeIdNumber);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
         if (person != null) {
             ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
         }
@@ -590,18 +585,18 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         VendorDetail vendorDetail = new VendorDetail();
         vendorDetail.setVendorNumber(payeeIdNumber);
         vendorDetail = (VendorDetail) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorDetail);
-        
+
         VendorAddress vendorAddress = new VendorAddress();
         if (StringUtils.isNotBlank(payeeAddressIdentifier)) {
             try {
                 vendorAddress.setVendorAddressGeneratedIdentifier(new Integer(payeeAddressIdentifier));
                 vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
             }
-            catch (Exception x) {
-                LOG.error("Exception while attempting to retrieve vendor address for vendor address id " + payeeAddressIdentifier + ": " + x);
+            catch (Exception e) {
+                LOG.error("Exception while attempting to retrieve vendor address for vendor address id " + payeeAddressIdentifier + ": " + e);
             }
         }
-        
+
         ((DisbursementVoucherDocument) dvForm.getDocument()).templateVendor(vendorDetail, vendorAddress);
     }
 }

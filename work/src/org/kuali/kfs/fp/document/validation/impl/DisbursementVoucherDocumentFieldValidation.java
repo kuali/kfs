@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -73,7 +74,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         boolean hasNoNotes = this.hasNoNotes(document);
 
         /* if no documentation is selected, must be a note explaining why */
-        if (DisbursementVoucherRuleConstants.NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && hasNoNotes) {
+        if (DisbursementVoucherConstants.NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && hasNoNotes) {
             errors.putError(KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE, KFSKeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING);
             isValid = false;
         }

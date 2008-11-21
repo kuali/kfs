@@ -15,169 +15,250 @@
  */
 package org.kuali.kfs.fp.businessobject.lookup;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants.PayeeType;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
 public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
-    
-    Lookupable vendorLookupable;
-    Lookupable kualiLookupable;
-    
-    /**
-     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     */
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        return this.getDummyPayees();
-    }
+
+    private Lookupable vendorLookupable;
+    private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm,
      *      java.util.Collection, boolean)
      */
     @Override
-    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) { 
-        Collection<BusinessObject> displayList = new ArrayList<BusinessObject>();
-        List<ResultRow> resultRowList = (List<ResultRow>)resultTable;
-        
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Map<String, String> fieldValues = lookupForm.getFieldsForLookup();
-        String payeeTypeCode = fieldValues.remove(KFSPropertyConstants.PAYEE_TYPE_CODE);  
-        String payeeReasonCode = fieldValues.remove(KFSPropertyConstants.PAYMENT_REASON_CODE); 
-        
-        // perform employee search
-        if(StringUtils.equals(PayeeType.EMPLOYEE.getPayeeTypeCode(), payeeTypeCode)) {
-            lookupForm.setFieldsForLookup(this.getPersonFieldValues(fieldValues));
-            displayList = this.performLookupPersons(lookupForm, resultRowList, bounded);
-            
-            Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put(KFSPropertyConstants.PAYEE_TYPE_CODE, payeeTypeCode);
-            parameters.put(KFSPropertyConstants.PAYMENT_REASON_CODE, payeeReasonCode);
-            this.appendAdditionalParameters(resultRowList, parameters);
-        }
+        String paymentReasonCode = fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE);
 
-        // perform vendor search
-        if (StringUtils.equals(PayeeType.VENDOR.getPayeeTypeCode(), payeeTypeCode)) {
-            lookupForm.setFieldsForLookup(this.getVendorFieldValues(fieldValues));
-            displayList = this.performLookupVendors(lookupForm, resultRowList, bounded);
-            
-            Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put(KFSPropertyConstants.PAYEE_TYPE_CODE, payeeTypeCode);
-            parameters.put(KFSPropertyConstants.PAYMENT_REASON_CODE, payeeReasonCode);
-            this.appendAdditionalParameters(resultRowList, parameters);
-        }
+        List<DisbursementPayee> displayList = (List<DisbursementPayee>) super.performLookup(lookupForm, resultTable, bounded);
+
+        this.filterReturnUrl((List<ResultRow>) resultTable, displayList, paymentReasonCode);
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        disbursementVoucherPaymentReasonService.postPaymentReasonCodeUsage(paymentReasonCode, errorMap);
 
         return displayList;
     }
-    
-    // convert the field values to contain person fields
-    private Map<String, String> getPersonFieldValues(Map<String, String> fieldValues){
-        Map<String, String> personFieldValues = new HashMap<String, String>();
-        personFieldValues.putAll(fieldValues);
-        
-        Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndPerson();
-        this.replaceFieldKeys(personFieldValues, fieldConversionMap);
-        
-        return personFieldValues;
+
+    /**
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<DisbursementPayee> searchResults = new ArrayList<DisbursementPayee>();
+
+        if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NAME))) {
+            searchResults.addAll(this.getVendorsAsPayees(fieldValues));
+        }
+        else if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID))) {
+            searchResults.addAll(this.getPersonAsPayees(fieldValues));
+        }
+        else {
+            searchResults.addAll(this.getVendorsAsPayees(fieldValues));
+            searchResults.addAll(this.getPersonAsPayees(fieldValues));
+        }
+
+        CollectionIncomplete results = new CollectionIncomplete(searchResults, Long.valueOf(searchResults.size()));
+
+        // sort list if default sort column given
+        List<String> defaultSortColumns = getDefaultSortColumns();
+        if (defaultSortColumns.size() > 0) {
+            Collections.sort(results, new BeanPropertyComparator(getDefaultSortColumns(), true));
+        }
+
+        return results;
     }
-    
-    // convert the field values to contain vendor fields
-    private Map<String, String> getVendorFieldValues(Map<String, String> fieldValues){
+
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        super.validateSearchParameters(fieldValues);
+
+        String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
+        String vendorNumber = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER);
+        String employeeId = (String) fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID);
+
+        // only can use the vendor name and vendor number fields or the employee id field, but not both.
+        boolean isVendorInfoEntered = StringUtils.isNotBlank(vendorName) || StringUtils.isNotBlank(vendorNumber);
+        if (StringUtils.isNotBlank(employeeId) && isVendorInfoEntered) {
+            String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_EMPLOYEE_CONFUSION;
+
+            String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
+            String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
+            String employeeIdLabel = this.getAttribueLabel(KFSPropertyConstants.EMPLOYEE_ID);
+
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
+        }
+
+        String firstName = (String) fieldValues.get(KNSPropertyConstants.PERSON_FIRST_NAME);
+        String lastName = (String) fieldValues.get(KNSPropertyConstants.PERSON_LAST_NAME);
+        boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
+
+        // only can use the person first and last name fields or the vendor name field, but not both.
+        if (StringUtils.isNotBlank(vendorName) && isPersonNameEntered) {
+            String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
+
+            String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
+            String firstNameLabel = this.getAttribueLabel(KNSPropertyConstants.PERSON_FIRST_NAME);
+            String lastNameLabel = this.getAttribueLabel(KNSPropertyConstants.PERSON_LAST_NAME);
+
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
+        }
+
+        if (!GlobalVariables.getErrorMap().isEmpty()) {
+            throw new ValidationException("errors in search criteria");
+        }
+    }
+
+    // get the label for the given attribute of the current business object
+    private String getAttribueLabel(String attributeName) {
+        return this.getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeName);
+    }
+
+    // perform vendor search
+    private List<DisbursementPayee> getVendorsAsPayees(Map<String, String> fieldValues) {
+        List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
+
+        Map<String, String> fieldsForLookup = this.getVendorFieldValues(fieldValues);
+        vendorLookupable.setBusinessObjectClass(VendorDetail.class);
+        vendorLookupable.validateSearchParameters(fieldsForLookup);
+
+        List<BusinessObject> vendorList = vendorLookupable.getSearchResults(fieldsForLookup);
+        for (BusinessObject vendor : vendorList) {
+            VendorDetail vendorDetail = (VendorDetail) vendor;
+            DisbursementPayee payee = DisbursementPayee.getPayeeFromVendor(vendorDetail);
+            payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+            payeeList.add(payee);
+        }
+
+        return payeeList;
+    }
+
+    // get the search criteria valid for vendor lookup
+    private Map<String, String> getVendorFieldValues(Map<String, String> fieldValues) {
         Map<String, String> vendorFieldValues = new HashMap<String, String>();
         vendorFieldValues.putAll(fieldValues);
-        
+
         Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndVendor();
         this.replaceFieldKeys(vendorFieldValues, fieldConversionMap);
-        
+
+        String vendorName = this.getVendorName(vendorFieldValues);
+        if (StringUtils.isNotBlank(vendorName)) {
+            vendorFieldValues.put(KFSPropertyConstants.VENDOR_NAME, vendorName);
+        }
+
+        vendorFieldValues.remove(VendorPropertyConstants.VENDOR_FIRST_NAME);
+        vendorFieldValues.remove(VendorPropertyConstants.VENDOR_LAST_NAME);
+
         return vendorFieldValues;
     }
-    
+
+    // get the vendor name from the given field value map
+    private String getVendorName(Map<String, String> vendorFieldValues) {
+        String firstName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_FIRST_NAME);
+        String lastName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_LAST_NAME);
+
+        if (StringUtils.isNotBlank(lastName)) {
+            return lastName + VendorConstants.NAME_DELIM + firstName;
+        }
+        else if (StringUtils.isNotBlank(firstName)) {
+            return KFSConstants.WILDCARD_CHARACTER + VendorConstants.NAME_DELIM + firstName;
+        }
+
+        return StringUtils.EMPTY;
+    }
+
+    // perform person search
+    private List<DisbursementPayee> getPersonAsPayees(Map<String, String> fieldValues) {
+        List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
+
+        Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);
+        List<Person> personList = this.getPersonService().findPeople(fieldsForLookup, true);
+        for (Person person : personList) {
+            DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(person);
+            payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+            payeeList.add(payee);
+        }
+
+        return payeeList;
+    }
+
+    // get the search criteria valid for person lookup
+    private Map<String, String> getPersonFieldValues(Map<String, String> fieldValues) {
+        Map<String, String> personFieldValues = new HashMap<String, String>();
+        personFieldValues.putAll(fieldValues);
+
+        Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndPerson();
+        this.replaceFieldKeys(personFieldValues, fieldConversionMap);
+
+        if (fieldConversionMap.containsKey("externalId")) {
+            fieldConversionMap.put("externalIdentifierTypeCode", VendorConstants.TAX_TYPE_SSN);
+        }
+
+        fieldConversionMap.put(KNSPropertyConstants.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+
+        return personFieldValues;
+    }
+
     // replace the keys in fieldValues with the corresponding values defined in fieldConversionMap
     private void replaceFieldKeys(Map<String, String> fieldValues, Map<String, String> fieldConversionMap) {
-        for(String key : fieldConversionMap.keySet()) {
-            if(fieldValues.containsKey(key)) {
+        for (String key : fieldConversionMap.keySet()) {
+            if (fieldValues.containsKey(key)) {
                 String value = fieldValues.get(key);
                 String newKey = fieldConversionMap.get(key);
-                
+
                 fieldValues.remove(key);
                 fieldValues.put(newKey, value);
             }
         }
     }
 
-    // build a dummy payee object
-    private List<? extends BusinessObject> getDummyPayees() {
-        List<BusinessObject> searchResults = new ArrayList<BusinessObject>();
-
-        DisbursementPayee disbursementPayee = new DisbursementPayee();
-        disbursementPayee.setPayeeTypeCode(StringUtils.EMPTY);
-        disbursementPayee.setPayeeIdNumber(StringUtils.EMPTY);
-        disbursementPayee.setPayeeName(StringUtils.EMPTY);
-
-        searchResults.add(disbursementPayee);
-        return new CollectionIncomplete(searchResults, new Long(0));
-    }
-
-    // perform vendor search 
-    private Collection<BusinessObject> performLookupVendors(LookupForm lookupForm, List<ResultRow> resultRowList, boolean bounded) {        
-        Map<String, String> fieldConversions = this.getVendorFieldValues(lookupForm.getFieldConversions());
-        lookupForm.setFieldConversions(fieldConversions);
-               
-        vendorLookupable.setFieldConversions(fieldConversions);
-        vendorLookupable.setBusinessObjectClass(VendorDetail.class);
-        
-        vendorLookupable.validateSearchParameters(lookupForm.getFieldsForLookup());
-        return vendorLookupable.performLookup(lookupForm, resultRowList, bounded);
-    }
-    
-    // perform person search 
-    private Collection<BusinessObject> performLookupPersons(LookupForm lookupForm, List<ResultRow> resultRowList, boolean bounded) {
-        Map<String, String> fieldConversions = this.getPersonFieldValues(lookupForm.getFieldConversions());
-        lookupForm.setFieldConversions(fieldConversions);
-                
-        kualiLookupable.setFieldConversions(fieldConversions);
-        kualiLookupable.setBusinessObjectClass(Person.class);
-        
-        return kualiLookupable.performLookup(lookupForm, resultRowList, bounded);
-    }
-    
-    // append the additional parameters to the return URLs
-    private void appendAdditionalParameters(List<ResultRow> resultRowList, Map<String, String> parameters) {
-        String additionalParameterString = this.getAdditionalParameterString(parameters);
-        for(ResultRow row : resultRowList) {
-            String href = StringUtils.substringBetween(row.getReturnUrl(), "href=\"", "\"");
-            String returnUrl = StringUtils.replace(row.getReturnUrl(), href, href + additionalParameterString);
-            row.setReturnUrl(returnUrl);
-        }       
-    }
-    
-    // produce the http query string from the given parameters
-    private String getAdditionalParameterString(Map<String, String> parameters) {
-        String parameterAsStringPattern = "&{0}={1}";
-        StringBuilder additionalParameterString = new StringBuilder(StringUtils.EMPTY);
-        
-        for(String key : parameters.keySet()) {
-            additionalParameterString.append(MessageFormat.format(parameterAsStringPattern, key, parameters.get(key)));
+    // remove its return URLs if a row is not qualified for returning
+    private void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
+        List<String> payeeTypeCodes = disbursementVoucherPaymentReasonService.getPayeeTypesByPaymentReason(paymentReasonCode);
+        if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
+            return;
         }
-        
-        return additionalParameterString.toString();        
+
+        for (int index = 0; index < payeeList.size(); index++) {
+            DisbursementPayee payee = payeeList.get(index);
+
+            boolean isQualified = disbursementVoucherPaymentReasonService.isPayeeQualifiedForPayment(payee, paymentReasonCode, payeeTypeCodes);
+            if (!isQualified) {
+                resultRowList.get(index).setReturnUrl(StringUtils.EMPTY);
+            }
+        }
     }
 
     /**
@@ -190,10 +271,11 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     /**
-     * Sets the kualiLookupable attribute value.
-     * @param kualiLookupable The kualiLookupable to set.
+     * Sets the disbursementVoucherPaymentReasonService attribute value.
+     * 
+     * @param disbursementVoucherPaymentReasonService The disbursementVoucherPaymentReasonService to set.
      */
-    public void setKualiLookupable(Lookupable kualiLookupable) {
-        this.kualiLookupable = kualiLookupable;
+    public void setDisbursementVoucherPaymentReasonService(DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService) {
+        this.disbursementVoucherPaymentReasonService = disbursementVoucherPaymentReasonService;
     }
 }

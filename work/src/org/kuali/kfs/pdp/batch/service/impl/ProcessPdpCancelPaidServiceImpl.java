@@ -21,8 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
@@ -59,7 +59,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         String organization = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String purapSubUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
-        String dvSubUnit = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+        String dvSubUnit = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
 
         List<String> subUnits = new ArrayList<String>();
         subUnits.add(purapSubUnit);
@@ -78,7 +78,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchCancels(documentNumber, documentTypeCode, primaryCancel, disbursedPayment);
             }
-            else if (DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
+            else if (DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
                 DisbursementVoucherDocument dv = dvExtractService.getDocumentById(documentNumber);
                 if (dv != null) {
                     if (disbursedPayment || primaryCancel) {
@@ -107,7 +107,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         String organization = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String purapSubUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
-        String dvSubUnit = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+        String dvSubUnit = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
 
         List<String> subUnits = new ArrayList<String>();
         subUnits.add(purapSubUnit);
@@ -123,7 +123,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchPaids(documentNumber, documentTypeCode, processDate);
             }
-            else if (documentTypeCode.equals(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH)) {
+            else if (documentTypeCode.equals(DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH)) {
                 DisbursementVoucherDocument dv = dvExtractService.getDocumentById(documentNumber);
                 dvExtractService.markDisbursementVoucherAsPaid(dv, processDate);
             }

@@ -33,8 +33,8 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
@@ -112,7 +112,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        String userId = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
+        String userId = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
         Person uuser = personService.getPersonByPrincipalName(userId);
         if (uuser != null) {
             LOG.debug("extractPayments() Unable to find user " + userId);
@@ -120,7 +120,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Set<String> campusList = getCampusListByDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.APPROVED);
+        Set<String> campusList = getCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
 
         // Process each campus one at a time
         for (String campusCode : campusList) {
@@ -145,7 +145,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherRuleConstants.DocumentStatusCodes.APPROVED, campusCode);
+        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode);
         for (DisbursementVoucherDocument document : dvd) {
             addPayment(document, batch, processRunDate);
             count++;
@@ -178,7 +178,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         if (!testMode) {
             try {
-                document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.EXTRACTED);
+                document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.EXTRACTED);
                 document.setExtractDate(new java.sql.Date(processRunDate.getTime()));
                 SpringContext.getBean(DocumentService.class).saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             }
@@ -211,12 +211,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         String rc = pd.getDisbVchrPaymentReasonCode();
 
         // If the payee is an employee, set these flags accordingly
-        if ((StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR) && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+        if ((document.getDvPayeeDetail().isVendor() && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
             pg.setEmployeeIndicator(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID);
 
             // All payments are taxable except research participant, rental & royalties
-            pg.setTaxablePayment((!DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
+            pg.setTaxablePayment((!DisbursementVoucherConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
         }
         else { // Payee is not an employee
             // Assume it is not taxable until proven otherwise
@@ -306,7 +306,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pd.setInvTotShipAmount(KualiDecimal.ZERO);
         pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount());
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
-        pd.setFinancialDocumentTypeCode(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH);
+        pd.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH);
         pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
         // Handle accounts
@@ -397,7 +397,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         String paymentReasonCode = dvpd.getDisbVchrPaymentReasonCode();
-        if (DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_NONEMPLOYEE.equals(paymentReasonCode) || DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
+        if (DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_NONEMPLOYEE.equals(paymentReasonCode) || DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
             DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
@@ -427,7 +427,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 }
             }
         }
-        else if (DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_PREPAID.equals(paymentReasonCode)) {
+        else if (DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_PREPAID.equals(paymentReasonCode)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Payment is for the following indviuals/charges:");
@@ -476,8 +476,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @return A fully populated batch instance.
      */
     private Batch createBatch(String campusCode, Person user, Date processRunDate) {
-        String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
-        String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+        String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
+        String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
         if (customer == null) {
             throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);

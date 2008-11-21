@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
@@ -130,7 +131,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
                 }
 
                 // determine if the rule is flagged off in the parm setting
-                boolean performTravelMileageLimitInd = parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_ACTUAL_MILEAGE_LIMIT_PARM_NM);
+                boolean performTravelMileageLimitInd = parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_ACTUAL_MILEAGE_LIMIT_PARM_NM);
                 if (performTravelMileageLimitInd) {
                     // if actual amount is greater than calculated amount
                     if (currentCalcAmt.subtract(currentActualAmt).isNegative()) {
@@ -247,7 +248,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
      * 
      */
     private boolean isTravelNonEmplPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
-        ParameterEvaluator travelNonEmplPaymentReasonEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        ParameterEvaluator travelNonEmplPaymentReasonEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         return travelNonEmplPaymentReasonEvaluator.evaluationSucceeds();
     }
 

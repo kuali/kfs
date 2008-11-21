@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -30,7 +31,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class DisbursementVoucherWireTransferValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
+public class DisbursementVoucherWireTransferValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherWireTransferValidation.class);
 
     private AccountingDocument accountingDocumentForValidation;

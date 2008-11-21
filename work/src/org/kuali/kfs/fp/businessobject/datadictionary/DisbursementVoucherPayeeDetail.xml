@@ -74,9 +74,7 @@
     <property name="maxLength" value="25" />
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PayeeTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+            <bean parent="TextControlDefinition" p:size="25" />
     </property>
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName" parent="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean" />

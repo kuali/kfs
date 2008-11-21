@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.fp.document.validation.impl;
+package org.kuali.kfs.fp.document;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.kuali.kfs.sys.ParameterKeyConstants;
-
 
 /**
  * Holds constants for disbursement voucher and payee documents.
  */
-public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants {
+// TODO: after DisbursementVoucherDocumentRule is remove, it is good to change this interface into a class
+public interface DisbursementVoucherConstants extends ParameterKeyConstants {
 
     // payment methods
     public static String PAYMENT_METHOD_CHECK = "P";
@@ -31,7 +34,10 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     // payee types
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
-    public static final String DV_PAYEE_TYPE_NONVENDOR = "P";
+    public static final String DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR = "VSP";
+    public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
+    
+    public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(DV_PAYEE_TYPE_VENDOR, DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR, DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
 
     // ownership type
     public static String OWNERSHIP_TYPE_CORPORATION = "C";
@@ -93,16 +99,18 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     public static final String VALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM = "VALID_OBJECT_LEVELS_BY_PAYMENT_REASON";
     public static final String VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM = "VALID_OBJECT_CODES_BY_PAYMENT_REASON";
     public static final String VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM = "VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP";
-    public static final String VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM = "VALID_PAYMENT_REASONS_BY_PAYEE_TYPE";
+    @Deprecated public static final String VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM = "VALID_PAYMENT_REASONS_BY_PAYEE_TYPE";
     public static final String VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM = "VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON";
+    public static final String VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM = "VALID_PAYEE_TYPES_BY_PAYMENT_REASON";
 
     public static final String INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM = "INVALID_DOCUMENTATION_LOCATIONS_BY_PAYMENT_REASON";
     public static final String INVALID_DOC_LOC_BY_CAMPUS_PARM = "INVALID_DOCUMENTATION_LOCATIONS_BY_CAMPUS";
     public static final String INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM = "INVALID_OBJECT_LEVELS_BY_PAYMENT_REASON";
     public static final String INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM = "INVALID_OBJECT_CODES_BY_PAYMENT_REASON";
     public static final String INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM = "INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP";
-    public static final String INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM = "INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE";
+    @Deprecated public static final String INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM = "INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE";
     public static final String INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM = "INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON";
+    public static final String INVALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM = "INVALID_PAYEE_TYPES_BY_PAYMENT_REASON";
 
     public static final String FEDERAL_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_FEDERAL_";
     public static final String STATE_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_STATE_";
@@ -118,13 +126,17 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     public static final String W9_OWNERSHIP_TYPES_PARM_NM = "W9_OWNERSHIP_TYPES";
     public static final String NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM = "NONEMPLOYEE_TRAVEL_PAYMENT_REASONS";
     public static final String NONEMPLOYEE_TRAVEL_ACTUAL_MILEAGE_LIMIT_PARM_NM = "NONEMPLOYEE_TRAVEL_ACTUAL_MILEAGE_LIMIT_IND";
-    public static final String PREPAID_TRAVEL_PAY_REASONS_PARM_NM = "PREPAID_TRAVEL_PAYMENT_REASONS";
-    public static final String REVOLVING_FUND_PAY_REASONS_PARM_NM = "REVOLVING_FUND_PAYMENT_REASONS";
-    public static final String RESEARCH_PAY_REASONS_PARM_NM = "RESEARCH_PAYMENT_REASONS";
-    public static final String RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM = "RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT";
+    public static final String PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM = "PREPAID_TRAVEL_PAYMENT_REASONS";
+    public static final String REVOLVING_FUND_PAYMENT_REASONS_PARM_NM = "REVOLVING_FUND_PAYMENT_REASONS";
+    public static final String RESEARCH_PAYMENT_REASONS_PARM_NM = "RESEARCH_PAYMENT_REASONS";
+    public static final String RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM = "RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT";
     public static final String PERFORM_PREPAID_EMPL_PARM_NM = "CHECK_PREPAID_ACTIVE_EMPLOYEE_IND";
     public static final String CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_PARM_NM = "CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_IND";
-    public static final String MOVING_PAY_REASONS_PARM_NM = "MOVING_PAYMENT_REASONS";
+    public static final String MOVING_PAYMENT_REASONS_PARM_NM = "MOVING_PAYMENT_REASONS";
+    
+    public static final String NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM = "NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL";
+    public static final String PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM = "PO_AND_DV_PAYEE_TYPE_LABEL";
+    public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
 
     public static String TAX_TYPE_SSN = "1";
     public static String TAX_TYPE_FEIN = "0";
@@ -143,31 +155,11 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     public static String DOCUMENT_TYPE_CHECKACH = "DVCA";
     public static String DOCUMENT_TYPE_WTFD = "DVWF";
     
-    // enumerate the payee types
-    public enum PayeeType{
-        VENDOR(DV_PAYEE_TYPE_VENDOR, "Vendor"), EMPLOYEE(DV_PAYEE_TYPE_EMPLOYEE, "Employee"), NON_VENDOR(DV_PAYEE_TYPE_NONVENDOR, "Non-vendor");
-        
-        private String payeeTypeCode;
-        private String payeeTypeName;
-        private PayeeType(String payeeTypeCode, String payeeTypeName) {
-            this.payeeTypeCode = payeeTypeCode;
-            this.payeeTypeName = payeeTypeName;
-        }
-        
-        /**
-         * Gets the payeeTypeCode attribute. 
-         * @return Returns the payeeTypeCode.
-         */
-        public String getPayeeTypeCode() {
-            return payeeTypeCode;
-        }
-        
-        /**
-         * Gets the payeeTypeName attribute. 
-         * @return Returns the payeeTypeName.
-         */
-        public String getPayeeTypeName() {
-            return payeeTypeName;
-        }        
-    }
+    public static final String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "COVER_SHEET_TEMPLATE_LINES";
+    public static final String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "COVER_SHEET_TEMPLATE_RLINES";
+    public static final String DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM = "COVER_SHEET_TEMPLATE_NON_RESIDENT_ALIEN";
+    public static final String DV_COVER_SHEET_TEMPLATE_ATTACHMENT_PARM_NM = "COVER_SHEET_TEMPLATE_ATTACHMENT";
+    public static final String DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM = "COVER_SHEET_TEMPLATE_HANDLING";
+    public static final String DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM = "COVER_SHEET_TEMPLATE_BAR";
+    public static final String DV_COVER_SHEET_TEMPLATE_NM = "disbursementVoucherCoverSheetTemplate.pdf";
 }

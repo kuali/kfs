@@ -20,8 +20,8 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -55,7 +55,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
-        criteria.addEqualTo("disbVchrPaymentMethodCode", DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK);
+        criteria.addEqualTo("disbVchrPaymentMethodCode", DisbursementVoucherConstants.PAYMENT_METHOD_CHECK);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }

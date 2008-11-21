@@ -630,7 +630,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
             throw new IllegalArgumentException("invalid (null) document");
         }
         try {
-            System.out.println("====createNewSourceAccountingLine: " + financialDocument);
             return (SourceAccountingLine) financialDocument.getSourceAccountingLineClass().newInstance();
         }
         catch (Exception e) {

@@ -19,9 +19,9 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.rice.kim.bo.Person;
@@ -56,7 +56,7 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
 
         boolean isObjectCodeEditable = workGroupService.isUserInDvAdminGroup(currentUser);
         isObjectCodeEditable |= workGroupService.isUserInTravelGroup(currentUser);
-        isObjectCodeEditable &= SpringContext.getBean(ParameterService.class).getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.ALLOW_OBJECT_CODE_EDITS);
+        isObjectCodeEditable &= SpringContext.getBean(ParameterService.class).getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherConstants.ALLOW_OBJECT_CODE_EDITS);
         if (isObjectCodeEditable) {
             editableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         }

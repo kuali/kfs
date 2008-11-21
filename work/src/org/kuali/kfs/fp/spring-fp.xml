@@ -108,6 +108,12 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="vendorService">
+			<ref bean="vendorService" />
+		</property>		
 	</bean>
 	
 	<bean id="disbursementVoucherWorkGroupService" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherWorkGroupServiceImpl">
@@ -409,9 +415,26 @@
 		<property name="vendorLookupable">
 			<ref bean="vendorLookupable" />
 		</property>	
-		<property name="kualiLookupable">
-			<ref bean="kualiLookupable" />
+		<property name="kualiInquirable">
+			<ref bean="disbursementPayeeInquirable" />
 		</property>			
+		<property name="disbursementVoucherPaymentReasonService">
+			<ref bean="disbursementVoucherPaymentReasonService" />
+		</property>		
+	</bean>
+	
+	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" singleton="false" parent="kualiInquirable"/>
+	
+	<bean id="disbursementVoucherPaymentReasonService" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherPaymentReasonServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="disbursementVoucherPayeeService">
+			<ref bean="disbursementVoucherPayeeService" />
+		</property>
 	</bean>
 	
 	<!-- validations -->

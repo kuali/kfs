@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -31,7 +32,7 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidation implements DisbursementVoucherRuleConstants{
+public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidation implements DisbursementVoucherConstants{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPayeeInitiatorValidation.class);
     
     private AccountingDocument accountingDocumentForValidation;
@@ -53,7 +54,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
 
         String uuid = null;
         // If payee is a vendor, then look up SSN and look for SSN in the employee table
-        if (StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR) && StringUtils.isNotBlank(payeeDetail.getDisbVchrVendorHeaderIdNumber())) {
+        if (payeeDetail.isVendor() && StringUtils.isNotBlank(payeeDetail.getDisbVchrVendorHeaderIdNumber())) {
             VendorDetail dvVendor = retrieveVendorDetail(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), payeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
             // if the vendor tax type is SSN, then check the tax number
             if (dvVendor != null && TAX_TYPE_SSN.equals(dvVendor.getVendorHeader().getVendorTaxTypeCode())) {
@@ -65,7 +66,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
             }
         }
         // If payee is an employee, then pull payee from employee table
-        else if(StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+        else if(payeeDetail.isEmployee()) {
             uuid = payeeDetail.getDisbVchrEmployeeIdNumber();
         }
 

@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -125,12 +126,12 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
         }
 
         // check object level is in permitted list for payment reason
-        objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherConstants.VALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         // check object code is in permitted list for payment reason
-        objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getFinancialObjectCode()).evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherConstants.VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getFinancialObjectCode()).evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
-        objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, DisbursementVoucherRuleConstants.INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, accountingLine.getAccount().getSubFundGroupCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherConstants.VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, DisbursementVoucherConstants.INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, accountingLine.getAccount().getSubFundGroupCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         return objectCodeAllowed;
     }
@@ -159,7 +160,7 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
 
         // global function code restrictions
         if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
+            ParameterEvaluator evaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
             // accountNumberAllowed is true now
             accountNumberAllowed = evaluator.evaluateAndAddError(SourceAccountingLine.class, "account.financialHigherEdFunctionCd", KFSPropertyConstants.ACCOUNT_NUMBER);
         }
@@ -170,7 +171,7 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
         }
 
         // check sub fund is in permitted list for payment reason
-        accountNumberAllowed = accountNumberAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getAccount().getSubFundGroupCode()).evaluateAndAddError(SourceAccountingLine.class, "account.subFundGroupCode", KFSPropertyConstants.ACCOUNT_NUMBER);
+        accountNumberAllowed = accountNumberAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherConstants.VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getAccount().getSubFundGroupCode()).evaluateAndAddError(SourceAccountingLine.class, "account.subFundGroupCode", KFSPropertyConstants.ACCOUNT_NUMBER);
 
         return accountNumberAllowed;
     }

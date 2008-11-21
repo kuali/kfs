@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
 import org.kuali.kfs.fp.businessobject.options.PaymentReasonValuesFinder;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -42,7 +43,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 /**
  * Checks warnings and prompt conditions for dv document.
  */
-public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBase implements DisbursementVoucherRuleConstants {
+public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBase implements DisbursementVoucherConstants {
 
     /**
      * Executes pre-rules for Disbursement Voucher Document
@@ -204,10 +205,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         DisbursementVoucherWireTransfer dvForeignDraft = dvDocument.getDvWireTransfer();
 
         // if payment method is CHECK and wire tab contains data, ask user to clear tab
-        if ((StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE, dvDocument.getDisbVchrPaymentMethodCode())) && hasForeignDraftValues(dvForeignDraft)) {
+        if ((StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_WIRE, dvDocument.getDisbVchrPaymentMethodCode())) && hasForeignDraftValues(dvForeignDraft)) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
-            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Foreign Draft", DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT };
+            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Foreign Draft", DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT };
             questionText = MessageFormat.format(questionText, args);
 
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(KFSConstants.DisbursementVoucherDocumentConstants.CLEAR_FOREIGN_DRAFT_TAB_QUESTION_ID, questionText);
@@ -264,10 +265,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         DisbursementVoucherWireTransfer dvWireTransfer = dvDocument.getDvWireTransfer();
 
         // if payment method is CHECK and wire tab contains data, ask user to clear tab
-        if ((StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT, dvDocument.getDisbVchrPaymentMethodCode())) && hasWireTransferValues(dvWireTransfer)) {
+        if ((StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT, dvDocument.getDisbVchrPaymentMethodCode())) && hasWireTransferValues(dvWireTransfer)) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
-            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Wire Transfer", DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE };
+            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Wire Transfer", DisbursementVoucherConstants.PAYMENT_METHOD_WIRE };
             questionText = MessageFormat.format(questionText, args);
 
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(KFSConstants.DisbursementVoucherDocumentConstants.CLEAR_WIRE_TRANSFER_TAB_QUESTION_ID, questionText);

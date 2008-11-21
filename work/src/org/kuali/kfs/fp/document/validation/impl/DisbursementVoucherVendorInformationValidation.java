@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -35,7 +36,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class DisbursementVoucherVendorInformationValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
+public class DisbursementVoucherVendorInformationValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
 
     private ParameterService parameterService;
@@ -88,7 +89,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
 
                 if (performPrepaidEmployeeInd) {
                     /* active vendor employees cannot be paid for prepaid travel */
-                    ParameterEvaluator travelPrepaidPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, PREPAID_TRAVEL_PAY_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
+                    ParameterEvaluator travelPrepaidPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
                     if (travelPrepaidPaymentReasonCodeEvaluator.evaluationSucceeds()) {
                         errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
                         isValid = false;
@@ -98,7 +99,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
             }
             else if (isEmployeeSSN(vendor.getVendorHeader().getVendorTaxNumber())) {
                 // check param setting for paid outside payroll check
-                boolean performPaidOutsidePayrollInd = parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_PARM_NM);
+                boolean performPaidOutsidePayrollInd = parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherConstants.CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_PARM_NM);
 
                 if (performPaidOutsidePayrollInd) {
                     /* If vendor is type employee, vendor record must be flagged as paid outside of payroll */

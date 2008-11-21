@@ -19,9 +19,7 @@ package org.kuali.kfs.fp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.businessobject.options.PayeeTypeValuesFinder;
-import org.kuali.kfs.fp.businessobject.options.PaymentReasonValuesFinder;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -36,11 +34,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     private String documentNumber;
     private String disbVchrPaymentReasonCode;
 
-    // Payee ID Number will correspond to the Person.principalId or 
-    // VendorHeader.vendorHeaderGeneratedIdentifier and VendorDetail.vendorDetailAssignedIdentifier,
-    // depending on the type of payee that was selected (ie. Employee or Vendor)
     private String disbVchrPayeeIdNumber;
-    
     private String disbVchrPayeePersonName;
 
     private String disbVchrPayeeLine1Addr;
@@ -71,16 +65,15 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     private String disbVchrVendorDetailAssignedIdNumber;
     private String disbVchrVendorAddressIdNumber;
     private boolean hasMultipleVendorAddresses = false;
-    
+
     // The following universal user-associated attributes are for convenience only and are not mapped to OJB or the the DB.
     private String disbVchrEmployeeIdNumber;
-    
-    
+
     /**
      * Default no-arg constructor.
      */
     public DisbursementVoucherPayeeDetail() {
-
+        super();
     }
 
     /**
@@ -121,146 +114,147 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         this.disbVchrPaymentReasonCode = disbVchrPaymentReasonCode;
     }
 
-     /**
-      * Gets the disbVchrPayeeIdNumber attribute.
-      * 
-      * @return Returns the disbVchrVendorIdNumber
-      */
-     public String getDisbVchrPayeeIdNumber() {
-         return disbVchrPayeeIdNumber;
-     }
-    
-    
-     /**
-      * Sets the disbVchrPayeeIdNumber attribute.
-      * 
-      * @param disbVchrPayeeIdNumber The disbVchrPayeeIdNumber to set.
-      */
-     public void setDisbVchrPayeeIdNumber(String disbVchrPayeeIdNumber) {
-         this.disbVchrPayeeIdNumber = disbVchrPayeeIdNumber;
-     }
-    
-     /**
-      * 
-      * This method...
-      * @return
-      */
-     public String getDisbVchrVendorHeaderIdNumber() {
-         if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
-             if(StringUtils.isBlank(disbVchrVendorHeaderIdNumber)) {
-                 int dashIndex = disbVchrPayeeIdNumber.indexOf('-');
-                 disbVchrVendorHeaderIdNumber = disbVchrPayeeIdNumber.substring(0, dashIndex);
-             }
-         }
-         else { // Return null if payee is not a vendor
-             return null;
-         }
-         return disbVchrVendorHeaderIdNumber;
-     }
-    
-     /**
-      * 
-      * This method...
-      * @param disbVchrVendorheaderIdNumber
-      */
-     public void setDisbVchrVendorHeaderIdNumber(String disbVchrVendorHeaderIdNumber) {
-         // This field should only be set if the payee type is "V", otherwise, ignore any calls
-         if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
-             this.disbVchrVendorHeaderIdNumber = disbVchrVendorHeaderIdNumber;
-         }
-     }
-    
-     /**
-      * Gets the disbVchrVendorIdNumber attribute as an Integer.
-      * 
-      * @return Returns the disbVchrVendorIdNumber in Integer form.  This is the format used on the VendorDetail.
-      */
-     public Integer getDisbVchrVendorHeaderIdNumberAsInteger() {
-         if(getDisbVchrVendorHeaderIdNumber()!=null) try {
-             return new Integer(getDisbVchrVendorHeaderIdNumber());            
-         } catch(NumberFormatException nfe) {
-             nfe.printStackTrace();
-         }
-         return null;
-     }
-    
-    
-     /**
-      * 
-      * This method...
-      * @return
-      */
-     public String getDisbVchrVendorDetailAssignedIdNumber() {
-         if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
-             if(StringUtils.isBlank(disbVchrVendorDetailAssignedIdNumber)) {
-                 int dashIndex = disbVchrPayeeIdNumber.indexOf('-');
-                 disbVchrVendorDetailAssignedIdNumber = disbVchrPayeeIdNumber.substring(dashIndex+1);
-             }
-         }
-         else { // Return null if payee is not a vendor
-             return null;
-         }
-         return disbVchrVendorDetailAssignedIdNumber;
-     }
-    
-     /**
-      * 
-      * This method...
-      * @param disbVchrVendorDetailAssignedIdNumber
-      */
-     public void setDisbVchrVendorDetailAssignedIdNumber(String disbVchrVendorDetailAssignedIdNumber) {
-         // This field should only be set if the payee type is "V", otherwise, ignore any calls
-         if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
-             this.disbVchrVendorDetailAssignedIdNumber = disbVchrVendorDetailAssignedIdNumber;
-         }
-     }
-    
-     /**
-      * 
-      * This method...
-      * @return
-      */
-     public Integer getDisbVchrVendorDetailAssignedIdNumberAsInteger() {
-         if(getDisbVchrVendorDetailAssignedIdNumber()!=null) try {
-             return new Integer(getDisbVchrVendorDetailAssignedIdNumber());
-         } catch(NumberFormatException nfe) {
-             nfe.printStackTrace();
-         }
-         return null;
-     }
-    
-     /**
-      * 
-      * This method should only be called for retrieving the id associated with the payee if the payee type is equal to "E".
-      * Otherwise, this method will return null.
-      * 
-      * @return The id of the universal user set as the payee on the DV, if the payee type code indicates the payee is an employee.
-      * Otherwise, this method will return null.
-      */
-     public String getDisbVchrEmployeeIdNumber() {
-         if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
-             if(StringUtils.isBlank(disbVchrEmployeeIdNumber)) {
-                 disbVchrEmployeeIdNumber = disbVchrPayeeIdNumber;
-             }
-         }
-         else { // Return null if payee is not a employee
-             return null;
-         }
-         return disbVchrEmployeeIdNumber;
-     }
-    
-     /**
-      * 
-      * This method...
-      * @param disbVchrPersonIdNumber
-      */
-     public void setDisbVchrEmployeeIdNumber(String disbVchrEmployeeIdNumber) {
-         // This field should only be set if the payee type is "E", otherwise, ignore any calls
-         if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
-             this.disbVchrEmployeeIdNumber = disbVchrEmployeeIdNumber;
-         }
-     }
-    
+    /**
+     * Gets the disbVchrPayeeIdNumber attribute.
+     * 
+     * @return Returns the disbVchrVendorIdNumber
+     */
+    public String getDisbVchrPayeeIdNumber() {
+        return disbVchrPayeeIdNumber;
+    }
+
+
+    /**
+     * Sets the disbVchrPayeeIdNumber attribute.
+     * 
+     * @param disbVchrPayeeIdNumber The disbVchrPayeeIdNumber to set.
+     */
+    public void setDisbVchrPayeeIdNumber(String disbVchrPayeeIdNumber) {
+        this.disbVchrPayeeIdNumber = disbVchrPayeeIdNumber;
+    }
+
+    /**
+     * This method...
+     * 
+     * @return
+     */
+    public String getDisbVchrVendorHeaderIdNumber() {
+        if (this.isVendor()) {
+            if (StringUtils.isBlank(disbVchrVendorHeaderIdNumber)) {
+                int dashIndex = disbVchrPayeeIdNumber.indexOf('-');
+                disbVchrVendorHeaderIdNumber = disbVchrPayeeIdNumber.substring(0, dashIndex);
+            }
+        }
+        else { // Return null if payee is not a vendor
+            return null;
+        }
+        return disbVchrVendorHeaderIdNumber;
+    }
+
+    /**
+     * This method...
+     * 
+     * @param disbVchrVendorheaderIdNumber
+     */
+    public void setDisbVchrVendorHeaderIdNumber(String disbVchrVendorHeaderIdNumber) {
+        if (this.isVendor()) {
+            this.disbVchrVendorHeaderIdNumber = disbVchrVendorHeaderIdNumber;
+        }
+    }
+
+    /**
+     * Gets the disbVchrVendorIdNumber attribute as an Integer.
+     * 
+     * @return Returns the disbVchrVendorIdNumber in Integer form. This is the format used on the VendorDetail.
+     */
+    public Integer getDisbVchrVendorHeaderIdNumberAsInteger() {
+        if (getDisbVchrVendorHeaderIdNumber() != null)
+            try {
+                return new Integer(getDisbVchrVendorHeaderIdNumber());
+            }
+            catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
+            }
+        return null;
+    }
+
+    /**
+     * This method...
+     * 
+     * @return
+     */
+    public String getDisbVchrVendorDetailAssignedIdNumber() {
+        if (this.isVendor()) {
+            if (StringUtils.isBlank(disbVchrVendorDetailAssignedIdNumber)) {
+                int dashIndex = disbVchrPayeeIdNumber.indexOf('-');
+                disbVchrVendorDetailAssignedIdNumber = disbVchrPayeeIdNumber.substring(dashIndex + 1);
+            }
+        }
+        else { // Return null if payee is not a vendor
+            return null;
+        }
+        return disbVchrVendorDetailAssignedIdNumber;
+    }
+
+    /**
+     * This method...
+     * 
+     * @param disbVchrVendorDetailAssignedIdNumber
+     */
+    public void setDisbVchrVendorDetailAssignedIdNumber(String disbVchrVendorDetailAssignedIdNumber) {
+        // This field should only be set if the payee type is "V", otherwise, ignore any calls
+        if (this.isVendor()) {
+            this.disbVchrVendorDetailAssignedIdNumber = disbVchrVendorDetailAssignedIdNumber;
+        }
+    }
+
+    /**
+     * This method...
+     * 
+     * @return
+     */
+    public Integer getDisbVchrVendorDetailAssignedIdNumberAsInteger() {
+        if (getDisbVchrVendorDetailAssignedIdNumber() != null)
+            try {
+                return new Integer(getDisbVchrVendorDetailAssignedIdNumber());
+            }
+            catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
+            }
+        return null;
+    }
+
+    /**
+     * This method should only be called for retrieving the id associated with the payee if the payee type is equal to "E".
+     * Otherwise, this method will return null.
+     * 
+     * @return The id of the universal user set as the payee on the DV, if the payee type code indicates the payee is an employee.
+     *         Otherwise, this method will return null.
+     */
+    public String getDisbVchrEmployeeIdNumber() {
+        if (this.isEmployee()) {
+            if (StringUtils.isBlank(disbVchrEmployeeIdNumber)) {
+                disbVchrEmployeeIdNumber = disbVchrPayeeIdNumber;
+            }
+        }
+        else { // Return null if payee is not a employee
+            return null;
+        }
+        return disbVchrEmployeeIdNumber;
+    }
+
+    /**
+     * This method...
+     * 
+     * @param disbVchrPersonIdNumber
+     */
+    public void setDisbVchrEmployeeIdNumber(String disbVchrEmployeeIdNumber) {
+        // This field should only be set if the payee type is "E", otherwise, ignore any calls
+        if (this.isEmployee()) {
+            this.disbVchrEmployeeIdNumber = disbVchrEmployeeIdNumber;
+        }
+    }
+
     /**
      * Gets the disbVchrPayeePersonName attribute.
      * 
@@ -530,15 +524,16 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns true if the vendor associated with this DV is an employee of the institution.
      */
     public boolean isDisbVchrPayeeEmployeeCode() {
-        if(ObjectUtils.isNull(disbVchrPayeeEmployeeCode)) {
-            if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+        if (ObjectUtils.isNull(disbVchrPayeeEmployeeCode)) {
+            if (this.isEmployee()) {
                 disbVchrPayeeEmployeeCode = true;
             }
-            else if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
+            else if (this.isVendor()) {
                 try {
                     disbVchrPayeeEmployeeCode = SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(getDisbVchrVendorHeaderIdNumberAsInteger());
                     this.setDisbVchrEmployeePaidOutsidePayrollCode(disbVchrPayeeEmployeeCode);
-                } catch(Exception ex) {
+                }
+                catch (Exception ex) {
                     disbVchrPayeeEmployeeCode = false;
                     ex.printStackTrace();
                 }
@@ -563,14 +558,15 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrAlienPaymentCode
      */
     public boolean isDisbVchrAlienPaymentCode() {
-        if(ObjectUtils.isNull(disbVchrAlienPaymentCode)) {
-            if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+        if (ObjectUtils.isNull(disbVchrAlienPaymentCode)) {
+            if (this.isEmployee()) {
                 disbVchrAlienPaymentCode = false; // TODO how do you figure out if an employee is an alien???
             }
-            else if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
+            else if (this.isVendor()) {
                 try {
                     disbVchrAlienPaymentCode = SpringContext.getBean(VendorService.class).isVendorForeign(getDisbVchrVendorHeaderIdNumberAsInteger());
-                } catch(Exception ex) {
+                }
+                catch (Exception ex) {
                     disbVchrAlienPaymentCode = false;
                     ex.printStackTrace();
                 }
@@ -595,7 +591,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the dvPayeeSubjectPayment
      */
     public boolean isDvPayeeSubjectPaymentCode() {
-        if(ObjectUtils.isNull(dvPayeeSubjectPaymentCode)) {
+        if (ObjectUtils.isNull(dvPayeeSubjectPaymentCode)) {
             dvPayeeSubjectPaymentCode = SpringContext.getBean(VendorService.class).isSubjectPaymentVendor(getDisbVchrVendorHeaderIdNumberAsInteger());
         }
         return dvPayeeSubjectPaymentCode;
@@ -611,7 +607,8 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
     /**
-     * Gets the disbVchrEmployeePaidOutsidePayrollCode attribute. 
+     * Gets the disbVchrEmployeePaidOutsidePayrollCode attribute.
+     * 
      * @return Returns the disbVchrEmployeePaidOutsidePayrollCode.
      */
     public boolean isDisbVchrEmployeePaidOutsidePayrollCode() {
@@ -619,7 +616,8 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
     /**
-     * Gets the disbVchrEmployeePaidOutsidePayrollCode attribute. 
+     * Gets the disbVchrEmployeePaidOutsidePayrollCode attribute.
+     * 
      * @return Returns the disbVchrEmployeePaidOutsidePayrollCode.
      */
     public boolean getDisbVchrEmployeePaidOutsidePayrollCode() {
@@ -628,12 +626,13 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the disbVchrEmployeePaidOutsidePayrollCode attribute value.
+     * 
      * @param disbVchrEmployeePaidOutsidePayrollCode The disbVchrEmployeePaidOutsidePayrollCode to set.
      */
     public void setDisbVchrEmployeePaidOutsidePayrollCode(boolean disbVchrEmployeePaidOutsidePayrollCode) {
         this.disbVchrEmployeePaidOutsidePayrollCode = disbVchrEmployeePaidOutsidePayrollCode;
     }
-    
+
     /**
      * Gets the disbVchrPaymentReason attribute.
      * 
@@ -672,12 +671,14 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the payee type name
      */
     public String getDisbursementVoucherPayeeTypeName() {
-        return new PayeeTypeValuesFinder().getKeyLabel(disbursementVoucherPayeeTypeCode);
+        DisbursementVoucherPayeeService payeeService = SpringContext.getBean(DisbursementVoucherPayeeService.class);
+
+        return payeeService.getPayeeTypeDescription(disbursementVoucherPayeeTypeCode);
     }
 
     /**
-     * 
      * This method is a dummy method defined for OJB.
+     * 
      * @param name
      */
     public void setDisbursementVoucherPayeeTypeName(String name) {
@@ -689,18 +690,21 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return
      */
     public String getDisbVchrPaymentReasonName() {
-        return new PaymentReasonValuesFinder().getKeyLabel(disbVchrPaymentReasonCode);
+        this.refreshReferenceObject(KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON);
+        return this.getDisbVchrPaymentReason().getCodeAndDescription();
     }
 
     /**
      * This method is a dummy method defined for OJB.
+     * 
      * @param name
      */
     public void setDisbVchrPaymentReasonName(String name) {
     }
 
     /**
-     * Gets the disbVchrVendorAddressIdNumber attribute. 
+     * Gets the disbVchrVendorAddressIdNumber attribute.
+     * 
      * @return Returns the disbVchrVendorAddressIdNumber.
      */
     public String getDisbVchrVendorAddressIdNumber() {
@@ -708,20 +712,24 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
     /**
-     * Gets the disbVchrVendorAddressIdNumber attribute. 
+     * Gets the disbVchrVendorAddressIdNumber attribute.
+     * 
      * @return Returns the disbVchrVendorAddressIdNumber.
      */
     public Integer getDisbVchrVendorAddressIdNumberAsInteger() {
-        if(getDisbVchrVendorAddressIdNumber()!=null) try {
-            return new Integer(getDisbVchrVendorAddressIdNumber());
-        } catch(NumberFormatException nfe) {
-            nfe.printStackTrace();
-        }
+        if (getDisbVchrVendorAddressIdNumber() != null)
+            try {
+                return new Integer(getDisbVchrVendorAddressIdNumber());
+            }
+            catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
+            }
         return null;
     }
 
     /**
      * Sets the disbVchrVendorAddressIdNumber attribute value.
+     * 
      * @param disbVchrVendorAddressIdNumber The disbVchrVendorAddressIdNumber to set.
      */
     public void setDisbVchrVendorAddressIdNumber(String disbVchrVendorAddressIdNumber) {
@@ -729,7 +737,8 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
     /**
-     * Gets the hasMultipleVendorAddresses attribute. 
+     * Gets the hasMultipleVendorAddresses attribute.
+     * 
      * @return Returns the hasMultipleVendorAddresses.
      */
     public Boolean getHasMultipleVendorAddresses() {
@@ -738,6 +747,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the hasMultipleVendorAddresses attribute value.
+     * 
      * @param hasMultipleVendorAddresses The hasMultipleVendorAddresses to set.
      */
     public void setHasMultipleVendorAddresses(boolean hasMultipleVendorAddresses) {
@@ -746,27 +756,17 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
 
     /**
      * Checks the payee type code for vendor type
-     * 
-     * @return
      */
     public boolean isVendor() {
-        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR.equals(disbursementVoucherPayeeTypeCode);
+        return SpringContext.getBean(DisbursementVoucherPayeeService.class).isVendor(this);
     }
 
     /**
      * Checks the payee type code for employee type
-     * 
-     * @return
      */
     public boolean isEmployee() {
-        // If is vendor, then check vendor employee flag
-        if(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR.equals(disbursementVoucherPayeeTypeCode)) {
-            return SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(getDisbVchrVendorHeaderIdNumberAsInteger());
-        }
-        
-        // Otherwise, just check payee type code equal to "E"
-        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(disbursementVoucherPayeeTypeCode);
-     }
+        return SpringContext.getBean(DisbursementVoucherPayeeService.class).isEmployee(this);
+    }
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -778,41 +778,39 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param compareDetail
      * @return
      */
     public boolean hasSameAddress(DisbursementVoucherPayeeDetail compareDetail) {
         boolean isEqual = true;
-        
+
         isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeLine1Addr, compareDetail.disbVchrPayeeLine1Addr);
         isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeLine2Addr, compareDetail.disbVchrPayeeLine2Addr);
         isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeCityName, compareDetail.disbVchrPayeeCityName);
         isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeStateCode, compareDetail.disbVchrPayeeStateCode);
         isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeZipCode, compareDetail.disbVchrPayeeZipCode);
         isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeCountryCode, compareDetail.disbVchrPayeeCountryCode);
-        
+
         return isEqual;
     }
-    
+
     /**
-     * 
      * This method creates a string representation of the address assigned to this payee.
+     * 
      * @return
      */
     public String getAddressAsString() {
         StringBuffer address = new StringBuffer();
-        
+
         address.append(this.disbVchrPayeeLine1Addr).append(", ");
         address.append(this.disbVchrPayeeLine2Addr).append(", ");
         address.append(this.disbVchrPayeeCityName).append(", ");
         address.append(this.disbVchrPayeeStateCode).append(" ");
         address.append(this.disbVchrPayeeZipCode).append(", ");
         address.append(this.disbVchrPayeeCountryCode);
-        
+
         return address.toString();
     }
-
 }
-

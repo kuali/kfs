@@ -15,13 +15,70 @@
  */
 package org.kuali.kfs.fp.document.service;
 
+import org.kuali.kfs.fp.businessobject.DisbursementPayee;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 
 /**
- * This class...
+ * define a set of service methods related to disbursement payee
  */
 public interface DisbursementVoucherPayeeService {
 
+    /**
+     * find the payee type description corresponding to the given payee type code
+     * 
+     * @param payeeTypeCode the given payee type code
+     * @return the payee type description corresponding to the given payee type code
+     */
+    public String getPayeeTypeDescription(String payeeTypeCode);
+
+    /**
+     * determine whether the given payee is an employee
+     * 
+     * @param dvPayeeDetail the given payee
+     * @return true if the given payee is an employee; otherwise, false
+     */
+    public boolean isEmployee(DisbursementVoucherPayeeDetail dvPayeeDetail);
+
+    /**
+     * determine whether the given payee is an employee
+     * 
+     * @param payee the given payee
+     * @return true if the given payee is an employee; otherwise, false
+     */
+    public boolean isEmployee(DisbursementPayee payee);
+
+    /**
+     * determine whether the given payee is a vendor
+     * 
+     * @param dvPayeeDetail the given payee
+     * @return true if the given payee is a vendor; otherwise, false
+     */
+    public boolean isVendor(DisbursementVoucherPayeeDetail dvPayeeDetail);
+
+    /**
+     * determine whether the given payee is a vendor
+     * 
+     * @param payee the given payee
+     * @return true if the given payee is a vendor; otherwise, false
+     */
+    public boolean isVendor(DisbursementPayee payee);
+
+    /**
+     * determine whether the given payee is an individual vendor
+     * 
+     * @param dvPayeeDetail the given payee
+     * @return true if the given payee is an individual vendor; otherwise, false
+     */
+    public boolean isPayeeIndividualVendor(DisbursementVoucherPayeeDetail dvPayeeDetail);
+
+    /**
+     * determine whether the given payee is an individual vendor
+     * 
+     * @param payee the given payee
+     * @return true if the given payee is an individual vendor; otherwise, false
+     */
+    public boolean isPayeeIndividualVendor(DisbursementPayee payee);
+
     public void checkPayeeAddressForChanges(DisbursementVoucherDocument dvDoc);
-    
 }

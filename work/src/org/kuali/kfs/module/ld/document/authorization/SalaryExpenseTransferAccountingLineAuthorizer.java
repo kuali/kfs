@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;

@@ -17,8 +17,8 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,9 +32,8 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.spring.Logged;
 
-public class DisbursementVoucherPaymentReasonValidation extends GenericValidation implements DisbursementVoucherRuleConstants{
+public class DisbursementVoucherPaymentReasonValidation extends GenericValidation implements DisbursementVoucherConstants{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
 
     private ParameterService parameterService;
@@ -59,7 +58,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         /* check payment reason is allowed for payee type */
-        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), paymentReasonCode);
+        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), paymentReasonCode);
         paymentReasonsByTypeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
        
         // restrictions on payment reason when alien indicator is checked
@@ -71,13 +70,13 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         /* for vendors with a payee type of revolving fund, the payment reason must be a revolving fund payment reason */
         if(dvPayeeDetail.isVendor()) {
             if(SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger())) {
-                ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAY_REASONS_PARM_NM, paymentReasonCode);
+                ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
                 revolvingFundPaymentReasonCodeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
             }
         }
         
         // if payment reason is revolving fund, then payee must be a revolving fund vendor
-        ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAY_REASONS_PARM_NM, paymentReasonCode);
+        ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
         if (revolvingFundPaymentReasonCodeEvaluator.evaluationSucceeds()) {
             if(dvPayeeDetail.isVendor()) {
                 // If vendor is not a revolving fund vendor, report an error
@@ -92,7 +91,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         }
         
         // if payment reason is moving, payee must be an employee or have vendor ownership type I (individual)
-        ParameterEvaluator movingPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, MOVING_PAY_REASONS_PARM_NM, paymentReasonCode);
+        ParameterEvaluator movingPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, MOVING_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
         if (movingPaymentReasonCodeEvaluator.evaluationSucceeds()) {
             // only need to review this rule if the payee is a vendor; NOTE that a vendor can be an employee also
             if(dvPayeeDetail.isVendor() && !dvPayeeDetail.isEmployee()) { 
@@ -107,16 +106,16 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         }
 
         // for research payments over a certain limit the payee must be a vendor
-        ParameterEvaluator researchPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, RESEARCH_PAY_REASONS_PARM_NM, paymentReasonCode);
+        ParameterEvaluator researchPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, RESEARCH_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
         if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
             // check rule is active
-            if (parameterService.parameterExists(DisbursementVoucherDocument.class, RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM)) {
-                String researchPayLimit = parameterService.getParameterValue(DisbursementVoucherDocument.class, RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
+            if (parameterService.parameterExists(DisbursementVoucherDocument.class, RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
+                String researchPayLimit = parameterService.getParameterValue(DisbursementVoucherDocument.class, RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
                 if(StringUtils.isNotBlank(researchPayLimit)) {
                     KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
     
                     if (document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && dvPayeeDetail.isDvPayeeSubjectPaymentCode()) {
-                        if(!StringUtils.equals(dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
+                        if(!dvPayeeDetail.isVendor()) {
                             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
                             isValid = false;
                         }

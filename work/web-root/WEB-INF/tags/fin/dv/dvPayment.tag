@@ -38,12 +38,12 @@
             
             <tr>
               <th class="bord-l-b"><div align="right">
-              	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/>              	
+              	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/>           	
               </div></th>
               <td colspan="3" class="datacell">              	
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
                 <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee"
-                	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber"/>
+                	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber,payeeTypeCode:document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,paymentReasonCode:document.dvPayeeDetail.disbVchrPaymentReasonCode"/>
               </td>
             </tr>
 		
@@ -52,7 +52,7 @@
               	<div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbursementVoucherPayeeTypeName}"/></div>
               </th>
               <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbursementVoucherPayeeTypeName}" property="document.dvPayeeDetail.disbursementVoucherPayeeTypeName" readOnly="true"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbursementVoucherPayeeTypeName}" property="document.dvPayeeDetail.disbursementVoucherPayeeTypeName" readOnly="true"/>   
               </td>
               
               <th class="bord-l-b">

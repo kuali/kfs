@@ -23,18 +23,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.TravelPerDiem;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class is the action form for the Disbursement Voucher.
@@ -42,11 +40,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
     
-    private String payeeTypeCode = DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR;
-    private String paymentReasonCode;
     private String payeeIdNumber;
-    private String vendorHeaderGeneratedIdentifier;
-    private String vendorDetailAssignedIdentifier;
+    private String vendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
+    private String vendorDetailAssignedIdentifier = StringUtils.EMPTY;
     private String vendorAddressGeneratedIdentifier;
     private boolean hasMultipleAddresses = false;
 
@@ -55,6 +51,9 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
     private String wireChargeMessage;
 
+    /**
+     * Constructs a DisbursementVoucherForm.java.
+     */
     public DisbursementVoucherForm() {
         super();
         setFormatterType("canPrintCoverSheet", SimpleBooleanFormatter.class);
@@ -120,50 +119,28 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     /**
      * determines if the DV document is in a state that allows printing of the cover sheet
      * 
-     * @return
+     * @return true if the DV document is in a state that allows printing of the cover sheet; otherwise, return false
      */
     public boolean getCanPrintCoverSheet() {
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return SpringContext.getBean(DisbursementVoucherCoverSheetService.class).isCoverSheetPrintable(disbursementVoucherDocument);
     }
 
-    /**
-     * Returns list of available travel expense type codes for rendering per diem link page.
-     * 
-     * @return
+    /** 
+     * @return a list of available travel expense type codes for rendering per diem link page.
      */
-    public List getTravelPerDiemCategoryCodes() {
-        Map criteria = new HashMap();
-        criteria.put("fiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+    public List<TravelPerDiem> getTravelPerDiemCategoryCodes() {
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
-        return (List) SpringContext.getBean(KeyValuesService.class).findMatching(TravelPerDiem.class, criteria);
+        return (List<TravelPerDiem>) SpringContext.getBean(KeyValuesService.class).findMatching(TravelPerDiem.class, criteria);
     }
 
     /**
-     * Returns the per diem link message from the parameters table.
-     * 
-     * @return
+     * @return the per diem link message from the parameters table.
      */
     public String getTravelPerDiemLinkPageMessage() {
-        return SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
-    }
-
-    /**
-     * Gets the payeeTypeCode attribute.
-     * 
-     * @return Returns the payeeTypeCode.
-     */
-    public String getPayeeTypeCode() {
-        return payeeTypeCode;
-    }
-
-    /**
-     * Sets the payeeTypeCode attribute value.
-     * 
-     * @param payeeTypeCode The payeeTypeCode to set.
-     */
-    public void setPayeeTypeCode(String payeeTypeCode) {
-        this.payeeTypeCode = payeeTypeCode;
+        return SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
     }
 
     /**
@@ -182,8 +159,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      */
     public void setPayeeIdNumber(String payeeIdNumber) {
         String separator = "-";
-        if (this.isVendor() && StringUtils.isNotEmpty(payeeIdNumber) && payeeIdNumber.contains(separator)) {
-            int dashInd = payeeIdNumber.indexOf("-");
+        if (this.isVendor() && StringUtils.contains(payeeIdNumber, separator)) {
             this.vendorHeaderGeneratedIdentifier = StringUtils.substringBefore(payeeIdNumber, separator);
             this.vendorDetailAssignedIdentifier = StringUtils.substringAfter(payeeIdNumber, separator);
         }
@@ -276,39 +252,15 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      * determine whether the selected payee is an employee
      */
     public boolean isEmployee() {
-        return StringUtils.equals(payeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
+        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();       
+        return disbursementVoucherDocument.getDvPayeeDetail().isEmployee();
     }
 
     /**
      * determine whether the selected payee is a vendor
      */
     public boolean isVendor() {
-        return StringUtils.equals(payeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR);
-    }
-
-    /**
-     * Perform logic needed to clear the initial fields
-     */
-    public void clearInitFields() {
-        // Clearing payee init fields
-        this.setPayeeIdNumber("");
-        this.setPayeeTypeCode("");
-        this.setHasMultipleAddresses(false);
-    }
-
-    /**
-     * Gets the paymentReasonCode attribute. 
-     * @return Returns the paymentReasonCode.
-     */
-    public String getPaymentReasonCode() {
-        return paymentReasonCode;
-    }
-
-    /**
-     * Sets the paymentReasonCode attribute value.
-     * @param paymentReasonCode The paymentReasonCode to set.
-     */
-    public void setPaymentReasonCode(String paymentReasonCode) {
-        this.paymentReasonCode = paymentReasonCode;
+        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();       
+        return disbursementVoucherDocument.getDvPayeeDetail().isVendor();
     }
 }

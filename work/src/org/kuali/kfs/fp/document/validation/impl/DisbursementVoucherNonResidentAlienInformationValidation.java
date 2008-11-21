@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -34,7 +35,7 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class DisbursementVoucherNonResidentAlienInformationValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
+public class DisbursementVoucherNonResidentAlienInformationValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonResidentAlienInformationValidation.class);
 
     private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;

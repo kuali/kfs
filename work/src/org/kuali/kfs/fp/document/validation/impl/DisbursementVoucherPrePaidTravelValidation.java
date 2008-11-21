@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -91,7 +92,7 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
      * @return true if payment reason is for pre-paid travel reason
      */
     private boolean isTravelPrepaidPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
-        ParameterEvaluator travelPrepaidPaymentReasonEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.PREPAID_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        ParameterEvaluator travelPrepaidPaymentReasonEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         return travelPrepaidPaymentReasonEvaluator.evaluationSucceeds();
     }
 

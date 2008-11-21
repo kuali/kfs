@@ -30,8 +30,6 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     private Date dueApprovedDate;
     private KualiDecimal documentPaymentAmount;
     private KualiDecimal unpaidUnappliedAmount;
-    
-    
 
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -42,26 +40,21 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
         return documentType;
     }
 
-
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
     }
-
 
     public String getDocumentNumber() {
         return documentNumber;
     }
 
-
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
-
     public String getDocumentDescription() {
         return documentDescription;
     }
-
 
     public void setDocumentDescription(String documentDescription) {
         this.documentDescription = documentDescription;
@@ -79,26 +72,21 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
         return dueApprovedDate;
     }
 
-
     public void setDueApprovedDate(Date approvedDate) {
         this.dueApprovedDate = approvedDate;
     }
-
 
     public KualiDecimal getDocumentPaymentAmount() {
         return documentPaymentAmount;
     }
 
-
     public void setDocumentPaymentAmount(KualiDecimal documentPaymentAmount) {
         this.documentPaymentAmount = documentPaymentAmount;
     }
 
-
     public KualiDecimal getUnpaidUnappliedAmount() {
         return unpaidUnappliedAmount;
     }
-
 
     public void setUnpaidUnappliedAmount(KualiDecimal unpaidUnappliedAmount) {
         this.unpaidUnappliedAmount = unpaidUnappliedAmount;

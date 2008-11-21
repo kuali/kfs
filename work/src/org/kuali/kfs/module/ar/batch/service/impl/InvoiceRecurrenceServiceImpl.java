@@ -68,8 +68,16 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceServiceImpl.class);
     MaintenanceDocumentService maintDocService = KNSServiceLocator.getMaintenanceDocumentService();
     DocumentService docService = KNSServiceLocator.getDocumentService();
+    private DateTimeService dateTimeService;
     
-    
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
     public boolean processInvoiceRecurrence() throws WorkflowException {
         
         Iterator<InvoiceRecurrence> itr = invoiceRecurrenceDao.getAllActiveInvoiceRecurrences();
@@ -78,9 +86,9 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             InvoiceRecurrence invoiceRecurrence = (InvoiceRecurrence)itr.next();
             
             /* Get some dates and calendars  */
-            Date currentDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            Date currentDate = new Date(getDateTimeService().getCurrentDate().getTime());
             Calendar currentCalendar = Calendar.getInstance();
-            currentCalendar.setTime(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            currentCalendar.setTime(new Timestamp(getDateTimeService().getCurrentDate().getTime()));
 
             Date currentMonthProcessDate;
             Calendar currentMonthProcessCalendar = Calendar.getInstance();
@@ -137,7 +145,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
                 customerInvoiceDocument = (CustomerInvoiceDocument)docService.getByDocumentHeaderId(invoiceRecurrence.getInvoiceNumber());
                 customerInvoiceDocument.toCopy();
-                List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList();
+                List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                 adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
                 adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                 docService.routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
@@ -154,7 +162,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
                     customerInvoiceDocument = (CustomerInvoiceDocument)docService.getByDocumentHeaderId(invoiceRecurrence.getInvoiceNumber());
                     customerInvoiceDocument.toCopy();
-                    List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList();
+                    List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
                     adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                     docService.routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
@@ -177,7 +185,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     newMaintDoc.getDocumentHeader().setExplanation("Inactivated by the Batch process");
                     newMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
                     newMaintDoc.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_EDIT_ACTION);
-                    List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList();
+                    List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipients.add(buildFyiPersonRecipient(initiator));
                     adHocRouteRecipients.add(buildFyiWorkgroupRecipient(workgroup));
                     docService.routeDocument(newMaintDoc, null, adHocRouteRecipients);

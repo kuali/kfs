@@ -58,6 +58,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.service.KNSAuthorizationService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -101,6 +102,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private SystemInformationService sysInfoService;
     private BusinessObjectService boService;
     private DateTimeService dateTimeService;
+    private KNSAuthorizationService knsAuthorizationService;
     
     private BatchInputFileType batchInputFileType;
     private CustomerDigesterAdapter adapter;
@@ -844,6 +846,14 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return isUserInArBillingOrProcessingOrg(fsUser);
     }
 
+    public KNSAuthorizationService getKnsAuthorizationService() {
+        return knsAuthorizationService;
+    }
+
+    public void setKnsAuthorizationService(KNSAuthorizationService knsAuthorizationService) {
+        this.knsAuthorizationService = knsAuthorizationService;
+    }
+
     private boolean isUserInArBillingOrProcessingOrg(Person fsUser) {
         
         //Org fsUserOrg = fsUser.getOrganization();
@@ -856,9 +866,9 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
 
         //  add the user's base org to the list
         pkMap = new HashMap<String,String>(); 
-        pkMap.put("chartOfAccountsCode", org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getChartOfAccountsCode());
-        pkMap.put("organizationCode", org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getOrganizationCode());
-        searchOrgs.put(org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getChartOfAccountsCode() + org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getOrganizationCode(), pkMap);
+        pkMap.put("chartOfAccountsCode", getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getChartOfAccountsCode());
+        pkMap.put("organizationCode", getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getOrganizationCode());
+        searchOrgs.put(getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getChartOfAccountsCode() + getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getOrganizationCode(), pkMap);
         
 //        //  gather up all chart/org combos we want to search for
 //        for (PersonPrimaryOrganization userPrimaryOrg : primaryOrgs) {

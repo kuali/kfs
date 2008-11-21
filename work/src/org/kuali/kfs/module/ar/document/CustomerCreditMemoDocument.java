@@ -77,8 +77,6 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         this.postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         creditMemoDetails = new TypedArrayList(CustomerCreditMemoDetail.class);
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
-        taxService = SpringContext.getBean(TaxService.class);
-        arTaxService = SpringContext.getBean(AccountsReceivableTaxService.class);
     }
 
     /**

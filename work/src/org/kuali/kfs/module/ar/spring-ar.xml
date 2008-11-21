@@ -89,6 +89,18 @@
 		<property name="lockboxDao">
 			<ref bean="lockboxDao" />
 		</property>
+		<property name="systemInformationService">
+			<ref bean="systemInformationService" />
+		</property>
+		<property name="accountsReceivableDocumentHeaderService">
+			<ref bean="accountsReceivableDocumentHeaderService" />
+		</property>
+		<property name="cashControlDocumentService">
+			<ref bean="cashControlDocumentService" />
+		</property>
+		<property name="paymentApplicationDocumentService">
+			<ref bean="paymentApplicationDocumentService" />
+		</property>
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
@@ -127,7 +139,6 @@
 	
 	<bean id="ocrLineService" class="org.kuali.kfs.module.ar.report.service.impl.OCRLineServiceImpl"/>
 	
-	
 	<bean id="invoicePaidAppliedService" class="org.kuali.kfs.module.ar.document.service.impl.InvoicePaidAppliedServiceImpl">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
@@ -146,6 +157,9 @@
 	<bean id="invoiceRecurrenceService" class="org.kuali.kfs.module.ar.batch.service.impl.InvoiceRecurrenceServiceImpl">
 		<property name="invoiceRecurrenceDao">
 			<ref bean="invoiceRecurrenceDao" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
 		</property>
 	</bean>
 	
@@ -406,40 +420,43 @@
 	<bean id="customerLoadService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerLoadServiceImpl">
 		<property name="batchInputFileService">
 			<ref bean="batchInputFileService" />
-		</property>					
+		</property>
 		<property name="customerService">
 			<ref bean="customerService" />
-		</property>					
+		</property>
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
-		</property>					
+		</property>
 		<property name="docService">
 			<ref bean="documentService" />
-		</property>					
+		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
-		</property>					
+		</property>
 		<property name="orgService">
 			<ref bean="organizationService" />
-		</property>					
+		</property>
 		<property name="fsUserService">
 			<ref bean="personService" />
-		</property>					
+		</property>
 		<property name="sysInfoService">
 			<ref bean="systemInformationService" />
-		</property>					
+		</property>
 		<property name="boService">
 			<ref bean="businessObjectService" />
-		</property>					
+		</property>
 		<property name="batchInputFileType">
 			<ref bean="customerLoadInputFileType" />
-		</property>					
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>			
+		</property>
 		<property name="reportsDirectory">
 			<value>${reports.directory}</value>
-		</property>		
+		</property>
+		<property name="knsAuthorizationService">
+			<ref bean="knsAuthorizationService" />
+		</property>
 	</bean>
 	
 	<bean id="customerLoadInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType">
@@ -483,7 +500,7 @@
 		</property>					
 		<property name="batchInputFileType">
 			<ref bean="customerInvoiceWriteoffBatchInputFileType" />
-		</property>					
+		</property>
 		<property name="reportsDirectory">
 			<value>${reports.directory}</value>
 		</property>		
@@ -518,7 +535,7 @@
 			<ref bean="dateTimeService" />
 		</property>					
 	</bean>
-		
+	
 	<!-- Workflow Lookupables -->
 	
 	<bean id="systemInformationLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.SystemInformationLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />

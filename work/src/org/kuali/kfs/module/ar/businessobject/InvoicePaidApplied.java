@@ -27,18 +27,27 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
     private CustomerInvoiceDetail invoiceItem;
 	private AccountingPeriod universityFiscalPeriod;
 	private FinancialSystemDocumentHeader documentHeader;
+	transient private DocumentService documentService;
 
 	/**
 	 * Default constructor.
 	 */
-	public InvoicePaidApplied() {
-        
-	}
+	public InvoicePaidApplied() {}
+	
+    public DocumentService getDocumentService() {
+        if(null == documentService) {
+            documentService = SpringContext.getBean(DocumentService.class);
+        }
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
 
     public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         CustomerInvoiceDocument _customerInvoiceDocument =
-            (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getFinancialDocumentReferenceInvoiceNumber());
+            (CustomerInvoiceDocument) getDocumentService().getByDocumentHeaderId(getFinancialDocumentReferenceInvoiceNumber());
         return _customerInvoiceDocument;
     }
 

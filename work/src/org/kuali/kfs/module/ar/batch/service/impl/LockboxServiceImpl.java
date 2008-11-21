@@ -54,7 +54,19 @@ public class LockboxServiceImpl implements LockboxService {
 
     public LockboxDao lockboxDao;
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
-    DocumentService docService = KNSServiceLocator.getDocumentService();
+    private DocumentService docService = KNSServiceLocator.getDocumentService();
+    private SystemInformationService systemInformationService;
+    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    private CashControlDocumentService cashControlDocumentService;
+    private PaymentApplicationDocumentService paymentApplicationDocumentService;
+
+    public CashControlDocumentService getCashControlDocumentService() {
+        return cashControlDocumentService;
+    }
+
+    public void setCashControlDocumentService(CashControlDocumentService cashControlDocumentService) {
+        this.cashControlDocumentService = cashControlDocumentService;
+    }
 
     public boolean processLockbox() throws WorkflowException {
 
@@ -64,8 +76,7 @@ public class LockboxServiceImpl implements LockboxService {
         while (itr.hasNext()) {
             Lockbox lockbox = (Lockbox)itr.next();
 
-            SystemInformationService service = SpringContext.getBean(SystemInformationService.class);
-            SystemInformation sysInfo = service.getByLockboxNumber(lockbox.getLockboxNumber());
+            SystemInformation sysInfo = systemInformationService.getByLockboxNumber(lockbox.getLockboxNumber());
             String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
             GlobalVariables.clear();
             GlobalVariables.setUserSession(new UserSession(initiator));
@@ -80,7 +91,6 @@ public class LockboxServiceImpl implements LockboxService {
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
                 cashControlDocument.getDocumentHeader().setDocumentDescription(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION + lockbox.getLockboxNumber());
 
-                AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
                 AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
                 accountsReceivableDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
                 accountsReceivableDocumentHeader.setCustomerNumber(lockbox.getCustomerNumber());
@@ -98,9 +108,7 @@ public class LockboxServiceImpl implements LockboxService {
             detail.setCustomerPaymentDate(lockbox.getProcessedInvoiceDate());
             detail.setCustomerPaymentDescription("Lockbox Remittance  " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
 
-
-            CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
-            cashControlDocumentService.addNewCashControlDetail(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION, cashControlDocument, detail);
+            getCashControlDocumentService().addNewCashControlDetail(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION, cashControlDocument, detail);
             
             String invoiceNumber = lockbox.getFinancialDocumentReferenceInvoiceNumber();
            
@@ -130,9 +138,8 @@ public class LockboxServiceImpl implements LockboxService {
 
                 if (customerInvoiceDocument.getTotalDollarAmount().equals(lockbox.getInvoicePaidOrAppliedAmount())){
                     // KULAR-290
-                    PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
                     PaymentApplicationDocument paymentApplicationDocument = 
-                        paymentApplicationDocumentService.createSaveAndApprovePaymentApplicationToMatchInvoice(customerInvoiceDocument, "Auto-approving. Created via Lockbox process.", null);
+                        getPaymentApplicationDocumentService().createSaveAndApprovePaymentApplicationToMatchInvoice(customerInvoiceDocument, "Auto-approving. Created via Lockbox process.", null);
                     customerInvoiceDocument.setOpenInvoiceIndicator(false);
                 }
                 docService.saveDocument(cashControlDocument);
@@ -149,6 +156,30 @@ public class LockboxServiceImpl implements LockboxService {
 
     public void setLockboxDao(LockboxDao lockboxDao) {
         this.lockboxDao = lockboxDao;
+    }
+
+    public SystemInformationService getSystemInformationService() {
+        return systemInformationService;
+    }
+
+    public void setSystemInformationService(SystemInformationService systemInformationService) {
+        this.systemInformationService = systemInformationService;
+    }
+
+    public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
+        return accountsReceivableDocumentHeaderService;
+    }
+
+    public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
+        this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
+    }
+
+    public PaymentApplicationDocumentService getPaymentApplicationDocumentService() {
+        return paymentApplicationDocumentService;
+    }
+
+    public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService paymentApplicationDocumentService) {
+        this.paymentApplicationDocumentService = paymentApplicationDocumentService;
     }
 
 }

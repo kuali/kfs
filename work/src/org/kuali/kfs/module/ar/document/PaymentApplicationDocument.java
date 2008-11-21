@@ -78,7 +78,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         this.nonInvoiceds = new ArrayList<NonInvoiced>();
         this.nonInvoicedDistributions = new ArrayList<NonInvoicedDistribution>();
         this.nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
-        this.paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
     }
 
     /**
@@ -106,13 +105,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     
     public CashControlDocument getCashControlDocument() throws WorkflowException {
         CashControlDocument cashControlDocument = 
-            paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(this);
+            getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
         return cashControlDocument;
     }
     
     public KualiDecimal getCashControlTotalAmount() throws WorkflowException {
         CashControlDocument cashControlDocument = 
-            paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(this);
+            getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
         KualiDecimal amount = KualiDecimal.ZERO;
         if(null != cashControlDocument) {
             amount = cashControlDocument.getCashControlTotalAmount();
@@ -574,6 +573,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             throw new ValidationException("general ledger GLPE generation failed");
         }
         super.prepareForSave(event);  
+    }
+
+    public PaymentApplicationDocumentService getPaymentApplicationDocumentService() {
+        if(null == paymentApplicationDocumentService) {
+            paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
+        }
+        return paymentApplicationDocumentService;
+    }
+
+    public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService paymentApplicationDocumentService) {
+        this.paymentApplicationDocumentService = paymentApplicationDocumentService;
     }
     
 }

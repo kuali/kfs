@@ -51,6 +51,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
      */
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
+        
         boolean isValid = true;
 
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
@@ -121,7 +122,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
                 KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
                 if (!isVendor && document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && dvPayeeDetail.isDvPayeeSubjectPaymentCode()) {
-                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
+                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, researchPayLimit);
                     isValid = false;
                 }
             }

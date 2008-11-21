@@ -22,8 +22,6 @@
 	</td></tr></table>  
 	</br>
 
-	<html:hidden property="lookupResultsSequenceNumber" />
-		
 	<ar:customerInvoiceWriteoffSummaryResults customerInvoiceDocumentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"/>
 	
 	<kul:panelFooter />

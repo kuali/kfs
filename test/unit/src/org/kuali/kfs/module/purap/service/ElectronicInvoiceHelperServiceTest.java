@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import org.apache.commons.io.FileUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep;
@@ -65,7 +66,6 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         super.tearDown();
     }
 
-	@RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testRejectDocumentCreationInvalidData()
     throws Exception{
@@ -75,41 +75,54 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
         
+        createItemMappingsRecords(poDocument);
+        updateUnitPriceVariance();
+        
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCXMLForRejectDocCreation(vendorDUNS,poNumber);
         writeXMLFile(xmlChunk, rejectFile);
         
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();
-        ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
 
         assertTrue(load.containsRejects());
+        
+        ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
+        assertNotNull(rejectDoc);
         assertEquals(rejectDoc.getInvoiceFileName(),rejectFile);
+        assertEquals(1, rejectDoc.getInvoiceRejectReasons().size());
+        assertEquals(PurapConstants.ElectronicInvoice.PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY,rejectDoc.getInvoiceRejectReasons().get(0).getInvoiceRejectReasonTypeCode());
         assertTrue((new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + rejectFile)).exists());
         
     }
     
-    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testRejectDocumentCreationCorruptXML()
     throws Exception{
         
-        String rejectFile = "corrupt.xml";
+        String corruptFile = "corrupt.xml";
         PurchaseOrderDocument poDocument = createPODoc(null);
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
         
+        createItemMappingsRecords(poDocument);
+        updateUnitPriceVariance();
+        
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCorruptedCXML(vendorDUNS,poNumber);
-        writeXMLFile(xmlChunk, rejectFile);
+        writeXMLFile(xmlChunk, corruptFile);
         
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();
-        ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
 
         assertTrue(load.containsRejects());
-        assertEquals(rejectDoc.getInvoiceFileName(),rejectFile);
-        assertTrue((new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + rejectFile)).exists());
+        
+        ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
+        
+        assertNotNull(rejectDoc);
+        assertEquals(rejectDoc.getInvoiceFileName(),corruptFile);
+        assertEquals(1, rejectDoc.getInvoiceRejectReasons().size());
+        assertEquals(PurapConstants.ElectronicInvoice.FILE_FORMAT_INVALID,rejectDoc.getInvoiceRejectReasons().get(0).getInvoiceRejectReasonTypeCode());
+        assertTrue((new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + corruptFile)).exists());
         
     }
 
-	@RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testPaymentRequestDocumentCreation()
     throws Exception{

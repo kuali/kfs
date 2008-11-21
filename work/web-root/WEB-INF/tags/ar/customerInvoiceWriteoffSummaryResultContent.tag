@@ -52,8 +52,6 @@
 				</c:if>
 				<c:if test="${!KualiForm.sentToBatch}">
 					<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" />
-					<!--  pass through customerNumber so you can tie customer note to appropriate customer -->
-					<html:hidden property="${propertyName}.customerNumber" />				
 				</c:if>
 			</td>
 		</tr>	

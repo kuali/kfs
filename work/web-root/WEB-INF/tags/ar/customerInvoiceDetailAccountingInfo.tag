@@ -35,8 +35,6 @@
     </c:when>
 </c:choose>
 
-<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-
 <tr>
     <td colspan="9" style="padding: 0px;">
         <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >

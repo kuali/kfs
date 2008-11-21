@@ -7,16 +7,17 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="tabTitle" required="true"%>
 <%@ attribute name="useTabTop" required="true"%>
+<c:set var="tabErrorKey" value="${propertyName}.*" />
 
 <div id="workarea">
 <c:choose>
 	<c:when test="${useTabTop}">
-		<kul:tabTop tabTitle="${tabTitle}" defaultOpen="true" tabErrorKey="">
+		<kul:tabTop tabTitle="${tabTitle}" defaultOpen="true" tabErrorKey="${tabErrorKey}">
 			<ar:customerInvoiceWriteoffSummaryResultContent customerInvoiceDocumentAttributes="${customerInvoiceDocumentAttributes}" propertyName="${propertyName}"/>
 		</kul:tabTop>
 	</c:when>
 	<c:otherwise>
-		<kul:tab tabTitle="${tabTitle}" defaultOpen="true" tabErrorKey="">
+		<kul:tab tabTitle="${tabTitle}" defaultOpen="true" tabErrorKey="${tabErrorKey}" >
 			<ar:customerInvoiceWriteoffSummaryResultContent customerInvoiceDocumentAttributes="${customerInvoiceDocumentAttributes}" propertyName="${propertyName}"/>
 		</kul:tab>
 	</c:otherwise>

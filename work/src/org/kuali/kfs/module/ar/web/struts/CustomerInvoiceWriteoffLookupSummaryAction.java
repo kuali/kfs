@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -66,18 +67,26 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         
         //  make sure no null/blank invoiceNumbers get sent
         boolean anyFound = false;
+        boolean customerNoteMissing = false;
+        int ind = 0;
         for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : lookupResults ){
+            if (StringUtils.isEmpty(customerInvoiceWriteoffLookupResult.getCustomerNote())) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_REQUIRED);
+                customerNoteMissing = true;
+            }
+
             for (CustomerInvoiceDocument invoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments()) {
                 if (StringUtils.isNotBlank(invoiceDocument.getDocumentNumber())) {
                     anyFound = true;
                 }
             }
+            ind++;
         }
         
-        //  only submit this if there's at least one invoiceNumber in the stack
-        if (!anyFound) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, 
-                    KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);
+        if (customerNoteMissing || !anyFound) {
+            // only submit this if there's at least one invoiceNumber in the stack
+            if (!anyFound)
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         

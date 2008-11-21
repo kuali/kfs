@@ -16,12 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:page headerTitle="Customer Invoice Writeoff Summary" transactionalDocument="false" showDocumentInfo="false" htmlFormAction="arCustomerInvoiceWriteoffLookupSummary" docTitle="Customer Invoice Writeoff Summary">
-	
-	<table width="100%" border="0"><tr><td>	
-	  <kul:errors keyMatch="*"/>
-	</td></tr></table>  
-	</br>
-
+		
 	<ar:customerInvoiceWriteoffSummaryResults customerInvoiceDocumentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"/>
 	
 	<kul:panelFooter />

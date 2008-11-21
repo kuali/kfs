@@ -142,6 +142,7 @@ public class ArPropertyConstants {
         public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
         public static final String CUSTOMER_INVOICE_NUMBER = "customerInvoiceNumber";
         public static final String AGE = "age";
+        public static final String CUSTOMER_NOTE = "customerNote";
     }
 
     // CustomerAgingReport

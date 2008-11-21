@@ -150,7 +150,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
             return;
         }
 
-        String descriptivePayeeTypes = this.getDescriptivePayeeTypes(payeeTypeCodes);
+        String descriptivePayeeTypes = this.getDescriptivePayeeTypesAsString(payeeTypeCodes);
         String descriptivePaymentReason = this.getPaymentReasonByPrimaryId(paymentReasonCode).getCodeAndDescription();
         if (payeeTypeCodes.size() > 1) {
             String messageKey = KFSKeyConstants.WARNING_DV_PAYMENT_REASON_VALID_FOR_MULTIPLE_PAYEE_TYPES;
@@ -168,7 +168,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
             List<String> vendorTypeCodes = new ArrayList<String>();
             vendorTypeCodes.addAll(payeeTypeCodes);
             vendorTypeCodes.remove(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
-            String vendorTypes = this.getDescriptivePayeeTypes(vendorTypeCodes);
+            String vendorTypes = this.getDescriptivePayeeTypesAsString(vendorTypeCodes);
 
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, descriptivePaymentReason, descriptivePayeeTypes, vendorTypes, payLimit);
         }
@@ -187,30 +187,16 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         }
     }
 
-    // get the descriptive payee types according to the given payee type codes
-    private String getDescriptivePayeeTypes(List<String> payeeTypeCodes) {
-        if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
-            return StringUtils.EMPTY;
-        }
-
-        String oneSpace = " ";
-        StringBuilder payeeTypesAsString = new StringBuilder();
+    // get and concatenate the descriptive payee types of the given codes
+    private String getDescriptivePayeeTypesAsString(List<String> payeeTypeCodes) {
+        List<String> payeeTypeDescriptions = new ArrayList<String>();
+        
         for (String payeeTypeCode : payeeTypeCodes) {
-            String payeeTypeDescription = SpringContext.getBean(DisbursementVoucherPayeeService.class).getPayeeTypeDescription(payeeTypeCode);
-
-            int index = payeeTypeCodes.indexOf(payeeTypeCode);
-            if (index == 0) {
-                payeeTypesAsString.append(payeeTypeDescription);
-            }
-            else if (index < payeeTypeCodes.size() - 1) {
-                payeeTypesAsString.append(KFSConstants.COMMA).append(oneSpace).append(payeeTypeDescription);
-            }
-            else if (index == payeeTypeCodes.size() - 1) {
-                payeeTypesAsString.append(oneSpace).append(KFSConstants.AND).append(oneSpace).append(payeeTypeDescription);
-            }
+            String description = SpringContext.getBean(DisbursementVoucherPayeeService.class).getPayeeTypeDescription(payeeTypeCode);            
+            payeeTypeDescriptions.add(description);
         }
 
-        return payeeTypesAsString.toString();
+        return this.convertListToString(payeeTypeDescriptions);
     }
 
     // concatenates the emlements of the given String list as a String

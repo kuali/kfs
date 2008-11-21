@@ -278,7 +278,8 @@ public enum PurchaseOrderDocumentFixture {
             PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS_2, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_QTY_APO_ITEM_1 } // purchaseOrderItemMultiFixtures
-    ),PO_FOR_THRESHOLD_CHECK(
+    ),
+    PO_FOR_THRESHOLD_CHECK(
             PO.CREATE_DATE, // purchaseOrderCreateDate
             PO.REQ_ID, // requisitionIdentifier
             "LPRC", // purchaseOrderVendorChoiceCode
@@ -309,7 +310,40 @@ public enum PurchaseOrderDocumentFixture {
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
                     PurchaseOrderItemFixture.PO_ITEM_THRESHOLD_CHECK }
-    );
+    ),
+    EINVOICE_PO(
+            PO.CREATE_DATE, // purchaseOrderCreateDate
+            PO.REQ_ID, // requisitionIdentifier
+            "LPRC", // purchaseOrderVendorChoiceCode
+            null, // recurringPaymentFrequencyCode
+            null, // recurringPaymentAmount
+            null, // recurringPaymentDate
+            null, // initialPaymentAmount
+            null, // initialPaymentDate
+            null, // finalPaymentAmount
+            null, // finalPaymentDate
+            null, // purchaseOrderInitialOpenDate
+            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderQuoteDueDate
+            null, // purchaseOrderQuoteTypeCode
+            null, // purchaseOrderQuoteVendorNoteText
+            false, // purchaseOrderConfirmedIndicator
+            null, // purchaseOrderCommodityDescription
+            null, // purchaseOrderPreviousIdentifier
+            null, // alternateVendorHeaderGeneratedIdentifier
+            null, // alternateVendorDetailAssignedIdentifier
+            null, // newQuoteVendorHeaderGeneratedIdentifier
+            null, // newQuoteVendorDetailAssignedIdentifier
+            null, // alternateVendorName
+            true, // purchaseOrderCurrentIndicator
+            false, // pendingActionIndicator
+            null, // purchaseOrderFirstTransmissionDate
+            PurchasingAccountsPayableDocumentFixture.EINVOICE_PO, // purapDocumentFixture
+            PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
+                    PurchaseOrderItemFixture.EINVOICE_PO_ITEM }
+    ),
+    ;
 
     public final Timestamp purchaseOrderCreateDate;
     public final Integer requisitionIdentifier;

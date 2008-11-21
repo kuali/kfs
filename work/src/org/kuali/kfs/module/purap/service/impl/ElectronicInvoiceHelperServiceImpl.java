@@ -148,7 +148,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     private PaymentRequestService paymentRequestService;
     private KualiConfigurationService kualiConfigurationService;
     
-    public boolean loadElectronicInvoices() {
+    public ElectronicInvoiceLoad loadElectronicInvoices() {
 
         String baseDirName = getBaseDirName();
         String rejectDirName = getRejectDirName();
@@ -188,6 +188,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             throw new RuntimeException("Base dir [" + baseDirName + "] doesn't exists in the system");
         }
         
+        ElectronicInvoiceLoad eInvoiceLoad = new ElectronicInvoiceLoad();
+        
         if (filesToBeProcessed == null || 
             filesToBeProcessed.length == 0) {
 
@@ -198,7 +200,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             mailText.append("\n\n");
             
             sendSummary(mailText);
-            return false;
+            return eInvoiceLoad;
         }
 
         try {
@@ -213,9 +215,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             throw new RuntimeException(e);
         }
         
-        boolean hasRejectedFile = false;
-        ElectronicInvoiceLoad eInvoiceLoad = new ElectronicInvoiceLoad();
-
         if (LOG.isInfoEnabled()){
             LOG.info(filesToBeProcessed.length + " file(s) available for processing");
         }
@@ -233,7 +232,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                     }
                     eInvoiceLoad.addRejectFileToMove(filesToBeProcessed[i], rejectDirName);
                 }
-                hasRejectedFile = true;
                 continue;
             }
             
@@ -255,7 +253,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                     }
                     eInvoiceLoad.addRejectFileToMove(filesToBeProcessed[i], rejectDirName);
                 }
-                hasRejectedFile = true;
             } else {
                 if (LOG.isInfoEnabled()){
                     LOG.info(filesToBeProcessed[i].getName() + " has been accepted");
@@ -290,7 +287,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
          LOG.debug("Processing completed");
 
-         return hasRejectedFile;
+         return eInvoiceLoad;
 
     }
     
@@ -1035,7 +1032,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 mailService.sendMessage(mailMessage);
             }catch (InvalidAddressException e) {
                 LOG.error("Invalid email address. Message not sent", e);
-            }
+        }
         }
         
         /**

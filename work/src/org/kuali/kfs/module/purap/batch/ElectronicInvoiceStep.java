@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
@@ -34,8 +35,9 @@ public class ElectronicInvoiceStep extends AbstractStep {
     private ElectronicInvoiceHelperService electronicInvoiceHelperService;
 
     public boolean execute(String jobName, Date jobRunDate) {
-//        return electronicInvoiceHelperService.loadElectronicInvoices();
-        return true;
+//        ElectronicInvoiceLoad load = electronicInvoiceHelperService.loadElectronicInvoices();
+//        return load.containsRejects();
+		  return true;
     }
 
     public void setElectronicInvoiceHelperService(ElectronicInvoiceHelperService electronicInvoiceHelperService) {

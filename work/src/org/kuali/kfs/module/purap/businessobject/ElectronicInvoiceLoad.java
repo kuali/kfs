@@ -56,5 +56,9 @@ public class ElectronicInvoiceLoad {
     public Map getRejectFilesToMove() {
         return rejectFilesToMove;
     }
+    
+    public boolean containsRejects(){
+        return !rejectDocumentList.isEmpty();
+    }
 
 }

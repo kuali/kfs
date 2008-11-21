@@ -333,6 +333,21 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // vendorCustomerNumber
             null, // accountsPayablePurchasingDocumentLinkIdentifier, 
             false), //useTaxIndicator)
+     EINVOICE_PO(null, // purapDocumentIdentifier
+            PurchaseOrderStatuses.IN_PROCESS, // statusCode
+            1001, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "KUALI UNIVERSITY", // vendorName
+            "123456 BROAD ST", // vendorLine1Address
+            null, // vendorLine2Address
+            "TRUMANSBURG", // vendorCityName
+            "NY", // vendorStateCode
+            null, // vendorAddressInternationalProvinceName
+            "14886", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null, // accountsPayablePurchasingDocumentLinkIdentifier, 
+            false), //useTaxIndicator)       
     ;
 
     public final Integer purapDocumentIdentifier;

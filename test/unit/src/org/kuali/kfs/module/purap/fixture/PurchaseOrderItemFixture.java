@@ -182,7 +182,8 @@ public enum PurchaseOrderItemFixture {
             PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 }, // purchaseOrderAccountMultiFixtures
             CommodityCodeFixture.COMMODITY_CODE_NON_EXISTENCE //commodityCodeFixture
-    ),PO_ITEM_THRESHOLD_CHECK(null, // documentNumber,
+    ),
+    PO_ITEM_THRESHOLD_CHECK(null, // documentNumber,
             null, // itemInvoicedTotalQuantity,
             null, // itemInvoicedTotalAmount,
             null, // itemReceivedTotalQuantity,
@@ -193,6 +194,17 @@ public enum PurchaseOrderItemFixture {
             PurApItemFixture.ITEM_FOR_THRESHOLD_CHECK, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 }, // purchaseOrderAccountMultiFixtures
             CommodityCodeFixture.COMMODITY_CODE_BASIC_ACTIVE //commodityCodeFixture 
+    ),
+    EINVOICE_PO_ITEM(null, // documentNumber,
+            null, // itemInvoicedTotalQuantity,
+            null, // itemInvoicedTotalAmount,
+            null, // itemReceivedTotalQuantity,
+            null, // itemReturnedTotalQuantity,
+            null, // itemOutstandingEncumberedQuantity,
+            null, // itemOutstandingEncumberedAmount,
+            true, // itemActiveIndicator,
+            PurApItemFixture.EINVOICE_ITEM, // purApItemFixture
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
     ;
 

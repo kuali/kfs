@@ -58,7 +58,7 @@ public class ParameterConfigurationTest extends KualiTestBase {
         for (Parameter param : params) {
             if (!paramRule.checkComponent(param)) {
                 //TODO The susequent line should be removed when KFSMI-1635 is completed
-                if (param.getParameterDetailTypeCode().equals("Country")||param.getParameterDetailTypeCode().equals("State")||param.getParameterDetailTypeCode().equals("PostalCode"))continue;
+                if (param.getParameterDetailTypeCode().equals("Country")||param.getParameterDetailTypeCode().equals("State")||param.getParameterDetailTypeCode().equals("PostalCode")||param.getParameterDetailTypeCode().equals("RuleAttribute")||param.getParameterDetailTypeCode().equals("RuleTemplate"))continue;
                 badComponents.append("\n").append(param.getParameterNamespaceCode()).append("\t").append(param.getParameterDetailTypeCode()).append("\t").append(param.getParameterName()).append("\t");
                 failCount++;
             }

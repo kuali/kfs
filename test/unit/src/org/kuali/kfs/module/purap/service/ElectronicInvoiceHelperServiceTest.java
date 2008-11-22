@@ -66,6 +66,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         super.tearDown();
     }
 
+    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testRejectDocumentCreationInvalidData()
     throws Exception{
@@ -94,6 +95,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         
     }
     
+    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testRejectDocumentCreationCorruptXML()
     throws Exception{
@@ -123,6 +125,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         
     }
 
+    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testPaymentRequestDocumentCreation()
     throws Exception{

@@ -144,8 +144,10 @@
         <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode" />
         <ref bean="Asset-offCampusLocation.assetLocationCountry.postalCountryName" />
         <ref bean="Asset-loanOrReturnInfo.borrowerState.postalStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
         <ref bean="Asset-quantity" />
         <ref bean="Asset-assetPayments.paymentSequenceNumber" />
@@ -1257,6 +1259,13 @@
     <property name="name" value="loanOrReturnInfo.borrowerState.postalStateCode" />
   </bean>
   
+  <bean id="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode" parent="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode-parentBean" />
+  <bean id="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+	p:sourceAttributeName="postalCode">
+    <property name="name" value="loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
+  </bean>
+
   <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" />
   <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="loanOrReturnInfo.borrowerCountry.postalCountryName" />
@@ -1269,6 +1278,13 @@
     <property name="name" value="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
   </bean>
   
+  <bean id="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" parent="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode-parentBean" />
+  <bean id="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+	p:sourceAttributeName="postalCode">
+    <property name="name" value="loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" />
+  </bean>
+
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" />
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
@@ -1591,7 +1607,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="loanOrReturnInfo.borrowerState.postalStateCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerZipCode" />
+                    p:attributeName="loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="loanOrReturnInfo.borrowerCountry.postalCountryName" />
               <bean parent="FieldDefinition"
@@ -1605,7 +1621,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerStorageZipCode" />
+                    p:attributeName="loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
               <bean parent="FieldDefinition"

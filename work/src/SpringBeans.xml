@@ -372,6 +372,7 @@
 		<property name="kualiModuleService" ref="kualiModuleService" />
         <property name="baselinePackages">
             <list>
+		        <value>classpath:org/kuali/rice/kew/bo/datadictionary/DocumentType.xml</value>
 		        <value>classpath:org/kuali/rice/kew/bo/datadictionary/RuleAttribute.xml</value>
 		        <value>classpath:org/kuali/rice/kew/bo/datadictionary/RuleTemplate.xml</value>
 

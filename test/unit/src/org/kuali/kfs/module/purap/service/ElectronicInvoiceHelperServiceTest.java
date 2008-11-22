@@ -91,7 +91,8 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         assertEquals(rejectDoc.getInvoiceFileName(),rejectFile);
         assertEquals(1, rejectDoc.getInvoiceRejectReasons().size());
         assertEquals(PurapConstants.ElectronicInvoice.PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY,rejectDoc.getInvoiceRejectReasons().get(0).getInvoiceRejectReasonTypeCode());
-        assertTrue((new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + rejectFile)).exists());
+        File rejectedFileInRejectDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + rejectFile);
+        assertTrue(rejectedFileInRejectDir.exists());
         
     }
     
@@ -121,7 +122,8 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         assertEquals(rejectDoc.getInvoiceFileName(),corruptFile);
         assertEquals(1, rejectDoc.getInvoiceRejectReasons().size());
         assertEquals(PurapConstants.ElectronicInvoice.FILE_FORMAT_INVALID,rejectDoc.getInvoiceRejectReasons().get(0).getInvoiceRejectReasonTypeCode());
-        assertTrue((new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + corruptFile)).exists());
+        File  corruptedFileInRejectDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + corruptFile);
+        assertTrue(corruptedFileInRejectDir.exists());
         
     }
 
@@ -152,7 +154,8 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();
 
         assertFalse(load.containsRejects());
-        assertTrue((new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "accept" + File.separator + acceptFile)).exists());
+        File acceptedFileInAcceptDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "accept" + File.separator + acceptFile);
+        assertTrue(acceptedFileInAcceptDir.exists());
         
     }
     

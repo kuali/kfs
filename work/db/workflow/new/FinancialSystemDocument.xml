@@ -3,6 +3,7 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>FinancialSystemDocument</name>
+			<parent>KualiDocument</parent>
 			<postProcessorName>org.kuali.kfs.sys.document.workflow.PostProcessor</postProcessorName>
 			<attributes>
 				<attribute>

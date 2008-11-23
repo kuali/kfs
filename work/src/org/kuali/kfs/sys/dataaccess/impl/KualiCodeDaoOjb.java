@@ -25,7 +25,6 @@ import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
 import org.kuali.kfs.coa.businessobject.FederalFundedCode;
 import org.kuali.kfs.coa.businessobject.FundGroup;
-import org.kuali.kfs.coa.businessobject.KualiSystemCode;
 import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -120,11 +119,6 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
      */
     public KualiCode getByCode(Class queryClass, String code) {
         Criteria criteria = getCriteriaForGivenClass(codeColumns, queryClass, code);
-        if (KualiSystemCode.class.isAssignableFrom(queryClass)) {
-            criteria.addEqualTo("CLASS_NAME", queryClass.getName());
-            // queryClass = KualiSystemCode.class;
-        }
-
         return (KualiCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(queryClass, criteria));
     }
 
@@ -154,11 +148,6 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
      */
     public KualiCode getByName(Class queryClass, String name) {
         Criteria criteria = getCriteriaForGivenClass(nameColumns, queryClass, name);
-        if (KualiSystemCode.class.isAssignableFrom(queryClass)) {
-            criteria.addEqualTo("className", queryClass.getName());
-            queryClass = KualiSystemCode.class;
-        }
-
         return (KualiCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(queryClass, criteria));
     }
 
@@ -186,11 +175,6 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     public Collection getAllActive(Class queryClass) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("FIN_OBJ_ACTIVE_CD", KFSConstants.ACTIVE_INDICATOR);
-        if (KualiSystemCode.class.isAssignableFrom(queryClass)) {
-            criteria.addEqualTo("className", queryClass.getName());
-            queryClass = KualiSystemCode.class;
-        }
-
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(queryClass, criteria));
     }
 
@@ -199,15 +183,6 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
      */
     public Collection getAll(Class queryClass) {
         Criteria criteria = new Criteria();
-        if (KualiSystemCode.class.isAssignableFrom(queryClass)) {
-            criteria.addEqualTo("className", queryClass.getName());
-            // queryClass = KualiSystemCode.class;
-        }
-
-        // This previously was passing a NULL into the criteria paramter, for no
-        // apparent reason I could see. The result was that it was ignoring class
-        // and returning all codes, which is definitely not what we want, and
-        // definitely not what the interface JavaDocs said. This was fixed.
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(queryClass, criteria));
     }
 

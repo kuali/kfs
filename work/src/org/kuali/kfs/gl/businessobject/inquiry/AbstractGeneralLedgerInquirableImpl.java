@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.KualiSystemCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
@@ -121,10 +120,6 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
 
             if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()) {
                 return inquiryHref;
-            }
-
-            if (KualiSystemCode.class.isAssignableFrom(inquiryBusinessObjectClass)) {
-                inquiryBusinessObjectClass = KualiSystemCode.class;
             }
         }
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inquiryBusinessObjectClass.getName());

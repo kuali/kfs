@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kfs.coa.businessobject.KualiSystemCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSConstants;
@@ -99,10 +98,6 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
 
             if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()) {
                 return inquiryHref;
-            }
-
-            if (KualiSystemCode.class.isAssignableFrom(inquiryBusinessObjectClass)) {
-                inquiryBusinessObjectClass = KualiSystemCode.class;
             }
         }
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inquiryBusinessObjectClass.getName());

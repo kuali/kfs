@@ -126,7 +126,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug("extractPayments() started");
 
         String userId = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_USER_ID);
-        Person uuser = personService.getPersonByPrincipalName(userId);
+        Person uuser = personService.getPersonByPrincipalName(userId.toLowerCase());
         if (uuser == null) {
             LOG.error("extractPayments() Unable to find user " + userId);
             throw new IllegalArgumentException("Unable to find user " + userId);

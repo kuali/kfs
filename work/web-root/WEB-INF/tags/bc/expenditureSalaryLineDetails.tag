@@ -132,7 +132,7 @@
 					lookupOrInquiryKeys="emplid" rowSpan="${rowspan}" 
 					accountingLineValuesMap="${fundingLine.valuesMap}"/>	
 					
-				<td class="datacell" rowspan="${rowspan}">${fundingLine.budgetConstructionIntendedIncumbent.iuClassificationLevel}</td>						
+				<td class="datacell" rowspan="${rowspan}">${fundingLine.budgetConstructionIntendedIncumbent.iuClassificationLevel}&nbsp;</td>						
 			</c:when>
 			<c:otherwise>
 				<bc:pbglLineDataCell dataCellCssClass="datacell" 

@@ -881,7 +881,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingCapitalAssetLocationEvent("", purDocument, location));
-
+        rulePassed = rulePassed && SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
+        
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset number
             CapitalAssetSystem system = purDocument.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));            
@@ -898,6 +899,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         CapitalAssetLocation location = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request)).getPurchasingCapitalAssetSystem().getAndResetNewPurchasingCapitalAssetLocationLine();
         
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingCapitalAssetLocationEvent("", purDocument, location));
+        rulePassed = rulePassed && SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
 
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset location

@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -124,10 +125,25 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.MULTIPLE)) {
                 valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateMultipleSystemsCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
             }
+            // validate complete location addresses
+            if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                for (CapitalAssetSystem system : purchasingDocument.getPurchasingCapitalAssetSystems()) {
+                    for (CapitalAssetLocation location : system.getCapitalAssetLocations()) {
+                        valid &= SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
+                    }
+                }
+            } else {
+                for (PurchasingCapitalAssetItem item : purchasingDocument.getPurchasingCapitalAssetItems()) {
+                    for (CapitalAssetLocation location : item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
+                        valid &= SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
+                    }
+                }
+            }
+            
         }
         return valid;
     }
-    
+
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add the validations for the unit price, unit of measure,
      * item quantity (for above the line items), the validateBelowTheLineItemNoUnitcost, validateTotalCost and

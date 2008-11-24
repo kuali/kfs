@@ -5,15 +5,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.batch.service.impl.LockboxServiceImpl;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -25,9 +29,11 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -37,6 +43,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);;
 
     private String referenceFinancialDocumentNumber;
     private Integer universityFiscalYear;
@@ -67,6 +74,13 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         cashControlDetails = new ArrayList<CashControlDetail>();
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
         electronicPaymentClaims = new ArrayList<ElectronicPaymentClaim>();
+        // retrieve value from param table and set to default
+        try {
+            String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getClassByName("CashControlDocument").getCanonicalName()).getDocumentTypeCode();
+            bankCode = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
+        } catch(Exception x) {
+            LOG.error("Problem occurred setting default bank code for cash control document", x);
+        }
     }
 
     /**

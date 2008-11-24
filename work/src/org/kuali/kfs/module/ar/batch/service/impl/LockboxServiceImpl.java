@@ -32,12 +32,18 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -89,6 +95,12 @@ public class LockboxServiceImpl implements LockboxService {
 
                 cashControlDocument = (CashControlDocument)KNSServiceLocator.getDocumentService().getNewDocument("CashControlDocument");
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
+                
+                if(ObjectUtils.isNotNull(lockbox.getBankCode())) {
+                    String bankCode = lockbox.getBankCode();
+                    cashControlDocument.setBankCode(bankCode);
+                } 
+                
                 cashControlDocument.getDocumentHeader().setDocumentDescription(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION + lockbox.getLockboxNumber());
 
                 AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
@@ -109,7 +121,7 @@ public class LockboxServiceImpl implements LockboxService {
             detail.setCustomerPaymentDescription("Lockbox Remittance  " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
 
             getCashControlDocumentService().addNewCashControlDetail(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION, cashControlDocument, detail);
-            
+
             String invoiceNumber = lockbox.getFinancialDocumentReferenceInvoiceNumber();
            
             // This is just a temporary work around due to the invoice numbers being in FIS format still.

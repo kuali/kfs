@@ -31,10 +31,15 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCashControlDetailEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
@@ -204,7 +209,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
         String paymentMediumCode = cashControlDocument.getCustomerPaymentMediumCode();
 
-        // refreshh reference objects
+        // refresh reference objects
         cashControlDocument.refreshReferenceObject("customerPaymentMedium");
         cashControlDocument.refreshReferenceObject("generalLedgerPendingEntries");
 
@@ -213,9 +218,30 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         businessObjectService.save(cashControlDocument);
 
         // generate the GLPEs
-        GeneralLedgerPendingEntryService generalLedgerPendingEntryService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        boolean success = generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(cashControlDocument);
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        boolean success = glpeService.generateGeneralLedgerPendingEntries(cashControlDocument);
 
+        if(cashControlDocument.getCustomerPaymentMedium().getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
+            // get associated bank
+            Bank bank = (Bank)SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
+            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+            GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
+            // add additional GLPE's based on bank code
+            if(!glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, cashControlDocument.getCashControlTotalAmount(), cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {
+                success = false;
+            }
+
+            AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+            bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET)); 
+            cashControlDocument.addPendingEntry(bankOffsetEntry);
+            sequenceHelper.increment();
+
+            GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
+            success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+            cashControlDocument.addPendingEntry(offsetEntry);
+            sequenceHelper.increment();
+        }
+        
         if (!success) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -112,6 +115,42 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward saveAction =  super.save(mapping, form, request, response);
+
+        IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
+        this.sendWarnings(incumbentSalarySettingForm, GlobalVariables.getMessageList());
+        
+        return saveAction;
+    }
+
+    /**
+     * send warning messsages back to the caller
+     * 
+     * @param incumbentSalarySettingForm
+     * @param warnings
+     */
+    public void sendWarnings(IncumbentSalarySettingForm incumbentSalarySettingForm, List<String> warnings){
+        List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings = incumbentSalarySettingForm.getActiveFundingLines();
+        if (activeAppointmentFundings == null || activeAppointmentFundings.isEmpty()) {
+            return;
+        }
+        BigDecimal requestedFteQuantityTotal = incumbentSalarySettingForm.getAppointmentRequestedFteQuantityTotal();
+        
+        // check for an active line that is LWPA or LWPF
+        boolean hasFundingLineInvolvedLeaveWithoutPay = this.hasFundingLineInvolvedLeaveWithoutPay(activeAppointmentFundings);
+
+        if (!hasFundingLineInvolvedLeaveWithoutPay && requestedFteQuantityTotal.compareTo(BigDecimal.ONE) != 0) {
+            warnings.add(BCKeyConstants.WARNING_FTE_NOT_ONE);
+        }
+
     }
 
     /**

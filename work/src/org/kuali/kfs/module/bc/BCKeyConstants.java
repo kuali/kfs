@@ -169,6 +169,7 @@ public class BCKeyConstants {
     public static final String ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT = "error.budget.emptyPayRateAnnualAmount";
     
     public static final String WARNING_FTE_NOT_EQUAL = "warning.budget.fteNotEqual";
+    public static final String WARNING_FTE_NOT_ONE = "warning.budget.fteNotOne";
     public static final String WARNING_WORKING_HOUR_NOT_EQUAL = "warning.budget.workingHourNotEqual";
     public static final String WARNING_RECALCULATE_NEEDED = "warning.budget.recalculateNeeded";
     

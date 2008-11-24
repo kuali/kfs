@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
+import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.LWPA;
+import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.LWPF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -236,12 +238,24 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    // determine whether any active funding line is invloved leave
+    // determine whether any active funding line is involved leave
     protected boolean hasFundingLineInvolvedLeave(List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings) {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : activeAppointmentFundings) {
             String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
             if (!StringUtils.equals(leaveDurationCode, NONE.durationCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // determine whether any active funding line is involved in leave without pay
+    protected boolean hasFundingLineInvolvedLeaveWithoutPay(List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings) {
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : activeAppointmentFundings) {
+            String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
+
+            if (StringUtils.equals(leaveDurationCode, LWPA.durationCode) || StringUtils.equals(leaveDurationCode, LWPF.durationCode)) {
                 return true;
             }
         }

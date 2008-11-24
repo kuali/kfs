@@ -142,6 +142,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
         setFinancialDocumentTypeCode(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
         setFinancialDocumentPostingYear(assetPaymentDetail.getPostingYear());
         setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getPostingPeriodCode());
+        setFinancialDocumentPostingDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());        
         setProjectCode(assetPaymentDetail.getProjectCode());
         setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
         setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());

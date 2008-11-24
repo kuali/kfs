@@ -165,7 +165,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
                     // add new payment
                     assetPayments.add(assetPayment);
-
                 }
                 // *********************BEGIN - Updating Asset ***********************************************************
                 // Retrieving the asset that will have its cost updated

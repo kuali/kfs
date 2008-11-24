@@ -774,5 +774,6 @@
 	
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
+	<import resource="document/validation/configuration/PaymentApplicationValidation.xml" />
 </beans>
 

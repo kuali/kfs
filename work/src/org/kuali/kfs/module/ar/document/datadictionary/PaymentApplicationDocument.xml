@@ -4,41 +4,88 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PaymentApplicationDocument" parent="PaymentApplicationDocument-parentBean" />
+	<bean id="PaymentApplicationDocument" parent="PaymentApplicationDocument-parentBean" />
 
-  <bean id="PaymentApplicationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Application" />
-    <property name="shortLabel" value="Application" />
-    <property name="documentTypeName" value="PaymentApplicationDocument" />
-    <property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer" />
-    <property name="documentTypeCode" value="APP" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
-    <property name="attributes" >
-      <list>
-        <ref bean="PaymentApplicationDocument-versionNumber" />
-      </list>
-    </property>
-  </bean>
+	<bean id="PaymentApplicationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+		<property name="label" value="Application" />
+		<property name="shortLabel" value="Application" />
+		<property name="documentTypeName" value="PaymentApplicationDocument" />
+		<property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
+		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule" />
+<!-- Uncommenting this line will move to the accounting line validation framework. To enable it comment out the line above and uncomment this line. -->
+<!-- 
+		<property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+ -->
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer" />
+		<property name="documentTypeCode" value="APP" />
+		<property name="authorizations" >
+			<list>
+				<bean parent="AuthorizationDefinition">
+					<property name="action" value="initiate" />
+					<property name="authorizedGroups" >
+						<set>
+							<value>kualiUniversalGroup</value>
+						</set>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="attributes" >
+			<list>
+				<ref bean="PaymentApplicationDocument-versionNumber" />
+			</list>
+		</property>
+		<property name="validationMap" ref="PaymentApplicationDocument-validations" />
+	</bean>
     
-    
-  <bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean" />
+	<bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean" />
+	<bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
 
-  <bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+	<bean id="PaymentApplicationDocument-validations" parent="PaymentApplicationDocument-validations-parentBean" />
+	<bean id="PaymentApplicationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+	  <property name="sourceMap">
+		<map>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>PaymentApplication-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>PaymentApplication-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>PaymentApplication-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>PaymentApplication-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>PaymentApplication-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>PaymentApplication-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>PaymentApplication-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>PaymentApplication-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoiceDetailEvent</value></key>
+				<value>PaymentApplication-discountCustomerInvoiceDetailValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerInvoiceDetailEvent</value></key>
+				<value>PaymentApplication-recalculateCustomerInvoiceDetailValidation</value>
+			</entry>			
+		</map>
+	  </property>
   </bean>
-  
-    
-    
 </beans>

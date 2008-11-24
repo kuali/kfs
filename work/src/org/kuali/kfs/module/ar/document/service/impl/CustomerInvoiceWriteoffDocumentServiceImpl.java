@@ -155,9 +155,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             if (StringUtils.isNotEmpty(customerInvoiceNumber))
                 eligibleInvoiceFlag &= StringUtils.equals(customerInvoiceNumber, invoice.getDocumentNumber());
             if (StringUtils.isNotEmpty(age))
-                if (ObjectUtils.isNotNull(invoice.getAge()))
-                    eligibleInvoiceFlag &= StringUtils.equals(age, invoice.getAge().toString());
-                else
+                if (ObjectUtils.isNotNull(invoice.getAge())) {
+                    eligibleInvoiceFlag &=((new Integer(age)).compareTo(invoice.getAge()) <= 0);
+                } else
                     eligibleInvoiceFlag = false;
             
             if (eligibleInvoiceFlag)

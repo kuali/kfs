@@ -25,7 +25,9 @@ import org.kuali.kfs.module.cg.dataaccess.AwardDao;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
 import org.kuali.kfs.module.cg.service.CloseService;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -89,7 +91,24 @@ public class CloseServiceImpl implements CloseService {
         closeDao.save(max);
 
     }
+    
+    /**
+     * @see org.kuali.kfs.module.cg.service.CloseService#addDocumentNoteAfterClosing(String)
+     */
+    public void addDocumentNoteAfterClosing(String noteText) {
+        Note note = new Note();
+        note.setNoteText(noteText);
+        note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        
+        Close mostRecentCloseDocument = this.getMostRecentClose();
+        mostRecentCloseDocument.addNote(note);      
+        
+        closeDao.save(mostRecentCloseDocument);
+    }
 
+    /**
+     * @see org.kuali.kfs.module.cg.service.CloseService#getMostRecentClose()
+     */
     public Close getMostRecentClose() {
         return closeDao.getMaxApprovedClose();
     }
@@ -109,5 +128,4 @@ public class CloseServiceImpl implements CloseService {
     public void setProposalDao(ProposalDao proposalDao) {
         this.proposalDao = proposalDao;
     }
-
 }

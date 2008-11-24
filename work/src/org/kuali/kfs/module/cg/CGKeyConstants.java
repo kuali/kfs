@@ -149,5 +149,9 @@ public class CGKeyConstants {
 
     // Global Messages
     public static final String BUDGET_OVERRIDE = "document.budget.override";
-
+    
+    public static final String SUBJECT_CLOSE_JOB_FAILED = "message.subject.closeJobFailed";
+    public static final String SUBJECT_CLOSE_JOB_SUCCEEDED = "message.subject.closeJobSucceeded";
+    public static final String MESSAGE_CLOSE_JOB_SUCCEEDED = "message.closeJob.succeeded";
+    public static final String ERROR_CLOSE_JOB_FAILED = "error.cg.closeJobFailed";
 }

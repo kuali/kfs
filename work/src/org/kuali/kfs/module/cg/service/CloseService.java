@@ -36,4 +36,8 @@ public interface CloseService {
      */
     public Close getMostRecentClose();
 
+    /**
+     * @param noteText the given text of a note add a note into document after it is closed
+     */
+    public void addDocumentNoteAfterClosing(String noteText);
 }

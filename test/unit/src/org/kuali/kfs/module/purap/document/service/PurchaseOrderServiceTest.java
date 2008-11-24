@@ -16,32 +16,36 @@
 package org.kuali.kfs.module.purap.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-
 
 @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
 public class PurchaseOrderServiceTest extends KualiTestBase {
@@ -243,5 +247,95 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
     
+    /**
+     * Tests that the PurchaseOrderService would create an Automatic Purchase Order document.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testCreateAutomaticPurchaseOrderDocument() throws Exception {
+        RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        String docId = req.getDocumentNumber();
+        poService.createAutomaticPurchaseOrderDocument(req);
+        RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        assertTrue(purchaseOrderDocument.getPurchaseOrderAutomaticIndicator());
+        assertEquals(purchaseOrderDocument.getContractManagerCode(), new Integer(99));
+    }
+    
+    /**
+     * Tests that the PurchaseOrderService would create a Purchase Order document with 
+     * status In Process.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testCreatePurchaseOrderDocument() throws Exception {
+        RequisitionDocument req = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
+        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        String docId = req.getDocumentNumber();
+        Integer contractManagerCode = new Integer(12);
+        poService.createPurchaseOrderDocument(req, "parke", contractManagerCode);
+        RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        assertEquals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+        assertEquals(purchaseOrderDocument.getContractManagerCode(), contractManagerCode);
+    }
+    
+    /**
+     * Tests that the PurchaseOrderService would create and save potential change document.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testCreateAndSavePotentialChangeDocument() throws Exception {
+        //Need to create a requisition first to be used to create an APO
+        RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        String docId = req.getDocumentNumber();
+        
+        //Create an APO using the requisition we created earlier in this method
+        poService.createAutomaticPurchaseOrderDocument(req);
+        RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        
+        //Test the pending action indicator and status codes after invoking 
+        //the createAndSavePotentialChangeDocument method.
+        PurchaseOrderDocument newDocument = poService.createAndSavePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
+        assertEquals (newDocument.getStatusCode(), PurchaseOrderStatuses.CHANGE_IN_PROCESS);
+        PurchaseOrderDocument oldDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        assertTrue(oldDocument.isPendingActionIndicator());
+        assertEquals(oldDocument.getStatusCode(), PurchaseOrderStatuses.AMENDMENT);
+    }
+    
+    /**
+     * Tests that the PurchaseOrderService would create and route potential change document.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testCreateAndRoutePotentialChangeDocument() throws Exception {
+        //Need to create a requisition first to be used to create an APO
+        RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        String docId = req.getDocumentNumber();
+        
+        //Create an APO using the requisition we created earlier in this method
+        poService.createAutomaticPurchaseOrderDocument(req);
+        RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        //Test the status codes after invoking 
+        //the createAndRoutePotentialChangeDocument method.
+        PurchaseOrderDocument newDocument = poService.createAndRoutePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, "", null, PurchaseOrderStatuses.PENDING_VOID);
+        PurchaseOrderDocument oldDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        assertEquals(oldDocument.getStatusCode(), PurchaseOrderStatuses.RETIRED_VERSION);
+    }
+
 }
 

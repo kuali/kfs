@@ -119,19 +119,5 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
     }
     
-    @Override
-    public String getEditModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser, Map<String, String> editModesForDocument) {
-        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            return AuthorizationConstants.EditMode.UNVIEWABLE;
-        }
-        
-        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
-            return AuthorizationConstants.EditMode.FULL_ENTRY;
-        }
-        
-        final boolean isAccountingLineEditable = this.isAccountingLineEditable(accountingDocument, accountingLine, currentUser);        
-        return (!isAccountingLineEditable ? AuthorizationConstants.EditMode.VIEW_ONLY : AuthorizationConstants.EditMode.FULL_ENTRY);
-    }
-    
 }
 

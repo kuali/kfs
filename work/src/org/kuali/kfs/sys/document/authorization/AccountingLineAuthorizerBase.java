@@ -186,12 +186,12 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
             return AuthorizationConstants.EditMode.UNVIEWABLE;
         }
         
-        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+        final boolean isAccountingLineEditable = this.isAccountingLineEditable(accountingDocument, accountingLine, currentUser);
+        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) || isAccountingLineEditable) {
             return AuthorizationConstants.EditMode.FULL_ENTRY;
         }
         
-        final boolean isAccountingLineEditable = this.isAccountingLineEditable(accountingDocument, accountingLine, currentUser);        
-        return editModesForDocument.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY) || !isAccountingLineEditable ? AuthorizationConstants.EditMode.VIEW_ONLY : AuthorizationConstants.EditMode.FULL_ENTRY;
+        return AuthorizationConstants.EditMode.VIEW_ONLY;
     }
 
     /**
@@ -249,8 +249,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the line is editable, false otherwise
      */
     protected boolean isAccountingLineEditableOnAccountReview(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
-        AccountService accountService = SpringContext.getBean(AccountService.class);
-        Account acct = accountService.getByPrimaryId(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
+        final AccountService accountService = SpringContext.getBean(AccountService.class);
+        final Account acct = accountService.getByPrimaryId(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
         
         if (ObjectUtils.isNull(acct)) return true; // the account doesn't exist?  whoever was editing it made a mistake - let them fix it
         if (accountService.hasResponsibilityOnAccount(currentUser, acct)) return true; // we own the account? then we can do whatever we want

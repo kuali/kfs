@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -54,6 +54,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -635,6 +636,37 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return true;        
     }
     
+    /**
+     * This is invoked during pre rules.
+     * If it's a non C & G account and the account has expired, or if it's a C&G account and 
+     * the account has expired for less than 90 days, give warning to the fiscal officer that
+     * the account has expired and allow the fiscal officer to return to the tabbed page if
+     * they wish to fix the account after the question framework, or proceed to routing if 
+     * they choose to ignore the warning.
+     * 
+     * @param document
+     * @return
+     */
+    public boolean validateWarningExpiredAccount(PaymentRequestDocument document) {
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
+            for (PurApItem item : (List<PurApItem>) document.getItems()) {
+                List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
+                for (PurApAccountingLine accountingLine : accountingLines) {
+                    if (accountingLine.getAccount().isExpired()) {
+                        Date current = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+                        Date accountExpirationDate = accountingLine.getAccount().getAccountExpirationDate();
+                        if (!accountingLine.getAccount().isForContractsAndGrants() ||
+                             SpringContext.getBean(DateTimeService.class).dateDiff(accountExpirationDate, current, false) < 90) {
+                            GlobalVariables.getMessageList().add(KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;        
+    }
+
     /**
      * Validates above the line items.
      * 

@@ -25,6 +25,7 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -60,6 +61,11 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
                 return false;
             }
         }
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) {
+            if (!confirmExpiredAccount(preq)) {
+                return false;
+            }
+        }
         preRulesOK &= super.doRules(document);
         return preRulesOK;
     }
@@ -76,6 +82,9 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageConstant);
         if (questionText.contains("{")) {
             questionText = prepareQuestionText(questionType, questionText);
+        }
+        else if (StringUtils.equals(messageConstant, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED)) {
+            questionText = questionType;
         }
         else {
             questionText = PurapConstants.PREQDocumentsStrings.UNUSED_TRADE_IN_QUESTION;
@@ -123,6 +132,14 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
         if (!rule.validateWarningTradeIn(preq)) {
             return askForConfirmation(PREQDocumentsStrings.UNUSED_TRADE_IN_QUESTION, PurapKeyConstants.WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED);
+        }
+        return true;
+    }
+    
+    public boolean confirmExpiredAccount(PaymentRequestDocument preq) {
+        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
+        if (!rule.validateWarningExpiredAccount(preq)) {
+            return askForConfirmation(PREQDocumentsStrings.EXPIRED_ACCOUNT_QUESTION, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
         }
         return true;
     }

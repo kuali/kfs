@@ -143,7 +143,8 @@
               p:name="lockboxNumber"
               p:required="true"  />
         <bean parent="MaintainableFieldDefinition"
-              p:name="cashControlWorkgroup"/>                   
+              p:name="cashControlWorkgroup"
+              p:required="true"  />
       </list>
     </property>
   </bean>

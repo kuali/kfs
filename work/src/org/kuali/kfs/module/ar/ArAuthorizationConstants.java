@@ -29,6 +29,7 @@ public class ArAuthorizationConstants extends AuthorizationConstants {
         public static final String EDIT_PAYMENT_MEDIUM = "editPaymentMedium";
         public static final String EDIT_REF_DOC_NBR = "editRefDocNbr";
         public static final String EDIT_PAYMENT_APP_DOC = "editPaymentAppDoc";
+        public static final String EDIT_BANK_CODE = "editBankCode";
         public static final String SHOW_GENERATE_BUTTON = "showGenerateButton";
     }
     

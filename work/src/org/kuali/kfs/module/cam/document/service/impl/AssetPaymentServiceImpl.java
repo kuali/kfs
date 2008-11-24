@@ -58,7 +58,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private AssetPaymentDao assetPaymentDao;
+    private AssetPaymentDao assetPaymentDao;    
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
     private ObjectCodeService objectCodeService;
@@ -134,8 +134,8 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                     percentage = (previousTotalCostAmount / totalHistoricalCost);
                 else
                     percentage = (1 / (new Double(assetPaymentAssetDetails.size())));
-                                
-                KualiDecimal totalAmount = new KualiDecimal(0);
+                      
+                KualiDecimal totalAmount = KualiDecimal.ZERO;  
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
                     Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
                     KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
@@ -148,7 +148,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                     assetPayment.setDocumentNumber(document.getDocumentNumber());
                     assetPayment.setAccountChargeAmount(amount);
 
-                    KualiDecimal baseAmount = new KualiDecimal(0);
+                    KualiDecimal baseAmount = KualiDecimal.ZERO;
 
                     // If the object sub type is not in the list of federally owned object sub types, then...
                     ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
@@ -212,7 +212,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                     }
                     else if (reverseAmount) {
                         // reverse the amounts
-                        writeMethod.invoke(assetPayment, (amount).multiply(new KualiDecimal(-1)));
+                        writeMethod.invoke(assetPayment, (amount.negated()));
                     }
                 }
 

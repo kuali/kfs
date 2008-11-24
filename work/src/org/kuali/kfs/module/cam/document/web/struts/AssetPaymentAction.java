@@ -92,6 +92,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         Collection<PersistableBusinessObject> rawValues = null;
         Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
 
+        //If multiple asset lookup was used to select the assets, then....
         if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, assetPaymentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = assetPaymentForm.getLookupResultsSequenceNumber();
 
@@ -175,7 +176,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(line);
             insertAccountingLine(true, assetPaymentForm, line);
 
-            // clear the used newTargetLine
+            // clear the used new source line
             assetPaymentForm.setNewSourceLine(new AssetPaymentDetail());
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -184,6 +185,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
     /**
      * Inserts a new asset into the document
+     * 
      * 
      * @param mapping
      * @param form
@@ -202,10 +204,11 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         String sCapitalAssetNumber = assetPaymentForm.getCapitalAssetNumber();
 
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
-
-        Long capitalAssetNumber = null;
+        
+        //Validating the asset code is numeric
+        Long capitalAssetNumber=null;
         try {
-            capitalAssetNumber = new Long(Long.parseLong(sCapitalAssetNumber));
+            capitalAssetNumber = Long.parseLong(sCapitalAssetNumber);
         }
         catch (NumberFormatException e) {
             sCapitalAssetNumber = (sCapitalAssetNumber == null ? " " : sCapitalAssetNumber);
@@ -218,7 +221,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         newAssetPaymentAssetDetail.setDocumentNumber(assetPaymentDocument.getDocumentNumber());
         newAssetPaymentAssetDetail.setCapitalAssetNumber(capitalAssetNumber);
         newAssetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
-
+        //Validating the new asset
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentAddAssetEvent(errorPath, assetPaymentForm.getDocument(), newAssetPaymentAssetDetail));
         if (rulePassed) {
             // Storing the current asset cost.

@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
- * This class validates if asset is locked by other document, if so return false
+ * This class validates if asset is locked by other document, if so returns false
  */
 public class AssetPaymentLockValidation extends GenericValidation {
 

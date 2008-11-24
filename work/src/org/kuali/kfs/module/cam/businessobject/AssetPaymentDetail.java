@@ -13,8 +13,7 @@ import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * 
- * This class...
+ * Accounting line for the asset payment document.
  */
 public class AssetPaymentDetail extends SourceAccountingLine {
     private static Logger LOG = Logger.getLogger(AssetPaymentDetail.class);

@@ -121,7 +121,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
             if (StringUtils.isNotBlank(researchPayLimit)) {
                 KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
-                if (!isVendor && document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && dvPayeeDetail.isDvPayeeSubjectPaymentCode()) {
+                if (!isVendor && document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit)) {
                     errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, researchPayLimit);
                     isValid = false;
                 }

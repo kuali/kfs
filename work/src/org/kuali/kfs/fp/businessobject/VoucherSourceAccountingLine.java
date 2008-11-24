@@ -15,16 +15,18 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
+import java.util.LinkedHashMap;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
- * Special case <code>{@link SourceAccountingLine}</code> type for
- * <code>{@link org.kuali.kfs.fp.document.VoucherDocument}</code>
+ * Special case <code>{@link SourceAccountingLine}</code> type for <code>{@link org.kuali.kfs.fp.document.VoucherDocument}</code>
  */
 public class VoucherSourceAccountingLine extends SourceAccountingLine {
     private String objectTypeCode;
@@ -42,7 +44,8 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
     }
 
     /**
-     * Gets the objectType attribute. 
+     * Gets the objectType attribute.
+     * 
      * @return Returns the objectType.
      */
     @Override
@@ -52,6 +55,7 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
 
     /**
      * Sets the objectType attribute value.
+     * 
      * @param objectType The objectType to set.
      */
     public void setObjectType(ObjectType objectType) {
@@ -59,7 +63,8 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
     }
 
     /**
-     * Gets the objectTypeCode attribute. 
+     * Gets the objectTypeCode attribute.
+     * 
      * @return Returns the objectTypeCode.
      */
     @Override
@@ -69,6 +74,7 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
 
     /**
      * Sets the objectTypeCode attribute value.
+     * 
      * @param objectTypeCode The objectTypeCode to set.
      */
     public void setObjectTypeCode(String objectTypeCode) {
@@ -77,6 +83,7 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
 
     /**
      * Overridden to automatically set the object type code on the setting of the object code - if the object type code is blank
+     * 
      * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#setFinancialObjectCode(java.lang.String)
      */
     @Override
@@ -89,5 +96,15 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
             }
         }
     }
-    
+
+    /**
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String, Object> map = super.toStringMapper();
+        map.put(KFSPropertyConstants.OBJECT_TYPE_CODE, this.getObjectTypeCode());
+
+        return map;
+    }
 }

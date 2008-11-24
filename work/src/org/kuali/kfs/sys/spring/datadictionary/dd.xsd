@@ -54,189 +54,52 @@ Used on document entries to specify a list of properties of a document that will
  			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
-			<xsd:complexContent>
-				<xsd:extension base="beans:identifiedType">
-                    <!--  1 or more group elements -->
-					<xsd:choice minOccurs="1" maxOccurs="unbounded">
-                        <xsd:element name="searchingType" minOccurs="1" maxOccurs="unbounded">
-                        	<xsd:annotation>
-                        		<xsd:documentation>
-                        		</xsd:documentation>
-                        	</xsd:annotation>
-                        	<xsd:complexType>
-                        		<xsd:sequence maxOccurs="1" minOccurs="1">
-                        			<xsd:element name="searchingAttribute" minOccurs="1" maxOccurs="1">
-                        				<xsd:annotation>
-                        					<xsd:documentation>
-                        					</xsd:documentation>
-                        				</xsd:annotation>
-                        				<xsd:complexType>
-                        					<xsd:attribute name="businessObjectClassName" type="xsd:string" use="required">
-                        						<xsd:annotation>
-                        							<xsd:documentation>
-                        							</xsd:documentation>
-                        						</xsd:annotation>
-                        					</xsd:attribute>
-                        					<xsd:attribute name="attributeName" type="xsd:string" use="required">
-                        						<xsd:annotation>
-                        							<xsd:documentation>
-                        							</xsd:documentation>
-                        						</xsd:annotation>
-                        					</xsd:attribute>
-                        				</xsd:complexType>
-                        			</xsd:element>
-                        			<xsd:element name="documentValue" minOccurs="1" maxOccurs="unbounded">
-                        				<xsd:annotation>
-                        					<xsd:documentation>
-                        					</xsd:documentation>
-                        				</xsd:annotation>
-                        				<xsd:complexType>
-                        					<xsd:attribute name="path" type="xsd:string" use="required">
-                        						<xsd:annotation>
-                        							<xsd:documentation>
-                        							</xsd:documentation>
-                        						</xsd:annotation>
-                        					</xsd:attribute>
-                        				</xsd:complexType>
-                        			</xsd:element>
-                        		</xsd:sequence>
-                        	</xsd:complexType>                        		
-                        </xsd:element>
-                        <xsd:element name="routingType" minOccurs="1" maxOccurs="unbounded">
-                        	<xsd:annotation>
-                        		<xsd:documentation>
-                        		</xsd:documentation>
-                        	</xsd:annotation>
-                        	<xsd:complexType>
-                        		<xsd:sequence maxOccurs="1" minOccurs="1">
-                        			<xsd:element name="routingAttributes" minOccurs="1" maxOccurs="1">
-                        				<xsd:annotation>
-                        					<xsd:documentation>
-                        					</xsd:documentation>
-                        				</xsd:annotation>
-                        				<xsd:complexType>
-                        					<xsd:sequence maxOccurs="1" minOccurs="1">
-			                        			<xsd:element name="routingAttribute" minOccurs="1" maxOccurs="unbounded">
-			                        				<xsd:annotation>
-			                        					<xsd:documentation>
-			                        					</xsd:documentation>
-			                        				</xsd:annotation>
-			                        				<xsd:complexType>
-			                        					<xsd:attribute name="businessObjectClassName" type="xsd:string" use="required">
-			                        						<xsd:annotation>
-			                        							<xsd:documentation>
-			                        							</xsd:documentation>
-			                        						</xsd:annotation>
-			                        					</xsd:attribute>
-			                        					<xsd:attribute name="attributeName" type="xsd:string" use="required">
-			                        						<xsd:annotation>
-			                        							<xsd:documentation>
-			                        							</xsd:documentation>
-			                        						</xsd:annotation>
-			                        					</xsd:attribute>
-			                        				</xsd:complexType>
-			                        			</xsd:element>
-			                        		</xsd:sequence>
-                        				</xsd:complexType>
-                        			</xsd:element>
-			                        <xsd:element name="documentValuePathGroup" minOccurs="1" maxOccurs="unbounded">
-			                        	<xsd:annotation>
-			                        		<xsd:documentation>
-			                        		</xsd:documentation>
-			                        	</xsd:annotation>
-			                        	<xsd:complexType>
-											<xsd:choice minOccurs="1" maxOccurs="unbounded">
-			                        			<xsd:element name="documentValue" minOccurs="1" maxOccurs="unbounded">
-			                        				<xsd:annotation>
-			                        					<xsd:documentation>
-			                        					</xsd:documentation>
-			                        				</xsd:annotation>
-			                        				<xsd:complexType>
-			                        					<xsd:attribute name="path" type="xsd:string" use="required">
-			                        						<xsd:annotation>
-			                        							<xsd:documentation>
-			                        							</xsd:documentation>
-			                        						</xsd:annotation>
-			                        					</xsd:attribute>
-			                        				</xsd:complexType>
-			                        			</xsd:element>
-			                        			<xsd:element name="documentCollectionPath" minOccurs="1" maxOccurs="unbounded">
-			                        				<xsd:annotation>
-			                        					<xsd:documentation>
-			                        					</xsd:documentation>
-			                        				</xsd:annotation>
-			                        				<xsd:complexType>
-														<xsd:choice minOccurs="1" maxOccurs="unbounded">
-						                        			<xsd:element name="documentValue" minOccurs="1" maxOccurs="unbounded">
-						                        				<xsd:annotation>
-						                        					<xsd:documentation>
-						                        					</xsd:documentation>
-						                        				</xsd:annotation>
-						                        				<xsd:complexType>
-						                        					<xsd:attribute name="path" type="xsd:string" use="required">
-						                        						<xsd:annotation>
-						                        							<xsd:documentation>
-						                        							</xsd:documentation>
-						                        						</xsd:annotation>
-						                        					</xsd:attribute>
-						                        				</xsd:complexType>
-						                        			</xsd:element>
-						                        			<xsd:element name="documentCollectionPath" minOccurs="1" maxOccurs="1">
-						                        				<xsd:annotation>
-						                        					<xsd:documentation>
-						                        					</xsd:documentation>
-						                        				</xsd:annotation>
-						                        				<xsd:complexType>
-																	<xsd:choice minOccurs="1" maxOccurs="unbounded">
-									                        			<xsd:element name="documentValue" minOccurs="1" maxOccurs="unbounded">
-									                        				<xsd:annotation>
-									                        					<xsd:documentation>
-									                        					</xsd:documentation>
-									                        				</xsd:annotation>
-									                        				<xsd:complexType>
-									                        					<xsd:attribute name="path" type="xsd:string" use="required">
-									                        						<xsd:annotation>
-									                        							<xsd:documentation>
-									                        							</xsd:documentation>
-									                        						</xsd:annotation>
-									                        					</xsd:attribute>
-									                        				</xsd:complexType>
-									                        			</xsd:element>
-									                        		</xsd:choice>
-						                        					<xsd:attribute name="path" type="xsd:string" use="required">
-						                        						<xsd:annotation>
-						                        							<xsd:documentation>
-						                        							</xsd:documentation>
-						                        						</xsd:annotation>
-						                        					</xsd:attribute>
-						                        				</xsd:complexType>
-						                        			</xsd:element>
-						                        		</xsd:choice>
-			                        					<xsd:attribute name="path" type="xsd:string" use="required">
-			                        						<xsd:annotation>
-			                        							<xsd:documentation>
-			                        							</xsd:documentation>
-			                        						</xsd:annotation>
-			                        					</xsd:attribute>
-			                        				</xsd:complexType>
-			                        			</xsd:element>
-			                        		</xsd:choice>
-			                        	</xsd:complexType>                        		
-			                        </xsd:element>
-                        		</xsd:sequence>
-                        		<xsd:attribute name="nodeName" type="xsd:string">
-                        			<xsd:annotation>
-                        				<xsd:documentation>
-                        				</xsd:documentation>
-                        			</xsd:annotation>
-                        		</xsd:attribute>
-                        	</xsd:complexType>                        		
-                        </xsd:element>
-                    </xsd:choice>
-				<xsd:attributeGroup ref="abstractAttribute"  />
-                </xsd:extension>
-            </xsd:complexContent>
-        </xsd:complexType>
+		<xsd:complexContent>
+		<xsd:extension base="beans:identifiedType">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="searchingAttribute" minOccurs="1" maxOccurs="1">
+					<xsd:annotation>
+	                    <xsd:documentation>
+Defines the property values that must be exposed to the workflow engine to perform document searches. 
+	                    </xsd:documentation>
+	                </xsd:annotation>
+	                <xsd:complexType>
+	              		<xsd:sequence maxOccurs="1" minOccurs="1">
+	               			<xsd:element name="workflowAttribute" type="workflowAttribute"/>
+	               		</xsd:sequence>
+	                	<xsd:attribute name="name" type="xsd:string" use="required">
+		                	<xsd:annotation>
+		                		<xsd:documentation>
+The name of the searchable attribute.
+		                		</xsd:documentation>
+		                	</xsd:annotation>
+	               		</xsd:attribute>
+	                </xsd:complexType>
+				</xsd:element>
+				<xsd:element name="routingType" minOccurs="1" maxOccurs="1">
+					<xsd:annotation>
+	                    <xsd:documentation>
+Defines the property values that must be exposed to the workflow engine to perform document routing. 
+	                    </xsd:documentation>
+	                </xsd:annotation>
+	                <xsd:complexType>
+	               		<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+	                        <xsd:element name="workflowAttribute" type="workflowAttribute" minOccurs="1" maxOccurs="unbounded"/>
+	               		</xsd:sequence>
+	                	<xsd:attribute name="name" type="xsd:string" use="required">
+		                	<xsd:annotation>
+		                		<xsd:documentation>
+The name of the routing type.
+		                		</xsd:documentation>
+		                	</xsd:annotation>
+	               		</xsd:attribute>
+	                </xsd:complexType>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:attributeGroup ref="abstractAttribute"  />
+</xsd:extension>		
+</xsd:complexContent>
+</xsd:complexType>
     </xsd:element>
 
 	<xsd:complexType name="workflowAttribute">

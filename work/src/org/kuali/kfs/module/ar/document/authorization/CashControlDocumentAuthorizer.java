@@ -158,11 +158,13 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
         String editRefDocNbrKey = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR;
         String editGenerateBtnKey = ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON;
         String editPaymentAppDoc = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC;
+        String editBankCodeKey = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_BANK_CODE;
 
         if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
             editMode.put(editPaymentMediumKey, "TRUE");
             editMode.put(editDetailsKey, "TRUE");
             editMode.put(editRefDocNbrKey, "TRUE");
+            editMode.put(editBankCodeKey, "TRUE");
         }
 
         // if the document is in routing, then we have some special rules

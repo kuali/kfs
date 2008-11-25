@@ -367,7 +367,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="SystemInformation-organizationCheckPayableToName" parent="SystemInformation-organizationCheckPayableToName-parentBean" />
 
   <bean id="SystemInformation-organizationCheckPayableToName-parentBean" abstract="true" parent="OrganizationOptions-organizationCheckPayableToName">
-    <property name="label" value="Remit to Name" />
+    <property name="label" value="Remit to" />
   </bean>
   <bean id="SystemInformation-organizationRemitToAddressName" parent="SystemInformation-organizationRemitToAddressName-parentBean" />
 

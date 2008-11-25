@@ -137,7 +137,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="OrganizationOptions-organizationCheckPayableToName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationCheckPayableToName" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Remit To Name" />
+    <property name="label" value="Remit To" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
@@ -235,8 +235,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="OrganizationOptions-organizationRemitToAddressName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationRemitToAddressName" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Address Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="label" value="Address" />
+    <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"

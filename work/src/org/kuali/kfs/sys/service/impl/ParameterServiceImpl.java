@@ -277,6 +277,12 @@ public class ParameterServiceImpl implements ParameterService {
             if (documentOrStepClass.getName().startsWith("org.kuali.rice.kns")) {
                 return ParameterConstants.NERVOUS_SYSTEM_NAMESPACE;
             }
+            if (documentOrStepClass.getName().startsWith("org.kuali.rice.kew")) {
+                return "KR-WKFLW";
+            }
+            if (documentOrStepClass.getName().startsWith("org.kuali.rice.kim")) {
+                return "KR-IDM";
+            }
             throw new IllegalArgumentException("The getNamespace method of ParameterUtils requires documentOrStepClass with a package prefix of org.kuali.rice.kns, org.kuali.kfs, or org.kuali.module");
         }
         else {

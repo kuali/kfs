@@ -417,7 +417,12 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return taxableIndicator;
     }
 
-
+    //  yes this is redundant, its required for the JSP on the accounting 
+    // line checkbox field
+    public boolean getTaxableIndicator() { 
+        return taxableIndicator;
+    }
+    
     public void setTaxableIndicator(boolean taxableIndicator) {
         this.taxableIndicator = taxableIndicator;
     }

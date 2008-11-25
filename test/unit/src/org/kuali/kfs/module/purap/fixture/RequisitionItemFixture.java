@@ -137,9 +137,16 @@ public enum RequisitionItemFixture {
             new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 } // requisitionAccountMultiFixtures
     ),
     REQ_ITEM_VALID_CAPITAL_ASSET(false, // itemRestrictedIndicator
-            PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
-            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.REQ_ACCOUNT_VALID_CAPITAL_ASSET_OBJECT_CODE } // requisitionAccountMultiFixtures
-    ),    
+            PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { 
+                RequisitionAccountingLineFixture.APO_ACCOUNT_VALID_CAPITAL_ASSET_OBJECT_CODE } // requisitionAccountMultiFixtures
+    ),
+    REQ_ITEM_INVALID_CAPITAL_ASSET(false, // itemRestrictedIndicator
+            PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { 
+                RequisitionAccountingLineFixture.APO_ACCOUNT_VALID_CAPITAL_ASSET_OBJECT_CODE_50_PERCENT,
+                RequisitionAccountingLineFixture.APO_ACCOUNT_VALID_EXPENSE_OBJECT_CODE_50_PERCENT } // requisitionAccountMultiFixtures
+    ),   
     ;
 
     private boolean itemRestrictedIndicator;

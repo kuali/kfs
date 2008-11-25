@@ -47,9 +47,10 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
+
 @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
 public class PurchaseOrderServiceTest extends KualiTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceTest.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderServiceTest.class);
 
     private DocumentService docService;
     private PurchaseOrderService poService;

@@ -34,14 +34,25 @@ import org.kuali.kfs.sys.context.TestUtils;
  * However, currently there is no known way to simulate this criteria
  * yet, so we'll skip this particular criteria for now. 
  * All the other criterias for APO ineligibility are already added in this class.
+ * The methods here tested are in RequisitionService.
+ * 
+ * @see org.kuali.kfs.module.purap.document.service.RequisitionServiceTest
  */
 @ConfigureContext(session = khuntley)
 public class NegativeAPOTest extends KualiTestBase {
 
     private RequisitionDocument requisitionDocument = null;
+    private RequisitionService reqService;
+    private KualiConfigurationService kualiConfigurationService;
 
     protected void setUp() throws Exception {
         super.setUp();
+        if (null == reqService) {
+            reqService = SpringContext.getBean(RequisitionService.class);
+        }
+        if (null == kualiConfigurationService) {
+            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        }
     }
 
     protected void tearDown() throws Exception {
@@ -53,9 +64,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOTotalGreaterThanAPOLimitNoRouting() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }
      }
@@ -64,9 +75,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOTotalNotGreaterThanZero() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_TOTAL_NOT_GREATER_THAN_ZERO.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));      
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));      
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }
      }
@@ -75,9 +86,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPORequisitionContainsRestrictedItem() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_CONTAINS_RESTRICTED_ITEM.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));       
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));       
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_RESTRICTED_ITEM);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_RESTRICTED_ITEM);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }         
      }
@@ -86,9 +97,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOVendorNotSelected() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));    
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));    
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_VENDOR_NOT_SELECTED_FROM_VENDOR_DATABASE);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_VENDOR_NOT_SELECTED_FROM_VENDOR_DATABASE);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }             
      }
@@ -98,9 +109,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
          requisitionDocument.setVendorCityName(null);
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));    
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));    
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_SOME_VENDOR_ADDRESS_FIELDS);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_SOME_VENDOR_ADDRESS_FIELDS);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }    
      }
@@ -109,9 +120,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOVendorNotInDB() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ERROR_RETRIEVING_VENDOR_FROM_DATABASE.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));                 
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));                 
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_ERROR_RETRIEVING_VENDOR_FROM_DATABASE);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_ERROR_RETRIEVING_VENDOR_FROM_DATABASE);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
@@ -120,9 +131,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOVendorIsRestricted() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_WITH_RESTRICTED_VENDOR.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));   
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));   
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_SELECTED_VENDOR_IS_RESTRICTED);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_SELECTED_VENDOR_IS_RESTRICTED);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
@@ -131,9 +142,9 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOPaymentTypeRecurring() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_PAYMENT_TYPE_RECURRING.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));      
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));      
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_PAYMENT_TYPE_IS_RECURRING);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_PAYMENT_TYPE_IS_RECURRING);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
@@ -142,46 +153,60 @@ public class NegativeAPOTest extends KualiTestBase {
      public void testInvalidAPOPOTotalLimitNonzero() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_PO_TOTAL_LIMIT_NON_ZERO.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_PO_TOTAL_LIMIT_IS_NOT_EMPTY);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_PO_TOTAL_LIMIT_IS_NOT_EMPTY);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
+     // Requisition contains additional suggested vendor names.
      @ConfigureContext(session = khuntley, shouldCommitTransactions=false)
      public void testInvalidAPOHasAlternateVendorName() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ALTERNATE_VENDOR_NAMES.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));        
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));        
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }           
      }
      
+     // Requisition has failed capital asset rules.
+     public void testInvalidAPOCapitalAssetFailure() throws Exception {
+         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_FAILS_CAPITAL_ASSET_RULE.createRequisitionDocument();
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
+         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_FAILS_CAPITAL_ASSET_RULES);
+             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         }  
+     }
+     
+     // Requisition contains inactive commodity codes.
      public void testInvalidAPOHasInactiveCommodityCode() throws Exception {
          TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
          RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_APO_INACTIVE_COMMODITY_CODE;
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_INACTIVE_COMMODITY_CODE);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_INACTIVE_COMMODITY_CODE);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
+     // Requisition contains an item that is marked as sensitive data.
      public void testInvalidAPOHasCommodityCodeWithSensitiveData() throws Exception {
          TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
          RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_APO_COMMODITY_CODE_WITH_SENSITIVE_DATA;
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
      
+     // There are missing commodity code(s).
      public void testInvalidAPOMissingCommodityCode() throws Exception {
          TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
          //This fixture is intentionally used because it is an otherwise valid fixture for APO, except
@@ -189,9 +214,9 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocumentFixture fixture = RequisitionDocumentFixture.REQ_APO_VALID;
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
          requisitionDocument.refreshReferenceObject("vendorDetail");
-         assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_COMMODITY_CODE);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_COMMODITY_CODE);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }

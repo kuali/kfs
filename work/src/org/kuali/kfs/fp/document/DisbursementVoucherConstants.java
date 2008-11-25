@@ -49,42 +49,42 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     @Deprecated public static String OWNERSHIP_TYPE_NONPROFIT_TRUST = "T";
 
     // document location
-    public static String NO_DOCUMENTATION_LOCATION = "N";
+    public static final String NO_DOCUMENTATION_LOCATION = "N";
 
-    public static String TAX_CONTROL_CODE_ALLOWS_EMPLOYEES = "A";
-    public static String TAX_CONTROL_CODE_BEGIN_WITHHOLDING = "B";
-    public static String TAX_CONTROL_CODE_HOLD_PAYMENT = "H";
+    public static final String TAX_CONTROL_CODE_ALLOWS_EMPLOYEES = "A";
+    public static final String TAX_CONTROL_CODE_BEGIN_WITHHOLDING = "B";
+    public static final String TAX_CONTROL_CODE_HOLD_PAYMENT = "H";
 
     public static class DocumentStatusCodes {
-        public static String APPROVED = "A";
-        public static String EXTRACTED = "E";
+        public static final String APPROVED = "A";
+        public static final String EXTRACTED = "E";
     }
 
     public static class PaymentReasonCodes {
-        public static String PRIZE = "A";
-        public static String OUT_OF_POCKET = "B";
-        public static String RESEARCH_PARTICIPANT = "C";
-        public static String DECEDENT = "D";
-        public static String SERVICES = "E";
-        public static String REFUND = "F";
-        public static String UTILITIES = "G";
-        public static String MEDICAL = "H";
-        public static String REVOLVING_FUND = "K";
-        public static String CONTRACTUAL_AGREEMENTS = "L";
-        public static String MOVING = "M";
-        public static String TRAVEL_NONEMPLOYEE = "N";
-        public static String TRAVEL_PREPAID = "P";
-        public static String ROYALTIES = "R";
-        public static String RENTAL_PAYMENT = "T";
-        public static String SUBSCRIPTIONS = "W";
-        public static String TRAVEL_HONORARIUM = "X";
-        public static String CLAIMS = "Z";
+        public static final String PRIZE = "A";
+        public static final String OUT_OF_POCKET = "B";
+        public static final String RESEARCH_PARTICIPANT = "C";
+        public static final String DECEDENT = "D";
+        public static final String SERVICES = "E";
+        public static final String REFUND = "F";
+        public static final String UTILITIES = "G";
+        public static final String MEDICAL = "H";
+        public static final String REVOLVING_FUND = "K";
+        public static final String CONTRACTUAL_AGREEMENTS = "L";
+        public static final String MOVING = "M";
+        public static final String TRAVEL_NONEMPLOYEE = "N";
+        public static final String TRAVEL_PREPAID = "P";
+        public static final String ROYALTIES = "R";
+        public static final String RENTAL_PAYMENT = "T";
+        public static final String SUBSCRIPTIONS = "W";
+        public static final String TRAVEL_HONORARIUM = "X";
+        public static final String CLAIMS = "Z";
     }
 
     public static class DvPdpExtractGroup {
-        public static String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
-        public static String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
-        public static String DV_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
+        public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
+        public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
+        public static final String DV_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
     }
 
     // system parameter parameter constants
@@ -135,23 +135,25 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static final String NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM = "NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL";
     public static final String PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM = "PO_AND_DV_PAYEE_TYPE_LABEL";
     public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
+    public static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
+    public static final String TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW_PARM_NM = "TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW";
 
-    public static String TAX_TYPE_SSN = "1";
-    public static String TAX_TYPE_FEIN = "0";
+    public static final String TAX_TYPE_SSN = "1";
+    public static final String TAX_TYPE_FEIN = "0";
     
-    public static String TAX_ID_TYPE_SSN = "S";
-    public static String TAX_ID_TYPE_FEIN = "F";
+    public static final String TAX_ID_TYPE_SSN = "S";
+    public static final String TAX_ID_TYPE_FEIN = "F";
 
-    public static String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";
-    public static String NRA_TAX_INCOME_CLASS_INDEPENDENT_CONTRACTOR = "I";
-    public static String NRA_TAX_INCOME_CLASS_ROYALTIES = "R";
-    public static String NRA_TAX_INCOME_CLASS_NON_REPORTABLE = "N";
+    public static final String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";
+    public static final String NRA_TAX_INCOME_CLASS_INDEPENDENT_CONTRACTOR = "I";
+    public static final String NRA_TAX_INCOME_CLASS_ROYALTIES = "R";
+    public static final String NRA_TAX_INCOME_CLASS_NON_REPORTABLE = "N";
 
-    public static String FEDERAL_TAX_TYPE_CODE = "F";
-    public static String STATE_TAX_TYPE_CODE = "S";
+    public static final String FEDERAL_TAX_TYPE_CODE = "F";
+    public static final String STATE_TAX_TYPE_CODE = "S";
 
-    public static String DOCUMENT_TYPE_CHECKACH = "DVCA";
-    public static String DOCUMENT_TYPE_WTFD = "DVWF";
+    public static final String DOCUMENT_TYPE_CHECKACH = "DVCA";
+    public static final String DOCUMENT_TYPE_WTFD = "DVWF";
     
     public static final String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "COVER_SHEET_TEMPLATE_LINES";
     public static final String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "COVER_SHEET_TEMPLATE_RLINES";

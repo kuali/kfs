@@ -71,6 +71,14 @@ public interface DisbursementVoucherPayeeService {
      * @return true if the given payee is an individual vendor; otherwise, false
      */
     public boolean isPayeeIndividualVendor(DisbursementVoucherPayeeDetail dvPayeeDetail);
+    
+    /**
+     * determine whether the given payee is required for tax review
+     * 
+     * @param String the given payee tax control code
+     * @return true if the given payee is required for tax review; otherwise, false
+     */
+    public boolean isTaxReviewRequired(String payeeTaxControlCode);
 
     /**
      * determine whether the given payee is an individual vendor

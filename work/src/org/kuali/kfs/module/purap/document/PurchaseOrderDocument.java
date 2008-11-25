@@ -189,7 +189,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PO_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
-        return super.getDocumentTitle();
+        
+        return this.buildWorkflowDocumentTitle(super.getDocumentTitle());
     }
 
     /**

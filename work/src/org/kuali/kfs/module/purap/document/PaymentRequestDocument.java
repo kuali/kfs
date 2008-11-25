@@ -569,7 +569,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
-        return super.getDocumentTitle();
+        
+        return this.buildWorkflowDocumentTitle(super.getDocumentTitle());
     }
 
     /**
@@ -1022,6 +1023,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
+        KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
+        String workflowDocumentTitle = this.buildWorkflowDocumentTitle(workflowDocument.getTitle());
+        
+        try {            
+            this.getDocumentHeader().getWorkflowDocument().setTitle(workflowDocumentTitle);
+        }
+        catch (WorkflowException e) {
+            LOG.error("fail to access Workflow." + e);
+        }
+        
 
         // first populate, then call super
         if (event instanceof ContinuePurapEvent) {

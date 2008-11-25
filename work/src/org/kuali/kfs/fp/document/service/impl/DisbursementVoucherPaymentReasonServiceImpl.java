@@ -102,6 +102,14 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         String typeParameterName = DisbursementVoucherConstants.PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM;
         return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
     }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isNonEmployeeTravelPaymentReason(java.lang.String)
+     */
+    public boolean isNonEmployeeTravelPaymentReason(String paymentReasonCode) {
+        String typeParameterName = DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM;
+        return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
+    }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isResearchPaymentReason(java.lang.String)
@@ -149,6 +157,16 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         primaryKeys.put(KFSPropertyConstants.CODE, paymentReasonCode);
 
         return (PaymentReasonCode) businessObjectService.findByPrimaryKey(PaymentReasonCode.class, primaryKeys);
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isTaxReviewRequired(java.lang.String)
+     */
+    public boolean isTaxReviewRequired(String paymentReasonCode) {
+        String parameterName = DisbursementVoucherConstants.PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM;
+        List<String> values = parameterService.getParameterValues(DisbursementVoucherDocument.class, parameterName);
+        
+        return values != null && values.contains(paymentReasonCode);
     }
 
     /**

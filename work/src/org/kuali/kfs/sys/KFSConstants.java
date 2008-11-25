@@ -1259,6 +1259,16 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String UNAPPLIED_TAB = "document.nonAppliedHolding*";
         public static final String APPLY_TO_INVOICE_DETAIL_TAB = "customerInvoiceDetail*";
     }
-
+    
+    // define a set of indicators related to payments, including payee types, tax review requirements and others
+    public static class AdHocPaymentIndicator{
+        public static final String EMPLOYEE_VENDOR = "E";
+        public static final String ALIEN_VENDOR = "A"; 
+        public static final String EMPLOYEE_PAYEE = "E";
+        public static final String ALIEN_PAYEE = "A"; 
+        public static final String TAX_CONTROL_REQUIRING_TAX_REVIEW = "T"; 
+        public static final String PAYMENT_REASON_REQUIRING_TAX_REVIEW = "P";
+        public static final String OTHER = "N";
+    }
 }
 

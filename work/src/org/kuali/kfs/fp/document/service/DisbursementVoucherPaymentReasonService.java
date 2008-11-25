@@ -45,6 +45,14 @@ public interface DisbursementVoucherPaymentReasonService {
      * @return true if the given payee is qualified for the payment with the given reason code; otherwise, return false
      */
     public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, List<String> payeeTypeCodes);
+    
+    /**
+     * determine whether the given payment reason is a non-employee travel payment reason
+     * 
+     * @param paymentReasonCode the givne payment reason code
+     * @return true if the given payment reason is a moving payment reason; otherwise, return false
+     */
+    public boolean isNonEmployeeTravelPaymentReason(String paymentReasonCode);
 
     /**
      * determine whether the given payment reason is a moving payment reason
@@ -118,4 +126,12 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param errorMap the error map that will hold the usage of the given payment reason
      */
     public void postPaymentReasonCodeUsage(String paymentReasonCode, ErrorMap errorMap);
+    
+    /**
+     * determine whether the given payment reason is required for tax review
+     * 
+     * @param paymentReasonCode the given payment reason
+     * @return true if the given payment reason is required for tax review; otherwise, false
+     */
+    public boolean isTaxReviewRequired(String paymentReasonCode);
 }

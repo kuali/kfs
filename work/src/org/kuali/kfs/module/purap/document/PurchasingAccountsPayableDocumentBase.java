@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,8 +39,8 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -49,14 +50,16 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -1041,5 +1044,37 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
         return null;
+    }
+    
+    /**
+     * build document title based on the properties of current document
+     * 
+     * @param the default document title
+     * @return the combine information of the given title and additional payment indicators 
+     */ 
+    protected String buildWorkflowDocumentTitle(String title) { 
+        if(this.getVendorDetail() == null) {
+           return title; 
+        }
+        
+        Integer vendorHeaderGeneratedIdentifier = this.getVendorDetail().getVendorHeaderGeneratedIdentifier();
+        VendorService vendorService = SpringContext.getBean(VendorService.class);
+     
+        Object[] indicators = new String[2];
+        
+        boolean isEmployeeVendor = vendorService.isVendorInstitutionEmployee(vendorHeaderGeneratedIdentifier);
+        indicators[0] = isEmployeeVendor ? AdHocPaymentIndicator.EMPLOYEE_VENDOR : AdHocPaymentIndicator.OTHER;
+        
+        boolean isVendorForeign = vendorService.isVendorForeign(vendorHeaderGeneratedIdentifier);
+        indicators[1] = isVendorForeign ? AdHocPaymentIndicator.ALIEN_VENDOR : AdHocPaymentIndicator.OTHER;
+        
+        for(Object indicator : indicators) {
+            if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
+                String titlePattern = title + " {0}:{1}";
+                return MessageFormat.format(titlePattern, indicators);
+            }
+        }
+    
+        return title;
     }
 }

@@ -42,153 +42,111 @@
 			    <kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.paymentOrganizationReferenceIdentifier}" />            
             </tr>
             <tr>
-				<fin:accountingLineDataCell 
-					dataCellCssClass="${dataCellCssClass}"
-					accountingLine="document"
-					field="paymentChartOfAccountsCode"
-					conversionField="chartOfAccountsCode" 
-					detailFunction="loadChartInfo"
-					detailField="paymentChartOfAccounts.finChartOfAccountDescription"
-					attributes="${documentAttributes}" lookup="false" inquiry="true"
-					boClassSimpleName="Chart"
-					accountingLineValuesMap="${receivableValuesMap}"
-					readOnly="${readOnly}"
-				 />            
-				 
-				<fin:accountingLineDataCell 
-					dataCellCssClass="${dataCellCssClass}"
-					accountingLine="document"
-					field="paymentAccountNumber" 
-					conversionField="accountNumber"
-					detailFunction="loadReceivableAccountInfo"
-					detailField="paymentAccount.accountName"
-					attributes="${documentAttributes}" lookup="true" inquiry="true"
-					boClassSimpleName="Account"
-					lookupParameters="document.paymentChartOfAccountsCode:chartOfAccountsCode"
-					accountingLineValuesMap="${receivableValuesMap}"
-					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,"
-					inquiryExtraKeyValues="chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}"
-					readOnly="${readOnly}"
-				 />  
-				 
-				<fin:accountingLineDataCell 
-					dataCellCssClass="${dataCellCssClass}"
-					accountingLine="document"
-					field="paymentSubAccountNumber" 
-					conversionField="subAccountNumber"
-					detailFunction="loadReceivableSubAccountInfo"
-					detailField="paymentSubAccount.subAccountName"
-					attributes="${documentAttributes}" lookup="true" inquiry="true"
-					boClassSimpleName="SubAccount"
-					accountingLineValuesMap="${receivableValuesMap}"
-					lookupParameters="document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"
-					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,accountNumber:document.paymentAccountNumber,"
-					inquiryExtraKeyValues="chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}&accountNumber=${receivableValuesMap['paymentAccountNumber']}"
-					readOnly="${readOnly}"
-				 />  
-				 
-				<fin:accountingLineDataCell 
-					dataCellCssClass="${dataCellCssClass}"
-					accountingLine="document"
-					field="paymentFinancialObjectCode" 
-					conversionField="financialObjectCode"
-					detailFunction="loadReceivableObjectInfo"
-					detailFunctionExtraParam="'${KualiForm.document.postingYear}', '', '', "
-					detailField="paymentFinancialObject.financialObjectCodeName"
-					attributes="${documentAttributes}" lookup="true" inquiry="true"
-					boClassSimpleName="ObjectCode"
-					accountingLineValuesMap="${receivableValuesMap}"
-					lookupParameters="document.paymentChartOfAccountsCode:chartOfAccountsCode"
-					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,"
-					inquiryExtraKeyValues="universityFiscalYear=${receivableValuesMap['postingYear']}&chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}"
-					readOnly="${readOnly}"
-				 />
-				 
-				<fin:accountingLineDataCell 
-					dataCellCssClass="${dataCellCssClass}"
-					accountingLine="document"
-					field="paymentFinancialSubObjectCode" 
-					conversionField="financialSubObjectCode"
-					detailFunction="loadReceivableSubObjectInfo"
-					detailFunctionExtraParam="'${KualiForm.document.postingYear}', "
-					detailField="paymentFinancialSubObject.financialSubObjectCodeName"
-					attributes="${documentAttributes}" lookup="true" inquiry="true"
-					boClassSimpleName="SubObjCd"
-					accountingLineValuesMap="${receivableValuesMap}"
-					lookupParameters="document.paymentChartOfAccountsCode:chartOfAccountsCode,document.paymentFinancialObjectCode:financialObjectCode,document.paymentAccountNumber:accountNumber"
-					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,financialObjectCode:document.paymentFinancialObjectCode,accountNumber:document.paymentAccountNumber,"
-					inquiryExtraKeyValues="universityFiscalYear=${receivableValuesMap['postingYear']}&chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}&financialObjectCode=${receivableValuesMap['paymentFinancialObjectCode']}&accountNumber=${receivableValuesMap['paymentAccountNumber']}"
-					readOnly="${readOnly}"
-				 />
-				 
-				<fin:accountingLineDataCell 
-					dataCellCssClass="${dataCellCssClass}"
-					accountingLine="document"
-					field="paymentProjectCode" 
-					conversionField="code"
-					detailFunction="loadReceivableProjectInfo"
-					detailField="paymentProject.name"
-					accountingLineValuesMap="${receivableValuesMap}"
-					attributes="${documentAttributes}" lookup="true" inquiry="true"
-					boClassSimpleName="ProjectCode"
-					readOnly="${readOnly}"
-				 />
-				 
-				<fin:accountingLineDataCell 
-					dataCellCssClass="${dataCellCssClass}"
-					accountingLine="document"
-					field="paymentOrganizationReferenceIdentifier" 
-					attributes="${documentAttributes}"
-					readOnly="${readOnly}"
-				 />				 
-				             
-				<!--
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAccountNumber}" property="document.paymentAccountNumber" readOnly="${readOnly}"/>
+                	<span class="nowrap">
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.paymentChartOfAccountsCode}" 
+                    	property="document.paymentChartOfAccountsCode"
+                    	styleClass="${dataCellCssClass}" 
+                    	onblur="loadChartInfo( this.name, 'document.paymentChartOfAccounts.finChartOfAccountDescription' );" 
+                    	readOnly="${readOnly}"/>
+                    </span>
+                    <br />
+                    <div id="document.paymentChartOfAccounts.finChartOfAccountDescription.div" class="fineprint">${document.paymentAccountNumber}</div>
+                </td>
+				
+                <td align=left valign=middle class="datacell">
+                	<span class="nowrap">
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.paymentAccountNumber}" 
+                    	property="document.paymentAccountNumber"
+                    	styleClass="${dataCellCssClass}" 
+                    	onblur="loadReceivableAccountInfo( this.name, 'document.paymentAccount.accountName' );" 
+                    	readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" fieldConversions="accountNumber:document.paymentAccountNumber" lookupParameters="document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
+                    </span>
+                    <br />
+                    <div id="document.paymentAccount.accountName.div" class="fineprint">${document.paymentAccount.accountName}</div>
                 </td>
-                
-                      
+				
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSubAccountNumber}" property="document.paymentSubAccountNumber" readOnly="${readOnly}"/>
+                	<span class="nowrap">
+                    <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.paymentSubAccountNumber}" 
+                   		property="document.paymentSubAccountNumber" 
+                    	styleClass="${dataCellCssClass}" 
+                    	onblur="loadReceivableSubAccountInfo( this.name, 'document.paymentSubAccount.subAccountName' );" 
+                   		readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubAccount" fieldConversions="subAccountNumber:document.paymentSubAccountNumber" lookupParameters="document.paymentSubAccountNumber:subAccountNumber,document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
+                    </span>
+                    <br />
+                    <div id="document.paymentSubAccount.subAccountName.div" class="fineprint">${document.paymentSubAccount.subAccountName}</div>
                 </td>
-                
-                
+				 
 				<td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentFinancialObjectCode}" property="document.paymentFinancialObjectCode" readOnly="${readOnly}"/>
+                	<span class="nowrap">
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.paymentFinancialObjectCode}" 
+                    	property="document.paymentFinancialObjectCode" 
+                    	styleClass="${dataCellCssClass}" 
+                    	onblur="loadReceivableObjectInfo( '2009', 'document.paymentobjectType.name', 'document.paymentObjectTypeCode', this.name, 'document.paymentFinancialObject.financialObjectCodeName' );" 
+                    	readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" fieldConversions="financialObjectCode:document.paymentFinancialObjectCode" lookupParameters="document.paymentFinancialObjectCode:financialObjectCode,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
+                    </span>
+                    <br />
+                    <div id="document.paymentFinancialObject.financialObjectCodeName.div" class="fineprint">${document.paymentFinancialObject.financialObjectCodeName}</div>
                 </td>
-                
-                
+				
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentFinancialSubObjectCode}" property="document.paymentFinancialSubObjectCode" readOnly="${readOnly}"/>
+                	<span class="nowrap">
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.paymentFinancialSubObjectCode}" 
+                    	property="document.paymentFinancialSubObjectCode" 
+                    	styleClass="${dataCellCssClass}" 
+                    	onblur="loadReceivableSubObjectInfo( this.name, 'document.paymentFinancialSubObject.financialSubObjectCodeName' );" 
+                    	readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" fieldConversions="financialSubObjectCode:document.paymentFinancialSubObjectCode" lookupParameters="document.paymentFinancialSubObjectCode:financialSubObjectCode,document.paymentFinancialObjectCode:financialObjectCode,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
+                    </span>
+                    <br />
+                    <div id="document.paymentFinancialSubObject.financialSubObjectCodeName.div" class="fineprint">${document.paymentFinancialSubObject.financialSubObjectCodeName}</div>
                 </td>
+				
 				<td align=left valign=middle class="datacell">
-					<kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentProjectCode}" property="document.paymentProjectCode" readOnly="${readOnly}"/>
+                	<span class="nowrap">
+					<kul:htmlControlAttribute 
+						attributeEntry="${documentAttributes.paymentProjectCode}" 
+						property="document.paymentProjectCode" 
+                    	styleClass="${dataCellCssClass}" 
+                    	onblur="loadReceivableProjectInfo( this.name, 'document.paymentProject.name' );" 
+						readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" fieldConversions="code:document.paymentProjectCode" lookupParameters="document.paymentProjectCode:code"/>
                     </c:if>
+                    </span>
+                    <br />
+                    <div id="document.paymentProject.name.div" class="fineprint">${document.paymentProject.name}</div>
                 </td>
-                
+				
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentOrganizationReferenceIdentifier}" property="document.paymentOrganizationReferenceIdentifier" readOnly="${readOnly}"/>
-                </td>                
-                -->
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.paymentOrganizationReferenceIdentifier}" 
+                    	property="document.paymentOrganizationReferenceIdentifier" 
+                    	styleClass="${dataCellCssClass}" 
+                    	readOnly="${readOnly}"/>
+                </td>          
 
             </tr>
         </table>

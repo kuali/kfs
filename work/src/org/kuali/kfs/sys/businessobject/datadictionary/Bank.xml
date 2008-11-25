@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="Bank-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="financialDocumentBankCode" />
+    <property name="titleAttribute" value="bankCode" />
     <property name="objectLabel" value="Bank" />
     <property name="attributes" >
       <list>

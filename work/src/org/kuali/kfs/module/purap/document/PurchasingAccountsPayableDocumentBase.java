@@ -1052,7 +1052,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param the default document title
      * @return the combine information of the given title and additional payment indicators 
      */ 
-    protected String buildWorkflowDocumentTitle(String title) { 
+    protected String buildDocumentTitle(String title) { 
         if(this.getVendorDetail() == null) {
            return title; 
         }

@@ -570,7 +570,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             return getCustomDocumentTitle();
         }
         
-        return this.buildWorkflowDocumentTitle(super.getDocumentTitle());
+        return this.buildDocumentTitle(super.getDocumentTitle());
     }
 
     /**
@@ -1024,7 +1024,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
-        String workflowDocumentTitle = this.buildWorkflowDocumentTitle(workflowDocument.getTitle());
+        String workflowDocumentTitle = this.buildDocumentTitle(workflowDocument.getTitle());
         
         try {            
             this.getDocumentHeader().getWorkflowDocument().setTitle(workflowDocumentTitle);

@@ -190,7 +190,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             return getCustomDocumentTitle();
         }
         
-        return this.buildWorkflowDocumentTitle(super.getDocumentTitle());
+        return this.buildDocumentTitle(super.getDocumentTitle());
     }
 
     /**

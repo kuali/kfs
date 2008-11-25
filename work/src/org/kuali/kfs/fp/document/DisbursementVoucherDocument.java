@@ -1456,7 +1456,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     @Override
     public String getDocumentTitle() {
         String documentTitle = super.getDocumentTitle();
-        return this.buildWorkflowDocumentTitle(documentTitle);
+        return this.buildDocumentTitle(documentTitle);
     }
 
     /**
@@ -1465,7 +1465,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param the default document title
      * @return the combine information of the given title and additional payment indicators 
      */
-    private String buildWorkflowDocumentTitle(String title) {  
+    private String buildDocumentTitle(String title) {  
         DisbursementVoucherPayeeDetail payee = getDvPayeeDetail();
         if(payee == null) {
             return title;

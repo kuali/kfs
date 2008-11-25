@@ -67,9 +67,7 @@ public class CheckboxRenderer extends FieldRendererBase {
         checkboxTag.setTitle(this.getAccessibleTitle());
         checkboxTag.setOnblur(this.buildOnBlur());
         checkboxTag.setStyleId(getFieldName());
-        if (!StringUtils.isBlank(getField().getPropertyValue())) {
-            checkboxTag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
-        }
+        
         if (isShowError()) {
             checkboxTag.setStyle("border-color: red;");
         }

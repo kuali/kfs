@@ -136,9 +136,11 @@
 		<property name="label" value="Active Indicator" />
 		<property name="shortLabel" value="Active" />
 		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
+        <property name = "control">
+            <bean parent = "RadioControlDefinition"
+                  p:valuesFinderClass = "org.kuali.kfs.module.ar.businessobject.options.CustomerActiveIndicatorValuesFinder"
+                  p:includeKeyInLabel = "false"/>
+        </property>
 		<property name="summary" value="customerActiveIndicator" />
 		<property name="description"
 			value="customerActiveIndicator description..." />
@@ -663,13 +665,14 @@
 			    <bean parent="FieldDefinition"
 					p:attributeName="customerTaxNbr" />
 			    <bean parent="FieldDefinition"
-					p:attributeName="customerTaxTypeCode" />
+					p:attributeName="customerTaxTypeCode"/>
 				<bean parent="FieldDefinition"
-					p:attributeName="customerActiveIndicator" />	
+					p:attributeName="customerActiveIndicator"
+                    p:defaultValue = "Y"/>	
 			    <bean parent="FieldDefinition"
-					p:attributeName="customerAddresses.customerAddressName" />	
+					p:attributeName="customerAddresses.customerAddressName" />
 		        <bean parent="FieldDefinition"
-					p:attributeName="customerAddresses.customerLine1StreetAddress" />	
+					p:attributeName="customerAddresses.customerLine1StreetAddress" />
 		        <bean parent="FieldDefinition"
 					p:attributeName="customerAddresses.customerLine2StreetAddress" />
 		        <bean parent="FieldDefinition"

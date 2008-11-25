@@ -1485,7 +1485,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         
         for(Object indicator : indicators) {
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String titlePattern = title + "({0}:{1}:{2}:{3})";
+                String titlePattern = title + " [{0}:{1}:{2}:{3}]";
                 return MessageFormat.format(titlePattern, indicators);
             }
         }

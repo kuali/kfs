@@ -1070,7 +1070,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         
         for(Object indicator : indicators) {
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String titlePattern = title + " {0}:{1}";
+                String titlePattern = title + " [{0}:{1}]";
                 return MessageFormat.format(titlePattern, indicators);
             }
         }

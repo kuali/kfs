@@ -52,14 +52,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber" />
       </list>
     </property>
-    <property name="relationships" >
-      <list>
-        <dd:relationship objectAttribute="sharedRetirementInfo.postalZipCode">
-            <dd:primitiveAttribute source="sharedRetirementInfo.retirementZipCode" target="postalCode" />
-            <dd:primitiveAttribute source="sharedRetirementInfo.retirementCountryCode" target="postalCountryCode" />
-        </dd:relationship>
-      </list>
-    </property>
   </bean>
 
 <!-- Attribute Definitions -->

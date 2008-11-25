@@ -28,6 +28,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       </list>
     </property>
     
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedBusinessObjectClass="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup"
+          p:inactivationBlockingDetectionServiceBeanName="EffortCertificationReportPositionInactivationBlockingDetectionServiceImpl"/>
+      </list>
+    </property>
+    
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="positionObjectGroup">
@@ -77,6 +85,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="EffortCertificationReportPosition-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 
+  <bean id="EffortCertificationReportPositionInactivationBlockingDetectionServiceImpl" abstract="true" class="org.kuali.kfs.module.ld.service.impl.EffortCertificationReportPositionInactivationBlockingDetectionServiceImpl">
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 

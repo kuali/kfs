@@ -498,12 +498,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public void performPurchaseOrderPreviewPrinting(String documentNumber, ByteArrayOutputStream baosPDF) {
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
-        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, environment, null);
-        if (!generatePDFErrors.isEmpty()) {
-            addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
-            throw new ValidationException("printing purchase order for first transmission failed");
-        }
+        performPrintPurchaseOrderPDFOnly(documentNumber, baosPDF);
         attemptSetupOfInitialOpenOfDocument(po);
     }
 

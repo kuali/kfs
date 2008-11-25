@@ -83,6 +83,8 @@ public class ArKeyConstants {
     // System Information errors
     public static final class SystemInformation {
         //public static final String SALES_TAX_OBJECT_CODE_INVALID = "error.SystemInformation.salesTaxObjectCodeInvalid";
+        public static final String ERROR_CLEARING_ACCOUNT_INACTIVE = "error.SystemInformation.clearingAccountInactive";
+        public static final String ERROR_WIRE_ACCOUNT_INACTIVE = "error.SystemInformation.wireAccountInactive";
     }
 
     // Invoice Item Code errors

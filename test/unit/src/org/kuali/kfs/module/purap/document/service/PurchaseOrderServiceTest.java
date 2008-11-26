@@ -15,15 +15,16 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -96,13 +97,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         ((PurchaseOrderItem)poRetrans.getItem(0)).setItemSelectedForRetransmitIndicator(true);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
-            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_");
-            sbFilename.append(poRetrans.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(dtService.getCurrentDate().getTime());
-            sbFilename.append(".pdf");
             poService.retransmitPurchaseOrderPDF(poRetrans, baosPDF);
             assertTrue(baosPDF.size()>0);
         }
@@ -126,13 +120,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         AccountingDocumentTestUtils.saveDocument(po, docService);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
-            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_");
-            sbFilename.append(po.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(dtService.getCurrentDate().getTime());
-            sbFilename.append(".pdf");
             poService.performPrintPurchaseOrderPDFOnly(po.getDocumentNumber(), baosPDF);
             assertTrue(baosPDF.size()>0);
         }
@@ -361,13 +348,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_QUOTE_REQUEST_LIST");
-            sbFilename.append(po.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(dtService.getCurrentDate().getTime());
-            sbFilename.append(".pdf");
+
             poService.printPurchaseOrderQuoteRequestsListPDF(po, baosPDF);
+            
             assertTrue(baosPDF.size()>0);
         }
         catch (ValidationException e) {
@@ -401,13 +384,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
-            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_QUOTE");
-            sbFilename.append(po.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(dtService.getCurrentDate().getTime());
-            sbFilename.append(".pdf");
             poService.printPurchaseOrderQuotePDF(po, vendorQuote, baosPDF);
             assertTrue(baosPDF.size()>0);
         }
@@ -572,11 +548,26 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
         WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
-        
         poService.completePurchaseOrder(purchaseOrderDocument);
         assertEquals(purchaseOrderDocument.getStatusCode(), PurchaseOrderStatuses.OPEN);
         assertTrue(purchaseOrderDocument.isPurchaseOrderCurrentIndicator());
         assertNotNull(purchaseOrderDocument.getPurchaseOrderInitialOpenTimestamp());
+    }
+    
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testRetransmitB2BPurchaseOrder() throws Exception {
+        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
+        final String docId = requisitionDocument.getDocumentNumber();
+        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        poService.createAutomaticPurchaseOrderDocument(requisitionDocument);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        poService.completePurchaseOrder(purchaseOrderDocument);
+
+        poService.retransmitB2BPurchaseOrder(purchaseOrderDocument);
+        assertTrue(GlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
     }
     
 }

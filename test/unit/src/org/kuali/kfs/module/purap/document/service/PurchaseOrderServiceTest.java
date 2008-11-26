@@ -558,21 +558,21 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertNotNull(purchaseOrderDocument.getPurchaseOrderInitialOpenTimestamp());
     }
     
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
-    public void testRetransmitB2BPurchaseOrder() throws Exception {
-        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
-        final String docId = requisitionDocument.getDocumentNumber();
-        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
-        poService.createAutomaticPurchaseOrderDocument(requisitionDocument);
-        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
-        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
-        poService.completePurchaseOrder(purchaseOrderDocument);
-
-        poService.retransmitB2BPurchaseOrder(purchaseOrderDocument);
-        assertTrue(GlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
-    }
-    
+//    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+//    public void testRetransmitB2BPurchaseOrder() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
+//        final String docId = requisitionDocument.getDocumentNumber();
+//        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//        poService.createAutomaticPurchaseOrderDocument(requisitionDocument);
+//        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+//        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+//        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+//        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+//        poService.completePurchaseOrder(purchaseOrderDocument);
+//
+//        poService.retransmitB2BPurchaseOrder(purchaseOrderDocument);
+//        assertTrue(GlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
+//    }
+//    
 }
 

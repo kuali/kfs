@@ -414,6 +414,7 @@ public class KFSKeyConstants {
     public static final String ERROR_OBJECT_CODE_NOT_FOUND = "error.gl.ObjectCodeNotFound";
     public static final String ERROR_OBJECT_CODE_NOT_ACTIVE = "error.gl.ObjectCodeNotActive";
     public static final String ERROR_OBJECT_TYPE_NOT_FOUND = "error.gl.ObjectTypeNotFound";
+    public static final String ERROR_BALANCE_TYPE_NOT_ACTIVE = "error.gl.BalanceTypeNotActive";
     public static final String ERROR_BALANCE_TYPE_NOT_FOUND = "error.gl.BalanceTypeNotFound";
     public static final String ERROR_FISCAL_PERIOD_CLOSED = "error.gl.FiscalPeriodClosed";
     public static final String ERROR_TRANS_CANNOT_BE_NEGATIVE_IF_OFFSET = "error.gl.TransCannotBeNegativeIfOffset";

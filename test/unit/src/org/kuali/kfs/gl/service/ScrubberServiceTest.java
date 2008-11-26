@@ -16,13 +16,19 @@
 package org.kuali.kfs.gl.service;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
 
 /**
@@ -33,6 +39,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
 
     private ScrubberService scrubberService = null;
+    private BusinessObjectService businessObjectService;
 
     @Override
     protected void setUp() throws Exception {
@@ -43,6 +50,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrubberService = SpringContext.getBean(ScrubberService.class);
         scrubberService.setDateTimeService(dateTimeService);
         persistenceService = SpringContext.getBean(PersistenceService.class);
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();
@@ -1537,6 +1545,28 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
+    
+    /**
+     * Tests that the scrubber considers entries with inactive balance types to be errors
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testInactiveBalanceType() throws Exception {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(KFSPropertyConstants.CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
+        
+        BalanceTyp inactiveBalanceType = (BalanceTyp)businessObjectService.findByPrimaryKey(BalanceTyp.class, primaryKeys);
+        inactiveBalanceType.setActive(false);
+        
+        businessObjectService.save(inactiveBalanceType);
+        
+        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
+
+        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
+
+        scrub(inputTransactions);
+        assertOriginEntries(4, outputTransactions);
+    }
 
     /**
      * Tests that the scrubber considers invalid financial object codes to be errors
@@ -1642,6 +1672,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testClosedFiscalYear() throws Exception {
+        
         String[] inputTransactions = { "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                               ", "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               " };
 
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]) };

@@ -782,15 +782,20 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     private Message validateBalanceType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateBalanceType() started");
-
-        if (StringUtils.hasText(originEntry.getFinancialBalanceTypeCode())) {
-            // balance type IS NOT empty
+        
+        // balance type code IS NOT empty
+        String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
+        if (StringUtils.hasText(balanceTypeCode)) {
             BalanceTyp originEntryBalanceType = referenceLookup.get().getBalanceType(originEntry);
+            
+            // balance type IS NOT valid
             if (originEntryBalanceType == null) {
-                // balance type IS NOT valid
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND) + " (" + originEntry.getFinancialBalanceTypeCode() + ")", Message.TYPE_FATAL);
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND) + " (" + balanceTypeCode + ")", Message.TYPE_FATAL);
             }
-            else {
+            else if(!originEntryBalanceType.isActive()){
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_BALANCE_TYPE_NOT_ACTIVE) + " (" + balanceTypeCode + ")", Message.TYPE_FATAL);
+            }
+            else {                
                 // balance type IS valid
                 if (originEntryBalanceType.isFinancialOffsetGenerationIndicator()) {
                     // entry IS an offset
@@ -805,7 +810,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_DC_INDICATOR_MUST_BE_D_OR_C) + " (" + originEntry.getTransactionDebitCreditCode() + ")", Message.TYPE_FATAL);
                         }
                         else {
-                            workingEntry.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
+                            workingEntry.setFinancialBalanceTypeCode(balanceTypeCode);
                         }
                     }
                 }
@@ -821,7 +826,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         }
                         else {
                             // it's a valid budget transaction
-                            workingEntry.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
+                            workingEntry.setFinancialBalanceTypeCode(balanceTypeCode);
                         }
                     }
                 }

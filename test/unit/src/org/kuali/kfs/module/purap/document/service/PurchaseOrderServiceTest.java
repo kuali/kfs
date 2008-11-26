@@ -40,6 +40,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -334,6 +336,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP3140)
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testPrintPurchaseOrderQuoteRequestsListPDF() throws Exception {
         PurchaseOrderDocument po = 
@@ -368,6 +371,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP3140)
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testPrintPurchaseOrderQuotePDF() throws Exception {
         PurchaseOrderDocument po = 

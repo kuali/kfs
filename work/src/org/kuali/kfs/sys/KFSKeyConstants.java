@@ -403,6 +403,7 @@ public class KFSKeyConstants {
     public static final String ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND = "error.gl.offsetDefinitionObjectCodeNotFound";
     public static final String ERROR_DOCUMENT_TYPE_NOT_FOUND = "error.gl.DocumentTypeNotFound";
     public static final String ERROR_ORIGIN_CODE_NOT_FOUND = "error.gl.OriginCodeNotFound";
+    public static final String ERROR_ORIGIN_CODE_NOT_ACTIVE = "error.gl.OriginCodeNotActive";
     public static final String ERROR_DOCUMENT_NUMBER_REQUIRED = "error.gl.DocumentNumberRequired";
     public static final String ERROR_CHART_NOT_FOUND = "error.gl.ChartNotFound";
     public static final String ERROR_CHART_NOT_ACTIVE = "error.gl.ChartNotActive";

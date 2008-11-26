@@ -86,7 +86,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // gl scrubber validation
         errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator);
-        
+
         refreshOriginEntryReferences(laborOriginEntry);
         refreshOriginEntryReferences(laborScrubbedEntry);
 
@@ -99,9 +99,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         Message err = null;
-        
+
         err = this.validateClosedPeriodCode(laborOriginEntry, laborScrubbedEntry);
-        if(err != null) {
+        if (err != null) {
             errors.add(err);
         }
 
@@ -158,7 +158,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
     }
-    
+
     /**
      * Validates the closed period code of the origin entry. Scrubber accepts closed fiscal periods for the specified balance type.
      * 
@@ -173,17 +173,16 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (StringUtils.isBlank(periodCode)) {
             return null;
         }
-                
+
         // Scrubber accepts closed fiscal periods for A21 Balance
         AccountingPeriod accountingPeriod = referenceLookup.get().getAccountingPeriod(laborOriginEntry);
         if (ObjectUtils.isNotNull(accountingPeriod) && !accountingPeriod.isActive()) {
             String bypassBalanceType = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES);
-            
+
             if (!laborWorkingEntry.getFinancialBalanceTypeCode().equals(bypassBalanceType)) {
-                String errorMessage = kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED); 
-                return new Message(errorMessage + " (" + laborOriginEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED, periodCode, Message.TYPE_FATAL);
             }
-            
+
             laborWorkingEntry.setUniversityFiscalPeriodCode(periodCode);
         }
 
@@ -196,19 +195,19 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateFiscalYear() started");
 
-        Integer payrollEndDateFiscalYear = laborOriginEntry.getPayrollEndDateFiscalYear();    
+        Integer payrollEndDateFiscalYear = laborOriginEntry.getPayrollEndDateFiscalYear();
         if (ObjectUtils.isNull(payrollEndDateFiscalYear) || payrollEndDateFiscalYear == 0) {
             laborWorkingEntry.setPayrollEndDateFiscalYear(universityRunDate.getUniversityFiscalYear());
         }
         else {
             laborWorkingEntry.setPayrollEndDateFiscalYear(payrollEndDateFiscalYear);
         }
-        
+
         Options options = optionsService.getOptions(laborWorkingEntry.getUniversityFiscalYear());
         if (ObjectUtils.isNull(options)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, "" + payrollEndDateFiscalYear, Message.TYPE_FATAL);
         }
-        
+
         return null;
     }
 
@@ -225,7 +224,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         else {
             laborWorkingEntry.setPayrollEndDateFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
         }
-        
+
         if (ObjectUtils.isNull(laborOriginEntry.getAccountingPeriod())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, payrollEndDateFiscalPeriodCode, Message.TYPE_FATAL);
         }
@@ -299,7 +298,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
         boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || !account.isActive();
         boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
-        
+
         if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
             // special checks for origination codes that have override ability
             boolean isOverrideOriginCode = continuationAccountBypassOriginationCodes.contains(laborOriginEntry.getFinancialSystemOriginationCode());
@@ -457,7 +456,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         String suspenseAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
         String suspenseCOAcode = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
         String suspenseSubAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_SUB_ACCOUNT);
-        
+
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
         if (ObjectUtils.isNull(account)) {
@@ -558,6 +557,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     /**
      * Sets the optionsService attribute value.
+     * 
      * @param optionsService The optionsService to set.
      */
     public void setOptionsService(OptionsService optionsService) {

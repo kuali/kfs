@@ -29,6 +29,10 @@
 
     <div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">
+            <c:if test="${KualiForm.pendingPositionSalaryChange}">
+                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_calculate.gif" styleClass="tinybutton" property="methodToCall.recalculateAllSalarySettingLines" title="Recalc" alt="Recalc"/>
+            </c:if>	
+        
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" 
 	        	property="methodToCall.save" title="save" alt="save"/>
         </c:if>	

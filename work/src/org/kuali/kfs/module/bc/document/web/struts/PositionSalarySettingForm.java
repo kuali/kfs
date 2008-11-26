@@ -102,6 +102,24 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
+     * checks if at least one active edit-able appointment funding line has a sync flag set
+     * 
+     * @return true or false
+     */
+    public boolean isPendingPositionSalaryChange(){
+
+        List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings = this.getActiveFundingLines();
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : activeAppointmentFundings){
+            if (!appointmentFunding.isDisplayOnlyMode()){
+                if (appointmentFunding.isPositionChangeIndicator()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Gets the refreshPositionBeforeSalarySetting attribute.
      * 
      * @return Returns the refreshPositionBeforeSalarySetting.

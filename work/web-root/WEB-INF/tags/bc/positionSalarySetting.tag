@@ -74,7 +74,9 @@
 		<c:set var="canUndelete" value="${editable && hasBeenDeleted}" /> 
 		
 		<c:set var="canVacate" value="${editable && fundingLine.vacatable}"/>
-		<c:set var="canRevert" value="${editable && markedAsDelete && not isVacant && not isNewLine && not fundingLine.vacatable}" /> 
+		<c:set var="canRevert" value="${editable && markedAsDelete && not isVacant && not isNewLine && not fundingLine.vacatable}" />
+		
+		<c:set var="canRecalculate" value="${editable && !hasBeenDeleted && fundingLine.positionChangeIndicator}" />
 			    
 	    <html:hidden property="${fundingLineName}.budgetConstructionPosition.iuPayMonths" />
 		<html:hidden property="${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths" />  
@@ -82,6 +84,12 @@
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	
 	    		countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true" readOnly="${readOnly}">    		
+	    		<c:if test="${canRecalculate}">
+					<html:image property="methodToCall.recalculateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-calculate.gif" 
+						title="Recalulate Salary Setting Line ${status.index}"
+						alt="Recalulate Salary Setting Line ${status.index}" styleClass="tinybutton" />
+				</c:if>
 	    		<c:if test="${canVacate}">
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 

@@ -107,6 +107,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);
         bcnCalculatedSalaryFoundationTracker = new TypedArrayList(BudgetConstructionCalculatedSalaryFoundationTracker.class);
         budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
+        positionObjectChangeIndicator = false;  // assume pos change indicators false until set
+        positionSalaryChangeIndicator = false;
         active = true; // assume active is true until set otherwise
     }
 
@@ -552,6 +554,16 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      */
     public void setPositionSalaryChangeIndicator(boolean positionSalaryChangeIndicator) {
         this.positionSalaryChangeIndicator = positionSalaryChangeIndicator;
+    }
+
+    /**
+     * gets the boolean positionSalaryChangeIndicator or positionObjectChangeIndicator
+     * 
+     * @return positionSalaryChangeIndicator or positionObjectChangeIndicator
+     */
+    public boolean isPositionChangeIndicator() {
+        
+        return (this.isPositionSalaryChangeIndicator() || this.isPositionObjectChangeIndicator());
     }
 
     /**

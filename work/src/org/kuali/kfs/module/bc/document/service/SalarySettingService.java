@@ -111,7 +111,25 @@ public interface SalarySettingService {
     public BigDecimal calculateFteQuantity(Integer payMonth, Integer fundingMonth, BigDecimal requestedTimePercent);
 
     /**
-     * determine whehter the given appointment funding can be vacated
+     * calculate the CSF fte quantity based on the information of the given appointment funding
+     * 
+     * @param appointmentFunding
+     * @return the CSF fte quantity calculated from the information of the given appointment funding
+     */
+    public BigDecimal calculateCSFFteQuantityFromAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * calculate the CSF FTE quantity through the given information
+     * 
+     * @param payMonth the given number of pay months
+     * @param normalWorkMonth the given number of normal work months
+     * @param requestedCSFTimePercent the requested CSF time percent
+     * @return the CSF FTE quantity from the given information
+     */
+    public BigDecimal calculateCSFFteQuantity(Integer payMonth, Integer normalWorkMonth, BigDecimal requestedCSFTimePercent);
+
+    /**
+     * determine whether the given appointment funding can be vacated
      * 
      * @param appointmentFunding the given appointment funding
      * @return true if the given appointment funding can be vacated; otherwise, false

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.service.impl;
 
+import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -177,6 +179,44 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal, 4, BigDecimal.ROUND_HALF_EVEN);
 
         BigDecimal fteQuantity = requestedTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
+
+        return fteQuantity.setScale(4);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateCSFFteQuantityFromAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public BigDecimal calculateCSFFteQuantityFromAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.debug("calculateCSFFteQuantity() start");
+
+        // appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
+        BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
+        if (position == null) {
+            return BigDecimal.ZERO;
+        }
+
+        Integer payMonth = position.getIuPayMonths();
+        Integer normalWorkMonth = position.getIuNormalWorkMonths();
+        BigDecimal requestedCSFTimePercent = appointmentFunding.getAppointmentRequestedCsfTimePercent();
+
+        return this.calculateCSFFteQuantity(payMonth, normalWorkMonth, requestedCSFTimePercent);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateCSFFteQuantity(java.lang.Integer, java.lang.Integer, java.math.BigDecimal)
+     */
+    public BigDecimal calculateCSFFteQuantity(Integer payMonth, Integer normalWorkMonth, BigDecimal requestedCSFTimePercent) {
+        LOG.debug("calculateCSFFteQuantity() start");
+
+        if (payMonth == null || normalWorkMonth == null || requestedCSFTimePercent == null) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);
+        BigDecimal normalMonthAsDecimal = BigDecimal.valueOf(normalWorkMonth);
+        BigDecimal fundingMonthPercent = normalMonthAsDecimal.divide(payMonthAsDecimal, 4, BigDecimal.ROUND_HALF_EVEN);
+
+        BigDecimal fteQuantity = requestedCSFTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
 
         return fteQuantity.setScale(4);
     }
@@ -622,6 +662,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BigDecimal requestedFteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
         appointmentFunding.setAppointmentRequestedFteQuantity(requestedFteQuantity);
+
+        // TODO verify that this test and call should have been added
+        if (!appointmentFunding.getAppointmentFundingDurationCode().equals(NONE.durationCode)){
+            BigDecimal requestedCSFFteQuantity = this.calculateCSFFteQuantityFromAppointmentFunding(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedCsfFteQuantity(requestedCSFFteQuantity);
+        }
     }
 
     /**

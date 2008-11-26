@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -48,6 +51,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class PositionSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingAction.class);
 
+    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     private BudgetConstructionPositionService budgetConstructionPositionService = SpringContext.getBean(BudgetConstructionPositionService.class);
 
@@ -164,11 +168,92 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             warnings.add(BCKeyConstants.WARNING_WORKING_HOUR_NOT_EQUAL);
         }
 
-        for (PendingBudgetConstructionAppointmentFunding activeFunding : activeAppointmentFundings) {
-            if (activeFunding.isPositionSalaryChangeIndicator()) {
-                warnings.add(BCKeyConstants.WARNING_RECALCULATE_NEEDED);
+        if (positionSalarySettingForm.isPendingPositionSalaryChange()){
+            warnings.add(BCKeyConstants.WARNING_RECALCULATE_NEEDED);
+        }
+    }
+
+    /**
+     * Recalculates all rows where the position change flags are set and the row is edit-able and active.
+     * Sets funding months, FTE, CSF FTE, and normalizes biweekly request amounts, where appropriate
+     * This action is called from the global calculate button. 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward recalculateAllSalarySettingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
+        
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = positionSalarySettingForm.getActiveFundingLines();
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings){
+            if (!appointmentFunding.isDisplayOnlyMode()){
+                this.recalculateSalarySettingLine(appointmentFunding);
             }
         }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Recalculates a single row where the position change flags are set and the row is edit-able and active.
+     * Sets funding months, FTE, CSF FTE, and normalizes biweekly request amounts, where appropriate
+     * This action is called from the row action calculate button. 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward recalculateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, positionSalarySettingForm);
+        
+        this.recalculateSalarySettingLine(appointmentFunding);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Recalculates a PendingBudgetConstructionAppointmentFunding.
+     * Sets funding months, FTE, CSF FTE, and normalizes biweekly request amounts, where appropriate
+     * 
+     * @param appointmentFunding
+     */
+    protected void recalculateSalarySettingLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+
+        // do the recalc on the passed line and reset the indicator
+        // there are no rule checks involved in this operation
+        if (appointmentFunding.isPositionSalaryChangeIndicator()){
+            appointmentFunding.setPositionSalaryChangeIndicator(Boolean.FALSE);
+
+            // check if months needs reset
+            if (appointmentFunding.getAppointmentFundingDurationCode().equals(NONE.durationCode)){
+                if (!appointmentFunding.getAppointmentFundingMonth().equals(appointmentFunding.getBudgetConstructionPosition().getIuNormalWorkMonths())){
+                    appointmentFunding.setAppointmentFundingMonth(appointmentFunding.getBudgetConstructionPosition().getIuNormalWorkMonths());
+                }
+            }
+
+            // recalc request fte and if hourly, normalize request amount and hourly rate
+            salarySettingService.recalculateDerivedInformation(appointmentFunding);
+
+            // TODO shouldn't recalculateDerivedInformation() handle recalc of leaves request fte?
+            // recalc leaves request fte if not a leave row
+
+        }
+        
+
+        // doing this just to do cleanup of the default object change flag
+        // the rules will force the user to mark the line delete
+        // if the default object doesn't match with the line object when saving
+        if (appointmentFunding.isPositionObjectChangeIndicator()){
+            appointmentFunding.setPositionObjectChangeIndicator(Boolean.FALSE);
+        }
+
     }
 
     /**

@@ -249,7 +249,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoiceItemUnitOfMeasureCode}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
@@ -279,7 +279,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoiceItemCode}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="###0.0000" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
@@ -294,7 +294,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 					</textElement>
 				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{invoiceItemUnitPrice}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"

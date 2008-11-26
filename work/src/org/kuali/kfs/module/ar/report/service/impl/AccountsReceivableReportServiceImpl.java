@@ -61,6 +61,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -211,6 +212,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     public File generateInvoice(CustomerInvoiceDocument invoice) {
 
+        CurrencyFormatter currencyFormatter = new CurrencyFormatter();
+        
         CustomerInvoiceReportDataHolder reportDataHolder = new CustomerInvoiceReportDataHolder();
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
         CustomerService custService = SpringContext.getBean(CustomerService.class);
@@ -227,32 +230,31 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             customerMap.put("billToName", billToAddr.getCustomerAddressName());
             customerMap.put("billToStreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
             customerMap.put("billToStreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
-            customerMap.put("billToCity", billToAddr.getCustomerCityName());
-
+            StringBuffer billCityStateZip = new StringBuffer(billToAddr.getCustomerCityName());
             if (billToAddr.getCustomerCountryCode().equals("US")) { 
-                customerMap.put("billToState", billToAddr.getCustomerStateCode());
-                customerMap.put("billToZipcode", billToAddr.getCustomerZipCode());
+                billCityStateZip.append(", ").append(billToAddr.getCustomerStateCode());
+                billCityStateZip.append("  ").append(billToAddr.getCustomerZipCode());
             } else {
-                customerMap.put("billToState", billToAddr.getCustomerAddressInternationalProvinceName());
-                customerMap.put("billToZipcode", billToAddr.getCustomerInternationalMailCode());
+                billCityStateZip.append(", ").append(billToAddr.getCustomerAddressInternationalProvinceName());
+                billCityStateZip.append("  ").append(billToAddr.getCustomerInternationalMailCode());
                 customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
-
-            } 
+            }
+            customerMap.put("billToCityStateZip", billCityStateZip.toString());
         }
         if (shipToAddr !=null) {
             customerMap.put("shipToName", shipToAddr.getCustomerAddressName());
             customerMap.put("shipToStreetAddressLine1", shipToAddr.getCustomerLine1StreetAddress());
             customerMap.put("shipToStreetAddressLine2", shipToAddr.getCustomerLine2StreetAddress());
-            customerMap.put("shipToCity", shipToAddr.getCustomerCityName());
-
+            StringBuffer shipCityStateZip = new StringBuffer(shipToAddr.getCustomerCityName());
             if (shipToAddr.getCustomerCountryCode().equals("US")) { 
-                customerMap.put("shipToState", shipToAddr.getCustomerStateCode());
-                customerMap.put("shipToZipcode", shipToAddr.getCustomerZipCode());
+                shipCityStateZip.append(", ").append(shipToAddr.getCustomerStateCode());
+                shipCityStateZip.append("  ").append(shipToAddr.getCustomerZipCode());
             } else {
-                customerMap.put("shipToState", shipToAddr.getCustomerAddressInternationalProvinceName());
-                customerMap.put("shipToZipcode", shipToAddr.getCustomerInternationalMailCode());
+                shipCityStateZip.append(", ").append(shipToAddr.getCustomerAddressInternationalProvinceName());
+                shipCityStateZip.append("  ").append(shipToAddr.getCustomerInternationalMailCode());
                 customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getPostalCountryName());
             }
+            customerMap.put("shipToCityStateZip", shipCityStateZip.toString());
         }
         reportDataHolder.setCustomer(customerMap);
 
@@ -283,10 +285,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("createDate", dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getCreateDate()));
         invoiceMap.put("invoiceAttentionLineText", invoice.getInvoiceAttentionLineText());
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
-        invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
-        invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
+        invoiceMap.put("pretaxAmount", currencyFormatter.format(invoice.getInvoiceItemPreTaxAmountTotal()).toString());
+        invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
         invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
-        invoiceMap.put("invoiceAmountDue", invoice.getSourceTotal().toString());
+        invoiceMap.put("invoiceAmountDue", currencyFormatter.format(invoice.getSourceTotal()).toString());
+        invoiceMap.put("invoiceTermsText", invoice.getInvoiceTermsText());
 
         OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);
         String ocrLine = ocrService.generateOCRLine(invoice.getSourceTotal(), custID, invoice.getDocumentNumber());
@@ -331,10 +334,12 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
         sysinfoMap.put("remitToAddressLine1", orgOptions.getOrganizationRemitToLine1StreetAddress());
         sysinfoMap.put("remitToAddressLine2", orgOptions.getOrganizationRemitToLine2StreetAddress());
-        sysinfoMap.put("remitToCity", orgOptions.getOrganizationRemitToCityName());
-        sysinfoMap.put("remitToState", orgOptions.getOrganizationRemitToState().toString());
-        sysinfoMap.put("remitToZip", orgOptions.getOrganizationRemitToZipCode());
 
+        StringBuffer remitCityStateZip = new StringBuffer(orgOptions.getOrganizationRemitToCityName());
+        remitCityStateZip.append(", ").append(orgOptions.getOrganizationRemitToStateCode());
+        remitCityStateZip.append("  ").append(orgOptions.getOrganizationRemitToZipCode());
+        sysinfoMap.put("remitToCityStateZip", remitCityStateZip.toString());
+        
         invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
         invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
 

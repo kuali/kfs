@@ -753,7 +753,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (!workingEntryObjectType.isActive()) {
-            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_ACTIVE, objectTypeCode, Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_TYPE_NOT_ACTIVE, objectTypeCode, Message.TYPE_FATAL);
         }
         
         return null;

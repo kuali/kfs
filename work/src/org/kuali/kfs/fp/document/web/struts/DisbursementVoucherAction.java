@@ -37,6 +37,7 @@ import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -388,8 +389,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
+        DisbursementVoucherWorkGroupService workGroupService = SpringContext.getBean(DisbursementVoucherWorkGroupService.class);
+        if (!workGroupService.isUserInTaxGroup(GlobalVariables.getUserSession().getPerson())) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
+            
             GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -412,8 +415,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
+        DisbursementVoucherWorkGroupService workGroupService = SpringContext.getBean(DisbursementVoucherWorkGroupService.class);
+        if (!workGroupService.isUserInTaxGroup(GlobalVariables.getUserSession().getPerson())) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
+            
             GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }

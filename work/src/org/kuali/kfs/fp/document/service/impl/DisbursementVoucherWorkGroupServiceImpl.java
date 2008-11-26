@@ -23,62 +23,60 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
 public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVoucherWorkGroupService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherWorkGroupServiceImpl.class);
+    
     public ParameterService parameterService;
-
-    public static String taxGroupName;
-    public static String travelGroupName;
-    public static String wireTransferGroupName;
-    public static String frnGroupName;
-    public static String adminGroupName;
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isDvGroupMemeber(java.lang.String, java.lang.String)
+     */
+    public boolean isDvGroupMemeber(String principalId, String groupTypeName) {
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(principalId, KFSConstants.KFS_GROUP_NAMESPACE, groupTypeName);
+    }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInTaxGroup(org.kuali.rice.kim.bo.Person)
      */
     public boolean isUserInTaxGroup(Person financialSystemUser) {
-        if (taxGroupName == null) {
-            taxGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
-        }
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, taxGroupName);
+        String taxGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
+        
+        return this.isDvGroupMemeber(financialSystemUser.getPrincipalId(), taxGroupName);
     }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInTravelGroup(org.kuali.rice.kim.bo.Person)
      */
     public boolean isUserInTravelGroup(Person financialSystemUser) {
-        if (travelGroupName == null) {
-            travelGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
-        }
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, travelGroupName);
+        String travelGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
+        
+        return this.isDvGroupMemeber(financialSystemUser.getPrincipalId(), travelGroupName);
     }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInFRNGroup(org.kuali.rice.kim.bo.Person)
      */
     public boolean isUserInFRNGroup(Person financialSystemUser) {
-        if (frnGroupName == null) {
-            frnGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
-        }
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, frnGroupName);
+        String frnGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
+
+        return this.isDvGroupMemeber(financialSystemUser.getPrincipalId(), frnGroupName);
     }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInWireGroup(org.kuali.rice.kim.bo.Person)
      */
     public boolean isUserInWireGroup(Person financialSystemUser) {
-        if (wireTransferGroupName == null) {
-            wireTransferGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
-        }
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, wireTransferGroupName);
+        String wireTransferGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
+
+        return this.isDvGroupMemeber(financialSystemUser.getPrincipalId(), wireTransferGroupName);
     }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInDvAdminGroup(org.kuali.rice.kim.bo.Person)
      */
     public boolean isUserInDvAdminGroup(Person financialSystemUser) {
-        if (adminGroupName == null) {
-            adminGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
-        }
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(financialSystemUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
+        String adminGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
+        
+        return this.isDvGroupMemeber(financialSystemUser.getPrincipalId(), adminGroupName);
     }
 
     /**
@@ -90,4 +88,3 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
         this.parameterService = parameterService;
     }
 }
-

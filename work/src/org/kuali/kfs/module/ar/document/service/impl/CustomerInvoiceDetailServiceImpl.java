@@ -125,7 +125,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0.00));
         customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
         customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT);
-        customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
+        // KULAR-448 customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
         customerInvoiceDetail.setTaxableIndicator(false);
         
         return customerInvoiceDetail;
@@ -170,7 +170,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
             customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(customerInvoiceItemCode.getDefaultUnitOfMeasureCode());
             customerInvoiceDetail.setInvoiceItemQuantity(customerInvoiceItemCode.getItemDefaultQuantity());
 
-            customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
+            // KULAR-448 customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
 
             // TODO set sales tax accordingly
             customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0.00));

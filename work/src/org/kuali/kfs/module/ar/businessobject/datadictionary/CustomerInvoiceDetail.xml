@@ -237,7 +237,7 @@
     <property name="name" value="invoiceItemServiceDate" />
     <property name="label" value="Invoice Item Service Date" />
     <property name="shortLabel" value="Service Date" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="description" value="The date that this invoice was billed" />
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode" parent="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode-parentBean" />

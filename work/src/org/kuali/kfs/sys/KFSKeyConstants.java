@@ -434,6 +434,7 @@ public class KFSKeyConstants {
     public static final String ERROR_ENC_UPDATE_CODE_NOT_DRN = "error.gl.EncUpdateCodeNotDRN";
     public static final String ERROR_UNIV_DATE_NOT_FOUND = "error.gl.UniversityDateNotFound";
     public static final String ERROR_PROJECT_CODE_NOT_FOUND = "error.gl.ProjectCodeNotFound";
+    public static final String ERROR_ACCOUNTING_PERIOD_NOT_ACTIVE = "error.gl.AccountingPeriodNotActive";
     public static final String ERROR_ACCOUNTING_PERIOD_NOT_FOUND = "error.gl.AccountingPeriodNotFound";
     public static final String ERROR_COST_SHARE_OBJECT_NOT_FOUND = "error.gl.CostShareNotFound";
     public static final String ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT = "error.gl.OriginCodeCannotHaveClosedAccount";

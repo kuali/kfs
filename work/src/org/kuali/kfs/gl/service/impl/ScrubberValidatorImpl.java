@@ -856,7 +856,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateUniversityFiscalPeriodCode(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
-        if (!StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
+        String periodCode = originEntry.getUniversityFiscalPeriodCode();
+        if (!StringUtils.hasText(periodCode)) {
             if (universityRunDate.getAccountingPeriod().isOpen()) {
                 workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
                 workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
@@ -869,10 +870,14 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         else {
             AccountingPeriod originEntryAccountingPeriod = referenceLookup.get().getAccountingPeriod(originEntry);
             if (originEntryAccountingPeriod == null) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + periodCode + ")", Message.TYPE_FATAL);
+            }
+            
+            if(!originEntryAccountingPeriod.isActive()) {
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_ACTIVE) + " (" + periodCode + ")", Message.TYPE_FATAL);
             }
 
-            workingEntry.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
+            workingEntry.setUniversityFiscalPeriodCode(periodCode);
         }
 
         return null;

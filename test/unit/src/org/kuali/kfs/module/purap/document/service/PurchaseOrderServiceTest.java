@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import java.io.ByteArrayOutputStream;
 
@@ -25,10 +27,12 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderVendorQuoteFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -47,14 +51,14 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-
 @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
 public class PurchaseOrderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderServiceTest.class);
 
     private DocumentService docService;
     private PurchaseOrderService poService;
-
+    private static final String ACCOUNT_REVIEW = "Account Review";
+    
     @Override
     protected void setUp() throws Exception {      
         super.setUp();
@@ -338,5 +342,242 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertEquals(oldDocument.getStatusCode(), PurchaseOrderStatuses.RETIRED_VERSION);
     }
 
+    /**
+     * Tests that the PurchaseOrderService would print purchase order quote requests list pdf.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testPrintPurchaseOrderQuoteRequestsListPDF() throws Exception {
+        PurchaseOrderDocument po = 
+            PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        
+        po.refreshNonUpdateableReferences();
+        
+        po.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(po, docService);
+        
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_QUOTE_REQUEST_LIST");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(dtService.getCurrentDate().getTime());
+            sbFilename.append(".pdf");
+            poService.printPurchaseOrderQuoteRequestsListPDF(po, baosPDF);
+            assertTrue(baosPDF.size()>0);
+        }
+        catch (ValidationException e) {
+            LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+    }
+    
+    /**
+     * Tests that the PurchaseOrderService would print purchase order quote pdf.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testPrintPurchaseOrderQuotePDF() throws Exception {
+        PurchaseOrderDocument po = 
+            PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        
+        po.refreshNonUpdateableReferences();
+        
+        po.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(po, docService);
+        
+        PurchaseOrderVendorQuote vendorQuote = PurchaseOrderVendorQuoteFixture.BASIC_VENDOR_QUOTE_1.createPurchaseOrderVendorQuote();
+        vendorQuote.setDocumentNumber(po.getDocumentNumber());
+
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_QUOTE");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(dtService.getCurrentDate().getTime());
+            sbFilename.append(".pdf");
+            poService.printPurchaseOrderQuotePDF(po, vendorQuote, baosPDF);
+            assertTrue(baosPDF.size()>0);
+        }
+        catch (ValidationException e) {
+            LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+    }
+
+    /**
+     * Tests that the PurchaseOrderService would performPurchaseOrderFirstTransmitViaPrinting
+     * 
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testPerformPurchaseOrderFirstTransmitViaPrinting() throws Exception {
+        PurchaseOrderDocument po = 
+            PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        
+        po.refreshNonUpdateableReferences();
+        
+        po.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(po, docService);
+        
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_QUOTE_REQUEST_LIST");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(dtService.getCurrentDate().getTime());
+            sbFilename.append(".pdf");
+            poService.performPurchaseOrderFirstTransmitViaPrinting(po.getDocumentNumber(), baosPDF);
+            assertTrue(baosPDF.size()>0);
+        }
+        catch (ValidationException e) {
+            LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+    }
+    
+    /**
+     * Tests that the PurchaseOrderService would performPurchaseOrderPreviewPrinting
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testPerformPurchaseOrderPreviewPrinting() throws Exception {
+        PurchaseOrderDocument po = 
+            PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        
+        po.refreshNonUpdateableReferences();
+        
+        po.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(po, docService);
+        
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_QUOTE_REQUEST_LIST");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(dtService.getCurrentDate().getTime());
+            sbFilename.append(".pdf");
+            poService.performPurchaseOrderPreviewPrinting(po.getDocumentNumber(), baosPDF);
+            assertTrue(baosPDF.size()>0);
+        }
+        catch (ValidationException e) {
+            LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+    }
+    
+    /**
+     * Tests that the PurchaseOrderService would performPrintPurchaseOrderPDFOnly
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testPerformPrintPurchaseOrderPDFOnly() throws Exception {
+        PurchaseOrderDocument po = 
+            PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        po.setStatusCode(PurchaseOrderStatuses.OPEN);
+        
+        po.refreshNonUpdateableReferences();
+        
+        po.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(po, docService);
+        
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_QUOTE_REQUEST_LIST");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(dtService.getCurrentDate().getTime());
+            sbFilename.append(".pdf");
+            poService.performPrintPurchaseOrderPDFOnly(po.getDocumentNumber(), baosPDF);
+            assertTrue(baosPDF.size()>0);
+        }
+        catch (ValidationException e) {
+            LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+    }
+    
+    /**
+     * Tests that the PurchaseOrderService would do the completePurchaseOrder
+     * for non B2B purchase orders.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testCompletePurchaseOrder_NonB2B() throws Exception {
+        PurchaseOrderDocument po = 
+            PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        po.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
+        po.refreshNonUpdateableReferences();
+        po.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(po, docService);
+        poService.completePurchaseOrder(po);
+        assertEquals(po.getStatusCode(), PurchaseOrderStatuses.OPEN);
+        assertTrue(po.isPurchaseOrderCurrentIndicator());
+        assertNotNull(po.getPurchaseOrderInitialOpenTimestamp());
+    }
+
+    /**
+     * Tests that the PurchaseOrderService would do the completePurchaseOrder
+     * for B2B purchase orders.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
+    public void testCompletePurchaseOrder_B2B() throws Exception {
+        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
+        final String docId = requisitionDocument.getDocumentNumber();
+        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        poService.createAutomaticPurchaseOrderDocument(requisitionDocument);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        
+        poService.completePurchaseOrder(purchaseOrderDocument);
+        assertEquals(purchaseOrderDocument.getStatusCode(), PurchaseOrderStatuses.OPEN);
+        assertTrue(purchaseOrderDocument.isPurchaseOrderCurrentIndicator());
+        assertNotNull(purchaseOrderDocument.getPurchaseOrderInitialOpenTimestamp());
+    }
+    
 }
 

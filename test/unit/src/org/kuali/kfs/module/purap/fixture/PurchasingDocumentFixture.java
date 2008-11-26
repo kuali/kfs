@@ -310,6 +310,62 @@ public enum PurchasingDocumentFixture {
             null, // vendorShippingTitleCode
             null), // vendorShippingPaymentTermsCode     
                   
+        REQ_B2B_VENDOR_NO_TOTAL_LIMIT("INST", // fundingSourceCode
+            RequisitionSources.B2B, // requisitionSourceCode
+            POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
+            POCostSources.ESTIMATE, // purchaseOrderCostSourceCode
+            null, // deliveryRequiredDateReasonCode
+            null, // recurringPaymentTypeCode
+            "UA", // chartOfAccountsCode
+            "PUR", // organizationCode
+            "BL", // deliveryCampusCode
+            null, // purchaseOrderTotalLimit
+            null, // vendorRestrictedIndicator
+            null, // vendorPhoneNumber
+            null, // vendorFaxNumber
+            null, // vendorContractGeneratedIdentifier
+            null, // vendorNoteText
+            "RENFROW,ROBERTA G", // requestorPersonName
+            "test@email.com", // requestorPersonEmailAddress
+            "555-555-5555", // requestorPersonPhoneNumber
+            null, // nonInstitutionFundOrgChartOfAccountsCode
+            null, // nonInstitutionFundOrganizationCode
+            null, // nonInstitutionFundChartOfAccountsCode
+            null, // nonInstitutionFundAccountNumber
+            "ADMN", // deliveryBuildingCode
+            "Administration", // deliveryBuildingName
+            "123", // deliveryBuildingRoomNumber
+            "1 big dog", // deliveryBuildingLine1Address
+            null, // deliveryBuildingLine2Address
+            "campus", // deliveryCityName
+            "AK", // deliveryStateCode
+            "46202-5260", // deliveryPostalCode
+            null, // deliveryCountryCode
+            "me", // deliveryToName
+            null, // deliveryToEmailAddress
+            null, // deliveryToPhoneNumber
+            null, // deliveryRequiredDate
+            null, // deliveryInstructionText
+            null, // purchaseOrderBeginDate
+            null, // purchaseOrderEndDate
+            null, // institutionContactName
+            null, // institutionContactPhoneNumber
+            null, // institutionContactEmailAddress
+            "THE UNIVERSITY", // billingName
+            "ACCOUNTS PAYABLE", // billingLine1Address
+            null, // billingLine2Address
+            "BUTTER NUT", // billingCityName
+            "SC", // billingStateCode
+            "47402", // billingPostalCode
+            "US", // billingCountryCode
+            "111-111-1111", // billingPhoneNumber
+            null, // externalOrganizationB2bSupplierIdentifier
+            null, // contractManagerCode
+            false, // purchaseOrderAutomaticIndicator
+            null, // vendorPaymentTermsCode
+            null, // vendorShippingTitleCode
+            null), // vendorShippingPaymentTermsCode     
+                    
     REQ_INVALID_VENDOR_FAX_NUMBER_CONTAINS_LETTER("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode

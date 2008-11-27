@@ -242,6 +242,18 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
                 Map<String, String> lookupParametersMap = this.getActualLookupParametersMap(lookupParameters, overrideLookupParameters);
 
                 getField().setLookupParameters(lookupParametersMap);
+
+                //  if there are any any lookup parameters present, make sure the other lookup fields are populated.  
+                // this can be necessary if there wouldnt natually be a lookup, via DD or OJB relationships, but one 
+                // is forced.
+                if (!lookupParametersMap.isEmpty()) {
+                    if (getDefinition().getOverrideLookupClass() != null) {
+                        getField().setQuickFinderClassNameImpl(getDefinition().getOverrideLookupClass().getName());
+                    }
+                    if (StringUtils.isNotBlank(getDefinition().getOverrideFieldConversions())) {
+                        getField().setFieldConversions(getDefinition().getOverrideFieldConversions());
+                    }
+                }
             }
 
             if (isRenderingInquiry(accountingDocument, accountingLine)) {
@@ -550,6 +562,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         BidiMap parameterMap = new DualHashBidiMap();
         String[] parameterArray = StringUtils.split(parameters, KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
 
+        //  if the original field/def doesnt have any lookup parameters, then return empty map
+        if (parameters == null || parameterArray == null) {
+            return parameterMap;
+        }
+        
         for (String parameter : parameterArray) {
             String[] entrySet = StringUtils.split(parameter, KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
 

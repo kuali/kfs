@@ -12,6 +12,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -28,7 +29,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     // private Integer invoiceItemNumber; using SourceAccountingLine.sequenceNumber
     private BigDecimal invoiceItemQuantity;
-    private String invoiceItemUnitOfMeasureCode;
     private BigDecimal invoiceItemUnitPrice;
     // private KualiDecimal invoiceItemTotalAmount; using SourceAccountingLine.amount for now
     private Date invoiceItemServiceDate;
@@ -40,6 +40,9 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private boolean taxableIndicator;
     private boolean isDebit;
     private Integer invoiceItemDiscountLineNumber;
+    
+    private String invoiceItemUnitOfMeasureCode;
+    private UnitOfMeasure unitOfMeasure;
     
     private SubObjCd accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
@@ -568,4 +571,13 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public void setWriteoffAmount(KualiDecimal writeoffAmount) {
         this.writeoffAmount = writeoffAmount;
     }
+
+    public UnitOfMeasure getUnitOfMeasure() {
+        return unitOfMeasure;
+    }
+
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+
 }

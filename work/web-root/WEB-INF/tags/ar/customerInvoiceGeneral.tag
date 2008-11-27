@@ -50,11 +50,12 @@
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
                     </c:if>
-                    <!--  Using accountlingLineDataCellDetail tag because it generates the appropriate div for displaying customer name using DWR -->
-					<fin:accountingLineDataCellDetail
-					    detailField="accountsReceivableDocumentHeader.customer.customerName"
-					    accountingLine="document"
-					    />                    
+                    
+                    <!--  these three lines are necessary for the customer-number dwr lookup to show the label onBlur -->
+					<br/>
+				    <div id="document.accountsReceivableDocumentHeader.customer.customerName.div" class="fineprint"></div>
+					<input type="hidden" name="document.accountsReceivableDocumentHeader.customer.customerName" value="">			
+                    
                 </td>			
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerName}" /></div>

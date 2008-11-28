@@ -3,6 +3,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -26,7 +27,8 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 	private String bankCode; //a unique code used to identify the bank associated with this lockbox.
 	
     private PaymentMedium customerPaymentMedium;
-
+    private Bank bank;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -338,4 +340,13 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
     public void setBankCode(String bankCode) {
         this.bankCode = bankCode;
     }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+    
 }

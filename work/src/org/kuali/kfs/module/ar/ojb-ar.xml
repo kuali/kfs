@@ -652,10 +652,13 @@
 	<field-descriptor name="customerPaymentMediumCode" column="CUST_PMT_MEDIUM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="processedInvoiceDate" column="AR_PRCS_INV_DT" jdbc-type="DATE"/>
 	<field-descriptor name="batchSequenceNumber" column="AR_BATCH_SEQ_NBR" jdbc-type="INTEGER"/>
-	<field-descriptor name="bankCode" column="BANK_CODE" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="customerPaymentMedium" class-ref="org.kuali.kfs.module.ar.businessobject.PaymentMedium" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
 		<foreignkey field-ref="customerPaymentMediumCode" />
+	</reference-descriptor>
+	<reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="bankCode" />
 	</reference-descriptor>
 </class-descriptor>
 

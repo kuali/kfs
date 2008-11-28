@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.batch.service.impl.LockboxServiceImpl;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
@@ -258,7 +257,9 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      */
     public void addCashControlDetail(CashControlDetail cashControlDetail) {
         prepareCashControlDetail(cashControlDetail);
-        this.cashControlTotalAmount = this.cashControlTotalAmount.add(cashControlDetail.getFinancialDocumentLineAmount());
+        if (cashControlDetail.getFinancialDocumentLineAmount() != null) {
+            this.cashControlTotalAmount = this.cashControlTotalAmount.add(cashControlDetail.getFinancialDocumentLineAmount());
+        }
         cashControlDetails.add(cashControlDetail);
     }
 

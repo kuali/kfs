@@ -18,27 +18,26 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class CustomerCreditMemoInvoiceNumberValidation extends GenericValidation {
+public class CustomerInvoiceWriteoffInvoiceNumberValidation extends GenericValidation {
 
-    private CustomerCreditMemoDocument customerCreditMemoDocument;
+    private CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     
     public boolean validate(AttributedDocumentEvent event) {
-    
-        String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
+
+        String invDocumentNumber = customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber();
         
         if (ObjectUtils.isNull(invDocumentNumber) || StringUtils.isBlank(invDocumentNumber)) {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
@@ -56,12 +55,12 @@ public class CustomerCreditMemoInvoiceNumberValidation extends GenericValidation
     
     }
 
-    public CustomerCreditMemoDocument getCustomerCreditMemoDocument() {
-        return customerCreditMemoDocument;
+    public CustomerInvoiceWriteoffDocument getCustomerInvoiceWriteoffDocument() {
+        return customerInvoiceWriteoffDocument;
     }
 
-    public void setCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument) {
-        this.customerCreditMemoDocument = customerCreditMemoDocument;
+    public void setCustomerInvoiceWriteoffDocument(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument) {
+        this.customerInvoiceWriteoffDocument = customerInvoiceWriteoffDocument;
     }
 
     public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {

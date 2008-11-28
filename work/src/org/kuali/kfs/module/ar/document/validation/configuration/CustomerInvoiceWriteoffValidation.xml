@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="CustomerInvoiceWriteoff-saveDocumentValidation" parent="CustomerInvoiceWriteoff-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="CustomerInvoiceWriteoff-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list></list>
+		</property>
+	</bean>
+  
+  	<bean id="CustomerInvoiceWriteoff-approveDocumentValidation" parent="CustomerInvoiceWriteoff-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="CustomerInvoiceWriteoff-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list></list>
+  		</property>
+  	</bean>
+  
+	<bean id="CustomerInvoiceWriteoff-blanketApproveDocumentValidation" parent="CustomerInvoiceWriteoff-blanketApproveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="CustomerInvoiceWriteoff-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list></list>
+  		</property>
+	</bean>
+   	
+	<bean id="CustomerInvoiceWriteoff-continueCustomerInvoiceWriteoffDocumentValidation" parent="CustomerInvoiceWriteoff-continueCustomerInvoiceWriteoffDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="CustomerInvoiceWriteoff-continueCustomerInvoiceWriteoffDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="CustomerInvoiceWriteoff-invoiceNumberValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>						
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-invoiceBalanceValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>						
+						</list>
+					</property>				
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-noOtherCRMInRouteForTheInvoiceValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>						
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-noOtherWriteoffInRouteForTheInvoiceValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>						
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CustomerInvoiceWriteoff-routeDocumentValidation" parent="CustomerInvoiceWriteoff-routeDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="CustomerInvoiceWriteoff-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-explanationValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-invoiceBalanceValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>						
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-GLPEGenerationBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>isChartCodeWriteoffGLPEValidation</value></key>
+				 				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  									<property name="collectionProperty" value="document.customerInvoiceDocument.customerInvoiceDetailsWithoutDiscounts" />
+  									<property name="validations">
+  										<list>
+											<bean parent="CustomerInvoiceWriteoff-chartCodeHasCorrespondingWriteoffObjectCodeValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="customerInvoiceDetail" />
+														</bean>
+													</list>
+												</property>
+											</bean>
+  										</list>
+									</property>
+								</bean>
+							</entry>
+							<entry>
+								<key><value>isOrgAccountingDefaultWriteoffGLPEValidation</value></key>
+				 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+  									<property name="validations">
+  										<list>
+											<bean parent="CustomerInvoiceWriteoff-chartOfAccountsCodeValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="document" />
+															<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+														</bean>
+													</list>
+												</property>
+											</bean>
+											<bean parent="CustomerInvoiceWriteoff-accountNumberValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="document" />
+															<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+														</bean>
+													</list>
+												</property>
+											</bean>
+											<bean parent="CustomerInvoiceWriteoff-financialObjectCodeValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="document" />
+															<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+														</bean>
+													</list>
+												</property>
+											</bean>
+  										</list>
+									</property>
+								</bean>
+							</entry>
+						</map>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>	
+	
+</beans>

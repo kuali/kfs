@@ -162,6 +162,7 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED = "error.document.customerInvoiceWriteoff.noInvoicesSelected";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT = "error.document.customerInvoiceWriteoff.batchSent";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_REQUIRED = "error.document.customerInvoiceWriteoff.emptyCustomerNote";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_ONE_WRITEOFF_IN_ROUTE_PER_INVOICE = "error.document.customerInvoiceWriteoff.onlyOneWriteoffInRoutePerInvoice";
     
     // Organization Options errors
     public static class OrganizationOptionsErrors {

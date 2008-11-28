@@ -79,4 +79,22 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         
         return creditMemos;
     }
+
+    public boolean isThereNoDataToSubmit(CustomerCreditMemoDocument customerCreditMemoDocument) {
+        boolean success = true;
+        KualiDecimal customerCreditMemoDetailItemAmount;
+        BigDecimal itemQuantity;
+        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
+
+        for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
+            // no data entered for the current credit memo detail -> no processing needed
+            itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
+            customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+            if (ObjectUtils.isNotNull(itemQuantity) || ObjectUtils.isNotNull(customerCreditMemoDetailItemAmount)) {
+                success = false;
+                break;
+            }
+        }
+        return success;
+    }
 }

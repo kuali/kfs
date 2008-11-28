@@ -26,6 +26,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,15 +41,15 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-public class CustomerCreditMemoNoOtherCRMInRouteForTheInvoiceValidation extends GenericValidation {
+public class CustomerInvoiceWriteoffNoOtherCRMInRouteForTheInvoiceValidation extends GenericValidation {
 
-    private CustomerCreditMemoDocument customerCreditMemoDocument;
+    private CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument;
     private BusinessObjectService businessObjectService;
     private WorkflowDocumentService workflowDocumentService;
     
     public boolean validate(AttributedDocumentEvent event) {
     
-        String invoiceDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
+        String invoiceDocumentNumber = customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber();
         KualiWorkflowDocument workflowDocument;
         boolean success = true;
         
@@ -82,12 +83,12 @@ public class CustomerCreditMemoNoOtherCRMInRouteForTheInvoiceValidation extends 
     
     }
     
-    public CustomerCreditMemoDocument getCustomerCreditMemoDocument() {
-        return customerCreditMemoDocument;
+    public CustomerInvoiceWriteoffDocument getCustomerInvoiceWriteoffDocument() {
+        return customerInvoiceWriteoffDocument;
     }
 
-    public void setCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument) {
-        this.customerCreditMemoDocument = customerCreditMemoDocument;
+    public void setCustomerInvoiceWriteoffDocument(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument) {
+        this.customerInvoiceWriteoffDocument = customerInvoiceWriteoffDocument;
     }
 
     public WorkflowDocumentService getWorkflowDocumentService() {

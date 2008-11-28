@@ -120,6 +120,108 @@
    	<bean id="CustomerInvoice-recurrenceWorkgroupValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceWorkgroupValidation" abstract="true"/>
    	<bean id="CustomerInvoice-recurrenceInitiatorValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceInitiatorValidation" abstract="true"/>
    	
+    <!-- Customer Credit Memo -->   	
+   	<bean id="CustomerCreditMemo-detailItemQuantityOrAmountEnteredValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDetailItemQuantityOrAmountEnteredValidation" abstract="true" />
+   	<bean id="CustomerCreditMemo-detailItemQuantityValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDetailItemQuantityValidation" abstract="true" />
+   	<bean id="CustomerCreditMemo-detailAmountValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDetailAmountValidation" abstract="true"/>
+   	<bean id="CustomerCreditMemo-detailQuantityAndAmountValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDetailQuantityAndAmountValidation" abstract="true"/>
+   	<bean id="CustomerCreditMemo-invoiceNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoInvoiceNumberValidation" abstract="true" >
+   		<property name="customerInvoiceDocumentService">
+   			<ref bean="customerInvoiceDocumentService" />
+   		</property>
+   	</bean> 
+   	<bean id="CustomerCreditMemo-noOtherCRMInRouteForTheInvoiceValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoNoOtherCRMInRouteForTheInvoiceValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   		<property name="workflowDocumentService">
+   			<ref bean="workflowDocumentService" />
+   		</property>
+   	</bean> 
+   	<bean id="CustomerCreditMemo-noDataToSubmitValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoNoDataToSubmitValidation" abstract="true" >
+   		<property name="customerCreditMemoDocumentService">
+   			<ref bean="customerCreditMemoDocumentService" />
+   		</property>
+   	</bean> 
+   	
+    <!-- Customer Invoice Writeoff -->   	
+   	<bean id="CustomerInvoiceWriteoff-invoiceBalanceValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffInvoiceBalanceValidation" abstract="true" >
+   		<property name="customerInvoiceDocumentService">
+   			<ref bean="customerInvoiceDocumentService" />
+   		</property>
+   	</bean> 
+   	<bean id="CustomerInvoiceWriteoff-invoiceNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffInvoiceNumberValidation" abstract="true" >
+   		<property name="customerInvoiceDocumentService">
+   			<ref bean="customerInvoiceDocumentService" />
+   		</property>
+   	</bean> 
+   	<bean id="CustomerInvoiceWriteoff-noOtherCRMInRouteForTheInvoiceValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffNoOtherCRMInRouteForTheInvoiceValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   		<property name="workflowDocumentService">
+   			<ref bean="workflowDocumentService" />
+   		</property>
+   	</bean> 
+   	<bean id="CustomerInvoiceWriteoff-noOtherWriteoffInRouteForTheInvoiceValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffNoOtherWriteoffInRouteForTheInvoiceValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   		<property name="workflowDocumentService">
+   			<ref bean="workflowDocumentService" />
+   		</property>
+   	</bean> 
+
+   	<bean id="CustomerInvoiceWriteoff-explanationValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffExplanationValidation" abstract="true" />
+
+   	<bean id="CustomerInvoiceWriteoff-GLPEGenerationBranchingValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffGLPEGenerationBranchingValidation" abstract="true" >
+   		<property name="parameterService" >
+   			<ref bean="parameterService" />
+   		</property>
+   	</bean>
+   	
+   	<bean id="CustomerInvoiceWriteoff-chartCodeHasCorrespondingWriteoffObjectCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffChartCodeHasCorrespondingWriteoffObjectCodeValidation" abstract="true"/>
+   	
+   	<bean id="CustomerInvoiceWriteoff-chartOfAccountsCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffChartOfAccountsCodeValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   	</bean>
+   	<bean id="CustomerInvoiceWriteoff-accountNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffAccountNumberValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   	</bean>
+   	<bean id="CustomerInvoiceWriteoff-financialObjectCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffFinancialObjectCodeValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   	</bean>
+   	
+    <!-- Cash Control -->   	
+   	<bean id="CashControl-checkGLPEsNotGeneratedValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlCheckGLPEsNotGeneratedValidation" abstract="true" /> 
+   	<bean id="CashControl-customerNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlCustomerNumberValidation" abstract="true" />
+   	<bean id="CashControl-customerNumberActiveValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlCustomerNumberActiveValidation" abstract="true" /> 
+   	<bean id="CashControl-userOrgOptionsValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlUserOrgOptionsValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   	</bean>
+   	<bean id="CashControl-refDocNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlRefDocNumberValidation" abstract="true" >
+   		<property name="documentService">
+   			<ref bean="documentService" />
+   		</property>
+   	</bean>
+   	<bean id="CashControl-lineAmountValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlLineAmountValidation" abstract="true" /> 
+   	<bean id="CashControl-paymentMediumValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlPaymentMediumValidation" abstract="true" >
+   		<property name="businessObjectService">
+   			<ref bean="businessObjectService" />
+   		</property>
+   	</bean>
+   	<bean id="CashControl-documentHasDetailsValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentHasDetailsValidation" abstract="true" /> 
+   	<bean id="CashControl-allAppDocsApprovedValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlAllAppDocsApprovedValidation" abstract="true" /> 
+
+    <!-- Payment Application -->   	
    	<bean id="PaymentApplication-fullBalanceIsAppliedValidation" class="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationIsFullBalanceAppliedValidation" abstract="true" />
    	
 </beans>

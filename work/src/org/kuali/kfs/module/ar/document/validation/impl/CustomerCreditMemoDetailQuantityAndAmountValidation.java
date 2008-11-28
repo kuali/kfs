@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import java.math.BigDecimal;
 
 import org.kuali.kfs.module.ar.ArConstants;
@@ -38,19 +40,25 @@ public class CustomerCreditMemoDetailQuantityAndAmountValidation extends Generic
     public boolean validate(AttributedDocumentEvent event) {
 
         KualiDecimal creditAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-        KualiDecimal creditQuantity = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
+        BigDecimal quantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
         BigDecimal unitPrice = customerCreditMemoDetail.getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
+        boolean validValue;
         
-        //  determine the expected exact total credit memo quantity, based on actual credit amount entered
-        KualiDecimal expectedCreditQuantity = creditAmount.divide(new KualiDecimal(unitPrice), true);
+        if (ObjectUtils.isNotNull(quantity) && ObjectUtils.isNotNull(creditAmount)) {
+
+            //  determine the expected exact total credit memo quantity, based on actual credit amount entered
+            KualiDecimal creditQuantity = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
+            KualiDecimal expectedCreditQuantity = creditAmount.divide(new KualiDecimal(unitPrice), true);
         
-        //  determine the deviation percentage that the actual creditQuantity has from expectedCreditQuantity
-        KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);
+            //  determine the deviation percentage that the actual creditQuantity has from expectedCreditQuantity
+            KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);
         
-        // only allow a certain deviation of creditQuantity from the expectedCreditQuantity 
-        if (!deviationPercentage.isLessEqual(ALLOWED_QTY_DEVIATION)){
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
+            // only allow a certain deviation of creditQuantity from the expectedCreditQuantity 
+            validValue = (deviationPercentage.isLessEqual(ALLOWED_QTY_DEVIATION));
+            if (!validValue){
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
+            }
         }
         return true;
     }    

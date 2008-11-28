@@ -24,36 +24,25 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class CustomerCreditMemoInvoiceNumberValidation extends GenericValidation {
+public class CustomerCreditMemoNoDataToSubmitValidation extends GenericValidation {
 
     private CustomerCreditMemoDocument customerCreditMemoDocument;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    private CustomerCreditMemoDocumentService customerCreditMemoDocumentService;
     
     public boolean validate(AttributedDocumentEvent event) {
     
-        String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
-        
-        if (ObjectUtils.isNull(invDocumentNumber) || StringUtils.isBlank(invDocumentNumber)) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
+        if (customerCreditMemoDocumentService.isThereNoDataToSubmit(customerCreditMemoDocument)) {
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
             return false;
-        } else {    
-            CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-            CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
-        
-            if (ObjectUtils.isNull(customerInvoiceDocument)) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
-                return false;
-            }
         }
         return true;
-    
     }
 
     public CustomerCreditMemoDocument getCustomerCreditMemoDocument() {
@@ -64,12 +53,12 @@ public class CustomerCreditMemoInvoiceNumberValidation extends GenericValidation
         this.customerCreditMemoDocument = customerCreditMemoDocument;
     }
 
-    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
-        return customerInvoiceDocumentService;
+    public CustomerCreditMemoDocumentService getCustomerCreditMemoDocumentService() {
+        return customerCreditMemoDocumentService;
     }
 
-    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
-        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    public void setCustomerCreditMemoDocumentService(CustomerCreditMemoDocumentService customerCreditMemoDocumentService) {
+        this.customerCreditMemoDocumentService = customerCreditMemoDocumentService;
     }    
     
 }

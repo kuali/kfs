@@ -44,6 +44,14 @@
   		</property>
 	</bean>        
    	
+	<bean id="CustomerCreditMemo-reviewAccountingLineValidation" parent="CustomerCreditMemo-reviewAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="CustomerCreditMemo-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list></list>
+  		</property>
+	</bean>	
+	
 	<bean id="CustomerCreditMemo-continueCustomerCreditMemoDocumentValidation" parent="CustomerCreditMemo-continueCustomerCreditMemoDocumentValidation-parentBean" scope="prototype" />
 	
 	<bean id="CustomerCreditMemo-continueCustomerCreditMemoDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
@@ -58,6 +66,7 @@
 							</bean>						
 						</list>
 					</property>				
+					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="CustomerCreditMemo-noOtherCRMInRouteForTheInvoiceValidation">
 					<property name="parameterProperties">
@@ -68,27 +77,163 @@
 							</bean>						
 						</list>
 					</property>
+					<property name="quitOnFail" value="true" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="CustomerCreditMemo-routeDocumentValidation" parent="CustomerCreditMemo-routeDocumentValidation-parentBean" scope="prototype" />
+	<bean id="CustomerCreditMemo-recalculateCustomerCreditMemoDetailValidation" parent="CustomerCreditMemo-recalculateCustomerCreditMemoDetailValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerCreditMemo-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerCreditMemo-recalculateCustomerCreditMemoDetailValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
-				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+				<bean parent="CustomerCreditMemo-detailItemQuantityOrAmountEnteredValidation">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="businessObjectForValidation" />
+								<property name="sourceEventProperty" value="customerCreditMemoDetail" />
+								<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+							</bean>						
+						</list>
+					</property>				
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerCreditMemo-detailItemQuantityValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="customerCreditMemoDetail" />
+								<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+							</bean>						
+						</list>
+					</property>				
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="CustomerCreditMemo-detailAmountValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="customerCreditMemoDetail" />
+								<property name="targetValidationProperty" value="customerCreditMemoDetail" />
 							</bean>
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="CustomerCreditMemo-detailQuantityAndAmountValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="customerCreditMemoDetail" />
+								<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+							</bean>						
+						</list>
+					</property>				
+					<property name="quitOnFail" value="true" />
+				</bean>
+			</list>
+  		</property>
+	</bean>	
+	
+	<bean id="CustomerCreditMemo-recalculateCustomerCreditMemoDocumentValidation" parent="CustomerCreditMemo-recalculateCustomerCreditMemoDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="CustomerCreditMemo-recalculateCustomerCreditMemoDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+ 				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.creditMemoDetails" />
+  					<property name="validations">
+  						<list>
+  							<bean parent="CustomerCreditMemo-detailItemQuantityValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  							<bean parent="CustomerCreditMemo-detailAmountValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  							<bean parent="CustomerCreditMemo-detailQuantityAndAmountValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>
+			</list>
+  		</property>
+	</bean>	
+	<bean id="CustomerCreditMemo-routeDocumentValidation" parent="CustomerCreditMemo-routeDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="CustomerCreditMemo-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="CustomerCreditMemo-noDataToSubmitValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerCreditMemoDocument" />
+							</bean>
+						</list>
+					</property>				
+					<property name="quitOnFail" value="true" />
+				</bean>
+ 				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.creditMemoDetails" />
+  					<property name="validations">
+  						<list>
+  							<bean parent="CustomerCreditMemo-detailItemQuantityValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  							<bean parent="CustomerCreditMemo-detailAmountValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  							<bean parent="CustomerCreditMemo-detailQuantityAndAmountValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="customerCreditMemoDetail" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>
 			</list>
   		</property>
 	</bean>	

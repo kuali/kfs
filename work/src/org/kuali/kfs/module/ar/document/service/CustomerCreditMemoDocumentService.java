@@ -31,5 +31,10 @@ public interface CustomerCreditMemoDocumentService {
     
     public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String customerInvoiceDocumentNumber);
 
+    /**
+     * This method checks if there is no data to submit
+     * @return
+     */
+    public boolean isThereNoDataToSubmit(CustomerCreditMemoDocument customerCreditMemoDocument);
 
 }

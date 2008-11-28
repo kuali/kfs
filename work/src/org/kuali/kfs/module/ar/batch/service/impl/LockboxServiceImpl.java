@@ -32,15 +32,12 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.impl.PersonImpl;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -65,7 +62,8 @@ public class LockboxServiceImpl implements LockboxService {
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CashControlDocumentService cashControlDocumentService;
     private PaymentApplicationDocumentService paymentApplicationDocumentService;
-
+    private PersonService<PersonImpl> personService;
+    
     public CashControlDocumentService getCashControlDocumentService() {
         return cashControlDocumentService;
     }
@@ -81,11 +79,22 @@ public class LockboxServiceImpl implements LockboxService {
         CashControlDocument cashControlDocument = new CashControlDocument();
         while (itr.hasNext()) {
             Lockbox lockbox = (Lockbox)itr.next();
+            LOG.info("LOCKBOX: '" + lockbox.getLockboxNumber() + "'");
 
             SystemInformation sysInfo = systemInformationService.getByLockboxNumber(lockbox.getLockboxNumber());
-            String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
+            String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier().toLowerCase();
+            LOG.info("Using SystemInformation: '" + sysInfo.toString() + "'");
+            LOG.info("Using Financial Document Initiator: '" + initiator + "'");
+            
+            //  this will throw obviously if the user isnt setup in the system
+            Person person = personService.getPersonByPrincipalName(initiator);
+            if (person == null) {
+                LOG.error("Financial Document Initiator [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
+                throw new RuntimeException("Financial Document Initiator [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
+            }
+            
             GlobalVariables.clear();
-            GlobalVariables.setUserSession(new UserSession(initiator));
+            GlobalVariables.setUserSession(new UserSession(person.getPrincipalName()));
 
             if (lockbox.compareTo(ctrlLockbox) != 0) {
                 // If we made it in here, then we have hit a different batchSequenceNumber and processedInvoiceDate.
@@ -192,6 +201,10 @@ public class LockboxServiceImpl implements LockboxService {
 
     public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService paymentApplicationDocumentService) {
         this.paymentApplicationDocumentService = paymentApplicationDocumentService;
+    }
+
+    public void setPersonService(PersonService<PersonImpl> personService) {
+        this.personService = personService;
     }
 
 }

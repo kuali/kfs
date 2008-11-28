@@ -8,12 +8,11 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.StateService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -851,6 +850,11 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	    return m;
     }
 
+	public String toString() {
+	    return ((this.universityFiscalYear == null) ? "" : this.universityFiscalYear + "-") + 
+	            this.processingChartOfAccountCode + "-" + this.processingOrganizationCode;
+	}
+	
     public ObjectCode getUniversityFiscalYearObject() {
         return universityFiscalYearObject;
     }

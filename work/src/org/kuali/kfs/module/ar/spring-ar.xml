@@ -101,6 +101,9 @@
 		<property name="paymentApplicationDocumentService">
 			<ref bean="paymentApplicationDocumentService" />
 		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">

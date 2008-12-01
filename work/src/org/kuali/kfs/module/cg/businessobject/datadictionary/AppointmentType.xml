@@ -56,7 +56,6 @@
 
   <bean id="AppointmentType-appointmentTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentTypeDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -75,7 +74,6 @@
 
   <bean id="AppointmentType-appointmentTypeAbbrieviation-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentTypeAbbrieviation" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Appointment Type Abbreviation" />
     <property name="shortLabel" value="Appt Type Abrv" />
     <property name="maxLength" value="25" />
@@ -94,7 +92,6 @@
 
   <bean id="AppointmentType-fringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fringeRateAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fringe Rate" />
     <property name="shortLabel" value="Fringe" />
     <property name="maxLength" value="8" />
@@ -113,7 +110,6 @@
 
   <bean id="AppointmentType-costShareFringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="costShareFringeRateAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Cost Share Fringe Rate" />
     <property name="shortLabel" value="Cost Share Fringe" />
     <property name="maxLength" value="8" />

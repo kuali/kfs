@@ -41,6 +41,7 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -48,6 +49,8 @@ import org.kuali.rice.kns.web.ui.Field;
  * Represents a field (plus, optionally, a dynamic name field) to be rendered as part of an accounting line.
  */
 public class AccountingLineViewField extends FieldTableJoiningWithHeader implements HeaderLabelPopulating, ReadOnlyable {
+    public static final String ACCOUNTING_LINE_NAME_PREFIX_PLACE_HOLDER = "${accountingLineName}";
+
     private Field field;
     private AccountingLineViewFieldDefinition definition;
     private int arbitrarilyHighIndex;
@@ -233,7 +236,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param fieldNames the list of all fields being displayed on this accounting line
      * @param accountingLinePrefix the prefix of all field names in the accounting line
      */
-    protected void populateFieldForLookupAndInquiry(AccountingDocument accountingDocument, AccountingLine accountingLine, List<String> fieldNames) {
+    protected void populateFieldForLookupAndInquiry(AccountingDocument accountingDocument, AccountingLine accountingLine, List<String> fieldNames, String accountingLinePrefix) {
         if (!isHidden()) {
             LookupUtils.setFieldQuickfinder(accountingLine, getField().getPropertyName(), getField(), fieldNames);
 
@@ -242,7 +245,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             if (StringUtils.isNotBlank(overrideLookupParameters)) {
                 String lookupParameters = getField().getLookupParameters();
 
-                Map<String, String> lookupParametersMap = this.getActualParametersMap(lookupParameters, overrideLookupParameters);
+                Map<String, String> lookupParametersMap = this.getActualParametersMap(lookupParameters, overrideLookupParameters, accountingLinePrefix);
 
                 getField().setLookupParameters(lookupParametersMap);
 
@@ -261,7 +264,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             if (StringUtils.isNotBlank(overrideFieldConversions)) {
                 String fieldConversions = getField().getFieldConversions();
 
-                Map<String, String> fieldConversionsMap = this.getActualParametersMap(fieldConversions, overrideFieldConversions);
+                Map<String, String> fieldConversionsMap = this.getActualParametersMap(fieldConversions, overrideFieldConversions, accountingLinePrefix);
 
                 getField().setFieldConversions(fieldConversionsMap);
             }
@@ -296,7 +299,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         fieldRenderer.setField(field);
 
         getField().setPropertyPrefix(accountingLineProperty);
-        populateFieldForLookupAndInquiry(document, accountingLine, fieldNames);
+        populateFieldForLookupAndInquiry(document, accountingLine, fieldNames, getField().getPropertyPrefix());
 
         if (definition.getDynamicNameLabelGenerator() != null) {
             fieldRenderer.overrideOnBlur(definition.getDynamicNameLabelGenerator().getDynamicNameLabelOnBlur(accountingLine, accountingLineProperty));
@@ -554,9 +557,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param overrideLookupParameters the override lookup parameter string
      * @return the actual lookup parameter map
      */
-    private Map<String, String> getActualParametersMap(String parameters, String overrideParameters) {
-        BidiMap parametersMap = this.buildBidirecionalMapFromParameters(parameters);
-        BidiMap overrideParametersMap = this.buildBidirecionalMapFromParameters(overrideParameters);
+    private Map<String, String> getActualParametersMap(String parameters, String overrideParameters, String accountingLinePrefix) {
+        BidiMap parametersMap = this.buildBidirecionalMapFromParameters(parameters, accountingLinePrefix);
+        BidiMap overrideParametersMap = this.buildBidirecionalMapFromParameters(overrideParameters, accountingLinePrefix);
         parametersMap.putAll(overrideParametersMap);
 
         return parametersMap;
@@ -568,7 +571,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param lookupParameters the lookup parameter string
      * @return a bidirectinal map that holds all the given lookup parameters
      */
-    private BidiMap buildBidirecionalMapFromParameters(String parameters) {
+    private BidiMap buildBidirecionalMapFromParameters(String parameters, String accountingLinePrefix) {
         BidiMap parameterMap = new DualHashBidiMap();
         String[] parameterArray = StringUtils.split(parameters, KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
 
@@ -576,10 +579,24 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             String[] entrySet = StringUtils.split(parameter, KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
 
             if (entrySet != null) {
-                parameterMap.put(entrySet[0], entrySet[1]);
+                String parameterKey = escapeAccountingLineName(entrySet[0], accountingLinePrefix);
+                String parameterValue = escapeAccountingLineName(entrySet[1], accountingLinePrefix);
+
+                parameterMap.put(parameterKey, parameterValue);
             }
         }
 
         return parameterMap;
+    }
+
+    /**
+     * Escapes the String ${accountingLineName} within a field and replaces it with the actual prefix of an accounting line
+     * 
+     * @param propertyName the name of the property to escape the special string ${accountingLineName} out of
+     * @param accountingLinePrefix the actual accounting line prefix
+     * @return the property name with the correct accounting line prefix
+     */
+    protected String escapeAccountingLineName(String propertyName, String accountingLinePrefix) {
+        return StringUtils.replace(propertyName, ACCOUNTING_LINE_NAME_PREFIX_PLACE_HOLDER, accountingLinePrefix + ".");
     }
 }

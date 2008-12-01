@@ -72,7 +72,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         date = c.getTime();
         dateTimeService.setCurrentDate(date);
     }
-    
+
     /**
      * @see junit.framework.TestCase#tearDown()
      */
@@ -113,6 +113,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share encumbrances for pre-encumbrance entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForPreEncumbrances() throws Exception {
@@ -139,6 +140,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share encumbrances for internal encumbrances entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForInternalEncumbrances() throws Exception {
@@ -164,6 +166,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share encumbrances for external encumbrance entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForExternalEncumbrances() throws Exception {
@@ -186,6 +189,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries with cost share encumbrances
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForCostShareEncumbrances() throws Exception {
@@ -201,6 +205,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries created by the journal voucher document
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForJournalVoucher() throws Exception {
@@ -216,6 +221,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for beginning balance entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForBeginningBalances() throws Exception {
@@ -231,6 +237,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries with a balance type of "actual"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForActuals() throws Exception {
@@ -247,6 +254,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries with budget balance types
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForBudget() throws Exception {
@@ -262,6 +270,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries that do not represent expenses
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareForEncumbrancesNonExpenses() throws Exception {
@@ -277,21 +286,16 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates miscellaneous cost share entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareOther() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
 
-        EntryHolder[] output = new EntryHolder[] { 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BL4631625CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BL4631625CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0019915---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 4631625                  241.75C2006-01-01          ----------                                                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0018000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                   241.75D2006-01-01          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1031400-----9940---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 4631625                  241.75D2006-01-01          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1031400-----8000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                   241.75C2006-01-01          ----------                                                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
+        EntryHolder[] output = new EntryHolder[] { new EntryHolder(OriginEntrySource.BACKUP, "2007BL4631625CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), new EntryHolder(OriginEntrySource.BACKUP, "2007BL4631625CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0019915---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 4631625                  241.75C2006-01-01          ----------                                                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0018000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                   241.75D2006-01-01          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1031400-----9940---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 4631625                  241.75D2006-01-01          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1031400-----8000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                   241.75C2006-01-01          ----------                                                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631625CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
 
         scrub(input);
         assertOriginEntries(4, output);
@@ -299,6 +303,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TRIN"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrin() throws Exception {
@@ -315,6 +320,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TREX"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrex() throws Exception {
@@ -331,6 +337,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TRAV"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrav() throws Exception {
@@ -347,6 +354,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TRAN"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTran() throws Exception {
@@ -363,6 +371,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "SAAP"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelSaap() throws Exception {
@@ -379,6 +388,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "RESV"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelResv() throws Exception {
@@ -395,6 +405,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "PRSA"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelPrsa() throws Exception {
@@ -411,6 +422,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "PART"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelPart() throws Exception {
@@ -427,6 +439,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "ICOE"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelIcoe() throws Exception {
@@ -443,6 +456,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "HRCO"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelHrco() throws Exception {
@@ -459,6 +473,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "FINA2"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelFina2() throws Exception {
@@ -475,6 +490,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "FINA1"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelFina1() throws Exception {
@@ -491,6 +507,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "CORI"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelCori() throws Exception {
@@ -507,6 +524,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "CORE"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelCore() throws Exception {
@@ -523,6 +541,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "CAP"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelCap() throws Exception {
@@ -540,6 +559,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "BISA"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelBisa() throws Exception {
@@ -556,6 +576,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "BENF6"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelBenf6() throws Exception {
@@ -571,6 +592,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "BASE"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelBase() throws Exception {
@@ -587,6 +609,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "ACSA"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelAcsa() throws Exception {
@@ -603,6 +626,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for entries with certain document types
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForCertainDocumentTypes() throws Exception {
@@ -618,6 +642,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for entries that are beginning balance transactions
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForBeginningBalanceTransactions() throws Exception {
@@ -633,6 +658,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for encumbrance entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForEncumbranceTransactions() throws Exception {
@@ -648,6 +674,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for entries with budget balance types
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForBudgetTransactions() throws Exception {
@@ -663,6 +690,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for entries that are non-expense
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForNonExpense() throws Exception {
@@ -675,8 +703,10 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
+
     /**
      * Tests that the scrubber generates a plant endebtedness entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testPlantIndebtedness() throws Exception {
@@ -696,23 +726,16 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P2"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForObjectSubTypeP2() throws Exception {
 
-        String[] input = new String[] { 
-                "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       ", 
-                "2007BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                       " };
+        String[] input = new String[] { "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       ", "2007BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                       " };
 
-        EntryHolder[] output = new EntryHolder[] { 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT                   3375.00D2006-01-05          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT                   3375.00C2006-01-05          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9544900-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657                3375.00C2006-01-05          ----------                                                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9544900-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657                3375.00D2006-01-05          ----------                                                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       "), };
+        EntryHolder[] output = new EntryHolder[] { new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       "), new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT                   3375.00D2006-01-05          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT                   3375.00C2006-01-05          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9544900-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657                3375.00C2006-01-05          ----------                                                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9544900-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657                3375.00D2006-01-05          ----------                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       "), };
 
         scrub(input);
         assertOriginEntries(4, output);
@@ -720,6 +743,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P1"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForObjectSubTypeP1() throws Exception {
@@ -735,6 +759,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for encumbrance entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForEncumbranceEntries() throws Exception {
@@ -750,6 +775,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for entries with budget balance types
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForBudgetTransactions() throws Exception {
@@ -765,6 +791,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "CL"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeCL() throws Exception {
@@ -780,6 +807,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LR"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeLR() throws Exception {
@@ -795,6 +823,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LI"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeLI() throws Exception {
@@ -810,6 +839,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LE"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeLE() throws Exception {
@@ -825,6 +855,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LA"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeLA() throws Exception {
@@ -840,6 +871,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "EF"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeEF() throws Exception {
@@ -855,6 +887,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "ES"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeES() throws Exception {
@@ -870,6 +903,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "CF"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeCF() throws Exception {
@@ -885,6 +919,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "CM"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeCM() throws Exception {
@@ -900,6 +935,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "BF"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeBF() throws Exception {
@@ -915,6 +951,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "BD"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeBD() throws Exception {
@@ -930,6 +967,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "AM"
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeAM() throws Exception {
@@ -945,6 +983,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a capitalization entry for entries that occurred in certain periods
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCapitalizationForCertainFiscalPeriods() throws Exception {
@@ -960,6 +999,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a capitalization entry for entries with certain document types
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCapitalizationForCertainDocumentTypes() throws Exception {
@@ -975,6 +1015,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a capitalization entry for encumbrance entries
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCapitalizationForEncumbranceEntry() throws Exception {
@@ -990,6 +1031,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates the correct offset entries, even when there are mulitple period codes involved
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleFiscalPeriods() throws Exception {
@@ -1005,6 +1047,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates the correct offset entries, even when there are mulitple reversal dates involved
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleReversalDates() throws Exception {
@@ -1109,6 +1152,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates the correct offset entries, even with there are multiple origin codes involved
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleOriginCodes() throws Exception {
@@ -1161,6 +1205,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with closed accounts to be valid
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testClosedAccount() throws Exception {
@@ -1176,6 +1221,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with accounts expired by document type to be valid
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredAccountByDocumentType() throws Exception {
@@ -1191,6 +1237,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with accounts, expired by the balance type, to be valid
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredAccountByBalanceType() throws Exception {
@@ -1206,6 +1253,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with accounts expired by origin code to be valid
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredAccountByOriginCode() throws Exception {
@@ -1221,6 +1269,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with expired c&g accounts to be valid
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredContractAndGrantAccount() throws Exception {
@@ -1235,6 +1284,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with expired accounts to be valid
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredAccount() throws Exception {
@@ -1252,6 +1302,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid encumbrance update codes to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidEncumbranceUpdateCode() throws Exception {
@@ -1266,6 +1317,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank encumbrance update codes to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankEncumbranceUpdateCodeOnEncumbranceRecord() throws Exception {
@@ -1279,7 +1331,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     /**
-     * Tests that the scrubber considers entries with blank reference numbers but an encumbrance update code that requires a reference document to be errors
+     * Tests that the scrubber considers entries with blank reference numbers but an encumbrance update code that requires a
+     * reference document to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankReferenceDocumentNumberWithEncumbranceUpdateCodeOfR() throws Exception {
@@ -1294,6 +1348,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with a document number present but no other document data to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testReferenceDocumentNumberPresentWithoutOtherFields() throws Exception {
@@ -1307,7 +1362,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     /**
-     * Tests that the scrubber considers blank reference origin codes, in an entry with the encumbrance update code requiring reference documents, to be errors
+     * Tests that the scrubber considers blank reference origin codes, in an entry with the encumbrance update code requiring
+     * reference documents, to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankReferenceOriginCodeWithEncumbranceUpdateCodeOfR() throws Exception {
@@ -1322,6 +1379,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid reference origin codes to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidReferenceOriginCode() throws Exception {
@@ -1335,7 +1393,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     /**
-     * Tests that the scrubber considers blank reference document types, in an entry with the encumbrance update code that requiring reference documents, to be errors
+     * Tests that the scrubber considers blank reference document types, in an entry with the encumbrance update code that requiring
+     * reference documents, to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankReferenceDocumentTypeWithEncumbranceUpdateCodeOfR() throws Exception {
@@ -1350,6 +1410,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid reference document types to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidReferenceDocumentType() throws Exception {
@@ -1363,6 +1424,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid project codes to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidProjectCode() throws Exception {
@@ -1376,6 +1438,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid transaction dates to be errors.
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidTransactionDate() throws Exception {
@@ -1389,6 +1452,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid debit/credit codes to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidDebitCreditCode() throws Exception {
@@ -1402,6 +1466,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers non blank debit/credit codes on entries not requiring offsets to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testDebitCreditCodeOnTransactionNotRequiringOffset() throws Exception {
@@ -1415,6 +1480,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank debit/credit codes on entries requiring offsets to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankDebitCreditCodeOnTransactionRequiringOffset() throws Exception {
@@ -1427,6 +1493,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank document numbers to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankDocumentNumber() throws Exception {
@@ -1440,6 +1507,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid origin codes to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidOriginCode() throws Exception {
@@ -1624,6 +1692,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid charts to be errors
+     * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidChart() throws Exception {
@@ -1636,7 +1705,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     /**
-     * Tests that the scrubber considers invalid fiscal years to be errors.  Note: this test will malfunction sometime in the year 2019
+     * Tests that the scrubber considers invalid fiscal years to be errors. Note: this test will malfunction sometime in the year
+     * 2019
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
@@ -1655,7 +1725,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testClosedFiscalYear() throws Exception {
-        
+
         String[] inputTransactions = { "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                               ", "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               " };
 
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]) };
@@ -1687,9 +1757,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      */
     public void testInactiveBalanceType() throws Exception {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.CODE, "AC");        
-        this.inactivate(BalanceTyp.class, primaryKeys);
-        
+        primaryKeys.put(KFSPropertyConstants.CODE, "AC");
+        this.deactivate(BalanceTyp.class, primaryKeys);
+
         String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
 
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
@@ -1697,7 +1767,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-    
+
     /**
      * Tests that the scrubber considers entries with inactive origination codes to be errors
      * 
@@ -1705,9 +1775,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      */
     public void testInactiveOriginCode() throws Exception {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, "EU");        
-        this.inactivate(OriginationCode.class, primaryKeys);
-        
+        primaryKeys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, "EU");
+        this.deactivate(OriginationCode.class, primaryKeys);
+
         String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
 
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
@@ -1715,7 +1785,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-    
+
     /**
      * Tests that the scrubber considers entries with inactive origination codes to be errors
      * 
@@ -1725,9 +1795,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
         primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
-        primaryKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "4110");       
-        this.inactivate(ObjectCode.class, primaryKeys);
-        
+        primaryKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "4110");
+        this.deactivate(ObjectCode.class, primaryKeys);
+
         String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
 
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
@@ -1735,7 +1805,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-    
+
     /**
      * Tests that the scrubber considers entries with inactive origination codes to be errors
      * 
@@ -1743,9 +1813,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      */
     public void testInactiveObjectType() throws Exception {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.CODE, "EX");       
-        this.inactivate(ObjectType.class, primaryKeys);
-        
+        primaryKeys.put(KFSPropertyConstants.CODE, "EX");
+        this.deactivate(ObjectType.class, primaryKeys);
+
         String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
 
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
@@ -1765,12 +1835,20 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         persistenceService.clearCache();
         scrubberService.scrubEntries();
     }
-    
-    private <T extends PersistableBusinessObject> void inactivate(Class<T> clazz, Map<String, Object> primaryKeys) {    
+
+    /**
+     * deactivate a business object of the type clazz with the given primary keys. If the business object is not Inactivateable, do
+     * nothing on it.
+     * 
+     * @param <T> the type of the business object to be deactivated
+     * @param clazz the class type of the business object to be deactivated
+     * @param primaryKeys the primary keys of the business object to be deactivated
+     */
+    private <T extends PersistableBusinessObject> void deactivate(Class<T> clazz, Map<String, Object> primaryKeys) {
         PersistableBusinessObject bo = businessObjectService.findByPrimaryKey(clazz, primaryKeys);
-        
-        if(bo instanceof Inactivateable) {
-            Inactivateable inactivatedBO = (Inactivateable)bo;
+
+        if (bo instanceof Inactivateable) {
+            Inactivateable inactivatedBO = (Inactivateable) bo;
             inactivatedBO.setActive(false);
 
             businessObjectService.save(bo);

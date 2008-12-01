@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.workflow;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 import org.kuali.rice.kew.dto.ReturnPointDTO;
 import org.kuali.rice.kew.dto.RouteHeaderDTO;
@@ -24,6 +25,7 @@ import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
 import org.kuali.rice.kew.dto.WorkgroupIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.dto.GroupInfo;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -530,6 +532,78 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     public String[] getNodeNames() throws WorkflowException {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#appSpecificRouteDocumentToGroup(java.lang.String, java.lang.String, int, java.lang.String, org.kuali.rice.kim.bo.group.dto.GroupInfo, java.lang.String, boolean)
+     */
+    public void appSpecificRouteDocumentToGroup(String actionRequested, String routeTypeName, int priority, String annotation, GroupInfo groupInfo, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getAllPriorApprovers()
+     */
+    public Set<Person> getAllPriorApprovers() throws WorkflowException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getCurrentRouteNodeNames()
+     */
+    public String getCurrentRouteNodeNames() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getRoutedByUserNetworkId()
+     */
+    public String getRoutedByUserNetworkId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#isStandardSaveAllowed()
+     */
+    public boolean isStandardSaveAllowed() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#superUserActionRequestApprove(java.lang.Long, java.lang.String)
+     */
+    public void superUserActionRequestApprove(Long actionRequestId, String annotation) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#superUserCancel(java.lang.String)
+     */
+    public void superUserCancel(String annotation) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#superUserDisapprove(java.lang.String)
+     */
+    public void superUserDisapprove(String annotation) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#userIsRoutedByUser(org.kuali.rice.kim.bo.Person)
+     */
+    public boolean userIsRoutedByUser(Person user) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
     

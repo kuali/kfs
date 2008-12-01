@@ -64,15 +64,15 @@ public class OrgReviewLookupableResult {
         }
         StringBuffer responsiblePartyBuffer = new StringBuffer("<a href=\"");
         try {
-            if (ruleBaseValues.getResponsibility(0).isUsingWorkgroup()) {
-                responsiblePartyBuffer.append(UrlResolver.getInstance().getWorkgroupReportUrl() + "?methodToCall=report&workgroupId=").append(ruleBaseValues.getResponsibility(0).getWorkgroup().getWorkflowGroupId());
+            if (ruleBaseValues.getResponsibility(0).isUsingGroup()) {
+                responsiblePartyBuffer.append(UrlResolver.getInstance().getWorkgroupReportUrl() + "?methodToCall=report&workgroupId=").append(ruleBaseValues.getResponsibility(0).getGroup().getGroupId());
             }
             else {
                 responsiblePartyBuffer.append(UrlResolver.getInstance().getUserReportUrl() + "?methodToCall=report&workflowId=").append(ruleBaseValues.getResponsibility(0).getWorkflowUser().getWorkflowId());
             }
             responsiblePartyBuffer.append("&showEdit=no").append("\" >");
-            if (ruleBaseValues.getResponsibility(0).isUsingWorkgroup()) {
-                responsiblePartyBuffer.append(ruleBaseValues.getResponsibility(0).getWorkgroup().getDisplayName());
+            if (ruleBaseValues.getResponsibility(0).isUsingGroup()) {
+                responsiblePartyBuffer.append(ruleBaseValues.getResponsibility(0).getGroup().getGroupName());
             }
             else {
                 responsiblePartyBuffer.append(ruleBaseValues.getResponsibility(0).getWorkflowUser().getDisplayName());

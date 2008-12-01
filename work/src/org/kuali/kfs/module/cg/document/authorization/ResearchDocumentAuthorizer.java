@@ -98,8 +98,8 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
             ActionRequestDTO[] requests = info.getActionRequests(workflowDocument.getRouteHeaderId());
             for (int i = 0; i < requests.length; i++) {
                 ActionRequestDTO request = (ActionRequestDTO) requests[i];
-                if (request.isWorkgroupRequest()) {
-                    KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroup("" + request.getWorkgroupId());
+                if (request.isGroupRequest()) {
+                    KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroup("" + request.getGroupVO().getGroupId());
                     if (kimGroupsContainWorkgroup(group, personGroups)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                         break;

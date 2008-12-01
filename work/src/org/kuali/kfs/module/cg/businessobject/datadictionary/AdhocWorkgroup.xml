@@ -43,7 +43,7 @@
 
   <bean id="AdhocWorkgroup-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="workgroupName" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Workgroup Identifier" />
     <property name="shortLabel" value="Workgroup" />
     <property name="maxLength" value="70" />
@@ -57,7 +57,6 @@
 
   <bean id="AdhocWorkgroup-permissionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="permissionCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Permission Type" />
     <property name="shortLabel" value="Permission Type" />
     <property name="maxLength" value="2" />
@@ -71,7 +70,6 @@
 
   <bean id="AdhocWorkgroup-addedByPerson-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="addedByPerson" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Added By Person" />
     <property name="shortLabel" value="prsnAdd" />
     <property name="maxLength" value="20" />
@@ -87,7 +85,6 @@
 
   <bean id="AdhocWorkgroup-personAddedTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personAddedTimestamp" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Person Added Timestamp" />
     <property name="shortLabel" value="prsnAddTs" />
     <property name="maxLength" value="10" />

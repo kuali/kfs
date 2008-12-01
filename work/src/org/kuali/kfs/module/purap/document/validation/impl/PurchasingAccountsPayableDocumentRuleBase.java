@@ -52,6 +52,10 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule, ImportPurchasingAccountsPayableItemRule {
 
+    public PurchasingAccountsPayableDocumentRuleBase() {
+        super();
+    }
+    
     /**
      * Overrides the method in PurapAccountingDocumentRuleBase to perform processValidation for PurchasingAccountsPayableDocument.
      * 

@@ -66,6 +66,7 @@
   <bean id="AwardAccount-proposalNumber" parent="AwardAccount-proposalNumber-parentBean" />
 
   <bean id="AwardAccount-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AwardAccount-principalId" parent="AwardAccount-principalId-parentBean" />
 
@@ -119,6 +120,7 @@
   <bean id="AwardAccount-accountNumber" parent="AwardAccount-accountNumber-parentBean" />
 
   <bean id="AwardAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AwardAccount-account.accountName" parent="AwardAccount-account.accountName-parentBean" />
 

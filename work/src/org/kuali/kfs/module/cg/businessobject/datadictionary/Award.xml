@@ -255,7 +255,6 @@
 
   <bean id="Award-agencyAnalystName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyAnalystName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Analyst Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -308,7 +307,6 @@
 
   <bean id="Award-analystTelephoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="analystTelephoneNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Analyst Telephone Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="10" />
@@ -324,7 +322,6 @@
 
   <bean id="Award-awardAddendumNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardAddendumNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Addendum Number" />
     <property name="shortLabel" value="Addendum" />
     <property name="maxLength" value="7" />
@@ -362,7 +359,6 @@
 
   <bean id="Award-awardCommentText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardCommentText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Comments" />
     <property name="shortLabel" value="Comments" />
     <property name="maxLength" value="250" />
@@ -395,7 +391,6 @@
 
   <bean id="Award-awardDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardDocumentNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Award Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
@@ -441,7 +436,6 @@
 
   <bean id="Award-awardProjectTitle-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardProjectTitle" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Project Title" />
     <property name="shortLabel" value="Title" />
     <property name="maxLength" value="250" />
@@ -518,7 +512,6 @@
 
   <bean id="Award-federalPassThroughIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="federalPassThroughIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Federal Pass Through" />
     <property name="shortLabel" value="FPT" />
     <property name="maxLength" value="1" />
@@ -530,7 +523,6 @@
 
   <bean id="Award-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="workgroupName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Workgroup Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="70" />
@@ -567,7 +559,6 @@
 
   <bean id="Award-oldProposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oldProposalNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Old Proposal Number" />
     <property name="shortLabel" value="Old" />
     <property name="maxLength" value="8" />

@@ -44,7 +44,6 @@
 
   <bean id="AdhocOrg-fiscalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiscalCampusCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Chart Code" />
     <property name="shortLabel" value="Chart" />
     <property name="maxLength" value="2" />
@@ -62,7 +61,6 @@
 
   <bean id="AdhocOrg-primaryDepartmentCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="primaryDepartmentCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Code" />
     <property name="shortLabel" value="Org" />
     <property name="maxLength" value="4" />
@@ -79,7 +77,6 @@
 
   <bean id="AdhocOrg-permissionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="permissionCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Permission Type" />
     <property name="shortLabel" value="Permission Type" />
     <property name="maxLength" value="2" />
@@ -93,7 +90,6 @@
 
   <bean id="AdhocOrg-addedByPerson-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="addedByPerson" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Added By Person" />
     <property name="shortLabel" value="prsnAdd" />
     <property name="maxLength" value="20" />
@@ -109,7 +105,6 @@
 
   <bean id="AdhocOrg-personAddedTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personAddedTimestamp" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Person Added Timestamp" />
     <property name="shortLabel" value="prsnAddTs" />
     <property name="maxLength" value="10" />

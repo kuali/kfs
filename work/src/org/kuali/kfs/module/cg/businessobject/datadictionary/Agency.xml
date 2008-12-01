@@ -77,7 +77,6 @@
 
   <bean id="Agency-reportingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="reportingName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Reporting Name" />
     <property name="shortLabel" value="ReportingNm" />
     <property name="maxLength" value="30" />
@@ -95,7 +94,6 @@
 
   <bean id="Agency-fullName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fullName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Full Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -126,7 +124,6 @@
 
   <bean id="Agency-inStateIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="inStateIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="In State Indicator" />
     <property name="shortLabel" value="In State" />
     <property name="maxLength" value="1" />
@@ -138,7 +135,6 @@
 
   <bean id="Agency-indirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="indirectAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Indirect Amount" />
     <property name="shortLabel" value="IndAmt" />
     <property name="maxLength" value="20" />

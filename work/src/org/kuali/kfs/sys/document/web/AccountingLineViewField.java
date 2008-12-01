@@ -227,8 +227,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     /**
      * Updates the field so that it can have a quickfinder and inquiry link if need be
      * 
+     * @param accountingDocument the accounting document the accounting line the field will render part of is on or will at some
+     *        point be on
      * @param accountingLine the accounting line that is being rendered
      * @param fieldNames the list of all fields being displayed on this accounting line
+     * @param accountingLinePrefix the prefix of all field names in the accounting line
      */
     protected void populateFieldForLookupAndInquiry(AccountingDocument accountingDocument, AccountingLine accountingLine, List<String> fieldNames) {
         if (!isHidden()) {
@@ -239,21 +242,28 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             if (StringUtils.isNotBlank(overrideLookupParameters)) {
                 String lookupParameters = getField().getLookupParameters();
 
-                Map<String, String> lookupParametersMap = this.getActualLookupParametersMap(lookupParameters, overrideLookupParameters);
+                Map<String, String> lookupParametersMap = this.getActualParametersMap(lookupParameters, overrideLookupParameters);
 
                 getField().setLookupParameters(lookupParametersMap);
 
-                //  if there are any any lookup parameters present, make sure the other lookup fields are populated.  
-                // this can be necessary if there wouldnt natually be a lookup, via DD or OJB relationships, but one 
+                // if there are any any lookup parameters present, make sure the other lookup fields are populated.
+                // this can be necessary if there wouldnt natually be a lookup, via DD or OJB relationships, but one
                 // is forced.
                 if (!lookupParametersMap.isEmpty()) {
                     if (getDefinition().getOverrideLookupClass() != null) {
                         getField().setQuickFinderClassNameImpl(getDefinition().getOverrideLookupClass().getName());
                     }
-                    if (StringUtils.isNotBlank(getDefinition().getOverrideFieldConversions())) {
-                        getField().setFieldConversions(getDefinition().getOverrideFieldConversions());
-                    }
                 }
+            }
+
+            // apply the customized field conversions if any
+            String overrideFieldConversions = definition.getOverrideFieldConversions();
+            if (StringUtils.isNotBlank(overrideFieldConversions)) {
+                String fieldConversions = getField().getFieldConversions();
+
+                Map<String, String> fieldConversionsMap = this.getActualParametersMap(fieldConversions, overrideFieldConversions);
+
+                getField().setFieldConversions(fieldConversionsMap);
             }
 
             if (isRenderingInquiry(accountingDocument, accountingLine)) {
@@ -544,12 +554,12 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param overrideLookupParameters the override lookup parameter string
      * @return the actual lookup parameter map
      */
-    private Map<String, String> getActualLookupParametersMap(String lookupParameters, String overrideLookupParameters) {
-        BidiMap lookupParametersMap = this.buildBidirecionalParametersMap(lookupParameters);
-        BidiMap overrideLookupParametersMap = this.buildBidirecionalParametersMap(overrideLookupParameters);
-        lookupParametersMap.putAll(overrideLookupParametersMap);
+    private Map<String, String> getActualParametersMap(String parameters, String overrideParameters) {
+        BidiMap parametersMap = this.buildBidirecionalMapFromParameters(parameters);
+        BidiMap overrideParametersMap = this.buildBidirecionalMapFromParameters(overrideParameters);
+        parametersMap.putAll(overrideParametersMap);
 
-        return lookupParametersMap;
+        return parametersMap;
     }
 
     /**
@@ -558,15 +568,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param lookupParameters the lookup parameter string
      * @return a bidirectinal map that holds all the given lookup parameters
      */
-    private BidiMap buildBidirecionalParametersMap(String parameters) {
+    private BidiMap buildBidirecionalMapFromParameters(String parameters) {
         BidiMap parameterMap = new DualHashBidiMap();
         String[] parameterArray = StringUtils.split(parameters, KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
 
-        //  if the original field/def doesnt have any lookup parameters, then return empty map
-        if (parameters == null || parameterArray == null) {
-            return parameterMap;
-        }
-        
         for (String parameter : parameterArray) {
             String[] entrySet = StringUtils.split(parameter, KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
 

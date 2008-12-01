@@ -555,6 +555,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * 
      * @param lookupParameters the default lookup parameter string
      * @param overrideLookupParameters the override lookup parameter string
+     * @param accountingLinePrefix the actual accounting line prefix
      * @return the actual lookup parameter map
      */
     private Map<String, String> getActualParametersMap(String parameters, String overrideParameters, String accountingLinePrefix) {
@@ -569,6 +570,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * parse the given lookup parameter string into a bidirectinal map
      * 
      * @param lookupParameters the lookup parameter string
+     * @param accountingLinePrefix the actual accounting line prefix
      * @return a bidirectinal map that holds all the given lookup parameters
      */
     private BidiMap buildBidirecionalMapFromParameters(String parameters, String accountingLinePrefix) {

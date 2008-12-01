@@ -32,10 +32,10 @@
             <td>
 			  <c:choose>
 				<c:when test="${isTransactionalDocument}">
-				  <a class="portal_link" href="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=${capitalAssetNumber}" target="_blank" title="Payment Information">Click here</a>
+				  <html:link target="_blank" styleClass="portal_link" title="Payment Information" href="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=${capitalAssetNumber}">Click here</html:link>
 				</c:when>
 				<c:otherwise>
-				  <a class="portal_link" href="lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=${capitalAssetNumber}" target="_blank" title="Payment Information">Click here</a>
+				  <html:link target="_blank" styleClass="portal_link" title="Payment Information" href="lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=${capitalAssetNumber}">Click here</html:link>				
 				</c:otherwise>
 			  </c:choose>
               to view the payment lookup for this asset.

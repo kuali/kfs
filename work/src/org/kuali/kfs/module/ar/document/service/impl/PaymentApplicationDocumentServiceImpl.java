@@ -17,9 +17,7 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -193,6 +191,30 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         }
         CashControlDocument cashControlDocument = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
         return cashControlDocument;
+    }
+    
+    public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException {
+        String payAppDocumentNumber = document.getDocumentNumber();
+        String cashControlDocumentNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
+        
+        //  if no such docNumber exists, then nothing to find
+        if(null == cashControlDocumentNumber) {
+            return null;
+        }
+        
+        //  load up the cash control doc, and walk through the cashcontrol detail lines
+        CashControlDocument cashControlDocument = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
+        List<CashControlDetail> cashControlDetails = cashControlDocument.getCashControlDetails();
+        for (CashControlDetail cashControlDetail : cashControlDetails) {
+            String detailDocumentNumber = cashControlDetail.getDocumentNumber();
+            String refDocNumber = cashControlDetail.getReferenceFinancialDocumentNumber();
+            
+            //  the cashControlDetail line we care about is the one with refDocNumber = payAppDoc Number
+            if (payAppDocumentNumber.equalsIgnoreCase(refDocNumber)) {
+                return cashControlDetail;
+            }
+        }
+        return null;
     }
     
     @SuppressWarnings("unchecked")

@@ -18,17 +18,26 @@ package org.kuali.kfs.module.ar.document.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.document.web.struts.PaymentApplicationDocumentForm;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface PaymentApplicationDocumentService {
     
+    /**
+     * 
+     * Selects the specific CashControlDetail line associated with the passed-in PaymentApplication Document.
+     * 
+     * @param document A valid PaymentApplication Document
+     * @return The associated CashControlDetail, if exists, or null if not.
+     * @throws WorkflowException
+     */
+    public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException;
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) throws WorkflowException;
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException;
 //    public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(PaymentApplicationDocument document);

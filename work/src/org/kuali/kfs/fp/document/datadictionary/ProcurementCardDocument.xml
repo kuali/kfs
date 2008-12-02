@@ -32,11 +32,6 @@
         </bean>
       </list>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
-    	</list>
-    </property>
     <property name="validationMap" ref="ProcurementCardDocument-validations" />
     <property name="accountingLineGroups">
     	<map>

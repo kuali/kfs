@@ -51,11 +51,6 @@
     	</map>
     </property>
     <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
-    	</list>
-    </property>
   </bean>
 
 <!-- Exported Workflow Properties -->

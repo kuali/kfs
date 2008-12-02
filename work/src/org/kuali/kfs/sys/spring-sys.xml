@@ -554,23 +554,8 @@
 	</bean>
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
-
-    <bean id="subFundGroupRoutingDataGenerator" class="org.kuali.kfs.sys.document.service.impl.SubFundGroupRoutingDataGenerator">
-    	<property name="accountingLineCollectionProperties">
-    		<list>
-    			<value>sourceAccountingLines</value>
-    			<value>targetAccountingLines</value>
-    		</list>
-    	</property>
-    </bean>
     
-    <bean id="subFundGroupTargetOnlyRoutingDataGenerator" class="org.kuali.kfs.sys.document.service.impl.SubFundGroupRoutingDataGenerator">
-    	<property name="accountingLineCollectionProperties">
-    		<list>
-    			<value>targetAccountingLines</value>
-    		</list>
-    	</property>
-    </bean>
+    <bean id="workflowAttributesPropertyResolutionService" class="org.kuali.kfs.sys.document.service.impl.WorkflowAttributePropertyResolutionServiceImpl" />
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
 	

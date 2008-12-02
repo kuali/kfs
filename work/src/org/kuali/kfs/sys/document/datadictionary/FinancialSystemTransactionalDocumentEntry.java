@@ -29,7 +29,6 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     private Map<Class, String> validationMap;
     private Map<String, AccountingLineGroupDefinition> accountingLineGroups;
     private Class<? extends AccountingLineParser> importedLineParserClass;
-    private List<String> routingDataGenerators;
     private Integer maxDictionaryValidationDepth;
 
     /**
@@ -78,22 +77,6 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
      */
     public void setImportedLineParserClass(Class<? extends AccountingLineParser> importedLineParser) {
         this.importedLineParserClass = importedLineParser;
-    }
-
-    /**
-     * Gets the routingDataGenerators attribute. 
-     * @return Returns the routingDataGenerators.
-     */
-    public List<String> getRoutingDataGenerators() {
-        return routingDataGenerators;
-    }
-
-    /**
-     * Sets the routingDataGenerators attribute value.
-     * @param routingDataGenerators The routingDataGenerators to set.
-     */
-    public void setRoutingDataGenerators(List<String> routingDataGenerators) {
-        this.routingDataGenerators = routingDataGenerators;
     }
 
     /**

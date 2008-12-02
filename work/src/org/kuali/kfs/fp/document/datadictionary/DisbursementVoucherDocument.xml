@@ -16,10 +16,6 @@
     </property>
     <property name="documentTypeName" value="DisbursementVoucherDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
-
-	<!-- 
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule" />
-	-->
 	   
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
 

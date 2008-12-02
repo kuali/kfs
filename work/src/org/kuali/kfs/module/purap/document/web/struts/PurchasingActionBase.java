@@ -1041,6 +1041,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
  
         if (rulePassed) {
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
+            document.updateViewCapitalAssets();
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

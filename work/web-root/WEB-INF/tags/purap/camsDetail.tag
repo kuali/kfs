@@ -88,18 +88,14 @@
         <tr>
           <th align="right" valign="middle" class="datacell">Asset Type:</th>
           <td align="right" valign="middle" class="datacell">
-            <bean:define id="capitalAssetNotReceivedCurrentFiscalYearIndicator" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" name="KualiForm" />
-            <c:choose>
-                <c:when test="${capitalAssetNotReceivedCurrentFiscalYearIndicator eq 'Yes'}">
-                    ${KualiForm.defaultAssetTypeCodeNotThisFiscalYear}&nbsp;
-                </c:when>
-                <c:otherwise>
-                    <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>		
-                    <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
-                        <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/>
-                    </c:if> 
-                </c:otherwise>
-            </c:choose>
+			<c:set var="notCurrentYear" value="false" />
+			<logic:equal name="KualiForm" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" value="Yes">
+			    <c:set var="notCurrentYear" value="true" />
+			</logic:equal>
+              <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive or notCurrentYear}"/>		
+              <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive and !notCurrentYear}">
+                  <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/>
+              </c:if>
           </td>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" align="right" width="250px"/>
           <td align="right" class="datacell">

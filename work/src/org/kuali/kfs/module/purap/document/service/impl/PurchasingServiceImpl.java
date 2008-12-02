@@ -219,6 +219,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     }
 
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {
+        //FIXME (hjs) is this breaking modularization??
         return parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);
     }
 

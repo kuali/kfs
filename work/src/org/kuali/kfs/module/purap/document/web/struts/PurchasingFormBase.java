@@ -366,10 +366,6 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         return availability;
     }
 
-    public String getDefaultAssetTypeCodeNotThisFiscalYear() {
-        return SpringContext.getBean(PurchasingService.class).getDefaultAssetTypeCodeNotThisFiscalYear();
-    }
-    
     @Override
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();    

@@ -1242,4 +1242,29 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.setCapitalAssetSystemType(null);
         
     }
+
+    public void updateViewCapitalAssets() {
+        CapitalAssetSystem capitalAssetSystem = null;
+        String defaultAssetType = SpringContext.getBean(PurchasingService.class).getDefaultAssetTypeCodeNotThisFiscalYear();
+
+        if (PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(getCapitalAssetSystemTypeCode())) {
+            for (Iterator iter = getPurchasingCapitalAssetItems().iterator(); iter.hasNext();) {
+                PurchasingCapitalAssetItem camsItem = (PurchasingCapitalAssetItem) iter.next();
+                capitalAssetSystem = camsItem.getPurchasingCapitalAssetSystem();
+                if (capitalAssetSystem.isCapitalAssetNotReceivedCurrentFiscalYearIndicator()) {
+                    capitalAssetSystem.setCapitalAssetTypeCode(defaultAssetType);
+                }
+            }
+        }
+        else if (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(getCapitalAssetSystemTypeCode())) {
+            capitalAssetSystem = getPurchasingCapitalAssetSystems().get(0);
+            if (capitalAssetSystem.isCapitalAssetNotReceivedCurrentFiscalYearIndicator()) {
+                capitalAssetSystem.setCapitalAssetTypeCode(defaultAssetType);
+            }
+        }
+        else {
+            //do nothing
+        }
+    }
+
 }

@@ -35,6 +35,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 /**
  * This class is used to test the authorization of the
@@ -127,6 +129,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP3143)
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testFirstTransmitPrintPO() throws Exception {
         Map editMode = new HashMap();

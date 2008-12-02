@@ -57,7 +57,6 @@
 
   <bean id="BudgetIndirectCost-budgetBaseCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetBaseCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Current Base Indicator" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -73,7 +72,6 @@
 
   <bean id="BudgetIndirectCost-budgetIndirectCostCostShareIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetIndirectCostCostShareIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Indirect Cost" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="2" />
@@ -87,7 +85,6 @@
 
   <bean id="BudgetIndirectCost-budgetUnrecoveredIndirectCostIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetUnrecoveredIndirectCostIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Unrecovered Indirect Cost" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="3" />
@@ -101,7 +98,6 @@
 
   <bean id="BudgetIndirectCost-budgetIndirectCostJustificationText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetIndirectCostJustificationText" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Justification for manual values" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="255" />
@@ -116,7 +112,6 @@
 
   <bean id="BudgetIndirectCost-budgetManualMtdcIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetManualMtdcIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Manual MTDC Indicator" />
     <property name="shortLabel" value="Manual MTDC Indicator" />
     <property name="maxLength" value="3" />
@@ -130,7 +125,6 @@
 
   <bean id="BudgetIndirectCost-budgetManualRateIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetManualRateIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Indirect Cost Rate Source" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="5" />
@@ -146,7 +140,6 @@
 
   <bean id="BudgetIndirectCost-budgetPurposeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPurposeCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Primary Purpose" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />

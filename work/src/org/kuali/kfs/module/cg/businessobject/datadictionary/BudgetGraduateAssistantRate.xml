@@ -49,7 +49,7 @@
 
   <bean id="BudgetGraduateAssistantRate-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Campus Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -67,7 +67,6 @@
 
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod1Rate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusMaximumPeriod1Rate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Period 1 Remission Rate" />
     <property name="shortLabel" value="Period 1 Remission Rate" />
     <property name="maxLength" value="8" />
@@ -85,7 +84,6 @@
 
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod2Rate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusMaximumPeriod2Rate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Period 2 Remission Rate" />
     <property name="shortLabel" value="Period 2 Remission Rate" />
     <property name="maxLength" value="8" />
@@ -103,7 +101,6 @@
 
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod3Rate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusMaximumPeriod3Rate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Period 3 Remission Rate" />
     <property name="shortLabel" value="Period 3 Remission Rate" />
     <property name="maxLength" value="8" />
@@ -121,7 +118,6 @@
 
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod4Rate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusMaximumPeriod4Rate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Period 4 Remission Rate" />
     <property name="shortLabel" value="Period 4 Remission Rate" />
     <property name="maxLength" value="8" />
@@ -139,7 +135,6 @@
 
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod5Rate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusMaximumPeriod5Rate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Period 5 Remission Rate" />
     <property name="shortLabel" value="Period 5 Remission Rate" />
     <property name="maxLength" value="8" />
@@ -157,7 +152,6 @@
 
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod6Rate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusMaximumPeriod6Rate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Period 6 Remission Rate" />
     <property name="shortLabel" value="Period 6 Remission Rate" />
     <property name="maxLength" value="8" />
@@ -175,7 +169,6 @@
 
   <bean id="BudgetGraduateAssistantRate-lastUpdateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="lastUpdateTimestamp" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Last Update Timestamp" />
     <property name="shortLabel" value="Last Update" />
     <property name="maxLength" value="10" />

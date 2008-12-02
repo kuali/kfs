@@ -48,7 +48,6 @@
 
   <bean id="BudgetModular-budgetModularTaskNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetModularTaskNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Includes Modular Variance" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -63,7 +62,6 @@
 
   <bean id="BudgetModular-budgetModularPersonnelDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetModularPersonnelDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Explanation - Personnel" />
     <property name="shortLabel" value="Modular Personnel" />
     <property name="maxLength" value="50000" />
@@ -79,7 +77,6 @@
 
   <bean id="BudgetModular-budgetModularConsortiumDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetModularConsortiumDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Explanation - Consortium" />
     <property name="shortLabel" value="Modular Consortium" />
     <property name="maxLength" value="50000" />
@@ -95,7 +92,6 @@
 
   <bean id="BudgetModular-budgetModularVariableAdjustmentDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetModularVariableAdjustmentDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Explanation - Variable Adjustment" />
     <property name="shortLabel" value="Modular Variable Adjustment" />
     <property name="maxLength" value="50000" />

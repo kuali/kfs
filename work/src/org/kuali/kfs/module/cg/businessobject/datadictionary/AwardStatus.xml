@@ -58,7 +58,6 @@
 
   <bean id="AwardStatus-awardStatusDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardStatusDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Award Status Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="15" />

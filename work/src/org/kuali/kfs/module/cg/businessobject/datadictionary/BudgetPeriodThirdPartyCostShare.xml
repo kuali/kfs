@@ -83,7 +83,6 @@
 
   <bean id="BudgetPeriodThirdPartyCostShare-budgetCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetCostShareAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="50" />

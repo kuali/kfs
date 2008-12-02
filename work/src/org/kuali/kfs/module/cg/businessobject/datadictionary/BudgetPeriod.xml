@@ -28,7 +28,7 @@
 
   <bean id="BudgetPeriod-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Document Header Id" />
     <property name="shortLabel" value="Document Id" />
     <property name="maxLength" value="14" />
@@ -43,7 +43,7 @@
 
   <bean id="BudgetPeriod-budgetPeriodSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPeriodSequenceNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Period Sequence Number" />
     <property name="shortLabel" value="Budget Pd. Seq. No." />
     <property name="maxLength" value="2" />
@@ -58,7 +58,6 @@
 
   <bean id="BudgetPeriod-budgetPeriodBeginDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPeriodBeginDate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="from" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="10" />
@@ -74,7 +73,6 @@
 
   <bean id="BudgetPeriod-budgetPeriodEndDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPeriodEndDate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="to" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="10" />
@@ -90,7 +88,6 @@
 
   <bean id="BudgetPeriod-budgetPeriodParticipantsNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPeriodParticipantsNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Number of Participants/Trainees" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="3" />

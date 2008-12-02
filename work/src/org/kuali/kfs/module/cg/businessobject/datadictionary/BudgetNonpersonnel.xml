@@ -52,7 +52,6 @@
 
   <bean id="BudgetNonpersonnel-budgetNonpersonnelSubCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetNonpersonnelSubCategoryCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-category" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
@@ -85,7 +84,6 @@
 
   <bean id="BudgetNonpersonnel-budgetNonpersonnelDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetNonpersonnelDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="50" />
@@ -105,7 +103,6 @@
 
   <bean id="BudgetNonpersonnel-agencyRequestAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyRequestAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Amount Requested" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="9" />
@@ -124,7 +121,6 @@
 
   <bean id="BudgetNonpersonnel-budgetThirdPartyCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetThirdPartyCostShareAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="3rd Party Cost Share" />
     <property name="shortLabel" value="3rd Party" />
     <property name="maxLength" value="9" />
@@ -143,7 +139,6 @@
 
   <bean id="BudgetNonpersonnel-budgetInstitutionCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetInstitutionCostShareAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Institution Cost Share" />
     <property name="shortLabel" value="Institution" />
     <property name="maxLength" value="9" />
@@ -162,7 +157,6 @@
 
   <bean id="BudgetNonpersonnel-budgetOriginSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetOriginSequenceNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Sequence Number" />
     <property name="shortLabel" value="Origin Sequence Number" />
     <property name="maxLength" value="5" />
@@ -180,7 +174,6 @@
 
   <bean id="BudgetNonpersonnel-agencyCopyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyCopyIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Copy Indicator" />
     <property name="shortLabel" value="Copy Indicator" />
     <property name="maxLength" value="1" />
@@ -197,7 +190,6 @@
 
   <bean id="BudgetNonpersonnel-budgetInstitutionCostShareCopyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetInstitutionCostShareCopyIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Institution Cost Share Copy Indicator" />
     <property name="shortLabel" value="Institution Cost Share Copy Indicator" />
     <property name="maxLength" value="1" />
@@ -214,7 +206,6 @@
 
   <bean id="BudgetNonpersonnel-budgetThirdPartyCostShareCopyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetThirdPartyCostShareCopyIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Third Party Cost Share Copy Indicator" />
     <property name="shortLabel" value="Third Party Cost Share Copy Indicator" />
     <property name="maxLength" value="1" />
@@ -231,7 +222,6 @@
 
   <bean id="BudgetNonpersonnel-budgetOriginAgencyAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetOriginAgencyAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Agency Amount" />
     <property name="shortLabel" value="Origin Agency Amount" />
     <property name="maxLength" value="9" />
@@ -248,7 +238,6 @@
 
   <bean id="BudgetNonpersonnel-budgetOriginInstitutionCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetOriginInstitutionCostShareAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Institution Cost Share Amount" />
     <property name="shortLabel" value="Origin Institution Cost Share Amount" />
     <property name="maxLength" value="9" />
@@ -266,7 +255,6 @@
 
   <bean id="BudgetNonpersonnel-budgetOriginThirdPartyCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetOriginThirdPartyCostShareAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Third Party Cost Share Amount" />
     <property name="shortLabel" value="Origin Third Party Cost Share Amount" />
     <property name="maxLength" value="9" />

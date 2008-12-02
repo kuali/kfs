@@ -47,7 +47,7 @@
 
   <bean id="BudgetPeriodInstitutionCostShare-budgetPeriodSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPeriodSequenceNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Period Sequence Number" />
     <property name="shortLabel" value="Budget Pd. Seq. No." />
     <property name="maxLength" value="2" />
@@ -80,7 +80,6 @@
 
   <bean id="BudgetPeriodInstitutionCostShare-budgetCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetCostShareAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="50" />

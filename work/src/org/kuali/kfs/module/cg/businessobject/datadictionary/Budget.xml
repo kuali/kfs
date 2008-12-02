@@ -130,7 +130,6 @@
 
   <bean id="Budget-budgetParentTrackNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetParentTrackNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Parent Budget Number" />
     <property name="shortLabel" value="parent number" />
     <property name="maxLength" value="7" />
@@ -148,7 +147,6 @@
 
   <bean id="Budget-budgetName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Name" />
     <property name="shortLabel" value="Budget Name" />
     <property name="maxLength" value="50" />
@@ -168,7 +166,6 @@
 
   <bean id="Budget-institutionCostShareIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="institutionCostShareIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Institution Cost Share" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -182,7 +179,6 @@
 
   <bean id="Budget-budgetThirdPartyCostShareIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetThirdPartyCostShareIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Third Party Cost Share" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -196,7 +192,6 @@
 
   <bean id="Budget-electronicResearchAdministrationGrantNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="electronicResearchAdministrationGrantNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Grant Number" />
     <property name="shortLabel" value="Grant Number" />
     <property name="maxLength" value="27" />
@@ -216,7 +211,6 @@
 
   <bean id="Budget-budgetProgramAnnouncementNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetProgramAnnouncementNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Program Announcement Number" />
     <property name="shortLabel" value="Pgm Anncmnt Nbr" />
     <property name="maxLength" value="110" />
@@ -236,7 +230,6 @@
 
   <bean id="Budget-budgetProgramAnnouncementName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetProgramAnnouncementName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Program Announcement Name" />
     <property name="shortLabel" value="Pgm Anncmnt Nm" />
     <property name="maxLength" value="110" />
@@ -256,7 +249,6 @@
 
   <bean id="Budget-budgetTypeCodeText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetTypeCodeText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Type" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="40" />
@@ -276,7 +268,6 @@
 
   <bean id="Budget-budgetPersonnelInflationRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPersonnelInflationRate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Personnel Inflation Rate" />
     <property name="shortLabel" value="Rate" />
     <property name="maxLength" value="5" />
@@ -295,7 +286,6 @@
 
   <bean id="Budget-budgetNonpersonnelInflationRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetNonpersonnelInflationRate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Nonpersonnel Inflation Rate" />
     <property name="shortLabel" value="Rate" />
     <property name="maxLength" value="5" />
@@ -314,7 +304,6 @@
 
   <bean id="Budget-budgetFringeRateDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetFringeRateDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Benefit Rate Change Justification" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="250" />
@@ -334,7 +323,6 @@
 
   <bean id="Budget-routeSheetTrackNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routeSheetTrackNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Route Sheet Tracking Number" />
     <property name="shortLabel" value="RS Tracking Number" />
     <property name="maxLength" value="12" />
@@ -352,7 +340,6 @@
 
   <bean id="Budget-agencyModularIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyModularIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Modular Indicator" />
     <property name="shortLabel" value="Modular" />
     <property name="maxLength" value="1" />

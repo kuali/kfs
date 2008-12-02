@@ -52,7 +52,7 @@
 
   <bean id="BudgetFringeRate-institutionAppointmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="institutionAppointmentTypeCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Type Code" />
     <property name="shortLabel" value="Appointment Type Code" />
     <property name="maxLength" value="2" />
@@ -70,7 +70,6 @@
 
   <bean id="BudgetFringeRate-contractsAndGrantsFringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractsAndGrantsFringeRateAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Contract and Grants Fringe Rate Amount" />
     <property name="shortLabel" value="C&amp;G Fringe Rate" />
     <property name="maxLength" value="6" />
@@ -89,7 +88,6 @@
 
   <bean id="BudgetFringeRate-institutionCostShareFringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="institutionCostShareFringeRateAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Cost Share Fringe Rate Amount" />
     <property name="shortLabel" value="Fringe Rate" />
     <property name="maxLength" value="6" />
@@ -108,7 +106,6 @@
 
   <bean id="BudgetFringeRate-budgetLastUpdateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetLastUpdateTimestamp" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Last Update Timestamp" />
     <property name="shortLabel" value="Last Update" />
     <property name="maxLength" value="10" />

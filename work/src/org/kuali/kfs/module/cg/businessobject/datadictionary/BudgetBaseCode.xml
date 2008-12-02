@@ -28,7 +28,7 @@
 
   <bean id="BudgetBaseCode-budgetBaseCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetBaseCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Base Code" />
     <property name="shortLabel" value="baseCode" />
     <property name="maxLength" value="2" />
@@ -47,7 +47,6 @@
 
   <bean id="BudgetBaseCode-budgetBaseDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetBaseDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Base Description" />
     <property name="shortLabel" value="baseDesc" />
     <property name="maxLength" value="40" />

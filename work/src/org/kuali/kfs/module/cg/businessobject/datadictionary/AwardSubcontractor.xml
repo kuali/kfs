@@ -36,13 +36,16 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AwardSubcontractor-proposalNumber" parent="AwardSubcontractor-proposalNumber-parentBean" />
+  <bean id="AwardSubcontractor-proposalNumber" parent="AwardSubcontractor-proposalNumber-parentBean" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
 
   <bean id="AwardSubcontractor-proposalNumber-parentBean" abstract="true" parent="Award-proposalNumber">
   </bean>
   <bean id="AwardSubcontractor-subcontractorNumber" parent="AwardSubcontractor-subcontractorNumber-parentBean" />
 
   <bean id="AwardSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AwardSubcontractor-subcontractor.subcontractorName" parent="AwardSubcontractor-subcontractor.subcontractorName-parentBean" />
 
@@ -50,11 +53,13 @@
     <property name="name" value="subcontractor.subcontractorName" />
     <property name="label" value="Name" />
   </bean>
-  <bean id="AwardSubcontractor-awardSubcontractorAmendmentNumber" parent="AwardSubcontractor-awardSubcontractorAmendmentNumber-parentBean" />
+  <bean id="AwardSubcontractor-awardSubcontractorAmendmentNumber" parent="AwardSubcontractor-awardSubcontractorAmendmentNumber-parentBean" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
+  	
 
   <bean id="AwardSubcontractor-awardSubcontractorAmendmentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardSubcontractorAmendmentNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Amendment Number" />
     <property name="shortLabel" value="Amendment" />
     <property name="maxLength" value="2" />
@@ -86,7 +91,6 @@
 
   <bean id="AwardSubcontractor-awardSubcontractorDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardSubcontractorDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="30" />
@@ -110,7 +114,6 @@
 
   <bean id="AwardSubcontractor-subcontractorAuditHistoryText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorAuditHistoryText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Audit History" />
     <property name="shortLabel" value="History" />
     <property name="maxLength" value="2000" />
@@ -127,7 +130,6 @@
 
   <bean id="AwardSubcontractor-subcontractorContactFirstName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorContactFirstName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Contact First Name" />
     <property name="shortLabel" value="First Name" />
     <property name="maxLength" value="15" />
@@ -143,7 +145,6 @@
 
   <bean id="AwardSubcontractor-subcontractorContactLastName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorContactLastName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Contact Last Name" />
     <property name="shortLabel" value="Last Name" />
     <property name="maxLength" value="25" />

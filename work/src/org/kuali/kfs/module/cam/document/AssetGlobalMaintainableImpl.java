@@ -549,14 +549,14 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
 
             // calculate equal source total amounts and set separate source amount fields
-            if (customAction != null && "calculateEqualSourceAmountsButton".equals(customAction[0]) && sharedDetailsList.size() >= 1) {
+            if (customAction != null && CamsConstants.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0]) && sharedDetailsList.size() >= 1) {
                 KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetGlobal.getTotalCostAmount(), CamsConstants.CURRENCY_USD);
                 KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal);
                 setEqualSeparateSourceAmounts(equalSourceAmountsArray, assetGlobal);
             }
 
             // calculate source asset remaining amount
-            if (customAction != null && "calculateSeparateSourceRemainingAmountButton".equals(customAction[0]) && sharedDetailsList.size() >= 1) {
+            if (customAction != null && CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON.equals(customAction[0]) && sharedDetailsList.size() >= 1) {
                 // set Less Additions
                 assetGlobal.setSeparateSourceTotalAmount(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal));
                 // set Remaining Total Amount

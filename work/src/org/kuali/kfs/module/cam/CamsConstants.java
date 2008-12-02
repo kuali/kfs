@@ -305,4 +305,7 @@ public class CamsConstants extends JSTLConstants {
     public static final int ASSET_DESC_DISPLAY_LENGTH = 39;
 
     public static final Currency CURRENCY_USD = Currency.getInstance("USD");
+    
+    public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
+    public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
 }

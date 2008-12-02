@@ -161,7 +161,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 explicitEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH12);
             }
 
-            // if alternate payee is paid for escrow payment, send alternate vendor name in GL desc
+            // if alternate payee is paid for non-primary vendor payment, send alternate vendor name in GL desc
             if (preq.getAlternateVendorHeaderGeneratedIdentifier() != null && preq.getAlternateVendorDetailAssignedIdentifier() != null && preq.getVendorHeaderGeneratedIdentifier().compareTo(preq.getAlternateVendorHeaderGeneratedIdentifier()) == 0 && preq.getVendorDetailAssignedIdentifier().compareTo(preq.getAlternateVendorDetailAssignedIdentifier()) == 0) {
                 explicitEntry.setTransactionLedgerEntryDescription(entryDescription(preq.getPurchaseOrderDocument().getAlternateVendorName()));
             }
@@ -173,7 +173,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 // if CM is off of PREQ, use vendor name associated with PREQ (primary or alternate)
                 PaymentRequestDocument cmPR = cm.getPaymentRequestDocument();
                 PurchaseOrderDocument cmPO = cm.getPurchaseOrderDocument();
-                // if alternate payee is paid for escrow payment, send alternate vendor name in GL desc
+                // if alternate payee is paid for non-primary vendor payment, send alternate vendor name in GL desc
                 if (cmPR.getAlternateVendorHeaderGeneratedIdentifier() != null && cmPR.getAlternateVendorDetailAssignedIdentifier() != null && cmPR.getVendorHeaderGeneratedIdentifier().compareTo(cmPR.getAlternateVendorHeaderGeneratedIdentifier()) == 0 && cmPR.getVendorDetailAssignedIdentifier().compareTo(cmPR.getAlternateVendorDetailAssignedIdentifier()) == 0) {
                     explicitEntry.setTransactionLedgerEntryDescription(entryDescription(cmPO.getAlternateVendorName()));
                 }

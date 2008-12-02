@@ -106,6 +106,16 @@
             <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
 		  </td>
         </tr>
+        <c:if test="${KualiForm.purchasingCapitalAssetCountAssetNumberAvailability eq availability}">
+	        <tr>
+	            <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetCountAssetNumber}" align="right" width="250px" />    
+	            <td class="datacell">
+	                <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetCountAssetNumber}" property="${camsAssetSystemProperty}.capitalAssetCountAssetNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
+	            </td>       
+	            <th>&nbsp;</th>
+	            <td class="datacell">&nbsp;</td>
+	        </tr>
+        </c:if>
 
         <tr>
           <td colspan="4" align="right" valign="middle" style="padding:0px" >

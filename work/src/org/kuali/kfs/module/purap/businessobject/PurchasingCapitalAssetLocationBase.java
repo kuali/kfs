@@ -156,6 +156,7 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
     
     public void templateBuilding(Building building) {
         if(ObjectUtils.isNotNull(building)) {
+            this.setOffCampusIndicator(false);
             this.setBuildingCode(building.getBuildingCode());
             this.setCampusCode(building.getCampusCode());
             this.setCapitalAssetLine1Address(building.getBuildingStreetAddress());

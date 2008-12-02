@@ -144,8 +144,18 @@
   
   <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber" parent="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" />
   
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" abstract="true" parent="GenericAttributes-genericSystemId" >
-  	<property name="name" value="capitalAssetCountAssetNumber" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetCountAssetNumber" />
+    <property name="label" value="How Many Assets?" />
+    <property name="shortLabel" value="How Many Assets?" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->

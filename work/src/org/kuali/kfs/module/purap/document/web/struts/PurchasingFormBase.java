@@ -341,23 +341,31 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         return availability;                
     }
     
-    public String getPurchasingCapitalAssetLocationAvailability(){
+    public String getPurchasingCapitalAssetLocationAvailability() {
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
-        PurchasingDocument pd = (PurchasingDocument)this.getDocument();
+        PurchasingDocument pd = (PurchasingDocument) this.getDocument();
 
-        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
-            
+        if ((PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode()))) {
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
-            
-        }else if((PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode()))){
-            
+        }
+        else if ((PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode()))) {
             availability = PurapConstants.CapitalAssetAvailability.EACH;
-            
         }
 
-        return availability;        
+        return availability;
     }
     
+    public String getPurchasingCapitalAssetCountAssetNumberAvailability() {
+        String availability = PurapConstants.CapitalAssetAvailability.NONE;
+        PurchasingDocument pd = (PurchasingDocument) this.getDocument();
+
+        if ((PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode()))) {
+            availability = PurapConstants.CapitalAssetAvailability.ONCE;
+        }
+
+        return availability;
+    }
+
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {
         return SpringContext.getBean(PurchasingService.class).getDefaultAssetTypeCodeNotThisFiscalYear();
     }

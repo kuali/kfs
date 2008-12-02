@@ -99,12 +99,16 @@
     </td>
 </tr>
 <tr>
+<logic:notEmpty name="KualiForm" property="${camsAssetLocationProperty}.buildingCode">
+    <c:set var="buildingSelected" value="true" />
+</logic:notEmpty>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingRoomNumber}" align="right" />
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingRoomNumber}" property="${camsAssetLocationProperty}.buildingRoomNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>&nbsp;
-        <c:if test="${(fullEntryMode or amendmentEntry) && !poItemInactive}">
+        <c:if test="${(fullEntryMode or amendmentEntry) && !poItemInactive && !offCampus && buildingSelected}">
             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
-                lookupParameters="${camsAssetLocationProperty}.campusCode:campusCode,${camsAssetLocationProperty}.buildingCode" 
+                readOnlyFields="buildingCode,campusCode"
+                lookupParameters="'Y':active,${camsAssetLocationProperty}.campusCode:campusCode,${camsAssetLocationProperty}.buildingCode" 
                 fieldConversions="buildingRoomNumber:${camsAssetLocationProperty}.buildingRoomNumber"/>
         </c:if>
     </td>

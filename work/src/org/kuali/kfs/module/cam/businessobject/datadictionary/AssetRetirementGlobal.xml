@@ -151,48 +151,48 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AssetRetirementGlobal-retirementChartOfAccountsCode" parent="AssetRetirementGlobal-retirementChartOfAccountsCode-parentBean" />
   <bean id="AssetRetirementGlobal-retirementChartOfAccountsCode-parentBean" abstract="true" parent="Asset-retirementChartOfAccountsCode">
-    <property name="label" value="Retirement Chart Of Accounts Code" />
+    <property name="label" value="Cash Receipt Chart of Accounts Code " />
     <property name="shortLabel" value="Code" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementAccountNumber" parent="AssetRetirementGlobal-retirementAccountNumber-parentBean" />
   <bean id="AssetRetirementGlobal-retirementAccountNumber-parentBean" abstract="true" parent="Asset-retirementAccountNumber">
-    <property name="label" value="Retirement Account Number" />
+    <property name="label" value="Cash Receipt Account Number " />
     <property name="shortLabel" value="Number" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementContactName" parent="AssetRetirementGlobal-retirementContactName-parentBean" />
   <bean id="AssetRetirementGlobal-retirementContactName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="retirementContactName" />
-    <property name="label" value="Retirement Contact Name" />
+    <property name="label" value="Contact Name" />
     <property name="shortLabel" value="Name" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementInstitutionName" parent="AssetRetirementGlobal-retirementInstitutionName-parentBean" />
   <bean id="AssetRetirementGlobal-retirementInstitutionName-parentBean" abstract="true" parent="AssetLocation-assetLocationInstitutionName">
     <property name="name" value="retirementInstitutionName" />
-    <property name="label" value="Retirement Institution Name" />
+    <property name="label" value="Institution Name" />
     <property name="shortLabel" value="Name" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementStreetAddress" parent="AssetRetirementGlobal-retirementStreetAddress-parentBean" />
   <bean id="AssetRetirementGlobal-retirementStreetAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
     <property name="name" value="retirementStreetAddress" />
-    <property name="label" value="Retirement Street Address" />
+    <property name="label" value="Street Address" />
     <property name="shortLabel" value="Address" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementCityName" parent="AssetRetirementGlobal-retirementCityName-parentBean" />
   <bean id="AssetRetirementGlobal-retirementCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
     <property name="name" value="retirementCityName" />
-    <property name="label" value="Retirement City Name" />
+    <property name="label" value="City Name" />
     <property name="shortLabel" value="Name" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementStateCode" parent="AssetRetirementGlobal-retirementStateCode-parentBean" />
   <bean id="AssetRetirementGlobal-retirementStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" >
     <property name="name" value="retirementStateCode" />
-    <property name="label" value="Retirement State Code" />
+    <property name="label" value="State Code" />
     <property name="shortLabel" value="Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -203,14 +203,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobal-retirementZipCode" parent="AssetRetirementGlobal-retirementZipCode-parentBean" />
   <bean id="AssetRetirementGlobal-retirementZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode" >
     <property name="name" value="retirementZipCode" />
-    <property name="label" value="Retirement Postal Code" />
+    <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementCountryCode" parent="AssetRetirementGlobal-retirementCountryCode-parentBean" />
   <bean id="AssetRetirementGlobal-retirementCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode">
     <property name="name" value="retirementCountryCode" />
-    <property name="label" value="Retirement Country Code" />
+    <property name="label" value="Country Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
@@ -220,7 +220,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobal-retirementPhoneNumber" parent="AssetRetirementGlobal-retirementPhoneNumber-parentBean" />
   <bean id="AssetRetirementGlobal-retirementPhoneNumber-parentBean" abstract="true" parent="AssetLocation-assetLocationPhoneNumber">
     <property name="name" value="retirementPhoneNumber" />
-    <property name="label" value="Retirement Phone Number" />
+    <property name="label" value="Phone Number" />
   </bean>
   
   <bean id="AssetRetirementGlobal-estimatedSellingPrice" parent="AssetRetirementGlobal-estimatedSellingPrice-parentBean" />

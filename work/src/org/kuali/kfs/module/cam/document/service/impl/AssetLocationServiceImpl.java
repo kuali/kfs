@@ -72,8 +72,8 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     public void updateOffCampusLocation(Asset asset) {
         List<AssetLocation> assetLocations = asset.getAssetLocations();
         AssetLocation offCampusLocation = asset.getOffCampusLocation();
-        offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
-        offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
+        //offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+        //offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
         assetLocations.add(offCampusLocation);
     }
 

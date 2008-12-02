@@ -51,6 +51,7 @@
   
   <bean id="PretagDetail-campusCode" parent="PretagDetail-campusCode-parentBean" />
   <bean id="PretagDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
+  	<property name="label" value="Campus" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
@@ -97,13 +98,13 @@
   
   <bean id="PretagDetail-governmentTagNumber" parent="PretagDetail-governmentTagNumber-parentBean" />
   <bean id="PretagDetail-governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber">
-    <property name="label" value="Government Tag Number" />
+    <property name="label" value="Government Tag" />
     <property name="shortLabel" value="Number" />
   </bean>
   
   <bean id="PretagDetail-nationalStockNumber" parent="PretagDetail-nationalStockNumber-parentBean" />
   <bean id="PretagDetail-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
-    <property name="label" value="National Stock Number (NSN)" />
+    <property name="label" value="National Stock Number" />
     <property name="shortLabel" value="Number" />
   </bean>
   

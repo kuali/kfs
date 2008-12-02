@@ -191,7 +191,7 @@
   <bean id="AssetGlobal-assetRepresentative.name" parent="AssetGlobal-assetRepresentative.name-parentBean" />
   <bean id="AssetGlobal-assetRepresentative.name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="assetRepresentative.name" />
-    <property name="label" value="Asset Representative" />
+    <property name="label" value="Asset Representative Name" />
     <property name="required" value="false" />
   </bean>
   

@@ -85,7 +85,6 @@ public class CamsPropertyConstants {
             public static final String STATE_CODE = "offCampusLocation.assetLocationStateCode";
             public static final String ZIP_CODE = "offCampusLocation.assetLocationZipCode";
             public static final String COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
-            public static final String VERSION_NUM = "offCampusLocation.versionNumber";
         }
     }
 

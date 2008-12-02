@@ -45,6 +45,7 @@
   
   <bean id="AssetLocationGlobalDetail-campusCode" parent="AssetLocationGlobalDetail-campusCode-parentBean" />
   <bean id="AssetLocationGlobalDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
+  	<property name="label" value="Campus" />
   </bean>
   
   <bean id="AssetLocationGlobalDetail-campusTagNumber" parent="AssetLocationGlobalDetail-campusTagNumber-parentBean" />

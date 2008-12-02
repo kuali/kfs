@@ -212,7 +212,6 @@
               p:name="offCampusLocation.assetLocationCityName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="offCampusLocation.assetLocationStateCode" 
-              p:overrideFieldConversions="offCampusLocation.assetLocationStateCode:postalZipCode.postalStateCode"
               />
         <bean parent="MaintainableFieldDefinition"
               p:name="offCampusLocation.assetLocationZipCode" 
@@ -564,13 +563,13 @@
               p:name="retirementInfo.assetRetirementGlobal.retirementCityName"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementStateCode"
+              p:name="retirementInfo.assetRetirementGlobal.retirementState.postalStateCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementZipCode"
+              p:name="retirementInfo.assetRetirementGlobal.postalZipCode.postalCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementCountryCode"
+              p:name="retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="retirementInfo.assetRetirementGlobal.retirementPhoneNumber"

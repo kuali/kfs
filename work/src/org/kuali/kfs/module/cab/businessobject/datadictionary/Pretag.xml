@@ -92,6 +92,7 @@
   <bean id="Pretag-organizationCode" parent="Pretag-organizationCode-parentBean" />
 
   <bean id="Pretag-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  	<property name="label" value="Organization Owner Organization Code" />
     <property name="shortLabel" value="Org Code" />
     <property name="required" value="false" />
   </bean>
@@ -113,6 +114,7 @@
 
   <bean id="Pretag-personUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="personUniversal.name" />
+    <property name="label" value="Asset Representative Name" />
     <property name="required" value="false" />
   </bean>
   <bean id="Pretag-active" parent="Pretag-active-parentBean" />
@@ -123,7 +125,7 @@
   <bean id="Pretag-chartOfAccountsCode" parent="Pretag-chartOfAccountsCode-parentBean" />
 
   <bean id="Pretag-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="label" value="Chart of Accounts Code" />
+    <property name="label" value="Organization Owner Chart of Accounts Code" />
     <property name="shortLabel" value="Fiscal Chart" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -196,7 +198,7 @@
   <bean id="Pretag-quantityInvoiced" parent="Pretag-quantityInvoiced-parentBean" />
   <bean id="Pretag-quantityInvoiced-parentBean" abstract="true" parent="PurchaseOrderItem-itemQuantity">
     <property name="name" value="quantityInvoiced" />
-    <property name="label" value="Quantity Invoiced" />
+    <property name="label" value="Quantity Ordered" />
     <property name="shortLabel" value="Invoiced" />
   </bean>
   

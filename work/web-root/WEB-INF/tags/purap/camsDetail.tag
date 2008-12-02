@@ -46,23 +46,30 @@
 	    </tr>
 	    </c:if>
 	
-  	    <c:if test="${KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability}">
-		<tr>
-		  <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" align="right" width="250px" />    
-	      <td class="datacell" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
-		  </td>		
-		</tr>
-	    </c:if>
-
-		<c:if test="${KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability}">
+	    <c:if test="${(KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability)}">
         <tr>
-          <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" align="right" width="250px"/>
-          <td align="right" colspan="3" class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
-		  </td>
+	  	    <c:if test="${KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability}">
+			    <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" align="right" width="250px" />    
+		        <td class="datacell">
+			   	    <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
+			    </td>		
+		    </c:if>
+	        <c:if test="${!(KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability)}">
+			    <th>&nbsp;</th>
+			    <td class="datacell">&nbsp;</td>
+	        </c:if>
+			<c:if test="${KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability}">
+	            <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" align="right" width="250px"/>
+	            <td class="datacell">
+		    		<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
+			    </td>
+			</c:if>
+	        <c:if test="${!(KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability)}">
+	            <th>&nbsp;</th>
+	            <td class="datacell">&nbsp;</td>
+	        </c:if>
         </tr>
-		</c:if>
+        </c:if>
 
 		<c:if test="${KualiForm.purchasingCapitalAssetSystemAvailability eq availability}">
         <tr>
@@ -73,14 +80,13 @@
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" align="right" width="250px"/>
           <td align="right" class="datacell">
             <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
-            <c:if test="${fullEntryMode or amendmentEntry}">
+            <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
             	<html:image property="${setManufacturerFromVendorUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-sameasvendor.gif" alt="Manufacturer Same as Vendor" styleClass="tinybutton"/>
             </c:if>
           </td>
         </tr>
         <tr>
           <th align="right" valign="middle" class="datacell">Asset Type:</th>
-          <!-- td align="right" valign="middle" class="datacell">&nbsp;</td -->
           <td align="right" valign="middle" class="datacell">
             <bean:define id="capitalAssetNotReceivedCurrentFiscalYearIndicator" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" name="KualiForm" />
             <c:choose>
@@ -89,7 +95,9 @@
                 </c:when>
                 <c:otherwise>
                     <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>		
-                    <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/> 
+                    <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
+                        <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/>
+                    </c:if> 
                 </c:otherwise>
             </c:choose>
           </td>
@@ -110,14 +118,18 @@
 			</c:if>
 
 			<!-- Cams Location Entry -->
-			<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${locationPrefix}newPurchasingCapitalAssetLocationLine" availability="${availability}" poItemInactive="${poItemInactive}"/>
+            <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
+    			<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="new" camsAssetLocationProperty="${locationPrefix}newPurchasingCapitalAssetLocationLine" availability="${availability}" poItemInactive="${poItemInactive}"/>
+    	    </c:if>
 			
 			<table class="datatable" summary="" border="0" cellpadding="0" cellspacing="0" style="width:100%">
-            <tr>
-            	<td colspan="4" class="datacell" style="text-align:center;"> 
-                	<html:image property="${addCapitalAssetLocationUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Asset Location" title="Add a Asset Location" styleClass="tinybutton" />
-				</td>
-            </tr>
+            <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
+	            <tr>
+	            	<td colspan="4" class="datacell" style="text-align:center;"> 
+	                	<html:image property="${addCapitalAssetLocationUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Asset Location" title="Add a Asset Location" styleClass="tinybutton" />
+					</td>
+	            </tr>
+	        </c:if>
 
 			<logic:iterate indexId="ctr2" name="KualiForm" property="${camsAssetSystemProperty}.capitalAssetLocations" id="location">				
 								

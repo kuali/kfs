@@ -132,6 +132,12 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
                         property="document.deliveryBuildingRoomNumber" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+			        <c:if test="${(fullEntryMode or amendmentEntry) && !deliveryReadOnly && notOtherDeliveryBuilding && (not empty KualiForm.document.deliveryBuildingCode)}">
+			            <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
+			                readOnlyFields="buildingCode,campusCode"
+			                lookupParameters="'Y':active,document.deliveryBuildingCode:buildingCode,document.deliveryCampusCode:campusCode"
+			                fieldConversions="buildingRoomNumber:${camsAssetLocationProperty}.buildingRoomNumber"/>
+			        </c:if>
                 </td>           
                 <c:if test="${!lockB2BEntry}">
 	                <th align=right valign=middle class="bord-l-b">

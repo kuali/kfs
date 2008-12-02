@@ -311,53 +311,58 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    public ActionForward refreshAssetLocationBuildingByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward useOffCampusAssetLocationBuildingByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         
         String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
         String systemIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        String assetLocationIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
 
         CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(Integer.parseInt(systemIndex));
-        refreshAssetLocationBuilding(system);
+
+        if ("new".equals(assetLocationIndex)) {
+            useOffCampusAssetLocationBuilding(system.getNewPurchasingCapitalAssetLocationLine());
+        }
+        else {
+            useOffCampusAssetLocationBuilding(system.getCapitalAssetLocations().get(Integer.parseInt(assetLocationIndex)));
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    public ActionForward refreshAssetLocationBuildingByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward useOffCampusAssetLocationBuildingByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         
         String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
         String assetItemIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        String assetLocationIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
         
         PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
         CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
-        refreshAssetLocationBuilding(system);
+
+        if ("new".equals(assetLocationIndex)) {
+            useOffCampusAssetLocationBuilding(system.getNewPurchasingCapitalAssetLocationLine());
+        }
+        else {
+            useOffCampusAssetLocationBuilding(system.getCapitalAssetLocations().get(Integer.parseInt(assetLocationIndex)));
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     } 
     
-    private void refreshAssetLocationBuilding(CapitalAssetSystem system) {
-        if(system != null) {
-            CapitalAssetLocation location = system.getNewPurchasingCapitalAssetLocationLine();
-            if( location != null ) {
-                //FIXME (hjs) fix this to work like new "OTHER"
-//                if( location.isOffCampusIndicator() ) {
-//                    location.setBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
-//                }
-//                else {
-//                    location.setBuildingCode(null);
-//                    location.setOffCampusIndicator(false);
-//                }
-                location.setCapitalAssetLine1Address(null);
-                location.setCapitalAssetCityName(null);
-                location.setCapitalAssetStateCode(null);
-                location.setCapitalAssetPostalCode(null);
-                location.setCapitalAssetCountryCode(null);
-                location.setBuildingRoomNumber(null);
-            }
-        }        
+    private void useOffCampusAssetLocationBuilding(CapitalAssetLocation location) {
+        if (location != null) {
+            location.setOffCampusIndicator(true);
+            location.setBuildingCode("");
+            location.setCapitalAssetLine1Address("");
+            location.setCapitalAssetCityName("");
+            location.setCapitalAssetStateCode("");
+            location.setCapitalAssetPostalCode("");
+            location.setCapitalAssetCountryCode("");
+            location.setBuildingRoomNumber("");
+        }
     }
 
     /**

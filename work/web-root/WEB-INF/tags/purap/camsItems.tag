@@ -28,13 +28,13 @@
 	</tr>
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" hideRequiredAsterisk="true"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}"/>
-		<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true" /></kul:htmlAttributeHeaderCell>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" nowrap="true" />
-		<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}"/></kul:htmlAttributeHeaderCell>
-		<kul:htmlAttributeHeaderCell nowrap="true"><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}"/></kul:htmlAttributeHeaderCell>				
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" nowrap="true"/>				
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" nowrap="true" />
 		<c:if test="${isRequisition}">
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" nowrap="true" />

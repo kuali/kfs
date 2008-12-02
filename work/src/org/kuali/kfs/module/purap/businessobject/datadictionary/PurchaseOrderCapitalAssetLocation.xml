@@ -114,8 +114,9 @@
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
 
@@ -186,8 +187,9 @@
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
 

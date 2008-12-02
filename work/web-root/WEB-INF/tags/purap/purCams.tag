@@ -57,12 +57,12 @@
 			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" readOnly="${!(fullEntryMode or amendmentEntry) || systemSelectionReadOnly}" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" />
 		</td>
 	</tr>
-	<tr>
-		<th align=right valign=middle class="bord-l-b">
-			Action:
-       </th>
-	   <td align=left valign=middle class="datacell">
-	   		<c:if test="${fullEntryMode or amendmentEntry}">
+    <c:if test="${fullEntryMode or amendmentEntry}">
+		<tr>
+			<th align=right valign=middle class="bord-l-b">
+				Action:
+	       </th>
+		   <td align=left valign=middle class="datacell">
 				<c:choose>
 					<c:when test="${empty KualiForm.document.purchasingCapitalAssetItems}">
 						<html:image property="methodToCall.selectSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
@@ -72,9 +72,9 @@
 						<html:image property="methodToCall.updateCamsView" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" alt="Update Cams View" styleClass="tinybutton"/>
 					</c:otherwise>
 				</c:choose>
-			</c:if>
-		</td>
-	</tr>
+			</td>
+		</tr>
+    </c:if>
 
 	</table>
 

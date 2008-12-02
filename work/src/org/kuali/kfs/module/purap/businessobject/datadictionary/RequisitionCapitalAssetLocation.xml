@@ -106,14 +106,15 @@
     <property name="name" value="capitalAssetCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Country Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Country" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address" parent="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean" />
@@ -173,8 +174,9 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean" />

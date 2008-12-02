@@ -63,7 +63,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorShippingPaymentTermsPayIndicator" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+              p:name="active" 
+              p:defaultValue="true" />
       </list>
     </property>
   </bean>

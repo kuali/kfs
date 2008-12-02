@@ -80,7 +80,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="purchasingDepartmentCountryCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="activeIndicator" />              
+              p:name="activeIndicator" 
+              p:defaultValue="true" />              
       </list>
     </property>
   </bean>

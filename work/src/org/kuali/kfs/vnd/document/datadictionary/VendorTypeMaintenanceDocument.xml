@@ -76,7 +76,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorReviewText" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+              p:name="active" 
+              p:defaultValue="true" />
       </list>
     </property>
   </bean>

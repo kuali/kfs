@@ -1240,7 +1240,7 @@
   <bean id="Asset-inventoryStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="name" value="inventoryStatus.inventoryStatusCode" />
   </bean>
-  
+
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" />
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
@@ -1254,7 +1254,7 @@
 	p:sourceAttributeName="postalCode">
     <property name="name" value="offCampusLocation.postalZipCode.postalCode" />
   </bean>
-  
+
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" />
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName" />
@@ -1860,10 +1860,11 @@
     <property name="lookupableID" value="assetLookupable" />
 
     <property name="menubar" value="
-    &lt;a href=&quot;maintenance.do?maintenanceAction=New&amp;methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetFabrication&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-createfabreq.gif&quot; alt=&quot;create new fabrication request&quot; width=&quot;161&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;
+	&lt;a href=&quot;lookup.do?businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType&amp;conversionFields=acquisitionTypeCode%3AacquisitionTypeCode&amp;returnLocation=portal.do&amp;docFormKey=88888888&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crenewaddasglo.gif&quot;alt=&quot;create new add asset global&quot;width=&quot;156&quot;height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;
     &lt;a href=&quot;lookup.do?businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetRetirementReason&amp;conversionFields=retirementReasonCode%3AretirementReasonCode&amp;returnLocation=portal.do&amp;docFormKey=88888888&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crenewretglo.gif&quot; alt=&quot;create new retirement global&quot; width=&quot;156&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;
     &lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crenewlocglo.gif&quot; alt=&quot;create new location global&quot; width=&quot;141&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;
-	&lt;a href=&quot;lookup.do?businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType&amp;conversionFields=acquisitionTypeCode%3AacquisitionTypeCode&amp;returnLocation=portal.do&amp;docFormKey=88888888&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crenewaddasglo.gif&quot;alt=&quot;create new add asset global&quot;width=&quot;156&quot;height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;"/>
+    &lt;a href=&quot;maintenance.do?maintenanceAction=New&amp;methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetFabrication&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-createfabreq.gif&quot; alt=&quot;create new fabrication request&quot; width=&quot;161&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;"
+	/>
 
     <property name="instructions" value="Look up an Asset" />
     <property name="defaultSort" >

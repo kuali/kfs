@@ -104,7 +104,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        // Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order.
+        // Handling lookups for alternate vendor for non-primary vendor payment that are only specific to Purchase Order.
         if (request.getParameter("document.alternateVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.alternateVendorDetailAssignedIdentifier") != null) {
             Integer alternateVendorDetailAssignedId = document.getAlternateVendorDetailAssignedIdentifier();
             Integer alternateVendorHeaderGeneratedId = document.getAlternateVendorHeaderGeneratedIdentifier();

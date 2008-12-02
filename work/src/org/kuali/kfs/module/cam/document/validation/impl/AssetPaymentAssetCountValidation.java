@@ -42,9 +42,10 @@ public class AssetPaymentAssetCountValidation extends GenericValidation {
 
         //IF no assets found in document, then....
         if (assetPaymentDocument.getAssetPaymentAssetDetail().size() == 0) {
-            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_NON_ASSETS_IN_DOCUMENT);                
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPath, CamsKeyConstants.Payment.ERROR_NON_ASSETS_IN_DOCUMENT);                
             valid = false;
         }
+        
         return valid;
     }
 }

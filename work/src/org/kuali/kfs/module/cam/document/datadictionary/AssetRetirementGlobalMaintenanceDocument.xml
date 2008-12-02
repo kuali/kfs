@@ -25,6 +25,9 @@
               p:attributeName="asset"
               p:collection="assetRetirementGlobalDetails"
               p:attributeToHighlightOnFail="capitalAssetNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="postalZipCode"
+              p:attributeToHighlightOnFail="retirementZipCode" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -104,6 +107,8 @@
     <property name="title" value="Retirement Information" />
     <property name="maintainableItems" >
       <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="hiddenFieldForError"/>
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="Retirement Reason" />
         <bean parent="MaintainableFieldDefinition"
@@ -123,21 +128,21 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementContactName" />
+              p:name="retirementContactName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementInstitutionName" />
+              p:name="retirementInstitutionName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementStreetAddress" />
+              p:name="retirementStreetAddress" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementCityName" />
+              p:name="retirementCityName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementStateCode" />
+              p:name="retirementStateCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementZipCode" />
+              p:name="retirementZipCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementCountryCode" />
+              p:name="retirementCountryCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementPhoneNumber" />
+              p:name="retirementPhoneNumber" />
       </list>
     </property>
   </bean>
@@ -149,7 +154,7 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.paidCaseNumber" />
+              p:name="paidCaseNumber" />
       </list>
     </property>
   </bean>
@@ -161,24 +166,24 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.buyerDescription" />
+              p:name="buyerDescription" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.salePrice" />
+              p:name="salePrice" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.estimatedSellingPrice" />
+              p:name="estimatedSellingPrice" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.handlingFeeAmount" />
+              p:name="handlingFeeAmount" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.preventiveMaintenanceAmount" />
+              p:name="preventiveMaintenanceAmount" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.calculatedTotal" 
+              p:name="calculatedTotal" 
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber" />
+              p:name="cashReceiptFinancialDocumentNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementChartOfAccountsCode" />
+              p:name="retirementChartOfAccountsCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="sharedRetirementInfo.retirementAccountNumber" />
+              p:name="retirementAccountNumber" />
       </list>
     </property>
   </bean>
@@ -207,6 +212,8 @@
           </property>
           <property name="maintainableFields" >
             <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="hiddenFieldForError"/>
               <bean parent="MaintainableFieldDefinition"
                     p:name="capitalAssetNumber"
                     p:readOnlyAfterAdd="true"

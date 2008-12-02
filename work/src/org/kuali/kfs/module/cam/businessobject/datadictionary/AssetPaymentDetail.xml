@@ -126,6 +126,7 @@
   <bean id="AssetPaymentDetail-postingYear" parent="AssetPaymentDetail-postingYear-parentBean"/>
   <bean id="AssetPaymentDetail-postingYear-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalYear">
     <property name="name" value="postingYear" />
+    <property name="label" value="Fiscal Year" />
     <property name="required" value="false" />
   </bean>
 
@@ -237,7 +238,7 @@
   
   <bean id="AssetPaymentDetail-subAccountNumber" parent="AssetPaymentDetail-subAccountNumber-parentBean" />
   <bean id="AssetPaymentDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub Account Number" />
+    <property name="label" value="Sub-Account" />
     <property name="required" value="false" />
   </bean>
   
@@ -258,7 +259,7 @@
   <bean id="AssetPaymentDetail-financialSubObjectCode" parent="AssetPaymentDetail-financialSubObjectCode-parentBean" />
   <bean id="AssetPaymentDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
-    <property name="label" value="Sub Object Code" />    
+    <property name="label" value="Sub-Object" />    
   </bean>
   
   <bean id="AssetPaymentDetail-documentNumber" parent="AssetPaymentDetail-documentNumber-parentBean" />

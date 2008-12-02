@@ -49,17 +49,16 @@ public class AssetLocationServiceImpl implements AssetLocationService {
      */
     public void setOffCampusLocation(Asset asset) {
         List<AssetLocation> assetLocations = asset.getAssetLocations();
-        AssetLocation assetLocation = asset.getOffCampusLocation();
-
+        AssetLocation assetLocation = null;
+        
         for (AssetLocation location : assetLocations) {
             if (CamsConstants.AssetLocationTypeCode.OFF_CAMPUS.equalsIgnoreCase(location.getAssetLocationTypeCode())) {
-                asset.setOffCampusLocation(location);
                 assetLocation = location;
                 break;
             }
         }
 
-        if (assetLocation == null) {
+        if (ObjectUtils.isNull(assetLocation)) {
             assetLocation = new AssetLocation();
             assetLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
             assetLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);

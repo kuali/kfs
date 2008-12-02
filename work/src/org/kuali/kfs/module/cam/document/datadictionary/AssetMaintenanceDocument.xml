@@ -527,7 +527,7 @@
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="Sale" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.buyerDescription"
+              p:name="retirementInfo.assetRetirementGlobal.buyerDescription"
               p:readOnly="true" />      
         <bean parent="MaintainableFieldDefinition"
               p:name="salePrice"
@@ -552,28 +552,28 @@
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="External Transfer/Gift" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementContactName"
+              p:name="retirementInfo.assetRetirementGlobal.retirementContactName"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementInstitutionName"
+              p:name="retirementInfo.assetRetirementGlobal.retirementInstitutionName"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementStreetAddress"
+              p:name="retirementInfo.assetRetirementGlobal.retirementStreetAddress"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementCityName"
+              p:name="retirementInfo.assetRetirementGlobal.retirementCityName"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementStateCode"
+              p:name="retirementInfo.assetRetirementGlobal.retirementStateCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementZipCode"
+              p:name="retirementInfo.assetRetirementGlobal.retirementZipCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementCountryCode"
+              p:name="retirementInfo.assetRetirementGlobal.retirementCountryCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.retirementPhoneNumber"
+              p:name="retirementInfo.assetRetirementGlobal.retirementPhoneNumber"
               p:readOnly="true" />
       </list>
     </property>

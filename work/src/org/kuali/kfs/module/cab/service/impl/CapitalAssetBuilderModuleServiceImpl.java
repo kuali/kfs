@@ -1099,13 +1099,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             // report asset numbers to PO
             Integer poId = getPurchaseOrderIdentifier(documentNumber);
             if (poId != null) {
-                List<Long> assetNumbers = new ArrayList<Long>();
+                List<Long> assetNumbers = null;
 
                 if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
-                    getAssetNumbersFromAssetGlobal(documentNumber, assetNumbers);
+                    assetNumbers = getAssetNumbersFromAssetGlobal(documentNumber);
                 }
                 else if (CabConstants.ASSET_PAYMENT_DOCUMENT.equalsIgnoreCase(documentType)) {
-                    getAssetNumbersFromAssetPayment(documentNumber, assetNumbers);
+                    assetNumbers = getAssetNumbersFromAssetPayment(documentNumber);
                 }
 
                 if (!assetNumbers.isEmpty()) {
@@ -1123,13 +1123,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param documentNumber
      * @param assetNumbers
      */
-    private void getAssetNumbersFromAssetGlobal(String documentNumber, List<Long> assetNumbers) {
+    private List<Long> getAssetNumbersFromAssetGlobal(String documentNumber) {
+        List<Long> assetNumbers = new ArrayList<Long>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, documentNumber);
         Collection<AssetGlobalDetail> assetGlobalDetails = this.getBusinessObjectService().findMatching(AssetGlobalDetail.class, fieldValues);
         for (AssetGlobalDetail detail : assetGlobalDetails) {
             assetNumbers.add(detail.getCapitalAssetNumber());
         }
+        return assetNumbers;
     }
 
     /**
@@ -1138,7 +1140,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param documentNumber
      * @param assetNumbers
      */
-    private void getAssetNumbersFromAssetPayment(String documentNumber, List<Long> assetNumbers) {
+    private List<Long> getAssetNumbersFromAssetPayment(String documentNumber) {
+        List<Long> assetNumbers = new ArrayList<Long>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         Collection<AssetPaymentAssetDetail> paymentAssetDetails = this.getBusinessObjectService().findMatching(AssetPaymentAssetDetail.class, fieldValues);
@@ -1147,6 +1150,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 assetNumbers.add(detail.getCapitalAssetNumber());
             }
         }
+        
+        return assetNumbers;
     }
 
     /**

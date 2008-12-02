@@ -140,9 +140,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="agencyNumber"
               p:required="false" />
-        <!-- bean parent="MaintainableFieldDefinition"
-              p:name="acquisitionTypeCode"
-              p:required="true" / -->
         <bean parent="MaintainableFieldDefinition"
               p:name="inventoryStatusCode"
               p:required="true" />

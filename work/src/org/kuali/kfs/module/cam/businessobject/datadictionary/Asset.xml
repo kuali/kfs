@@ -111,15 +111,15 @@
         <ref bean="Asset-retirementReason.retirementReasonName" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementDate" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" />
-        <ref bean="Asset-retirementInfo.retirementContactName" />
-        <ref bean="Asset-retirementInfo.retirementInstitutionName" />
-        <ref bean="Asset-retirementInfo.retirementStreetAddress" />
-        <ref bean="Asset-retirementInfo.retirementCityName" />
-        <ref bean="Asset-retirementInfo.retirementStateCode" />
-        <ref bean="Asset-retirementInfo.retirementZipCode" />
-        <ref bean="Asset-retirementInfo.retirementCountryCode" />
-        <ref bean="Asset-retirementInfo.retirementPhoneNumber" />
-        <ref bean="Asset-retirementInfo.buyerDescription" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementContactName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementInstitutionName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementStreetAddress" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCityName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementStateCode" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementZipCode" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCountryCode" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.buyerDescription" />
         <ref bean="Asset-loanOrReturnInfo.borrowerAddress" />
         <ref bean="Asset-loanOrReturnInfo.borrowerCityName" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStateCode" />
@@ -138,15 +138,12 @@
         <ref bean="Asset-offCampusLocation.assetLocationStateCode" />
         <ref bean="Asset-offCampusLocation.assetLocationZipCode" />
         <ref bean="Asset-offCampusLocation.assetLocationCountryCode" />
-        <ref bean="Asset-assetStatus.inventoryStatusCode" />        
-        <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
-        <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
-        <ref bean="Asset-retirementInfo.retirementState.postalStateCode" />
-        <ref bean="Asset-retirementInfo.postalZipCode.postalCode" />
-        <ref bean="Asset-retirementInfo.retirementCountry.postalCountryName" />
         <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode" />
         <ref bean="Asset-offCampusLocation.postalZipCode.postalCode" />
         <ref bean="Asset-offCampusLocation.assetLocationCountry.postalCountryName" />
+        <ref bean="Asset-assetStatus.inventoryStatusCode" />        
+        <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
+        <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerState.postalStateCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
@@ -206,6 +203,20 @@
             </list>
           </property>
         </bean>
+        <dd:relationship objectAttribute="offCampusLocation.postalZipCode">
+        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationZipCode" target="postalCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="offCampusLocation.assetLocationState">
+        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationStateCode" target="postalStateCode" />            
+        </dd:relationship>
+        <dd:relationship objectAttribute="offCampusLocation.assetLocationCountry">
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="agency">
+			<dd:primitiveAttribute source="agencyNumber" target="agencyNumber" />
+        </dd:relationship>
       </list>
     </property>
     <!-- property name="inactivationBlockingDefinitions">
@@ -1018,65 +1029,65 @@
     <property name="name" value="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementContactName" parent="Asset-retirementInfo.retirementContactName-parentBean" />
-  <bean id="Asset-retirementInfo.retirementContactName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementContactName">
-    <property name="name" value="retirementInfo.retirementContactName" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementContactName" parent="Asset-retirementInfo.assetRetirementGlobal.retirementContactName-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementContactName-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementContactName">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementContactName" />
     <property name="label" value="Contact Name" />
     <property name="shortLabel" value="name" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementInstitutionName" parent="Asset-retirementInfo.retirementInstitutionName-parentBean" />
-  <bean id="Asset-retirementInfo.retirementInstitutionName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementInstitutionName">
-    <property name="name" value="retirementInfo.retirementInstitutionName" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementInstitutionName" parent="Asset-retirementInfo.assetRetirementGlobal.retirementInstitutionName-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementInstitutionName-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementInstitutionName">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementInstitutionName" />
     <property name="label" value="Institution" />
     <property name="shortLabel" value="Institution" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementStreetAddress" parent="Asset-retirementInfo.retirementStreetAddress-parentBean" />
-  <bean id="Asset-retirementInfo.retirementStreetAddress-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStreetAddress">
-    <property name="name" value="retirementInfo.retirementStreetAddress" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementStreetAddress" parent="Asset-retirementInfo.assetRetirementGlobal.retirementStreetAddress-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementStreetAddress-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementStreetAddress">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementStreetAddress" />
     <property name="label" value="Street" />
     <property name="shortLabel" value="Street" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementCityName" parent="Asset-retirementInfo.retirementCityName-parentBean" />
-  <bean id="Asset-retirementInfo.retirementCityName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCityName">
-    <property name="name" value="retirementInfo.retirementCityName" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementCityName" parent="Asset-retirementInfo.assetRetirementGlobal.retirementCityName-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementCityName-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementCityName">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementCityName" />
     <property name="label" value="City" />
     <property name="shortLabel" value="City" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementStateCode" parent="Asset-retirementInfo.retirementStateCode-parentBean" />
-  <bean id="Asset-retirementInfo.retirementStateCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStateCode">
-    <property name="name" value="retirementInfo.retirementStateCode" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementStateCode" parent="Asset-retirementInfo.assetRetirementGlobal.retirementStateCode-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementStateCode-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementStateCode">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementStateCode" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementZipCode" parent="Asset-retirementInfo.retirementZipCode-parentBean" />
-  <bean id="Asset-retirementInfo.retirementZipCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementZipCode">
-    <property name="name" value="retirementInfo.retirementZipCode" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementZipCode" parent="Asset-retirementInfo.assetRetirementGlobal.retirementZipCode-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementZipCode-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementZipCode">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementCountryCode" parent="Asset-retirementInfo.retirementCountryCode-parentBean" />
-  <bean id="Asset-retirementInfo.retirementCountryCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCountryCode">
-    <property name="name" value="retirementInfo.retirementCountryCode" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementCountryCode" parent="Asset-retirementInfo.assetRetirementGlobal.retirementCountryCode-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementCountryCode-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementCountryCode">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementCountryCode" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Country" />
   </bean>
   
-  <bean id="Asset-retirementInfo.retirementPhoneNumber" parent="Asset-retirementInfo.retirementPhoneNumber-parentBean" />
-  <bean id="Asset-retirementInfo.retirementPhoneNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementPhoneNumber">
-    <property name="name" value="retirementInfo.retirementPhoneNumber" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber" parent="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementPhoneNumber">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementPhoneNumber" />
     <property name="label" value="Phone" />
     <property name="shortLabel" value="Phone" />
   </bean>
   
-  <bean id="Asset-retirementInfo.buyerDescription" parent="Asset-retirementInfo.buyerDescription-parentBean" />
-  <bean id="Asset-retirementInfo.buyerDescription-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-buyerDescription">
-    <property name="name" value="retirementInfo.buyerDescription" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.buyerDescription" parent="Asset-retirementInfo.assetRetirementGlobal.buyerDescription-parentBean" />
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.buyerDescription-parentBean" abstract="true" parent="AssetRetirementGlobal-buyerDescription">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.buyerDescription" />
     <property name="label" value="Buyer" />
     <property name="shortLabel" value="Buyer" />
   </bean>
@@ -1229,29 +1240,7 @@
   <bean id="Asset-inventoryStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="name" value="inventoryStatus.inventoryStatusCode" />
   </bean>
-
-
-  <bean id="Asset-retirementInfo.retirementState.postalStateCode" parent="Asset-retirementInfo.retirementState.postalStateCode-parentBean" />
-  <bean id="Asset-retirementInfo.retirementState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
-    <property name="name" value="retirementInfo.retirementState.postalStateCode" />
-  </bean>
   
-  <bean id="Asset-retirementInfo.postalZipCode.postalCode" parent="Asset-retirementInfo.postalZipCode.postalCode-parentBean" />
-  <bean id="Asset-retirementInfo.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
-    <property name="name" value="retirementInfo.postalZipCode.postalCode" />
-  </bean>
-
-  <bean id="Asset-retirementInfo.retirementCountry.postalCountryName" parent="Asset-retirementInfo.retirementCountry.postalCountryName-parentBean" />
-  <bean id="Asset-retirementInfo.retirementCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
-    <property name="name" value="retirementInfo.retirementCountry.postalCountryName" />
-  </bean>
-
- 
-
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" />
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
@@ -1265,7 +1254,7 @@
 	p:sourceAttributeName="postalCode">
     <property name="name" value="offCampusLocation.postalZipCode.postalCode" />
   </bean>
-
+  
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" />
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName" />
@@ -1568,7 +1557,7 @@
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="Sale" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.buyerDescription" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.buyerDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="salePrice" />
               <bean parent="FieldDefinition"
@@ -1586,21 +1575,21 @@
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="External Transfer/Gift" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementContactName" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementContactName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementInstitutionName" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementInstitutionName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementStreetAddress" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementStreetAddress" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementCityName" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementCityName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementState.postalStateCode" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementStateCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.postalZipCode.postalCode" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementZipCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementCountry.postalCountryName" />
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementCountryCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementPhoneNumber" /> 
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementPhoneNumber" /> 
             </list>
           </property>
         </bean>

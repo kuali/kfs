@@ -53,7 +53,7 @@ public class AssetPaymentAssetValidation extends GenericValidation {
             position_a++;
             String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "."+CamsPropertyConstants.AssetPaymentDocument.ASSET_PAYMENT_ASSET_DETAIL + "["+position_a+"]."+ CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
-            if (assetPaymentAssetDetail.getAsset().getTotalCostAmount().compareTo(new KualiDecimal(0)) != 0)
+            if (assetPaymentAssetDetail.getAsset().getTotalCostAmount()!= null && assetPaymentAssetDetail.getAsset().getTotalCostAmount().compareTo(new KualiDecimal(0)) != 0)
                 nonZeroCostAssetCount++;
             else
                 zeroCostAssetCount++;

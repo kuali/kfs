@@ -137,6 +137,7 @@
   <bean id="AssetGlobal-conditionCode" parent="AssetGlobal-conditionCode-parentBean" />
   <bean id="AssetGlobal-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
     <property name="name" value="conditionCode" />
+    <property name="label" value="Asset Condition" />
     <property name="control">
     	<bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetConditionValuesFinder" />

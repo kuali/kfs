@@ -168,52 +168,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#prepareGlobalsForSave()
-     */
-    @Override
-    protected void prepareGlobalsForSave() {
-        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-        List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
-        AssetRetirementGlobalDetail sharedRetirementInfo = assetRetirementGlobal.getSharedRetirementInfo();
-
-        // Populate shared columns for each assetRetirementGlobalDetail based sharedRetirementInfo
-        if (sharedRetirementInfo != null) {
-            for (AssetRetirementGlobalDetail assetDetail : assetRetirementGlobalDetails) {
-                copyAssetRetirementGlobalDetail(sharedRetirementInfo, assetDetail);
-            }
-        }
-
-        super.prepareGlobalsForSave();
-    }
-
-    /**
-     * This method copies each attributes except capitalAssetNumber in AssetRetirementGlobalDetail from source to destination.
-     * 
-     * @param source
-     * @param destination
-     */
-    private void copyAssetRetirementGlobalDetail(AssetRetirementGlobalDetail source, AssetRetirementGlobalDetail destination) {
-        destination.setCashReceiptFinancialDocumentNumber(source.getCashReceiptFinancialDocumentNumber());
-        destination.setRetirementAccountNumber(source.getRetirementAccountNumber());
-        destination.setRetirementChartOfAccountsCode(source.getRetirementChartOfAccountsCode());
-        destination.setDocumentNumber(source.getDocumentNumber());
-        destination.setBuyerDescription(source.getBuyerDescription());
-        destination.setSalePrice(source.getSalePrice());
-        destination.setEstimatedSellingPrice(source.getEstimatedSellingPrice());
-        destination.setHandlingFeeAmount(source.getHandlingFeeAmount());
-        destination.setPreventiveMaintenanceAmount(source.getPreventiveMaintenanceAmount());
-        destination.setPaidCaseNumber(source.getPaidCaseNumber());
-        destination.setRetirementCityName(source.getRetirementCityName());
-        destination.setRetirementContactName(source.getRetirementContactName());
-        destination.setRetirementCountryCode(source.getRetirementCountryCode());
-        destination.setRetirementInstitutionName(source.getRetirementInstitutionName());
-        destination.setRetirementPhoneNumber(source.getRetirementPhoneNumber());
-        destination.setRetirementStateCode(source.getRetirementStateCode());
-        destination.setRetirementStreetAddress(source.getRetirementStreetAddress());
-        destination.setRetirementZipCode(source.getRetirementZipCode());
-    }
-
-    /**
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
      */
     @Override
@@ -224,12 +178,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
 
         for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
-            // Restore sharedRetirementInfo by the first assetRetirementGlobalDetail
-            if (assetRetirementGlobal.getSharedRetirementInfo() == null) {
-                AssetRetirementGlobalDetail sharedRetirementInfo = new AssetRetirementGlobalDetail();
-                copyAssetRetirementGlobalDetail(assetRetirementGlobalDetail, sharedRetirementInfo);
-                assetRetirementGlobal.setSharedRetirementInfo(sharedRetirementInfo);
-            }
             // Set non-persistent values. So the screen can show them after submit.
             getAssetService().setAssetSummaryFields(assetRetirementGlobalDetail.getAsset());
         }
@@ -250,7 +198,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             if (!getAssetRetirementService().isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode()) && assetRetirementGlobalDetails.size() > new Integer(1)) {
                 String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             }
             // Set non-persistent values in multiple lookup result collection. So the screen can show them when return from multiple

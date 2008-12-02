@@ -102,6 +102,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="AssetGlobalDetail-campusCode" parent="AssetGlobalDetail-campusCode-parentBean" />
   <bean id="AssetGlobalDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
+  	<property name="label" value="Campus"></property>
     <property name="shortLabel" value="Code" />
   </bean>
   
@@ -121,6 +122,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="AssetGlobalDetail-governmentTagNumber" parent="AssetGlobalDetail-governmentTagNumber-parentBean" />
   <bean id="AssetGlobalDetail-governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber">
+  	<property name="label" value="Government Tag " />
   </bean>
   
   <bean id="AssetGlobalDetail-nationalStockNumber" parent="AssetGlobalDetail-nationalStockNumber-parentBean" />

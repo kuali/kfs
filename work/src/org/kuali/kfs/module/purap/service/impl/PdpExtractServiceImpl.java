@@ -28,8 +28,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -43,7 +43,6 @@ import org.kuali.kfs.module.purap.service.PdpExtractService;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
-import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
@@ -56,6 +55,7 @@ import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
@@ -125,11 +125,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void extractPayments(boolean immediateOnly, Date processRunDate) {
         LOG.debug("extractPayments() started");
 
-        String userId = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_USER_ID);
-        Person uuser = personService.getPersonByPrincipalName(userId.toLowerCase());
+        Person uuser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         if (uuser == null) {
-            LOG.error("extractPayments() Unable to find user " + userId);
-            throw new IllegalArgumentException("Unable to find user " + userId);
+            LOG.error("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
         }
 
         List<String> campusesToProcess = getChartCodes(immediateOnly, processRunDate);
@@ -917,8 +916,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return Batch
      */
     private Batch createBatch(String campusCode, Person puser, Date processRunDate) {
-        String orgCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnitCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String orgCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnitCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
         if (customer == null) {
             throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);

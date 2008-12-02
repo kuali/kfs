@@ -112,11 +112,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        String userId = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
-        Person uuser = personService.getPersonByPrincipalName(userId);
-        if (uuser != null) {
-            LOG.debug("extractPayments() Unable to find user " + userId);
-            throw new IllegalArgumentException("Unable to find user " + userId);
+        Person uuser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        if (uuser == null) {
+            LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.

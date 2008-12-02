@@ -84,7 +84,6 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
-        public static final String DV_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
     }
 
     // system parameter parameter constants

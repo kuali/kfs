@@ -91,12 +91,6 @@ public class PdpConstants {
         public static final String HELD_TAX_NRA_EMPL_CD = "HTXB";
     }
     
-    public static class PurapParameterConstants {
-        public static final String PURAP_PDP_EPIC_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
-        public static final String PURAP_PDP_EPIC_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
-        public static final String PURAP_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
-    }
-    
     public static class Actions{
         public static final String BATCH_SEARCH_DETAIL_ACTION = "batchDetail.do";
         public static final String PAYMENT_DETAIL_ACTION = "pdp/paymentdetail.do";

@@ -41,7 +41,6 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -575,6 +574,12 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      */
     private BidiMap buildBidirecionalMapFromParameters(String parameters, String accountingLinePrefix) {
         BidiMap parameterMap = new DualHashBidiMap();
+
+        //  if we didnt get any incoming parameters, then just return an empty parameterMap 
+        if (StringUtils.isBlank(parameters)) {
+            return parameterMap;
+        }
+        
         String[] parameterArray = StringUtils.split(parameters, KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
 
         for (String parameter : parameterArray) {

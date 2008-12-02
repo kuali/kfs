@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
@@ -109,6 +108,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return cashControlDocument;
     }
     
+    public CashControlDetail getCashControlDetail() throws WorkflowException {
+        CashControlDetail cashControlDetail = 
+            getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
+        return cashControlDetail;
+    }
+    
     public KualiDecimal getCashControlTotalAmount() throws WorkflowException {
         CashControlDocument cashControlDocument = 
             getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
@@ -186,7 +191,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     public KualiDecimal getBalanceToBeApplied() throws WorkflowException {
-        KualiDecimal amount = getCashControlTotalAmount();
+        
+        // KULAR-504: "Balance" must equal line item amount from Cash Control - not the total Cash Control
+        KualiDecimal amount = getCashControlDetail().getFinancialDocumentLineAmount();
+        
         KualiDecimal subtrahend = getInvoicePaidAppliedsTotal();
         if(ObjectUtils.isNotNull(subtrahend)) {
             amount = amount.subtract(subtrahend);

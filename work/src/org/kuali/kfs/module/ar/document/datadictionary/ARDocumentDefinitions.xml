@@ -10,14 +10,11 @@
 		<property name="elementName" value="invoiceItemInformation" />
 		<property name="fields">
 			<list>
-				<!--
-				WARNING - the lookups on invoiceItemCode are a little wonky, and only work right from the newSourceLine for now  
-				-->
 				<bean parent="AccountingLineView-field"	
 					  p:name="invoiceItemCode"
-					  p:overrideLookupParameters="newSourceLine.invoiceItemCode:invoiceItemCode" 
+					  p:overrideLookupParameters="${accountingLineName}invoiceItemCode:invoiceItemCode" 
 					  p:overrideLookupClass="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode" 
-					  p:overrideFieldConversions="invoiceItemCode:newSourceLine.invoiceItemCode,invoiceItemDescription:newSourceLine.invoiceItemDescription,defaultInvoiceChartOfAccountsCode:newSourceLine.chartOfAccountsCode,defaultInvoiceAccountNumber:newSourceLine.accountNumber,defaultInvoiceSubAccountNumber:newSourceLine.subAccountNumber,defaultInvoiceFinancialObjectCode:newSourceLine.financialObjectCode,defaultInvoiceFinancialSubObjectCode:newSourceLine.financialSubObjectCode,defaultInvoiceProjectCode:newSourceLine.projectCode,defaultInvoiceOrganizationReferenceIdentifier:newSourceLine.organizationReferenceId"                        
+					  p:overrideFieldConversions="invoiceItemCode:${accountingLineName}invoiceItemCode,invoiceItemDescription:${accountingLineName}invoiceItemDescription,defaultInvoiceChartOfAccountsCode:${accountingLineName}chartOfAccountsCode,defaultInvoiceAccountNumber:${accountingLineName}accountNumber,defaultInvoiceSubAccountNumber:${accountingLineName}subAccountNumber,defaultInvoiceFinancialObjectCode:${accountingLineName}financialObjectCode,defaultInvoiceFinancialSubObjectCode:${accountingLineName}financialSubObjectCode,defaultInvoiceProjectCode:${accountingLineName}projectCode,defaultInvoiceOrganizationReferenceIdentifier:${accountingLineName}organizationReferenceId"                        
 					  p:required="false" />
 					  
 				<bean parent="AccountingLineView-field"	p:name="invoiceItemQuantity"                   p:required="true" />

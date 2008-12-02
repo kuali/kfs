@@ -37,6 +37,7 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -494,6 +495,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             // total cost must be > 0
             success &= validateTotalCostAmount(assetGlobal);
 
+            success &= validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
         } // end ASEP
 
         success &= validateLocationCollection(assetGlobal, assetSharedDetails);
@@ -573,7 +575,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // no need to validate specific fields if document is "Asset Separate"
         if (!getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
-
             success &= validateAccount(assetGlobal);
 
             if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
@@ -709,6 +710,25 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         return success;
+    }
+    
+    /**
+     * Give an error if this asset can't be separated due to mismatching amount on asset and AssetPayment records
+     * @param assetGlobal
+     * @return validation success of failure
+     */
+    public static boolean validateAssetTotalCostMatchesPaymentTotalCost(AssetGlobal assetGlobal) {
+        PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+        assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
+        KualiDecimal assetTotalCost = ObjectUtils.isNull(assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount()) ? new KualiDecimal(0) :  assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount();
+        KualiDecimal paymentTotalCost = paymentSummaryService.calculatePaymentTotalCost(assetGlobal.getSeparateSourceCapitalAsset());
+        if (!paymentTotalCost.equals(assetTotalCost)) {
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_TOTAL_COST_NOT_MATCH_PAYMENT_TOTAL_COST);
+            
+            return false;
+        }
+        
+        return true;
     }
 
     private ParameterService getParameterService() {

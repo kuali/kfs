@@ -39,6 +39,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
+import org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
@@ -98,6 +99,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
             populateAssetSeparateRecalculateSourceAmount(assetGlobal, asset);
+            
+            AssetGlobalRule.validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
         }
 
         super.processAfterNew(document, parameters);

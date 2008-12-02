@@ -35,6 +35,7 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -318,6 +319,46 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     /**
+     * 
+     * This method...
+     * @param cashControlDocument
+     * @return
+     * @throws WorkflowException
+     */
+    private SystemInformation getSystemInformation(CashControlDocument cashControlDocument) throws WorkflowException {
+        if(ObjectUtils.isNull(cashControlDocument)) {
+            return null;
+        }
+        String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        String processingChartCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+        SystemInformation systemInformation = 
+            SpringContext.getBean(SystemInformationService.class).getByProcessingChartAndOrg(processingChartCode, processingOrgCode);
+        return systemInformation;
+    }
+
+    /**
+     * 
+     * @param cashControlDocument
+     * @return
+     * @throws WorkflowException
+     */
+    private Account getUniversityClearingAccount(CashControlDocument cashControlDocument) throws WorkflowException {
+        SystemInformation systemInformation = getSystemInformation(cashControlDocument);
+        if(ObjectUtils.isNull(systemInformation)) {
+            return null;
+        }
+        systemInformation.refresh();
+        Account universityClearingAccount = null;
+        try {
+            universityClearingAccount = systemInformation.getUniversityClearingAccount();
+        } catch(Throwable t) {
+            t.printStackTrace();
+        }
+        universityClearingAccount.refresh();
+        return universityClearingAccount;
+    }
+    
+    /**
      * @param ipa
      * @return the university clearing account
      */
@@ -410,6 +451,45 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     /**
+     * This method gets an ObjectCode from an invoice document.
+     * 
+     * @param invoicePaidApplied
+     * @return
+     * @throws WorkflowException
+     */
+    private ObjectCode getInvoiceObjectCode(InvoicePaidApplied invoicePaidApplied) throws WorkflowException {
+        CustomerInvoiceDocument customerInvoiceDocument = invoicePaidApplied.getCustomerInvoiceDocument();
+        CustomerInvoiceDetail customerInvoiceDetail = invoicePaidApplied.getInvoiceItem();
+        ReceivableCustomerInvoiceDetail receivableInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, customerInvoiceDocument);
+        ObjectCode objectCode = null;
+        if(ObjectUtils.isNotNull(receivableInvoiceDetail) && ObjectUtils.isNotNull(receivableInvoiceDetail.getFinancialObjectCode())) {
+            objectCode = receivableInvoiceDetail.getObjectCode();
+        }
+        return objectCode;
+    }
+    
+    /**
+     * This method returns the CashControlDocument for a PaymentApplicationDocument.
+     * If the PaymentApplicationDocument does not have a CashControlDocument itself,
+     * it will walk up through the tree of parent PaymentApplicationDocuments in
+     * order to find one that does. The only way for a PaymentApplicationDocument to
+     * be created without a CashControlDocument is via an unapplied line on 
+     * another PaymentApplicationDocument. So we have to find that one.
+     * 
+     * @param paymentApplicationDocument
+     * @return
+     * @throws WorkflowException
+     */
+    private CashControlDocument getCashControlDocument(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
+        if(null == cashControlDocument) {
+            // FIXME Add in the recursive parent search to find a CashControlDocument 
+            // if one isn't present on the PaymentApplicationDocument passed in.
+        }
+        return paymentApplicationDocument.getCashControlDocument();
+    }
+    
+    /**
      * @param sequenceHelper
      * @return the pending entries for the document
      */
@@ -423,14 +503,16 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         String actualsBalanceTypeCode = "AC";
         BalanceTypService balanceTypeService = SpringContext.getBean(BalanceTypService.class);
         BalanceTyp balanceType = balanceTypeService.getBalanceTypByCode(actualsBalanceTypeCode);
+        CashControlDocument cashControlDocument = getCashControlDocument(this);
+        Account clearingAccount = getUniversityClearingAccount(cashControlDocument);
         
         List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
         List<InvoicePaidApplied> appliedPayments = getInvoicePaidApplieds();
         for(InvoicePaidApplied ipa : appliedPayments) {
             ipa.refreshNonUpdateableReferences();
-            Account clearingAccount = getUniversityClearingAccount(ipa);
             Account billingOrganizationAccount = getBillingOrganizationAccount(ipa);
-            ObjectCode cashObjectCode = getCashObjectCode(ipa);
+            ObjectCode invoiceObjectCode = getInvoiceObjectCode(ipa);
+            ObjectUtils.isNull(invoiceObjectCode); // Refresh 
             ObjectCode accountsReceivableObjectCode = getAccountsReceivableObjectCode(ipa);
             ObjectCode unappliedCashObjectCode = getUnappliedCashObjectCode(ipa);
             
@@ -453,8 +535,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             creditGLPE_1.setAccountNumber(clearingAccount.getAccountNumber());
-            creditGLPE_1.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
-            creditGLPE_1.setFinancialObjectTypeCode(cashObjectCode.getFinancialObjectTypeCode());
+            creditGLPE_1.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
+            creditGLPE_1.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
             creditGLPE_1.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
             creditGLPE_1.setFinancialDocumentTypeCode(documentTypeCode);
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
@@ -466,8 +548,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             debitGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
             debitGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
-            debitGLPE_2.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
-            debitGLPE_2.setFinancialObjectTypeCode(cashObjectCode.getFinancialObjectTypeCode());
+            debitGLPE_2.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
+            debitGLPE_2.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
             debitGLPE_2.setFinancialBalanceTypeCode(actualsBalanceTypeCode);
             debitGLPE_2.setFinancialDocumentTypeCode(documentTypeCode);
             debitGLPE_2.setDocumentType(documentType);

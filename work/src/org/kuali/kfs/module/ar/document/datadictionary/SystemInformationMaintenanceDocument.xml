@@ -132,7 +132,7 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentInitiatorIdentifier"
-              p:defaultValue="kuluser" />
+              p:defaultValue="KULUSER" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentInitiator.principalName"
               p:required="true"

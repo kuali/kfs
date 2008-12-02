@@ -82,15 +82,15 @@ public class LockboxServiceImpl implements LockboxService {
             LOG.info("LOCKBOX: '" + lockbox.getLockboxNumber() + "'");
 
             SystemInformation sysInfo = systemInformationService.getByLockboxNumber(lockbox.getLockboxNumber());
-            String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier().toLowerCase();
+            String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
             LOG.info("Using SystemInformation: '" + sysInfo.toString() + "'");
-            LOG.info("Using Financial Document Initiator: '" + initiator + "'");
+            LOG.info("Using Financial Document Initiator PrincipalID: '" + initiator + "'");
             
             //  this will throw obviously if the user isnt setup in the system
-            Person person = personService.getPersonByPrincipalName(initiator);
+            Person person = personService.getPerson(initiator);
             if (person == null) {
-                LOG.error("Financial Document Initiator [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
-                throw new RuntimeException("Financial Document Initiator [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
+                LOG.error("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
+                throw new RuntimeException("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
             }
             
             GlobalVariables.clear();

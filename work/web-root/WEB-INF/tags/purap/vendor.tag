@@ -367,7 +367,7 @@
                 <td align=left valign=middle class="datacell">&nbsp;</td>
             
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right">Alternate Vendor For Escrow Payment:</div>
+                    <div align="right">Alternate Vendor For Non-Primary Vendor Payment:</div>
                 </th>
                 <td align=left valign=middle class="datacell">
 					<!-- -<input type="image" name="methodToCall." src="${ConfigProperties.externalizable.images.url}tinybutton-searchaltvend.gif" class="tinybutton" title="Search for alternate vendor" alt="Search for alternate vendor">-->
@@ -406,7 +406,7 @@
                 <!-- display use alternate or original vendor if on payment request document and there is an alternate to select from -->
                 <tr>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right">Alternate Vendor For Escrow Payment:</div>
+                    <div align="right">Alternate Vendor For Non-Primary Vendor Payment:</div>
                 </th>
                 <td align=left valign=middle class="datacell">
                 <c:choose>

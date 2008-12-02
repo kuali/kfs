@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
-import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -128,14 +127,19 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             childURLDataList.add(childURLData);
 
             anchorHtmlData.setChildUrlDataList(childURLDataList);
-        }
-        else {
+        } else {
             anchorHtmlData = new AnchorHtmlData("", "", "");
-
-            parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN);
-            String childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
-            AnchorHtmlData childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN);
-            childURLDataList.add(childURLData);
+            // 
+            AnchorHtmlData childURLData = new AnchorHtmlData("", "", "");
+            if (asset.getCampusTagNumber() == null) {
+                childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN);
+                childURLDataList.add(childURLData);
+            } else {
+                parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN);
+                String childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
+                childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN);
+                childURLDataList.add(childURLData);
+            }
 
             childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN_RENEW);
             childURLDataList.add(childURLData);

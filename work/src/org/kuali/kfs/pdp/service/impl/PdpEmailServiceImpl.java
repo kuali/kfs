@@ -39,7 +39,6 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -596,22 +595,22 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         StringBuffer body = new StringBuffer();
 
-        String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
+        String messageKey = kualiConfigurationService.getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
             body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
         
         body.append(note + "\n\n");
         String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_GROUP_EMAIL_ADDRESS);
         String taxContactDepartment = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_CANCEL_CONTACT);
         if (StringUtils.isBlank(taxEmail)) {
-            messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2);
+            messageKey = kualiConfigurationService.getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2);
             body.append(MessageFormat.format(messageKey, new Object[] { taxContactDepartment }) + " \n\n");
         }
         else {
-            messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3);
+            messageKey = kualiConfigurationService.getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3);
             body.append(MessageFormat.format(messageKey, new Object[] { taxContactDepartment, taxEmail }) + " \n\n");
         }
 
-        messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);
+        messageKey = kualiConfigurationService.getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);
             body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
         
         for (PaymentDetail pd : paymentGroup.getPaymentDetails()) {

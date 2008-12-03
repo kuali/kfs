@@ -44,6 +44,7 @@ public class BCKeyConstants {
     public static final String ERROR_BUDGET_DOCUMENT_OTHER = "error.budget.documentOther";
 
     public static final String ERROR_BUDGET_AUTHORIZATION_DOCUMENT = "error.budget.authorization.document";
+    public static final String ERROR_BUDGET_DOCUMENT_NOT_BUDGETABLE = "error.budget.documentNotBudgetable";
     public static final String ERROR_BUDGET_PULLUP_DOCUMENT = "error.budget.pullup.document";
     public static final String ERROR_BUDGET_PUSHDOWN_DOCUMENT = "error.budget.pushdown.document";
     public static final String ERROR_BUDGET_SUBFUND_NOT_SELECTED = "error.budget.subFundNotSelected";

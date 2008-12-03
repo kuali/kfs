@@ -68,7 +68,8 @@
               p:readOnly="true"
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+              p:name="active" 
+              p:defaultValue="true" />
       </list>
     </property>
   </bean>

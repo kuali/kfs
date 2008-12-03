@@ -66,7 +66,8 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="activeIndicator"
-              p:required="true" />              
+              p:required="true" 
+              p:defaultValue="true" />              
       </list>
     </property>
   </bean>

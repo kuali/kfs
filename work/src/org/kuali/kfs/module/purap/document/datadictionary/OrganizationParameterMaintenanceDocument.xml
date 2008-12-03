@@ -65,7 +65,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationAutomaticPurchaseOrderLimit" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="activeIndicator" />              
+              p:name="activeIndicator" 
+              p:defaultValue="true" />              
       </list>
     </property>
   </bean>

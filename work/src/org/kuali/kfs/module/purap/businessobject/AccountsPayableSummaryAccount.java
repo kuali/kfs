@@ -16,10 +16,8 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -29,23 +27,20 @@ import org.kuali.rice.kns.service.DateTimeService;
  */
 public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
 
-    private Integer purapDocumentIdentifier;
-    private String postingPeriodCode;
-    
-    private PaymentRequestDocument paymentRequest;
-    private AccountingPeriod financialDocumentPostingPeriod;
-    private Integer creditMemoId;
+    private Integer paymentRequestIdentifier;
+    private Integer creditMemoIdentifier;
     private Timestamp updateTimestamp;
     
-    /**
-     * Default constructor.
-     */
     public AccountsPayableSummaryAccount() {
-
     }
 
-    public AccountsPayableSummaryAccount(SourceAccountingLine account, Integer purapDocumentIdentifier) {
-        this.setPurapDocumentIdentifier(purapDocumentIdentifier);
+    public AccountsPayableSummaryAccount(SourceAccountingLine account, Integer purapDocumentIdentifier, String docType) {
+        if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
+            this.setPaymentRequestIdentifier(purapDocumentIdentifier);
+        }
+        else if (PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(docType)) {
+            this.setCreditMemoIdentifier(purapDocumentIdentifier);
+        }
         this.setChartOfAccountsCode(account.getChartOfAccountsCode());
         this.setAccountNumber(account.getAccountNumber());
         this.setSubAccountNumber(account.getSubAccountNumber());
@@ -55,14 +50,6 @@ public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
         this.setOrganizationReferenceId(account.getOrganizationReferenceId());
         this.setAmount(account.getAmount());
         this.setUpdateTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
-    }
-
-    public PaymentRequestDocument getPaymentRequest() {
-        return paymentRequest;
-    }
-
-    public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
-        this.paymentRequest = paymentRequest;
     }
 
     /**
@@ -85,53 +72,20 @@ public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
         super.setItemIdentifier(itemIdentifier);
     }
 
-    public Integer getPurapDocumentIdentifier() {
-        return purapDocumentIdentifier;
+    public Integer getPaymentRequestIdentifier() {
+        return paymentRequestIdentifier;
     }
 
-    public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
-        this.purapDocumentIdentifier = purapDocumentIdentifier;
+    public void setPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
+        this.paymentRequestIdentifier = paymentRequestIdentifier;
     }
 
-    /**
-     * Gets the postingPeriodCode attribute. 
-     * @return Returns the postingPeriodCode.
-     */
-    public String getPostingPeriodCode() {
-        return postingPeriodCode;
+    public Integer getCreditMemoIdentifier() {
+        return creditMemoIdentifier;
     }
 
-    /**
-     * Sets the postingPeriodCode attribute value.
-     * @param postingPeriodCode The postingPeriodCode to set.
-     */
-    public void setPostingPeriodCode(String postingPeriodCode) {
-        this.postingPeriodCode = postingPeriodCode;
-    }
-
-    /**
-     * Gets the financialDocumentPostingPeriod attribute. 
-     * @return Returns the financialDocumentPostingPeriod.
-     */
-    public AccountingPeriod getFinancialDocumentPostingPeriod() {
-        return financialDocumentPostingPeriod;
-    }
-
-    /**
-     * Sets the financialDocumentPostingPeriod attribute value.
-     * @param financialDocumentPostingPeriod The financialDocumentPostingPeriod to set.
-     * @deprecated
-     */
-    public void setFinancialDocumentPostingPeriod(AccountingPeriod financialDocumentPostingPeriod) {
-        this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
-    }
-
-    public Integer getCreditMemoId() {
-        return creditMemoId;
-    }
-
-    public void setCreditMemoId(Integer creditMemoId) {
-        this.creditMemoId = creditMemoId;
+    public void setCreditMemoIdentifier(Integer creditMemoIdentifier) {
+        this.creditMemoIdentifier = creditMemoIdentifier;
     }
 
     public Timestamp getUpdateTimestamp() {
@@ -141,25 +95,5 @@ public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
-
-//    @Override
-//    protected void updateObjectAndSubObject() {
-//        // do nothing
-//        return;
-//    }
-//
-//    @Override
-//    protected void updateObjectCode() {
-//        // do nothing
-//        return;    
-//    }
-//
-//    @Override
-//    protected void updateSubObjectCode() {
-//        // do nothing
-//        return;
-//    }
-
-
     
 }

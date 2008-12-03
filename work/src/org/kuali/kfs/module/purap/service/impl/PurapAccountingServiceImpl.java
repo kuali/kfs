@@ -27,6 +27,7 @@ import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -73,9 +74,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static final Boolean ALTERNATE_AMOUNT_NOT_USED = Boolean.FALSE;
     private static final Boolean USE_TAX_INCLUDED = Boolean.TRUE;
     private static final Boolean USE_TAX_EXCLUDED = Boolean.FALSE;
-    // Spring injection
-    PurApAccountingDao purApAccountingDao;
 
+    private PurApAccountingDao purApAccountingDao;
     private PurapService purapService;
     
     /**
@@ -797,13 +797,27 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
     
     /**
-     * 
-     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#deleteSummaryAccounts(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#deleteSummaryAccounts(java.lang.Integer, java.lang.String)
      */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
-        purApAccountingDao.deleteSummaryAccounts(purapDocumentIdentifier);
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier, String docType) {
+        if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
+            purApAccountingDao.deleteSummaryAccountsbyPaymentRequestIdentifier(purapDocumentIdentifier);
+        }
+        else if (PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(docType)) {
+            purApAccountingDao.deleteSummaryAccountsbyCreditMemoIdentifier(purapDocumentIdentifier);
+        }
     }
     
+    public List getAccountsPayableSummaryAccounts(Integer purapDocumentIdentifier, String docType) {
+        if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
+            return purApAccountingDao.getSummaryAccountsbyPaymentRequestIdentifier(purapDocumentIdentifier);
+        }
+        else if (PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(docType)) {
+            purApAccountingDao.getSummaryAccountsbyCreditMemoIdentifier(purapDocumentIdentifier);
+        }
+        return null;
+    }
+
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item) {
         return purApAccountingDao.getAccountingLinesForItem(item);
     }
@@ -924,10 +938,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 //        MultiValueMap useTaxItemMap = new MultiValueMap();
     }
     
-    public PurApAccountingDao getPurApAccountingDao() {
-        return purApAccountingDao;
-    }
-
     public void setPurApAccountingDao(PurApAccountingDao purApAccountingDao) {
         this.purApAccountingDao = purApAccountingDao;
     }

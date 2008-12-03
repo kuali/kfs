@@ -459,7 +459,9 @@
 	
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.PurchaseOrderDaoOjb" />
 
-	<bean id="purApAccountingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.PurApAccountingDaoOjb" />
+	<bean id="purApAccountingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.PurApAccountingDaoOjb" >
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 
 	<bean id="imageDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.ImageDaoNet">
 		<property name="parameterService" ref="parameterService" />

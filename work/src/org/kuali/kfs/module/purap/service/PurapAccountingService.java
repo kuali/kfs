@@ -200,12 +200,19 @@ public interface PurapAccountingService {
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item);
     
     /**
-     * Deletes the payment request summary accounts by purapDocumentIdentifier
+     * Deletes the ap summary accounts by the id of the doc type (Payment Request - PREQ or Credit Memo - CM)
      * 
-     * @param purapDocumentIdentifier  The purapDocumentIdentifier of the payment request document whose summary accounts are to be deleted.
+     * @param purapDocumentIdentifier  The purapDocumentIdentifier of the document whose summary accounts are to be deleted.
      */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier, String docType);
     
+    /**
+     * Retrieves the ap summary accounts by the id of the doc type (Payment Request - PREQ or Credit Memo - CM)
+     * 
+     * @param purapDocumentIdentifier  The purapDocumentIdentifier of the document.
+     */
+    public List getAccountsPayableSummaryAccounts(Integer purapDocumentIdentifier, String docType);
+
     /**
      * 
      * This method generates summary accounts for a vendor payment.

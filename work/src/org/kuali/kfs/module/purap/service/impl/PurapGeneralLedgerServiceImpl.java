@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.service.impl;
 import static org.kuali.kfs.module.purap.PurapConstants.HUNDRED;
 import static org.kuali.kfs.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
-import static org.kuali.kfs.sys.KFSConstants.ENCUMB_UPDT_DOCUMENT_CD;
 import static org.kuali.kfs.sys.KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
@@ -45,14 +44,9 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -272,7 +266,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
 
         Map<SourceAccountingLine, KualiDecimal> actualsNegative = new HashMap<SourceAccountingLine, KualiDecimal>();
-        List<AccountsPayableSummaryAccount> oldAccountingLines = getAccountsPayableSummaryAccounts(preq.getPurapDocumentIdentifier());
+        List<AccountsPayableSummaryAccount> oldAccountingLines = purapAccountingService.getAccountsPayableSummaryAccounts(preq.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
 
         for (AccountsPayableSummaryAccount oldAccount : oldAccountingLines) {
             actualsNegative.put(oldAccount.generateSourceAccountingLine(), oldAccount.getAmount());
@@ -426,13 +420,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             // Manually save preq summary accounts
-            saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
-
-            // Manually save preq account history
-            savePaymentRequestAccountHistories(preq.getItems(), preq.getPostingYearFromPendingGLEntries(), preq.getPostingPeriodCodeFromPendingGLEntries());
+            saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
 
             // manually save cm account change tables (CAMS needs this)
-            // FIXME (hjs) - Harsha add the call to your method here
             if (CREATE_PAYMENT_REQUEST.equals(processType) || MODIFY_PAYMENT_REQUEST.equals(processType)) {
                 SpringContext.getBean(PurapAccountRevisionService.class).savePaymentRequestAccountRevisions(preq.getItems(), preq.getPostingYearFromPendingGLEntries(), preq.getPostingPeriodCodeFromPendingGLEntries());
             }
@@ -528,11 +518,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
             }
 
-            // Manually save cm account history
-            saveCreditMemoAccountHistories(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
-
             // manually save cm account change tables (CAMS needs this)
-            // FIXME (hjs) - Harsha add the call to your method here
             if (!isCancel) {
                 SpringContext.getBean(PurapAccountRevisionService.class).saveCreditMemoAccountRevisions(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
             }
@@ -1394,64 +1380,19 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * Save the given payment request account histories for the given document.
-     * 
-     * @param paymentRequestAccounts Accounts to be saved
-     */
-    private void savePaymentRequestAccountHistories(List<PaymentRequestItem> paymentRequestItems, Integer postingYear, String postingPeriodCode) {
-        LOG.debug("savePaymentRequestAccountHistories() started");
-        List<PaymentRequestAccountHistory> accountHistories = new ArrayList();
-        for (PaymentRequestItem item : paymentRequestItems) {
-            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                accountHistories.add(new PaymentRequestAccountHistory((PaymentRequestAccount) account, postingYear, postingPeriodCode));
-            }
-        }
-        businessObjectService.save(accountHistories);
-    }
-
-    /**
-     * Save the given credit memo account histories for the given document.
-     * 
-     * @param creditMemoAccounts Accounts to be saved
-     */
-    private void saveCreditMemoAccountHistories(List<CreditMemoItem> creditMemoItems, Integer postingYear, String postingPeriodCode) {
-        LOG.debug("saveCreditMemoAccountHistories() started");
-        List<CreditMemoAccountHistory> accountHistories = new ArrayList();
-        for (CreditMemoItem item : creditMemoItems) {
-            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                accountHistories.add(new CreditMemoAccountHistory((CreditMemoAccount) account, postingYear, postingPeriodCode));
-            }
-        }
-        businessObjectService.save(accountHistories);
-    }
-
-    /**
      * Save the given accounts for the given document.
      * 
      * @param sourceLines Accounts to be saved
      * @param purapDocumentIdentifier Purap document id for accounts
      */
-    private void saveAccountsPayableSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier) {
+    private void saveAccountsPayableSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier, String docType) {
         LOG.debug("saveAccountsPayableSummaryAccounts() started");
-        purapAccountingService.deleteSummaryAccounts(purapDocumentIdentifier);
+        purapAccountingService.deleteSummaryAccounts(purapDocumentIdentifier, docType);
         List<AccountsPayableSummaryAccount> apSummaryAccounts = new ArrayList();
         for (SummaryAccount summaryAccount : summaryAccounts) {
-            apSummaryAccounts.add(new AccountsPayableSummaryAccount(summaryAccount.getAccount(), purapDocumentIdentifier));
+            apSummaryAccounts.add(new AccountsPayableSummaryAccount(summaryAccount.getAccount(), purapDocumentIdentifier, docType));
         }
         businessObjectService.save(apSummaryAccounts);
-    }
-
-    /**
-     * Retrieve summary accounts based on given purap document id
-     * 
-     * @param purapDocumentIdentifier Purap document id for accounts
-     * @return List of summary accounts
-     */
-    private List getAccountsPayableSummaryAccounts(Integer purapDocumentIdentifier) {
-        LOG.debug("getAccountsPayableSummaryAccounts() started");
-        Map fieldValues = new HashMap();
-        fieldValues.put(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
-        return new ArrayList(businessObjectService.findMatching(AccountsPayableSummaryAccount.class, fieldValues));
     }
 
     /**

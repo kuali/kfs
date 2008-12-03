@@ -33,10 +33,34 @@ public interface PurApAccountingDao {
     public List getAccountingLinesForItem(PurApItem item);
 
     /**
-     * Deletes the summary accounts by purap document id.
+     * Deletes the summary accounts by payment request document id.
      * 
-     * @param purapDocumentIdentifier - purap document id
+     * @param paymentRequestIdentifier - payment request document id
      */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
+    public void deleteSummaryAccountsbyPaymentRequestIdentifier(Integer paymentRequestIdentifier);
+    
+    /**
+     * Deletes the summary accounts by credit memo document id.
+     * 
+     * @param creditMemoIdentifier - credit memo document id
+     */
+    public void deleteSummaryAccountsbyCreditMemoIdentifier(Integer creditMemoIdentifier);
+    
+    /**
+     * Retrieves the summary accounts by payment request document id.
+     * 
+     * @param paymentRequestIdentifier - payment request document id
+     * @return List of SummaryAccounts
+     */
+    public List getSummaryAccountsbyPaymentRequestIdentifier(Integer paymentRequestIdentifier);
+    
+    /**
+     * Retrieves the summary accounts by credit memo document id.
+     * 
+     * @param creditMemoIdentifier - credit memo document id
+     * @return List of SummaryAccounts
+     */
+    public List getSummaryAccountsbyCreditMemoIdentifier(Integer creditMemoIdentifier);
+    
     
 }

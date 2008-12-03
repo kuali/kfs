@@ -166,6 +166,7 @@ public class PurapPropertyConstants {
 
     // CREDIT MEMO DOCUMENT
     public static final String PAYMENT_REQUEST_ID = "paymentRequestIdentifier";
+    public static final String CREDIT_MEMO_ID = "creditMemoIdentifier";
     public static final String CREDIT_MEMO_DATE = "creditMemoDate";
     public static final String CREDIT_MEMO_NUMBER = "creditMemoNumber";
     public static final String CREDIT_MEMO_AMOUNT = "creditMemoAmount";

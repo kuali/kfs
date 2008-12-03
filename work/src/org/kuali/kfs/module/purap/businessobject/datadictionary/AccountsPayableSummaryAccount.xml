@@ -18,18 +18,16 @@
     <property name="attributes" >
       <list>
         <ref bean="AccountsPayableSummaryAccount-accountIdentifier" />
-        <ref bean="AccountsPayableSummaryAccount-accountLinePercent" />
-        <ref bean="AccountsPayableSummaryAccount-accountNumber" />
+        <ref bean="AccountsPayableSummaryAccount-paymentRequestIdentifier" />
+        <ref bean="AccountsPayableSummaryAccount-creditMemoIdentifier" />
         <ref bean="AccountsPayableSummaryAccount-amount" />
         <ref bean="AccountsPayableSummaryAccount-chartOfAccountsCode" />
-        <ref bean="AccountsPayableSummaryAccount-disencumberedAmount" />
+        <ref bean="AccountsPayableSummaryAccount-accountNumber" />
         <ref bean="AccountsPayableSummaryAccount-financialObjectCode" />
         <ref bean="AccountsPayableSummaryAccount-financialSubObjectCode" />
         <ref bean="AccountsPayableSummaryAccount-organizationReferenceId" />
         <ref bean="AccountsPayableSummaryAccount-projectCode" />
-        <ref bean="AccountsPayableSummaryAccount-purapDocumentIdentifier" />
         <ref bean="AccountsPayableSummaryAccount-subAccountNumber" />
-        <ref bean="AccountsPayableSummaryAccount-creditMemoId" />
         <ref bean="AccountsPayableSummaryAccount-updateTimestamp" />  
       </list>
     </property>
@@ -52,22 +50,6 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />
-    </property>
-  </bean>
-  <bean id="AccountsPayableSummaryAccount-accountLinePercent" parent="AccountsPayableSummaryAccount-accountLinePercent-parentBean" />
-
-  <bean id="AccountsPayableSummaryAccount-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountLinePercent" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Line Percent" />
-    <property name="shortLabel" value="Percent" />
-    <property name="maxLength" value="35" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="37" />
     </property>
   </bean>
   <bean id="AccountsPayableSummaryAccount-accountNumber" parent="AccountsPayableSummaryAccount-accountNumber-parentBean" />
@@ -115,22 +97,6 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="4" />
-    </property>
-  </bean>
-  <bean id="AccountsPayableSummaryAccount-disencumberedAmount" parent="AccountsPayableSummaryAccount-disencumberedAmount-parentBean" />
-
-  <bean id="AccountsPayableSummaryAccount-disencumberedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disencumberedAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Disencumbered Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
     </property>
   </bean>
   <bean id="AccountsPayableSummaryAccount-financialObjectCode" parent="AccountsPayableSummaryAccount-financialObjectCode-parentBean" />
@@ -197,12 +163,28 @@
             p:size="12" />
     </property>
   </bean>
-  <bean id="AccountsPayableSummaryAccount-purapDocumentIdentifier" parent="AccountsPayableSummaryAccount-purapDocumentIdentifier-parentBean" />
+  <bean id="AccountsPayableSummaryAccount-paymentRequestIdentifier" parent="AccountsPayableSummaryAccount-paymentRequestIdentifier-parentBean" />
 
-  <bean id="AccountsPayableSummaryAccount-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purapDocumentIdentifier" />
+  <bean id="AccountsPayableSummaryAccount-paymentRequestIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentRequestIdentifier" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Purap Document Identifier" />
+    <property name="label" value="Payment Request Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="AccountsPayableSummaryAccount-creditMemoIdentifier" parent="AccountsPayableSummaryAccount-creditMemoIdentifier-parentBean" />
+
+  <bean id="AccountsPayableSummaryAccount-creditMemoIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditMemoIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit Memo Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
@@ -230,23 +212,6 @@
     </property>
   </bean>
  
-  <bean id="AccountsPayableSummaryAccount-creditMemoId" parent="AccountsPayableSummaryAccount-creditMemoId-parentBean" />
- 
-  <bean id="AccountsPayableSummaryAccount-creditMemoId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="creditMemoId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Credit Memo Number" />
-    <property name="shortLabel" value="Credit Memo" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-  </bean>
-  
   <bean id="AccountsPayableSummaryAccount-updateTimestamp" parent="AccountsPayableSummaryAccount-updateTimestamp-parentBean" />
 
   <bean id="AccountsPayableSummaryAccount-updateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
@@ -280,15 +245,11 @@
               <bean parent="FieldDefinition"
                     p:attributeName="accountIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="accountLinePercent" />
-              <bean parent="FieldDefinition"
                     p:attributeName="accountNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="amount" />
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="disencumberedAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialObjectCode" />
               <bean parent="FieldDefinition"
@@ -298,8 +259,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="projectCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="purapDocumentIdentifier" />
-              <bean parent="FieldDefinition"
                     p:attributeName="subAccountNumber" />
             </list>
           </property>
@@ -307,6 +266,7 @@
       </list>
     </property>
   </bean>
+
 
 <!-- Business Object Lookup Definition -->
 
@@ -325,15 +285,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountLinePercent" />
-        <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="amount" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="disencumberedAmount" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
@@ -342,8 +298,6 @@
               p:attributeName="organizationReferenceId" />
         <bean parent="FieldDefinition"
               p:attributeName="projectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
       </list>
@@ -353,15 +307,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountLinePercent" />
-        <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="amount" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="disencumberedAmount" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
@@ -370,8 +320,6 @@
               p:attributeName="organizationReferenceId" />
         <bean parent="FieldDefinition"
               p:attributeName="projectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
       </list>

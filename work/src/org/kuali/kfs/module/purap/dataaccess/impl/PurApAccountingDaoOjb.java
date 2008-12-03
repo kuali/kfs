@@ -17,7 +17,9 @@ package org.kuali.kfs.module.purap.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -28,11 +30,18 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * OJB Implementation of PurApAccountingDao.
  */
 public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements PurApAccountingDao {
+
+    private BusinessObjectService businessObjectService;
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
     /**
      * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getAccountingLinesForItem(org.kuali.kfs.module.purap.businessobject.PurApItem)
@@ -55,17 +64,53 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#deleteSummaryAccounts(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#deleteSummaryAccountsbyPaymentRequestIdentifier(java.lang.Integer)
      */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
-
-        if (purapDocumentIdentifier != null) {
+    public void deleteSummaryAccountsbyPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
+        if (paymentRequestIdentifier != null) {
             Criteria criteria = new Criteria();
-            criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
+            criteria.addEqualTo(PurapPropertyConstants.PAYMENT_REQUEST_ID, paymentRequestIdentifier);
 
             getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(AccountsPayableSummaryAccount.class, criteria));
             getPersistenceBrokerTemplate().clearCache();
         }
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#deleteSummaryAccountsbyCreditMemoIdentifier(java.lang.Integer)
+     */
+    public void deleteSummaryAccountsbyCreditMemoIdentifier(Integer creditMemoIdentifier) {
+        if (creditMemoIdentifier != null) {
+            Criteria criteria = new Criteria();
+            criteria.addEqualTo(PurapPropertyConstants.CREDIT_MEMO_ID, creditMemoIdentifier);
+
+            getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(AccountsPayableSummaryAccount.class, criteria));
+            getPersistenceBrokerTemplate().clearCache();
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getSummaryAccountsbyPaymentRequestIdentifier(java.lang.Integer)
+     */
+    public List getSummaryAccountsbyPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
+        if (paymentRequestIdentifier != null) {
+            Map fieldValues = new HashMap();
+            fieldValues.put(PurapPropertyConstants.PAYMENT_REQUEST_ID, paymentRequestIdentifier);
+            return new ArrayList(businessObjectService.findMatching(AccountsPayableSummaryAccount.class, fieldValues));
+        }
+        return null;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getSummaryAccountsbyCreditMemoIdentifier(java.lang.Integer)
+     */
+    public List getSummaryAccountsbyCreditMemoIdentifier(Integer creditMemoIdentifier) {
+        if (creditMemoIdentifier != null) {
+            Map fieldValues = new HashMap();
+            fieldValues.put(PurapPropertyConstants.CREDIT_MEMO_ID, creditMemoIdentifier);
+            return new ArrayList(businessObjectService.findMatching(AccountsPayableSummaryAccount.class, fieldValues));
+        }
+        return null;
     }
     
 }

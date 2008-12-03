@@ -24,7 +24,9 @@
   <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
 	p:sourceAttributeName="capitalAssetNumber">
-     <property name="name" value="capitalAssetNumber" />
+      <property name="name" value="capitalAssetNumber" />
+      <property name="label" value="Asset Numbers" />
+      <property name="shortLabel" value="Asset Numbers" />
   </bean>
 
   <bean id="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier" parent="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier-parentBean" />

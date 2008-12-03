@@ -31,9 +31,7 @@
 
 	    <c:if test="${KualiForm.purchasingItemCapitalAssetAvailability eq availability}">
 	    <tr>
-          <th width="20%" align=right valign=middle class="bord-l-b">
-             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAssetAttributes.capitalAssetNumber}" /></div>
-          </th>
+          <th align="right" valign="middle" class="datacell">Add Asset Number:</th>
 	      <td class="datacell" align="left" colspan="3">
 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>		
 	      	&nbsp;
@@ -45,11 +43,18 @@
              <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAssetAttributes.capitalAssetNumber}" /></div>
           </th>
 	      <td class="datacell" valign="top" colspan="3">
-			<logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.itemCapitalAssets" id="asset">
-	 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
-  				<html:image property="${deleteItemAssetUrl}.((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />
-			    <br/>
-			</logic:iterate>
+            <table class="datatable" summary="System Detail" cellpadding=0 cellspacing=0 style="width:25%">
+	            <logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.itemCapitalAssets" id="asset">
+	               <tr>
+	                 <td class="datacell" align="left">
+	                     <kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
+	                 </td>
+	                 <td class="datacell" align="left">
+	                     <html:image property="${deleteItemAssetUrl}.((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />
+	                 </td>
+	               </tr>
+	            </logic:iterate>
+            </table>
 		  </td>
 	    </tr>
 	    </c:if>

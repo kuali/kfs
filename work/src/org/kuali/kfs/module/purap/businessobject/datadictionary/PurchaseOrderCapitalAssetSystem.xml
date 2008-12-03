@@ -99,20 +99,12 @@
   </bean>
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetTypeCode" parent="PurchaseOrderCapitalAssetSystem-capitalAssetTypeCode-parentBean" />
 
-  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+        p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+        p:sourceAttributeName="capitalAssetTypeCode">    
     <property name="name" value="capitalAssetTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
   </bean>
+
   <bean id="PurchaseOrderCapitalAssetSystem-documentNumber" parent="PurchaseOrderCapitalAssetSystem-documentNumber-parentBean" />
 
   <bean id="PurchaseOrderCapitalAssetSystem-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -135,8 +127,8 @@
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNoteText" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Notes To Vendor" />
-    <property name="shortLabel" value="Text" />
+    <property name="label" value="Capital Asset Note Text" />
+    <property name="shortLabel" value="Capital Asset Note Text" />
     <property name="maxLength" value="255" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -151,8 +143,18 @@
   
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber" parent="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" />
   
-  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" abstract="true" parent="GenericAttributes-genericSystemId" >
-  	<property name="name" value="capitalAssetCountAssetNumber" />
+  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetCountAssetNumber" />
+    <property name="label" value="How Many Assets?" />
+    <property name="shortLabel" value="How Many Assets?" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
   </bean>
   
 <!-- Business Object Inquiry Definition -->

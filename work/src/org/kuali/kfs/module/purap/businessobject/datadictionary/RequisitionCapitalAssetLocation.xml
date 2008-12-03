@@ -41,7 +41,7 @@
   <bean id="RequisitionCapitalAssetLocation-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Code" />
+    <property name="label" value="Building" />
     <property name="shortLabel" value="Building" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
@@ -57,7 +57,7 @@
   <bean id="RequisitionCapitalAssetLocation-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingRoomNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Room Number" />
+    <property name="label" value="Room" />
     <property name="shortLabel" value="Room" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
@@ -73,7 +73,7 @@
   <bean id="RequisitionCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Campus Code" />
+    <property name="label" value="Campus" />
     <property name="shortLabel" value="Campus" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -88,7 +88,7 @@
 
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetCityName" />
-    <property name="label" value="Capital Asset City Name" />
+    <property name="label" value="City" />
     <property name="shortLabel" value="City" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
@@ -105,7 +105,7 @@
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetCountryCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Country Code" />
+    <property name="label" value="Country" />
     <property name="shortLabel" value="Country" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -121,7 +121,7 @@
 
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetLine1Address" />
-    <property name="label" value="Capital Asset Line1 Address" />
+    <property name="label" value="Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
@@ -155,7 +155,7 @@
   		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
   		p:sourceAttributeName="postalCode"
         p:name="capitalAssetPostalCode"
-        p:label="Capital Asset Postal Code"
+        p:label="Postal Code"
         p:shortLabel="Postal Code"
         p:required="false" >
   </bean>
@@ -167,7 +167,7 @@
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="capitalAssetStateCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset State Code" />
+    <property name="label" value="State" />
     <property name="shortLabel" value="State" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -201,7 +201,7 @@
     <property name="name" value="itemQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="Item Quantity" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -216,7 +216,7 @@
   <bean id="RequisitionCapitalAssetLocation-offCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" 
         p:name="offCampusIndicator"
         p:required="false">
-    <property name="label" value="Off Campus Indicator" />
+    <property name="label" value="Off Campus" />
     <property name="shortLabel" value="Off Campus" />
   </bean>
 

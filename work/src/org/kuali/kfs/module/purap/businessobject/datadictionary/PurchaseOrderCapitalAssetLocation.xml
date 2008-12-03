@@ -33,7 +33,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-buildingCode-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="buildingCode"
         p:forceUppercase="false"
-        p:label="Building Code"
+        p:label="Building"
         p:shortLabel="Building"
         p:maxLength="10"
         p:required="false" >
@@ -51,7 +51,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-buildingRoomNumber-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="buildingRoomNumber"
         p:forceUppercase="false"
-        p:label="Building Room Number"
+        p:label="Room"
         p:shortLabel="Room"
         p:maxLength="10"
         p:required="false" >
@@ -69,7 +69,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-campusCode-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="campusCode"
         p:forceUppercase="false"
-        p:label="Campus Code"
+        p:label="Campus"
         p:shortLabel="Campus"
         p:maxLength="10"
         p:required="false" >
@@ -87,7 +87,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCityName-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="capitalAssetCityName"
         p:forceUppercase="false"
-        p:label="Capital Asset City Name"
+        p:label="City"
         p:shortLabel="City"
         p:maxLength="45"
         p:required="false" >
@@ -105,7 +105,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="capitalAssetCountryCode"
         p:forceUppercase="false"
-        p:label="Capital Asset Country Code"
+        p:label="Country"
         p:shortLabel="Country"
         p:maxLength="10"
         p:required="false" >
@@ -124,7 +124,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="capitalAssetLine1Address"
         p:forceUppercase="false"
-        p:label="Capital Asset Line1 Address"
+        p:label="Address"
         p:shortLabel="Address"
         p:maxLength="45"
         p:required="false" >
@@ -160,7 +160,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-postalCode" abstract="true"
         p:name="capitalAssetPostalCode"
         p:forceUppercase="false"
-        p:label="Capital Asset Postal Code"
+        p:label="Postal Code"
         p:shortLabel="Postal Code"
         p:maxLength="10"
         p:required="false" >
@@ -178,7 +178,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="capitalAssetStateCode"
         p:forceUppercase="false"
-        p:label="Capital Asset State Code"
+        p:label="State"
         p:shortLabel="State"
         p:maxLength="10"
         p:required="false" >
@@ -216,7 +216,7 @@
         p:name="itemQuantity"
         p:forceUppercase="false"
         p:label="Item Quantity"
-        p:shortLabel="Quantity"
+        p:shortLabel="Item Quantity"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -233,7 +233,7 @@
   <bean id="PurchaseOrderCapitalAssetLocation-offCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" 
         p:name="offCampusIndicator"
         p:required="false">
-    <property name="label" value="Off Campus Indicator" />
+    <property name="label" value="Off Campus" />
     <property name="shortLabel" value="Off Campus" />
   </bean>
 

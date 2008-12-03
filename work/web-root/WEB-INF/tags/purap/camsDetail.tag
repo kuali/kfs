@@ -31,7 +31,9 @@
 
 	    <c:if test="${KualiForm.purchasingItemCapitalAssetAvailability eq availability}">
 	    <tr>
-		  <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right" width="250px" />    
+          <th width="20%" align=right valign=middle class="bord-l-b">
+             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAssetAttributes.capitalAssetNumber}" /></div>
+          </th>
 	      <td class="datacell" align="left" colspan="3">
 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>		
 	      	&nbsp;
@@ -39,7 +41,9 @@
 		  </td>
 	    </tr>
 	    <tr>  
-	      <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right"/>
+          <th width="20%" align=right valign=middle class="bord-l-b">
+             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAssetAttributes.capitalAssetNumber}" /></div>
+          </th>
 	      <td class="datacell" valign="top" colspan="3">
 			<logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.itemCapitalAssets" id="asset">
 	 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
@@ -53,7 +57,9 @@
 	    <c:if test="${(KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability)}">
         <tr>
 	  	    <c:if test="${KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability}">
-			    <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" align="right" width="250px" />    
+	            <th width="20%" align=right valign=middle class="bord-l-b">
+	               <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" /></div>
+  	            </th>
 		        <td class="datacell">
 			   	    <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
 			    </td>		
@@ -63,7 +69,9 @@
 			    <td class="datacell">&nbsp;</td>
 	        </c:if>
 			<c:if test="${KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability}">
-	            <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" align="right" width="250px"/>
+                <th width="20%" align=right valign=middle class="bord-l-b">
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" /></div>
+                </th>
 	            <td class="datacell">
 		    		<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
 			    </td>
@@ -77,7 +85,9 @@
 
 		<c:if test="${KualiForm.purchasingCapitalAssetSystemAvailability eq availability}">
         <tr>
-		  <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" align="right" />
+          <th width="20%" align=right valign=middle class="bord-l-b">
+             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" /></div>
+          </th>
           <td align="right" class="datacell">
 			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" readOnly="true"/>&nbsp;
             <c:set var="notCurrentYear" value="false" />
@@ -91,7 +101,9 @@
                 <html:image property="${clearNotCurrentYearUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" alt="Clear Selection" styleClass="tinybutton"/>
             </c:if>
 		  </td>
-          <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" align="right" width="250px"/>
+          <th width="20%" align=right valign=middle class="bord-l-b">
+             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" /></div>
+          </th>
           <td align="right" class="datacell">
             <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
             <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
@@ -100,21 +112,27 @@
           </td>
         </tr>
         <tr>
-          <th align="right" valign="middle" class="datacell">Asset Type:</th>
+          <th width="20%" align=right valign=middle class="bord-l-b">
+             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" /></div>
+          </th>
           <td align="right" valign="middle" class="datacell">
               <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive or notCurrentYear}"/>		
               <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive and !notCurrentYear}">
                   <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/>
               </c:if>
           </td>
-          <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" align="right" width="250px"/>
+          <th width="20%" align=right valign=middle class="bord-l-b">
+             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" /></div>
+          </th>
           <td align="right" class="datacell">
             <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
 		  </td>
         </tr>
         <c:if test="${KualiForm.purchasingCapitalAssetCountAssetNumberAvailability eq availability}">
 	        <tr>
-	            <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetCountAssetNumber}" align="right" width="250px" />    
+                <th width="20%" align=right valign=middle class="bord-l-b">
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetCountAssetNumber}" /></div>
+                </th>
 	            <td class="datacell">
 	                <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetCountAssetNumber}" property="${camsAssetSystemProperty}.capitalAssetCountAssetNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
 	            </td>       

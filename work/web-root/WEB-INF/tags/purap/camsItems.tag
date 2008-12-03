@@ -137,10 +137,12 @@
 	        <th colspan="10" style="padding:0;">
 				<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 				<tr>
-			    <kul:htmlAttributeHeaderCell attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" align="right" width="250px"/>
-			    <td class="datacell">
-					<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}"/>		
-				</td>
+		            <th width="20%" align=right valign=middle class="bord-l-b">
+		               <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" /></div>
+		            </th>
+				    <td class="datacell">
+						<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}"/>		
+					</td>
 				</tr>
 				</table>
 				<purap:camsDetail ctr="${ctr}" camsItemIndex="${ctr}" camsSystemAttributes="${camsSystemAttributes}" camsAssetAttributes="${camsAssetAttributes}" camsLocationAttributes="${camsLocationAttributes}" camsAssetSystemProperty="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem" availability="${PurapConstants.CapitalAssetAvailability.EACH}" isRequisition="${isRequisition}" isPurchaseOrder="${isPurchaseOrder}" poItemInactive="${not itemActive}"/>

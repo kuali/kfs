@@ -49,7 +49,9 @@
     </td>
 </tr>
 <tr>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.itemQuantity}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.itemQuantity}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.itemQuantity}" property="${camsAssetLocationProperty}.itemQuantity" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
     </td>
@@ -57,7 +59,9 @@
     <td class="datacell">&nbsp;</td>
 </tr>
 <tr>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.campusCode}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.campusCode}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.campusCode}" 
             property="${camsAssetLocationProperty}.campusCode" readOnly="true"/>&nbsp;
@@ -65,13 +69,17 @@
             <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CampusParameter" fieldConversions="campusCode:${camsAssetLocationProperty}.campusCode"/>
         </c:if>
     </td>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetCityName}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.capitalAssetCityName}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetCityName}" property="${camsAssetLocationProperty}.capitalAssetCityName" readOnly="${!offCampus or !(fullEntryMode or amendmentEntry) or poItemInactive}"/>
     </td>
 </tr>
 <tr>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingCode}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.buildingCode}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingCode}" 
             property="${camsAssetLocationProperty}.buildingCode" readOnly="true"/>&nbsp;
@@ -83,17 +91,23 @@
             <html:image property="${refreshAssetLocationBuildingUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-offcampus.gif" alt="building not found" styleClass="tinybutton"/>
         </c:if>
     </td>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" property="${camsAssetLocationProperty}.capitalAssetStateCode" readOnly="${!offCampus or !(fullEntryMode or amendmentEntry) or poItemInactive}"/>
     </td>
 </tr>
 <tr>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" property="${camsAssetLocationProperty}.capitalAssetLine1Address" readOnly="${!offCampus or !(fullEntryMode or amendmentEntry) or poItemInactive}"/>
     </td>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" property="${camsAssetLocationProperty}.capitalAssetPostalCode" readOnly="${!offCampus or !(fullEntryMode or amendmentEntry) or poItemInactive}"/>
     </td>
@@ -102,7 +116,9 @@
 <logic:notEmpty name="KualiForm" property="${camsAssetLocationProperty}.buildingCode">
     <c:set var="buildingSelected" value="true" />
 </logic:notEmpty>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingRoomNumber}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.buildingRoomNumber}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingRoomNumber}" property="${camsAssetLocationProperty}.buildingRoomNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>&nbsp;
         <c:if test="${(fullEntryMode or amendmentEntry) && !poItemInactive && !offCampus && buildingSelected}">
@@ -112,7 +128,9 @@
                 fieldConversions="buildingRoomNumber:${camsAssetLocationProperty}.buildingRoomNumber"/>
         </c:if>
     </td>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetCountryCode}" align="right" />
+    <th width="20%" align=right valign=middle class="bord-l-b">
+       <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsLocationAttributes.capitalAssetCountryCode}" /></div>
+    </th>
     <td class="datacell">
         <kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetCountryCode}" property="${camsAssetLocationProperty}.capitalAssetCountryCode" readOnly="${!offCampus or !(fullEntryMode or amendmentEntry) or poItemInactive}"/>
     </td>

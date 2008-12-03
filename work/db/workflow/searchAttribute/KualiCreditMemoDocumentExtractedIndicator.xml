@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiCreditMemoDocumentExtractedIndicator</name>
-      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiCreditMemoDocumentExtractedIndicator</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
       <label>Kuali Credit Memo Document Extracted Indicator</label>
       <description>Attribute to identify the Extracted Indicator of the Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
@@ -19,10 +19,10 @@
             <column visible="false" />
           </visibility>
           <fieldEvaluation>
-            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedTimestamp'))</xpathexpression>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedDate'))</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

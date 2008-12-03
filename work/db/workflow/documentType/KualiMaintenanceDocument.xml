@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>KualiMaintenanceDocument</name>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>KualiMaintenanceDocument</name>
       <parent>KualiBaseDocument</parent>
       <description>KualiMaintenanceDocument</description>
       <label>KualiMaintenanceDocument</label>
@@ -32,6 +32,6 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

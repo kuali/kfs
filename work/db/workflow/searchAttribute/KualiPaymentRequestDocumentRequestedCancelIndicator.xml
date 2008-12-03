@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiPaymentRequestDocumentRequestedCancelIndicator</name>
-      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiPaymentRequestDocumentRequestedCancelIndicator</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
       <label>Kuali Payment Request Document Requested for Cancel Indicator</label>
       <description>Attribute to identify the Requested for Cancel Indicator of the Payment Request Document</description>
       <type>SearchableXmlAttribute</type>
@@ -20,6 +20,6 @@
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

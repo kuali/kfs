@@ -6,23 +6,6 @@
       <description>WorkflowDocumentTemplate</description>
     </ruleTemplate>
     <ruleTemplate>
-      <name>KualiVendorNotificationTemplate</name>
-      <description>Kuali Vendor Notification</description>
-      <attributes>
-        <attribute>
-          <name>KualiWorkflowInitiatorRoleAttribute</name>
-          <required>true</required>
-        </attribute>
-      </attributes>
-      <ruleDefaults>
-        <description>Rule for notifying document initiators about their vendor maintenance documents.</description>
-        <fromDate>07/01/2006</fromDate>
-        <toDate>01/01/2100</toDate>
-        <ignorePrevious>true</ignorePrevious>
-        <active>true</active>
-      </ruleDefaults>
-    </ruleTemplate>
-    <ruleTemplate>
       <name>KualiAccountTemplate</name>
       <description>KualiAccountTemplate</description>
       <delegationTemplate>KualiAccountDelegationTemplate</delegationTemplate>
@@ -54,90 +37,11 @@
       </attributes>
     </ruleTemplate>
     <ruleTemplate>
-      <name>KualiPurApAccountTemplate</name>
-      <description>Purchasing &amp; Accounts Payable Account Routing Template</description>
-      <delegationTemplate>KualiAccountDelegationTemplate</delegationTemplate>
-      <attributes>
-        <attribute>
-          <name>KualiAccountAttribute</name>
-          <required>false</required>
-        </attribute>
-      </attributes>
-      <ruleDefaults>
-        <description>Rule for routing Credit Memo documents to Account Review.</description>
-        <fromDate>07/01/2006</fromDate>
-        <toDate>01/01/2100</toDate>
-        <ignorePrevious>true</ignorePrevious>
-        <active>true</active>
-        <supportsComplete>true</supportsComplete>
-        <supportsApprove>true</supportsApprove>
-        <supportsAcknowledge>true</supportsAcknowledge>
-        <supportsFYI>true</supportsFYI>
-      </ruleDefaults>
-    </ruleTemplate>
-    <ruleTemplate>
       <name>RuleTemplate</name>
       <description>RuleTemplate</description>
       <attributes>
         <attribute>
           <name>RuleRoutingAttribute</name>
-          <required>false</required>
-        </attribute>
-      </attributes>
-    </ruleTemplate>
-    <ruleTemplate>
-      <name>KualiAwardWorkgroupTemplate</name>
-      <description>KualiAwardWorkgroupTemplate</description>
-      <attributes>
-        <attribute>
-          <name>KualiCGAttribute</name>
-          <required>false</required>
-        </attribute>
-      </attributes>
-    </ruleTemplate>
-    <ruleTemplate>
-      <name>KualiPurchaseOrderRemoveHoldNotify</name>
-      <description>Purchase Order Remove Hold Notify</description>
-      <attributes>
-        <attribute>
-          <name>KualiPurchaseOrderRemoveHoldNotification</name>
-          <required>false</required>
-        </attribute>
-      </attributes>
-      <ruleDefaults>
-        <description>Rule for routing a notification based on the campus.</description>
-        <fromDate>07/13/2006</fromDate>
-        <toDate>01/01/2100</toDate>
-        <ignorePrevious>true</ignorePrevious>
-        <active>true</active>
-      </ruleDefaults>
-    </ruleTemplate>
-    <ruleTemplate>
-      <name>KualiModuleUserTemplate</name>
-      <description>KualiModuleUserTemplate</description>
-      <attributes>
-        <attribute>
-          <name>KualiModuleUserAttribute</name>
-          <required>false</required>
-        </attribute>
-      </attributes>
-    </ruleTemplate>
-    <ruleTemplate>
-      <name>SystemParameterRoutingTemplate</name>
-      <description>SystemParameterRoutingTemplate</description>
-      <attributes>
-        <attribute>
-          <name>SystemParameterRoutingAttribute</name>
-          <required>false</required>
-        </attribute>
-      </attributes>
-    </ruleTemplate>
-    <ruleTemplate>
-      <name>KualiCashReceiptVerificationWorkgroupTemplate</name>
-      <description>KualiCashReceiptVerificationWorkgroupTemplate</description>
-      <attributes>
-        <attribute>
-          <name>KualiVerificationWorkgroupAttribute</name>
           <required>false</required>
         </attribute>
       </attributes>
@@ -330,17 +234,11 @@
         </attribute>
       </attributes>
       <ruleDefaults>
-        <ruleInstructions>Please enter a valid Vendor Type code</ruleInstructions>
         <description>Rule for routing Vendor maintenance document based on document's Vendor Type.</description>
         <fromDate>07/13/2006</fromDate>
         <toDate>01/01/2100</toDate>
         <ignorePrevious>true</ignorePrevious>
         <active>true</active>
-        <defaultActionRequested>A</defaultActionRequested>
-        <supportsComplete>false</supportsComplete>
-        <supportsApprove>true</supportsApprove>
-        <supportsAcknowledge>false</supportsAcknowledge>
-        <supportsFYI>false</supportsFYI>
       </ruleDefaults>
     </ruleTemplate>
     <ruleTemplate>
@@ -379,7 +277,6 @@
         <toDate>01/01/2100</toDate>
         <ignorePrevious>true</ignorePrevious>
         <active>true</active>
-        <defaultActionRequested>A</defaultActionRequested>
         <supportsComplete>true</supportsComplete>
         <supportsApprove>true</supportsApprove>
         <supportsAcknowledge>true</supportsAcknowledge>
@@ -588,6 +485,182 @@
         <supportsAcknowledge>true</supportsAcknowledge>
         <supportsFYI>true</supportsFYI>
       </ruleDefaults>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiVendorNotificationTemplate</name>
+      <description>Kuali Vendor Notification</description>
+      <attributes>
+        <attribute>
+          <name>KualiWorkflowInitiatorRoleAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+      <ruleDefaults>
+        <description>Rule for notifying document initiators about their vendor maintenance documents.</description>
+        <fromDate>07/01/2006</fromDate>
+        <toDate>01/01/2100</toDate>
+        <ignorePrevious>true</ignorePrevious>
+        <active>true</active>
+      </ruleDefaults>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiPurApAccountTemplate</name>
+      <description>Purchasing &amp; Accounts Payable Account Routing Template</description>
+      <delegationTemplate>KualiAccountDelegationTemplate</delegationTemplate>
+      <attributes>
+        <attribute>
+          <name>KualiAccountAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+      <ruleDefaults>
+        <description>Rule for routing Credit Memo documents to Account Review.</description>
+        <fromDate>07/01/2006</fromDate>
+        <toDate>01/01/2100</toDate>
+        <ignorePrevious>true</ignorePrevious>
+        <active>true</active>
+        <supportsComplete>true</supportsComplete>
+        <supportsApprove>true</supportsApprove>
+        <supportsAcknowledge>true</supportsAcknowledge>
+        <supportsFYI>true</supportsFYI>
+      </ruleDefaults>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiAwardWorkgroupTemplate</name>
+      <description>KualiAwardWorkgroupTemplate</description>
+      <attributes>
+        <attribute>
+          <name>KualiCGAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiPurchaseOrderRemoveHoldNotify</name>
+      <description>Purchase Order Remove Hold Notify</description>
+      <attributes>
+        <attribute>
+          <name>KualiPurchaseOrderRemoveHoldNotification</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+      <ruleDefaults>
+        <description>Rule for routing a notification based on the campus.</description>
+        <fromDate>07/13/2006</fromDate>
+        <toDate>01/01/2100</toDate>
+        <ignorePrevious>true</ignorePrevious>
+        <active>true</active>
+      </ruleDefaults>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiModuleUserTemplate</name>
+      <description>KualiModuleUserTemplate</description>
+      <attributes>
+        <attribute>
+          <name>KualiModuleUserAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>SystemParameterRoutingTemplate</name>
+      <description>SystemParameterRoutingTemplate</description>
+      <attributes>
+        <attribute>
+          <name>SystemParameterRoutingAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiCashReceiptVerificationWorkgroupTemplate</name>
+      <description>KualiCashReceiptVerificationWorkgroupTemplate</description>
+      <attributes>
+        <attribute>
+          <name>KualiVerificationWorkgroupAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>RemoveReplaceWorkgroupTemplate</name>
+      <description>Remove/Replace Workgroup Routing</description>
+      <attributes>
+        <attribute>
+          <name>RemoveReplaceWorkgroupTypeRoutingAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>RemoveReplaceRuleTemplate</name>
+      <description>Remove/Replace Rule Routing</description>
+      <attributes>
+        <attribute>
+          <name>RemoveReplaceRuleRoutingAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiProjectDirectorTemplate</name>
+      <description>KualiProjectDirectorTemplate</description>
+      <attributes>
+        <attribute>
+          <name>KualiPDAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiPurApCommodityCodeTemplate</name>
+      <description>KualiPurApCommodityCodeTemplate</description>
+      <attributes>
+        <attribute>
+          <name>KualiPurApCommodityCodeAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>LockboxTemplate</name>
+      <description>Rule Template to route documents to an appropriate lockbox</description>
+      <attributes>
+        <attribute>
+          <name>LockboxAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>KualiNewUnorderedItemsTemplate</name>
+      <description>KualiNewUnorderedItemsTemplate</description>
+      <attributes>
+        <attribute>
+          <name>KualiNewUnorderedItemsAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>AwaitingReceivingStatusTemplate</name>
+      <description>AwaitingReceivingStatusTemplate</description>
+      <attributes>
+        <attribute>
+          <name>AwaitingReceivingStatus</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>AwaitingPurchaseOrderOpenStatusTemplate</name>
+      <description>AwaitingPurchaseOrderOpenStatusTemplate</description>
+      <attributes>
+        <attribute>
+          <name>AwaitingPurchaseOrderOpenStatus</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
     </ruleTemplate>
   </ruleTemplates>
 </data>

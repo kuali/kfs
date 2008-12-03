@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>ChartOrgWorkgroup</name>
-      <parent>KualiBaseDocument</parent>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>ChartOrgWorkgroup</name>
+      <parent>FinancialSystemComplexMaintenanceDocument</parent>
       <description>Document Type for a workgroup which has associated Chart and Org data.</description>
       <label>Chart Org Workgroup</label>
       <postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
@@ -14,7 +14,7 @@
       <active>true</active>
       <policies>
         <policy>
-          <name>DEFAULT_APPROVE</name>
+<name>DEFAULT_APPROVE</name>
           <value>true</value>
         </policy>
       </policies>
@@ -38,6 +38,6 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

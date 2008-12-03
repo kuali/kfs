@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiDocumentHeaderOrganizationDocumentNumber</name>
-      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiDocumentHeaderOrganizationDocumentNumber</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
       <label>Kuali Document Header Organization Document Number</label>
       <description>Attribute to identify the Organization Document Number field of a Document Header in a Kuali Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="documentHeaderOrganizationDocumentNumber" title="kuali_dd_label(DocumentHeader)">
+        <fieldDef name="documentHeaderOrganizationDocumentNumber" title="kuali_dd_label(FinancialSystemDocumentHeader)">
           <display>
             <type>text</type>
           </display>
@@ -21,6 +21,6 @@
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

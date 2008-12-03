@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiCreditMemoDocumentProcessCampus</name>
-      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiCreditMemoDocumentProcessCampus</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
       <label>Kuali Credit Memo Document Processing Campus</label>
       <description>Attribute to identify the Processing Campus of the Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
@@ -22,6 +22,6 @@
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

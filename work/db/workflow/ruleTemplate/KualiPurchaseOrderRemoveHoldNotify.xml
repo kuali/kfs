@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-    <ruleTemplate>
-      <name>KualiPurchaseOrderRemoveHoldNotify</name>
+<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+<ruleTemplate>
+<name>KualiPurchaseOrderRemoveHoldNotify</name>
       <description>Purchase Order Remove Hold Notify</description>
       <attributes>
         <attribute>
-          <name>KualiPurchaseOrderRemoveHoldNotification</name>
+<name>KualiPurchaseOrderRemoveHoldNotification</name>
           <required>false</required>
         </attribute>
       </attributes>
@@ -17,6 +17,6 @@
         <ignorePrevious>true</ignorePrevious>
         <active>true</active>
       </ruleDefaults>
-    </ruleTemplate>
-  </ruleTemplates>
+</ruleTemplate>
+</ruleTemplates>
 </data>

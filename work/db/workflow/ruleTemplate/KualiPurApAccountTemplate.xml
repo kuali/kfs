@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-    <ruleTemplate>
-      <name>KualiPurApAccountTemplate</name>
+<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+<ruleTemplate>
+<name>KualiPurApAccountTemplate</name>
       <description>Purchasing &amp; Accounts Payable Account Routing Template</description>
       <delegationTemplate>KualiAccountDelegationTemplate</delegationTemplate>
       <attributes>
         <attribute>
-          <name>KualiAccountAttribute</name>
+<name>KualiAccountAttribute</name>
           <required>false</required>
         </attribute>
       </attributes>
@@ -22,6 +22,6 @@
         <supportsAcknowledge>true</supportsAcknowledge>
         <supportsFYI>true</supportsFYI>
       </ruleDefaults>
-    </ruleTemplate>
-  </ruleTemplates>
+</ruleTemplate>
+</ruleTemplates>
 </data>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>YearEndBenefitExpenseTransferDocument</name>
-      <parent>KualiFinancialDocument</parent>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>YearEndBenefitExpenseTransferDocument</name>
+      <parent>LaborDistributionYearEndTransactionalDocument</parent>
       <label>Year End Benefit Expense Transfer</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
@@ -13,11 +13,11 @@
       <active>true</active>
       <policies>
         <policy>
-          <name>DEFAULT_APPROVE</name>
+<name>DEFAULT_APPROVE</name>
           <value>true</value>
         </policy>
         <policy>
-          <name>LOOK_FUTURE</name>
+<name>LOOK_FUTURE</name>
           <value>false</value>
         </policy>
       </policies>
@@ -55,6 +55,6 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

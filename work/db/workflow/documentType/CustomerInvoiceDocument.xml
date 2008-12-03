@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>CustomerInvoiceDocument</name>
-      <parent>KualiBaseDocument</parent>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>CustomerInvoiceDocument</name>
+      <parent>AccountsReceivableTransactionalDocument</parent>
       <description>CustomerInvoiceDocument</description>
       <label>Customer Invoice</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
@@ -13,11 +13,11 @@
       <active>true</active>
       <policies>
         <policy>
-          <name>DEFAULT_APPROVE</name>
+<name>DEFAULT_APPROVE</name>
           <value>true</value>
         </policy>
       </policies>
       <routingVersion>2</routingVersion>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

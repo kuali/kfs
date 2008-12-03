@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiPurchaseOrderDocumentVendorId</name>
-      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiPurchaseOrderDocumentVendorId</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
       <label>Kuali Purchase Order Document Vendor ID</label>
       <description>Attribute to identify the Vendor ID of the Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>
@@ -24,6 +24,6 @@
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

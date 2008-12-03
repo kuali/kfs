@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>CreditMemoDocument</name>
-      <parent>KualiPurapDocument</parent>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>CreditMemoDocument</name>
+      <parent>AccountsPayableTransactionalDocument</parent>
       <label>Credit Memo</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>PA_AP_SUPER_USERS</superUserWorkgroupName>
@@ -13,67 +13,67 @@
       <active>true</active>
       <attributes>
         <attribute>
-          <name>KualiCreditMemoDocSearchGeneratorAttribute</name>
+<name>KualiCreditMemoDocSearchGeneratorAttribute</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentSearchResultProcessorAttribute</name>
+<name>KualiCreditMemoDocumentSearchResultProcessorAttribute</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoId</name>
+<name>KualiCreditMemoId</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoVendorCreditMemoNumber</name>
+<name>KualiCreditMemoVendorCreditMemoNumber</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoPaymentRequestId</name>
+<name>KualiCreditMemoPaymentRequestId</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoPurchaseOrderId</name>
+<name>KualiCreditMemoPurchaseOrderId</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentVendorName</name>
+<name>KualiCreditMemoDocumentVendorName</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentVendorId</name>
+<name>KualiCreditMemoDocumentVendorId</name>
         </attribute>
         <attribute>
-          <name>KualiPurApDocumentOrganization</name>
+<name>KualiPurApDocumentOrganization</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentProcessCampus</name>
+<name>KualiCreditMemoDocumentProcessCampus</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentCustomerNumber</name>
+<name>KualiCreditMemoDocumentCustomerNumber</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentVendorCreditMemoDate</name>
+<name>KualiCreditMemoDocumentVendorCreditMemoDate</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentAccountsPayableDate</name>
+<name>KualiCreditMemoDocumentAccountsPayableDate</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentExtractedDate</name>
+<name>KualiCreditMemoDocumentExtractedDate</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentExtractedIndicator</name>
+<name>KualiCreditMemoDocumentExtractedIndicator</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentHoldIndicator</name>
+<name>KualiCreditMemoDocumentHoldIndicator</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentPaidIndicator</name>
+<name>KualiCreditMemoDocumentPaidIndicator</name>
         </attribute>
         <attribute>
-          <name>KualiDocumentHeaderTotalAmountRange</name>
+<name>KualiDocumentHeaderTotalAmountRange</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentStatusCode</name>
+<name>KualiCreditMemoDocumentStatusCode</name>
         </attribute>
         <attribute>
-          <name>KualiCreditMemoDocumentStatusDescription</name>
+<name>KualiCreditMemoDocumentStatusDescription</name>
         </attribute>
         <attribute>
-          <name>KualiPurApSearchResultsDisplayType</name>
+<name>KualiPurApSearchResultsDisplayType</name>
         </attribute>
       </attributes>
       <routingVersion>2</routingVersion>
@@ -103,6 +103,6 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

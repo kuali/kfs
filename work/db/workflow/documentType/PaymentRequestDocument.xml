@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>PaymentRequestDocument</name>
-      <parent>KualiPurapDocument</parent>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>PaymentRequestDocument</name>
+      <parent>AccountsPayableTransactionalDocument</parent>
       <label>Payment Request</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>PA_AP_SUPER_USERS</superUserWorkgroupName>
@@ -13,80 +13,87 @@
       <active>true</active>
       <attributes>
         <attribute>
-          <name>KualiPaymentRequestDocSearchGeneratorAttribute</name>
+<name>KualiPaymentRequestDocSearchGeneratorAttribute</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentSearchResultProcessorAttribute</name>
+<name>KualiPaymentRequestDocumentSearchResultProcessorAttribute</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestId</name>
+<name>KualiPaymentRequestId</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestInvoiceNumber</name>
+<name>KualiPaymentRequestInvoiceNumber</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestPurchaseOrderId</name>
+<name>KualiPaymentRequestPurchaseOrderId</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestRequisitionId</name>
+<name>KualiPaymentRequestRequisitionId</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentVendorName</name>
+<name>KualiPaymentRequestDocumentVendorName</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentVendorId</name>
+<name>KualiPaymentRequestDocumentVendorId</name>
         </attribute>
         <attribute>
-          <name>KualiPurApDocumentOrganization</name>
+<name>KualiPurApDocumentOrganization</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentProcessCampus</name>
+<name>KualiPaymentRequestDocumentProcessCampus</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentCustomerNumber</name>
+<name>KualiPaymentRequestDocumentCustomerNumber</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentInvoiceDate</name>
+<name>KualiPaymentRequestDocumentInvoiceDate</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentPayDate</name>
+<name>KualiPaymentRequestDocumentPayDate</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentAccountsPayableDate</name>
+<name>KualiPaymentRequestDocumentAccountsPayableDate</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentExtractedDate</name>
+<name>KualiPaymentRequestDocumentExtractedDate</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentExtractedIndicator</name>
+<name>KualiPaymentRequestDocumentExtractedIndicator</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentHoldIndicator</name>
+<name>KualiPaymentRequestDocumentHoldIndicator</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentRequestedCancelIndicator</name>
+<name>KualiPaymentRequestDocumentRequestedCancelIndicator</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentPaidIndicator</name>
+<name>KualiPaymentRequestDocumentPaidIndicator</name>
         </attribute>
         <attribute>
-          <name>KualiDocumentHeaderTotalAmountRange</name>
+<name>KualiDocumentHeaderTotalAmountRange</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentStatusCode</name>
+<name>KualiPaymentRequestDocumentStatusCode</name>
         </attribute>
         <attribute>
-          <name>KualiPaymentRequestDocumentStatusDescription</name>
+<name>KualiPaymentRequestDocumentStatusDescription</name>
         </attribute>
         <attribute>
-          <name>KualiPurApSearchResultsDisplayType</name>
+<name>KualiPurAPDocumentReceivingRequiredStatus</name>
+        </attribute>
+        <attribute>
+<name>KualiPurAPDocumentPositiveApprovalStatus</name>
+        </attribute>
+        <attribute>
+<name>KualiPurApSearchResultsDisplayType</name>
         </attribute>
       </attributes>
       <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
           <start name="Adhoc Routing" nextNode="Accounts Payable Review" />
-          <requests name="Accounts Payable Review" nextNode="Sub Account Review" />
+          <requests name="Accounts Payable Review" nextNode="Awaiting Receiving" />
+          <requests name="Awaiting Receiving" nextNode="Sub Account Review" />
           <requests name="Sub Account Review" nextNode="Account Review" />
           <requests name="Account Review" nextNode="Org Review" />
           <requests name="Org Review" nextNode="Vendor Tax Review" />
@@ -102,6 +109,12 @@
         <requests name="Accounts Payable Review">
           <activationType>S</activationType>
           <ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Awaiting Receiving">
+          <activationType>S</activationType>
+          <ruleTemplate>AwaitingReceivingStatusTemplate</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>
@@ -130,6 +143,6 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

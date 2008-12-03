@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>SystemParameterRoutingAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>SystemParameterRoutingAttribute</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlRuleAttributeImpl</className>
       <label>System Parameter Routing</label>
       <description>System Parameter Routing</description>
       <type>RuleXmlAttribute</type>
@@ -25,6 +25,6 @@
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

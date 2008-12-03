@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiContractsAndGrantsAgencyNumber</name>
-      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiContractsAndGrantsAgencyNumber</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
       <label>Contracts &amp; Grants Agency Number</label>
       <description>Attribute to search and show search results for Agency Number</description>
       <type>SearchableXmlAttribute</type>
@@ -21,6 +21,6 @@
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

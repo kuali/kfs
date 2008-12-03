@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiDisbursementVoucherPdpDates</name>
-      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiDisbursementVoucherPdpDates</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
       <label>Kuali Disbursement Voucher Document PDP Date Range</label>
       <description>Attribute to identify the Extracted, Paid, and Canceled Date Range of the Disbursement Voucher Document</description>
       <type>SearchableXmlAttribute</type>
@@ -36,6 +36,6 @@
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

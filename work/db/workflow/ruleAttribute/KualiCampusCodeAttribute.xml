@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>KualiCampusCodeAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+<ruleAttribute>
+<name>KualiCampusCodeAttribute</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlRuleAttributeImpl</className>
       <label>Campus Code Routing</label>
       <description>Campus Code Routing</description>
       <type>RuleXmlAttribute</type>
@@ -13,12 +13,12 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.module.chart.bo.Campus-Lookupable(null)" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.Campus-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/campusCode') = wf:ruledata('campusCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>
-    </ruleAttribute>
-  </ruleAttributes>
+</ruleAttribute>
+</ruleAttributes>
 </data>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>RequisitionDocument</name>
-      <parent>KualiPurapDocument</parent>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>RequisitionDocument</name>
+      <parent>PurchasingTransactionalDocument</parent>
       <label>Requisition</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
@@ -13,55 +13,61 @@
       <active>true</active>
       <attributes>
         <attribute>
-          <name>KualiRequisitionDocumentId</name>
+<name>KualiRequisitionDocumentId</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentVendorName</name>
+<name>KualiRequisitionDocumentVendorName</name>
         </attribute>
         <attribute>
-          <name>KualiPurApDocumentOrganization</name>
+<name>KualiPurApDocumentOrganization</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentRequestorName</name>
+<name>KualiRequisitionDocumentRequestorName</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentDeliveryCampus</name>
+<name>KualiRequisitionDocumentDeliveryCampus</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentDeliverToName</name>
+<name>KualiRequisitionDocumentDeliverToName</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentReferenceText1</name>
+<name>KualiRequisitionDocumentReferenceText1</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentReferenceText2</name>
+<name>KualiRequisitionDocumentReferenceText2</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentReferenceText3</name>
+<name>KualiRequisitionDocumentReferenceText3</name>
         </attribute>
         <attribute>
-          <name>KualiDocumentHeaderDescription</name>
+<name>KualiDocumentHeaderDescription</name>
         </attribute>
         <attribute>
-          <name>KualiDocumentHeaderOrganizationDocumentNumber</name>
+<name>KualiDocumentHeaderOrganizationDocumentNumber</name>
         </attribute>
         <attribute>
-          <name>KualiDocumentHeaderTotalAmountRange</name>
+<name>KualiDocumentHeaderTotalAmountRange</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentStatusDescription</name>
+<name>KualiRequisitionDocumentStatusDescription</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentStatusCode</name>
+<name>KualiRequisitionDocumentStatusCode</name>
         </attribute>
         <attribute>
-          <name>KualiPurApSearchResultsDisplayType</name>
+<name>KualiPurAPDocumentReceivingRequiredStatus</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocSearchGeneratorAttribute</name>
+<name>KualiPurAPDocumentPositiveApprovalStatus</name>
         </attribute>
         <attribute>
-          <name>KualiRequisitionDocumentSearchResultProcessorAttribute</name>
+<name>KualiPurApSearchResultsDisplayType</name>
+        </attribute>
+        <attribute>
+<name>KualiRequisitionDocSearchGeneratorAttribute</name>
+        </attribute>
+        <attribute>
+<name>KualiRequisitionDocumentSearchResultProcessorAttribute</name>
         </attribute>
       </attributes>
       <routingVersion>2</routingVersion>
@@ -119,6 +125,6 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

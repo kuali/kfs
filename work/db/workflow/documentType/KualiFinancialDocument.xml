@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>KualiFinancialDocument</name>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>KualiFinancialDocument</name>
       <parent>KualiBaseDocument</parent>
       <description>KualiFinancialDocument</description>
       <label>KualiFinancialDocument</label>
@@ -14,20 +14,20 @@
       <active>true</active>
       <policies>
         <policy>
-          <name>DEFAULT_APPROVE</name>
+<name>DEFAULT_APPROVE</name>
           <value>false</value>
         </policy>
         <policy>
-          <name>PRE_APPROVE</name>
+<name>PRE_APPROVE</name>
           <value>false</value>
         </policy>
       </policies>
       <attributes>
         <attribute>
-          <name>KualiAccountSearchAttribute</name>
+<name>KualiAccountSearchAttribute</name>
         </attribute>
         <attribute>
-          <name>KualiDocumentHeaderTotalAmountRange</name>
+<name>KualiDocumentHeaderTotalAmountRange</name>
         </attribute>
       </attributes>
       <routingVersion>1</routingVersion>
@@ -57,6 +57,6 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-    </documentType>
-  </documentTypes>
+</documentType>
+</documentTypes>
 </data>

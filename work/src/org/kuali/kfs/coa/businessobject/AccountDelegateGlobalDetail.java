@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * 
  */
-public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
+public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     private static final long serialVersionUID = -8089154029664644867L;
 
@@ -48,11 +48,11 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
     /**
      * Default constructor.
      */
-    public DelegateGlobalDetail() {
+    public AccountDelegateGlobalDetail() {
         super();
     }
 
-    public DelegateGlobalDetail(OrganizationRoutingModel model) {
+    public AccountDelegateGlobalDetail(OrganizationRoutingModel model) {
         accountDelegatePrimaryRoutingIndicator = model.getAccountDelegatePrimaryRoutingIndicator();
         accountDelegateStartDate = model.getAccountDelegateStartDate();
         accountDelegateUniversalId = model.getAccountDelegateUniversalId();
@@ -213,7 +213,7 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
     public boolean equals(Object obj) {
         if (obj != null) {
             if (this.getClass().equals(obj.getClass())) {
-                DelegateGlobalDetail other = (DelegateGlobalDetail) obj;
+                AccountDelegateGlobalDetail other = (AccountDelegateGlobalDetail) obj;
                 if (StringUtils.equalsIgnoreCase(getDocumentNumber(), other.getDocumentNumber())) {
                     if (StringUtils.equalsIgnoreCase(this.financialDocumentTypeCode, other.financialDocumentTypeCode)) {
                         if (this.accountDelegatePrimaryRoutingIndicator == other.accountDelegatePrimaryRoutingIndicator) {

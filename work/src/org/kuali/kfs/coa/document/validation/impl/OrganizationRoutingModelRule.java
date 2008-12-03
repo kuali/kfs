@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
 import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
 import org.kuali.kfs.sys.KFSConstants;
@@ -287,13 +287,13 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             Person user = delegateModel.getAccountDelegate();
 
             // user must be of the allowable statuses (A - Active)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
+            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
                 GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE, new String[0]);
                 success = false;
             }
 
             // user must be of the allowable types (P - Professional)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
+            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
                 GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
                 success = false;
             }

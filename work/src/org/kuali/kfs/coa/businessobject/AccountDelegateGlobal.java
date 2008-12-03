@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * This class simply acts as a container to hold the List of Delegate Changes and the list of Account entries, for the Global
  * Delegate Change Document.
  */
-public class DelegateGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
+public class AccountDelegateGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
     private String documentNumber;
 
@@ -52,15 +52,15 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     private OrganizationRoutingModelName model;
 
     List<AccountGlobalDetail> accountGlobalDetails;
-    List<DelegateGlobalDetail> delegateGlobals;
+    List<AccountDelegateGlobalDetail> delegateGlobals;
 
     /**
      * Constructs a DelegateGlobal.java.
      */
-    public DelegateGlobal() {
+    public AccountDelegateGlobal() {
         super();
         accountGlobalDetails = new TypedArrayList(AccountGlobalDetail.class);
-        delegateGlobals = new TypedArrayList(DelegateGlobalDetail.class);
+        delegateGlobals = new TypedArrayList(AccountDelegateGlobalDetail.class);
     }
 
     /**
@@ -128,7 +128,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
         // retreive all the existing delegates for these accounts
-        List<Delegate> bosToDeactivate = new ArrayList();
+        List<AccountDelegate> bosToDeactivate = new ArrayList();
         Map<String, Object> fieldValues;
         Collection existingDelegates;
         for (AccountGlobalDetail accountDetail : getAccountGlobalDetails()) {
@@ -136,12 +136,12 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
             fieldValues.put("chartOfAccountsCode", accountDetail.getChartOfAccountsCode());
             fieldValues.put("accountNumber", accountDetail.getAccountNumber());
             fieldValues.put("accountDelegateActiveIndicator", true);
-            existingDelegates = boService.findMatching(Delegate.class, fieldValues);
+            existingDelegates = boService.findMatching(AccountDelegate.class, fieldValues);
             bosToDeactivate.addAll(existingDelegates);
         }
 
         // mark all the delegates as inactive
-        for (Delegate accountDelegate : bosToDeactivate) {
+        for (AccountDelegate accountDelegate : bosToDeactivate) {
             accountDelegate.setAccountDelegateActiveIndicator(false);
         }
         return new ArrayList<PersistableBusinessObject>(bosToDeactivate);
@@ -154,12 +154,12 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
 
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        List<Delegate> persistables = new ArrayList();
+        List<AccountDelegate> persistables = new ArrayList();
 
-        List<DelegateGlobalDetail> changeDocuments = this.getDelegateGlobals();
+        List<AccountDelegateGlobalDetail> changeDocuments = this.getDelegateGlobals();
         List<AccountGlobalDetail> accountDetails = this.getAccountGlobalDetails();
 
-        for (DelegateGlobalDetail changeDocument : changeDocuments) {
+        for (AccountDelegateGlobalDetail changeDocument : changeDocuments) {
             for (AccountGlobalDetail accountDetail : accountDetails) {
 
                 Account account = (Account) boService.findByPrimaryKey(Account.class, accountDetail.getPrimaryKeys());
@@ -176,12 +176,12 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
                 pkMap.putAll(accountDetail.getPrimaryKeys()); // chartOfAccountsCode & accountNumber
                 pkMap.put("financialDocumentTypeCode", changeDocument.getFinancialDocumentTypeCode());
                 pkMap.put("accountDelegateSystemId", changeDocument.getAccountDelegateUniversalId());
-                Delegate delegate = (Delegate) boService.findByPrimaryKey(Delegate.class, pkMap);
+                AccountDelegate delegate = (AccountDelegate) boService.findByPrimaryKey(AccountDelegate.class, pkMap);
 
                 // if there is no existing Delegate with these primary keys, then we're creating a new one,
                 // so lets populate it with the primary keys
                 if (delegate == null) {
-                    delegate = new Delegate();
+                    delegate = new AccountDelegate();
                     delegate.setChartOfAccountsCode(accountDetail.getChartOfAccountsCode());
                     delegate.setAccountNumber(accountDetail.getAccountNumber());
                     delegate.setAccountDelegateSystemId(changeDocument.getAccountDelegateUniversalId());
@@ -272,7 +272,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
      * 
      * @return Returns the delegateGlobals.
      */
-    public final List<DelegateGlobalDetail> getDelegateGlobals() {
+    public final List<AccountDelegateGlobalDetail> getDelegateGlobals() {
         return delegateGlobals;
     }
 
@@ -281,7 +281,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
      * 
      * @param delegateGlobals The delegateGlobals to set.
      */
-    public final void setDelegateGlobals(List<DelegateGlobalDetail> delegateGlobals) {
+    public final void setDelegateGlobals(List<AccountDelegateGlobalDetail> delegateGlobals) {
         this.delegateGlobals = delegateGlobals;
     }
 
@@ -297,7 +297,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
         }
 
         // fail if the PKs for any of the contained objects are empty
-        for (DelegateGlobalDetail delegateGlobals : getDelegateGlobals()) {
+        for (AccountDelegateGlobalDetail delegateGlobals : getDelegateGlobals()) {
             if (!persistenceStructureService.hasPrimaryKeyFieldValues(delegateGlobals)) {
                 return false;
             }

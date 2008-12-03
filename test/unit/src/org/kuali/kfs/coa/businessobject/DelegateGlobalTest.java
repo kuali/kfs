@@ -72,9 +72,9 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
+        AccountDelegateGlobal bo = (AccountDelegateGlobal) newMaintainable.getBusinessObject();
 
-        List<DelegateGlobalDetail> changeDocuments = new ArrayList();
+        List<AccountDelegateGlobalDetail> changeDocuments = new ArrayList();
         bo.setDelegateGlobals(changeDocuments);
 
         List<AccountGlobalDetail> accountDetails = new ArrayList();
@@ -95,15 +95,15 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
+        AccountDelegateGlobal bo = (AccountDelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentHeader().getDocumentNumber();
 
         // create the lists
-        List<DelegateGlobalDetail> changeDocuments = new ArrayList();
+        List<AccountDelegateGlobalDetail> changeDocuments = new ArrayList();
         List<AccountGlobalDetail> accountDetails = new ArrayList();
 
         // add a delegate change document
-        DelegateGlobalDetail change = new DelegateGlobalDetail();
+        AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setDocumentNumber(finDocNumber);
         change.setAccountDelegatePrimaryRoutingIndicator(true);
         change.setAccountDelegateStartDate(START_DATE_1);
@@ -154,16 +154,16 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
+        AccountDelegateGlobal bo = (AccountDelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentHeader().getDocumentNumber();
 
         // create the lists
-        List<DelegateGlobalDetail> changeDocuments = new ArrayList();
+        List<AccountDelegateGlobalDetail> changeDocuments = new ArrayList();
         List<AccountGlobalDetail> accountDetails = new ArrayList();
 
         // add a delegate change document
-        DelegateGlobalDetail change;
-        change = new DelegateGlobalDetail();
+        AccountDelegateGlobalDetail change;
+        change = new AccountDelegateGlobalDetail();
         change.setDocumentNumber(finDocNumber);
         change.setAccountDelegatePrimaryRoutingIndicator(true);
         change.setAccountDelegateStartDate(START_DATE_1);
@@ -173,7 +173,7 @@ public class DelegateGlobalTest extends KualiTestBase {
         change.setFinancialDocumentTypeCode(DOC_TYPE_ALL);
         changeDocuments.add(change);
 
-        change = new DelegateGlobalDetail();
+        change = new AccountDelegateGlobalDetail();
         change.setDocumentNumber(finDocNumber);
         change.setAccountDelegatePrimaryRoutingIndicator(true);
         change.setAccountDelegateStartDate(START_DATE_2);
@@ -224,15 +224,15 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
+        AccountDelegateGlobal bo = (AccountDelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentHeader().getDocumentNumber();
 
         // create the lists
-        List<DelegateGlobalDetail> changeDocuments = new ArrayList();
+        List<AccountDelegateGlobalDetail> changeDocuments = new ArrayList();
         List<AccountGlobalDetail> accountDetails = new ArrayList();
 
         // add a delegate change document
-        DelegateGlobalDetail change = new DelegateGlobalDetail();
+        AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setDocumentNumber(finDocNumber);
         change.setAccountDelegatePrimaryRoutingIndicator(true);
         change.setAccountDelegateStartDate(START_DATE_1);

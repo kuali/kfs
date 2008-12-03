@@ -26,7 +26,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -85,8 +85,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     private static final String DOCTYPE_ALL = "ALL";
 
-    private Delegate newDelegate;
-    private Delegate oldDelegate;
+    private AccountDelegate newDelegate;
+    private AccountDelegate oldDelegate;
     private MaintenanceDocument maintDoc;
 
     /**
@@ -94,8 +94,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      * 
      * @return
      */
-    private Delegate goodDelegate1() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate goodDelegate1() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -104,8 +104,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate goodDelegate2() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate goodDelegate2() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -118,8 +118,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate1() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate1() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -128,8 +128,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate2() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate2() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -138,8 +138,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate3() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate3() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -148,8 +148,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate4() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate4() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -159,8 +159,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate5() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate5() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -170,8 +170,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate6() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate6() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -182,8 +182,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate7() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate7() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -194,8 +194,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Delegate badDelegate8() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate badDelegate8() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
@@ -207,8 +207,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    private Delegate delegateWithDocTypeAll() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate delegateWithDocTypeAll() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(DOCTYPE_ALL_CHART);
         delegate.setAccountNumber(DOCTYPE_ALL_ACCT);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_ALL);
@@ -219,8 +219,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    private Delegate delegateWithSpecificTypeClosedAllSpecified() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate delegateWithSpecificTypeClosedAllSpecified() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(DOCTYPE_SPECIFIC_CHART);
         delegate.setAccountNumber(DOCTYPE_SPECIFIC_ACCT);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_ALL);
@@ -231,8 +231,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    private Delegate delegateWithSpecificTypeClosed() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate delegateWithSpecificTypeClosed() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(DOCTYPE_SPECIFIC_CHART);
         delegate.setAccountNumber(DOCTYPE_SPECIFIC_ACCT);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_SPECIFIC_DT_VALUE);
@@ -243,8 +243,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    private Delegate delegateWithAllDocTypeOpen() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate delegateWithAllDocTypeOpen() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(DOCTYPE_OPEN_ALL_CHART);
         delegate.setAccountNumber(DOCTYPE_OPEN_ALL_ACCT);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_OPEN_ALL_DT_VALUE);
@@ -255,8 +255,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    private Delegate delegateWithSpecificDocTypeOpen() {
-        Delegate delegate = new Delegate();
+    private AccountDelegate delegateWithSpecificDocTypeOpen() {
+        AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(DOCTYPE_OPEN_SPECIFIC_CHART);
         delegate.setAccountNumber(DOCTYPE_OPEN_SPECIFIC_ACCT);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_OPEN_SPECFIC_DT_VALUE);

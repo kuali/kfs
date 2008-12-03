@@ -4,14 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DelegateMaintenanceDocument" parent="DelegateMaintenanceDocument-parentBean" />
+  <bean id="AccountDelegateMaintenanceDocument" parent="AccountDelegateMaintenanceDocument-parentBean" />
 
-  <bean id="DelegateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Delegate" />
+  <bean id="AccountDelegateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegate" />
     <property name="maintainableClass" value="org.kuali.kfs.coa.document.KualiDelegateMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="DelegateMaintenanceDocument-EditAccountDelegate" />
+        <ref bean="AccountDelegateMaintenanceDocument-EditAccountDelegate" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -40,15 +40,15 @@
     <property name="summary" value="Account Delegate Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create, remove or modify Account Delegates." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.Delegate" p:parameterName="ACCOUNT_DELEGATE" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountDelegate" p:parameterName="ACCOUNT_DELEGATE" />
     </property>
-    <property name="documentTypeName" value="DelegateMaintenanceDocument" />
+    <property name="documentTypeName" value="AccountDelegateMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.DelegatePreRules" />
     <property name="documentTypeCode" value="ADEL" />
     <property name="workflowProperties" >
-      <ref bean="DelegateMaintenanceDocument-workflowProperties" />
+      <ref bean="AccountDelegateMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -67,9 +67,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="DelegateMaintenanceDocument-EditAccountDelegate" parent="DelegateMaintenanceDocument-EditAccountDelegate-parentBean" />
+  <bean id="AccountDelegateMaintenanceDocument-EditAccountDelegate" parent="AccountDelegateMaintenanceDocument-EditAccountDelegate-parentBean" />
 
-  <bean id="DelegateMaintenanceDocument-EditAccountDelegate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccountDelegateMaintenanceDocument-EditAccountDelegate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Account Delegate" />
     <property name="title" value="Edit Account Delegate" />
     <property name="maintainableItems" >
@@ -115,9 +115,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="DelegateMaintenanceDocument-workflowProperties" parent="DelegateMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="AccountDelegateMaintenanceDocument-workflowProperties" parent="AccountDelegateMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="DelegateMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="AccountDelegateMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

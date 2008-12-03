@@ -29,7 +29,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -349,7 +349,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo("accountDelegateSystemId", principalId);
         criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
         criteria.addIn("financialDocumentTypeCode", docTypes);
-        QueryByCriteria query = QueryFactory.newQuery(Delegate.class, criteria);
+        QueryByCriteria query = QueryFactory.newQuery(AccountDelegate.class, criteria);
         if (getPersistenceBrokerTemplate().getCount(query) > 0) {
             retval = true;
         }

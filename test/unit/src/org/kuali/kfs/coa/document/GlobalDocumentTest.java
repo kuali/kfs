@@ -31,8 +31,8 @@ import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
-import org.kuali.kfs.coa.businessobject.DelegateGlobal;
-import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -71,11 +71,11 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         Maintainable newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateGlobal.", DelegateGlobal.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateGlobal.", AccountDelegateGlobal.class, newMaintainable.getBoClass());
 
         PersistableBusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
-        assertEquals("New BO should be of the correct class.", DelegateGlobal.class, newBo.getClass());
+        assertEquals("New BO should be of the correct class.", AccountDelegateGlobal.class, newBo.getClass());
 
     }
 
@@ -107,15 +107,15 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
+        AccountDelegateGlobal bo = (AccountDelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentNumber();
         document.getDocumentHeader().setDocumentDescription("blah");
 
         System.err.println("DOC_NBR = " + finDocNumber);
 
-        List<DelegateGlobalDetail> changes = new ArrayList();
+        List<AccountDelegateGlobalDetail> changes = new ArrayList();
 
-        DelegateGlobalDetail change = new DelegateGlobalDetail();
+        AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
@@ -160,13 +160,13 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
+        AccountDelegateGlobal bo = (AccountDelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentNumber();
         document.getDocumentHeader().setDocumentDescription("blah");
 
-        List<DelegateGlobalDetail> changes = new ArrayList();
+        List<AccountDelegateGlobalDetail> changes = new ArrayList();
 
-        DelegateGlobalDetail change = new DelegateGlobalDetail();
+        AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
@@ -212,12 +212,12 @@ public class GlobalDocumentTest extends KualiTestBase {
         // Maintainable should be populated and contain the right class
         newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateGlobal.", DelegateGlobal.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateGlobal.", AccountDelegateGlobal.class, newMaintainable.getBoClass());
 
         // BO should be non-null and the right class
-        bo = (DelegateGlobal) newMaintainable.getBusinessObject();
+        bo = (AccountDelegateGlobal) newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", bo);
-        assertEquals("New BO should be of the correct class.", DelegateGlobal.class, bo.getClass());
+        assertEquals("New BO should be of the correct class.", AccountDelegateGlobal.class, bo.getClass());
 
         // List should contain 3 elements
         assertNotNull("AccountDetail list should not be null.", bo.getAccountGlobalDetails());

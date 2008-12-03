@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
@@ -94,29 +94,29 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * Resolves the Primary Delegate for the given delegate example. If the primary delegate exists for a specific Document Type
      * Code and for a Document Type Code of "ALL", the delegate for the specific document type code is returned;
      * 
-     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.Delegate,
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount) {
-        Collection collection = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "Y")));
+    public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
+        Collection collection = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "Y")));
         if (collection.isEmpty()) {
             return null;
         }
         for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
-            Delegate delegate = (Delegate) iterator.next();
+            AccountDelegate delegate = (AccountDelegate) iterator.next();
             if (!"ALL".equals(delegate.getFinancialDocumentTypeCode())) {
                 return delegate;
             }
         }
-        return (Delegate) collection.iterator().next();
+        return (AccountDelegate) collection.iterator().next();
     }
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.Delegate,
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount) {
-        return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "N"))));
+    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount) {
+        return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "N"))));
     }
 
     /**
@@ -128,7 +128,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param accountsDelegatePrmrtIndicator
      * @return example {@link Delegate} {@link Criteria}
      */
-    private Criteria getDelegateByExampleCriteria(Delegate delegateExample, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
+    private Criteria getDelegateByExampleCriteria(AccountDelegate delegateExample, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
         criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
@@ -210,9 +210,9 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         List delegatedResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());
-        Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, criteria));
+        Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, criteria));
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext();) {
-            Delegate accountDelegate = (Delegate) iter.next();
+            AccountDelegate accountDelegate = (AccountDelegate) iter.next();
             if (accountDelegate.isAccountDelegateActiveIndicator()) {
                 // the start_date should never be null in the real world, but
                 // there is some test data that
@@ -242,9 +242,9 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());
         criteria.addEqualTo("chartOfAccountsCode", account.getChartOfAccountsCode());
         criteria.addEqualTo("accountNumber", account.getAccountNumber());
-        Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, criteria));
+        Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, criteria));
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext() && !hasResponsibility;) {
-            Delegate accountDelegate = (Delegate) iter.next();
+            AccountDelegate accountDelegate = (AccountDelegate) iter.next();
             if (accountDelegate.isAccountDelegateActiveIndicator()) {
                 // the start_date should never be null in the real world, but
                 // there is some test data that

@@ -4,15 +4,15 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DelegateGlobalMaintenanceDocument" parent="DelegateGlobalMaintenanceDocument-parentBean" />
+  <bean id="AccountDelegateGlobalMaintenanceDocument" parent="AccountDelegateGlobalMaintenanceDocument-parentBean" />
 
-  <bean id="DelegateGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.DelegateGlobal" />
-    <property name="maintainableClass" value="org.kuali.kfs.coa.document.DelegateGlobalMaintainableImpl" />
+  <bean id="AccountDelegateGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateGlobal" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="DelegateGlobalMaintenanceDocument-EditGlobalDelegate" />
-        <ref bean="DelegateGlobalMaintenanceDocument-EditListofAccounts" />
+        <ref bean="AccountDelegateGlobalMaintenanceDocument-EditGlobalDelegate" />
+        <ref bean="AccountDelegateGlobalMaintenanceDocument-EditListofAccounts" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -25,9 +25,9 @@
     <property name="summary" value="Global Account Delegate Maintenance Document" />
     <property name="description" value="Document used to create or update global account delegate document." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.DelegateGlobal" p:parameterName="DELEGATE_GLOBAL" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountDelegateGlobal" p:parameterName="DELEGATE_GLOBAL" />
     </property>
-    <property name="documentTypeName" value="DelegateGlobalMaintenanceDocument" />
+    <property name="documentTypeName" value="AccountDelegateGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateGlobalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateGlobalPreRules" />
@@ -40,7 +40,7 @@
       </list>
     </property>
     <property name="workflowProperties" >
-      <ref bean="DelegateGlobalMaintenanceDocument-workflowProperties" />
+      <ref bean="AccountDelegateGlobalMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -59,17 +59,17 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="DelegateGlobalMaintenanceDocument-EditGlobalDelegate" parent="DelegateGlobalMaintenanceDocument-EditGlobalDelegate-parentBean" />
+  <bean id="AccountDelegateGlobalMaintenanceDocument-EditGlobalDelegate" parent="AccountDelegateGlobalMaintenanceDocument-EditGlobalDelegate-parentBean" />
 
-  <bean id="DelegateGlobalMaintenanceDocument-EditGlobalDelegate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccountDelegateGlobalMaintenanceDocument-EditGlobalDelegate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Global Delegate" />
     <property name="title" value="Edit Global Delegate" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="delegateGlobals" />
-          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.DelegateGlobalDetail" />
-          <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.Delegate" />
+          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.AccountDelegate" />
           <property name="summaryTitle" value="Account Delegate" />
           <property name="summaryFields" >
             <list>
@@ -122,9 +122,9 @@
       </list>
     </property>
   </bean>
-  <bean id="DelegateGlobalMaintenanceDocument-EditListofAccounts" parent="DelegateGlobalMaintenanceDocument-EditListofAccounts-parentBean" />
+  <bean id="AccountDelegateGlobalMaintenanceDocument-EditListofAccounts" parent="AccountDelegateGlobalMaintenanceDocument-EditListofAccounts-parentBean" />
 
-  <bean id="DelegateGlobalMaintenanceDocument-EditListofAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccountDelegateGlobalMaintenanceDocument-EditListofAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit List of Accounts" />
     <property name="title" value="Edit List of Accounts" />
     <property name="maintainableItems" >
@@ -177,9 +177,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="DelegateGlobalMaintenanceDocument-workflowProperties" parent="DelegateGlobalMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="AccountDelegateGlobalMaintenanceDocument-workflowProperties" parent="AccountDelegateGlobalMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="DelegateGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="AccountDelegateGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

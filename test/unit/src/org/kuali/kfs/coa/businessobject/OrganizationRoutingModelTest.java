@@ -64,10 +64,10 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
 
         Collection<OrganizationRoutingModel> foundModel = SpringContext.getBean(BusinessObjectService.class).findMatching(clazz, fieldValues);
 
-        List<DelegateGlobalDetail> delegateGlobals = new ArrayList<DelegateGlobalDetail>();
+        List<AccountDelegateGlobalDetail> delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
 
         for (OrganizationRoutingModel model : foundModel) {
-            delegateGlobals.add(new DelegateGlobalDetail(model));
+            delegateGlobals.add(new AccountDelegateGlobalDetail(model));
         }
 
         return (foundModel != null && !foundModel.isEmpty());

@@ -24,9 +24,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
-import org.kuali.kfs.coa.businessobject.Delegate;
-import org.kuali.kfs.coa.businessobject.DelegateGlobal;
-import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
 import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
 import org.kuali.kfs.sys.KFSConstants;
@@ -47,7 +47,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * 
  * @see OrganizationRoutingModelName
  */
-public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
+public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
     private Set<RoutingData> routingInfo;
 
     /**
@@ -59,7 +59,7 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
         super.setupNewFromExisting( document, parameters );
 
-        DelegateGlobal globalDelegate = (DelegateGlobal) this.getBusinessObject();
+        AccountDelegateGlobal globalDelegate = (AccountDelegateGlobal) this.getBusinessObject();
         // 1. if model name, chart of accounts, and org code are all present
         // then let's see if we've actually got a model record
         if (!StringUtils.isBlank(globalDelegate.getModelName()) && !StringUtils.isBlank(globalDelegate.getModelChartOfAccountsCode()) && !StringUtils.isBlank(globalDelegate.getModelOrganizationCode())) {
@@ -74,7 +74,7 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
                 // based on that
                 for (OrganizationRoutingModel model : globalDelegateTemplate.getOrganizationRoutingModel()) {
                     if (model.isActive()) { // only populate with active models
-                        DelegateGlobalDetail newDelegate = new DelegateGlobalDetail(model);
+                        AccountDelegateGlobalDetail newDelegate = new AccountDelegateGlobalDetail(model);
                         // allow deletion of the new delegate from the global delegate
                         newDelegate.setNewCollectionRecord(true);
                         globalDelegate.getDelegateGlobals().add(newDelegate);
@@ -93,16 +93,16 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     public List<MaintenanceLock> generateMaintenanceLocks() {
         // create locking rep for each combination of account and object code
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
-        DelegateGlobal delegateGlobal = (DelegateGlobal) getBusinessObject();
+        AccountDelegateGlobal delegateGlobal = (AccountDelegateGlobal) getBusinessObject();
 
         // hold all the locking representations in a set to make sure we don't get any duplicates
         Set<String> lockingRepresentations = new HashSet<String>();
 
         MaintenanceLock maintenanceLock;
         for (AccountGlobalDetail accountGlobalDetail : delegateGlobal.getAccountGlobalDetails()) {
-            for (DelegateGlobalDetail delegateGlobalDetail : delegateGlobal.getDelegateGlobals()) {
+            for (AccountDelegateGlobalDetail delegateGlobalDetail : delegateGlobal.getDelegateGlobals()) {
                 StringBuilder lockRep = new StringBuilder();
-                lockRep.append(Delegate.class.getName());
+                lockRep.append(AccountDelegate.class.getName());
                 lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
                 lockRep.append("chartOfAccountsCode");
                 lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
@@ -132,7 +132,7 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
                 }
 
                 lockRep = new StringBuilder();
-                lockRep.append(Delegate.class.getName());
+                lockRep.append(AccountDelegate.class.getName());
                 lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
                 lockRep.append("chartOfAccountsCode");
                 lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
@@ -210,7 +210,7 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     protected Set<OrgReviewRoutingData> gatherOrgsToReview() {
         Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
         
-        final DelegateGlobal delegateGlobal = (DelegateGlobal)getBusinessObject();
+        final AccountDelegateGlobal delegateGlobal = (AccountDelegateGlobal)getBusinessObject();
         
         for (AccountGlobalDetail accountGlobalDetail : delegateGlobal.getAccountGlobalDetails()) {
             accountGlobalDetail.refreshReferenceObject("account");
@@ -223,6 +223,6 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
 
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
-        return Delegate.class;
+        return AccountDelegate.class;
     }
 }

@@ -19,13 +19,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.rice.kim.bo.Person;
 
 
 /**
  * This interface defines what methods of data retrieval should be allowed for {@link org.kuali.kfs.coa.businessobject.Account}, and
- * {@link org.kuali.kfs.coa.businessobject.Delegate}. It also defines a method for checking if a given User is responsible for an Account
+ * {@link org.kuali.kfs.coa.businessobject.AccountDelegate}. It also defines a method for checking if a given User is responsible for an Account
  */
 public interface AccountDao {
 
@@ -37,16 +37,16 @@ public interface AccountDao {
     public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber);
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.Delegate,
+     * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount);
+    public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount);
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.Delegate,
+     * @see org.kuali.kfs.coa.service.AccountService#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount);
+    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount);
 
     /**
      * fetch the AccountResponsibility objects that the user has associated with them

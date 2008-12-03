@@ -53,7 +53,7 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
     public OrganizationRoutingModel() {
     }
 
-    public OrganizationRoutingModel(DelegateGlobalDetail delegateGlobalDetail) {
+    public OrganizationRoutingModel(AccountDelegateGlobalDetail delegateGlobalDetail) {
         accountDelegateUniversalId = delegateGlobalDetail.getAccountDelegateUniversalId();
         accountDelegatePrimaryRoutingIndicator = delegateGlobalDetail.getAccountDelegatePrimaryRoutingIndicator();
         approvalFromThisAmount = delegateGlobalDetail.getApprovalFromThisAmount();

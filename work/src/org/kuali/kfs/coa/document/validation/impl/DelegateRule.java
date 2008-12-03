@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -43,8 +43,8 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
 
-    private Delegate oldDelegate;
-    private Delegate newDelegate;
+    private AccountDelegate oldDelegate;
+    private AccountDelegate newDelegate;
 
     /**
      * Constructs a DelegateRule.java.
@@ -150,10 +150,10 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldDelegate = (Delegate) super.getOldBo();
+        oldDelegate = (AccountDelegate) super.getOldBo();
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newDelegate = (Delegate) super.getNewBo();
+        newDelegate = (AccountDelegate) super.getNewBo();
     }
 
 
@@ -291,7 +291,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
 
         // find all the matching records
-        Collection primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
+        Collection primaryRoutes = getBoService().findMatching(AccountDelegate.class, whereMap);
 
         // if there is at least one result, then this business rule is tripped
         if (primaryRoutes.size() > 0) {
@@ -325,13 +325,13 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         } else {
 
             // user must be of the allowable statuses (A - Active)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
+            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
                 success = false;
                 putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
             }
     
             // user must be of the allowable types (P - Professional)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
+            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
                 success = false;
                 putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
             }

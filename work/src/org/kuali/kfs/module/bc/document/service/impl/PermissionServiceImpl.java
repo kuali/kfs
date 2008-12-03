@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -144,11 +144,11 @@ public class PermissionServiceImpl implements PermissionService {
         fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
-        int countOfAccountDelegate = businessObjectService.countMatching(Delegate.class, fieldValues);
+        int countOfAccountDelegate = businessObjectService.countMatching(AccountDelegate.class, fieldValues);
 
         if (countOfAccountDelegate <= 0) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.ALL);
-            countOfAccountDelegate += businessObjectService.countMatching(Delegate.class, fieldValues);
+            countOfAccountDelegate += businessObjectService.countMatching(AccountDelegate.class, fieldValues);
         }
 
         return countOfAccountDelegate > 0;

@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.document.validation.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.kfs.coa.businessobject.DelegateGlobal;
-import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rule.PreRulesCheck;
 import org.kuali.rice.kns.rule.event.PreRulesCheckEvent;
@@ -48,7 +48,7 @@ public class DelegateGlobalPreRules implements PreRulesCheck {
 
         // create some references to the relevant objects being looked at
         MaintenanceDocument document = (MaintenanceDocument) event.getDocument();
-        DelegateGlobal newDelegateGlobal = (DelegateGlobal) document.getNewMaintainableObject().getBusinessObject();
+        AccountDelegateGlobal newDelegateGlobal = (AccountDelegateGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         // set the defaults on the document
 
@@ -74,9 +74,9 @@ public class DelegateGlobalPreRules implements PreRulesCheck {
      * 
      * @param newDelegateGlobal
      */
-    private void setUnconditionalDefaults(DelegateGlobal newDelegateGlobal) {
+    private void setUnconditionalDefaults(AccountDelegateGlobal newDelegateGlobal) {
 
-        for (DelegateGlobalDetail newDelegateGlobalDetail : newDelegateGlobal.getDelegateGlobals()) {
+        for (AccountDelegateGlobalDetail newDelegateGlobalDetail : newDelegateGlobal.getDelegateGlobals()) {
             // FROM amount defaults to zero
             if (ObjectUtils.isNull(newDelegateGlobalDetail.getApprovalFromThisAmount())) {
                 newDelegateGlobalDetail.setApprovalFromThisAmount(KualiDecimal.ZERO);

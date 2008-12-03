@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -55,7 +55,7 @@ public interface AccountService {
      * @param totalDollarAmount The amount that should be compared to the from and to amount on the account delegate table
      * @return The primary delegate for this account, document type, and amount
      */
-    public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount);
+    public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount);
 
     /**
      * This method retrieves the fiscal officers secondary delegates based on the chart, account, and document type specified on the
@@ -66,7 +66,7 @@ public interface AccountService {
      * @param totalDollarAmount The amount that should be compared to the from and to amount on the account delegate table
      * @return The primary delegate for this account, document type, and amount
      */
-    public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount);
+    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount);
 
     /**
      * Fetches the accounts that the user is either the fiscal officer or fiscal officer delegate for.

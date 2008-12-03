@@ -29,14 +29,14 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * 
  */
-public class Delegate extends PersistableBusinessObjectBase {
+public class AccountDelegate extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 6883162275377881235L;
 
     /**
      * Default no-arg constructor.
      */
-    public Delegate() {
+    public AccountDelegate() {
         this.finDocApprovalFromThisAmt = KualiDecimal.ZERO;
         this.finDocApprovalToThisAmount = KualiDecimal.ZERO;
     }
@@ -295,7 +295,7 @@ public class Delegate extends PersistableBusinessObjectBase {
     public boolean equals(Object obj) {
         if (obj != null) {
             if (this.getClass().equals(obj.getClass())) {
-                Delegate other = (Delegate) obj;
+                AccountDelegate other = (AccountDelegate) obj;
                 if (StringUtils.equalsIgnoreCase(this.chartOfAccountsCode, other.chartOfAccountsCode)) {
                     if (StringUtils.equalsIgnoreCase(this.accountNumber, other.accountNumber)) {
                         if (StringUtils.equalsIgnoreCase(this.financialDocumentTypeCode, other.financialDocumentTypeCode)) {

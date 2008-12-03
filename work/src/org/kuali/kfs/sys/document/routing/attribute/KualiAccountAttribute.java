@@ -35,7 +35,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -651,11 +651,11 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static UserId getPrimaryDelegation(FiscalOfficerRole role, String fisDocumentType) throws Exception {
         UserId primaryDelegateId = null;
         if (role.accountNumber != null) {
-            Delegate delegateExample = new Delegate();
+            AccountDelegate delegateExample = new AccountDelegate();
             delegateExample.setChartOfAccountsCode(role.chart);
             delegateExample.setAccountNumber(role.accountNumber);
             delegateExample.setFinancialDocumentTypeCode(fisDocumentType);
-            Delegate primaryDelegate = SpringContext.getBean(AccountService.class).getPrimaryDelegationByExample(delegateExample, role.totalDollarAmount);
+            AccountDelegate primaryDelegate = SpringContext.getBean(AccountService.class).getPrimaryDelegationByExample(delegateExample, role.totalDollarAmount);
             if (primaryDelegate != null) {
                 primaryDelegateId = new AuthenticationUserId(primaryDelegate.getAccountDelegate().getPrincipalName());
             }
@@ -670,13 +670,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static List getSecondaryDelegations(FiscalOfficerRole role, String fisDocumentType) throws Exception {
         List members = new ArrayList();
         if (role.accountNumber != null) {
-            Delegate delegateExample = new Delegate();
+            AccountDelegate delegateExample = new AccountDelegate();
             delegateExample.setChartOfAccountsCode(role.chart);
             delegateExample.setAccountNumber(role.accountNumber);
             delegateExample.setFinancialDocumentTypeCode(fisDocumentType);
             Iterator secondaryDelegations = SpringContext.getBean(AccountService.class).getSecondaryDelegationsByExample(delegateExample, role.totalDollarAmount).iterator();
             while (secondaryDelegations.hasNext()) {
-                members.add(new AuthenticationUserId(((Delegate) secondaryDelegations.next()).getAccountDelegate().getPrincipalName()));
+                members.add(new AuthenticationUserId(((AccountDelegate) secondaryDelegations.next()).getAccountDelegate().getPrincipalName()));
             }
         }
         return members;

@@ -18,14 +18,14 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 
 @ConfigureContext
 public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
-    private DelegateGlobalDetail delegateGlobal;
-    private List<DelegateGlobalDetail> delegateGlobals;
+    private AccountDelegateGlobalDetail delegateGlobal;
+    private List<AccountDelegateGlobalDetail> delegateGlobals;
 
     public void testCheckPrimaryRouteOnlyAllowOneAllDocType_InputValidations() {
         DelegateGlobalRule rule = new DelegateGlobalRule();
@@ -35,30 +35,30 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
         Integer result = rule.checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobals = null;
         offendingLine = null;
         result = rule.checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
+        delegateGlobal = new AccountDelegateGlobalDetail();
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(false);
         delegateGlobal.setFinancialDocumentTypeCode("ALL");
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
         delegateGlobal.setFinancialDocumentTypeCode("A21");
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
@@ -67,14 +67,14 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
     public void testCheckPrimaryRouteOnlyAllowOneAllDocType_NewLine_NoOtherPrimaryAll() {
         DelegateGlobalRule rule = new DelegateGlobalRule();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
-        DelegateGlobalDetail listItem;
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
+        AccountDelegateGlobalDetail listItem;
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
         delegateGlobal.setFinancialDocumentTypeCode("ALL");
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(false);
         listItem.setFinancialDocumentTypeCode("A21");
         delegateGlobals.add(listItem);
@@ -85,14 +85,14 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
     public void testCheckPrimaryRouteOnlyAllowOneAllDocType_NewLine_OtherPrimaryNotAll() {
         DelegateGlobalRule rule = new DelegateGlobalRule();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
-        DelegateGlobalDetail listItem;
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
+        AccountDelegateGlobalDetail listItem;
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
         delegateGlobal.setFinancialDocumentTypeCode("ALL");
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
         listItem.setFinancialDocumentTypeCode("A21");
         delegateGlobals.add(listItem);
@@ -103,21 +103,21 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
     public void testCheckPrimaryRouteOnlyAllowOneAllDocType_ExistingLine_OtherPrimaryNotAll() {
         DelegateGlobalRule rule = new DelegateGlobalRule();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
-        DelegateGlobalDetail listItem;
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
+        AccountDelegateGlobalDetail listItem;
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
         listItem.setFinancialDocumentTypeCode("A21");
         delegateGlobals.add(listItem);
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
         listItem.setFinancialDocumentTypeCode("ALL");
         delegateGlobals.add(listItem);
 
         Integer result = null;
-        DelegateGlobalDetail delegateGlobal = null;
+        AccountDelegateGlobalDetail delegateGlobal = null;
 
         delegateGlobal = delegateGlobals.get(0);
         result = rule.checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobal, delegateGlobals, 0);
@@ -137,30 +137,30 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
         Integer result = rule.checkPrimaryRoutePerDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobals = null;
         offendingLine = null;
         result = rule.checkPrimaryRoutePerDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
+        delegateGlobal = new AccountDelegateGlobalDetail();
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRoutePerDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(false);
         delegateGlobal.setFinancialDocumentTypeCode("ALL");
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRoutePerDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
         delegateGlobal.setFinancialDocumentTypeCode("A21");
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRoutePerDocType(delegateGlobal, delegateGlobals, null);
         assertNull(result);
@@ -169,14 +169,14 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
     public void testCheckPrimaryRoutePerDocType_NewLine_NoOtherPrimariesWithSameDocType() {
         DelegateGlobalRule rule = new DelegateGlobalRule();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
-        DelegateGlobalDetail listItem;
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
+        AccountDelegateGlobalDetail listItem;
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
         delegateGlobal.setFinancialDocumentTypeCode("ABC");
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
         listItem.setFinancialDocumentTypeCode("A21");
         delegateGlobals.add(listItem);
@@ -187,14 +187,14 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
     public void testCheckPrimaryRoutePerDocType_NewLine_AddingIdenticalLine() {
         DelegateGlobalRule rule = new DelegateGlobalRule();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
-        DelegateGlobalDetail listItem;
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
+        AccountDelegateGlobalDetail listItem;
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
         delegateGlobal.setFinancialDocumentTypeCode("ABC");
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
         listItem.setFinancialDocumentTypeCode("ABC");
         delegateGlobals.add(listItem);
@@ -205,19 +205,19 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
     public void testCheckOnlyOnePrimaryRoute_NewLine_OnePrimaryWithSameDocType() {
         DelegateGlobalRule rule = new DelegateGlobalRule();
-        delegateGlobals = new ArrayList<DelegateGlobalDetail>();
-        DelegateGlobalDetail listItem;
+        delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
+        AccountDelegateGlobalDetail listItem;
 
-        delegateGlobal = new DelegateGlobalDetail();
+        delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
         delegateGlobal.setFinancialDocumentTypeCode("A21");
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
         listItem.setFinancialDocumentTypeCode("ABC");
         delegateGlobals.add(listItem);
 
-        listItem = new DelegateGlobalDetail();
+        listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
         listItem.setFinancialDocumentTypeCode("A21");
         delegateGlobals.add(listItem);

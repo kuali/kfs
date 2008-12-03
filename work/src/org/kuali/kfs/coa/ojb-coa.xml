@@ -721,7 +721,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.coa.businessobject.Delegate" table="CA_ACCT_DELEGATE_T">
+<class-descriptor class="org.kuali.kfs.coa.businessobject.AccountDelegate" table="CA_ACCT_DELEGATE_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -1462,7 +1462,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.coa.businessobject.DelegateGlobalDetail" table="CA_DLGT_CHG_DOC_T">
+<class-descriptor class="org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail" table="CA_DLGT_CHG_DOC_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountDelegateUniversalId" column="ACCT_DLGT_UNVL_ID" jdbc-type="VARCHAR" index="true" primarykey="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" index="true" primarykey="true" />
@@ -1777,14 +1777,14 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.coa.businessobject.DelegateGlobal" table="KRNS_MAINT_DOC_T">
+<class-descriptor class="org.kuali.kfs.coa.businessobject.AccountDelegateGlobal" table="KRNS_MAINT_DOC_T">
     <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
     <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.kfs.coa.businessobject.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="delegateGlobals" element-class-ref="org.kuali.kfs.coa.businessobject.DelegateGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <collection-descriptor name="delegateGlobals" element-class-ref="org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="accountDelegateUniversalId" sort="ASC" />
         <orderby name="financialDocumentTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />

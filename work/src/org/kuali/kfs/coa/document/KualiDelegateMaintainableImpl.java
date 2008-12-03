@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -76,8 +76,8 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl impleme
      * This method sets the start date on {@link Delegate} BO
      */
     protected void setStartDateDefault() {
-        if (this.businessObject != null && this.businessObject instanceof Delegate) {
-            Delegate delegate = (Delegate) this.businessObject;
+        if (this.businessObject != null && this.businessObject instanceof AccountDelegate) {
+            AccountDelegate delegate = (AccountDelegate) this.businessObject;
             delegate.setAccountDelegateStartDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         }
     }
@@ -89,7 +89,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl impleme
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-        Delegate delegate = (Delegate) this.businessObject;
+        AccountDelegate delegate = (AccountDelegate) this.businessObject;
         List<MaintenanceLock> locks = super.generateMaintenanceLocks();
         if (delegate.isAccountsDelegatePrmrtIndicator()) {
             locks.add(createMaintenanceLock(new String[] { "chartOfAccountsCode", "accountNumber", "financialDocumentTypeCode", "accountsDelegatePrmrtIndicator" }));
@@ -120,7 +120,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl impleme
     protected String createLockingRepresentation(String[] fieldNames) {
         StringBuilder lockRepresentation = new StringBuilder();
 
-        lockRepresentation.append(Delegate.class.getName());
+        lockRepresentation.append(AccountDelegate.class.getName());
         lockRepresentation.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
 
         DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
@@ -216,7 +216,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl impleme
      * @return an OrgReviewRoutingData object populated with the account information that this maintenance document should route to
      */
     protected RoutingAccount gatherAccountToReview() {
-        final Delegate delegate = (Delegate)getBusinessObject();
+        final AccountDelegate delegate = (AccountDelegate)getBusinessObject();
         return new RoutingAccount(delegate.getChartOfAccountsCode(), delegate.getAccountNumber());
     }
     
@@ -239,7 +239,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl impleme
      * @return an OrgReviewRoutingData object populated with the organization information that this maintenance document should route to
      */
     protected OrgReviewRoutingData gatherOrgToReview() {
-        final Delegate delegate = (Delegate)getBusinessObject();
+        final AccountDelegate delegate = (AccountDelegate)getBusinessObject();
         delegate.refreshReferenceObject("account");
         return new OrgReviewRoutingData(delegate.getChartOfAccountsCode(), delegate.getAccount().getOrganizationCode());
     }

@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -98,18 +98,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.Delegate,
-     *      java.lang.String)
+     * 
+     * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate, java.lang.String)
      */
-    public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount) {
+     
+    public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
         return accountDao.getPrimaryDelegationByExample(delegateExample, totalDollarAmount);
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.Delegate,
+     * @see org.kuali.kfs.coa.service.AccountService#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount) {
+    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount) {
         return accountDao.getSecondaryDelegationsByExample(delegateExample, totalDollarAmount);
     }
 

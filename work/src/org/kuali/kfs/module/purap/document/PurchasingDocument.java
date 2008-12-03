@@ -532,5 +532,4 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public void clearCapitalAssetFields();
     
-    public void updateViewCapitalAssets();
 }

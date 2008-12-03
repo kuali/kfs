@@ -14,10 +14,14 @@
 <c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
 <c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.line${camsItemIndex}.(((${ctr})))" />
 <c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByItem.line${ctr}" />
+<c:set var="selectNotCurrentYearUrl" value="methodToCall.selectNotCurrentYearByItem.line${ctr}" />
+<c:set var="clearNotCurrentYearUrl" value="methodToCall.clearNotCurrentYearByItem.line${ctr}" />
 <c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
 	<c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByDocument.line${ctr}" />
 	<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByDocument.line${camsItemIndex}.(((${ctr})))" />
 	<c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByDocument.line${ctr}" />	
+    <c:set var="selectNotCurrentYearUrl" value="methodToCall.selectNotCurrentYearByDocument.line${ctr}" />    
+    <c:set var="clearNotCurrentYearUrl" value="methodToCall.clearNotCurrentYearByDocument.line${ctr}" />    
 </c:if>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -75,7 +79,17 @@
         <tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" align="right" />
           <td align="right" class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}"/>
+			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" readOnly="true"/>&nbsp;
+            <c:set var="notCurrentYear" value="false" />
+            <logic:equal name="KualiForm" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" value="Yes">
+                <c:set var="notCurrentYear" value="true" />
+            </logic:equal>
+            <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive and !notCurrentYear}">
+                <html:image property="${selectNotCurrentYearUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="Select" styleClass="tinybutton"/>
+            </c:if>
+            <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive and notCurrentYear}">
+                <html:image property="${clearNotCurrentYearUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" alt="Clear Selection" styleClass="tinybutton"/>
+            </c:if>
 		  </td>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" align="right" width="250px"/>
           <td align="right" class="datacell">
@@ -88,10 +102,6 @@
         <tr>
           <th align="right" valign="middle" class="datacell">Asset Type:</th>
           <td align="right" valign="middle" class="datacell">
-			<c:set var="notCurrentYear" value="false" />
-			<logic:equal name="KualiForm" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" value="Yes">
-			    <c:set var="notCurrentYear" value="true" />
-			</logic:equal>
               <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive or notCurrentYear}"/>		
               <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive and !notCurrentYear}">
                   <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/>

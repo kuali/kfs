@@ -53,8 +53,8 @@
   <bean id="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Not Received Current Fiscal Year Indicator" />
-    <property name="shortLabel" value="Not Expected to Receive in Current FY" />
+    <property name="label" value="Receiving Outside of Current Fiscal Year" />
+    <property name="shortLabel" value="Receiving Outside of Current Fiscal Year" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

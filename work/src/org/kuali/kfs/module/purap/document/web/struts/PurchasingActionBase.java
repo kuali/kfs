@@ -1041,7 +1041,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
  
         if (rulePassed) {
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
-            document.updateViewCapitalAssets();
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1081,6 +1080,59 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward selectNotCurrentYearByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
+        if (system != null) {
+            system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(true);
+            system.setCapitalAssetTypeCode(SpringContext.getBean(PurchasingService.class).getDefaultAssetTypeCodeNotThisFiscalYear());
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward selectNotCurrentYearByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
+        CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+        if (system != null) {
+            system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(true);
+            system.setCapitalAssetTypeCode(SpringContext.getBean(PurchasingService.class).getDefaultAssetTypeCodeNotThisFiscalYear());
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward clearNotCurrentYearByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
+        if (system != null) {
+            system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(false);
+            system.setCapitalAssetTypeCode("");
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward clearNotCurrentYearByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
+        CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+        if (system != null) {
+            system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(false);
+            system.setCapitalAssetTypeCode("");
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 
     @Override
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

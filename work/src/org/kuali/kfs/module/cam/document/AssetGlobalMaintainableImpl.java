@@ -381,7 +381,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     }
 
     /**
-     * This creates the particular locking representation for this global document.
+     * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The assets
+     * that are being created do not need to be locked since they don't exist yet.
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
@@ -389,19 +390,22 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-
-        for (AssetGlobalDetail detail : assetGlobal.getAssetGlobalDetails()) {
-            MaintenanceLock maintenanceLock = new MaintenanceLock();
+        
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        
+        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            MaintenanceLock assetSeperateMaintenanceLock = new MaintenanceLock();
             StringBuffer lockRep = new StringBuffer();
 
             lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
             lockRep.append(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockRep.append(detail.getCapitalAssetNumber());
+            lockRep.append(assetGlobal.getSeparateSourceCapitalAssetNumber());
 
-            maintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
-            maintenanceLock.setLockingRepresentation(lockRep.toString());
-            maintenanceLocks.add(maintenanceLock);
+            assetSeperateMaintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
+            assetSeperateMaintenanceLock.setLockingRepresentation(lockRep.toString());
+            maintenanceLocks.add(assetSeperateMaintenanceLock);
         }
+            
         return maintenanceLocks;
     }
 

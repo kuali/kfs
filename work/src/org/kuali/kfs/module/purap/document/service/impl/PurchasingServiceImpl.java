@@ -104,6 +104,11 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
 
         purDoc.setPurchasingCapitalAssetItems(newCamsItemsList);
+        
+        if (purDoc.getPurchasingCapitalAssetItems().isEmpty()) {
+            purDoc.setCapitalAssetSystemStateCode(null);
+            purDoc.setCapitalAssetSystemTypeCode(null);
+        }
     }
 
     private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {

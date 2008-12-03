@@ -35,7 +35,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  * 
  * @see org.kuali.kfs.module.purap.document.NegativeAPOTest.
  */
-@ConfigureContext(session = kuluser, shouldCommitTransactions=true)
+@ConfigureContext(session = kuluser)
 public class RequisitionServiceTest extends KualiTestBase {    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceTest.class);
 

@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 
 /**
  * This class is used to create and test populated Requisition Documents
@@ -41,9 +42,11 @@ import org.kuali.kfs.sys.context.TestUtils;
 @ConfigureContext(session = khuntley)
 public class NegativeAPOTest extends KualiTestBase {
 
-    private RequisitionDocument requisitionDocument = null;
     private RequisitionService reqService;
     private KualiConfigurationService kualiConfigurationService;
+    private UnitTestSqlDao unitTestSqlDao;
+    
+    private RequisitionDocument requisitionDocument = null;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -52,6 +55,9 @@ public class NegativeAPOTest extends KualiTestBase {
         }
         if (null == kualiConfigurationService) {
             kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        }
+        if (null == unitTestSqlDao) {
+            unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         }
     }
 
@@ -181,6 +187,21 @@ public class NegativeAPOTest extends KualiTestBase {
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }
+     
+     // Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.
+     /*public void testInvalidAPOApprovalOutsideAllowedDateRange() throws Exception {
+         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_APPROVAL_OUTSIDE_ALLOWED_DATE_RANGE.createRequisitionDocument();
+         
+         String sql = "UPDATE SH_UNIV_DATE_T";
+                  sql += "SET UNIV_FISCAL_YR='2006'";
+         unitTestSqlDao.sqlCommand(sql);
+         
+         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
+         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_FAILS_CAPITAL_ASSET_RULES);
+             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+         }  
+     }*/
      
      // Requisition contains inactive commodity codes.
      public void testInvalidAPOHasInactiveCommodityCode() throws Exception {

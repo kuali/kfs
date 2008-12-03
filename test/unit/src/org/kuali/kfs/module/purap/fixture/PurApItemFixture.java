@@ -314,7 +314,7 @@ public enum PurApItemFixture {
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Freight description", // itemDescription
-            null, // itemUnitPrice
+            new BigDecimal(-1), // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
             null, // externalOrganizationB2bProductReferenceNumber
@@ -328,7 +328,7 @@ public enum PurApItemFixture {
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Shipping and Handling description", // itemDescription
-            null, // itemUnitPrice
+            new BigDecimal(-1), // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
             null, // externalOrganizationB2bProductReferenceNumber

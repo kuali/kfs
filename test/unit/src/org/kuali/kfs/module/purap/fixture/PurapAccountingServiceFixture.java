@@ -23,7 +23,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -34,30 +34,54 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 public enum PurapAccountingServiceFixture {
     
-    PRORATION_ONE_ACCOUNT(
+    PREQ_PRORATION_ONE_ACCOUNT(
             PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
-    PRORATION_TWO_ACCOUNTS(
+    PREQ_PRORATION_TWO_ACCOUNTS(
             PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
-    PRORATION_THIRDS(
+    PREQ_PRORATION_THIRDS(
             PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
-            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD),
-    PRORATION_ONE_ACCOUNT_ZERO_TOTAL(
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
+    PREQ_PRORATION_ONE_ACCOUNT_ZERO_TOTAL(
             PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
-    PRORATION_TWO_ACCOUNTS_ZERO_TOTAL(
+    PREQ_PRORATION_TWO_ACCOUNTS_ZERO_TOTAL(
             PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
-    PRORATION_THIRDS_ZERO_TOTAL(
+    PREQ_PRORATION_THIRDS_ZERO_TOTAL(
             PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
-            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD),;
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
+    REQ_PRORATION_ONE_ACCOUNT(
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1),
+    REQ_PRORATION_TWO_ACCOUNTS(
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
+    REQ_PRORATION_THIRDS(
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,RequisitionAccount.class,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
+    REQ_PRORATION_ONE_ACCOUNT_ZERO_TOTAL(
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1),
+    REQ_PRORATION_TWO_ACCOUNTS_ZERO_TOTAL(
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
+    REQ_PRORATION_THIRDS_ZERO_TOTAL(
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),;
     
     KualiDecimal totalAmount;
     Integer percentScale;

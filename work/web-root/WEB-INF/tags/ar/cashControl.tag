@@ -50,6 +50,26 @@
 
 			<tr>
 				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.bankCode}"
+					horizontal="true" forceRequired="true" labelFor="document.bankCode" />
+
+				<td class="datacell-nowrap">
+					<c:choose>
+						<c:when test="${editBankCode}">
+							<kul:htmlControlAttribute
+								attributeEntry="${documentAttributes.bankCode}"
+								property="document.bankCode"
+								forceRequired="true" />
+						</c:when>
+						<c:otherwise>
+							${KualiForm.document.bankCode}
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
+
+			<tr>
+				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.customerPaymentMediumCode}"
 					horizontal="true" forceRequired="true" labelFor="document.customerPaymentMediumCode" />
 

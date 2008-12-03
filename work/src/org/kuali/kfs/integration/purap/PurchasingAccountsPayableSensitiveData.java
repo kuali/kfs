@@ -33,5 +33,6 @@ public interface PurchasingAccountsPayableSensitiveData extends ExternalizableBu
      * @return the description for this sensitive data
      */
     public String getSensitiveDataDescription();
-   
+       
+    public boolean isActive();
 }

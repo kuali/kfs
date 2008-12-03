@@ -477,7 +477,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

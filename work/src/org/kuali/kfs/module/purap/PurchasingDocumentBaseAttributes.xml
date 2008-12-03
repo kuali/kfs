@@ -141,7 +141,7 @@
     <shortLabel>Delivery Campus</shortLabel>
     <required>true</required>
     <control>
-        <select valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"/>
+        <select valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder"/>
     </control>
 </attributeReference>
 

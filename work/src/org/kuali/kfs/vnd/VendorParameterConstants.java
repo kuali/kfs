@@ -29,4 +29,7 @@ public class VendorParameterConstants implements ParameterKeyConstants {
     public static String PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH = "LOOKUP_MINIMUM_NAME_LENGTH";
     public static String PURAP_SSN_ALLOWED_OWNERSHIP_TYPES = "SSN_OWNERSHIP_TYPES";
     public static String PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES = "FEIN_OWNERSHIP_TYPES";
+    public static final String PHONE_NUMBER_FORMATS_PARM_NM = "GENERIC_PHONE_NUMBER_FORMATS";
+    public static final String DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
+    public static final String PURAP_OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
 }

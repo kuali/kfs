@@ -70,7 +70,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusWithBlankValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusWithBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

@@ -35,7 +35,7 @@ public class CommodityCodeServiceImpl implements CommodityCodeService {
     private CommodityCodeDao commodityCodeDao;
     
     /**
-     * @see org.kuali.module.purap.service.CommodityCodeService#getByPrimaryId(java.lang.String)
+     * @see org.kuali.module.vnd.service.CommodityCodeService#getByPrimaryId(java.lang.String)
      */
     public CommodityCode getByPrimaryId(String purchasingCommodityCode) {
         CommodityCode ccToBeRetrieved = new CommodityCode();

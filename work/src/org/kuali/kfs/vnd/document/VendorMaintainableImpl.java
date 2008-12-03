@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
+import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -74,7 +74,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     public String getDocumentTitle(MaintenanceDocument document) {
         String documentTitle = "";
         // Check if we are choosing to override the Kuali default document title.
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorDetail.class, PurapParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorDetail.class, VendorParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE)) {
             // We are overriding the standard with a Vendor-specific document title style.
             if (document.isOldBusinessObjectInDocument()) {
                 documentTitle = "Edit Vendor - ";

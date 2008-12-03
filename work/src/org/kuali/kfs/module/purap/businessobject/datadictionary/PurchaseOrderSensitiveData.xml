@@ -39,7 +39,7 @@
     	<property name="shortLabel" value="Sensitive Data" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.SensitiveDataValuesFinder"
+            	p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.SensitiveDataValuesFinder"
             	p:includeKeyInLabel="false" />
     	</property>
 	</bean>				

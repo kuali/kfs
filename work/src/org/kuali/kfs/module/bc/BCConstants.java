@@ -470,7 +470,7 @@ public class BCConstants extends JSTLConstants {
     }
     
     public class ErrorKey {
-        public static final String DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*, budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding*,budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding*";
+        public static final String DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*,budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding*,budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding*";
         public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*";
 }
 }

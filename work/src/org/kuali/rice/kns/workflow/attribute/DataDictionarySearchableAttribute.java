@@ -80,8 +80,6 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         }
         WorkflowAttributes workflowAttributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName()).getWorkflowAttributes();
         
-       // doc.
-       // List<SearchableAttributeValue> searchValues = null;
         WorkflowAttributePropertyResolutionService waprs = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
         return waprs.resolveSearchableAttributeValues(document, workflowAttributes);
     }
@@ -138,14 +136,14 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
           SearchingAttribute attr = definition.getSearchingAttribute();
           String attributeName = attr.getAttributeName();
           String businessObjectClassName = attr.getBusinessObjectClassName();
-          List<String> paths = definition.getDocumentValues();
+        //  List<String> paths = definition.getDocumentValues();
           final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClassName);
-          for (String path : paths) {
-              Field searchField = buildSearchField(path, boEntry);
+       //   for (String path : paths) {
+              Field searchField = buildSearchField(attributeName, boEntry);
               List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);
               if (searchField.isUsingDatePicker()) {
-                  fieldList.add(buildDatePickerField(path));
+                  fieldList.add(buildDatePickerField(attributeName));
               }
               String quickfinderService = searchField.getQuickFinderClassNameImpl();
               if (!Utilities.isEmpty(quickfinderService)) {
@@ -153,7 +151,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
               }
               searchFields.add(new Row(fieldList));
               
-          }
+      //    }
       }
         
         return searchFields;

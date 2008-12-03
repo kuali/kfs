@@ -51,7 +51,7 @@
 
   <bean id="BudgetTask-budgetTaskSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetTaskSequenceNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Sequence Number" />
     <property name="shortLabel" value="Sequence Number" />
     <property name="maxLength" value="10" />
@@ -69,7 +69,6 @@
 
   <bean id="BudgetTask-budgetTaskOnCampus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetTaskOnCampus" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Occurs On Campus" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -87,7 +86,6 @@
 
   <bean id="BudgetTask-budgetTaskName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetTaskName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Task" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />

@@ -34,13 +34,16 @@
 
   <bean id="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode-parentBean" abstract="true" parent="NonpersonnelCategory-code">
     <property name="name" value="budgetNonpersonnelCategoryCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="NonpersonnelObjectCode-nonpersonnelCategory.name" parent="NonpersonnelObjectCode-nonpersonnelCategory.name-parentBean" />
 
   <bean id="NonpersonnelObjectCode-nonpersonnelCategory.name-parentBean" abstract="true" parent="NonpersonnelCategory-name">
     <property name="name" value="nonpersonnelCategory.name" />
   </bean>
-  <bean id="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode" parent="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" />
+  <bean id="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode" parent="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
 
   <bean id="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" abstract="true" parent="NonpersonnelSubCategory-code">
     <property name="name" value="budgetNonpersonnelSubCategoryCode" />
@@ -54,7 +57,6 @@
 
   <bean id="NonpersonnelObjectCode-budgetNonpersonnelObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetNonpersonnelObjectCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Object Code" />
     <property name="shortLabel" value="Obj Cd" />
     <property name="maxLength" value="4" />

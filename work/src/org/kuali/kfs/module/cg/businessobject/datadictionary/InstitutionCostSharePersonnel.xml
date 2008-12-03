@@ -85,7 +85,6 @@
 
   <bean id="InstitutionCostSharePersonnel-budgetInstitutionCostSharePersonnelDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetInstitutionCostSharePersonnelDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="50" />

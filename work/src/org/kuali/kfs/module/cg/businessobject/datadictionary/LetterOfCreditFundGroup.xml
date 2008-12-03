@@ -47,7 +47,6 @@
 
   <bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="letterOfCreditFundGroupDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Letter Of Credit Fund Group Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />

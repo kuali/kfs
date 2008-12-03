@@ -31,7 +31,6 @@
 
   <bean id="GrantDescription-grantDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grantDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Grant Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="25" />

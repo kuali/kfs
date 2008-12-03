@@ -50,7 +50,6 @@
 
   <bean id="ControlAttributeType-controlAttributeTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="controlAttributeTypeDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Control Attribute Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="100" />
@@ -74,7 +73,6 @@
 
   <bean id="ControlAttributeType-requiredIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requiredIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Required Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />

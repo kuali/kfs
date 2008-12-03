@@ -58,7 +58,6 @@
 
   <bean id="NonpersonnelSubCategory-nonpersonnelMtdcExcludedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nonpersonnelMtdcExcludedIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="MTDC Excluded Indicator" />
     <property name="shortLabel" value="mtdc excluded" />
     <property name="maxLength" value="1" />
@@ -72,7 +71,6 @@
 
   <bean id="NonpersonnelSubCategory-nonpersonnelModularExcludedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nonpersonnelModularExcludedIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Modular Excluded Indicator" />
     <property name="shortLabel" value="Modular excluded" />
     <property name="maxLength" value="1" />
@@ -86,7 +84,6 @@
 
   <bean id="NonpersonnelSubCategory-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Nonpersonnel Sub Category Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

@@ -33,7 +33,6 @@
 
   <bean id="Cfda-cfdaMaintenanceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaMaintenanceTypeId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="CFDA Maintenance Type Id" />
     <property name="shortLabel" value="Id" />
     <property name="maxLength" value="10" />
@@ -66,7 +65,6 @@
 
   <bean id="Cfda-cfdaProgramTitleName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaProgramTitleName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="CFDA Program Title Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="300" />
@@ -84,7 +82,6 @@
 
   <bean id="Cfda-cfdaStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaStatusCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Active Indicator" />
     <property name="shortLabel" value="Active Indicator" />
     <property name="maxLength" value="1" />

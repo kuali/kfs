@@ -58,7 +58,6 @@
 
   <bean id="NonpersonnelCategory-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Nonpersonnel Category Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -78,7 +77,6 @@
 
   <bean id="NonpersonnelCategory-sortNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sortNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Nonpersonnel Category Sort Number" />
     <property name="shortLabel" value="Sort Number" />
     <property name="maxLength" value="2" />

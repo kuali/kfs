@@ -31,7 +31,6 @@
 
   <bean id="ContractGrantProposal-proposalCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalCreateDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Proposal Create Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -49,7 +48,6 @@
 
   <bean id="ContractGrantProposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Institution Proposal No." />
     <property name="shortLabel" value="Proposal No." />
     <property name="maxLength" value="12" />

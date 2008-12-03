@@ -73,7 +73,7 @@
 
   <bean id="BudgetUser-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Document Header Id" />
     <property name="shortLabel" value="Document Id" />
     <property name="maxLength" value="14" />
@@ -88,7 +88,7 @@
 
   <bean id="BudgetUser-budgetUserSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetUserSequenceNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Period Sequence Number" />
     <property name="shortLabel" value="Budget Pd. Seq. No." />
     <property name="maxLength" value="2" />
@@ -103,7 +103,6 @@
 
   <bean id="BudgetUser-fiscalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiscalCampusCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fiscal Campus Code" />
     <property name="shortLabel" value="Fiscal Campus Code" />
     <property name="maxLength" value="2" />
@@ -121,7 +120,6 @@
 
   <bean id="BudgetUser-primaryDepartmentCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="primaryDepartmentCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Primary Department Code" />
     <property name="shortLabel" value="Pri. Dept. Code" />
     <property name="maxLength" value="4" />
@@ -139,7 +137,6 @@
 
   <bean id="BudgetUser-namePrefixText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personNamePrefixText" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Prefix" />
     <property name="shortLabel" value="Pre" />
     <property name="maxLength" value="15" />
@@ -158,7 +155,6 @@
 
   <bean id="BudgetUser-nameSuffixText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personNameSuffixText" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Suffix" />
     <property name="shortLabel" value="Suff" />
     <property name="maxLength" value="15" />
@@ -177,7 +173,6 @@
 
   <bean id="BudgetUser-personSeniorKeyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personSeniorKeyIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Senior Key Personnel" />
     <property name="shortLabel" value="Sr. Person" />
     <property name="maxLength" value="1" />
@@ -192,7 +187,6 @@
 
   <bean id="BudgetUser-personProjectDirectorIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personProjectDirectorIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Project Directory" />
     <property name="shortLabel" value="PD" />
     <property name="maxLength" value="1" />
@@ -207,7 +201,6 @@
 
   <bean id="BudgetUser-personSecretarialClericalIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personSecretarialClericalIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Secretarial/Clerical" />
     <property name="shortLabel" value="Sec/Cl" />
     <property name="maxLength" value="1" />
@@ -222,7 +215,6 @@
 
   <bean id="BudgetUser-personPostDoctoralIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personPostDoctoralIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Post Doctoral" />
     <property name="shortLabel" value="Post Doc" />
     <property name="maxLength" value="1" />
@@ -242,7 +234,6 @@
 
   <bean id="BudgetUser-role-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="role" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Role" />
     <property name="shortLabel" value="Role" />
     <property name="maxLength" value="20" />
@@ -257,7 +248,6 @@
 
   <bean id="BudgetUser-personSalaryJustificationText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personSalaryJustificationText" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Justification for rate change" />
     <property name="shortLabel" value="Justification" />
     <property name="maxLength" value="250" />
@@ -274,7 +264,6 @@
 
   <bean id="BudgetUser-appointmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentTypeCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Appointment Type Code" />
     <property name="shortLabel" value="Appt Type Code" />
     <property name="maxLength" value="10" />
@@ -290,7 +279,6 @@
 
   <bean id="BudgetUser-personHourlyNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personHourlyNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Number of Hourlies" />
     <property name="shortLabel" value="# Hourlies" />
     <property name="maxLength" value="2" />

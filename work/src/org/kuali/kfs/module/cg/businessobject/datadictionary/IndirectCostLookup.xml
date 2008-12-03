@@ -32,7 +32,7 @@
 
   <bean id="IndirectCostLookup-budgetOnCampusIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetOnCampusIndicator" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget On Campus Indicator" />
     <property name="shortLabel" value="on camput indicator" />
     <property name="maxLength" value="1" />
@@ -46,6 +46,7 @@
   <bean id="IndirectCostLookup-budgetPurposeCode" parent="IndirectCostLookup-budgetPurposeCode-parentBean" />
 
   <bean id="IndirectCostLookup-budgetPurposeCode-parentBean" abstract="true" parent="Purpose-purposeCode">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="budgetPurposeCode" />
     <property name="label" value="Budget Purpose Code" />
     <property name="shortLabel" value="BdgtPrpsCd" />
@@ -56,7 +57,6 @@
 
   <bean id="IndirectCostLookup-budgetIndirectCostRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetIndirectCostRate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Indirect Cost Rate" />
     <property name="shortLabel" value="BdgtIdcCstRt" />
     <property name="maxLength" value="6" />

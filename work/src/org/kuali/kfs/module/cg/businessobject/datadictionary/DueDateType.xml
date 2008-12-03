@@ -37,7 +37,6 @@
 
   <bean id="DueDateType-approvalLeadTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="approvalLeadTime" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Approval Lead Time" />
     <property name="shortLabel" value="Time" />
     <property name="maxLength" value="3" />
@@ -55,7 +54,6 @@
 
   <bean id="DueDateType-dueDateDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dueDateDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Due Date Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="20" />

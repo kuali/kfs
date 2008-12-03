@@ -50,7 +50,6 @@
 
   <bean id="PersonRole-personRoleDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personRoleDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Person Role Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
@@ -69,7 +68,6 @@
 
   <bean id="PersonRole-personRoleSortNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personRoleSortNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Person Role Sort Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />

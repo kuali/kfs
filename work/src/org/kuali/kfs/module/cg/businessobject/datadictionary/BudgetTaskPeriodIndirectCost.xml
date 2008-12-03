@@ -44,7 +44,6 @@
 
   <bean id="BudgetTaskPeriodIndirectCost-budgetManualIndirectCostRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetManualIndirectCostRate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Manual Indirect Cost Rate" />
     <property name="shortLabel" value="Manual Indirect Cost Rate" />
     <property name="maxLength" value="6" />
@@ -63,7 +62,7 @@
 
   <bean id="BudgetTaskPeriodIndirectCost-budgetTaskSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetTaskSequenceNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Task Sequence Number" />
     <property name="shortLabel" value="Budget Task Sequence Number" />
     <property name="maxLength" value="10" />
@@ -80,7 +79,7 @@
 
   <bean id="BudgetTaskPeriodIndirectCost-budgetPeriodSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPeriodSequenceNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Period Sequence Number" />
     <property name="shortLabel" value="Budget Period Sequence Number" />
     <property name="maxLength" value="10" />
@@ -94,7 +93,6 @@
 
   <bean id="BudgetTaskPeriodIndirectCost-budgetManualMtdcAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetManualMtdcAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Manual MTDC Amount" />
     <property name="shortLabel" value="Manual MTDC Amount" />
     <property name="maxLength" value="12" />

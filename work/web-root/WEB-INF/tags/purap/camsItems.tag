@@ -78,7 +78,7 @@
 		<c:if test="${isRequisition}">
 		<td class="infoline">
 			<div align="center">
-				${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemRestrictedIndicator}
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemRestrictedIndicator" readOnly="true" />
 			</div>
 		</td>
 		</c:if>		

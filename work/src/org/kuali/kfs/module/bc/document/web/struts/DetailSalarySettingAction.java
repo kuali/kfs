@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
 import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.LWPA;
 import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.LWPF;
+import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,20 +90,20 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
         boolean isClose = StringUtils.equals(ConfirmationQuestion.YES, buttonClicked) || StringUtils.equals(ConfirmationQuestion.NO, buttonClicked);
-        
+
         ActionForward closeActionForward;
         if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
-            closeActionForward =  this.returnAfterClose(salarySettingForm, mapping, request, response);
+            closeActionForward = this.returnAfterClose(salarySettingForm, mapping, request, response);
         }
         else {
             closeActionForward = super.close(mapping, salarySettingForm, request, response);
         }
-        
+
         // release all locks before closing the current expansion screen
         if (isClose && !salarySettingForm.isViewOnlyEntry() && salarySettingForm.isSalarySettingClosed()) {
             salarySettingForm.releasePositionAndFundingLocks();
         }
-  
+
         return closeActionForward;
     }
 
@@ -150,12 +150,14 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
                 errorMap.putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
-            
+
+            // TODO changed 12/2/2008 gwp verify and remove commented code
+            // if(savableFunding.isPurged()) {
             // bypass validation rules if the funding line has been marked as purged or deleted
-            if(savableFunding.isPurged()) {
+            if (savableFunding.isPurged() || savableFunding.isAppointmentFundingDeleteIndicator()) {
                 continue;
             }
-            
+
             salarySettingService.recalculateDerivedInformation(savableFunding);
 
             // validate the savable appointment funding lines
@@ -196,7 +198,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         PendingBudgetConstructionAppointmentFunding workingAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
         ObjectUtil.buildObject(workingAppointmentFunding, newAppointmentFunding);
         this.applyDefaultValuesIfEmpty(workingAppointmentFunding);
-        
+
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
         // retrieve corresponding document in advance in order to use the rule framework
@@ -284,4 +286,3 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         appointmentFundings.removeAll(purgedAppointmentFundings);
     }
 }
-

@@ -25,7 +25,6 @@ import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -39,7 +38,6 @@ import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.spring.Logged;
 
 /**
  * implementing the validation methods defined in BudgetConstructionRuleHelperService
@@ -50,7 +48,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
     private DictionaryValidationService dictionaryValidationService;
     private LaborModuleService laborModuleService;
     private BudgetDocumentService budgetDocumentService;
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasDetailPositionRequiredObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
@@ -125,7 +123,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
         SubAccount subAccount = appointmentFunding.getSubAccount();
 
         return this.isValidSubAccount(subAccount, subAccountNumber, errorMap, KFSPropertyConstants.SUB_ACCOUNT_NAME);
-        }
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidSubObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
@@ -161,7 +159,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
         boolean isBudgetAllowed = budgetDocumentService.isBudgetableDocument(budgetConstructionDocument);
 
         if (!isBudgetAllowed) {
-            errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE);
+            errorMap.putError(errorPropertyName, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_BUDGETABLE, budgetConstructionDocument.getAccountNumber() + ";" + budgetConstructionDocument.getSubAccountNumber());
         }
 
         return isBudgetAllowed;
@@ -334,7 +332,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
             return false;
-    }
+        }
 
         if (!subObjectCode.isActive()) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);

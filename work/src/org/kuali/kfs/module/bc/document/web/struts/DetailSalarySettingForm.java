@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +43,6 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * the base struts form for the detail salary setting: by position or by incumbent
@@ -295,7 +293,12 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         // get the funding lines that can be saved
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         for (PendingBudgetConstructionAppointmentFunding fundingLine : this.getAppointmentFundings()) {
-            if (!fundingLine.isDisplayOnlyMode() && fundingLine.isBudgetable()) {
+
+            // TODO verify change and remove commented code - gwp 12/2/2008
+            // if (!fundingLine.isDisplayOnlyMode() && fundingLine.isBudgetable()) {
+            // save-able line is one that is edit-able
+            // rules should catch attempts to save active, !purged, !isBudgetable lines
+            if (!fundingLine.isDisplayOnlyMode()) {
                 savableAppointmentFundings.add(fundingLine);
             }
         }
@@ -517,33 +520,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getAppointmentFundings()
-     */
-    @Override
-    public List<PendingBudgetConstructionAppointmentFunding> getAppointmentFundings() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
-     */
-    @Override
-    public Map<String, Object> getKeyMapOfSalarySettingItem() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getRefreshCallerName()
-     */
-    @Override
-    public String getRefreshCallerName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
      * Gets the viewOnlyEntry attribute. In the detail salary setting context viewOnlyEntry checks for systemViewOnly and the
      * calling context. SystemViewOnly overrides any other settings, otherwise, If the context is budgetByAccountMode the editing
      * mode can either be viewOnly or fullEntry for the home account that the user originally opened and the screen level access
@@ -558,14 +534,14 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         boolean viewOnly = false;
 
         // check for systemViewOnly first
-        if (super.isViewOnlyEntry()){
+        if (super.isViewOnlyEntry()) {
             return true;
         }
 
-        if (this.isBudgetByAccountMode()){
+        if (this.isBudgetByAccountMode()) {
 
             // view or edit home account access should give edit access to the screen
-            if ((this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) ||(this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY))){
+            if ((this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) || (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY))) {
                 viewOnly = false;
             }
             else {
@@ -575,7 +551,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
         else {
             // we are doing organization salary setting
-            if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
+            if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
                 viewOnly = false;
             }
             else

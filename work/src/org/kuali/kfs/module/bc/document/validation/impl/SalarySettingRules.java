@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.util.List;
 
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
@@ -35,18 +36,26 @@ public class SalarySettingRules implements SalarySettingRule {
     private BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
     private SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processQuickSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processQuickSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("processQuickSaveAppointmentFunding() start");
-        
+
         boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
         if (!hasValidFormat) {
             return hasValidFormat;
         }
-        
+
+        // added 12/3/2008 - gwp
+        // quickSS should check for budgetable when not deleted line
+        // this allows user to do cleanup - using request amount as property to light up on error
+        boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT);
+        if (!isAssociatedWithBudgetableDocument) {
+            return isAssociatedWithBudgetableDocument;
+        }
+
         boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);
         if (!hasValidAmounts) {
             return hasValidAmounts;
@@ -81,7 +90,8 @@ public class SalarySettingRules implements SalarySettingRule {
             return hasActiveJob;
         }
 
-        boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, KFSConstants.EMPTY_STRING);
+        // using request amount as property to light up on error
+        boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT);
         if (!isAssociatedWithBudgetableDocument) {
             return isAssociatedWithBudgetableDocument;
         }

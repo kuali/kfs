@@ -67,13 +67,13 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.info("refresh() started");
-        
+
         super.refresh(mapping, form, request, response);
-        
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;       
+
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         salarySettingForm.setRefreshIncumbentBeforeSalarySetting(false);
         salarySettingForm.setRefreshPositionBeforeSalarySetting(false);
-        
+
         return this.loadExpansionScreen(mapping, form, request, response);
     }
 
@@ -93,7 +93,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
-        
+
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {
             parameters.put(BCConstants.RETURN_ANCHOR, salarySettingForm.getAnchor());
@@ -113,7 +113,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward addPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
-        Map<String, String> parameters = new HashMap<String, String>();        
+        Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingForm.getSubAccountNumber());
@@ -123,7 +123,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, Boolean.toString(salarySettingForm.isBudgetByAccountMode()));
         parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
-        
+
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {
             parameters.put(BCConstants.RETURN_ANCHOR, salarySettingForm.getAnchor());
@@ -163,10 +163,10 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      */
     public ActionForward performIncumbentSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean isSaved = this.save(form);
-        if(!isSaved) {
+        if (!isSaved) {
             mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
         return new ActionForward(salarySettingURL, true);
     }
@@ -176,10 +176,10 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      */
     public ActionForward performPositionSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean isSaved = this.save(form);
-        if(!isSaved) {
+        if (!isSaved) {
             mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
         return new ActionForward(salarySettingURL, true);
     }
@@ -239,7 +239,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#close(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#close(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -247,7 +248,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         ActionForward closeActionForward;
         if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
-            closeActionForward =  this.returnAfterClose(salarySettingForm, mapping, request, response);
+            closeActionForward = this.returnAfterClose(salarySettingForm, mapping, request, response);
         }
         else {
             closeActionForward = super.close(mapping, salarySettingForm, request, response);
@@ -260,12 +261,12 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {                     
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean isSaved = this.save(form);
-        if(isSaved) {
+        if (isSaved) {
             GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -274,32 +275,37 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
 
-        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(salarySettingExpansion);        
-        if(document == null) {
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(salarySettingExpansion);
+        if (document == null) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, salarySettingExpansion.getSalarySettingExpansionString());
             return false;
         }
-        
-        
+
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getAppointmentFundings();
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();  
-        
-        for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
+
+        for (PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
             String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, savableFunding);
-            
+
+            // added 12/3/2008 - gwp
+            // no rules check for marked delete line
+            if (savableFunding.isAppointmentFundingDeleteIndicator()) {
+                continue;
+            }
+
             salarySettingService.recalculateDerivedInformation(savableFunding);
-                       
+
             // validate the savable appointment funding lines
             boolean isValid = this.invokeRules(new QuickSaveSalarySettingEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, savableFunding));
-            if(!isValid) {
+            if (!isValid) {
                 return false;
             }
         }
 
         salarySettingService.saveSalarySetting(salarySettingExpansion);
         salarySettingExpansion.refresh();
-        
-        return true;        
+
+        return true;
     }
 
     // build the URL for the specified salary setting method
@@ -320,7 +326,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + KFSConstants.ACTION_EXTENSION_DOT_DO);
-        
+
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, appointmentFunding.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, appointmentFunding.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, appointmentFunding.getAccountNumber());
@@ -329,7 +335,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, appointmentFunding.getFinancialSubObjectCode());
         parameters.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFunding.getPositionNumber());
         parameters.put(KFSPropertyConstants.EMPLID, appointmentFunding.getEmplid());
-        
+
         parameters.put(BCPropertyConstants.REFRESH_INCUMBENT_BEFORE_SALARY_SETTING, Boolean.valueOf(salarySettingForm.isRefreshIncumbentBeforeSalarySetting()).toString());
         parameters.put(BCPropertyConstants.REFRESH_POSITION_BEFORE_SALARY_SETTING, Boolean.valueOf(salarySettingForm.isRefreshPositionBeforeSalarySetting()).toString());
 

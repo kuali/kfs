@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.format.DateFormatter;
@@ -42,10 +42,16 @@ public class PaymentRequestView extends AbstractRelatedView {
     private Date paymentRequestPayDate;
     private Timestamp paymentExtractedTimestamp;
     private Timestamp paymentPaidTimestamp;
-    private KualiDecimal totalAmount;
     
     // REFERENCE OBJECTS
     private Status status;
+    private FinancialSystemDocumentHeader documentHeader;
+
+
+    // GETTERS & SETTERS
+    public Object getTotalAmount() {
+        return (new CurrencyFormatter()).format(documentHeader.getFinancialDocumentTotalAmount());
+    }
 
     public String getInvoiceNumber() {
         return invoiceNumber;
@@ -120,14 +126,6 @@ public class PaymentRequestView extends AbstractRelatedView {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public Object getTotalAmount() {
-        return (new CurrencyFormatter()).format(totalAmount);
-    }
-
-    public void setTotalAmount(KualiDecimal totalAmount) {
-        this.totalAmount = totalAmount;
     }
 
     public String getVendorCustomerNumber() {

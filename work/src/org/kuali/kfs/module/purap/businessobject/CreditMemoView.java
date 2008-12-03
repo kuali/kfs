@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.format.DateFormatter;
@@ -42,10 +41,16 @@ public class CreditMemoView extends AbstractRelatedView {
     private Timestamp creditMemoExtractedTimestamp;
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
-    private KualiDecimal totalAmount;
     
     // REFERENCE OBJECTS
     private Status status;
+    private FinancialSystemDocumentHeader documentHeader;
+
+
+    // GETTERS & SETTERS
+    public Object getTotalAmount() {
+        return (new CurrencyFormatter()).format(documentHeader.getFinancialDocumentTotalAmount());
+    }
 
     public Object getAccountsPayableApprovalTimestamp() {
         return (new DateFormatter()).format(accountsPayableApprovalTimestamp);
@@ -120,14 +125,6 @@ public class CreditMemoView extends AbstractRelatedView {
 
     public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
-    }
-
-    public Object getTotalAmount() {
-        return (new CurrencyFormatter()).format(totalAmount);
-    }
-
-    public void setTotalAmount(KualiDecimal totalAmount) {
-        this.totalAmount = totalAmount;
     }
 
     public String getVendorCustomerNumber() {

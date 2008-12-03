@@ -90,7 +90,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         boolean valid = true;
         if (equipmentLoanOrReturnDocument.getBorrowerPerson() == null) {
             valid &= false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + "borrowerPerson.principalName", CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_PRINCIPAL_NAME, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
         }
         // validate campus tag number
         // Asset asset = SpringContext.getBean(Asset.class);

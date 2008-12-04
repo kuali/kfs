@@ -3,9 +3,11 @@
 <xsd:schema elementFormDefault="qualified"
 		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPunchOutResponse"
 		    xmlns="http://www.kuali.org/kfs/purap/b2bPunchOutResponse" 
+		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="@externalizable.static.content.url@/xsd/purap/purapTypes.xsd" />
 	
 	<xsd:element name="cXML">
 	    <xsd:complexType>
@@ -18,8 +20,8 @@
 						  <xsd:complexType>
 						  	<xsd:simpleContent>
 						  		<xsd:extension base="xsd:string">
-						  			<xsd:attribute name="code" type="xsd:string" />
-						  			<xsd:attribute name="text" type="xsd:string" />
+						  			<xsd:attribute name="code" type="purap:statusCodeType" />
+						  			<xsd:attribute name="text" type="purap:statusTextType" />
 						  		</xsd:extension>
 						  	</xsd:simpleContent>
 						  </xsd:complexType>
@@ -43,7 +45,7 @@
         		</xsd:complexType>
         	</xsd:element> <!-- Response -->
         </xsd:sequence>
-        <xsd:attribute name="version" type="xsd:string" use="optional" default="1.2.019"/>
+        <xsd:attribute name="version" type="xsd:string" use="optional"/>
         <xsd:attribute ref="xml:lang" use="optional" />
         <xsd:attribute name="timestamp" type="xsd:string" use="required" />
         <xsd:attribute name="payloadID" type="xsd:string" use="required" />

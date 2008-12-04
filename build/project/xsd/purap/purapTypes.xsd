@@ -1,0 +1,109 @@
+<xsd:schema elementFormDefault="qualified"
+    targetNamespace="http://www.kuali.org/kfs/purap/types"
+    xmlns:purap="http://www.kuali.org/kfs/purap/types"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:simpleType name="statusCodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="statusTextType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="10"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="dunsNumberType">
+        <xsd:restriction base="xsd:string">
+		    <!-- In DB, it's declared as 9 chars, but in b2b we're getting 10 chars(15996366-t Eg) -->        
+            <xsd:maxLength value="10"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="catalogNumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="30"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="auxiliaryIDType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="300"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="itemDescriptionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="4000"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- All the curreny are 3 chars len according to ISO 4217 Currency Code List -->
+    <xsd:simpleType name="currencyType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="uomType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="countryCodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+	<xsd:simpleType name="domainType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="DUNS|NetworkId"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="postalCodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="10"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="addressType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="200"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="idType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="100"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="dateStringType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="100"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="hundredCharsType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="100"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="eInvoiceDescriptionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="300"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="emptyType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>    

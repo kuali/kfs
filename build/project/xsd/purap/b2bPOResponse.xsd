@@ -3,12 +3,15 @@
 <xsd:schema elementFormDefault="qualified"
 		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPOResponse"
 		    xmlns="http://www.kuali.org/kfs/purap/b2bPOResponse" 
+		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="@externalizable.static.content.url@/xsd/purap/purapTypes.xsd" />
 	
 	<xsd:element name="Error">
 	  	<xsd:complexType>
 	  		<xsd:sequence>
-	  			<xsd:element name="ErrorMessage" type="xsd:string"/>
+	  			<xsd:element name="ErrorMessage" type="xsd:string"/>  <!-- Not needed to restrict the length since this gets added to notes -->
 	  		</xsd:sequence>	
 	  	</xsd:complexType>
   	</xsd:element>	
@@ -19,8 +22,8 @@
 	      	<xsd:element name="Header">		    
 	        	<xsd:complexType>
 		            <xsd:sequence>
-		        		 <xsd:element name="MessageId" type="xsd:string"/>
-		        		 <xsd:element name="Timestamp" type="xsd:string"/>   	
+		        		 <xsd:element name="MessageId" type="xsd:string"/> <!-- Not used -->
+		        		 <xsd:element name="Timestamp" type="xsd:string"/> <!-- Not used -->
 		            </xsd:sequence>
 		        </xsd:complexType>
 		     </xsd:element>       
@@ -30,8 +33,8 @@
         		      	<xsd:element name="Status">
 	        		      	<xsd:complexType>
 	        		      		<xsd:sequence>
-		        		      		<xsd:element name="StatusCode" type="xsd:string"/>
-		        		      		<xsd:element name="StatusText" type="xsd:string"/>
+		        		      		<xsd:element name="StatusCode" type="purap:statusCodeType"/>
+		        		      		<xsd:element name="StatusText" type="purap:statusTextType"/>
 	        		      			<xsd:element name="Errors" minOccurs="0">
 	        		      				<xsd:complexType>
 									  		<xsd:sequence>

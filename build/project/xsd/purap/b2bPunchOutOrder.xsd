@@ -3,26 +3,29 @@
 <xsd:schema elementFormDefault="qualified"
 		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPunchOutOrder"
 		    xmlns="http://www.kuali.org/kfs/purap/b2bPunchOutOrder" 
+		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
+		    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 		    
 <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="@externalizable.static.content.url@/xsd/purap/purapTypes.xsd" />
+<xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
 
 <xsd:element name="Credential">
 	<xsd:complexType>
 		<xsd:sequence>
-			<xsd:element name="Identity" type="xsd:string" />
-			<xsd:element name="SharedSecret" minOccurs="0" maxOccurs="1" type="xsd:string" />
+			<xsd:element name="Identity" type="purap:dunsNumberType" />
+			<xsd:element name="SharedSecret" minOccurs="0" maxOccurs="1" type="xsd:string" /> <!-- Not used -->
 		</xsd:sequence>
-		<xsd:attribute name="domain" type="xsd:string" use="required" />
+		<xsd:attribute name="domain" type="purap:domainType" use="required" />
 	</xsd:complexType>
 </xsd:element>
   
 <xsd:element name="Money" default="0">
 	<xsd:complexType>
 		<xsd:simpleContent>
-			<xsd:extension base="xsd:decimal">
-				<xsd:attribute name="currency" type="xsd:string"
-					use="required" />
+			<xsd:extension base="kfs:amountType">
+				<xsd:attribute name="currency" type="purap:currencyType" use="required" />
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
@@ -31,8 +34,8 @@
 <xsd:element name="ItemID">
 	<xsd:complexType>
 		<xsd:sequence>
-			<xsd:element name="SupplierPartID" type="xsd:string" />
-			<xsd:element name="SupplierPartAuxiliaryID" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SupplierPartID" type="purap:catalogNumberType" />
+			<xsd:element name="SupplierPartAuxiliaryID" type="purap:auxiliaryIDType" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:element>
@@ -48,7 +51,7 @@
 <xsd:element name="Description">
  	<xsd:complexType>
  		<xsd:simpleContent>
- 			<xsd:extension base="xsd:string">
+ 			<xsd:extension base="purap:itemDescriptionType">
  				<xsd:attribute ref="xml:lang" use="required" />
  			</xsd:extension>
  		</xsd:simpleContent>
@@ -58,8 +61,8 @@
 <xsd:element name="Extrinsic">
  	<xsd:complexType>
  		<xsd:simpleContent>
- 			<xsd:extension base="xsd:string">
- 				<xsd:attribute name="name" type="xsd:string" />
+ 			<xsd:extension base="kfs:oneToThirtyCharType">
+ 				<xsd:attribute name="name" type="kfs:oneToTwentyOneCharType" />
  			</xsd:extension>
  		</xsd:simpleContent>
  	</xsd:complexType>
@@ -89,8 +92,7 @@
 							<xsd:complexType>
 								<xsd:sequence>
 									<xsd:element ref="Credential" />
-									<xsd:element name="UserAgent"
-										type="xsd:string" />
+									<xsd:element name="UserAgent" type="xsd:string" />
 								</xsd:sequence>
 							</xsd:complexType>
 						</xsd:element>
@@ -104,8 +106,8 @@
 						  <xsd:complexType>
 						  	<xsd:simpleContent>
 						  		<xsd:extension base="xsd:string">
-						  			<xsd:attribute name="code" type="xsd:string" />
-						  			<xsd:attribute name="text" type="xsd:string" />
+						  			<xsd:attribute name="code" type="purap:statusCodeType" />
+						  			<xsd:attribute name="text" type="purap:statusTextType" />
 						  		</xsd:extension>
 						  	</xsd:simpleContent>
 						  </xsd:complexType>
@@ -113,7 +115,7 @@
 						<xsd:element name="PunchOutOrderMessage">
 							<xsd:complexType>
 						  		<xsd:sequence>
-						  			<xsd:element name="BuyerCookie" type="xsd:string"/>
+						  			<xsd:element name="BuyerCookie" type="xsd:string"/> <!-- Not used -->
 						  			<xsd:element name="PunchOutOrderMessageHeader">
 						  				<xsd:complexType>
 						  					<xsd:sequence>
@@ -125,7 +127,7 @@
 									  				</xsd:complexType>
 										  		</xsd:element> <!-- Total -->
 		                              		</xsd:sequence>	
-		                              		<xsd:attribute name="operationAllowed" type="xsd:string"/>
+		                              		<xsd:attribute name="operationAllowed" type="xsd:string"/> <!-- Not Used -->
 						  				</xsd:complexType>
 						  			</xsd:element>
 					  			
@@ -138,13 +140,13 @@
 									  					<xsd:sequence>
 									  						<xsd:element ref="UnitPrice"/>
 									  						<xsd:element ref="Description"/>
-									  						<xsd:element name="UnitOfMeasure" type="xsd:anyType" />
+									  						<xsd:element name="UnitOfMeasure" type="purap:uomType" />
 									  						
 									  						<xsd:element name="Classification" maxOccurs="unbounded">
 															  	<xsd:complexType>
 															  		<xsd:simpleContent>
-															  			<xsd:extension base="xsd:string">
-															  				<xsd:attribute name="domain" type="xsd:string" />
+															  			<xsd:extension base="kfs:oneToThirtyCharType">
+															  				<xsd:attribute name="domain" type="kfs:oneToTwentyOneCharType" />
 															  			</xsd:extension>
 															  		</xsd:simpleContent>
 															  	</xsd:complexType>
@@ -154,11 +156,11 @@
 									  					</xsd:sequence>
 									  				</xsd:complexType>	
 									  			</xsd:element> <!-- ItemDetail -->
-									  			<xsd:element name="SupplierID" maxOccurs="unbounded">
+									  			<xsd:element name="SupplierID" maxOccurs="unbounded"> <!-- Not used -->
 									  				<xsd:complexType>
 												 		<xsd:simpleContent>
-												 			<xsd:extension base="xsd:string">
-												 				<xsd:attribute name="domain" type="xsd:string" />
+												 			<xsd:extension base="kfs:oneToThirtyCharType">
+												 				<xsd:attribute name="domain" type="kfs:oneToTwentyOneCharType" />
 												 			</xsd:extension>
 												 		</xsd:simpleContent>
 												 	</xsd:complexType>

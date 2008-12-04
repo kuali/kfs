@@ -30,6 +30,7 @@ import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.DocumentCollectionPath;
 import org.kuali.rice.kns.datadictionary.DocumentValuePathGroup;
 import org.kuali.rice.kns.datadictionary.RoutingTypeDefinition;
@@ -89,28 +90,31 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      */
     protected List<AttributeSet> resolveDocumentCollectionPath(BusinessObject businessObject, DocumentCollectionPath collectionPath) {
         List<AttributeSet> qualifiers = new ArrayList<AttributeSet>();
-        if (collectionPath.getNestedCollection() != null) {
-            // we need to go through the collection...
-            for (Object collectionElement : getCollectionByPath(businessObject, collectionPath.getCollectionPath())) {
-                AttributeSet qualifier = new AttributeSet();
-                // for each element, we need to get the child qualifiers
-                if (collectionElement instanceof BusinessObject) {
-                    List<AttributeSet> childQualifiers = resolveDocumentCollectionPath((BusinessObject)collectionElement, collectionPath.getNestedCollection());
-                    for (AttributeSet childQualifier : childQualifiers) {
-                        // now we need to get the values for the current element of the collection
-                        addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), qualifier);
-                        // and move all the child keys to the qualifier
-                        copyQualifications(childQualifier, qualifier);
-                        qualifiers.add(qualifier);
+        final Collection collectionByPath = getCollectionByPath(businessObject, collectionPath.getCollectionPath());
+        if (!ObjectUtils.isNull(collectionPath)) {
+            if (collectionPath.getNestedCollection() != null) {
+                // we need to go through the collection...
+                for (Object collectionElement : collectionByPath) {
+                    AttributeSet qualifier = new AttributeSet();
+                    // for each element, we need to get the child qualifiers
+                    if (collectionElement instanceof BusinessObject) {
+                        List<AttributeSet> childQualifiers = resolveDocumentCollectionPath((BusinessObject)collectionElement, collectionPath.getNestedCollection());
+                        for (AttributeSet childQualifier : childQualifiers) {
+                            // now we need to get the values for the current element of the collection
+                            addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), qualifier);
+                            // and move all the child keys to the qualifier
+                            copyQualifications(childQualifier, qualifier);
+                            qualifiers.add(qualifier);
+                        }
                     }
                 }
-            }
-        } else {
-            // go through each element in the collection
-            for (Object collectionElement : getCollectionByPath(businessObject, collectionPath.getCollectionPath())) {
-                AttributeSet qualifier = new AttributeSet();
-                addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), qualifier);
-                qualifiers.add(qualifier);
+            } else {
+                // go through each element in the collection
+                for (Object collectionElement : collectionByPath) {
+                    AttributeSet qualifier = new AttributeSet();
+                    addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), qualifier);
+                    qualifiers.add(qualifier);
+                }
             }
         }
         return qualifiers;
@@ -123,6 +127,9 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @return hopefully, a collection of objects
      */
     protected Collection getCollectionByPath(BusinessObject businessObject, String collectionPath) {
+        if (businessObject instanceof PersistableBusinessObject) {
+            ((PersistableBusinessObject)businessObject).refreshReferenceObject(collectionPath);
+        }
         return (Collection)ObjectUtils.getPropertyValue(businessObject, collectionPath);
     }
     
@@ -176,7 +183,10 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         
         final List<Object> searchValues = aardvarkSearchValuesForPaths(document, searchingTypeDefinition.getDocumentValues());
         for (Object value : searchValues) {
-            searchAttributes.add(buildSearchableAttribute(searchingTypeDefinition.getSearchingAttribute().getAttributeName(), value));
+            final SearchableAttributeValue searchableAttributeValue = buildSearchableAttribute(searchingTypeDefinition.getSearchingAttribute().getAttributeName(), value);
+            if (searchableAttributeValue != null) {
+                searchAttributes.add(searchableAttributeValue);
+            }
         }
         return searchAttributes;
     }
@@ -208,18 +218,23 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         final String head = splitPath[0];
         final String tail = splitPath[1];
         
+        if (object instanceof PersistableBusinessObject) {
+            ((PersistableBusinessObject)object).refreshReferenceObject(head);
+        }
         final Object headValue = ObjectUtils.getPropertyValue(object, head);
-        if (tail == null) {
-            searchingValues.add(headValue);
-        } else {
-            // oops!  we've still got path left...
-            if (headValue instanceof Collection) {
-                // oh dear, a collection; we've got to loop through this
-                for (Object currentElement : (Collection)headValue) {
-                    searchingValues.addAll( aardvarkSearchValuesForPath(currentElement, tail) );
-                }
+        if (headValue != null) {
+            if (tail == null) {
+                searchingValues.add(headValue);
             } else {
-                searchingValues.addAll( aardvarkSearchValuesForPath(headValue, tail) );
+                // oops!  we've still got path left...
+                if (headValue instanceof Collection) {
+                    // oh dear, a collection; we've got to loop through this
+                    for (Object currentElement : (Collection)headValue) {
+                        searchingValues.addAll( aardvarkSearchValuesForPath(currentElement, tail) );
+                    }
+                } else {
+                    searchingValues.addAll( aardvarkSearchValuesForPath(headValue, tail) );
+                }
             }
         }
         return searchingValues;

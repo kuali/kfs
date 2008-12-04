@@ -95,6 +95,9 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
     }
 
     public List<SummaryAccount> getSummaryAccounts() {
+        if (summaryAccounts == null) {
+            refreshAccountSummmary();
+        }
         return summaryAccounts;
     }
 

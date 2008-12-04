@@ -44,7 +44,6 @@
 
   <bean id="AchTransactionCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="ACH Transaction Code description" />
     <property name="shortLabel" value="ACH Transaction Code description" />
     <property name="maxLength" value="100" />

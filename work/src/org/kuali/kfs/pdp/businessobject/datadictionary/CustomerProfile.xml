@@ -128,7 +128,6 @@
   <bean id="CustomerProfile-customerShortName" parent="CustomerProfile-customerShortName-parentBean" />
   <bean id="CustomerProfile-customerShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerShortName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Chart - Organization - Sub-Unit" />
     <property name="shortLabel" value="Chart - Organization - Sub-Unit" />
     <property name="maxLength" value="50" />
@@ -144,7 +143,6 @@
   <bean id="CustomerProfile-customerDescription" parent="CustomerProfile-customerDescription-parentBean" />
   <bean id="CustomerProfile-customerDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="required" value="true" />
@@ -160,7 +158,6 @@
   <bean id="CustomerProfile-contactFullName" parent="CustomerProfile-contactFullName-parentBean" />
   <bean id="CustomerProfile-contactFullName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contactFullName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Primary Contact Name" />
     <property name="shortLabel" value="Primary Contact Name" />
     <property name="required" value="true" />
@@ -176,7 +173,6 @@
   <bean id="CustomerProfile-processingEmailAddr" parent="CustomerProfile-processingEmailAddr-parentBean" />
   <bean id="CustomerProfile-processingEmailAddr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="processingEmailAddr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Customer Process E-Mail Address" />
     <property name="shortLabel" value="Customer Process E-Mail Address" />
     <property name="required" value="true" />

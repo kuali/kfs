@@ -31,7 +31,6 @@
 
   <bean id="PaymentAccountHistory-accountingChangeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountingChangeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Accounting Change Code" />
     <property name="shortLabel" value="Change code" />
     <property name="maxLength" value="32" />
@@ -49,7 +48,6 @@
 
   <bean id="PaymentAccountHistory-acctAttributeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acctAttributeName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Accounting Attribute Name" />
     <property name="shortLabel" value="Attribute Name" />
     <property name="maxLength" value="32" />
@@ -67,7 +65,6 @@
 
   <bean id="PaymentAccountHistory-acctAttributeOrigValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acctAttributeOrigValue" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Original Value" />
     <property name="shortLabel" value="Original Value" />
     <property name="maxLength" value="32" />
@@ -85,7 +82,6 @@
 
   <bean id="PaymentAccountHistory-acctAttributeNewValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acctAttributeNewValue" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="New Value" />
     <property name="shortLabel" value="New Value" />
     <property name="maxLength" value="32" />

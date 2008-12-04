@@ -51,7 +51,6 @@
 
   <bean id="PaymentProcess-campus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campus" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Process campus" />
     <property name="shortLabel" value="Campus" />
     <property name="maxLength" value="32" />
@@ -84,7 +83,6 @@
 
   <bean id="PaymentProcess-extractedInd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="extractedInd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Extracted Indicator" />
     <property name="shortLabel" value="Extracted Indicator" />
     <property name="maxLength" value="1" />
@@ -101,7 +99,6 @@
 
   <bean id="PaymentProcess-formattedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="formattedIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Formatted Indicator" />
     <property name="shortLabel" value="Formatted Indicator" />
     <property name="maxLength" value="1" />

@@ -110,7 +110,6 @@
 
   <bean id="PayeeAchAccount-bankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankAccountNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Account Number" />
     <property name="shortLabel" value="Bank Account Number" />
     <property name="maxLength" value="17" />
@@ -136,7 +135,6 @@
 
   <bean id="PayeeAchAccount-bankAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankAccountTypeCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Type" />
     <property name="shortLabel" value="Account Type" />
     <property name="maxLength" value="2" />
@@ -155,7 +153,6 @@
 
   <bean id="PayeeAchAccount-payeeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -173,7 +170,6 @@
 
   <bean id="PayeeAchAccount-payeeEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeEmailAddress" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Email Address" />
     <property name="shortLabel" value="Email Address" />
     <property name="maxLength" value="43" />
@@ -190,7 +186,6 @@
 
   <bean id="PayeeAchAccount-payeeIdentifierTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeIdentifierTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Payee Type Code" />
     <property name="shortLabel" value="Payee Type Code" />
     <property name="maxLength" value="1" />

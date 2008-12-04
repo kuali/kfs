@@ -121,7 +121,6 @@
 
   <bean id="PaymentDetail-custPaymentDocNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="custPaymentDocNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Source Document Number" />
     <property name="shortLabel" value="Doc Nbr" />
     <property name="maxLength" value="32" />
@@ -149,7 +148,6 @@
 
   <bean id="PaymentDetail-purchaseOrderNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Purchase Order Number" />
     <property name="shortLabel" value="Order Nbr" />
     <property name="maxLength" value="32" />
@@ -177,7 +175,6 @@
 
   <bean id="PaymentDetail-invoiceNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Number" />
     <property name="shortLabel" value="Inv Nbr" />
     <property name="maxLength" value="32" />
@@ -207,7 +204,6 @@
 
   <bean id="PaymentDetail-requisitionNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Requisition Number" />
     <property name="shortLabel" value="Requisition Nbr" />
     <property name="maxLength" value="32" />
@@ -487,7 +483,6 @@
 
   <bean id="PaymentDetail-nbrOfPaymentsInPaymentGroup-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nbrOfPaymentsInPaymentGroup" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Number of Payments in this Payment Group" />
     <property name="shortLabel" value="Number of Payments in this Payment Group" />
     <property name="maxLength" value="7" />
@@ -503,7 +498,6 @@
 
   <bean id="PaymentDetail-nbrOfPaymentsInDisbursement-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nbrOfPaymentsInDisbursement" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Number of Payments in this Disbursement" />
     <property name="shortLabel" value="Number of Payments in this Disbursement" />
     <property name="maxLength" value="7" />
@@ -520,7 +514,6 @@
 
   <bean id="PaymentDetail-paymentGroupId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentGroupId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Group Id" />
     <property name="shortLabel" value="Payment Group Id" />
     <property name="maxLength" value="7" />

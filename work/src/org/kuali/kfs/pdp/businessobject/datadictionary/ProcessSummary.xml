@@ -81,7 +81,6 @@
 
   <bean id="ProcessSummary-sortGroupId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sortGroupId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sort Group Id" />
     <property name="shortLabel" value="Group Id" />
     <property name="maxLength" value="32" />
@@ -99,7 +98,6 @@
 
   <bean id="ProcessSummary-sortGroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sortGroupName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sort Group Name" />
     <property name="shortLabel" value="Sort Group" />
     <property name="maxLength" value="32" />
@@ -115,7 +113,6 @@
 
   <bean id="ProcessSummary-beginDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="beginDisbursementNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Begin Disbursement Number" />
     <property name="shortLabel" value="Begin Disbursement Nbr" />
     <property name="maxLength" value="7" />
@@ -133,7 +130,6 @@
 
   <bean id="ProcessSummary-endDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="endDisbursementNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="End Disbursement Number" />
     <property name="shortLabel" value="End Disbursement Nbr" />
     <property name="maxLength" value="7" />
@@ -157,7 +153,6 @@
 
   <bean id="ProcessSummary-processTotalCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="processTotalCount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Process Total Count" />
     <property name="shortLabel" value="Process Total Count" />
     <property name="maxLength" value="7" />

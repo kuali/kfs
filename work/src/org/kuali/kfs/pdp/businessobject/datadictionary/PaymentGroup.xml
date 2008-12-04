@@ -95,7 +95,6 @@
 	<bean id="PaymentGroup-payeeName-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="payeeName" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Payee Name" />
 		<property name="shortLabel" value="Payee Name" />
 		<property name="maxLength" value="32" />
@@ -114,7 +113,6 @@
 	<bean id="PaymentGroup-payeeIdTypeCd-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="payeeIdTypeCd" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Payee ID Type" />
 		<property name="shortLabel" value="Payee ID Type" />
 		<property name="maxLength" value="32" />
@@ -143,7 +141,6 @@
 	<bean id="PaymentGroup-payeeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="payeeId" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Payee ID" />
 		<property name="shortLabel" value="Payee ID" />
 		<property name="maxLength" value="7" />
@@ -176,7 +173,6 @@
 	<bean id="PaymentGroup-processImmediate-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="processImmediate" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Immediate" />
 		<property name="shortLabel" value="Immediate" />
 		<property name="maxLength" value="1" />
@@ -192,7 +188,6 @@
 	<bean id="PaymentGroup-disbursementNbr-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="disbursementNbr" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Disbursement Number" />
 		<property name="shortLabel" value="Disbursement Nbr" />
 		<property name="maxLength" value="7" />
@@ -211,7 +206,6 @@
 	<bean id="PaymentGroup-pymtSpecialHandling-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="pymtSpecialHandling" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Special Handling" />
 		<property name="shortLabel" value="Special Handling" />
 		<property name="maxLength" value="1" />
@@ -227,7 +221,6 @@
 	<bean id="PaymentGroup-customerInstitutionNumber-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="customerInstitutionNumber" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Customer Number for Institution" />
 		<property name="shortLabel" value="Customer Nbr for Institution" />
 		<property name="maxLength" value="32" />
@@ -258,7 +251,6 @@
 	<bean id="PaymentGroup-pymtAttachment-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="pymtAttachment" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Attachment" />
 		<property name="shortLabel" value="Attachment" />
 		<property name="maxLength" value="1" />
@@ -329,7 +321,6 @@
 	<bean id="PaymentGroup-physCampusProcessCd-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="physCampusProcessCd" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Physical Campus Process Location" />
 		<property name="shortLabel" value="Campus" />
 		<property name="maxLength" value="32" />
@@ -400,7 +391,6 @@
 	<bean id="PaymentGroup-alternatePayeeIdTypeCd-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="alternatePayeeIdTypeCd" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Alternate Payee ID Type Code" />
 		<property name="shortLabel" value="Alternate Payee ID Type Code" />
 		<property name="maxLength" value="1" />
@@ -430,7 +420,6 @@
 	<bean id="PaymentGroup-alternatePayeeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="alternatePayeeId" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Alternate Payee ID" />
 		<property name="shortLabel" value="Alternate Payee ID" />
 		<property name="maxLength" value="1" />
@@ -447,7 +436,6 @@
 
   <bean id="PaymentGroup-city-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="city" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="City" />
     <property name="shortLabel" value="City" />
     <property name="maxLength" value="50" />
@@ -466,7 +454,6 @@
 
   <bean id="PaymentGroup-payeeOwnerCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeOwnerCd" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Payee Ownership Code" />
     <property name="shortLabel" value="Payee Ownership Code" />
     <property name="maxLength" value="1" />
@@ -485,7 +472,6 @@
 
   <bean id="PaymentGroup-state-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="state" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
     <property name="maxLength" value="50" />
@@ -536,7 +522,6 @@
 
   <bean id="PaymentGroup-zipCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="zipCd" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Zip Code" />
     <property name="shortLabel" value="Zip Code" />
     <property name="maxLength" value="20" />
@@ -555,7 +540,6 @@
 
   <bean id="PaymentGroup-adviceEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="adviceEmailAddress" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="ACH Advice E-mail Address" />
     <property name="shortLabel" value="Advice E-mail Address" />
     <property name="maxLength" value="50" />
@@ -590,7 +574,6 @@
 
   <bean id="PaymentGroup-country-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="country" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Country" />
     <property name="maxLength" value="30" />
@@ -616,7 +599,6 @@
 
   <bean id="PaymentGroup-achBankRoutingNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="achBankRoutingNbr" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Payee Bank Routing Number" />
     <property name="shortLabel" value="Payee Bank Routing Number" />
     <property name="maxLength" value="30" />
@@ -648,7 +630,6 @@
 
   <bean id="PaymentGroup-payeeIdTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeIdTypeDesc" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Payee ID Type" />
     <property name="shortLabel" value="Payee ID Type" />
     <property name="maxLength" value="30" />

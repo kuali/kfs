@@ -40,7 +40,6 @@
 
   <bean id="AchAccountNumber-achBankAccountNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="achBankAccountNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Payee Bank Account Number" />
     <property name="shortLabel" value="Bank Account Number" />
     <property name="maxLength" value="255" />

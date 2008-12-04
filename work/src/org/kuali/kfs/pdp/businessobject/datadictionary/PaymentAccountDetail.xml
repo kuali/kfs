@@ -86,7 +86,6 @@
 
   <bean id="PaymentAccountDetail-orgReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="orgReferenceId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Reference ID" />
     <property name="shortLabel" value="Organization Reference ID" />
     <property name="maxLength" value="32" />

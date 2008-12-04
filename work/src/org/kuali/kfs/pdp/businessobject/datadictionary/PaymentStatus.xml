@@ -48,7 +48,6 @@
 
   <bean id="PaymentStatus-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Status Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

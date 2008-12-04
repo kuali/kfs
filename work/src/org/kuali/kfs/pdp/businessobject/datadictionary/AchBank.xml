@@ -82,7 +82,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankOfficeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankOfficeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Office Code" />
     <property name="shortLabel" value="Office Code" />
     <property name="maxLength" value="1" />
@@ -99,7 +98,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankServiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankServiceNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Service Number" />
     <property name="shortLabel" value="Bank Service Number" />
     <property name="maxLength" value="9" />
@@ -116,7 +114,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Record Type Code" />
     <property name="shortLabel" value="Record Type Code" />
     <property name="maxLength" value="1" />
@@ -133,7 +130,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankNewRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankNewRoutingNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank New Routing Number" />
     <property name="shortLabel" value="Bank New Routing Number" />
     <property name="maxLength" value="9" />
@@ -150,7 +146,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Name" />
     <property name="shortLabel" value="Bank Name" />
     <property name="maxLength" value="36" />
@@ -168,7 +163,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankStreetAddress" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Street Address" />
     <property name="shortLabel" value="Bank Street Address" />
     <property name="maxLength" value="36" />
@@ -186,7 +180,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank City Name" />
     <property name="shortLabel" value="Bank City Name" />
     <property name="maxLength" value="50" />
@@ -213,7 +206,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="bankZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Zip Code" />
     <property name="shortLabel" value="Bank Zip Code" />
     <property name="maxLength" value="20" />
@@ -231,7 +223,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankPhoneAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankPhoneAreaCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Phone Area Code" />
     <property name="shortLabel" value="Bank Phone Area Code" />
     <property name="maxLength" value="3" />
@@ -248,7 +239,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankPhonePrefixNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankPhonePrefixNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Phone Prefix Number" />
     <property name="shortLabel" value="Bank Phone Prefix Number" />
     <property name="maxLength" value="3" />
@@ -265,7 +255,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankPhoneSuffixNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankPhoneSuffixNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Phone Suffix Number" />
     <property name="shortLabel" value="Bank Phone Suffix Number" />
     <property name="maxLength" value="4" />
@@ -282,7 +271,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankInstitutionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankInstitutionStatusCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Institution Status Code" />
     <property name="shortLabel" value="Bank Institution Status Code" />
     <property name="maxLength" value="1" />
@@ -299,7 +287,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankDataViewCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankDataViewCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Data View Code" />
     <property name="shortLabel" value="Bank Data View Code" />
     <property name="maxLength" value="1" />

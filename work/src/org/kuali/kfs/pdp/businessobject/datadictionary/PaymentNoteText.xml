@@ -27,7 +27,6 @@
 
   <bean id="PaymentNoteText-customerNoteLineNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerNoteLineNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Note Line Number" />
     <property name="shortLabel" value="Note Line Nbr" />
     <property name="maxLength" value="2" />
@@ -45,7 +44,6 @@
 
   <bean id="PaymentNoteText-customerNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerNoteText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Note Text" />
     <property name="shortLabel" value="Note Text" />
     <property name="maxLength" value="90" />

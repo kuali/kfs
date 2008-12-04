@@ -31,6 +31,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CustomerBank-customerId" parent="CustomerBank-customerId-parentBean" />
   <bean id="CustomerBank-customerId-parentBean" abstract="true" parent="CustomerProfile-id">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="customerId" />
   </bean>
   
@@ -41,6 +42,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="CustomerBank-disbursementTypeCode" parent="CustomerBank-disbursementTypeCode-parentBean" />
   <bean id="CustomerBank-disbursementTypeCode-parentBean" abstract="true" parent="DisbursementType-code">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="disbursementTypeCode" />
   </bean>
   

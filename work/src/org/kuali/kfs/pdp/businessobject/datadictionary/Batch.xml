@@ -71,7 +71,6 @@
 
   <bean id="Batch-paymentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentCount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Total Payment Count" />
     <property name="shortLabel" value="Payment Count" />
     <property name="maxLength" value="7" />
@@ -116,7 +115,6 @@
 
   <bean id="Batch-paymentFileName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentFileName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Pyment File Name" />
     <property name="shortLabel" value="File Name" />
     <property name="maxLength" value="7" />

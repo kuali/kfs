@@ -96,7 +96,6 @@
 
   <bean id="PaymentGroupHistory-requisitionNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionNbr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Requisition Number" />
     <property name="shortLabel" value="Requisition Nbr" />
     <property name="maxLength" value="32" />
@@ -260,7 +259,6 @@
   <bean id="PaymentGroupHistory-changeNoteText" parent="PaymentGroupHistory-changeNoteText-parentBean" />
 
   <bean id="PaymentGroupHistory-changeNoteText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="false" />
     <property name="shortLabel" value="Change Note Text" />
     <property name="maxLength" value="250" />
     <property name="validationPattern" >

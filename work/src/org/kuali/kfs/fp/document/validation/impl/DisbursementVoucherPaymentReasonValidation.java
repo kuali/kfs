@@ -66,7 +66,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         /* check payment reason is allowed for payee type */
-        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), paymentReasonCode);
+        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, paymentReasonCode, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode());
         paymentReasonsByTypeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
 
         // restrictions on payment reason when alien indicator is checked
@@ -76,26 +76,20 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         }
 
         /* for vendors with a payee type of revolving fund, the payment reason must be a revolving fund payment reason */
-        boolean isRevolvingFundCodeVendor = SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger());
-        if (isVendor && isRevolvingFundCodeVendor) {
-            ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
-            revolvingFundPaymentReasonCodeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
-        }
-
-        // if payment reason is revolving fund, then payee must be a revolving fund vendor
-        boolean isRevolvingFundPaymentReason = disbursementVoucherPaymentReasonService.isRevolvingFundPaymentReason(paymentReasonCode);
-        if (isRevolvingFundPaymentReason) {
-            if (isVendor) {
-                // If vendor is not a revolving fund vendor, report an error
-                if (!isRevolvingFundCodeVendor) {
-                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
-                    isValid = false;
-                }
-            }
-            else {
+        final boolean isRevolvingFundPaymentReason = disbursementVoucherPaymentReasonService.isRevolvingFundPaymentReason(paymentReasonCode);
+        if (isVendor) {
+            final boolean isRevolvingFundCodeVendor = SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger());
+            if (isRevolvingFundCodeVendor) {
+                ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
+                revolvingFundPaymentReasonCodeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
+            } else if (isRevolvingFundPaymentReason) {
                 errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
                 isValid = false;
             }
+        }
+        if (!isVendor && isRevolvingFundPaymentReason) {
+            errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
+            isValid = false;
         }
 
         // if payment reason is moving, payee must be an employee or have vendor ownership type I (individual)

@@ -51,7 +51,7 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
             return true;
         }
         
-        Person employee = SpringContext.getBean(PersonService.class).getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
+        Person employee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeDetail.getDisbVchrEmployeeIdNumber());
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);

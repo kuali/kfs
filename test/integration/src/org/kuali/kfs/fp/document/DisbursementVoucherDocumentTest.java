@@ -70,42 +70,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private static final String ACCOUNT_REVIEW = "Account Review";
     private static final String ORG_REVIEW = "Org Review";
     private static final String CAMPUS_CODE = "Campus Code";
-    
-    /**
-     * Adds DisbursementVoucherDocumentationLocation record for the tests.
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        
-        // can we retrieve the location code?
-        Map pkMap = new LinkedHashMap();
-        pkMap.put("disbursementVoucherDocumentationLocationCode", "F");
-        DisbursementVoucherDocumentationLocation location = (DisbursementVoucherDocumentationLocation)boService.findByPrimaryKey(DisbursementVoucherDocumentationLocation.class, pkMap);
-
-        if (location == null) {
-            location = new DisbursementVoucherDocumentationLocation();
-            location.setDisbursementVoucherDocumentationLocationCode("F");
-            location.setDisbursementVoucherDocumentationLocationName("FMS - Bloomington");
-            location.setDisbursementVoucherDocumentationLocationAddress("Financial Management Support\nPoplars 526\nBLOOMINGTON CAMPUS");
-            boService.save(location);
-        }
-    }
-
-    /**
-     * Deletes the location code for methods that commit transactions
-     */
-    private void cleanUpForCommittedTransactions(DisbursementVoucherDocument document) throws Exception { 
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        boService.delete(document);
-        // get the location code
-        Map pkMap = new LinkedHashMap();
-        pkMap.put("disbursementVoucherDocumentationLocationCode", "F");
-        DisbursementVoucherDocumentationLocation location = (DisbursementVoucherDocumentationLocation)boService.findByPrimaryKey(DisbursementVoucherDocumentationLocation.class, pkMap);
-        boService.delete(location);
-    }
 
 
     public final void testConvertIntoCopy_clear_additionalCodeInvalidVendor() throws Exception {
@@ -190,8 +154,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         changeCurrentUser(vputman);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
-        
-        cleanUpForCommittedTransactions((DisbursementVoucherDocument)document);
     }
 
     private int getExpectedPrePeCount() {
@@ -289,7 +251,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     public final void testRouteDocument() throws Exception {
         DisbursementVoucherDocument document = buildDocument();
         AccountingDocumentTestUtils.testRouteDocument(document, SpringContext.getBean(DocumentService.class));
-        cleanUpForCommittedTransactions(document);
     }
 
     @ConfigureContext(session = hschrein, shouldCommitTransactions = true)
@@ -305,8 +266,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         AccountingDocument result = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
         // verify
         assertMatch(document, result);
-
-        cleanUpForCommittedTransactions((DisbursementVoucherDocument)document);
     }
 
     @ConfigureContext(session = hschrein, shouldCommitTransactions = true)
@@ -319,7 +278,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         SpringContext.getBean(BusinessObjectService.class).delete((DisbursementVoucherDocument)documentService.getByDocumentHeaderId(originalDocumentNumber));
-        cleanUpForCommittedTransactions((DisbursementVoucherDocument)documentService.getByDocumentHeaderId(copiedDocumentNumber));
     }
 
     // test util methods

@@ -89,14 +89,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#hasAllApplicationDocumentsApproved(org.kuali.kfs.module.ar.document.CashControlDocument)
-     */
-    public boolean hasAllApplicationDocumentsApproved(CashControlDocument cashControlDocument) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#addNewCashControlDetail(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */

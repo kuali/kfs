@@ -72,14 +72,6 @@ public interface CashControlDocumentService {
     public boolean createGeneralErrorCorrectionGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
-     * This method checks if all application documents have been approved
-     * 
-     * @param cashControlDocument the cash control document
-     * @return true if all application documents have been approved
-     */
-    public boolean hasAllApplicationDocumentsApproved(CashControlDocument cashControlDocument);
-
-    /**
      * This method saves CashControl document GLPEs in the database
      * 
      * @param cashControlDocument

@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 @ConfigureContext(session = khuntley)
 public class DelegateGlobalTest extends KualiTestBase {
 
-    private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateGlobalMaintenanceDocument";
+    private static final String GLOBAL_DELEGATE_TYPENAME = "AccountDelegateGlobalMaintenanceDocument";
 
     private static final Log LOG = LogFactory.getLog(DelegateGlobalTest.class);
 

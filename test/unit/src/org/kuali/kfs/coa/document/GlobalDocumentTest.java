@@ -45,8 +45,8 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
 
-    private static final String KNOWN_DOCUMENT_TYPENAME = "DelegateGlobalMaintenanceDocument";
-    private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateGlobalMaintenanceDocument";
+    private static final String KNOWN_DOCUMENT_TYPENAME = "AccountDelegateGlobalMaintenanceDocument";
+    private static final String GLOBAL_DELEGATE_TYPENAME = "AccountDelegateGlobalMaintenanceDocument";
     private static final String GLOBAL_ACCOUNT_TYPENAME = "AccountGlobalMaintenanceDocument";
 
 
@@ -54,7 +54,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         MaintenanceDocument doc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
         assertNotNull(doc.getNewMaintainableObject());
-        assertEquals("org.kuali.kfs.coa.businessobject.DelegateGlobal", doc.getNewMaintainableObject().getBoClass().getName());
+        assertEquals("org.kuali.kfs.coa.businessobject.AccountDelegateGlobal", doc.getNewMaintainableObject().getBoClass().getName());
     }
 
     public final void testGetNewDocument_globalDelegateMaintDoc() throws Exception {

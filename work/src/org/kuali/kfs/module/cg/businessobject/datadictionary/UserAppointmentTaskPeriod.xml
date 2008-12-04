@@ -48,6 +48,7 @@
   <bean id="UserAppointmentTaskPeriod-documentNumber" parent="UserAppointmentTaskPeriod-documentNumber-parentBean" />
 
   <bean id="UserAppointmentTaskPeriod-documentNumber-parentBean" abstract="true" parent="Budget-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="UserAppointmentTaskPeriod-budgetUserSequenceNumber" parent="UserAppointmentTaskPeriod-budgetUserSequenceNumber-parentBean" />
 
@@ -56,15 +57,18 @@
   <bean id="UserAppointmentTaskPeriod-budgetTaskSequenceNumber" parent="UserAppointmentTaskPeriod-budgetTaskSequenceNumber-parentBean" />
 
   <bean id="UserAppointmentTaskPeriod-budgetTaskSequenceNumber-parentBean" abstract="true" parent="BudgetTask-budgetTaskSequenceNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="UserAppointmentTaskPeriod-budgetPeriodSequenceNumber" parent="UserAppointmentTaskPeriod-budgetPeriodSequenceNumber-parentBean" />
 
   <bean id="UserAppointmentTaskPeriod-budgetPeriodSequenceNumber-parentBean" abstract="true" parent="BudgetPeriod-budgetPeriodSequenceNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionAppointmentTypeCode" parent="UserAppointmentTaskPeriod-institutionAppointmentTypeCode-parentBean" />
 
   <bean id="UserAppointmentTaskPeriod-institutionAppointmentTypeCode-parentBean" abstract="true" parent="BudgetUser-appointmentTypeCode">
     <property name="name" value="institutionAppointmentTypeCode" />
+    <property name="forceUppercase" value="true" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
@@ -117,7 +121,6 @@
 
   <bean id="UserAppointmentTaskPeriod-agencyPercentEffortAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyPercentEffortAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Agency Percent Effort Amount" />
     <property name="shortLabel" value="Effort" />
     <property name="maxLength" value="3" />
@@ -135,7 +138,6 @@
 
   <bean id="UserAppointmentTaskPeriod-institutionCostSharePercentEffortAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="institutionCostSharePercentEffortAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Institution Percent Effort" />
     <property name="shortLabel" value="Effort" />
     <property name="maxLength" value="3" />
@@ -153,7 +155,6 @@
 
   <bean id="UserAppointmentTaskPeriod-personWeeksAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personWeeksAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="# of Weeks" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="2" />
@@ -171,7 +172,6 @@
 
   <bean id="UserAppointmentTaskPeriod-userAgencyHours-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="userAgencyHours" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hours Per Period" />
     <property name="shortLabel" value="Rate" />
     <property name="maxLength" value="5" />
@@ -189,7 +189,6 @@
 
   <bean id="UserAppointmentTaskPeriod-userInstitutionHours-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="userInstitutionHours" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hours Per Period" />
     <property name="shortLabel" value="Hours" />
     <property name="maxLength" value="5" />
@@ -207,7 +206,6 @@
 
   <bean id="UserAppointmentTaskPeriod-userHourlyRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="userHourlyRate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hourly Rate ($)" />
     <property name="shortLabel" value="Hours" />
     <property name="maxLength" value="6" />
@@ -329,7 +327,6 @@
 
   <bean id="UserAppointmentTaskPeriod-agencyFullTimeEquivalentPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyFullTimeEquivalentPercent" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="FTE" />
     <property name="shortLabel" value="FTE" />
     <property name="maxLength" value="3" />
@@ -347,7 +344,6 @@
 
   <bean id="UserAppointmentTaskPeriod-institutionFullTimeEquivalentPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="institutionFullTimeEquivalentPercent" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="FTE" />
     <property name="shortLabel" value="FTE" />
     <property name="maxLength" value="3" />
@@ -365,7 +361,6 @@
 
   <bean id="UserAppointmentTaskPeriod-userCreditHoursNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="userCreditHoursNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Credit Hours" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />

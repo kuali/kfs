@@ -31,7 +31,6 @@
 
   <bean id="RoutingFormResearchRisk-researchRiskDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="researchRiskDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Research Risk Description" />
     <property name="shortLabel" value="Describe" />
     <property name="maxLength" value="500" />

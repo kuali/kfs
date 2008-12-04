@@ -61,7 +61,6 @@
 
   <bean id="RoutingFormQuestion-yesNoIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="yesNoIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Yes/No Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />

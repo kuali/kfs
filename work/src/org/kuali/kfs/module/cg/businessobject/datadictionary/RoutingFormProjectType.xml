@@ -67,7 +67,6 @@
 
   <bean id="RoutingFormProjectType-projectTypeSelectedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="projectTypeSelectedIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Project Type Selected Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />

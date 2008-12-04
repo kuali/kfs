@@ -67,7 +67,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Subcontractor-subcontractorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Subcontractor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -85,7 +84,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Subcontractor-subcontractorAddressLine1-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorAddressLine1" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Address Line 1" />
     <property name="shortLabel" value="Address1" />
     <property name="maxLength" value="25" />
@@ -103,7 +101,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Subcontractor-subcontractorAddressLine2-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorAddressLine2" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Address Line 2" />
     <property name="shortLabel" value="Address2" />
     <property name="maxLength" value="20" />
@@ -120,7 +117,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Subcontractor-subcontractorCity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorCity" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Subcontractor City" />
     <property name="shortLabel" value="City" />
     <property name="maxLength" value="20" />

@@ -29,7 +29,7 @@
 
   <bean id="Security-kualiUser.principalId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="kualiUser.principalId" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Kuali Universal User ID" />
     <property name="shortLabel" value="UniversalID" />
     <property name="maxLength" value="50" />

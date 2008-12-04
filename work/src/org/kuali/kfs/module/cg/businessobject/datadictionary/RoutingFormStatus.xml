@@ -31,7 +31,6 @@
 
   <bean id="RoutingFormStatus-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Data Object Maintenance Code Active Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -63,7 +62,6 @@
 
   <bean id="RoutingFormStatus-routingFormStatusDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormStatusDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Status Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="15" />

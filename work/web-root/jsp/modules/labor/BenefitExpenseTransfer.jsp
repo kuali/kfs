@@ -140,7 +140,6 @@
 	</c:if>
 		
 	<kfs:hiddenDocumentFields />
-	<kfs:accountingLineScriptImports />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true">
 

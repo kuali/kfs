@@ -102,8 +102,6 @@
 <%@ attribute name="sourceTotalsOverride" required="false" description="A map of totals to override the typical totaling behavior on the source accounting line group." type="java.util.Map" %>
 <%@ attribute name="targetTotalsOverride" required="false" description="A map of totals to override the typical totaling behavior on the target accounting line group." type="java.util.Map" %>
 
-<kfs:accountingLineScriptImports />
-
 <c:forEach items="${editableAccounts}" var="account">
   <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
 </c:forEach>

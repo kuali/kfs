@@ -17,8 +17,6 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-<kfs:accountingLineScriptImports />
-
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
   	<html:hidden property="document.capitalAssetNumber"/>

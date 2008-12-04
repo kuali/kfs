@@ -21,7 +21,6 @@
 	showTabButtons="true">
 
 	<kfs:hiddenDocumentFields />
-	<kfs:accountingLineScriptImports />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">

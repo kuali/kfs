@@ -23,8 +23,7 @@
 	htmlFormAction="laborJournalVoucher" renderMultipart="true"
 	showTabButtons="true">
 
-	<kfs:hiddenDocumentFields />
-	<kfs:accountingLineScriptImports />	
+	<kfs:hiddenDocumentFields />	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<!-- LABOR JOURNAL VOUCHER SPECIFIC FIELDS -->

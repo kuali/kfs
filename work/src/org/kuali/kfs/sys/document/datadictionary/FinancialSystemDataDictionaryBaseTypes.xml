@@ -4,12 +4,19 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 >
-    <bean id="MaintenanceDocumentEntry"
-        class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true"
-    />
-    <bean id="TransactionalDocumentEntry" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" />
+    <bean id="MaintenanceDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true"/>
     
-    <bean id="AccountingDocumentEntry" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" />
+    <bean id="TransactionalDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" abstract="true">
+        <property name="webScriptFiles" >
+			<ref bean="commonWebScriptFiles"/>
+    	</property> 
+    </bean>
+    
+    <bean id="AccountingDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" abstract="true">
+        <property name="webScriptFiles" >
+			<ref bean="commonWebScriptFiles"/>
+    	</property> 
+    </bean>
     
     <bean id="HelpDefinition" class="org.kuali.kfs.dictionary.HelpDefinition" abstract="true" />
     
@@ -99,6 +106,23 @@
 					p:dynamicLabelProperty="project.projectDescription" />
 				<bean parent="AccountingLineView-field"
 					p:name="organizationReferenceId" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="commonWebScriptFiles" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<value>dwr/interface/ChartService.js</value>
+				<value>dwr/interface/AccountService.js</value>
+				<value>dwr/interface/SubAccountService.js</value>
+				<value>dwr/interface/ObjectCodeService.js</value>
+				<value>dwr/interface/ObjectTypeService.js</value>
+				<value>dwr/interface/SubObjectCodeService.js</value>
+				<value>dwr/interface/ProjectCodeService.js</value>
+				<value>dwr/interface/OriginationCodeService.js</value>
+				<value>dwr/interface/DocumentTypeService.js</value>
+				<value>scripts/kfs/objectInfo.js</value>
 			</list>
 		</property>
 	</bean>

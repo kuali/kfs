@@ -21,7 +21,6 @@
 	showTabButtons="true">
 
 	<kfs:hiddenDocumentFields />
-	<kfs:accountingLineScriptImports />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	

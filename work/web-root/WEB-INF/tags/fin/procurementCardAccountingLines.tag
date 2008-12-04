@@ -33,7 +33,6 @@
 <c:set var="columnCount" value="${columnCountUntilAmount + 1 + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 <c:set var="accountingLineAttributes" value="${DataDictionary['TargetAccountingLine'].attributes}" />
 
-<kfs:accountingLineScriptImports />
 <kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN},document.transactionEntries*">
   <c:set var="transactionAttributes" value="${DataDictionary.ProcurementCardTransactionDetail.attributes}" />
   <c:set var="vendorAttributes" value="${DataDictionary.ProcurementCardVendor.attributes}" />

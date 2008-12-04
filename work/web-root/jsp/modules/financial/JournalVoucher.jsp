@@ -20,7 +20,6 @@
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 
-<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="JournalVoucherDocument"
 	htmlFormAction="financialJournalVoucher" renderMultipart="true"

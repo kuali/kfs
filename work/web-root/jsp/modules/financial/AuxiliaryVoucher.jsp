@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 
-<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialAuxiliaryVoucher" documentTypeName="AuxiliaryVoucherDocument" renderMultipart="true" showTabButtons="true">
 		<%-- derive displayReadOnly value --%>
 		<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />

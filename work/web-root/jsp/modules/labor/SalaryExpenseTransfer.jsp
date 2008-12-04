@@ -42,7 +42,6 @@
     </c:forEach>
     
     <kfs:hiddenDocumentFields />
-	<kfs:accountingLineScriptImports />
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
  
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"

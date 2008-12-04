@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="YearEndTransferOfFundsDocument"
 	htmlFormAction="financialYearEndTransferOfFunds" renderMultipart="true"

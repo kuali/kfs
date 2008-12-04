@@ -17,6 +17,8 @@
 
 <script type='text/javascript' src="dwr/interface/CustomerService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/ar/customerObjectInfo.js"></script>
+<script type='text/javascript' src="dwr/interface/CustomerAddressService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/ar/customerAddressObjectInfo.js"></script>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
@@ -39,13 +41,13 @@
                 
 				    <c:choose>
 				        <c:when test="${!readOnly}">
-				            <c:set var="onblurForCustomer" value="loadCustomerInfo( this.name, 'document.accountsReceivableDocumentHeader.customer.customerName');"/>
+				            <c:set var="onblurForCustomer" value="loadCustomerInfo( this.name, 'document.accountsReceivableDocumentHeader.customer.customerName'); loadCustomerAddressInfo( this.name );"/>
 				        </c:when>
 				        <c:otherwise>
 				            <c:set var="onblurForCustomer" value=""/>
 				        </c:otherwise>
 				    </c:choose>                
-                    <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}" forceRequired="true"/>
+                    <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}" onchange="${onblurForCustomer}" forceRequired="true"/>
                     <c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />

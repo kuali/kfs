@@ -59,10 +59,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingCityName.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingCityName}"
 						property="document.billingCityName"
 						readOnly="true" />
+					</div>
 				</td>
 			</tr>
 			
@@ -73,10 +75,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingAddressTypeCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingAddressTypeCode}"
 						property="document.billingAddressTypeCode"
 						readOnly="true" />
+					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -84,10 +88,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingStateCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingStateCode}"
 						property="document.billingStateCode"
 						readOnly="true" />
+					</div>
 				</td>
 			</tr>
 			
@@ -98,10 +104,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingAddressName.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingAddressName}"
 						property="document.billingAddressName"
 						readOnly="true" />
+					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -109,10 +117,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingZipCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingZipCode}"
 						property="document.billingZipCode"
 						readOnly="true" />
+					</div>
 				</td>
 			</tr>
 			
@@ -123,10 +133,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingLine1StreetAddress.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingLine1StreetAddress}"
 						property="document.billingLine1StreetAddress"
 						readOnly="true" />
+					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -134,10 +146,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingAddressInternationalProvinceName.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingAddressInternationalProvinceName}"
 						property="document.billingAddressInternationalProvinceName"
 						readOnly="true" />
+					</div>
 				</td>
 			</tr>
 
@@ -148,10 +162,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingLine2StreetAddress.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingLine2StreetAddress}"
 						property="document.billingLine2StreetAddress"
 						readOnly="true" />
+					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -159,10 +175,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingInternationalMailCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingInternationalMailCode}"
 						property="document.billingInternationalMailCode"
 						readOnly="true" />
+					</div>
 				</td>
 			</tr>
 			
@@ -173,10 +191,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingEmailAddress.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingEmailAddress}"
 						property="document.billingEmailAddress"
 						readOnly="true" />
+					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -184,10 +204,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.billingCountryCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingCountryCode}"
 						property="document.billingCountryCode"
 						readOnly="true" />
+					</div>
 				</td>
 			</tr>
 			
@@ -224,10 +246,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingCityName.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerCityName}"
 						property="document.shippingCityName"
 						readOnly="true" />
+                     </div>
 				</td>
 			</tr>
 			
@@ -238,10 +262,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingAddressTypeCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerAddressTypeCode}"
 						property="document.shippingAddressTypeCode"
 						readOnly="true" />
+                     </div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -249,10 +275,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingStateCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerStateCode}"
 						property="document.shippingStateCode"
 						readOnly="true" />
+                     </div>   
 				</td>
 			</tr>
 			
@@ -263,10 +291,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingAddressName.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerAddressName}"
 						property="document.shippingAddressName"
 						readOnly="true" />
+                     </div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -274,10 +304,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingZipCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerZipCode}"
 						property="document.shippingZipCode"
 						readOnly="true" />
+                     </div>
 				</td>
 			</tr>
 
@@ -288,10 +320,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingLine1StreetAddress.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerLine1StreetAddress}"
 						property="document.shippingLine1StreetAddress"
 						readOnly="true" />
+                     </div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -299,10 +333,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingAddressInternationalProvinceName.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingAddressInternationalProvinceName}"
 						property="document.shippingAddressInternationalProvinceName"
 						readOnly="true" />
+                     </div>
 				</td>
 			</tr>
 
@@ -313,10 +349,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingLine2StreetAddress.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerLine2StreetAddress}"
 						property="document.shippingLine2StreetAddress"
 						readOnly="true" />
+                     </div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -324,10 +362,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingInternationalMailCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingInternationalMailCode}"
 						property="document.shippingInternationalMailCode"
 						readOnly="true" />
+                     </div>
 				</td>
 			</tr>
 
@@ -338,10 +378,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingEmailAddress.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingEmailAddress}"
 						property="document.shippingEmailAddress"
 						readOnly="true" />
+                     </div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
@@ -349,10 +391,12 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
+                    <div id="document.shippingCountryCode.div">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingCountryCode}"
 						property="document.shippingCountryCode"
 						readOnly="true" />
+                     </div>
 				</td>
 			</tr>
         </table>

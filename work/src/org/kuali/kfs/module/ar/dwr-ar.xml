@@ -35,5 +35,13 @@
 	    	<param name="beanName" value="customerInvoiceDocumentService" />
 	    	<include method="getInvoiceByInvoiceDocumentNumber" />
 	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.ar.businessobject.CustomerAddress">
+	    	<param name="include" value="customerNumber,customerAddressIdentifier,customerAddressName,customerLine1StreetAddress,customerLine2StreetAddress,customerCityName,customerStateCode,customerZipCode,customerCountryCode,customerAddressInternationalProvinceName,customerInternationalMailCode,customerEmailAddress,customerAddressTypeCode" />
+	    </convert>
+	    <create creator="spring" javascript="CustomerAddressService">
+	    	<param name="beanName" value="customerAddressService" />
+	    	<include method="getPrimaryAddress" />
+	    </create>
 	</allow>
 </dwr>

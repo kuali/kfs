@@ -72,25 +72,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
         valid &= processVendorStipulationValidation((PurchaseOrderDocument) purapDocument);
 
         return valid;
     }
-
-    /**
-     * Performs any validation for the Additional tab, but currently it only returns true. Someday we might be able to just remove
-     * this.
-     * 
-     * @param purDocument the purchase order document to be validated
-     * @return boolean true (always return true for now)
-     */
-    public boolean processAdditionalValidation(PurchasingDocument purDocument) {
-        boolean valid = true;
-
-        return valid;
-    }
-
+    
     /**
      * @param purapDocument the purchase order document to be validated
      * @return boolean false when an error is found in any validation.
@@ -108,43 +94,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
      */
     @Override
     public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
-        boolean valid = true;
+        boolean valid = super.newIndividualItemValidation(purapDocument, documentType, item);
         valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, item.getItemIdentifierString());
-        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-            valid &= validateItemForAmendment((PurchaseOrderItem) item, item.getItemIdentifierString());
-        }
         
-        return valid;
-    }
-
-    /**
-     * Validates items for amendment.
-     * 
-     * @param item the item to be validated
-     * @param identifierString the identifier string of the item to be validated
-     * @return boolean true if it passes the validation and false otherwise.
-     */
-    private boolean validateItemForAmendment(PurchaseOrderItem item, String identifierString) {
-        boolean valid = true;
-        if ((item.getItemInvoicedTotalQuantity() != null) && (!(item.getItemInvoicedTotalQuantity()).isZero())) {
-            if (item.getItemQuantity() == null) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_NULL, "Item Quantity", identifierString);
-            }
-            else if (item.getItemQuantity().compareTo(item.getItemInvoicedTotalQuantity()) < 0) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID, "Item Quantity", identifierString);
-            }
-        }
-
-        if (item.getItemInvoicedTotalAmount() != null) {
-            KualiDecimal total = item.getTotalAmount();
-            if ((total == null) || total.compareTo(item.getItemInvoicedTotalAmount()) < 0) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
-            }
-        }
-
         return valid;
     }
 

@@ -145,87 +145,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add the validations for the unit price, unit of measure,
-     * item quantity (for above the line items), the validateBelowTheLineItemNoUnitcost, validateTotalCost and
-     * validateContainsAtLeastOneItem.
-     * 
-     * @param purDocument the purchasing document to be validated
-     * @return boolean false if there is any validation that fails.
-     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
-     */
-    @Override
-    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = super.processItemValidation(purapDocument);
-        
-        //This is needed so that we don't have to create system parameters for each of the subclasses of PurchaseOrderDocument.
-        Class purapDocumentClass = null;
-        if (purapDocument instanceof RequisitionDocument) {
-            purapDocumentClass = purapDocument.getClass();
-        }
-        else {
-            purapDocumentClass = PurchaseOrderDocument.class;
-        }
-        String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
-        boolean commodityCodeRequired = false;
-        
-        List<PurApItem> itemList = purapDocument.getItems();
-        int i = 0;
-        boolean isNonQuantityItemFound = false;
-        boolean isAssignedToTradeInItemFound = false;
-        
-        for (PurApItem item : itemList) {
-            // Refresh the item type for validation.
-            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-
-            GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-            String identifierString = item.getItemIdentifierString();
-            valid &= validateItemUnitPrice(item);
-            
-            // This validation is applicable to the above the line items only.
-            if (item.getItemType().isLineItemIndicator()) {
-                if (item.getItemAssignedToTradeInIndicator()) {
-                    isAssignedToTradeInItemFound = true;
-                }
-                valid &= validateItemQuantity(item);                
-                if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
-                    commodityCodeRequired = true;   
-                }
-                valid &= validateCommodityCodes(item, commodityCodeRequired);
-            }
-            else {
-                // If the item is below the line, no accounts can be entered on below the line items
-                // that have no unit cost
-                valid &= validateBelowTheLineItemNoUnitCost(item);
-            }
-            GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
-            i++;
-            
-            /**
-             * Receiving required can not be set in on a req/po with all non-qty based items
-             */
-            if (!isNonQuantityItemFound){
-                if (item.getItemType().isLineItemIndicator()) {
-                    if (((PurchasingDocument)purapDocument).isReceivingDocumentRequiredIndicator()){
-                        if (item.getItemType().isAmountBasedGeneralLedgerIndicator()){
-                            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_REQUIRED);
-                            valid &= false;
-                            isNonQuantityItemFound = true; 
-                        }
-                    }
-                }    
-            }
-        }
-        
-        if (!isAssignedToTradeInItemFound) {
-            valid &= validateTradeIn(purapDocument.getTradeInItem());
-        }
-        valid &= validateTotalCost((PurchasingDocument) purapDocument);
-        valid &= validateContainsAtLeastOneItem((PurchasingDocument) purapDocument);
-
-        return valid;
-    }
-
-    /**
      * Overrides to do the validations for commodity codes to prevent 
      * the users to try to save invalid commodity codes to the database
      * which could potentially throw SQL exception when the integrity
@@ -290,12 +209,31 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if (item.getItemType().isLineItemIndicator()) {
             valid &= validateItemDescription(item);
             valid &= validateItemQuantity(item);
-            valid &= validateCommodityCodes(item, commodityCodeIsRequired());           
+            valid &= validateCommodityCodes(item, commodityCodeIsRequired());      
+            if (((PurchasingDocument)purapDocument).isReceivingDocumentRequiredIndicator()){
+                if (item.getItemType().isAmountBasedGeneralLedgerIndicator()){
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_REQUIRED);
+                    valid &= false;
+                }
+            }
         }
         else {
             // No accounts can be entered on below-the-line items that have no unit cost.
             valid &= validateBelowTheLineItemNoUnitCost(item); 
         }
+        
+        return valid;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#newProcessItemValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    @Override
+    public boolean newProcessItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.newProcessItemValidation(purapDocument);
+        valid &= validateTotalCost((PurchasingDocument) purapDocument);
+        valid &= validateContainsAtLeastOneItem((PurchasingDocument) purapDocument);
+        valid &= validateTradeIn(purapDocument);
         
         return valid;
     }
@@ -546,13 +484,29 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    private boolean validateTradeIn(PurApItem item) {
-        if (item != null && item.getItemUnitPrice() != null) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED);
-            return false;
+    private boolean validateTradeIn(PurchasingAccountsPayableDocument purapDocument) {
+        boolean isAssignedToTradeInItemFound = false;
+        for (PurApItem item : purapDocument.getItems()) {
+            // Refresh the item type for validation.
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+
+            if (item.getItemType().isLineItemIndicator()) {
+                if (item.getItemAssignedToTradeInIndicator()) {
+                    isAssignedToTradeInItemFound = true;
+                    break;
+                }           
+            }
+        }
+        if (!isAssignedToTradeInItemFound) {
+            PurApItem tradeInItem = purapDocument.getTradeInItem();
+            if (tradeInItem != null && tradeInItem.getItemUnitPrice() != null) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED);
+                return false;
+            }
         }
         return true;
     }
+    
     /**
      * Validates whether the commodity code existed on the item, and if existed, whether the
      * commodity code on the item existed in the database, and if so, whether the commodity 
@@ -584,14 +538,21 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
             }
-            else if (!purItem.getCommodityCode().isActive()) {
-                //This is the case where the commodity code on the item is not active.
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + identifierString);
+            else {
+                valid &= validateThatCommodityCodeIsActive(item);
             }
         }
         
         return valid;
+    }
+    
+    protected boolean validateThatCommodityCodeIsActive(PurApItem item) {
+        if (!((PurchasingItemBase)item).getCommodityCode().isActive()) {
+            //This is the case where the commodity code on the item is not active.
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
+            return false;
+        }
+        return true;
     }
     
     /**

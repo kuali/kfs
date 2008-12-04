@@ -42,36 +42,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) document;
-        return isValid &= processValidation(poDocument);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) document;
-        return isValid &= processValidation(poDocument);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
-     */
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        boolean isValid = true;
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) approveEvent.getDocument();
-        return isValid;
-    }
-
-    /**
      * Central method to control the processing of rule checks. Checks that the purchase order document is not null, that it is in
      * the correct status, and delegates further rule checking.
      * 

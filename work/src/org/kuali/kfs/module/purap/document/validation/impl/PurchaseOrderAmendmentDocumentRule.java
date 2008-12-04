@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -39,6 +40,7 @@ import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Rules for Purchase Order Amendment documents creation.
@@ -58,6 +60,39 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     }
 
     /**
+     * Overrides the method in PurchaseOrderDocumentRuleBase to add additional validations that are specific to Amendment.
+     * 
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule#newIndividualItemValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String, org.kuali.kfs.module.purap.businessobject.PurApItem)
+     */
+    @Override
+    public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem purapItem) {
+        boolean valid = super.newIndividualItemValidation(purapDocument, documentType, purapItem);
+        PurchaseOrderItem item = (PurchaseOrderItem)purapItem;
+        String identifierString = item.getItemIdentifierString();
+        if ((item.getItemInvoicedTotalQuantity() != null) && (!(item.getItemInvoicedTotalQuantity()).isZero())) {
+            if (item.getItemQuantity() == null) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_NULL, "Item Quantity", identifierString);
+            }
+            else if (item.getItemQuantity().compareTo(item.getItemInvoicedTotalQuantity()) < 0) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID, "Item Quantity", identifierString);
+            }
+        }
+
+        if (item.getItemInvoicedTotalAmount() != null) {
+            KualiDecimal total = item.getTotalAmount();
+            if ((total == null) || total.compareTo(item.getItemInvoicedTotalAmount()) < 0) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
+            }
+        }
+        
+        return valid;
+    }
+
+    
+    /**
      * Validates that the given document contains at least one active item.
      * 
      * @param purapDocument A PurchasingAccountsPayableDocument. (Should contain PurchaseOrderItems.)
@@ -71,8 +106,8 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
             }
         }
         String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
-
         GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
+
         return false;
     }
     
@@ -82,42 +117,36 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
      */
     @Override
     protected boolean validateCommodityCodes(PurApItem item, boolean commodityCodeRequired) {
-        boolean valid = true;
-        String identifierString = item.getItemIdentifierString();
-        PurchasingItemBase purItem = (PurchasingItemBase) item;
-        
         //If the item is inactive then don't need any of the following validations.
-        if (!((PurchaseOrderItem)purItem).isItemActiveIndicator()) {
+        if (!((PurchaseOrderItem)item).isItemActiveIndicator()) {
             return true;
         }
-        
-        //This validation is only needed if the commodityCodeRequired system parameter is true
-        if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
-            //This is the case where the commodity code is required but the item does not currently contain the commodity code.
-            valid = false;
-            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                    getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
-                                    getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
+        else {
+            return super.validateCommodityCodes(item, commodityCodeRequired);
         }
-        else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
-            //Find out whether the commodity code has existed in the database
-            Map fieldValues = new HashMap<String, String>();
-            fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purItem.getPurchasingCommodityCode());
-            if (SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, fieldValues) != 1) {
-                //This is the case where the commodity code on the item does not exist in the database.
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
-            }
-            //Only validate this if the item has not been saved to the database
-            else if (purItem.getVersionNumber() == null && !purItem.getCommodityCode().isActive()) {
-                //This is the case where the commodity code on the item is not active.
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + identifierString);
-            }
+    }
+
+    /**
+     * Overrides the method in PurchasingDocumentRuleBase so that we'll return true
+     * if the item has been previously saved to the database and we'll only check for
+     * the commodity code active flag if the item has not been previously saved to
+     * the database. 
+     * 
+     * @param item
+     * @param commodityCodeRequired
+     * @return
+     */
+    protected boolean validateThatCommodityCodeIsActive(PurApItem item) {
+        if (item.getVersionNumber() != null) {
+            return true;
         }
-        
-        return valid;
+        else {
+            if (!((PurchasingItemBase)item).getCommodityCode().isActive()) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
+                return false;
+            }
+            return true;
+        }
     }
     
     /**
@@ -167,11 +196,6 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     @Override
     public boolean processAccountValidation(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         PurchaseOrderDocument document = (PurchaseOrderDocument)accountingDocument;
-        /* Well, the following doesn't always work, not for below-line items. This caused Number Format Exception. 
-        //This is because the itemLineNumber in the input parameter is "Item x", so we only need the x for the int
-        int itemLineNumberInt = Integer.parseInt(itemLineNumber.substring(5));
-        PurchaseOrderItem itemLine = (PurchaseOrderItem) document.getItemByLineNumber(itemLineNumberInt);
-        */
         PurchaseOrderItem itemLine = (PurchaseOrderItem) document.getItemByStringIdentifier(itemLineNumber);
         if (itemLine.isItemActiveIndicator() && (! (document.getContainsUnpaidPaymentRequestsOrCreditMemos() && itemLine.getItemInvoicedTotalAmount() != null))) {
             //This means the accounts on the item are editable, so we'll call super's processAccountValidation.

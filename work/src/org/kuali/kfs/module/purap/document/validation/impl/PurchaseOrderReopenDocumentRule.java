@@ -34,32 +34,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        PurchaseOrderDocument porDocument = (PurchaseOrderDocument) document;
-        return isValid &= processValidation(porDocument);
-    }
-
-    /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PurchaseOrderDocument porDocument = (PurchaseOrderDocument) document;
-        return isValid &= processValidation(porDocument);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
-     */
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        boolean isValid = true;
-        PurchaseOrderDocument porDocument = (PurchaseOrderDocument) approveEvent.getDocument();
         return isValid &= processValidation(porDocument);
     }
 

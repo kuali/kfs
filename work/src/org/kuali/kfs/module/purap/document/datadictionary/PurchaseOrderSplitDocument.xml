@@ -18,7 +18,7 @@
     <property name="documentTypeName" value="PurchaseOrderSplitDocument" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderSplitDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderSplitDocumentAuthorizer" />
     <property name="documentTypeCode" value="POSP" />
     <property name="workflowProperties" >

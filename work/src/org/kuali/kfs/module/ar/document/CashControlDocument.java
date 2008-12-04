@@ -42,7 +42,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);;
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
 
     private String referenceFinancialDocumentNumber;
     private Integer universityFiscalYear;

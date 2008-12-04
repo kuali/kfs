@@ -67,7 +67,7 @@ public interface ReconciliationService {
 
     /**
      * Main reconciliation service which will apply the formula where PURAP transaction amounts are compared using
-     * <li>GL_ENTRY_T = (AP_PMT_RQST_ACCT_HIST_T or AP_CRDT_MEMO_ACCT_HIST_T) </li>
+     * <li>GL_ENTRY_T = (AP_PMT_RQST_ACCT_CHG_T or AP_CRDT_MEMO_ACCT_CHG_T) </li>
      * 
      * @param glEntries Purap GL Entries
      * @param purapAcctEntries Purap Account Entries

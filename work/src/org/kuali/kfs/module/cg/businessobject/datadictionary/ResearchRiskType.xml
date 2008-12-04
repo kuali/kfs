@@ -58,7 +58,6 @@
 
   <bean id="ResearchRiskType-controlAttributeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="controlAttributeTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Control Attribute Type Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -77,7 +76,6 @@
 
   <bean id="ResearchRiskType-researchRiskTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="researchRiskTypeDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Research Risk Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="30" />
@@ -92,7 +90,6 @@
 
   <bean id="ResearchRiskType-researchRiskTypeSortNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="researchRiskTypeSortNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sort Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -110,7 +107,6 @@
 
   <bean id="ResearchRiskType-researchRiskTypeNotificationGroupText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="researchRiskTypeNotificationGroupText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Research Risk Type Notification Group" />
     <property name="shortLabel" value="Not. Group" />
     <property name="maxLength" value="70" />
@@ -125,7 +121,6 @@
 
   <bean id="ResearchRiskType-researchRiskTypeNotificationValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="researchRiskTypeNotificationValue" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Research Risk Type Notification Value" />
     <property name="shortLabel" value="Not. Val" />
     <property name="maxLength" value="1" />

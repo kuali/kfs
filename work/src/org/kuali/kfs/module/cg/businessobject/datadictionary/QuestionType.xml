@@ -57,7 +57,6 @@
 
   <bean id="QuestionType-questionTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="questionTypeDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Question Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="200" />
@@ -72,7 +71,6 @@
 
   <bean id="QuestionType-questionTypeSortNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="questionTypeSortNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sort Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -90,7 +88,6 @@
 
   <bean id="QuestionType-questionTypeWorkgroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="questionTypeWorkgroupName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Question Type Workgroup Name" />
     <property name="shortLabel" value="Workgroup" />
     <property name="maxLength" value="70" />
@@ -107,7 +104,6 @@
 
   <bean id="QuestionType-questionTypeNotificationValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="questionTypeNotificationValue" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Question Type Notification Value" />
     <property name="shortLabel" value="Not. Value" />
     <property name="maxLength" value="1" />

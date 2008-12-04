@@ -52,7 +52,6 @@
 
   <bean id="RoutingFormAgency-agencyAddressDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyAddressDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Primary Delivery Address" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="500" />
@@ -72,7 +71,6 @@
 
   <bean id="RoutingFormAgency-agencyCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
@@ -90,7 +88,6 @@
 
   <bean id="RoutingFormAgency-agencyContactName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyContactName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Contact Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -110,7 +107,6 @@
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="agencyCountryCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Country Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="40" />
@@ -128,7 +124,6 @@
 
   <bean id="RoutingFormAgency-agencyDiskAccompanyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyDiskAccompanyIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Disk to Accompany Routing Form" />
     <property name="shortLabel" value="Accompany" />
     <property name="maxLength" value="1" />
@@ -142,7 +137,6 @@
 
   <bean id="RoutingFormAgency-agencyElectronicSubmissionIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyElectronicSubmissionIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Electronic Submission Required" />
     <property name="shortLabel" value="Electronic Submission" />
     <property name="maxLength" value="1" />
@@ -156,7 +150,6 @@
 
   <bean id="RoutingFormAgency-agencyLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine1Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line1 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -174,7 +167,6 @@
 
   <bean id="RoutingFormAgency-agencyLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine2Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line2 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -192,7 +184,6 @@
 
   <bean id="RoutingFormAgency-agencyLine3Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine3Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line3 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -210,7 +201,6 @@
 
   <bean id="RoutingFormAgency-agencyLine4Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine4Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line4 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -228,7 +218,6 @@
 
   <bean id="RoutingFormAgency-agencyLine5Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine5Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line5 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -246,7 +235,6 @@
 
   <bean id="RoutingFormAgency-agencyLine6Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine6Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line6 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -264,7 +252,6 @@
 
   <bean id="RoutingFormAgency-agencyLine7Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine7Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line7 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -282,7 +269,6 @@
 
   <bean id="RoutingFormAgency-agencyLine8Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyLine8Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Line8 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -300,7 +286,6 @@
 
   <bean id="RoutingFormAgency-agencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="5" />
@@ -318,7 +303,6 @@
 
   <bean id="RoutingFormAgency-agencyShippingInstructionsDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyShippingInstructionsDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Shipping Instructions Description" />
     <property name="shortLabel" value="Delivery Instructions" />
     <property name="maxLength" value="1000" />
@@ -340,7 +324,6 @@
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="agencyStateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency State Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -370,7 +353,6 @@
 
   <bean id="RoutingFormAgency-routingFormDueDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormDueDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Due Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="10" />
@@ -388,7 +370,6 @@
 
   <bean id="RoutingFormAgency-routingFormDueDateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormDueDateTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Due Date Type" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -406,7 +387,6 @@
 
   <bean id="RoutingFormAgency-routingFormDueTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormDueTime" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Due Time" />
     <property name="shortLabel" value="Time" />
     <property name="maxLength" value="15" />
@@ -424,7 +404,6 @@
 
   <bean id="RoutingFormAgency-routingFormRequiredCopyText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormRequiredCopyText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Required Copy Text" />
     <property name="shortLabel" value="Copies to Agency" />
     <property name="maxLength" value="20" />
@@ -443,7 +422,6 @@
 
   <bean id="RoutingFormAgency-routingFormSubmitDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormSubmitDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Submit Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />

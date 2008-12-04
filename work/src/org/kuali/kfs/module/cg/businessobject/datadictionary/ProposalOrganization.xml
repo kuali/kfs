@@ -34,13 +34,16 @@
   <bean id="ProposalOrganization-chartOfAccountsCode" parent="ProposalOrganization-chartOfAccountsCode-parentBean" />
 
   <bean id="ProposalOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="ProposalOrganization-organizationCode" parent="ProposalOrganization-organizationCode-parentBean" />
+  <bean id="ProposalOrganization-organizationCode" parent="ProposalOrganization-organizationCode-parentBean" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
 
   <bean id="ProposalOrganization-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
     <property name="shortLabel" value="Org Code" />
@@ -55,12 +58,12 @@
   <bean id="ProposalOrganization-proposalNumber" parent="ProposalOrganization-proposalNumber-parentBean" />
 
   <bean id="ProposalOrganization-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProposalOrganization-proposalPrimaryOrganizationIndicator" parent="ProposalOrganization-proposalPrimaryOrganizationIndicator-parentBean" />
 
   <bean id="ProposalOrganization-proposalPrimaryOrganizationIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalPrimaryOrganizationIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Primary" />
     <property name="shortLabel" value="Primary" />
     <property name="maxLength" value="1" />

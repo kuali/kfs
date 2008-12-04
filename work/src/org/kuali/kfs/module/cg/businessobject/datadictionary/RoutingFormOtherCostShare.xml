@@ -32,7 +32,6 @@
 
   <bean id="RoutingFormOtherCostShare-routingFormCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormCostShareAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Cost Share Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -71,7 +70,6 @@
 
   <bean id="RoutingFormOtherCostShare-routingFormCostShareSourceName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormCostShareSourceName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Cost Share Source Name" />
     <property name="shortLabel" value="Source" />
     <property name="maxLength" value="50" />

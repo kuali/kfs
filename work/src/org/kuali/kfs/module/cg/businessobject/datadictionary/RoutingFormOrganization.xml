@@ -33,7 +33,6 @@
 
   <bean id="RoutingFormOrganization-budgetIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -84,7 +83,6 @@
 
   <bean id="RoutingFormOrganization-routingFormPrimaryOrganizationIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormPrimaryOrganizationIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Primary Organization Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />

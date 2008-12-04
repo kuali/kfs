@@ -50,7 +50,6 @@
 
   <bean id="Purpose-purposeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purposeDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Purpose Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="26" />
@@ -69,7 +68,6 @@
 
   <bean id="Purpose-userSortNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="userSortNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sort Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />

@@ -48,7 +48,6 @@
 
   <bean id="ProposalPurpose-proposalPurposeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalPurposeDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Proposal Purpose Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="26" />
@@ -66,7 +65,6 @@
 
   <bean id="ProposalPurpose-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Active" />
     <property name="shortLabel" value="Active" />
     <property name="maxLength" value="1" />

@@ -35,8 +35,11 @@
   <bean id="ProposalSubcontractor-proposalNumber" parent="ProposalSubcontractor-proposalNumber-parentBean" />
 
   <bean id="ProposalSubcontractor-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
-  <bean id="ProposalSubcontractor-subcontractorNumber" parent="ProposalSubcontractor-subcontractorNumber-parentBean" />
+  <bean id="ProposalSubcontractor-subcontractorNumber" parent="ProposalSubcontractor-subcontractorNumber-parentBean" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
 
   <bean id="ProposalSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
   </bean>
@@ -67,7 +70,6 @@
 
   <bean id="ProposalSubcontractor-proposalSubcontractorDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalSubcontractorDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="30" />

@@ -90,7 +90,6 @@
 
   <bean id="RoutingFormOrganizationCreditPercent-organizationCreditPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationCreditPercent" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="% Credit" />
     <property name="shortLabel" value="Percent" />
     <property name="maxLength" value="3" />
@@ -108,7 +107,6 @@
 
   <bean id="RoutingFormOrganizationCreditPercent-organizationCreditRoleText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationCreditRoleText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Role" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="50" />
@@ -127,7 +125,6 @@
 
   <bean id="RoutingFormOrganizationCreditPercent-organizationFinancialAidPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationFinancialAidPercent" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="% F&amp;A" />
     <property name="shortLabel" value="Percent" />
     <property name="maxLength" value="3" />

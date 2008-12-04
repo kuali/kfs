@@ -48,7 +48,6 @@
 
   <bean id="ProposalAwardType-proposalAwardTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalAwardTypeDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Proposal Award Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="20" />

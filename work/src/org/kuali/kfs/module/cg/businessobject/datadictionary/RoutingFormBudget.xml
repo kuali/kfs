@@ -40,7 +40,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetDirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetDirectAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Direct Amount" />
     <property name="shortLabel" value="Direct Costs" />
     <property name="maxLength" value="15" />
@@ -58,7 +57,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetEndDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetEndDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget End Date" />
     <property name="shortLabel" value="End Date" />
     <property name="maxLength" value="10" />
@@ -76,7 +74,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetIndirectCostAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetIndirectCostAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Indirect Cost Amount" />
     <property name="shortLabel" value="Indirect Costs" />
     <property name="maxLength" value="15" />
@@ -94,7 +91,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetIndirectCostDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetIndirectCostDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Indirect Cost Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="1000" />
@@ -113,7 +109,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetMaximumPeriodNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetMaximumPeriodNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Maximum Period Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -130,7 +125,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetMinimumPeriodNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetMinimumPeriodNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Minimum Period Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="2" />
@@ -147,7 +141,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetStartDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetStartDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Start Date" />
     <property name="shortLabel" value="Start Date" />
     <property name="maxLength" value="10" />
@@ -165,7 +158,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetTotalDirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetTotalDirectAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Total Direct Amount" />
     <property name="shortLabel" value="Total Direct Costs" />
     <property name="maxLength" value="15" />
@@ -183,7 +175,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetTotalEndDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetTotalEndDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Total End Date" />
     <property name="shortLabel" value="End Date" />
     <property name="maxLength" value="10" />
@@ -201,7 +192,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetTotalIndirectCostAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetTotalIndirectCostAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Total Indirect Cost Amount" />
     <property name="shortLabel" value="Indirect Costs" />
     <property name="maxLength" value="15" />
@@ -219,7 +209,6 @@
 
   <bean id="RoutingFormBudget-routingFormBudgetTotalStartDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetTotalStartDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Budget Total Start Date" />
     <property name="shortLabel" value="Start Date" />
     <property name="maxLength" value="10" />

@@ -30,7 +30,6 @@
 
   <bean id="RoutingFormConflictOfInterest-routingFormConflictOfInterestDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormConflictOfInterestDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Routing Form Conflict Of Interest Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="1000" />

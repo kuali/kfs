@@ -35,6 +35,7 @@
   <bean id="ProposalProjectDirector-principalId" parent="ProposalProjectDirector-principalId-parentBean" />
 
   <bean id="ProposalProjectDirector-principalId-parentBean" abstract="true" parent="ProjectDirector-principalId">
+  	<property name="forceUppercase" value="true" />
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />
     <property name="control" >
@@ -79,7 +80,6 @@
 
   <bean id="ProposalProjectDirector-proposalPrimaryProjectDirectorIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalPrimaryProjectDirectorIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Primary" />
     <property name="shortLabel" value="Primary" />
     <property name="maxLength" value="1" />
@@ -91,7 +91,6 @@
 
   <bean id="ProposalProjectDirector-proposalProjectDirectorProjectTitle-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalProjectDirectorProjectTitle" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Title" />
     <property name="shortLabel" value="Title" />
     <property name="maxLength" value="100" />

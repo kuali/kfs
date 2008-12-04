@@ -68,7 +68,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization" />
     <property name="shortLabel" value="Chart" />
     <property name="maxLength" value="2" />
@@ -104,7 +103,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Department" />
     <property name="shortLabel" value="Org" />
     <property name="maxLength" value="4" />
@@ -122,7 +120,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="City" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
@@ -143,7 +140,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="personCountryCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="40" />
@@ -159,7 +155,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personCountyName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personCountyName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="County" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
@@ -178,7 +173,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personCreditPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personCreditPercent" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="% Credit" />
     <property name="shortLabel" value="Percent" />
     <property name="maxLength" value="3" />
@@ -196,7 +190,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personDivisionText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personDivisionText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Division" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="30" />
@@ -215,7 +208,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="emailAddress" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="E-mail" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="100" />
@@ -233,7 +225,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personFaxNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personFaxNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Fax" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="14" />
@@ -251,7 +242,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personFinancialAidPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personFinancialAidPercent" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="% F&amp;A" />
     <property name="shortLabel" value="Percent" />
     <property name="maxLength" value="3" />
@@ -269,7 +259,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personLine1Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Street 1" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -288,7 +277,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personLine2Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Street 2" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="40" />
@@ -307,7 +295,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personPhoneNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Phone" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="14" />
@@ -325,7 +312,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personPositionTitle-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personPositionTitle" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Position Title" />
     <property name="shortLabel" value="Title" />
     <property name="maxLength" value="30" />
@@ -344,7 +330,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personPrefixText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personPrefixText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Prefix" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="15" />
@@ -363,7 +348,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personRoleCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personRoleCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Role" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -381,7 +365,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personRoleText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personRoleText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="50" />
@@ -400,7 +383,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personToBeNamedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personToBeNamedIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Person To Be Named Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -416,7 +398,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="personStateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -432,7 +413,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personSuffixText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personSuffixText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Suffix" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="15" />
@@ -451,7 +431,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-principalId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="principalId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />

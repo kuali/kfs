@@ -38,12 +38,8 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="acquisitionTypeCode"
-            p:labelAttribute="acquisitionTypeName" />
+      <bean parent="TextControlDefinition"
+            p:size="2" />
     </property>
   </bean>
   

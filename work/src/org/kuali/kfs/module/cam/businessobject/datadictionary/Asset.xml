@@ -238,6 +238,14 @@
   <bean id="Asset-acquisitionTypeCode" parent="Asset-acquisitionTypeCode-parentBean" />
   <bean id="Asset-acquisitionTypeCode-parentBean" abstract="true" parent="AssetAcquisitionType-acquisitionTypeCode">
     <property name="shortLabel" value="Acquisition Type" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="acquisitionTypeCode"
+            p:labelAttribute="acquisitionTypeName" />
+    </property>
   </bean>
   
   <bean id="Asset-agencyNumber" parent="Asset-agencyNumber-parentBean" />

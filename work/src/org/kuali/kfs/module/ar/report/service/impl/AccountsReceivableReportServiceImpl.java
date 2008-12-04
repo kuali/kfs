@@ -62,6 +62,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.format.PhoneNumberFormatter;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -213,6 +214,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public File generateInvoice(CustomerInvoiceDocument invoice) {
 
         CurrencyFormatter currencyFormatter = new CurrencyFormatter();
+        PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
         
         CustomerInvoiceReportDataHolder reportDataHolder = new CustomerInvoiceReportDataHolder();
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
@@ -283,7 +285,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("docNumber", invoice.getDocumentNumber());
         invoiceMap.put("invoiceDueDate", dateTimeService.toDateString(invoice.getInvoiceDueDate()));
         invoiceMap.put("createDate", dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getCreateDate()));
-        invoiceMap.put("invoiceAttentionLineText", invoice.getInvoiceAttentionLineText());
+        invoiceMap.put("invoiceAttentionLineText", invoice.getInvoiceAttentionLineText().toUpperCase());
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", currencyFormatter.format(invoice.getInvoiceItemPreTaxAmountTotal()).toString());
         invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
@@ -323,12 +325,12 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
         SystemInformation sysinfo = (SystemInformation)businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
-        sysinfoMap.put("univName", finder.getValue());
+        sysinfoMap.put("univName", finder.getValue().toUpperCase());
         String univAddr = processingOrg.getOrganizationCityName() +", "+ 
         processingOrg.getOrganizationStateCode() +" "+ processingOrg.getOrganizationZipCode();
         sysinfoMap.put("univAddr", univAddr);
         if (sysinfo != null) {
-            sysinfoMap.put("FEIN", "FED ID# "+sysinfo.getUniversityFederalEmployerIdentificationNumber());
+            sysinfoMap.put("FEIN", "FED ID: "+sysinfo.getUniversityFederalEmployerIdentificationNumber());
         }
         sysinfoMap.put("checkPayableTo", orgOptions.getOrganizationCheckPayableToName());
         sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
@@ -340,8 +342,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         remitCityStateZip.append("  ").append(orgOptions.getOrganizationRemitToZipCode());
         sysinfoMap.put("remitToCityStateZip", remitCityStateZip.toString());
         
-        invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
-        invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
+        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(orgOptions.getOrganizationFaxNumber()));
+        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(orgOptions.getOrganizationPhoneNumber()));
+
+        invoiceMap.put("orgOptionsMessageText", orgOptions.getOrganizationMessageText());
 
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(detailsList);

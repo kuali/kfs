@@ -334,10 +334,6 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             LOG.error("verifyCxmlPOData()  The PO create date is required for the cXML PO but is null.");
             errors.append("Create Date\n");
         }
-        if (StringUtils.isEmpty(vendorDuns)) {
-            LOG.error("verifyCxmlPOData()  The Duns Number is required for the cXML PO but is missing.");
-            errors.append("Missing Data: Duns Number\n");
-        }
         if (StringUtils.isEmpty(contractManager.getContractManagerPhoneNumber())) {
             LOG.error("verifyCxmlPOData()  The contract manager phone number is required for the cXML PO but is missing.");
             errors.append("Missing Data: Contract Manager Phone Number\n");

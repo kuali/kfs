@@ -83,7 +83,9 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<c:if test="${(fullEntryMode or amendmentEntry) and !lockB2BEntry}">
 			<tr>
-				<td colspan="9" class="subhead"><span class="subhead-left">Add Item</span></td>
+				<td colspan="9" class="subhead">
+					<span class="subhead-left">Add Item <kul:help resourceKey="${PurapConstants.LINE_ITEM_IMPORT_HELP_PARAMETER}" altText="Add Items Help"/></span>
+				</td>
 				<td colspan="6" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
 					<SCRIPT type="text/javascript">
                 		<!--

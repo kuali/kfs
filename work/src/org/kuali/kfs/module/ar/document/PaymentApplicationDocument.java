@@ -118,9 +118,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public KualiDecimal getCashControlTotalAmount() throws WorkflowException {
         CashControlDocument cashControlDocument = 
             getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
+        CashControlDetail cashControlDetail = 
+            getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
         KualiDecimal amount = KualiDecimal.ZERO;
         if(null != cashControlDocument) {
-            amount = cashControlDocument.getCashControlTotalAmount();
+            amount = cashControlDetail.getFinancialDocumentLineAmount();
         }
         return amount;
     }
@@ -655,6 +657,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
+        // set primary key for NonAppliedHolding if data entered
+        if (ObjectUtils.isNotNull(this.nonAppliedHolding)) {
+            if (ObjectUtils.isNull(this.nonAppliedHolding.getReferenceFinancialDocumentNumber())) {
+                this.nonAppliedHolding.setReferenceFinancialDocumentNumber(this.documentNumber);
+            }
+        }
         // generate GLPEs
         GeneralLedgerPendingEntryService generalLedgerPendingEntryService = 
             SpringContext.getBean(GeneralLedgerPendingEntryService.class); 

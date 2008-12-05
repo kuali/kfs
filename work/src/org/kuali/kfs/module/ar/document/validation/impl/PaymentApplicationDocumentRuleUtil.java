@@ -32,10 +32,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentApplicationDocumentRuleUtil {
 
-    public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced, KualiDecimal selectedInvoiceBalance) throws WorkflowException {
+    public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced, KualiDecimal cashControlBalanceToBeApplied) throws WorkflowException {
         boolean isValid = validateApplieds(invoiceDetails, applicationDocument);
         isValid &= validateUnapplied(applicationDocument);
-        isValid &= validateNonInvoiced(newNonInvoiced, selectedInvoiceBalance);
+        isValid &= validateNonInvoiced(newNonInvoiced, cashControlBalanceToBeApplied);
         return isValid;
     }
     
@@ -45,7 +45,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param nonInvoiced
      * @return
      */
-    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, KualiDecimal selectedInvoiceBalance) {
+    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, KualiDecimal cashControlBalanceToBeApplied) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
         
@@ -74,12 +74,15 @@ public class PaymentApplicationDocumentRuleUtil {
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
                     ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
             }
+            // KULAR-414: Invoice Balance is irrelevant in Non-AR tab
+            // selectedInvoiceBalance is changed to balanceToBeApplied
+            
             //  check that we're not trying to apply more funds to the invoice than the invoice has balance (ie, over-applying)
-            else if (nonArLineAmount.isGreaterThan(selectedInvoiceBalance)) {
+            else if (nonArLineAmount.isGreaterThan(cashControlBalanceToBeApplied)) {
                 isValid = false;
                 errorMap.putError(
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
-                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_EXCEEDS_SELECTED_INVOICE_BALANCE);
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_EXCEEDS_BALANCE_TO_BE_APPLIED);
             }
 
         }
@@ -129,11 +132,11 @@ public class PaymentApplicationDocumentRuleUtil {
         }
         
         // Can't apply more than the total amount outstanding on the cash control document.
-        if(ObjectUtils.isNotNull(document.getCashControlDocument()) && document.getCashControlTotalAmount().doubleValue() < amountWeWouldApply) {
+        if(ObjectUtils.isNotNull(document.getCashControlDocument()) && document.getBalanceToBeApplied().doubleValue() < amountWeWouldApply) {
             isValid = false;
             errorMap.putError(
                 ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
-                ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
+                ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED);
         }
         return isValid;
     }
@@ -146,12 +149,19 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateUnapplied(PaymentApplicationDocument applicationDocument) throws WorkflowException {
-        KualiDecimal cashControlTotalAmount = applicationDocument.getCashControlTotalAmount();
+        KualiDecimal cashControlTotalAmount = applicationDocument.getCashControlDetail().getFinancialDocumentLineAmount();
         KualiDecimal totalUnapplied = applicationDocument.getTotalUnapplied();
         boolean isValid = cashControlTotalAmount.isGreaterEqual(totalUnapplied);
         if(!isValid) {
             String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
             String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT;
+            GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+        }
+        KualiDecimal totalBalaceToBeApplied = applicationDocument.getBalanceToBeApplied();
+        isValid = totalBalaceToBeApplied.isGreaterEqual(totalUnapplied);
+        if(!isValid) {
+            String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
+            String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED;
             GlobalVariables.getErrorMap().putError(propertyName, errorKey);
         }
         return isValid;

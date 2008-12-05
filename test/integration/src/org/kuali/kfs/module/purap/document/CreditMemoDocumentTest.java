@@ -28,7 +28,7 @@ import java.util.List;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.integration.purap.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.fixture.CreditMemoDocumentFixture;

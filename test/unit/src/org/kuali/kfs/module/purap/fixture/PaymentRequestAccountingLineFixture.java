@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 
 public enum PaymentRequestAccountingLineFixture {

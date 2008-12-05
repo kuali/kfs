@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -32,7 +33,6 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.Nod
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;

@@ -40,9 +40,9 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.exception.ItemParserException;

@@ -22,13 +22,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;

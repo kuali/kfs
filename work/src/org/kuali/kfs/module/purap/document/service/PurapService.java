@@ -19,8 +19,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.kew.exception.WorkflowException;

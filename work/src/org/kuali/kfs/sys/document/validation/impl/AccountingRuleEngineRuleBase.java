@@ -24,7 +24,7 @@ import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
 import org.kuali.kfs.fp.document.validation.event.AttributedAddCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.AttributedDeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.AttributedUpdateCheckEvent;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
 import org.kuali.kfs.module.purap.document.validation.event.AddAttributedPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.sys.businessobject.AccountingLine;

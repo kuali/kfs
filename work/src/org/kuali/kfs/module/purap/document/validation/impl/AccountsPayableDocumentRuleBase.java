@@ -18,13 +18,13 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.List;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.purap.AccountsPayableItem;
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.validation.CalculateAccountsPayableRule;

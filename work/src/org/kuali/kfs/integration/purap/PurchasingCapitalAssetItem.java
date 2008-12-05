@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.businessobject;
+package org.kuali.kfs.integration.purap;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
-import org.kuali.kfs.integration.purap.CapitalAssetSystem;
-import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 
-public interface PurchasingCapitalAssetItem {
+public interface PurchasingCapitalAssetItem extends ExternalizableBusinessObject {
 
     public Integer getCapitalAssetItemIdentifier();
 

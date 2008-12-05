@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -33,7 +34,6 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;

@@ -31,11 +31,14 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
-import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
+import org.kuali.kfs.integration.purap.AccountsPayableItem;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.integration.purap.PurApRecurringPaymentType;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabParameterConstants;
@@ -59,16 +62,12 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
-import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -515,7 +514,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param apoCheck True if this check is for APO purposes
      * @return True if the item passes all Capital Asset validations
      */
-    public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck) {
+    public boolean validateItemCapitalAssetWithErrors(PurApRecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck) {
         PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
         List<String> previousErrorPath = GlobalVariables.getErrorMap().getErrorPath();
         GlobalVariables.getErrorMap().clearErrorPath();
@@ -541,7 +540,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *        validations, rather than errors.
      * @return True if the item passes all Capital Asset validations
      */
-    protected boolean validatePurchasingItemCapitalAsset(RecurringPaymentType recurringPaymentType, PurchasingItem item) {
+    protected boolean validatePurchasingItemCapitalAsset(PurApRecurringPaymentType recurringPaymentType, PurchasingItem item) {
         boolean valid = true;
         String capitalAssetTransactionTypeCode = "";
         AssetTransactionType capitalAssetTransactionType = null;
@@ -717,7 +716,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param itemIdentifier
      * @return
      */
-    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
+    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, PurApRecurringPaymentType recurringPaymentType, String itemIdentifier) {
         boolean valid = true;
 
         // If there is a tran type ...

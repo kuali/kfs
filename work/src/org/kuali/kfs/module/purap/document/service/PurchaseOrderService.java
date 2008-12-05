@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;

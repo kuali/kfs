@@ -18,12 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.purap.PurApRecurringPaymentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Recurring Payment Type Business Object.
  */
-public class RecurringPaymentType extends PersistableBusinessObjectBase {
+public class RecurringPaymentType extends PersistableBusinessObjectBase implements PurApRecurringPaymentType {
 
     private String recurringPaymentTypeCode;
     private String recurringPaymentTypeDescription;

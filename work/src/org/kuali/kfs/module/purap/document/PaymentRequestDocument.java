@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -37,9 +39,7 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;

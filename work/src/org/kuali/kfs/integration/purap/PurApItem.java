@@ -13,20 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.businessobject;
+package org.kuali.kfs.integration.purap;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBrokerAware;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
+import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
+import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Purap Item Business Object.
  */
-public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerAware, PurapEnterableItem {
+public interface PurApItem extends ExternalizableBusinessObject, PersistableBusinessObject, PersistenceBrokerAware, PurapEnterableItem {
 
     public abstract Integer getItemIdentifier();
 

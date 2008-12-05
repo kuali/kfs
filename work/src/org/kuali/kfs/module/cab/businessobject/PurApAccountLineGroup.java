@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.purap.AccountsPayableItem;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;

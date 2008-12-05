@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 

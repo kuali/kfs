@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;

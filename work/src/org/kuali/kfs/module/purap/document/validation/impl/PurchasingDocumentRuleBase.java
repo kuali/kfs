@@ -28,6 +28,8 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -35,9 +37,7 @@ import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
@@ -135,9 +135,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             } else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
                 CapitalAssetSystem system = purchasingDocument.getPurchasingCapitalAssetSystems().get(0);
                 for (CapitalAssetLocation location : system.getCapitalAssetLocations()) {
-                    valid &= SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
+                        valid &= SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
+                    }
                 }
-            }
             
         }
         return valid;

@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;

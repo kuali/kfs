@@ -23,15 +23,11 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
+import org.kuali.kfs.integration.purap.PurApRecurringPaymentType;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public interface CapitalAssetBuilderModuleService {
 
@@ -85,7 +81,7 @@ public interface CapitalAssetBuilderModuleService {
 
     // Methods moved from PurchasingDocumentRuleBase
 
-    public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck);
+    public boolean validateItemCapitalAssetWithErrors(PurApRecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck);
 
     public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, String itemIdentifier, ObjectCode objectCode);
 
@@ -95,7 +91,7 @@ public interface CapitalAssetBuilderModuleService {
     
     public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, String itemIdentifier, boolean quantityBasedItem);
 
-    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, String itemIdentifier);
+    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, PurApRecurringPaymentType recurringPaymentType, String itemIdentifier);
 
     public boolean isCapitalAssetObjectCode(ObjectCode oc);
 

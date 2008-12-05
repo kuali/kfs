@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
@@ -42,7 +43,6 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;

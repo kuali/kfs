@@ -32,12 +32,12 @@
   <bean id="MessageOfTheDay-financialSystemOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
     <property name="label" value="Financial System Origination Code" />
     <property name="shortLabel" value="Code" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="MessageOfTheDay-financialSystemMessageOfTheDayText" parent="MessageOfTheDay-financialSystemMessageOfTheDayText-parentBean" />
 
   <bean id="MessageOfTheDay-financialSystemMessageOfTheDayText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemMessageOfTheDayText" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Message Of The Day" />
     <property name="shortLabel" value="Message" />
     <property name="maxLength" value="2000" />

@@ -34,10 +34,12 @@
   <bean id="OffsetAccount-chartOfAccountsCode" parent="OffsetAccount-chartOfAccountsCode-parentBean" />
 
   <bean id="OffsetAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OffsetAccount-accountNumber" parent="OffsetAccount-accountNumber-parentBean" />
 
   <bean id="OffsetAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OffsetAccount-financialOffsetChartOfAccountCode" parent="OffsetAccount-financialOffsetChartOfAccountCode-parentBean" />
 
@@ -57,6 +59,7 @@
 
   <bean id="OffsetAccount-financialOffsetObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="financialOffsetObjectCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Offset Object Code" />
     <property name="shortLabel" value="Obj Cd" />
     <property name="required" value="false" />

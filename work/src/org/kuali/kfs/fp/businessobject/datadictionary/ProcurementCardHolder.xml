@@ -230,6 +230,7 @@
   <bean id="ProcurementCardHolder-documentNumber" parent="ProcurementCardHolder-documentNumber-parentBean" />
 
   <bean id="ProcurementCardHolder-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProcurementCardHolder-subAccountNumber" parent="ProcurementCardHolder-subAccountNumber-parentBean" />
 

@@ -69,7 +69,6 @@
 
   <bean id="CashieringItemInProcess-itemAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -85,7 +84,6 @@
 
   <bean id="CashieringItemInProcess-itemReducedAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemReducedAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Reduced Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -101,7 +99,6 @@
 
   <bean id="CashieringItemInProcess-itemRemainingAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemRemainingAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Remaining Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -139,7 +136,6 @@
 
   <bean id="CashieringItemInProcess-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="200" />
@@ -155,7 +151,6 @@
 
   <bean id="CashieringItemInProcess-currentPayment-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="currentPayment" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Current Payment" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />

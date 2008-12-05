@@ -41,7 +41,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="CapitalAssetInformation-documentNumber" parent="CapitalAssetInformation-documentNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+  <bean id="CapitalAssetInformation-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
   
   <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" parent="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" />
   

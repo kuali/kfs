@@ -80,6 +80,7 @@
 
   <bean id="InternalBillingItem-itemSequenceId-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="itemSequenceId" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="InternalBillingItem-unitOfMeasureCode" parent="InternalBillingItem-unitOfMeasureCode-parentBean" />
 
@@ -115,5 +116,6 @@
   <bean id="InternalBillingItem-documentNumber" parent="InternalBillingItem-documentNumber-parentBean" />
 
   <bean id="InternalBillingItem-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
 </beans>

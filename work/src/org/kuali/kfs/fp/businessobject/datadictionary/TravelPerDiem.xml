@@ -31,7 +31,7 @@
 
   <bean id="TravelPerDiem-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiscalYear" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Year" />
     <property name="maxLength" value="4" />
@@ -47,7 +47,7 @@
 
   <bean id="TravelPerDiem-perDiemCountryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="perDiemCountryName" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Per Diem Category/Country Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -60,7 +60,6 @@
 
   <bean id="TravelPerDiem-perDiemCountryText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="perDiemCountryText" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Per Diem Category/Country URL" />
     <property name="shortLabel" value="URL" />
     <property name="maxLength" value="255" />

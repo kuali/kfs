@@ -54,7 +54,7 @@
 
   <bean id="CashDrawer-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="workgroupName" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Workgroup Name" />
     <property name="shortLabel" value="Wrkgrp Name" />
     <property name="maxLength" value="70" />
@@ -71,7 +71,6 @@
 
   <bean id="CashDrawer-financialDocumentHundredCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentHundredCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Cent Amount" />
     <property name="shortLabel" value="HunCntAmt" />
     <property name="maxLength" value="6" />
@@ -86,7 +85,6 @@
 
   <bean id="CashDrawer-hundredCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hundredCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Cent Count" />
     <property name="shortLabel" value="HunCntCnt" />
     <property name="maxLength" value="6" />
@@ -103,7 +101,6 @@
 
   <bean id="CashDrawer-financialDocumentFiftyCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiftyCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Cent Amount" />
     <property name="shortLabel" value="FtyCntAmt" />
     <property name="maxLength" value="6" />
@@ -118,7 +115,6 @@
 
   <bean id="CashDrawer-fiftyCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiftyCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Cent Count" />
     <property name="shortLabel" value="FtyCntCnt" />
     <property name="maxLength" value="6" />
@@ -135,7 +131,6 @@
 
   <bean id="CashDrawer-financialDocumentTwentyFiveCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTwentyFiveCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Five Cent Amount" />
     <property name="shortLabel" value="TwyFvCntAmt" />
     <property name="maxLength" value="6" />
@@ -150,7 +145,6 @@
 
   <bean id="CashDrawer-twentyFiveCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twentyFiveCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Five Cent Count" />
     <property name="shortLabel" value="TwyFvCntCnt" />
     <property name="maxLength" value="6" />
@@ -167,7 +161,6 @@
 
   <bean id="CashDrawer-financialDocumentTenCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTenCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Cent Amount" />
     <property name="shortLabel" value="TnCntAmt" />
     <property name="maxLength" value="6" />
@@ -182,7 +175,6 @@
 
   <bean id="CashDrawer-tenCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="tenCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Cent Count" />
     <property name="shortLabel" value="TnCntCnt" />
     <property name="maxLength" value="6" />
@@ -199,7 +191,6 @@
 
   <bean id="CashDrawer-financialDocumentFiveCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiveCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Five Cent Amount" />
     <property name="shortLabel" value="FvCntAmt" />
     <property name="maxLength" value="6" />
@@ -214,7 +205,6 @@
 
   <bean id="CashDrawer-fiveCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiveCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Five Cent Count" />
     <property name="shortLabel" value="FvCntCnt" />
     <property name="maxLength" value="6" />
@@ -231,7 +221,6 @@
 
   <bean id="CashDrawer-financialDocumentOneCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOneCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Cent Amount" />
     <property name="shortLabel" value="OneCntAmt" />
     <property name="maxLength" value="6" />
@@ -246,7 +235,6 @@
 
   <bean id="CashDrawer-oneCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oneCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Cent Count" />
     <property name="shortLabel" value="OneCntCnt" />
     <property name="maxLength" value="6" />
@@ -263,7 +251,6 @@
 
   <bean id="CashDrawer-financialDocumentOtherCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOtherCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Other Cent Amount" />
     <property name="shortLabel" value="OthrCntAmt" />
     <property name="maxLength" value="6" />
@@ -278,7 +265,6 @@
 
   <bean id="CashDrawer-financialDocumentHundredDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentHundredDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Dollar Amount" />
     <property name="shortLabel" value="HunDlrAmt" />
     <property name="maxLength" value="10" />
@@ -293,7 +279,6 @@
 
   <bean id="CashDrawer-hundredDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hundredDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Dollar Count" />
     <property name="shortLabel" value="HunDlrCnt" />
     <property name="maxLength" value="6" />
@@ -310,7 +295,6 @@
 
   <bean id="CashDrawer-financialDocumentFiftyDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiftyDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Dollar Amount" />
     <property name="shortLabel" value="FtyDlrAmt" />
     <property name="maxLength" value="10" />
@@ -325,7 +309,6 @@
 
   <bean id="CashDrawer-fiftyDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiftyDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Dollar Count" />
     <property name="shortLabel" value="FtyDlrCnt" />
     <property name="maxLength" value="6" />
@@ -342,7 +325,6 @@
 
   <bean id="CashDrawer-financialDocumentTwentyDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTwentyDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Dollar Amount" />
     <property name="shortLabel" value="TwyDlrAmt" />
     <property name="maxLength" value="10" />
@@ -357,7 +339,6 @@
 
   <bean id="CashDrawer-twentyDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twentyDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Dollar Count" />
     <property name="shortLabel" value="TwyDlrCnt" />
     <property name="maxLength" value="6" />
@@ -374,7 +355,6 @@
 
   <bean id="CashDrawer-financialDocumentTenDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTenDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Dollar Amount" />
     <property name="shortLabel" value="TenDlrAmt" />
     <property name="maxLength" value="10" />
@@ -389,7 +369,6 @@
 
   <bean id="CashDrawer-tenDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="tenDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Dollar Count" />
     <property name="shortLabel" value="TenDlrCnt" />
     <property name="maxLength" value="6" />
@@ -406,7 +385,6 @@
 
   <bean id="CashDrawer-financialDocumentFiveDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiveDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Five Dollar Amount" />
     <property name="shortLabel" value="FvDlrAmt" />
     <property name="maxLength" value="10" />
@@ -421,7 +399,6 @@
 
   <bean id="CashDrawer-fiveDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiveDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Five Dollar Count" />
     <property name="shortLabel" value="FvDlrCnt" />
     <property name="maxLength" value="6" />
@@ -438,7 +415,6 @@
 
   <bean id="CashDrawer-financialDocumentTwoDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTwoDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Two Dollar Amount" />
     <property name="shortLabel" value="TwoDlrAmt" />
     <property name="maxLength" value="10" />
@@ -453,7 +429,6 @@
 
   <bean id="CashDrawer-twoDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twoDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Two Dollar Count" />
     <property name="shortLabel" value="TwoDlrCnt" />
     <property name="maxLength" value="6" />
@@ -470,7 +445,6 @@
 
   <bean id="CashDrawer-financialDocumentOneDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOneDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Dollar Amount" />
     <property name="shortLabel" value="OneDlrAmt" />
     <property name="maxLength" value="10" />
@@ -485,7 +459,6 @@
 
   <bean id="CashDrawer-oneDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oneDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Dollar Count" />
     <property name="shortLabel" value="OneDlrCnt" />
     <property name="maxLength" value="6" />
@@ -502,7 +475,6 @@
 
   <bean id="CashDrawer-financialDocumentOtherDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOtherDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Other Dollar Amount" />
     <property name="shortLabel" value="OthrDlrAmt" />
     <property name="maxLength" value="10" />
@@ -517,7 +489,6 @@
 
   <bean id="CashDrawer-currencyTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="currencyTotalAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Total Currency Amount" />
     <property name="shortLabel" value="TtlCurrAmt" />
     <property name="maxLength" value="10" />
@@ -532,7 +503,6 @@
 
   <bean id="CashDrawer-coinTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="coinTotalAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Total Coin Amount" />
     <property name="shortLabel" value="TtlCnAmt" />
     <property name="maxLength" value="10" />
@@ -547,7 +517,6 @@
 
   <bean id="CashDrawer-totalAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="totalAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Cash Drawer Total Amount" />
     <property name="shortLabel" value="CDTtlAmt" />
     <property name="maxLength" value="10" />

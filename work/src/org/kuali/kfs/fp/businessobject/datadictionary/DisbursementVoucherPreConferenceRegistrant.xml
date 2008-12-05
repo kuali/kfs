@@ -83,5 +83,6 @@
 
   <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
   </bean>
 </beans>

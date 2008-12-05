@@ -39,6 +39,7 @@
   <bean id="CurrencyDetail-documentNumber" parent="CurrencyDetail-documentNumber-parentBean" />
 
   <bean id="CurrencyDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="CurrencyDetail-financialDocumentTypeCode" parent="CurrencyDetail-financialDocumentTypeCode-parentBean" />
 
@@ -70,7 +71,6 @@
 
   <bean id="CurrencyDetail-financialDocumentHundredDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentHundredDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Dollar Amount" />
     <property name="shortLabel" value="HunDlrAmt" />
     <property name="maxLength" value="10" />
@@ -85,7 +85,6 @@
 
   <bean id="CurrencyDetail-hundredDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hundredDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Dollar Count" />
     <property name="shortLabel" value="HunDlrCnt" />
     <property name="maxLength" value="6" />
@@ -102,7 +101,6 @@
 
   <bean id="CurrencyDetail-financialDocumentFiftyDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiftyDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Dollar Amount" />
     <property name="shortLabel" value="FtyDlrAmt" />
     <property name="maxLength" value="10" />
@@ -117,7 +115,6 @@
 
   <bean id="CurrencyDetail-fiftyDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiftyDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Dollar Count" />
     <property name="shortLabel" value="FtyDlrCnt" />
     <property name="maxLength" value="6" />
@@ -134,7 +131,6 @@
 
   <bean id="CurrencyDetail-financialDocumentTwentyDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTwentyDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Dollar Amount" />
     <property name="shortLabel" value="TwyDlrAmt" />
     <property name="maxLength" value="10" />
@@ -149,7 +145,6 @@
 
   <bean id="CurrencyDetail-twentyDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twentyDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Dollar Count" />
     <property name="shortLabel" value="TwyDlrCnt" />
     <property name="maxLength" value="6" />
@@ -166,7 +161,6 @@
 
   <bean id="CurrencyDetail-financialDocumentTenDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTenDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Dollar Amount" />
     <property name="shortLabel" value="TenDlrAmt" />
     <property name="maxLength" value="10" />
@@ -181,7 +175,6 @@
 
   <bean id="CurrencyDetail-tenDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="tenDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Dollar Count" />
     <property name="shortLabel" value="TenDlrCnt" />
     <property name="maxLength" value="6" />
@@ -198,7 +191,6 @@
 
   <bean id="CurrencyDetail-financialDocumentFiveDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiveDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="FvDlrAmt" />
     <property name="shortLabel" value="Five Dollar Amount" />
     <property name="maxLength" value="10" />
@@ -213,7 +205,6 @@
 
   <bean id="CurrencyDetail-fiveDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiveDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Five Dollar Count" />
     <property name="shortLabel" value="FvDlrCnt" />
     <property name="maxLength" value="6" />
@@ -230,7 +221,6 @@
 
   <bean id="CurrencyDetail-financialDocumentTwoDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTwoDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Two Dollar Amount" />
     <property name="shortLabel" value="TwoDlrAmt" />
     <property name="maxLength" value="10" />
@@ -245,7 +235,6 @@
 
   <bean id="CurrencyDetail-twoDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twoDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Two Dollar Count" />
     <property name="shortLabel" value="TwoDlrCnt" />
     <property name="maxLength" value="6" />
@@ -262,7 +251,6 @@
 
   <bean id="CurrencyDetail-financialDocumentOneDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOneDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Dollar Amount" />
     <property name="shortLabel" value="OneDlrAmt" />
     <property name="maxLength" value="10" />
@@ -277,7 +265,6 @@
 
   <bean id="CurrencyDetail-oneDollarCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oneDollarCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Dollar Count" />
     <property name="shortLabel" value="OneDlrCnt" />
     <property name="maxLength" value="6" />
@@ -294,7 +281,6 @@
 
   <bean id="CurrencyDetail-financialDocumentOtherDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOtherDollarAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Other Dollar Amount" />
     <property name="shortLabel" value="OthrDlrAmt" />
     <property name="maxLength" value="10" />

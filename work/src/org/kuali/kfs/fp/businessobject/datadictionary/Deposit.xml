@@ -28,12 +28,13 @@
   <bean id="Deposit-documentNumber" parent="Deposit-documentNumber-parentBean" />
 
   <bean id="Deposit-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Deposit-financialDocumentDepositLineNumber" parent="Deposit-financialDocumentDepositLineNumber-parentBean" />
 
   <bean id="Deposit-financialDocumentDepositLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentDepositLineNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Deposit Number" />
     <property name="shortLabel" value="Deposit Number" />
     <property name="maxLength" value="10" />
@@ -47,7 +48,6 @@
 
   <bean id="Deposit-depositTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="depositTypeCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Deposit Type" />
     <property name="shortLabel" value="Deposit Type" />
     <property name="maxLength" value="10" />
@@ -75,7 +75,6 @@
 
   <bean id="Deposit-depositTicketNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="depositTicketNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Deposit Ticket #" />
     <property name="shortLabel" value="Deposit #" />
     <property name="maxLength" value="20" />

@@ -33,6 +33,7 @@
     <property name="name" value="disbursementVoucherMileageEffectiveDate" />
     <property name="label" value="Rate Effective Date" />
     <property name="shortLabel" value="Effective Dt" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="TravelMileageRate-mileageLimitAmount" parent="TravelMileageRate-mileageLimitAmount-parentBean" />
 
@@ -40,12 +41,12 @@
     <property name="name" value="mileageLimitAmount" />
     <property name="label" value="Travel Mileage Limit Amount" />
     <property name="shortLabel" value="Limit Amount" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="TravelMileageRate-mileageRate" parent="TravelMileageRate-mileageRate-parentBean" />
 
   <bean id="TravelMileageRate-mileageRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="mileageRate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Travel Mileage Rate" />
     <property name="shortLabel" value="Rate" />
     <property name="maxLength" value="10" />

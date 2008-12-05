@@ -48,7 +48,6 @@
 
   <bean id="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbursementVoucherDocumentationLocationName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Documentation Location Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
@@ -61,7 +60,6 @@
 
   <bean id="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbursementVoucherDocumentationLocationAddress" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Documentation Location Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="255" />

@@ -32,6 +32,7 @@
   <bean id="FiscalYearFunctionControl-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="FiscalYearFunctionControl-financialSystemFunctionControlCode" parent="FiscalYearFunctionControl-financialSystemFunctionControlCode-parentBean" />
 
@@ -53,7 +54,6 @@
 
   <bean id="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemFunctionActiveIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Financial System Function Active Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />

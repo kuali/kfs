@@ -51,7 +51,6 @@
 
   <bean id="PaymentReasonCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Payment Reason Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -68,7 +67,6 @@
 
   <bean id="PaymentReasonCode-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Payment Reason Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="2500" />

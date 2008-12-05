@@ -64,7 +64,6 @@
 
   <bean id="NonResidentAlienTaxPercent-incomeTaxPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="incomeTaxPercent" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Income Tax Percent" />
     <property name="shortLabel" value="Inc Tx Pc" />
     <property name="maxLength" value="22" />

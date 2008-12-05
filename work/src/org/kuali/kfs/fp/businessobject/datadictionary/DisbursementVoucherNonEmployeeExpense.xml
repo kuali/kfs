@@ -28,7 +28,6 @@
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbVchrExpenseCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Type" />
     <property name="shortLabel" value="Typ" />
     <property name="maxLength" value="2" />
@@ -43,7 +42,6 @@
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbVchrPrePaidExpenseCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Type" />
     <property name="shortLabel" value="Typ" />
     <property name="maxLength" value="2" />
@@ -84,7 +82,6 @@
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbVchrExpenseAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amt" />
     <property name="maxLength" value="22" />
@@ -98,5 +95,6 @@
 
   <bean id="DisbursementVoucherNonEmployeeExpense-documentNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
   </bean>
 </beans>

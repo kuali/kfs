@@ -48,7 +48,6 @@
 
   <bean id="FunctionControlCode-financialSystemFunctionDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemFunctionDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Financial System Function Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
@@ -66,7 +65,6 @@
 
   <bean id="FunctionControlCode-financialSystemFunctionDefaultIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemFunctionDefaultIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Financial System Function Default Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="0" />

@@ -30,11 +30,13 @@
   <bean id="CreditCardDetail-documentNumber" parent="CreditCardDetail-documentNumber-parentBean" />
 
   <bean id="CreditCardDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="CreditCardDetail-financialDocumentTypeCode" parent="CreditCardDetail-financialDocumentTypeCode-parentBean" />
 
   <bean id="CreditCardDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="CreditCardDetail-financialDocumentColumnTypeCode" parent="CreditCardDetail-financialDocumentColumnTypeCode-parentBean" />
 
@@ -58,12 +60,12 @@
   <bean id="CreditCardDetail-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialDocumentLineNumber" />
     <property name="required" value="true" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="CreditCardDetail-financialDocumentCreditCardTypeCode" parent="CreditCardDetail-financialDocumentCreditCardTypeCode-parentBean" />
 
   <bean id="CreditCardDetail-financialDocumentCreditCardTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentCreditCardTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Type" />
     <property name="shortLabel" value="Type" />
     <property name="maxLength" value="2" />

@@ -37,6 +37,7 @@
   <bean id="CoinDetail-documentNumber" parent="CoinDetail-documentNumber-parentBean" />
 
   <bean id="CoinDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="CoinDetail-financialDocumentTypeCode" parent="CoinDetail-financialDocumentTypeCode-parentBean" />
 
@@ -68,7 +69,6 @@
 
   <bean id="CoinDetail-financialDocumentHundredCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentHundredCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Cent Amount" />
     <property name="shortLabel" value="HunCntAmt" />
     <property name="maxLength" value="6" />
@@ -83,7 +83,6 @@
 
   <bean id="CoinDetail-hundredCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hundredCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Hundred Cent Count" />
     <property name="shortLabel" value="HunCntCnt" />
     <property name="maxLength" value="6" />
@@ -100,7 +99,6 @@
 
   <bean id="CoinDetail-financialDocumentFiftyCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiftyCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Cent Amount" />
     <property name="shortLabel" value="FtyCntAmt" />
     <property name="maxLength" value="6" />
@@ -115,7 +113,6 @@
 
   <bean id="CoinDetail-fiftyCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiftyCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fifty Cent Count" />
     <property name="shortLabel" value="FtyCntCnt" />
     <property name="maxLength" value="6" />
@@ -132,7 +129,6 @@
 
   <bean id="CoinDetail-financialDocumentTwentyFiveCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTwentyFiveCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Five Cent Amount" />
     <property name="shortLabel" value="TwyFvCntAmt" />
     <property name="maxLength" value="6" />
@@ -147,7 +143,6 @@
 
   <bean id="CoinDetail-twentyFiveCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twentyFiveCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Twenty Five Cent Count" />
     <property name="shortLabel" value="TwyFvCntCnt" />
     <property name="maxLength" value="6" />
@@ -164,7 +159,6 @@
 
   <bean id="CoinDetail-financialDocumentTenCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTenCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Cent Amount" />
     <property name="shortLabel" value="TnCntAmt" />
     <property name="maxLength" value="6" />
@@ -179,7 +173,6 @@
 
   <bean id="CoinDetail-tenCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="tenCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ten Cent Count" />
     <property name="shortLabel" value="TnCntCnt" />
     <property name="maxLength" value="6" />
@@ -196,7 +189,6 @@
 
   <bean id="CoinDetail-financialDocumentFiveCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentFiveCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Five Cent Amount" />
     <property name="shortLabel" value="FvCntAmt" />
     <property name="maxLength" value="6" />
@@ -211,7 +203,6 @@
 
   <bean id="CoinDetail-fiveCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiveCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Five Cent Count" />
     <property name="shortLabel" value="FvCntCnt" />
     <property name="maxLength" value="6" />
@@ -228,7 +219,6 @@
 
   <bean id="CoinDetail-financialDocumentOneCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOneCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Cent Amount" />
     <property name="shortLabel" value="OneCntAmt" />
     <property name="maxLength" value="6" />
@@ -243,7 +233,6 @@
 
   <bean id="CoinDetail-oneCentCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oneCentCount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="One Cent Count" />
     <property name="shortLabel" value="OneCntCnt" />
     <property name="maxLength" value="6" />
@@ -260,7 +249,6 @@
 
   <bean id="CoinDetail-financialDocumentOtherCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentOtherCentAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Other Cent Amount" />
     <property name="shortLabel" value="OthrCntAmt" />
     <property name="maxLength" value="6" />

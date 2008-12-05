@@ -33,6 +33,7 @@
 
   <bean id="TravelCompanyCode-code-parentBean" abstract="true" parent="TravelExpenseTypeCode-code">
     <property name="label" value="Company Type Code" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense" parent="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense-parentBean" />
 
@@ -43,7 +44,6 @@
 
   <bean id="TravelCompanyCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Travel Company Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />

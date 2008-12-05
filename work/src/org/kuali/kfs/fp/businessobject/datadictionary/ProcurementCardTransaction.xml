@@ -172,7 +172,6 @@
 
   <bean id="ProcurementCardTransaction-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDebitCreditCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Debit Credit Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />

@@ -57,6 +57,7 @@
   <bean id="ProcurementCardTargetAccountingLine-financialDocumentTransactionLineNumber" parent="ProcurementCardTargetAccountingLine-financialDocumentTransactionLineNumber-parentBean" />
 
   <bean id="ProcurementCardTargetAccountingLine-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardSourceAccountingLine-financialDocumentTransactionLineNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-objectCode.financialObjectTypeCode" parent="ProcurementCardTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean" />
 
@@ -98,7 +99,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Reference Number" />
     <property name="shortLabel" value="Ref Number" />
     <property name="maxLength" value="14" />
@@ -118,6 +118,7 @@
   <bean id="ProcurementCardTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-financialObjectCode" parent="ProcurementCardTargetAccountingLine-financialObjectCode-parentBean" />
 
@@ -132,7 +133,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Reference Id" />
     <property name="shortLabel" value="Org Ref Id" />
     <property name="maxLength" value="8" />
@@ -167,7 +167,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceOriginCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Reference Origin Code" />
     <property name="shortLabel" value="Ref Origin Code" />
     <property name="maxLength" value="2" />
@@ -186,7 +185,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="overrideCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Override Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -245,12 +243,12 @@
 
   <bean id="ProcurementCardTargetAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="required" value="false" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-debitCreditCode" parent="ProcurementCardTargetAccountingLine-debitCreditCode-parentBean" />
 
   <bean id="ProcurementCardTargetAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="debitCreditCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Credit or Debit Code" />
     <property name="shortLabel" value="Credit/Debit" />
     <property name="maxLength" value="1" />
@@ -270,7 +268,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="encumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Encumbrance Update Code" />
     <property name="shortLabel" value="Encumbrance Update" />
     <property name="maxLength" value="1" />
@@ -295,7 +292,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountExpiredOverride" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Expired Override" />
     <property name="shortLabel" value="Expired Override" />
     <property name="maxLength" value="1" />
@@ -310,7 +306,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nonFringeAccountOverride" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Non-fringe Account Override" />
     <property name="shortLabel" value="Non-fringe Override" />
     <property name="maxLength" value="1" />
@@ -325,7 +320,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="objectBudgetOverride" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Object Non-Budgeted Override" />
     <property name="shortLabel" value="Non-Budgeted Override" />
     <property name="maxLength" value="1" />
@@ -340,7 +334,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentLineDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Line Description" />
     <property name="shortLabel" value="Line Desc" />
     <property name="maxLength" value="40" />
@@ -356,7 +349,6 @@
 
   <bean id="ProcurementCardTargetAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="salesTaxRequired" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Sales Tax Required" />
     <property name="shortLabel" value="Sales Tax Reqd" />
     <property name="maxLength" value="10" />

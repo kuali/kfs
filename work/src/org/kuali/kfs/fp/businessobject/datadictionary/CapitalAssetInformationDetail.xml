@@ -26,7 +26,9 @@
   </bean>
   
   <bean id="CapitalAssetInformationDetail-documentNumber" parent="CapitalAssetInformationDetail-documentNumber-parentBean" />
-  <bean id="CapitalAssetInformationDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+  <bean id="CapitalAssetInformationDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
 				
   <bean id="CapitalAssetInformationDetail-itemLineNumber" parent="CapitalAssetInformationDetail-itemLineNumber-parentBean" />
   <bean id="CapitalAssetInformationDetail-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition" >

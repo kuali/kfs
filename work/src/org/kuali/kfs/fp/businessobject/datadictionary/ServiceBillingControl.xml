@@ -31,16 +31,17 @@
   <bean id="ServiceBillingControl-chartOfAccountsCode" parent="ServiceBillingControl-chartOfAccountsCode-parentBean" />
 
   <bean id="ServiceBillingControl-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ServiceBillingControl-accountNumber" parent="ServiceBillingControl-accountNumber-parentBean" />
 
   <bean id="ServiceBillingControl-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ServiceBillingControl-workgroupName" parent="ServiceBillingControl-workgroupName-parentBean" />
 
   <bean id="ServiceBillingControl-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="workgroupName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Workgroup Name" />
     <property name="shortLabel" value="Workgroup Name" />
     <property name="maxLength" value="70" />

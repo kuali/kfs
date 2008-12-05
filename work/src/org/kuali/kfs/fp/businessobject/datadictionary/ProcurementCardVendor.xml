@@ -35,16 +35,17 @@
   <bean id="ProcurementCardVendor-documentNumber" parent="ProcurementCardVendor-documentNumber-parentBean" />
 
   <bean id="ProcurementCardVendor-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProcurementCardVendor-financialDocumentTransactionLineNumber" parent="ProcurementCardVendor-financialDocumentTransactionLineNumber-parentBean" />
 
   <bean id="ProcurementCardVendor-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProcurementCardVendor-transactionMerchantCategoryCode" parent="ProcurementCardVendor-transactionMerchantCategoryCode-parentBean" />
 
   <bean id="ProcurementCardVendor-transactionMerchantCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionMerchantCategoryCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Merchant Category Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
@@ -57,7 +58,6 @@
 
   <bean id="ProcurementCardVendor-vendorCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -70,7 +70,6 @@
 
   <bean id="ProcurementCardVendor-vendorLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorLine1Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Line1 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -83,7 +82,6 @@
 
   <bean id="ProcurementCardVendor-vendorLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorLine2Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Line2 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -96,7 +94,6 @@
 
   <bean id="ProcurementCardVendor-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -109,7 +106,6 @@
 
   <bean id="ProcurementCardVendor-vendorOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOrderNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Order Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
@@ -124,7 +120,6 @@
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="vendorStateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor State Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -146,7 +141,6 @@
 
   <bean id="ProcurementCardVendor-visaVendorIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="visaVendorIdentifier" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Visa Vendor Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="16" />

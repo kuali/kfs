@@ -66,7 +66,6 @@
 
   <bean id="CreditCardVendor-financialDocumentCreditCardVendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentCreditCardVendorName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor Name" />
     <property name="shortLabel" value="Vendor Name" />
     <property name="maxLength" value="40" />

@@ -44,6 +44,7 @@
   <bean id="ProcurementCardTransactionDetail-documentNumber" parent="ProcurementCardTransactionDetail-documentNumber-parentBean" />
 
   <bean id="ProcurementCardTransactionDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber-parentBean" />
 
@@ -65,7 +66,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionBillingCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionBillingCurrencyCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Billing Currency Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
@@ -78,7 +78,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionCurrencyExchangeRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionCurrencyExchangeRate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Currency Exchange Rate" />
     <property name="shortLabel" value="Rate" />
     <property name="maxLength" value="10" />
@@ -94,7 +93,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -110,7 +108,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionOriginalCurrencyAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Original Currency Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -126,7 +123,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionOriginalCurrencyCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Original Currency Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
@@ -139,7 +135,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionPointOfSaleCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionPointOfSaleCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Point Of Sale Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="25" />
@@ -152,7 +147,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionPostingDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionPostingDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Posting Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -168,7 +162,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionPurchaseIdentifierDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionPurchaseIdentifierDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Purchase Identifier Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="25" />
@@ -181,7 +174,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionPurchaseIdentifierIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionPurchaseIdentifierIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Purchase Identifier Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -193,7 +185,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionReferenceNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Reference Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="23" />
@@ -206,7 +197,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionSalesTaxAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSalesTaxAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Sales Tax Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -222,7 +212,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionSettlementAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSettlementAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Settlement Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -238,7 +227,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionTaxExemptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionTaxExemptIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Tax Exempt Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -250,7 +238,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionTravelAuthorizationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionTravelAuthorizationCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Travel Authorization Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="50" />
@@ -263,7 +250,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionUnitContactName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Unit Contact Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="35" />
@@ -276,7 +262,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionCycleEndDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionCycleEndDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Cycle End Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -292,7 +277,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionCycleStartDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionCycleStartDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Cycle Start Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -308,7 +292,6 @@
 
   <bean id="ProcurementCardTransactionDetail-transactionTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionTotalAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Total Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />

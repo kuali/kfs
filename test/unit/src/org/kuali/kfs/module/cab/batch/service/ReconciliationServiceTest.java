@@ -31,6 +31,8 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -58,6 +60,7 @@ public class ReconciliationServiceTest extends BatchTestBase {
         assertFalse(cabReconciliationService1.equals(cabReconciliationService2));
     }
 
+    @RelatesTo(JiraIssue.KULCAP814)
     public void testReconcile() throws Exception {
         ReconciliationService service = SpringContext.getBean(ReconciliationService.class);
         Collection<Entry> glEntries = batchExtractService.findElgibleGLEntries(new ExtractProcessLog());

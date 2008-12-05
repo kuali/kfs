@@ -34,6 +34,8 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.DateUtils;
@@ -54,6 +56,7 @@ public class BatchExtractServiceTest extends BatchTestBase {
         boService = SpringContext.getBean(BusinessObjectService.class);
     }
 
+    @RelatesTo(JiraIssue.KULCAP814)
     public void testBatchProcess() throws Exception {
         ExtractProcessLog processLog = new ExtractProcessLog();
         Collection<Entry> glEntries = batchExtractService.findElgibleGLEntries(processLog);

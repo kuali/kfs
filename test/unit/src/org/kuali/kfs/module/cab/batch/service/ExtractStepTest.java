@@ -29,6 +29,8 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -79,6 +81,7 @@ public class ExtractStepTest extends BatchTestBase {
         extractStep.setBatchExtractReportService(SpringContext.getBean(BatchExtractReportService.class));
     }
 
+    @RelatesTo(JiraIssue.KULCAP814)
     public void testExecute() throws Exception {
         java.sql.Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
 

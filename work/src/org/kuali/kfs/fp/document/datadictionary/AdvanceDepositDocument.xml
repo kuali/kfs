@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AdvanceDepositDocument" parent="AdvanceDepositDocument-parentBean" />
 
@@ -22,9 +25,6 @@
     <property name="documentTypeCode" value="AD" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="AdvanceDepositDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -46,29 +46,8 @@
 	    	</entry>
     	</map>
     </property>
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="AdvanceDepositDocument-workflowProperties" parent="AdvanceDepositDocument-workflowProperties-parentBean" />
-
-  <bean id="AdvanceDepositDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
+    <property name="workflowAttributes">
+    	<ref bean="AdvanceDepositDocument-workflowAttributes" />
     </property>
   </bean>
   
@@ -142,5 +121,23 @@
 		</list>
 	</property>
 </bean>
-  
+
+	<bean id="AdvanceDepositDocument-workflowAttributes" parent="AdvanceDepositDocument-workflowAttributes-parentBean" />
+	
+	<dd:workflowAttributes id="AdvanceDepositDocument-workflowAttributes-parentBean" abstract="true">
+		<dd:searchingType >
+        	<dd:searchingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+	        <dd:documentValue path="sourceAccountingLines.chartOfAccountsCode" />
+       		<dd:documentValue path="targetAccountingLines.chartOfAccountsCode" />
+	    </dd:searchingType>
+    	<dd:searchingType >
+        	<dd:searchingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
+	        <dd:documentValue path="sourceAccountingLines.accountNumber" />
+	        <dd:documentValue path="targetAccountingLines.accountNumber" />
+    	</dd:searchingType>
+    	<dd:searchingType>
+    		<dd:searchingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" attributeName="financialDocumentTotalAmount" />
+    		<dd:documentValue path="documentHeader.financialDocumentTotalAmount" />
+    	</dd:searchingType>
+	</dd:workflowAttributes>
 </beans>

@@ -44,28 +44,34 @@
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountBalance-chartOfAccountsCode" parent="AccountBalance-chartOfAccountsCode-parentBean" />
 
   <bean id="AccountBalance-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountBalance-accountNumber" parent="AccountBalance-accountNumber-parentBean" />
 
   <bean id="AccountBalance-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountBalance-subAccountNumber" parent="AccountBalance-subAccountNumber-parentBean" />
 
   <bean id="AccountBalance-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountBalance-objectCode" parent="AccountBalance-objectCode-parentBean" />
 
   <bean id="AccountBalance-objectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="objectCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountBalance-subObjectCode" parent="AccountBalance-subObjectCode-parentBean" />
 
   <bean id="AccountBalance-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="name" value="subObjectCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountBalance-currentBudgetLineBalanceAmount" parent="AccountBalance-currentBudgetLineBalanceAmount-parentBean" />
 

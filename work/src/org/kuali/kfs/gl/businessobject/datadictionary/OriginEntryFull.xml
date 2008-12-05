@@ -76,7 +76,6 @@
 
   <bean id="OriginEntryFull-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDebitCreditCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Debit/Credit Code" />
     <property name="shortLabel" value="D/C" />
     <property name="maxLength" value="1" />
@@ -89,7 +88,6 @@
 
   <bean id="OriginEntryFull-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Document Number" />
     <property name="shortLabel" value="DocNum" />
     <property name="maxLength" value="14" />
@@ -102,7 +100,6 @@
 
   <bean id="OriginEntryFull-financialDocumentReversalDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentReversalDate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Document Reversal Date" />
     <property name="shortLabel" value="DocRevDt" />
     <property name="maxLength" value="10" />
@@ -125,7 +122,6 @@
 
   <bean id="OriginEntryFull-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEncumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Encumbrance Update Code" />
     <property name="shortLabel" value="EncUpdtCd" />
     <property name="maxLength" value="1" />
@@ -138,7 +134,6 @@
 
   <bean id="OriginEntryFull-entryGroupId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="entryGroupId" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Entry Group ID" />
     <property name="shortLabel" value="EntryGrpID" />
     <property name="maxLength" value="14" />
@@ -151,7 +146,7 @@
 
   <bean id="OriginEntryFull-entryId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="entryId" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Entry ID" />
     <property name="shortLabel" value="EntryID" />
     <property name="maxLength" value="14" />
@@ -179,7 +174,6 @@
 
   <bean id="OriginEntryFull-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Org. Document Number" />
     <property name="shortLabel" value="OrgDocNbr" />
     <property name="maxLength" value="10" />
@@ -192,7 +186,6 @@
 
   <bean id="OriginEntryFull-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Org. Reference ID" />
     <property name="shortLabel" value="OrgRefID" />
     <property name="maxLength" value="8" />
@@ -217,7 +210,6 @@
 
   <bean id="OriginEntryFull-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Ref. Document Number" />
     <property name="shortLabel" value="RefDocNbr" />
     <property name="maxLength" value="14" />
@@ -260,7 +252,6 @@
 
   <bean id="OriginEntryFull-transactionDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Date" />
     <property name="shortLabel" value="TxnDt" />
     <property name="maxLength" value="10" />
@@ -273,7 +264,6 @@
 
   <bean id="OriginEntryFull-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntrySequenceNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Entry Sequence ID" />
     <property name="shortLabel" value="TxnEntrySeqId" />
     <property name="maxLength" value="5" />
@@ -286,7 +276,6 @@
 
   <bean id="OriginEntryFull-transactionLedgerEntryAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryAmount" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Amount" />
     <property name="shortLabel" value="TxnLdgrEntryAmt" />
     <property name="maxLength" value="19" />
@@ -300,7 +289,6 @@
 
   <bean id="OriginEntryFull-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Description" />
     <property name="shortLabel" value="TxnLdgrEntryDesc" />
     <property name="maxLength" value="40" />
@@ -323,7 +311,6 @@
 
   <bean id="OriginEntryFull-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYear" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
     <property name="maxLength" value="4" />

@@ -39,6 +39,7 @@
 
   <bean id="CollectorDetail-universityFiscalPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
     <property name="label" value="Fiscal Period" />
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="UnivFsclAcctPrd" />
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -49,7 +50,7 @@
 
   <bean id="CollectorDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYear" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
     <property name="maxLength" value="4" />
@@ -62,6 +63,7 @@
 
   <bean id="CollectorDetail-createDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="createDate" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Creation Date" />
     <property name="shortLabel" value="CreateDt" />
     <property name="maxLength" value="10" />
@@ -74,7 +76,7 @@
 
   <bean id="CollectorDetail-createSequence-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="createSequence" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Creation Sequence" />
     <property name="shortLabel" value="CreationSeq" />
     <property name="maxLength" value="8" />
@@ -87,10 +89,12 @@
 
   <bean id="CollectorDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="label" value="Chart" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="CollectorDetail-accountNumber" parent="CollectorDetail-accountNumber-parentBean" />
 
   <bean id="CollectorDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
     <property name="shortLabel" value="AcctNum" />
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -100,6 +104,7 @@
   <bean id="CollectorDetail-subAccountNumber" parent="CollectorDetail-subAccountNumber-parentBean" />
 
   <bean id="CollectorDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  	<property name="forceUppercase" value="true" />
     <property name="label" value="Sub Account Number" />
     <property name="shortLabel" value="RefDocTypCd" />
   </bean>
@@ -111,6 +116,7 @@
   <bean id="CollectorDetail-financialSubObjectCode" parent="CollectorDetail-financialSubObjectCode-parentBean" />
 
   <bean id="CollectorDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  	<property name="forceUppercase" value="true" />
     <property name="label" value="Sub Object Code" />
     <property name="shortLabel" value="SubObjCd" />
   </bean>
@@ -118,17 +124,19 @@
 
   <bean id="CollectorDetail-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
     <property name="name" value="financialBalanceTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="CollectorDetail-financialObjectTypeCode" parent="CollectorDetail-financialObjectTypeCode-parentBean" />
 
   <bean id="CollectorDetail-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
     <property name="name" value="financialObjectTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="CollectorDetail-collectorDetailSequenceNumber" parent="CollectorDetail-collectorDetailSequenceNumber-parentBean" />
 
   <bean id="CollectorDetail-collectorDetailSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="collectorDetailSequenceNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Collector Detail Sequence ID" />
     <property name="shortLabel" value="ClctrSeqId" />
     <property name="maxLength" value="2" />
@@ -141,6 +149,7 @@
 
   <bean id="CollectorDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="DocTypCd" />
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -150,6 +159,7 @@
   <bean id="CollectorDetail-financialSystemOriginationCode" parent="CollectorDetail-financialSystemOriginationCode-parentBean" />
 
   <bean id="CollectorDetail-financialSystemOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Code" />
     <property name="shortLabel" value="OriginCd" />
   </bean>
@@ -157,7 +167,7 @@
 
   <bean id="CollectorDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Document Number" />
     <property name="shortLabel" value="DocNum" />
     <property name="maxLength" value="14" />
@@ -182,7 +192,6 @@
 
   <bean id="CollectorDetail-collectorDetailNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="collectorDetailNoteText" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Collector Detail Note" />
     <property name="shortLabel" value="ClctrNte" />
     <property name="maxLength" value="120" />

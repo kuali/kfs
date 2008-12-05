@@ -56,43 +56,52 @@
 
   <bean id="Entry-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fisc Year" />
   </bean>
   <bean id="Entry-chartOfAccountsCode" parent="Entry-chartOfAccountsCode-parentBean" />
 
   <bean id="Entry-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-accountNumber" parent="Entry-accountNumber-parentBean" />
 
   <bean id="Entry-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-subAccountNumber" parent="Entry-subAccountNumber-parentBean" />
 
   <bean id="Entry-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-financialObjectCode" parent="Entry-financialObjectCode-parentBean" />
 
   <bean id="Entry-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-financialSubObjectCode" parent="Entry-financialSubObjectCode-parentBean" />
 
   <bean id="Entry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-financialObjectTypeCode" parent="Entry-financialObjectTypeCode-parentBean" />
 
   <bean id="Entry-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
     <property name="name" value="financialObjectTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-financialBalanceTypeCode" parent="Entry-financialBalanceTypeCode-parentBean" />
 
   <bean id="Entry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
     <property name="name" value="financialBalanceTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-universityFiscalPeriodCode" parent="Entry-universityFiscalPeriodCode-parentBean" />
 
   <bean id="Entry-universityFiscalPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
     <property name="name" value="universityFiscalPeriodCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Period" />
     <property name="shortLabel" value="Fiscal Period" />
   </bean>
@@ -113,7 +122,7 @@
 
   <bean id="Entry-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemOriginationCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Code" />
     <property name="shortLabel" value="Origin Code" />
     <property name="maxLength" value="2" />
@@ -125,17 +134,18 @@
   <bean id="Entry-documentNumber" parent="Entry-documentNumber-parentBean" />
 
   <bean id="Entry-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-transactionLedgerEntrySequenceNumber" parent="Entry-transactionLedgerEntrySequenceNumber-parentBean" />
 
   <bean id="Entry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="transactionLedgerEntrySequenceNumber" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-transactionLedgerEntryDescription" parent="Entry-transactionLedgerEntryDescription-parentBean" />
 
   <bean id="Entry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
@@ -156,7 +166,6 @@
 
   <bean id="Entry-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDebitCreditCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Debit Credit Code" />
     <property name="shortLabel" value="D/C" />
     <property name="maxLength" value="1" />
@@ -176,7 +185,6 @@
 
   <bean id="Entry-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Document Number" />
     <property name="shortLabel" value="Org. Doc. Nbr." />
     <property name="maxLength" value="10" />
@@ -194,7 +202,6 @@
 
   <bean id="Entry-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Reference Id" />
     <property name="shortLabel" value="Org Ref ID" />
     <property name="maxLength" value="8" />
@@ -220,7 +227,6 @@
 
   <bean id="Entry-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialSystemOriginationCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Origin Code" />
     <property name="shortLabel" value="Ref Origin Code" />
     <property name="maxLength" value="2" />
@@ -233,7 +239,6 @@
 
   <bean id="Entry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Document Number" />
     <property name="shortLabel" value="Ref Doc Number" />
     <property name="maxLength" value="9" />
@@ -253,7 +258,6 @@
 
   <bean id="Entry-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEncumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Encumbrance Update Code" />
     <property name="shortLabel" value="Encmbr. Updt. Code" />
     <property name="maxLength" value="1" />

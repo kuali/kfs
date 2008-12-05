@@ -59,38 +59,46 @@
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-chartOfAccountsCode" parent="Balance-chartOfAccountsCode-parentBean" />
 
   <bean id="Balance-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-accountNumber" parent="Balance-accountNumber-parentBean" />
 
   <bean id="Balance-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-subAccountNumber" parent="Balance-subAccountNumber-parentBean" />
 
   <bean id="Balance-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-objectCode" parent="Balance-objectCode-parentBean" />
 
   <bean id="Balance-objectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="objectCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-subObjectCode" parent="Balance-subObjectCode-parentBean" />
 
   <bean id="Balance-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="name" value="subObjectCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-objectTypeCode" parent="Balance-objectTypeCode-parentBean" />
 
   <bean id="Balance-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
     <property name="name" value="objectTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-balanceTypeCode" parent="Balance-balanceTypeCode-parentBean" />
 
   <bean id="Balance-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
     <property name="name" value="balanceTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Balance-accountLineAnnualBalanceAmount" parent="Balance-accountLineAnnualBalanceAmount-parentBean" />
 

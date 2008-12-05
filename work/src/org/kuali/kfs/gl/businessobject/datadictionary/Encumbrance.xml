@@ -47,33 +47,40 @@
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fisc Year" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Encumbrance-chartOfAccountsCode" parent="Encumbrance-chartOfAccountsCode-parentBean" />
 
   <bean id="Encumbrance-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Encumbrance-accountNumber" parent="Encumbrance-accountNumber-parentBean" />
 
   <bean id="Encumbrance-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Encumbrance-subAccountNumber" parent="Encumbrance-subAccountNumber-parentBean" />
 
   <bean id="Encumbrance-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Encumbrance-objectCode" parent="Encumbrance-objectCode-parentBean" />
 
   <bean id="Encumbrance-objectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="objectCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Encumbrance-subObjectCode" parent="Encumbrance-subObjectCode-parentBean" />
 
   <bean id="Encumbrance-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="name" value="subObjectCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="Encumbrance-balanceTypeCode" parent="Encumbrance-balanceTypeCode-parentBean" />
 
   <bean id="Encumbrance-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-financialBalanceTypeShortNm">
     <property name="name" value="balanceTypeCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Balance Type" />
     <property name="shortLabel" value="Balance Type" />
     <property name="maxLength" value="2" />
@@ -110,7 +117,6 @@
 
   <bean id="Encumbrance-transactionEncumbranceDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEncumbranceDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
@@ -136,7 +142,7 @@
 
   <bean id="Encumbrance-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Document Number" />
     <property name="shortLabel" value="Doc Number" />
     <property name="maxLength" value="10" />
@@ -149,7 +155,7 @@
 
   <bean id="Encumbrance-originCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="originCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Code" />
     <property name="shortLabel" value="Origin Code" />
     <property name="maxLength" value="2" />

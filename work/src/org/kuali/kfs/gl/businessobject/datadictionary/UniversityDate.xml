@@ -31,6 +31,7 @@
 
   <bean id="UniversityDate-universityDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="universityDate" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="University Date" />
     <property name="shortLabel" value="Univ Dt" />
     <property name="required" value="true" />

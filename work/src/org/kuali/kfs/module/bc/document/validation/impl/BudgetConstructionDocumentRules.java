@@ -113,28 +113,28 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         // check to see if any errors were reported
         int currentErrorCount = errors.getErrorCount();
         isValid &= (currentErrorCount == originalErrorCount);
-        if (!isValid){
+        if (!isValid) {
             return isValid;
         }
-        
+
         // can't create BC documents when in system view only mode
         // let the user know this up front
         if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(budgetConstructionDocument.getUniversityFiscalYear())) {
             errors.putError(KFSPropertyConstants.ACCOUNT_NUMBER, BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
             isValid &= false;
         }
-        
+
         // check existence of account first
         DataDictionary dd = dataDictionaryService.getDataDictionary();
-        String pkeyValue = budgetConstructionDocument.getChartOfAccountsCode()+"-"+budgetConstructionDocument.getAccountNumber();
+        String pkeyValue = budgetConstructionDocument.getChartOfAccountsCode() + "-" + budgetConstructionDocument.getAccountNumber();
         isValid &= isValidAccount(budgetConstructionDocument.getAccount(), pkeyValue, dd, KFSPropertyConstants.ACCOUNT_NUMBER);
-        if (isValid){
+        if (isValid) {
 
             // run the rules checks preventing BC document creation - assumes account exists
             isValid &= this.isBudgetAllowed(budgetConstructionDocument, KFSPropertyConstants.ACCOUNT_NUMBER, errors, true, true);
         }
-        
-        if (!isValid){
+
+        if (!isValid) {
 
             // tell the user we can't create a new BC document along with the error reasons
             GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_NOCREATE_DOCUMENT);
@@ -374,6 +374,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         int currentErrorCount = errors.getErrorCount();
         isValid &= (currentErrorCount == originalErrorCount);
 
+        // Check special cleanup mode case and berate user on save of anything.
+        // The user should delete the row, which bypasses this rule.
+        if (!budgetConstructionDocument.isBudgetableDocument()) {
+            isValid &= Boolean.FALSE;
+            errors.putError(BCPropertyConstants.FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_BUDGETABLE, budgetConstructionDocument.getAccountNumber() + ";" + budgetConstructionDocument.getSubAccountNumber());
+        }
+
         if (isValid) {
             KualiInteger monthlyTotal = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
             if (!salarySettingService.isSalarySettingDisabled()) {
@@ -435,6 +442,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerLines;
         String linesErrorPath;
 
+
         if (isRevenue) {
             pendingBudgetConstructionGeneralLedgerLines = budgetConstructionDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines();
             linesErrorPath = BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_REVENUE_LINES;
@@ -471,19 +479,36 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             // test for new errors from this point - if none, test if benefits calc required
             originalErrorCount = errors.getErrorCount();
 
+            // has the request amount changed?
+            boolean isRequestAmountChanged = (isReqAmountValid && (!element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())));
+
             // only do checks if request amount is non-zero and not equal to currently persisted amount
+            // or the document is not budgetable and the request is non-zero
             if (isReqAmountValid && element.getAccountLineAnnualBalanceAmount().isNonZero()) {
-                if (!element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
+
+                boolean isSalaryFringeLine = false;
+                if (!isRevenue && fringeBenefitDesignatorCodesParamValues != null && element.getLaborObject() != null) {
+                    isSalaryFringeLine = fringeBenefitDesignatorCodesParamValues.contains(element.getLaborObject().getFinancialObjectFringeOrSalaryCode());
+                }
+                boolean is2PLG = !isRevenue && element.getFinancialObjectCode().contentEquals(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
+                boolean isCleanupModeActionForceCheck = budgetConstructionDocument.isCleanupModeActionForceCheck();
+
+                // Request notZero, do checks if user enters a change to a request amount or
+                // (We are in cleanupMode and the current action (save or close-save) forces a cleanup mode check and
+                // not 2PLG line and not salary fringe line)
+                // This allows the user to use quick salary setting, monthly edit, global month delete to do cleanup work and
+                // to print out values or push/pull before cleanup.
+                if (isRequestAmountChanged || (!budgetConstructionDocument.isBudgetableDocument() && isCleanupModeActionForceCheck && !is2PLG && !isSalaryFringeLine)) {
                     isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, element, errors, isRevenue, false);
                 }
             }
 
-            // do RI type checks for request amount against monthly and salary setting detail if persisted amount changes
+            // Do RI type checks for request amount against monthly and salary setting detail if persisted amount changes
             // or a 2plg exists and the line is a salary setting detail line
-            // Also tests if the line is has benefits associate and flags that a benefits calc needs done.
+            // Also tests if the line is has benefits associate and flags that a benefits calculation needs done.
             // Benefits calc is then called in the form action after successful rules check and save
             boolean forceTwoPlugRICheck = (budgetConstructionDocument.isContainsTwoPlug() && (element.getLaborObject() != null && element.getLaborObject().isDetailPositionRequiredIndicator()));
-            if (isReqAmountValid && (!element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount()) || forceTwoPlugRICheck)) {
+            if (isReqAmountValid && (isRequestAmountChanged || forceTwoPlugRICheck)) {
 
                 // check monthly for all rows
                 if (doMonthRICheck) {
@@ -543,8 +568,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 // only do benefits calc needed test if the user changed something - not if forcing the RI check
                 if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
 
-                    // if benefits calculation is turned on, check if the line is benefits related and call for calculation after
-                    // save
+                    // if benefits calculation is turned on,
+                    // check if the line is benefits related and call for calculation after save
                     if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()) {
 
                         // retest for added errors since testing this line started - if none, test if benefits calc required
@@ -965,7 +990,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionDocument.getAccountNumber());
             searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionDocument.getSubAccountNumber());
             A21SubAccount a21SubAccount = (A21SubAccount) businessObjectService.findByPrimaryKey(A21SubAccount.class, searchCriteria);
-            if ( ObjectUtils.isNotNull( a21SubAccount ) ) {
+            if (ObjectUtils.isNotNull(a21SubAccount)) {
                 if (a21SubAccount.getSubAccountTypeCode().equalsIgnoreCase(KFSConstants.SubAccountType.COST_SHARE)) {
                     isAllowed = false;
                     this.putError(errors, propertyName, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), KFSConstants.SubAccountType.COST_SHARE);
@@ -975,7 +1000,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         return isAllowed;
     }
-    public boolean isValidAccount(Account account, String value, DataDictionary dataDictionary, String errorPropertyName){
+
+    public boolean isValidAccount(Account account, String value, DataDictionary dataDictionary, String errorPropertyName) {
         String label = dataDictionary.getBusinessObjectEntry(Account.class.getName()).getAttributeDefinition(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME).getShortLabel();
 
         // make sure it exists

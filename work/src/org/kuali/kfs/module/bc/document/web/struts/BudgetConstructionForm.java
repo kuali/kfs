@@ -18,7 +18,6 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +26,6 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
@@ -35,17 +33,13 @@ import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
-import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -59,8 +53,6 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
 
-    // used to contain budgetable status
-    private boolean budgetableDocument = false;
     private boolean closingDocument = false;
 
     private boolean hideDetails = false;
@@ -357,15 +349,20 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
             // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
             // correct DocumentAuthorizer
-//            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
-//                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
-//            }
-//            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-//                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
-//            }
-//            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
-//                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
-//            }
+            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
+            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
+            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)",
+            // this.isPickListMode());
+            // }
+            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
+            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
+            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
+            // }
+            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
+            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
+            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)",
+            // this.isPickListMode());
+            // }
         }
     }
 
@@ -472,21 +469,12 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
-     * Gets the budgetableDocument attribute.
+     * Gets getBudgetConstructionDocument().isBudgetableDocument attribute.
      * 
-     * @return Returns the budgetableDocument.
+     * @return Returns getBudgetConstructionDocument().isBudgetableDocument.
      */
     public boolean isBudgetableDocument() {
-        return budgetableDocument;
-    }
-
-    /**
-     * Sets the budgetableDocument attribute value.
-     * 
-     * @param budgetableDocument The budgetableDocument to set.
-     */
-    public void setBudgetableDocument(boolean budgetableDocument) {
-        this.budgetableDocument = budgetableDocument;
+        return this.getBudgetConstructionDocument().isBudgetableDocument();
     }
 
     /**
@@ -686,7 +674,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         accountReportsExist = false;
 
         if (this.getBudgetConstructionDocument().getDocumentNumber() != null) {
-            if (SpringContext.getBean(BudgetDocumentService.class).isAccountReportsExist(this.getChartOfAccountsCode(), this.getAccountNumber())){
+            if (SpringContext.getBean(BudgetDocumentService.class).isAccountReportsExist(this.getChartOfAccountsCode(), this.getAccountNumber())) {
                 accountReportsExist = true;
             }
         }
@@ -721,7 +709,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
-     * Gets the securityNoAccess attribute. 
+     * Gets the securityNoAccess attribute.
+     * 
      * @return Returns the securityNoAccess.
      */
     public boolean isSecurityNoAccess() {
@@ -730,6 +719,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     /**
      * Sets the securityNoAccess attribute value.
+     * 
      * @param securityNoAccess The securityNoAccess to set.
      */
     public void setSecurityNoAccess(boolean securityNoAccess) {
@@ -917,7 +907,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
-     * Gets the closingDocument attribute. 
+     * Gets the closingDocument attribute.
+     * 
      * @return Returns the closingDocument.
      */
     public boolean isClosingDocument() {
@@ -926,10 +917,10 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     /**
      * Sets the closingDocument attribute value.
+     * 
      * @param closingDocument The closingDocument to set.
      */
     public void setClosingDocument(boolean closingDocument) {
         this.closingDocument = closingDocument;
     }
 }
-

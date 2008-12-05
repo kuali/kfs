@@ -18,7 +18,6 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +42,9 @@ import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.document.validation.event.DeletePendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
-import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -61,22 +58,17 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.service.SessionDocumentService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -96,9 +88,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+
+        // this is only used to indicate to the rules the user has clicked save or close save-yes
+        // which forces tighter checks (nonZeroRequest amount) when access is cleanup mode
+        if (budgetConstructionForm.getBudgetConstructionDocument().isCleanupModeActionForceCheck()) {
+            budgetConstructionForm.getBudgetConstructionDocument().setCleanupModeActionForceCheck(Boolean.FALSE);
+        }
 
         ActionForward forward = super.execute(mapping, form, request, response);
-        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
 
         // handle any security no access cases
         if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
@@ -137,7 +135,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 else {
 
                     // tell the user if the document is in not budgetable mode
-                    budgetConstructionForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(budgetConstructionForm.getBudgetConstructionDocument()));
+                    budgetConstructionForm.getBudgetConstructionDocument().setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(budgetConstructionForm.getBudgetConstructionDocument()));
+                    // budgetConstructionForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(budgetConstructionForm.getBudgetConstructionDocument()));
                     if (!budgetConstructionForm.isBudgetableDocument()) {
                         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE);
                     }
@@ -406,13 +405,18 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
                 if ((KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     // if yes button clicked - save the doc
+                    BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) docForm.getDocument();
 
                     // SpringContext.getBean(DocumentService.class).saveDocument(docForm.getDocument());
                     // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
 
+                    // force tighter checks when saving in cleanup mode
+                    if (!bcDoc.isBudgetableDocument()) {
+                        bcDoc.setCleanupModeActionForceCheck(Boolean.TRUE);
+                    }
+
                     // SpringContext.getBean(DocumentService.class).updateDocument(docForm.getDocument());
                     BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-                    BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) docForm.getDocument();
                     budgetDocumentService.saveDocument(bcDoc);
                     docForm.initializePersistedRequestAmounts();
                     if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()) {
@@ -527,6 +531,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
         // and calc benefits flag checking and calc benefits if needed
         // documentService.updateDocument(bcDocument);
+
+        // force tighter checks when saving in cleanup mode
+        if (!bcDocument.isBudgetableDocument()) {
+            bcDocument.setCleanupModeActionForceCheck(Boolean.TRUE);
+        }
 
         // TODO use this instead? research the differences - may need to inject DocumentService and roll our own bcdocservice
         // documentService.saveDocument(document);

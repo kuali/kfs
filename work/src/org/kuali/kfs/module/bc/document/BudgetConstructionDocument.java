@@ -37,7 +37,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -76,16 +75,22 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     private KualiInteger expenditureAccountLineAnnualBalanceAmountTotal;
     private KualiInteger expenditureFinancialBeginningBalanceLineAmountTotal;
     private KualiDecimal expenditurePercentChangeTotal;
-    
+
     // benefits calculation state flags
     // these are set when a change is detected in the request and the line
-    // is involved in the benefits calculation - ie exists in 
+    // is involved in the benefits calculation - ie exists in
     private boolean isBenefitsCalcNeeded;
     private boolean isMonthlyBenefitsCalcNeeded;
-    
+
     private boolean isSalarySettingOnly;
     private AccountSalarySettingOnlyCause accountSalarySettingOnlyCause;
     private boolean containsTwoPlug = false;
+    private boolean budgetableDocument = false;
+
+    // This property supports a hack to indicate to the rules framework
+    // the user is performing an action (save) that forces rules check on nonZero request amounts
+    // while still allowing the user to do salary setting cleanup when a document becomes not budgetable
+    private boolean cleanupModeActionForceCheck = false;
 
     public BudgetConstructionDocument() {
         super();
@@ -671,7 +676,8 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Gets the isBenefitsCalcNeeded attribute. 
+     * Gets the isBenefitsCalcNeeded attribute.
+     * 
      * @return Returns the isBenefitsCalcNeeded.
      */
     public boolean isBenefitsCalcNeeded() {
@@ -680,6 +686,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the isBenefitsCalcNeeded attribute value.
+     * 
      * @param isBenefitsCalcNeeded The isBenefitsCalcNeeded to set.
      */
     public void setBenefitsCalcNeeded(boolean isBenefitsCalcNeeded) {
@@ -687,7 +694,8 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Gets the isMonthlyBenefitsCalcNeeded attribute. 
+     * Gets the isMonthlyBenefitsCalcNeeded attribute.
+     * 
      * @return Returns the isMonthlyBenefitsCalcNeeded.
      */
     public boolean isMonthlyBenefitsCalcNeeded() {
@@ -696,6 +704,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the isMonthlyBenefitsCalcNeeded attribute value.
+     * 
      * @param isMonthlyBenefitsCalcNeeded The isMonthlyBenefitsCalcNeeded to set.
      */
     public void setMonthlyBenefitsCalcNeeded(boolean isMonthlyBenefitsCalcNeeded) {
@@ -703,13 +712,15 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Gets the isSalarySettingOnly attribute. 
+     * Gets the isSalarySettingOnly attribute.
+     * 
      * @return Returns the isSalarySettingOnly.
      */
     public boolean isSalarySettingOnly() {
-        if (this.getAccountSalarySettingOnlyCause() == AccountSalarySettingOnlyCause.MISSING_PARAM || this.getAccountSalarySettingOnlyCause() == AccountSalarySettingOnlyCause.NONE){
+        if (this.getAccountSalarySettingOnlyCause() == AccountSalarySettingOnlyCause.MISSING_PARAM || this.getAccountSalarySettingOnlyCause() == AccountSalarySettingOnlyCause.NONE) {
             isSalarySettingOnly = false;
-        } else {
+        }
+        else {
             isSalarySettingOnly = true;
         }
         return isSalarySettingOnly;
@@ -717,6 +728,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the isSalarySettingOnly attribute value.
+     * 
      * @param isSalarySettingOnly The isSalarySettingOnly to set.
      */
     public void setSalarySettingOnly(boolean isSalarySettingOnly) {
@@ -724,19 +736,21 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Gets the accountSalarySettingOnlyCause attribute. 
+     * Gets the accountSalarySettingOnlyCause attribute.
+     * 
      * @return Returns the accountSalarySettingOnlyCause.
      */
     public AccountSalarySettingOnlyCause getAccountSalarySettingOnlyCause() {
-        if (accountSalarySettingOnlyCause == null){
+        if (accountSalarySettingOnlyCause == null) {
             accountSalarySettingOnlyCause = SpringContext.getBean(BudgetParameterService.class).isSalarySettingOnlyAccount(this);
         }
-            
+
         return accountSalarySettingOnlyCause;
     }
 
     /**
      * Sets the accountSalarySettingOnlyCause attribute value.
+     * 
      * @param accountSalarySettingOnlyCause The accountSalarySettingOnlyCause to set.
      */
     public void setAccountSalarySettingOnlyCause(AccountSalarySettingOnlyCause accountSalarySettingOnlyCause) {
@@ -744,7 +758,8 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Gets the containsTwoPlug attribute. 
+     * Gets the containsTwoPlug attribute.
+     * 
      * @return Returns the containsTwoPlug.
      */
     public boolean isContainsTwoPlug() {
@@ -753,10 +768,47 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the containsTwoPlug attribute value.
+     * 
      * @param containsTwoPlug The containsTwoPlug to set.
      */
     public void setContainsTwoPlug(boolean containsTwoPlug) {
         this.containsTwoPlug = containsTwoPlug;
+    }
+
+    /**
+     * Gets the budgetableDocument attribute.
+     * 
+     * @return Returns the budgetableDocument.
+     */
+    public boolean isBudgetableDocument() {
+        return budgetableDocument;
+    }
+
+    /**
+     * Sets the budgetableDocument attribute value.
+     * 
+     * @param budgetableDocument The budgetableDocument to set.
+     */
+    public void setBudgetableDocument(boolean budgetableDocument) {
+        this.budgetableDocument = budgetableDocument;
+    }
+
+    /**
+     * Gets the cleanupModeActionForceCheck attribute.
+     * 
+     * @return Returns the cleanupModeActionForceCheck.
+     */
+    public boolean isCleanupModeActionForceCheck() {
+        return cleanupModeActionForceCheck;
+    }
+
+    /**
+     * Sets the cleanupModeActionForceCheck attribute value.
+     * 
+     * @param cleanupModeActionForceCheck The cleanupModeActionForceCheck to set.
+     */
+    public void setCleanupModeActionForceCheck(boolean cleanupModeActionForceCheck) {
+        this.cleanupModeActionForceCheck = cleanupModeActionForceCheck;
     }
 
     /**
@@ -796,4 +848,3 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
 }
-

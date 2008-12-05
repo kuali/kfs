@@ -25,7 +25,7 @@ public interface SystemInformationDao {
      * @param LockboxNumber 
      * @return SystemInformation
      */
-    public SystemInformation getByLockboxNumber(String lockboxNumber);
+    public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear);
     
     /**
      * Retrieves a SystemInformation object by university fiscal year.

@@ -25,11 +25,11 @@ public class SystemInformationDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SystemInformationDaoOjb.class);
 
-    public SystemInformation getByLockboxNumber(String lockboxNumber) {
+    public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear) {
         LOG.debug("getByLockboxNumber() started");
         
         Criteria criteria = new Criteria();
-        
+        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
         criteria.addEqualTo("lockboxNumber", lockboxNumber);
         
         return (SystemInformation) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemInformation.class, criteria));

@@ -29,13 +29,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class SystemInformationServiceImpl implements SystemInformationService {
 
     private SystemInformationDao systemInformationDao;  
- 
-    public SystemInformation getByLockboxNumber(String lockboxNumber) {
-        return systemInformationDao.getByLockboxNumber(lockboxNumber);
+    private UniversityDateService universityDateService;
+    
+    public SystemInformation getByLockboxNumberForCurrentFiscalYear(String lockboxNumber) {
+        Integer universityFiscalYear = universityDateService.getCurrentFiscalYear();
+        return getByLockboxNumber(lockboxNumber, universityFiscalYear);
     }
     
+    public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear) {
+        return systemInformationDao.getByLockboxNumber(lockboxNumber, universityFiscalYear);
+    }
+
     public SystemInformation getByCurrentUniversityFiscalYear() {
-        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         return getSystemInformationDao().getByFiscalYear(currentFiscalYear);
     }
     
@@ -51,5 +57,9 @@ public class SystemInformationServiceImpl implements SystemInformationService {
         Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         return getSystemInformationDao().getByProcessingChartOrgAndFiscalYear(chartCode, orgCode, currentFiscalYear);
     }
-    
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
 }

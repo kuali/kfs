@@ -83,6 +83,9 @@
 		<property name="systemInformationDao">
 			<ref bean="systemInformationDao" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>		
 	</bean>
 	
 	<bean id="lockboxService" class="org.kuali.kfs.module.ar.batch.service.impl.LockboxServiceImpl">

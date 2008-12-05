@@ -81,7 +81,7 @@ public class LockboxServiceImpl implements LockboxService {
             Lockbox lockbox = (Lockbox)itr.next();
             LOG.info("LOCKBOX: '" + lockbox.getLockboxNumber() + "'");
 
-            SystemInformation sysInfo = systemInformationService.getByLockboxNumber(lockbox.getLockboxNumber());
+            SystemInformation sysInfo = systemInformationService.getByLockboxNumberForCurrentFiscalYear(lockbox.getLockboxNumber());
             String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
             LOG.info("Using SystemInformation: '" + sysInfo.toString() + "'");
             LOG.info("Using Financial Document Initiator PrincipalID: '" + initiator + "'");

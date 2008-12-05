@@ -15,27 +15,20 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
@@ -76,16 +69,8 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
     @Override
     public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
         super.canInitiate(documentTypeName, user);
-        // to initiate, the user must have the organization options set up.
-        ChartOrgHolder chartUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
-        criteria.put("organizationCode", chartUser.getOrganizationCode());
-        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
-
-        // if organization doesn't exist
-        if (ObjectUtils.isNull(organizationOptions)) {
+        
+        if (!ARUtil.isUserInArBillingOrg(user)) {
             throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
                     new String[] { "(Users in an AR Billing Org)", "Customer Invoice WriteOff" });
         }

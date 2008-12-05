@@ -15,29 +15,21 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
@@ -130,17 +122,8 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
     @Override
     public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
         super.canInitiate(documentTypeName, user);
-        // to initiate, the user must have the organization options set up.
-        Person financialSystemUser = ValueFinderUtil.getCurrentPerson();
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(financialSystemUser, "ar");
 
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", chartOrg.getChartOfAccountsCode());
-        criteria.put("organizationCode", chartOrg.getOrganizationCode());
-        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
-
-        //if organization doesn't exist
-        if (ObjectUtils.isNull(organizationOptions)) {
+        if (!ARUtil.isUserInArBillingOrg(user)) {
             throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
                     new String[] { "(Users in an AR Billing Org)", "Cash Control" });
         }

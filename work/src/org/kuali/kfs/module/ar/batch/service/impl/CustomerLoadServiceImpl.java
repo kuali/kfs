@@ -26,9 +26,7 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -48,11 +46,10 @@ import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterAdapter;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerRule;
+import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
@@ -843,7 +840,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     
     public boolean checkAuthorization(Person user, File batchFile) {
         Person fsUser = fsUserService.getPerson(user.getPrincipalId());
-        return isUserInArBillingOrProcessingOrg(fsUser);
+        return ARUtil.isUserInArBillingOrg(fsUser);
     }
 
     public KNSAuthorizationService getKnsAuthorizationService() {
@@ -854,62 +851,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         this.knsAuthorizationService = knsAuthorizationService;
     }
 
-    private boolean isUserInArBillingOrProcessingOrg(Person fsUser) {
-        
-        //Org fsUserOrg = fsUser.getOrganization();
-//        List<PersonPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
-//        List<PersonOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
-        
-        String userChart, userOrg; 
-        Map<String,String> pkMap;
-        Map<String,Map<String,String>> searchOrgs = new HashMap<String,Map<String,String>>();
-
-        //  add the user's base org to the list
-        pkMap = new HashMap<String,String>(); 
-        pkMap.put("chartOfAccountsCode", getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getChartOfAccountsCode());
-        pkMap.put("organizationCode", getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getOrganizationCode());
-        searchOrgs.put(getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getChartOfAccountsCode() + getKnsAuthorizationService().getPrimaryChartOrganization(fsUser).getOrganizationCode(), pkMap);
-        
-//        //  gather up all chart/org combos we want to search for
-//        for (PersonPrimaryOrganization userPrimaryOrg : primaryOrgs) {
-//            userChart = userPrimaryOrg.getChartOfAccountsCode();
-//            userOrg = userPrimaryOrg.getOrganizationCode();
-//            if (!searchOrgs.containsKey(userChart + userOrg)) {
-//                pkMap = new HashMap<String,String>();
-//                pkMap.put("chartOfAccountsCode", userChart);
-//                pkMap.put("organizationCode", userOrg);
-//                searchOrgs.put(userChart + userOrg, pkMap);
-//            }
-//        }
-//        for (PersonOrganizationSecurity userOrgSecurity : securityOrgs) {
-//            userChart = userOrgSecurity.getChartOfAccountsCode();
-//            userOrg = userOrgSecurity.getOrganizationCode();
-//            if (!searchOrgs.containsKey(userChart + userOrg)) {
-//                pkMap = new HashMap<String,String>();
-//                pkMap.put("chartOfAccountsCode", userChart);
-//                pkMap.put("organizationCode", userOrg);
-//                searchOrgs.put(userChart + userOrg, pkMap);
-//            }
-//        }
-        
-        OrganizationOptions orgOpts = null;
-        SystemInformation sysInfo = null;
-        for (String searchOrgKey : searchOrgs.keySet()) {
-            pkMap = searchOrgs.get(searchOrgKey);
-            userChart = pkMap.get("chartOfAccountsCode");
-            userOrg = pkMap.get("organizationCode");
-
-            //  see if there is an OrgOpt (Billing Org) belonging to this person's orgs
-            orgOpts = (OrganizationOptions) boService.findByPrimaryKey(OrganizationOptions.class, pkMap);
-            if (orgOpts != null) return true; 
-            
-            //  see if there is a SystemInformation (ProcessingOrg) belonging to this person's orgs
-            sysInfo = sysInfoService.getByProcessingChartAndOrg(userChart, userOrg);
-            if (sysInfo != null) return true;
-        }
-        return false;
-    }
-    
     private void writeReportPDF(List<CustomerLoadFileResult> fileResults) {
         
         //  setup the PDF business

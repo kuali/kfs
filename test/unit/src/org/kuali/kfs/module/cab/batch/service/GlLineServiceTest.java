@@ -34,14 +34,14 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -218,6 +218,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assertEquals(false, detail.isTransferPaymentIndicator());
     }
 
+    @RelatesTo(JiraIssue.KULCAP826)
     public void testCreateAssetPaymentDocument_noFPData() throws Exception {
         AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);
         assertNotNull(document);

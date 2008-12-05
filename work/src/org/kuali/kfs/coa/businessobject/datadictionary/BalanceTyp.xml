@@ -51,7 +51,6 @@
 
   <bean id="BalanceTyp-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Balance Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -65,7 +64,6 @@
 
   <bean id="BalanceTyp-financialBalanceTypeShortNm-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialBalanceTypeShortNm" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Short Name" />
     <property name="shortLabel" value="Short Name" />
     <property name="maxLength" value="12" />

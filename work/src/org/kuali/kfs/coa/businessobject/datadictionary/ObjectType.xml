@@ -60,7 +60,6 @@
 
   <bean id="ObjectType-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -74,7 +73,6 @@
 
   <bean id="ObjectType-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Reporting Sort Code" />
     <property name="shortLabel" value="Rpt Sort Code" />
     <property name="maxLength" value="2" />
@@ -88,7 +86,6 @@
 
   <bean id="ObjectType-finObjectTypeDebitcreditCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjectTypeDebitcreditCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Type Debit Credit Code" />
     <property name="shortLabel" value="Obj. Type Deb/Cred Code" />
     <property name="maxLength" value="1" />

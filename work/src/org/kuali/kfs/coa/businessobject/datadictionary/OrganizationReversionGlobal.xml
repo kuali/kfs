@@ -83,7 +83,6 @@
 
   <bean id="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="carryForwardByObjectCodeIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Carry Forward by Object Code Indicator" />
     <property name="shortLabel" value="CF by Object Code" />
     <property name="maxLength" value="0" />

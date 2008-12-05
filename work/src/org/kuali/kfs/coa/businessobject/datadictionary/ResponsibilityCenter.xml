@@ -50,7 +50,6 @@
 
   <bean id="ResponsibilityCenter-responsibilityCenterName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="responsibilityCenterName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Responsibility Center Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -64,7 +63,6 @@
 
   <bean id="ResponsibilityCenter-responsibilityCenterShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="responsibilityCenterShortName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Responsibility Center Short Name" />
     <property name="shortLabel" value="Short Name" />
     <property name="maxLength" value="12" />

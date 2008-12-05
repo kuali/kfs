@@ -49,7 +49,6 @@
 
   <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialUniversityBudgetOfficeFunctionName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="University Budget Office Function Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

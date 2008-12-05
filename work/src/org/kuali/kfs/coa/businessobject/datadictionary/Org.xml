@@ -162,6 +162,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Org-chartOfAccountsCode" parent="Org-chartOfAccountsCode-parentBean" />
 
   <bean id="Org-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Org-organizationCode" parent="Org-organizationCode-parentBean" />
 
@@ -184,7 +185,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Name" />
     <property name="shortLabel" value="Org Name" />
     <property name="maxLength" value="40" />
@@ -202,7 +202,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Code and Description" />
     <property name="shortLabel" value="Org Code and Des" />
     <property name="maxLength" value="45" />
@@ -247,7 +246,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-responsibilityCenterCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="responsibilityCenterCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Responsibility Center Code" />
     <property name="shortLabel" value="RC" />
     <property name="maxLength" value="2" />
@@ -265,7 +263,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationPhysicalCampusCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Physical Campus Code" />
     <property name="shortLabel" value="Physical Campus" />
     <property name="maxLength" value="2" />
@@ -283,7 +280,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationTypeCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Type" />
     <property name="shortLabel" value="Type" />
     <property name="maxLength" value="1" />
@@ -343,7 +339,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="organizationStateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization State/Province Code" />
     <property name="shortLabel" value="St Cd" />
     <property name="maxLength" value="2" />
@@ -363,7 +358,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="organizationCountryCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Country Code" />
     <property name="shortLabel" value="Country Cd" />
     <property name="maxLength" value="2" />
@@ -381,7 +375,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationLine1Address" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Address Line 1" />
     <property name="shortLabel" value="Street" />
     <property name="maxLength" value="30" />
@@ -399,7 +392,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationLine2Address" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Address Line 2" />
     <property name="shortLabel" value="Street" />
     <property name="maxLength" value="30" />
@@ -417,7 +409,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationCityName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization City Name" />
     <property name="shortLabel" value="City" />
     <property name="maxLength" value="25" />
@@ -485,7 +476,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationInFinancialProcessingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationInFinancialProcessingIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization In Financial Processing" />
     <property name="shortLabel" value="In Fin Processing" />
     <property name="maxLength" value="1" />
@@ -497,7 +487,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-editPlantAccountsSection-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="editPlantAccountsSection" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="EDIT PLANT ACCOUNT SECTION" />
     <property name="shortLabel" value="EDIT PLANT ACCOUNT SECTION" />
     <property name="maxLength" value="50" />
@@ -514,7 +503,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-editHrmsUnitSection-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="editHrmsUnitSection" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="EDIT HRMS UNIT SECTION" />
     <property name="shortLabel" value="EDIT HRMS UNIT SECTION" />
     <property name="maxLength" value="50" />
@@ -526,7 +514,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationExtension.hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationExtension.hrmsCompany" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="HRMS Company" />
     <property name="shortLabel" value="HRMS Company" />
     <property name="maxLength" value="3" />

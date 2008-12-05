@@ -152,7 +152,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountGlobal-accountCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Account City Name" />
     <property name="shortLabel" value="CityName" />
     <property name="maxLength" value="25" />
@@ -180,7 +179,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountGlobal-accountStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountStreetAddress" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Account Street Address" />
     <property name="shortLabel" value="StreetAddr" />
     <property name="maxLength" value="30" />
@@ -245,7 +243,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountGlobal-financialHigherEdFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialHigherEdFunctionCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Higher Education Function Code" />
     <property name="shortLabel" value="Higher Ed Func Cd" />
     <property name="maxLength" value="4" />
@@ -282,7 +279,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountGlobal-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="pendingAcctSufficientFundsIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="TP Sufficient Funds Check" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="0" />

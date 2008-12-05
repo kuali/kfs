@@ -68,10 +68,12 @@
   <bean id="ReportingCodes-chartOfAccountsCode" parent="ReportingCodes-chartOfAccountsCode-parentBean" />
 
   <bean id="ReportingCodes-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ReportingCodes-organizationCode" parent="ReportingCodes-organizationCode-parentBean" />
 
   <bean id="ReportingCodes-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ReportingCodes-financialReportingCode" parent="ReportingCodes-financialReportingCode-parentBean" />
 
@@ -94,7 +96,6 @@
 
   <bean id="ReportingCodes-financialReportingCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingCodeDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Reporting Code Description" />
     <property name="shortLabel" value="financialReportingCodeDescription" />
     <property name="maxLength" value="40" />
@@ -112,7 +113,6 @@
 
   <bean id="ReportingCodes-financialReportingCodeMgrId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingCodeMgrId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Reporting Code Manager Id" />
     <property name="shortLabel" value="Manager Id" />
     <property name="maxLength" value="10" />

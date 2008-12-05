@@ -198,7 +198,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         attributeName="accountName" 
         label="Account Name" 
         shortLabel="AcctName"
-        forceUppercase="true" 
+        forceUppercase="false" 
         maxLength="40" 
         required="true">
       <dd:text size="40" />
@@ -828,7 +828,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId-parentBean" />
   <bean id="Account-contractsAndGrantsAccountResponsibilityId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractsAndGrantsAccountResponsibilityId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="CG Account Responsibility Id" />
     <property name="shortLabel" value="Responsibility Id" />
     <property name="maxLength" value="4" />

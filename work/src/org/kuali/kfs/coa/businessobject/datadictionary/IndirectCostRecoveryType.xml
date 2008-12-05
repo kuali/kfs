@@ -47,7 +47,6 @@
   <bean id="IndirectCostRecoveryType-name" parent="IndirectCostRecoveryType-name-parentBean" />
   <bean id="IndirectCostRecoveryType-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Indirect Cost Recovery Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -61,7 +60,6 @@
   <bean id="IndirectCostRecoveryType-codeAndDescription" parent="IndirectCostRecoveryType-codeAndDescription-parentBean" />
   <bean id="IndirectCostRecoveryType-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Indirect Cost Recovery Type Code" />
     <property name="shortLabel" value="Indirect Cost Recovery Type Code" />
     <property name="maxLength" value="45" />

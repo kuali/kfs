@@ -48,12 +48,14 @@
 
   <bean id="IndirectCostRecoveryRateDetail-universityFiscalYear" parent="IndirectCostRecoveryRateDetail-universityFiscalYear-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-financialIcrSeriesIdentifier" parent="IndirectCostRecoveryRateDetail-financialIcrSeriesIdentifier-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="IndirectCostRecoveryRate-financialIcrSeriesIdentifier">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="financialIcrSeriesIdentifier" />
   </bean>
   
@@ -77,7 +79,6 @@
   <bean id="IndirectCostRecoveryRateDetail-chartOfAccountsCode" parent="IndirectCostRecoveryRateDetail-chartOfAccountsCode-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Chart Code" />
     <property name="shortLabel" value="Chart" />
     <property name="maxLength" value="2" />
@@ -94,7 +95,6 @@
   <bean id="IndirectCostRecoveryRateDetail-accountNumber" parent="IndirectCostRecoveryRateDetail-accountNumber-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Account" />
     <property name="shortLabel" value="ACCT" />
     <property name="maxLength" value="7" />
@@ -111,7 +111,6 @@
   <bean id="IndirectCostRecoveryRateDetail-subAccountNumber" parent="IndirectCostRecoveryRateDetail-subAccountNumber-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAccountNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Account" />
     <property name="shortLabel" value="SubAcct" />
     <property name="maxLength" value="5" />
@@ -128,7 +127,6 @@
   <bean id="IndirectCostRecoveryRateDetail-financialObjectCode" parent="IndirectCostRecoveryRateDetail-financialObjectCode-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Code" />
     <property name="shortLabel" value="Object" />
     <property name="maxLength" value="4" />
@@ -145,7 +143,6 @@
   <bean id="IndirectCostRecoveryRateDetail-financialSubObjectCode" parent="IndirectCostRecoveryRateDetail-financialSubObjectCode-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code" />
     <property name="shortLabel" value="SubObject" />
     <property name="maxLength" value="3" />
@@ -162,7 +159,6 @@
   <bean id="IndirectCostRecoveryRateDetail-transactionDebitIndicator" parent="IndirectCostRecoveryRateDetail-transactionDebitIndicator-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-transactionDebitIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDebitIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Debit Credit Code" />
     <property name="shortLabel" value="D/C" />
     <property name="maxLength" value="1" />

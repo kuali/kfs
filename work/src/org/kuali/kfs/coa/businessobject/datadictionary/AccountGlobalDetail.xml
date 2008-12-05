@@ -32,10 +32,12 @@
   <bean id="AccountGlobalDetail-accountNumber" parent="AccountGlobalDetail-accountNumber-parentBean" />
 
   <bean id="AccountGlobalDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountGlobalDetail-chartOfAccountsCode" parent="AccountGlobalDetail-chartOfAccountsCode-parentBean" />
 
   <bean id="AccountGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
@@ -50,6 +52,7 @@
   <bean id="AccountGlobalDetail-documentNumber" parent="AccountGlobalDetail-documentNumber-parentBean" />
 
   <bean id="AccountGlobalDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountGlobalDetail-newCollectionRecord" parent="AccountGlobalDetail-newCollectionRecord-parentBean" />
 

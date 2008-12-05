@@ -51,7 +51,6 @@
 
   <bean id="RestrictedStatus-accountRestrictedStatusName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountRestrictedStatusName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Restricted Status Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -69,7 +68,6 @@
 
   <bean id="RestrictedStatus-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Restricted Status Code" />
     <property name="shortLabel" value="Restricted Status Code" />
     <property name="maxLength" value="47" />

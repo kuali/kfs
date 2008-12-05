@@ -86,16 +86,17 @@
   <bean id="OrganizationExtension-chartOfAccountsCode" parent="OrganizationExtension-chartOfAccountsCode-parentBean" />
 
   <bean id="OrganizationExtension-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationExtension-organizationCode" parent="OrganizationExtension-organizationCode-parentBean" />
 
   <bean id="OrganizationExtension-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationExtension-hrmsCompany" parent="OrganizationExtension-hrmsCompany-parentBean" />
 
   <bean id="OrganizationExtension-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsCompany" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="HRMS Company" />
     <property name="shortLabel" value="HRMS Company" />
     <property name="maxLength" value="3" />
@@ -112,7 +113,6 @@
 
   <bean id="OrganizationExtension-hrmsIuOrganizationAddress2-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsIuOrganizationAddress2" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Address-1" />
     <property name="shortLabel" value="Address-1" />
     <property name="maxLength" value="30" />
@@ -130,7 +130,6 @@
 
   <bean id="OrganizationExtension-hrmsIuOrganizationAddress3-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsIuOrganizationAddress3" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Address-2" />
     <property name="shortLabel" value="Address-2" />
     <property name="maxLength" value="30" />
@@ -148,7 +147,6 @@
 
   <bean id="OrganizationExtension-hrmsIuCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsIuCampusCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Campus" />
     <property name="shortLabel" value="Campus" />
     <property name="maxLength" value="2" />
@@ -166,7 +164,6 @@
 
   <bean id="OrganizationExtension-hrmsIuCampusBuilding-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsIuCampusBuilding" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Building" />
     <property name="shortLabel" value="Bldg" />
     <property name="maxLength" value="10" />
@@ -183,7 +180,6 @@
 
   <bean id="OrganizationExtension-hrmsIuCampusRoom-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsIuCampusRoom" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Room" />
     <property name="shortLabel" value="Room" />
     <property name="maxLength" value="8" />

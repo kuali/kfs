@@ -48,7 +48,6 @@
 
   <bean id="BudgetAggregationCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Aggregation Name" />
     <property name="shortLabel" value="Budget Aggregation Name" />
     <property name="maxLength" value="40" />

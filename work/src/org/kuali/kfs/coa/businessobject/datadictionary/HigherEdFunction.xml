@@ -63,7 +63,6 @@
 
   <bean id="HigherEdFunction-financialHigherEdFunctionNm-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialHigherEdFunctionNm" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Higher Education Function Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -77,7 +76,6 @@
 
   <bean id="HigherEdFunction-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Higher Education Function Code" />
     <property name="shortLabel" value="Higher Education Function Code" />
     <property name="maxLength" value="47" />
@@ -90,7 +88,6 @@
 
   <bean id="HigherEdFunction-finUnivBdgtOfficeFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finUnivBdgtOfficeFunctionCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="University Budget Office Function Code" />
     <property name="shortLabel" value="UBO" />
     <property name="maxLength" value="3" />
@@ -104,7 +101,6 @@
 
   <bean id="HigherEdFunction-finAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finAicpaFunctionCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="AICPA Function Code" />
     <property name="shortLabel" value="AICPA" />
     <property name="maxLength" value="3" />
@@ -118,7 +114,6 @@
 
   <bean id="HigherEdFunction-financialFederalFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialFederalFunctionCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Federal Function Code" />
     <property name="shortLabel" value="Fed" />
     <property name="maxLength" value="3" />

@@ -26,6 +26,7 @@
 
   <bean id="SubObjCdGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
     <property name="required" value="false" />
@@ -34,6 +35,7 @@
 
   <bean id="SubObjCdGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="required" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"

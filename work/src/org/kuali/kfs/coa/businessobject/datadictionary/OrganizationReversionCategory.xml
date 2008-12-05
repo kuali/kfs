@@ -50,7 +50,6 @@
 
   <bean id="OrganizationReversionCategory-organizationReversionCategoryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReversionCategoryName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Category Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -64,7 +63,6 @@
 
   <bean id="OrganizationReversionCategory-organizationReversionSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReversionSortCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sort Code" />
     <property name="shortLabel" value="Sort Code" />
     <property name="maxLength" value="2" />

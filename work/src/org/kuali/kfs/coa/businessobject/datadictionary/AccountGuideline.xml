@@ -26,10 +26,12 @@
   <bean id="AccountGuideline-chartOfAccountsCode" parent="AccountGuideline-chartOfAccountsCode-parentBean" />
 
   <bean id="AccountGuideline-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountGuideline-accountNumber" parent="AccountGuideline-accountNumber-parentBean" />
 
   <bean id="AccountGuideline-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountGuideline-accountExpenseGuidelineText" parent="AccountGuideline-accountExpenseGuidelineText-parentBean" />
 

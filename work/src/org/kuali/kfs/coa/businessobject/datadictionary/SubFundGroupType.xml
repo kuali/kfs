@@ -53,7 +53,6 @@
 
   <bean id="SubFundGroupType-subFundGroupTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subFundGroupTypeDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Fund Group Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />

@@ -38,18 +38,22 @@
   <bean id="SubObjCd-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="SubObjCd-chartOfAccountsCode" parent="SubObjCd-chartOfAccountsCode-parentBean" />
 
   <bean id="SubObjCd-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="SubObjCd-financialObjectCode" parent="SubObjCd-financialObjectCode-parentBean" />
 
   <bean id="SubObjCd-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="SubObjCd-accountNumber" parent="SubObjCd-accountNumber-parentBean" />
 
   <bean id="SubObjCd-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="SubObjCd-financialSubObjectCode" parent="SubObjCd-financialSubObjectCode-parentBean" />
 
@@ -73,7 +77,6 @@
 
   <bean id="SubObjCd-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCodeName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code Name" />
     <property name="shortLabel" value="SubObjCodeName" />
     <property name="maxLength" value="40" />
@@ -91,7 +94,6 @@
 
   <bean id="SubObjCd-financialSubObjectCdshortNm-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCdshortNm" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code Short Name" />
     <property name="shortLabel" value="SubObjCodeShortName" />
     <property name="maxLength" value="12" />

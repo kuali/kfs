@@ -36,6 +36,7 @@
   <bean id="ObjectCons-chartOfAccountsCode" parent="ObjectCons-chartOfAccountsCode-parentBean" />
 
   <bean id="ObjectCons-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ObjectCons-finConsolidationObjectCode" parent="ObjectCons-finConsolidationObjectCode-parentBean" />
 

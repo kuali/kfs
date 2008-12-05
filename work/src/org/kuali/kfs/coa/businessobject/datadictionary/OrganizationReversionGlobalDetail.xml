@@ -43,6 +43,7 @@
 
   <bean id="OrganizationReversionGlobalDetail-organizationReversionCategoryCode-parentBean" abstract="true" parent="OrganizationReversionCategory-organizationReversionCategoryCode">
     <property name="label" value="Organization Reversion Category" />
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="Category" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -60,7 +61,6 @@
 
   <bean id="OrganizationReversionGlobalDetail-organizationReversionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReversionCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Org Reversion Code" />
     <property name="shortLabel" value="Org Reversion Code" />
     <property name="maxLength" value="2" />

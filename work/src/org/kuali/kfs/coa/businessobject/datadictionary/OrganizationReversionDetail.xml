@@ -41,6 +41,7 @@
 
   <bean id="OrganizationReversionDetail-organizationReversionCategoryCode-parentBean" abstract="true" parent="OrganizationReversionCategory-organizationReversionCategoryCode">
     <property name="label" value="Organization Reversion Category" />
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="Category" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -52,11 +53,13 @@
 
   <bean id="OrganizationReversionDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="true" />
     <property name="required" value="true" />
   </bean>
   <bean id="OrganizationReversionDetail-chartOfAccountsCode" parent="OrganizationReversionDetail-chartOfAccountsCode-parentBean" />
 
   <bean id="OrganizationReversionDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName" parent="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName-parentBean" />
 
@@ -72,7 +75,6 @@
 
   <bean id="OrganizationReversionDetail-organizationReversionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReversionCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Org Reversion Code" />
     <property name="shortLabel" value="Org Reversion Code" />
     <property name="maxLength" value="2" />

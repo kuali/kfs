@@ -49,7 +49,6 @@
 
   <bean id="AicpaFunction-financialAicpaFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialAicpaFunctionName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="AICPA Function Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

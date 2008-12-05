@@ -57,7 +57,6 @@
 
   <bean id="FundGroup-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Financial Reporting Sort Code" />
     <property name="shortLabel" value="Fin. Rpt. Code" />
     <property name="maxLength" value="2" />
@@ -75,7 +74,6 @@
 
   <bean id="FundGroup-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Fund Group Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -93,7 +91,6 @@
 
   <bean id="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fundGroupBudgetAdjustmentRestrictionLevelCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Adjustment Restriction Code" />
     <property name="shortLabel" value="BA Code" />
     <property name="maxLength" value="1" />

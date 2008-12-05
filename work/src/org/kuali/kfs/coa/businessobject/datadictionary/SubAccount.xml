@@ -54,10 +54,12 @@
   <bean id="SubAccount-chartOfAccountsCode" parent="SubAccount-chartOfAccountsCode-parentBean" />
 
   <bean id="SubAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="SubAccount-accountNumber" parent="SubAccount-accountNumber-parentBean" />
 
   <bean id="SubAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="SubAccount-subAccountNumber" parent="SubAccount-subAccountNumber-parentBean" />
 
@@ -81,7 +83,6 @@
 
   <bean id="SubAccount-subAccountName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAccountName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Account Name" />
     <property name="shortLabel" value="Sub-Acct Name" />
     <property name="maxLength" value="40" />
@@ -213,7 +214,6 @@
 
   <bean id="SubAccount-financialReportingCodeSection-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingCodeSection" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="FINANCIAL REPORTING CODE SECTION" />
     <property name="shortLabel" value="FINANCIAL REPORTING CODE SECTION" />
     <property name="maxLength" value="50" />
@@ -225,7 +225,6 @@
 
   <bean id="SubAccount-cgCostSharingSection-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cgCostSharingSection" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="CG COST SHARING SECTION" />
     <property name="shortLabel" value="CG COST SHARING SECTION" />
     <property name="maxLength" value="50" />
@@ -237,7 +236,6 @@
 
   <bean id="SubAccount-cgICRSection-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cgICRSection" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="CG ICR SECTION" />
     <property name="shortLabel" value="CG ICR SECTION" />
     <property name="maxLength" value="50" />

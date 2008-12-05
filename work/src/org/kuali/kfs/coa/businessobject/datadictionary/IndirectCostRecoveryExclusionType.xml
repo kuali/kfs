@@ -35,6 +35,7 @@
 
   <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode" parent="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" />
   <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" abstract="true" parent="IndirectCostRecoveryType-code">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="accountIndirectCostRecoveryTypeCode" />
     <property name="label" value="Type Code" />
     <property name="shortLabel" value="Type" />

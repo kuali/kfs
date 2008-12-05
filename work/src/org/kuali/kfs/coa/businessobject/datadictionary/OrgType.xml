@@ -49,7 +49,6 @@
 
   <bean id="OrgType-organizationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationTypeName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

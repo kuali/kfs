@@ -41,6 +41,7 @@
   <bean id="OrganizationReversionGlobalOrganization-chartOfAccountsCode" parent="OrganizationReversionGlobalOrganization-chartOfAccountsCode-parentBean" />
 
   <bean id="OrganizationReversionGlobalOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="forceUppercase" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
@@ -50,6 +51,7 @@
   <bean id="OrganizationReversionGlobalOrganization-organizationCode" parent="OrganizationReversionGlobalOrganization-organizationCode-parentBean" />
 
   <bean id="OrganizationReversionGlobalOrganization-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationReversionGlobalOrganization-newCollectionRecord" parent="OrganizationReversionGlobalOrganization-newCollectionRecord-parentBean" />
 

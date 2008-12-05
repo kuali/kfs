@@ -50,7 +50,6 @@
 
   <bean id="AcctType-accountTypeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountTypeName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Account Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

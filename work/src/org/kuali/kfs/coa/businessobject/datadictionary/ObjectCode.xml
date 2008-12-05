@@ -63,6 +63,7 @@
 
   <bean id="ObjectCode-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
     <property name="required" value="true" />
@@ -70,6 +71,7 @@
   <bean id="ObjectCode-chartOfAccountsCode" parent="ObjectCode-chartOfAccountsCode-parentBean" />
 
   <bean id="ObjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
@@ -98,7 +100,6 @@
 
   <bean id="ObjectCode-financialObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCodeName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Code Name" />
     <property name="shortLabel" value="ObjCodeName" />
     <property name="maxLength" value="40" />
@@ -116,7 +117,6 @@
 
   <bean id="ObjectCode-financialObjectCodeShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCodeShortName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Code Short Name" />
     <property name="shortLabel" value="ObjCodeShortName" />
     <property name="maxLength" value="12" />
@@ -134,7 +134,6 @@
 
   <bean id="ObjectCode-financialObjectLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Level Code" />
     <property name="shortLabel" value="Level Code" />
     <property name="maxLength" value="4" />
@@ -152,7 +151,6 @@
 
   <bean id="ObjectCode-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="reportsToChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Reports to Chart Code" />
     <property name="shortLabel" value="RptsToChart" />
     <property name="maxLength" value="2" />
@@ -170,7 +168,6 @@
 
   <bean id="ObjectCode-reportsToFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="reportsToFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Reports To Object Code" />
     <property name="shortLabel" value="RptsToObjCode" />
     <property name="maxLength" value="4" />
@@ -187,7 +184,6 @@
 
   <bean id="ObjectCode-financialObjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Type Code" />
     <property name="shortLabel" value="Object Type" />
     <property name="maxLength" value="2" />
@@ -204,7 +200,6 @@
 
   <bean id="ObjectCode-financialObjectSubTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectSubTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Sub-Type Code" />
     <property name="shortLabel" value="Object Sub-Type Code" />
     <property name="maxLength" value="2" />
@@ -221,7 +216,6 @@
 
   <bean id="ObjectCode-historicalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="historicalFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Historical Financial Object Code" />
     <property name="shortLabel" value="HistFinObjCde" />
     <property name="maxLength" value="4" />
@@ -242,7 +236,6 @@
 
   <bean id="ObjectCode-financialBudgetAggregationCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialBudgetAggregationCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Aggregation Code" />
     <property name="shortLabel" value="BudgetAggCde" />
     <property name="maxLength" value="1" />
@@ -256,7 +249,6 @@
 
   <bean id="ObjectCode-finObjMandatoryTrnfrelimCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjMandatoryTrnfrelimCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Mandatory Transfer Or Eliminations Code" />
     <property name="shortLabel" value="ManTranOrElimCode" />
     <property name="maxLength" value="1" />
@@ -270,7 +262,6 @@
 
   <bean id="ObjectCode-financialFederalFundedCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialFederalFundedCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Federal Funded Code" />
     <property name="shortLabel" value="FedFundCd" />
     <property name="maxLength" value="1" />
@@ -285,7 +276,6 @@
 
   <bean id="ObjectCode-nextYearFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextYearFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Next Year Object Code" />
     <property name="shortLabel" value="NextYearObjCode" />
     <property name="maxLength" value="4" />

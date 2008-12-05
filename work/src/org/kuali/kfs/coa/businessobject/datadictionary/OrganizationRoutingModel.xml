@@ -60,19 +60,23 @@
 
   <bean id="OrganizationRoutingModel-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationRoutingModel-chartOfAccountsCode" parent="OrganizationRoutingModel-chartOfAccountsCode-parentBean" />
 
   <bean id="OrganizationRoutingModel-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationRoutingModel-organizationCode" parent="OrganizationRoutingModel-organizationCode-parentBean" />
 
   <bean id="OrganizationRoutingModel-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationRoutingModel-organizationRoutingModelName" parent="OrganizationRoutingModel-organizationRoutingModelName-parentBean" />
 
   <bean id="OrganizationRoutingModel-organizationRoutingModelName-parentBean" abstract="true" parent="OrganizationRoutingModelName-organizationRoutingModelName">
     <property name="required" value="true" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationRoutingModel-accountDelegatePrimaryRoutingIndicator" parent="OrganizationRoutingModel-accountDelegatePrimaryRoutingIndicator-parentBean" />
 
@@ -92,6 +96,7 @@
   <bean id="OrganizationRoutingModel-accountDelegateUniversalId" parent="OrganizationRoutingModel-accountDelegateUniversalId-parentBean" />
 
   <bean id="OrganizationRoutingModel-accountDelegateUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="accountDelegateUniversalId" />
     <property name="label" value="Account Delegate Unvl ID" />
     <property name="shortLabel" value="AccDelegateID" />
@@ -125,7 +130,6 @@
 
   <bean id="OrganizationRoutingModel-approvalFromThisAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="approvalFromThisAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Approval From This Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -141,7 +145,6 @@
 
   <bean id="OrganizationRoutingModel-approvalToThisAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="approvalToThisAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Approval To This Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />

@@ -141,7 +141,6 @@
 
   <bean id="Chart-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Chart Code" />
     <property name="shortLabel" value="Chart Code" />
     <property name="maxLength" value="45" />
@@ -186,7 +185,6 @@
 
   <bean id="Chart-finChartOfAccountDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finChartOfAccountDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Chart Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />

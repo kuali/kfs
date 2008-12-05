@@ -349,6 +349,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validatePostedDate(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
+        // if payment posted date can't be a future date
         if (!getAssetPaymentService().extractPostedDatePeriod(assetPaymentDetail)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
             valid &= false;
@@ -390,8 +391,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
         if (ObjectUtils.isNull(objectCode)) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
             return false;
         }
+        
         boolean valid = true;
 
         // The acquisition type code of (F, G, N, S, T) requires a capital object code.

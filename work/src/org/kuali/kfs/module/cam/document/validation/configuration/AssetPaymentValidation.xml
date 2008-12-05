@@ -92,9 +92,6 @@
 	<bean id="AssetPayment-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="AssetPayment-assetCountValidation" scope="prototype">								
-					<property name="quitOnFail" value="true" />
-				</bean> 
 				<bean parent="AssetPayment-postingDateValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

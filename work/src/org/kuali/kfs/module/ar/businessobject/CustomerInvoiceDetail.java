@@ -553,7 +553,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      */
     public KualiDecimal getWriteoffAmount() {
         if (SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).isCustomerInvoiceWriteoffDocumentApproved(customerInvoiceWriteoffDocumentNumber)){
-            return SpringContext.getBean(CustomerInvoiceDetailService.class).getAppliedAmountFromSpecificDocument(customerInvoiceWriteoffDocumentNumber, getDocumentNumber());
+            return super.getAmount(); // using the accounting line amount ... see comments at top of class
         } else {
             return getOpenAmount();
         }

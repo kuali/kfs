@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.Guid;
 public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase implements BenefitsCalculationDao {
 
     private static ArrayList<SQLForStep> sqlAnnualSteps  = new ArrayList<SQLForStep>(6);
-    private static ArrayList<SQLForStep> sqlMonthlySteps = new ArrayList<SQLForStep>(3);
+    private static ArrayList<SQLForStep> sqlMonthlySteps = new ArrayList<SQLForStep>(4);
     
     private PersistenceService persistenceService;
     
@@ -214,6 +214,35 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
          * this is the SQL for the monthly budget benefits. any rounding amount is added to the amount for month 1
          */
         /**
+         * Cleanup the rare case where annual request goes to zero with existing monthly buckets.
+         * This gives monthly calc benefits problems from constraints since the annual benefit target row
+         * might be non-existent when it inserts the new results from the left over monthly buckets
+         * This is usually the case since annual benefits are usually calculated first.
+         */
+        sqlBuilder.append("DELETE FROM ld_bcnstr_month_t\n");
+        sqlBuilder.append("WHERE ld_bcnstr_month_t.fdoc_nbr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.univ_fiscal_yr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.fin_coa_cd = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.account_nbr = ?\n");
+        sqlBuilder.append("  AND ld_bcnstr_month_t.sub_acct_nbr = ?\n");
+        sqlBuilder.append("  AND EXISTS\n");
+        sqlBuilder.append("        (SELECT 1\n");
+        sqlBuilder.append("         FROM LD_PND_BCNSTR_GL_T\n");
+        sqlBuilder.append("        WHERE LD_PND_BCNSTR_GL_T.fdoc_nbr = ld_bcnstr_month_t.fdoc_nbr\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.univ_fiscal_yr = ld_bcnstr_month_t.univ_fiscal_yr\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.fin_coa_cd = ld_bcnstr_month_t.fin_coa_cd\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.account_nbr = ld_bcnstr_month_t.account_nbr\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.sub_acct_nbr = ld_bcnstr_month_t.sub_acct_nbr\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.fin_object_cd = ld_bcnstr_month_t.fin_object_cd\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.fin_sub_obj_cd = ld_bcnstr_month_t.fin_sub_obj_cd\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.fin_balance_typ_cd = ld_bcnstr_month_t.fin_balance_typ_cd\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.fin_obj_typ_cd = ld_bcnstr_month_t.fin_obj_typ_cd\n");
+        sqlBuilder.append("          AND LD_PND_BCNSTR_GL_T.acln_annl_bal_amt = 0)");
+        sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
+        sqlBuilder.delete(0, sqlBuilder.length());
+
+
+        /**
          * cleanup by deleting any existing monthly benefit recs
          */
         sqlBuilder.append("DELETE FROM ld_bcnstr_month_t\n");
@@ -377,12 +406,14 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
         stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
 
+        // get rid of monthly buckets for any rows with annual zero request
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         // get rid of existing monthly budgets for this key       
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
         // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         // add any rounding errors to the first month
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(3).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */

@@ -240,7 +240,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                             }
                             break;
                         } else if(StringUtils.containsIgnoreCase(parameterKey, "purchasingCapitalAssetLocationLine")) {
-                            // its one of the numbererd lines, lets
+                            // its one of the numbered lines, lets
                             locationCapitalAssetLocationNumber = getCaptialAssetLocationNumberFromParameter(parameterKey); 
 
                             if (document.getCapitalAssetSystemType().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
@@ -251,7 +251,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                             }
                             break;
                         } else if(StringUtils.containsIgnoreCase(parameterKey, "purchasingCapitalAssetSystems")) {
-                            // its one of the numbererd lines, lets
+                            // its one of the numbered lines, lets
                             locationCapitalAssetLocationNumber = getCaptialAssetLocationNumberFromParameter(parameterKey); 
 
                             if (!document.getCapitalAssetSystemType().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {

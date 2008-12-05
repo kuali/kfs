@@ -1,8 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="InternalBillingDocument" parent="InternalBillingDocument-parentBean" />
 
@@ -22,8 +26,8 @@
     <property name="documentTypeCode" value="IB" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="InternalBillingDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="InternalBillingDocument-workflowAttributes" />
     </property>
     <property name="authorizations" >
       <list>
@@ -51,34 +55,6 @@
     	</map>
     </property>
     <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="InternalBillingDocument-workflowProperties" parent="InternalBillingDocument-workflowProperties-parentBean" />
-
-  <bean id="InternalBillingDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
   
   <!-- Validations -->
@@ -144,5 +120,78 @@
 	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
 	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
 	</bean>
+	
+	<bean id="InternalBillingDocument-workflowAttributes" parent="InternalBillingDocument-workflowAttributes-parentBean" />
+	
+	<dd:workflowAttributes id="InternalBillingDocument-workflowAttributes-parentBean" abstract="true">
+    <dd:searchingType >
+        <dd:searchingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+        <dd:documentValue path="sourceAccountingLines.chartOfAccountsCode" />
+        <dd:documentValue path="targetAccountingLines.chartOfAccountsCode" />
+    </dd:searchingType>
+    <dd:searchingType >
+        <dd:searchingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
+        <dd:documentValue path="sourceAccountingLines.accountNumber" />
+        <dd:documentValue path="targetAccountingLines.accountNumber" />
+    </dd:searchingType>
+    <dd:routingType nodeName="Account">
+        <dd:routingAttributes>
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" attributeName="totalAmount" />
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
+        </dd:routingAttributes>
+        <dd:documentValuePathGroup>
+            <dd:documentValue path="totalDollarAmount"/>
+            <dd:documentCollectionPath path="sourceAccountingLines">
+            	<dd:documentValue path="chartOfAccountsCode"/>
+                <dd:documentValue path="accountNumber"/>
+        	</dd:documentCollectionPath>
+        </dd:documentValuePathGroup>
+        <dd:documentValuePathGroup>
+            <dd:documentValue path="totalDollarAmount"/>
+            <dd:documentCollectionPath path="targetAccountingLines">
+	            <dd:documentValue path="chartOfAccountsCode"/>
+                <dd:documentValue path="accountNumber"/>
+            </dd:documentCollectionPath>
+        </dd:documentValuePathGroup>
+    </dd:routingType>
+    <dd:routingType nodeName="OrganizationHierarchy">
+        <dd:routingAttributes>
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" attributeName="totalAmount" />
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Org" attributeName="organizationCode" />
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.AccountingLine" attributeName="overrideCode" />
+        </dd:routingAttributes>
+        <dd:documentValuePathGroup>
+            <dd:documentValue path="totalDollarAmount"/>
+            <dd:documentCollectionPath path="sourceAccountingLines">
+            	<dd:documentValue path="chartOfAccountsCode"/>
+                <dd:documentValue path="account.organizationCode"/>
+                <dd:documentValue path="overrideCode"/>
+            </dd:documentCollectionPath>
+        </dd:documentValuePathGroup>
+        <dd:documentValuePathGroup>
+            <dd:documentValue path="totalDollarAmount"/>
+            <dd:documentCollectionPath path="targetAccountingLines">
+            	<dd:documentValue path="chartOfAccountsCode"/>
+                <dd:documentValue path="account.organizationCode"/>
+                <dd:documentValue path="overrideCode"/>
+            </dd:documentCollectionPath>
+        </dd:documentValuePathGroup>
+    </dd:routingType>
+    <dd:routingType nodeName="SubFund">
+    	<dd:routingAttributes>
+    		<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.SubFundGroup" attributeName="subFundGroupName" />
+    	</dd:routingAttributes>
+    	<dd:documentValuePathGroup>
+    		<dd:documentCollectionPath path="sourceAccountingLines">
+    			<dd:documentValue path="account.subFundGroupCode" />
+    		</dd:documentCollectionPath>
+    		<dd:documentCollectionPath path="targetAccountingLines">
+    			<dd:documentValue path="account.subFundGroupCode" />
+    		</dd:documentCollectionPath>
+    	</dd:documentValuePathGroup>
+    </dd:routingType>
+</dd:workflowAttributes> 
 	
 </beans>

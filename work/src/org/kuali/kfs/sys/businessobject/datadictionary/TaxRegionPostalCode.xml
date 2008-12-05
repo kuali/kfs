@@ -40,6 +40,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
 	<property name="name" value="postalCountryCode" />
+	<property name="forceUppercase" value="true" />
   </bean>	
   
  <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean" />
@@ -48,12 +49,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="postalCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   
   <bean id="TaxRegionPostalCode-taxRegionCode" parent="TaxRegionPostalCode-taxRegionCode-parentBean" />
 
   <bean id="TaxRegionPostalCode-taxRegionCode-parentBean" abstract="true" parent="TaxRegion-taxRegionCode">
-    
+  	<property name="forceUppercase" value="true" />  
   </bean>
   
   <bean id="TaxRegionPostalCode-active" parent="TaxRegionPostalCode-active-parentBean" />

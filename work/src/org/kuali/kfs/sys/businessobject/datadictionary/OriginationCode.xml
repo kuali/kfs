@@ -63,7 +63,6 @@
 
   <bean id="OriginationCode-financialSystemServerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemServerName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Server Name" />
     <property name="shortLabel" value="Server Name" />
     <property name="maxLength" value="20" />
@@ -82,7 +81,6 @@
 
   <bean id="OriginationCode-financialSystemDatabaseName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemDatabaseName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Database Name" />
     <property name="shortLabel" value="DB Name" />
     <property name="maxLength" value="15" />
@@ -101,7 +99,6 @@
 
   <bean id="OriginationCode-financialSystemDatabaseDesc-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemDatabaseDesc" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Database Description" />
     <property name="shortLabel" value="DB Desc" />
     <property name="maxLength" value="40" />
@@ -120,7 +117,6 @@
 
   <bean id="OriginationCode-nextCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextCapitalAssetNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Capital Asset Number" />
     <property name="shortLabel" value="Next Cap Asset No" />
     <property name="maxLength" value="12" />
@@ -138,7 +134,6 @@
 
   <bean id="OriginationCode-nextNonCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextNonCapitalAssetNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Non-Capital Asset Number" />
     <property name="shortLabel" value="Next Non-Cap Asset No" />
     <property name="maxLength" value="12" />
@@ -156,7 +151,6 @@
 
   <bean id="OriginationCode-nextCgProposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextCgProposalNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next CG Proposal Number" />
     <property name="shortLabel" value="Next CG Proposal No" />
     <property name="maxLength" value="12" />
@@ -174,7 +168,6 @@
 
   <bean id="OriginationCode-nextContractsAndGrantsAgencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextContractsAndGrantsAgencyNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Contract and Grants Agency Number" />
     <property name="shortLabel" value="Next CG Agency No" />
     <property name="maxLength" value="5" />
@@ -192,7 +185,6 @@
 
   <bean id="OriginationCode-nextContractsAndGrantsSubcontractorNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextContractsAndGrantsSubcontractorNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Contract and Grants Subcontractor Number" />
     <property name="shortLabel" value="Next CG Agency Subcontractor No" />
     <property name="maxLength" value="5" />
@@ -210,7 +202,6 @@
 
   <bean id="OriginationCode-nextDisbVchrPayeeIdNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextDisbVchrPayeeIdNbr" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Disbursement Voucher Payee Id Number" />
     <property name="shortLabel" value="Next DV Payee Id No" />
     <property name="maxLength" value="12" />
@@ -228,7 +219,6 @@
 
   <bean id="OriginationCode-nextFdocAttachmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextFdocAttachmentIdentifier" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Attachment Identifier" />
     <property name="shortLabel" value="Next Atchmt Id" />
     <property name="maxLength" value="12" />
@@ -246,7 +236,6 @@
 
   <bean id="OriginationCode-acctRcvbNextCustomerNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acctRcvbNextCustomerNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Accounts Receivable Customer Number" />
     <property name="shortLabel" value="Next AR Cust No" />
     <property name="maxLength" value="12" />
@@ -264,7 +253,6 @@
 
   <bean id="OriginationCode-financialDocumentNextItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentNextItemIdentifier" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Item Identifier" />
     <property name="shortLabel" value="Next Item Id" />
     <property name="maxLength" value="12" />

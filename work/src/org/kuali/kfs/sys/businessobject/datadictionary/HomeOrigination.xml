@@ -29,6 +29,7 @@
   <bean id="HomeOrigination-finSystemHomeOriginationCode" parent="HomeOrigination-finSystemHomeOriginationCode-parentBean" />
 
   <bean id="HomeOrigination-finSystemHomeOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="finSystemHomeOriginationCode" />
     <property name="label" value="Home Origination Code" />
     <property name="shortLabel" value="Home Orig Code" />

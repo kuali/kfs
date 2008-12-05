@@ -39,9 +39,10 @@
 
   <bean id="FinancialSystemDocumentHeader-documentNumber" parent="FinancialSystemDocumentHeader-documentNumber-parentBean" />
 
-  <bean id="FinancialSystemDocumentHeader-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
-
-
+  <bean id="FinancialSystemDocumentHeader-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
+  
   <bean id="FinancialSystemDocumentHeader-documentTemplateNumber" parent="FinancialSystemDocumentHeader-documentTemplateNumber-parentBean" />
 
   <bean id="FinancialSystemDocumentHeader-documentTemplateNumber-parentBean" abstract="true" parent="DocumentHeader-documentTemplateNumber" />

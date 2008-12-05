@@ -74,6 +74,7 @@
   <bean id="TargetAccountingLine-sequenceNumber" parent="TargetAccountingLine-sequenceNumber-parentBean" />
 
   <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -209,6 +210,7 @@
   <bean id="TargetAccountingLine-documentNumber" parent="TargetAccountingLine-documentNumber-parentBean" />
 
   <bean id="TargetAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="forceUppercase" value="true" />
     <property name="required" value="false" />
   </bean>
   <bean id="TargetAccountingLine-debitCreditCode" parent="TargetAccountingLine-debitCreditCode-parentBean" />

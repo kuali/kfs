@@ -42,6 +42,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
 	<property name="name" value="postalCountryCode" />
+	<property name="forceUppercase" value="true" />
   </bean>	
 
   <bean id="TaxRegionCounty-countyCode" parent="TaxRegionCounty-countyCode-parentBean" />
@@ -50,6 +51,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.County"
 	p:sourceAttributeName="countyCode">
     <property name="name" value="countyCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   
   <bean id="TaxRegionCounty-stateCode" parent="TaxRegionCounty-stateCode-parentBean" />
@@ -58,12 +60,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
   	<property name="name" value="stateCode" />
+  	<property name="forceUppercase" value="true" />
   </bean>
   
   <bean id="TaxRegionCounty-taxRegionCode" parent="TaxRegionCounty-taxRegionCode-parentBean" />
 
   <bean id="TaxRegionCounty-taxRegionCode-parentBean" abstract="true" parent="TaxRegion-taxRegionCode">
-    
+  	<property name="forceUppercase" value="true" />  
   </bean>
   
   <bean id="TaxRegionCounty-active" parent="TaxRegionCounty-active-parentBean" />

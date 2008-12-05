@@ -34,6 +34,7 @@
   <bean id="Room-campusCode" parent="Room-campusCode-parentBean" />
 
   <bean id="Room-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  	<property name="forceUppercase" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
@@ -43,6 +44,7 @@
   <bean id="Room-buildingCode" parent="Room-buildingCode-parentBean" />
 
   <bean id="Room-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Room-buildingRoomNumber" parent="Room-buildingRoomNumber-parentBean" />
 
@@ -68,7 +70,6 @@
 
   <bean id="Room-buildingRoomDepartment-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingRoomDepartment" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Room Department" />
     <property name="shortLabel" value="Bldg. Room Department" />
     <property name="maxLength" value="40" />
@@ -87,7 +88,6 @@
 
   <bean id="Room-buildingRoomType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingRoomType" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Building Room Type" />
     <property name="shortLabel" value="Bldg. Room Type" />
     <property name="maxLength" value="50" />
@@ -106,7 +106,6 @@
 
   <bean id="Room-buildingRoomDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingRoomDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Address Description" />
     <property name="shortLabel" value="Bldg. Address Description" />
     <property name="maxLength" value="25" />

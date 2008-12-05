@@ -36,12 +36,14 @@
   <bean id="ElectronicPaymentClaim-documentNumber" parent="ElectronicPaymentClaim-documentNumber-parentBean" />
 
   <bean id="ElectronicPaymentClaim-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
     <property name="label" value="Generating Document Number" />
     <property name="shortLabel" value="Genenerating Doc #" />
   </bean>
   <bean id="ElectronicPaymentClaim-financialDocumentLineNumber" parent="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" />
 
   <bean id="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="financialDocumentLineNumber" />
     <property name="label" value="Generating Document Line Number" />
     <property name="shortLabel" value="Line #" />
@@ -74,7 +76,6 @@
 
   <bean id="ElectronicPaymentClaim-paymentClaimStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentClaimStatusCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Electronic Payment Claiming Status" />
     <property name="shortLabel" value="Claiming Status" />
     <property name="maxLength" value="1" />
@@ -90,7 +91,6 @@
 
   <bean id="ElectronicPaymentClaim-paymentClaimStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentClaimStatus" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Electronic Payment Claiming Status" />
     <property name="shortLabel" value="Claiming Status" />
     <property name="maxLength" value="10" />

@@ -52,7 +52,6 @@
 
   <bean id="UnitOfMeasure-itemUnitOfMeasureDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemUnitOfMeasureDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Unit Of Measure Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

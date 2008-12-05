@@ -89,11 +89,13 @@
   <bean id="GeneralLedgerPendingEntry-documentNumber" parent="GeneralLedgerPendingEntry-documentNumber-parentBean" />
 
   <bean id="GeneralLedgerPendingEntry-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true" />
     <property name="description" value="The system generated Document Number attached to the accounting transaction. Used for tracking purposes." />
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionLedgerEntrySequenceNumber" parent="GeneralLedgerPendingEntry-transactionLedgerEntrySequenceNumber-parentBean" />
 
   <bean id="GeneralLedgerPendingEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+    <property name="forceUppercase" value="true" />
     <property name="name" value="transactionLedgerEntrySequenceNumber" />
   </bean>
   <bean id="GeneralLedgerPendingEntry-financialBalanceTypeCode" parent="GeneralLedgerPendingEntry-financialBalanceTypeCode-parentBean" />
@@ -116,7 +118,6 @@
 
   <bean id="GeneralLedgerPendingEntry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
@@ -131,7 +132,6 @@
 
   <bean id="GeneralLedgerPendingEntry-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Reference Id" />
     <property name="shortLabel" value="Org. Ref. Id" />
     <property name="maxLength" value="8" />
@@ -162,7 +162,6 @@
 
   <bean id="GeneralLedgerPendingEntry-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialSystemOriginationCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Origin Code" />
     <property name="shortLabel" value="Ref. Origin Code" />
     <property name="maxLength" value="2" />
@@ -177,7 +176,6 @@
 
   <bean id="GeneralLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Reference Document Type Code" />
     <property name="shortLabel" value="Ref Doc Type Code" />
     <property name="maxLength" value="4" />
@@ -192,7 +190,6 @@
 
   <bean id="GeneralLedgerPendingEntry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="9" />
@@ -216,7 +213,6 @@
 
   <bean id="GeneralLedgerPendingEntry-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEncumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Encumbrance Update Code" />
     <property name="shortLabel" value="Encmbr. Updt. Code" />
     <property name="maxLength" value="1" />
@@ -249,7 +245,6 @@
 
   <bean id="GeneralLedgerPendingEntry-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationDocumentNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Document Number" />
     <property name="shortLabel" value="Org. Doc. Nbr." />
     <property name="maxLength" value="10" />
@@ -264,7 +259,7 @@
 
   <bean id="GeneralLedgerPendingEntry-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemOriginationCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Code" />
     <property name="shortLabel" value="Origin Code" />
     <property name="maxLength" value="2" />
@@ -279,7 +274,6 @@
 
   <bean id="GeneralLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Document Type Code" />
     <property name="shortLabel" value="Doc. Type Code" />
     <property name="maxLength" value="4" />
@@ -294,7 +288,6 @@
 
   <bean id="GeneralLedgerPendingEntry-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDebitCreditCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Debit Credit Code" />
     <property name="shortLabel" value="D/C" />
     <property name="maxLength" value="1" />
@@ -309,7 +302,6 @@
 
   <bean id="GeneralLedgerPendingEntry-acctSufficientFundsFinObjCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acctSufficientFundsFinObjCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Account Sufficient Funds Object Code" />
     <property name="shortLabel" value="acctSufficientFundsFinObjCd" />
     <property name="maxLength" value="4" />
@@ -338,7 +330,6 @@
 
   <bean id="GeneralLedgerPendingEntry-documentHeader.financialDocumentStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentHeader.financialDocumentStatusCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Pending Entry Approved Indicator" />
     <property name="shortLabel" value="Pending Entry Approved Indicator" />
     <property name="maxLength" value="2" />

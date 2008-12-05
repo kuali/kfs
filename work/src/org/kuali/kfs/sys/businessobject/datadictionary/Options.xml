@@ -86,7 +86,6 @@
 
   <bean id="Options-universityFiscalYearStartYr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYearStartYr" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year Start Year" />
     <property name="shortLabel" value="Start Year" />
     <property name="maxLength" value="4" />
@@ -105,7 +104,6 @@
 
   <bean id="Options-universityFiscalYearStartMo-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYearStartMo" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year Start Month" />
     <property name="shortLabel" value="Start Month" />
     <property name="maxLength" value="2" />
@@ -154,7 +152,6 @@
 
   <bean id="Options-actualFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="actualFinancialBalanceTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Actual Balance Type" />
     <property name="shortLabel" value="Actual Balance Type" />
     <property name="maxLength" value="2" />
@@ -173,7 +170,6 @@
 
   <bean id="Options-extrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="extrnlEncumFinBalanceTypCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="External Encumbrance Balance Type" />
     <property name="shortLabel" value="External Encumbrance Balance Type" />
     <property name="maxLength" value="2" />
@@ -192,7 +188,6 @@
 
   <bean id="Options-intrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="intrnlEncumFinBalanceTypCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Internal Encumbrance Balance Type" />
     <property name="shortLabel" value="Internal Encumbrance Balance Type" />
     <property name="maxLength" value="2" />
@@ -211,7 +206,6 @@
 
   <bean id="Options-preencumbranceFinBalTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="preencumbranceFinBalTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Pre-Encumbrance Balance Type" />
     <property name="shortLabel" value="Pre-Encumbrance Balance Type" />
     <property name="maxLength" value="2" />
@@ -230,7 +224,6 @@
 
   <bean id="Options-eliminationsFinBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="eliminationsFinBalanceTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Eliminations Balance Type" />
     <property name="shortLabel" value="Eliminations Balance Type" />
     <property name="maxLength" value="2" />
@@ -249,7 +242,6 @@
 
   <bean id="Options-budgetCheckingBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetCheckingBalanceTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Checking Balance Type" />
     <property name="shortLabel" value="Budget Checking Balance Type" />
     <property name="maxLength" value="2" />
@@ -268,7 +260,6 @@
 
   <bean id="Options-finObjTypeExpenditureexpCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeExpenditureexpCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Expenditure/Expense Object Type" />
     <property name="shortLabel" value="Expenditure/Expense Object Type" />
     <property name="maxLength" value="2" />
@@ -287,7 +278,6 @@
 
   <bean id="Options-finObjTypeExpendNotExpCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeExpendNotExpCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Expenditure Not Expense Object Type" />
     <property name="shortLabel" value="Expenditure Not Expense Object Type" />
     <property name="maxLength" value="2" />
@@ -306,7 +296,6 @@
 
   <bean id="Options-finObjTypeExpNotExpendCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeExpNotExpendCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Expense Not Expenditure Object Type" />
     <property name="shortLabel" value="Expense Not Expenditure Object Type" />
     <property name="maxLength" value="2" />
@@ -325,7 +314,6 @@
 
   <bean id="Options-finObjectTypeIncomecashCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjectTypeIncomecashCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Income/Cash Object Type" />
     <property name="shortLabel" value="Income/Cash Object Type" />
     <property name="maxLength" value="2" />
@@ -344,7 +332,6 @@
 
   <bean id="Options-finObjTypeIncomeNotCashCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeIncomeNotCashCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Income Not Cash Object Type" />
     <property name="shortLabel" value="Income Not Cash Object Type" />
     <property name="maxLength" value="2" />
@@ -363,7 +350,6 @@
 
   <bean id="Options-finObjTypeCshNotIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeCshNotIncomeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Cash Not Income Object Type" />
     <property name="shortLabel" value="Cash Not Income Object Type" />
     <property name="maxLength" value="2" />
@@ -382,7 +368,6 @@
 
   <bean id="Options-financialObjectTypeAssetsCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeAssetsCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Assets Object Type" />
     <property name="shortLabel" value="Assets Object Type" />
     <property name="maxLength" value="2" />
@@ -401,7 +386,6 @@
 
   <bean id="Options-finObjectTypeLiabilitiesCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjectTypeLiabilitiesCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Liabilities Object Type" />
     <property name="shortLabel" value="Liabilities Object Type" />
     <property name="maxLength" value="2" />
@@ -420,7 +404,6 @@
 
   <bean id="Options-finObjectTypeFundBalanceCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjectTypeFundBalanceCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Fund Balance Object Type" />
     <property name="shortLabel" value="Fund Balance Object Type" />
     <property name="maxLength" value="2" />
@@ -439,7 +422,6 @@
 
   <bean id="Options-costShareEncumbranceBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="costShareEncumbranceBalanceTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Cost Share Encumbrance Balance Type" />
     <property name="shortLabel" value="Cost Share Encumbrance Balance Type" />
     <property name="maxLength" value="2" />
@@ -458,7 +440,6 @@
 
   <bean id="Options-baseBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="baseBudgetFinancialBalanceTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Base Budget Balance Type" />
     <property name="shortLabel" value="Base Budget Balance Type" />
     <property name="maxLength" value="2" />
@@ -477,7 +458,6 @@
 
   <bean id="Options-monthlyBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="monthlyBudgetFinancialBalanceTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Monthly Budget Balance Type" />
     <property name="shortLabel" value="Monthly Budget Balance Type" />
     <property name="maxLength" value="2" />
@@ -496,7 +476,6 @@
 
   <bean id="Options-financialObjectTypeTransferIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeTransferIncomeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transfer In Object Type" />
     <property name="shortLabel" value="Transfer In Object Type" />
     <property name="maxLength" value="2" />
@@ -515,7 +494,6 @@
 
   <bean id="Options-financialObjectTypeTransferExpenseCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeTransferExpenseCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Transfer Out Object Type" />
     <property name="shortLabel" value="Transfer Out Object Type" />
     <property name="maxLength" value="2" />
@@ -534,7 +512,6 @@
 
   <bean id="Options-nominalFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nominalFinancialBalanceTypeCd" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Nominal Closing Balances Balance Type" />
     <property name="shortLabel" value="Nominal Closing Balances Balance Type" />
     <property name="maxLength" value="2" />

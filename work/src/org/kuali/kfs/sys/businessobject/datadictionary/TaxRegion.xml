@@ -57,7 +57,6 @@
 
   <bean id="TaxRegion-taxRegionName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="taxRegionName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Tax Region Name" />
     <property name="shortLabel" value="Tax Region Name" />
     <property name="maxLength" value="100" />

@@ -94,7 +94,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Building-buildingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -114,7 +113,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Building-buildingStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingStreetAddress" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Street Address" />
     <property name="shortLabel" value="Bldg. Street Addr." />
     <property name="maxLength" value="40" />
@@ -133,7 +131,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Building-buildingAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingAddressCityName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Address City Name" />
     <property name="shortLabel" value="Bldg. City" />
     <property name="maxLength" value="37" />
@@ -154,7 +151,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="buildingAddressStateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Building Address State Code" />
     <property name="shortLabel" value="Bldg. State" />
     <property name="maxLength" value="2" />
@@ -188,7 +184,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="buildingAddressCountryCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Building Address Country Code" />
     <property name="shortLabel" value="Bldg. Country" />
     <property name="maxLength" value="2" />
@@ -209,7 +204,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Building-alternateBuildingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="alternateBuildingCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Alternate Building Code" />
     <property name="shortLabel" value="Alt. Bldg. Code" />
     <property name="maxLength" value="4" />

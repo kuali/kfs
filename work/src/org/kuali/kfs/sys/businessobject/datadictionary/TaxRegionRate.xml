@@ -21,6 +21,7 @@
   <bean id="TaxRegionRate-taxRegionCode" parent="TaxRegionRate-taxRegionCode-parentBean" />
   <bean id="TaxRegionRate-taxRegionCode-parentBean" abstract="true" parent="TaxRegion-taxRegionCode">
 	<property name="name" value="taxRegionCode" />
+	<property name="forceUppercase" value="true" />
 	<property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
@@ -37,7 +38,6 @@
 
   <bean id="TaxRegionRate-taxRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="taxRate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Tax Rate" />
     <property name="shortLabel" value="Tax Rate" />
     <property name="maxLength" value="10" />

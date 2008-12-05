@@ -132,11 +132,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                         valid &= SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
                     }
                 }
-            } else {
-                for (PurchasingCapitalAssetItem item : purchasingDocument.getPurchasingCapitalAssetItems()) {
-                    for (CapitalAssetLocation location : item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
-                        valid &= SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
-                    }
+            } else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
+                CapitalAssetSystem system = purchasingDocument.getPurchasingCapitalAssetSystems().get(0);
+                for (CapitalAssetLocation location : system.getCapitalAssetLocations()) {
+                    valid &= SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
                 }
             }
             

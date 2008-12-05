@@ -4,14 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PersonRoleMaintenanceDocument" parent="PersonRoleMaintenanceDocument-parentBean" />
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-parentBean" />
 
-  <bean id="PersonRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.PersonRole" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="PersonRoleMaintenanceDocument-EditPersonRole" />
+        <ref bean="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -26,11 +26,11 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.PersonRole" p:parameterName="PERSON_ROLE" />
     </property>
-    <property name="documentTypeName" value="PersonRoleMaintenanceDocument" />
+    <property name="documentTypeName" value="ContractsAndGrantsRoleCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRSN" />
     <property name="workflowProperties" >
-      <ref bean="PersonRoleMaintenanceDocument-workflowProperties" />
+      <ref bean="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -49,9 +49,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="PersonRoleMaintenanceDocument-EditPersonRole" parent="PersonRoleMaintenanceDocument-EditPersonRole-parentBean" />
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole-parentBean" />
 
-  <bean id="PersonRoleMaintenanceDocument-EditPersonRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Person Role" />
     <property name="title" value="Edit Person Role" />
     <property name="maintainableItems" >
@@ -74,8 +74,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="PersonRoleMaintenanceDocument-workflowProperties" parent="PersonRoleMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowProperties" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="PersonRoleMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>

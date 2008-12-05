@@ -4,14 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubObjCdMaintenanceDocument" parent="SubObjCdMaintenanceDocument-parentBean" />
+  <bean id="SubObjectCodeMaintenanceDocument" parent="SubObjectCodeMaintenanceDocument-parentBean" />
 
-  <bean id="SubObjCdMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="SubObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCd" />
     <property name="maintainableClass" value="org.kuali.kfs.coa.document.SubObjCdMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="SubObjCdMaintenanceDocument-EditSubObjectCode" />
+        <ref bean="SubObjectCodeMaintenanceDocument-EditSubObjectCode" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -46,13 +46,13 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubObjCd" p:parameterName="SUB_OBJECT_CODE" />
     </property>
-    <property name="documentTypeName" value="SubObjCdMaintenanceDocument" />
+    <property name="documentTypeName" value="SubObjectCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjCdRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjectPreRules" />
     <property name="documentTypeCode" value="SOBJ" />
     <property name="workflowProperties" >
-      <ref bean="SubObjCdMaintenanceDocument-workflowProperties" />
+      <ref bean="SubObjectCodeMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -71,9 +71,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="SubObjCdMaintenanceDocument-EditSubObjectCode" parent="SubObjCdMaintenanceDocument-EditSubObjectCode-parentBean" />
+  <bean id="SubObjectCodeMaintenanceDocument-EditSubObjectCode" parent="SubObjectCodeMaintenanceDocument-EditSubObjectCode-parentBean" />
 
-  <bean id="SubObjCdMaintenanceDocument-EditSubObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="SubObjectCodeMaintenanceDocument-EditSubObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Sub Object Code" />
     <property name="title" value="Edit Sub Object Code" />
     <property name="maintainableItems" >
@@ -110,9 +110,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="SubObjCdMaintenanceDocument-workflowProperties" parent="SubObjCdMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="SubObjectCodeMaintenanceDocument-workflowProperties" parent="SubObjectCodeMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="SubObjCdMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="SubObjectCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

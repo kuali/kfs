@@ -4,14 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ObjLevelMaintenanceDocument" parent="ObjLevelMaintenanceDocument-parentBean" />
+  <bean id="ObjectLevelMaintenanceDocument" parent="ObjectLevelMaintenanceDocument-parentBean" />
 
-  <bean id="ObjLevelMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ObjectLevelMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjLevel" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="ObjLevelMaintenanceDocument-EditObjectLevel" />
+        <ref bean="ObjectLevelMaintenanceDocument-EditObjectLevel" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -37,12 +37,12 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ObjLevel" p:parameterName="OBJECT_LEVEL" />
     </property>
-    <property name="documentTypeName" value="ObjLevelMaintenanceDocument" />
+    <property name="documentTypeName" value="ObjectLevelMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectLevelRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OBJL" />
     <property name="workflowProperties" >
-      <ref bean="ObjLevelMaintenanceDocument-workflowProperties" />
+      <ref bean="ObjectLevelMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -61,9 +61,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ObjLevelMaintenanceDocument-EditObjectLevel" parent="ObjLevelMaintenanceDocument-EditObjectLevel-parentBean" />
+  <bean id="ObjectLevelMaintenanceDocument-EditObjectLevel" parent="ObjectLevelMaintenanceDocument-EditObjectLevel-parentBean" />
 
-  <bean id="ObjLevelMaintenanceDocument-EditObjectLevel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="ObjectLevelMaintenanceDocument-EditObjectLevel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Object Level" />
     <property name="title" value="Edit Object Level" />
     <property name="maintainableItems" >
@@ -96,8 +96,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="ObjLevelMaintenanceDocument-workflowProperties" parent="ObjLevelMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="ObjectLevelMaintenanceDocument-workflowProperties" parent="ObjectLevelMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="ObjLevelMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="ObjectLevelMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>

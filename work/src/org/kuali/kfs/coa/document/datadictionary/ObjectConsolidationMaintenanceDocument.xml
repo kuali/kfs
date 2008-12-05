@@ -4,14 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ObjectConsMaintenanceDocument" parent="ObjectConsMaintenanceDocument-parentBean" />
+  <bean id="ObjectConsolidationMaintenanceDocument" parent="ObjectConsolidationMaintenanceDocument-parentBean" />
 
-  <bean id="ObjectConsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ObjectConsolidationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCons" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="ObjectConsMaintenanceDocument-ObjectConsolidation" />
+        <ref bean="ObjectConsolidationMaintenanceDocument-ObjectConsolidation" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -34,7 +34,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ObjectCons" p:parameterName="OBJECT_CONSOLIDATION" />
     </property>
-    <property name="documentTypeName" value="ObjectConsMaintenanceDocument" />
+    <property name="documentTypeName" value="ObjectConsolidationMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectConsRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OBJC" />
@@ -45,7 +45,7 @@
       </list>
     </property>
     <property name="workflowProperties" >
-      <ref bean="ObjectConsMaintenanceDocument-workflowProperties" />
+      <ref bean="ObjectConsolidationMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -64,9 +64,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ObjectConsMaintenanceDocument-ObjectConsolidation" parent="ObjectConsMaintenanceDocument-ObjectConsolidation-parentBean" />
+  <bean id="ObjectConsolidationMaintenanceDocument-ObjectConsolidation" parent="ObjectConsolidationMaintenanceDocument-ObjectConsolidation-parentBean" />
 
-  <bean id="ObjectConsMaintenanceDocument-ObjectConsolidation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="ObjectConsolidationMaintenanceDocument-ObjectConsolidation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Object Consolidation" />
     <property name="title" value="Object Consolidation" />
     <property name="maintainableItems" >
@@ -103,8 +103,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="ObjectConsMaintenanceDocument-workflowProperties" parent="ObjectConsMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="ObjectConsolidationMaintenanceDocument-workflowProperties" parent="ObjectConsolidationMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="ObjectConsMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="ObjectConsolidationMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>

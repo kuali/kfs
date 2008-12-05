@@ -4,9 +4,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="KualiBudgetDocument" parent="KualiBudgetDocument-parentBean" />
+  <bean id="BudgetDocument" parent="BudgetDocument-parentBean" />
 
-  <bean id="KualiBudgetDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="BudgetDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Research Budget" />
     <property name="shortLabel" value="Research Budget" />
     <property name="summary" value="Budget document" />
@@ -14,7 +14,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET" />
     </property>
-    <property name="documentTypeName" value="KualiBudgetDocument" />
+    <property name="documentTypeName" value="BudgetDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.cg.document.BudgetDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.BudgetDocumentAuthorizer" />
@@ -140,13 +140,13 @@
       </list>
     </property>
     <property name="workflowProperties" >
-      <ref bean="KualiBudgetDocument-workflowProperties" />
+      <ref bean="BudgetDocument-workflowProperties" />
     </property>
   </bean>
   
-  <bean id="KualiBudgetDocument-workflowProperties" parent="KualiBudgetDocument-workflowProperties-parentBean" />
+  <bean id="BudgetDocument-workflowProperties" parent="BudgetDocument-workflowProperties-parentBean" />
 
-  <bean id="KualiBudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="BudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

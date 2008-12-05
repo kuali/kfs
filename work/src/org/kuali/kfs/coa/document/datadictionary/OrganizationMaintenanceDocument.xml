@@ -4,16 +4,16 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OrgMaintenanceDocument" parent="OrgMaintenanceDocument-parentBean" />
+  <bean id="OrganizationMaintenanceDocument" parent="OrganizationMaintenanceDocument-parentBean" />
 
-  <bean id="OrgMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="OrganizationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Org" />
     <property name="maintainableClass" value="org.kuali.kfs.coa.document.KualiOrgMaintainable" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="OrgMaintenanceDocument-EditOrganizationCode" />
-        <ref bean="OrgMaintenanceDocument-EditPlantAccounts" />
-        <ref bean="OrgMaintenanceDocument-EditHRMSUnit" />
+        <ref bean="OrganizationMaintenanceDocument-EditOrganizationCode" />
+        <ref bean="OrganizationMaintenanceDocument-EditPlantAccounts" />
+        <ref bean="OrganizationMaintenanceDocument-EditHRMSUnit" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -54,7 +54,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.Org" p:parameterName="ORGANIZATION" />
     </property>
-    <property name="documentTypeName" value="OrgMaintenanceDocument" />
+    <property name="documentTypeName" value="OrganizationMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.authorization.OrgDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules" />
@@ -66,7 +66,7 @@
       </list>
     </property>
     <property name="workflowProperties" >
-      <ref bean="OrgMaintenanceDocument-workflowProperties" />
+      <ref bean="OrganizationMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -85,9 +85,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="OrgMaintenanceDocument-EditOrganizationCode" parent="OrgMaintenanceDocument-EditOrganizationCode-parentBean" />
+  <bean id="OrganizationMaintenanceDocument-EditOrganizationCode" parent="OrganizationMaintenanceDocument-EditOrganizationCode-parentBean" />
 
-  <bean id="OrgMaintenanceDocument-EditOrganizationCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="OrganizationMaintenanceDocument-EditOrganizationCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Organization Code" />
     <property name="title" value="Edit Organization Code" />
     <property name="maintainableItems" >
@@ -161,9 +161,9 @@
       </list>
     </property>
   </bean>
-  <bean id="OrgMaintenanceDocument-EditPlantAccounts" parent="OrgMaintenanceDocument-EditPlantAccounts-parentBean" />
+  <bean id="OrganizationMaintenanceDocument-EditPlantAccounts" parent="OrganizationMaintenanceDocument-EditPlantAccounts-parentBean" />
 
-  <bean id="OrgMaintenanceDocument-EditPlantAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="OrganizationMaintenanceDocument-EditPlantAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Plant Accounts" />
     <property name="title" value="Edit Plant Accounts" />
     <property name="maintainableItems" >
@@ -179,9 +179,9 @@
       </list>
     </property>
   </bean>
-  <bean id="OrgMaintenanceDocument-EditHRMSUnit" parent="OrgMaintenanceDocument-EditHRMSUnit-parentBean" />
+  <bean id="OrganizationMaintenanceDocument-EditHRMSUnit" parent="OrganizationMaintenanceDocument-EditHRMSUnit-parentBean" />
 
-  <bean id="OrgMaintenanceDocument-EditHRMSUnit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="OrganizationMaintenanceDocument-EditHRMSUnit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit HRMS Unit" />
     <property name="title" value="Edit HRMS Unit" />
     <property name="maintainableItems" >
@@ -232,9 +232,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="OrgMaintenanceDocument-workflowProperties" parent="OrgMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="OrganizationMaintenanceDocument-workflowProperties" parent="OrganizationMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="OrgMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="OrganizationMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

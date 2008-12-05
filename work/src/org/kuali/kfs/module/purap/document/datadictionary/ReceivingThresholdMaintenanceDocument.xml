@@ -4,14 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ThresholdMaintenanceDocument" parent="ThresholdMaintenanceDocument-parentBean" />
+  <bean id="ReceivingThresholdMaintenanceDocument" parent="ReceivingThresholdMaintenanceDocument-parentBean" />
 
-  <bean id="ThresholdMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ReceivingThresholdMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.Threshold" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="ThresholdMaintenanceDocument-EditThreshold" />
+        <ref bean="ReceivingThresholdMaintenanceDocument-EditThreshold" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -26,12 +26,12 @@
             p:parameterName="THRESHOLD"
             p:parameterDetailType="Threshold" />
     </property>
-    <property name="documentTypeName" value="ThresholdMaintenanceDocument" />
+    <property name="documentTypeName" value="ReceivingThresholdMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ThresholdRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="THLD" />
     <property name="workflowProperties" >
-      <ref bean="ThresholdMaintenanceDocument-workflowProperties" />
+      <ref bean="ReceivingThresholdMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -50,9 +50,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ThresholdMaintenanceDocument-EditThreshold" parent="ThresholdMaintenanceDocument-EditThreshold-parentBean" />
+  <bean id="ReceivingThresholdMaintenanceDocument-EditThreshold" parent="ReceivingThresholdMaintenanceDocument-EditThreshold-parentBean" />
 
-  <bean id="ThresholdMaintenanceDocument-EditThreshold-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="ReceivingThresholdMaintenanceDocument-EditThreshold-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Threshold" />
     <property name="title" value="Edit Threshold" />
     <property name="maintainableItems" >
@@ -91,8 +91,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="ThresholdMaintenanceDocument-workflowProperties" parent="ThresholdMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="ReceivingThresholdMaintenanceDocument-workflowProperties" parent="ReceivingThresholdMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="ThresholdMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="ReceivingThresholdMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>

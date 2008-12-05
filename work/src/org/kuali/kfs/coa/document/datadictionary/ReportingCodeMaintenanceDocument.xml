@@ -4,14 +4,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ReportingCodesMaintenanceDocument" parent="ReportingCodesMaintenanceDocument-parentBean" />
+  <bean id="ReportingCodeMaintenanceDocument" parent="ReportingCodeMaintenanceDocument-parentBean" />
 
-  <bean id="ReportingCodesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ReportingCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ReportingCodes" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes" />
+        <ref bean="ReportingCodeMaintenanceDocument-EditFinancialReportingCodes" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -41,12 +41,12 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ReportingCodes" p:parameterName="FINANCIAL_REPORTING_CODE" />
     </property>
-    <property name="documentTypeName" value="ReportingCodesMaintenanceDocument" />
+    <property name="documentTypeName" value="ReportingCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ReportingCodesRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="RPTC" />
     <property name="workflowProperties" >
-      <ref bean="ReportingCodesMaintenanceDocument-workflowProperties" />
+      <ref bean="ReportingCodeMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -65,9 +65,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes" parent="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes-parentBean" />
+  <bean id="ReportingCodeMaintenanceDocument-EditFinancialReportingCodes" parent="ReportingCodeMaintenanceDocument-EditFinancialReportingCodes-parentBean" />
 
-  <bean id="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="ReportingCodeMaintenanceDocument-EditFinancialReportingCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Financial Reporting Codes" />
     <property name="title" value="Edit Financial Reporting Codes" />
     <property name="maintainableItems" >
@@ -107,9 +107,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="ReportingCodesMaintenanceDocument-workflowProperties" parent="ReportingCodesMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="ReportingCodeMaintenanceDocument-workflowProperties" parent="ReportingCodeMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="ReportingCodesMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="ReportingCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>
 

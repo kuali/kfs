@@ -4,16 +4,16 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubObjCdGlobalMaintenanceDocument" parent="SubObjCdGlobalMaintenanceDocument-parentBean" />
+  <bean id="SubObjectCodeGlobalMaintenanceDocument" parent="SubObjectCodeGlobalMaintenanceDocument-parentBean" />
 
-  <bean id="SubObjCdGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCdGlobal" />
     <property name="maintainableClass" value="org.kuali.kfs.coa.document.SubObjCdGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="SubObjCdGlobalMaintenanceDocument-EditGlobalSubObjectCode" />
-        <ref bean="SubObjCdGlobalMaintenanceDocument-EditObjectCodes" />
-        <ref bean="SubObjCdGlobalMaintenanceDocument-EditAccounts" />
+        <ref bean="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode" />
+        <ref bean="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes" />
+        <ref bean="SubObjectCodeGlobalMaintenanceDocument-EditAccounts" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -38,12 +38,12 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubObjCdGlobal" p:parameterName="SUB_OBJECT_CODE_GLOBAL" />
     </property>
-    <property name="documentTypeName" value="SubObjCdGlobalMaintenanceDocument" />
+    <property name="documentTypeName" value="SubObjectCodeGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjCdGlobalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="GSOB" />
     <property name="workflowProperties" >
-      <ref bean="SubObjCdGlobalMaintenanceDocument-workflowProperties" />
+      <ref bean="SubObjectCodeGlobalMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -62,9 +62,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="SubObjCdGlobalMaintenanceDocument-EditGlobalSubObjectCode" parent="SubObjCdGlobalMaintenanceDocument-EditGlobalSubObjectCode-parentBean" />
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode" parent="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode-parentBean" />
 
-  <bean id="SubObjCdGlobalMaintenanceDocument-EditGlobalSubObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Global Sub Object Code" />
     <property name="title" value="Edit Global Sub Object Code" />
     <property name="maintainableItems" >
@@ -91,9 +91,9 @@
       </list>
     </property>
   </bean>
-  <bean id="SubObjCdGlobalMaintenanceDocument-EditObjectCodes" parent="SubObjCdGlobalMaintenanceDocument-EditObjectCodes-parentBean" />
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes" parent="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes-parentBean" />
 
-  <bean id="SubObjCdGlobalMaintenanceDocument-EditObjectCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Object Codes" />
     <property name="title" value="Edit Object Codes" />
     <property name="maintainableItems" >
@@ -139,9 +139,9 @@
       </list>
     </property>
   </bean>
-  <bean id="SubObjCdGlobalMaintenanceDocument-EditAccounts" parent="SubObjCdGlobalMaintenanceDocument-EditAccounts-parentBean" />
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditAccounts" parent="SubObjectCodeGlobalMaintenanceDocument-EditAccounts-parentBean" />
 
-  <bean id="SubObjCdGlobalMaintenanceDocument-EditAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Accounts" />
     <property name="title" value="Edit Accounts" />
     <property name="maintainableItems" >
@@ -191,9 +191,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="SubObjCdGlobalMaintenanceDocument-workflowProperties" parent="SubObjCdGlobalMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-workflowProperties" parent="SubObjectCodeGlobalMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="SubObjCdGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

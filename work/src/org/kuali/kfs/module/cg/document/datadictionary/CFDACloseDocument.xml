@@ -4,21 +4,21 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CloseDocument" parent="CloseDocument-parentBean" />
+  <bean id="CFDACloseDocument" parent="CFDACloseDocument-parentBean" />
 
-  <bean id="CloseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="CFDACloseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Post-Award Close" />
     <property name="shortLabel" value="Post-Award Close" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Close" p:parameterName="CLOSE" />
     </property>
-    <property name="documentTypeName" value="CloseDocument" />
+    <property name="documentTypeName" value="CFDACloseDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.cg.businessobject.Close" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.CloseDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.CloseDocumentAuthorizer" />
     <property name="documentTypeCode" value="CLOS" />
     <property name="workflowProperties" >
-      <ref bean="CloseDocument-workflowProperties" />
+      <ref bean="CFDACloseDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -34,21 +34,21 @@
     </property>
     <property name="attributes">
       <list>
-        <ref bean="CloseDocument-userInitiatedCloseDate" />
-        <ref bean="CloseDocument-closeOnOrBeforeDate" />
+        <ref bean="CFDACloseDocument-userInitiatedCloseDate" />
+        <ref bean="CFDACloseDocument-closeOnOrBeforeDate" />
       </list>
     </property>
   </bean> 
   
-  <bean id="CloseDocument-closeOnOrBeforeDate" parent="CloseDocument-closeOnOrBeforeDate-parentBean" />
+  <bean id="CFDACloseDocument-closeOnOrBeforeDate" parent="CFDACloseDocument-closeOnOrBeforeDate-parentBean" />
 
-  <bean id="CloseDocument-closeOnOrBeforeDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CFDACloseDocument-closeOnOrBeforeDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="closeOnOrBeforeDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Close On Or Before Date" />
     <property name="shortLabel" value="Close on or before" />
     <property name="maxLength" value="10" />
-    <!-- Required checking will be handled within the CloseDocumentRule class -->
+    <!-- Required checking will be handled within the CFDACloseDocumentRule class -->
     <property name="required" value="true" />
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10" />
@@ -57,15 +57,15 @@
     <property name="description" value="&amp;nbsp;" />
   </bean>
   
-  <bean id="CloseDocument-userInitiatedCloseDate" parent="CloseDocument-userInitiatedCloseDate-parentBean" />
+  <bean id="CFDACloseDocument-userInitiatedCloseDate" parent="CFDACloseDocument-userInitiatedCloseDate-parentBean" />
 
-  <bean id="CloseDocument-userInitiatedCloseDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CFDACloseDocument-userInitiatedCloseDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="userInitiatedCloseDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Close Date" />
     <property name="shortLabel" value="Date closed" />
     <property name="maxLength" value="10" />
-    <!-- Required checking will be handled within the CloseDocumentRule class -->
+    <!-- Required checking will be handled within the CFDACloseDocumentRule class -->
     <property name="required" value="true" />
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10" />
@@ -77,8 +77,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="CloseDocument-workflowProperties" parent="CloseDocument-workflowProperties-parentBean" />
+  <bean id="CFDACloseDocument-workflowProperties" parent="CFDACloseDocument-workflowProperties-parentBean" />
 
-  <bean id="CloseDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="CFDACloseDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>

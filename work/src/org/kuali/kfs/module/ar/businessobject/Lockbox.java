@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -289,10 +290,15 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
 	
 	public int compareTo(Lockbox lockbox) {
-	   if (this.getBatchSequenceNumber().equals(lockbox.getBatchSequenceNumber()))
-	       if (this.getProcessedInvoiceDate().equals(lockbox.getProcessedInvoiceDate()))
-	           return 0;
-	   return -1;
+	    if (lockbox == null) {
+	        return -1;
+	    }
+	    if (ObjectUtils.nullSafeEquals(this.getBatchSequenceNumber(), lockbox.getBatchSequenceNumber())) {
+	        if (ObjectUtils.nullSafeEquals(this.getProcessedInvoiceDate(), lockbox.getProcessedInvoiceDate())) {
+	            return 0;
+	        }
+	    }
+	    return -1;
     }
 
     /**

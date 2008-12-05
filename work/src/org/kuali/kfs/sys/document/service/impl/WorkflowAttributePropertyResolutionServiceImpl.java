@@ -144,9 +144,22 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
             // get the values for the paths of each element of the collection
             final Object value = ObjectUtils.getPropertyValue(businessObject, path);
             if (value != null) {
-                qualifier.put(path, value.toString());
+                qualifier.put(simplifyPath(path), value.toString());
             }
         }
+    }
+    
+    /**
+     * Simplifies the path name to the last portion of a possibly nested path
+     * @param path a possibly nested property path
+     * @return a simplified path
+     */
+    protected String simplifyPath(String path) {
+       final int lastDot = path.lastIndexOf('.');
+       if (lastDot >= 0) {
+           return path.substring(lastDot + 1);
+       }
+       return path;
     }
     
     /**

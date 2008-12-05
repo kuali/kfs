@@ -99,7 +99,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
             for (int i = 0; i < requests.length; i++) {
                 ActionRequestDTO request = (ActionRequestDTO) requests[i];
                 if (request.isGroupRequest()) {
-                    KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroup("" + request.getGroupVO().getGroupId());
+                    KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroup("" + request.getGroupId());
                     if (kimGroupsContainWorkgroup(group, personGroups)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                         break;

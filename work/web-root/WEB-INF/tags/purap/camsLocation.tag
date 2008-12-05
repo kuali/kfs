@@ -41,10 +41,10 @@
 <tr>
     <td colspan="4" class="subhead">
         <span class="left">Location</span>
-        <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
-        <span class="right">
-            <html:image property="${deleteLocationUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a Asset Location" title="Delete a Asset Location" styleClass="tinybutton" />
-        </span>
+        <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive and !(ctr2 eq 'new')}">
+	        <span class="right">
+	            <html:image property="${deleteLocationUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a Asset Location" title="Delete a Asset Location" styleClass="tinybutton" />
+	        </span>
         </c:if>
     </td>
 </tr>

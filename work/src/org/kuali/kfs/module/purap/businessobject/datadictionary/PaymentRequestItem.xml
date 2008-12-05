@@ -297,7 +297,9 @@
   
   <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode" parent="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" />
   
-  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AssetTransactionType-capitalAssetTransactionTypeCode">
+  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType"
+	p:sourceAttributeName="capitalAssetTransactionTypeCode"> 
     <property name="name" value="capitalAssetTransactionTypeCode" />
     <property name="label" value="Capital Asset Transaction Type" />
     <property name="shortLabel" value="Capital Asset Transaction Type" />

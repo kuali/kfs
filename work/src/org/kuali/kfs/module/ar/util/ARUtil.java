@@ -16,9 +16,12 @@
 package org.kuali.kfs.module.ar.util;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.service.AccountsReceivableAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 
 public class ARUtil {
+    
+    private static AccountsReceivableAuthorizationService arAuthzService;
     
     /**
      * This method checks if the given user is an AR Supervisor
@@ -29,5 +32,16 @@ public class ARUtil {
         return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, ArConstants.AR_SUPERVISOR_GROUP_NAME).getGroupId());
     }
 
+    public static boolean isUserInArBillingOrg(Person user) {
+        return getArAuthzService().personBelongsToBillingOrg(user);
+    }
+    
+    //  keep a local static reference cached
+    private static AccountsReceivableAuthorizationService getArAuthzService() {
+        if (arAuthzService == null) {
+            arAuthzService = org.kuali.kfs.sys.context.SpringContext.getBean(AccountsReceivableAuthorizationService.class);
+        }
+        return arAuthzService;
+    }
 }
 

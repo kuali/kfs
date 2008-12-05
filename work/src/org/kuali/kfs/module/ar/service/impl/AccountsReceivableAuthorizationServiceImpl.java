@@ -1,0 +1,123 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.ar.service.impl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
+import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.service.AccountsReceivableAuthorizationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.service.KNSAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.BusinessObjectService;
+
+public class AccountsReceivableAuthorizationServiceImpl implements AccountsReceivableAuthorizationService {
+
+    private static final String KULUSER = "KULUSER";
+    private static final String KULUSER_CHART_CD = "UA";
+    private static final String KULUSER_ORG_CD = "AR";
+    
+    private KNSAuthorizationService knsAuthzService;
+    private BusinessObjectService boService;
+    private OrganizationService orgService;
+    
+    public boolean currentUserBelongsToBillingOrg() {
+        Person currentUser = ValueFinderUtil.getCurrentPerson();
+        if (currentUser == null) {
+            throw new IllegalArgumentException("No user session is currently setup, so there is no Current User.");
+        }
+        return personBelongsToBillingOrg(currentUser);
+    }
+
+    public boolean personBelongsToBillingOrg(Person person) {
+        
+        //  get the person's org from the kns authz system
+        Org personHomeOrg = personHomeOrg(person);
+        
+        //  if the person's home org doesnt exist or is not setup right, then fail
+        if (personHomeOrg == null) {
+            return false;
+        }
+        else if (StringUtils.isBlank(personHomeOrg.getOrganizationCode()) || StringUtils.isBlank(personHomeOrg.getChartOfAccountsCode())) {
+            return false;
+        }
+        
+        return isOrgABillingOrg(personHomeOrg);
+    }
+
+    public Org personHomeOrg(Person person) {
+        if (person == null) {
+            throw new IllegalArgumentException("A null or invalid person object was passed in.");
+        }
+        
+        ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByModuleId(person, KFSConstants.Modules.CHART);
+        
+        // *************************************************************
+        // SPECIAL CASE HANDLING WHILE KIM AUTH IS IN PROGRESS
+        //
+        //TODO remove this later when KIM stuff is stabilized
+        //
+        if (personChartOrg == null || StringUtils.isBlank(personChartOrg.getChartOfAccountsCode()) || StringUtils.isBlank(personChartOrg.getOrganizationCode())) {
+            return orgService.getByPrimaryId(KULUSER_CHART_CD, KULUSER_ORG_CD);
+        }
+
+        if (personChartOrg == null) {
+            return null;
+        }
+        return personChartOrg.getOrganization();
+    }
+    
+    public Org currentUserHomeOrg() {
+        Person currentUser = ValueFinderUtil.getCurrentPerson();
+        if (currentUser == null) {
+            throw new IllegalArgumentException("No user session is currently setup, so there is no Current User.");
+        }
+        return personHomeOrg(currentUser);
+    }
+    
+    private boolean isOrgABillingOrg(Org org) {
+        return isOrgABillingOrg(org.getChartOfAccountsCode(), org.getOrganizationCode());
+    }
+    
+    private boolean isOrgABillingOrg(String chartOfAccountsCode, String organizationCode) {
+        
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.put("organizationCode", organizationCode);
+        OrganizationOptions organizationOptions = (OrganizationOptions) boService.findByPrimaryKey(OrganizationOptions.class, criteria);
+        
+        return (organizationOptions != null);
+    }
+    
+    public void setKnsAuthzService(KNSAuthorizationService knsAuthzService) {
+        this.knsAuthzService = knsAuthzService;
+    }
+
+    public void setBoService(BusinessObjectService boService) {
+        this.boService = boService;
+    }
+
+    public void setOrgService(OrganizationService orgService) {
+        this.orgService = orgService;
+    }
+
+}

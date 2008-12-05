@@ -496,7 +496,7 @@
                                     <list>
                                         <bean parent="FieldDefinition" p:attributeName="noteText"/>
                                         <bean parent="FieldDefinition" p:attributeName="notePostedTimestamp"/>
-                                        <bean parent="FieldDefinition" p:attributeName="authorUniversal.personName"/>
+                                        <bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName"/>
                                     </list>
                                 </property>
                             </bean>

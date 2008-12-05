@@ -1117,7 +1117,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="notePostedTimestamp" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="authorUniversal.personName" />
+                          p:attributeName="authorUniversal.principalName" />
                   </list>
                 </property>
               </bean>

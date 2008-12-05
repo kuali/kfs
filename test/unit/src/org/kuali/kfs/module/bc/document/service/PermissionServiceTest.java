@@ -25,6 +25,8 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 /**
  * This class tests the BC PermissionService class
@@ -54,6 +56,7 @@ public class PermissionServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULBUD82)
     public void testGetOrgReview() throws Exception {
 
         if (!runTests())
@@ -79,6 +82,7 @@ public class PermissionServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULBUD82)
     public void testIsOrgReviewApprover() throws Exception {
 
         if (!runTests())

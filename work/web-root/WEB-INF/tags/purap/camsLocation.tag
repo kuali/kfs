@@ -124,7 +124,7 @@
         <c:if test="${(fullEntryMode or amendmentEntry) && !poItemInactive && !offCampus && buildingSelected}">
             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
                 readOnlyFields="buildingCode,campusCode"
-                lookupParameters="'Y':active,${camsAssetLocationProperty}.campusCode:campusCode,${camsAssetLocationProperty}.buildingCode" 
+                lookupParameters="'Y':active,${camsAssetLocationProperty}.campusCode:campusCode,${camsAssetLocationProperty}.buildingCode:buildingCode" 
                 fieldConversions="buildingRoomNumber:${camsAssetLocationProperty}.buildingRoomNumber"/>
         </c:if>
     </td>

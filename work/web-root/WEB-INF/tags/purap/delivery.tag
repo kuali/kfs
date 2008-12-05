@@ -136,7 +136,7 @@
 			            <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
 			                readOnlyFields="buildingCode,campusCode"
 			                lookupParameters="'Y':active,document.deliveryBuildingCode:buildingCode,document.deliveryCampusCode:campusCode"
-			                fieldConversions="buildingRoomNumber:${camsAssetLocationProperty}.buildingRoomNumber"/>
+			                fieldConversions="buildingRoomNumber:document.deliveryBuildingRoomNumber"/>
 			        </c:if>
                 </td>           
                 <c:if test="${!lockB2BEntry}">

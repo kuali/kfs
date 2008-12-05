@@ -68,6 +68,16 @@
                 
 			<tr>
               <kul:htmlAttributeHeaderCell literalLabel="Add:" scope="row" rowspan="1">
+                  <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
+                  <html:hidden property="newExpenditureLine.documentNumber"/>
+                  <html:hidden property="newExpenditureLine.universityFiscalYear"/>
+                  <html:hidden property="newExpenditureLine.chartOfAccountsCode"/>
+                  <html:hidden property="newExpenditureLine.accountNumber"/>
+                  <html:hidden property="newExpenditureLine.subAccountNumber"/>
+                  <html:hidden property="newExpenditureLine.financialBalanceTypeCode"/>
+                  <html:hidden property="newExpenditureLine.financialObjectTypeCode"/>
+                  <html:hidden property="newExpenditureLine.versionNumber"/>
+                  <html:hidden property="newExpenditureLine.financialBeginningBalanceLineAmount"/>
               </kul:htmlAttributeHeaderCell>
 
               <bc:pbglLineDataCell dataCellCssClass="infoline"

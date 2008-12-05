@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class RequisitionNewProcessItemValidation extends PurchasingNewProcessItemValidation {
 
-    private RequisitionDocument requisitionDocument;
     private RequisitionService requisitionService;
     
     public boolean validate(AttributedDocumentEvent event) {
@@ -50,7 +49,6 @@ public class RequisitionNewProcessItemValidation extends PurchasingNewProcessIte
 
         return super.requiresAccountValidationOnAllEnteredItems(document);
     }
- 
     
     public RequisitionService getRequisitionService() {
         return requisitionService;
@@ -58,14 +56,6 @@ public class RequisitionNewProcessItemValidation extends PurchasingNewProcessIte
 
     public void setRequisitionService(RequisitionService requisitionService) {
         this.requisitionService = requisitionService;
-    }    
-    
-    public RequisitionDocument getRequisitionDocument() {
-        return requisitionDocument;
-    }
-
-    public void seRequisitionDocument(RequisitionDocument requisitionDocument) {
-        this.requisitionDocument = requisitionDocument;
     }    
 
 }

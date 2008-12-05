@@ -22,7 +22,6 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class PurchasingNewProcessItemValidation extends PurchasingAccountsPayableNewProcessItemValidation {
 
-    private PurchasingDocument purchasingDocument;
     private PurapService purapService;
     
     public boolean validate(AttributedDocumentEvent event) {
@@ -35,14 +34,6 @@ public class PurchasingNewProcessItemValidation extends PurchasingAccountsPayabl
 
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
-    }    
-    
-    public PurchasingDocument getPurchasingDocument() {
-        return purchasingDocument;
-    }
-
-    public void setPurchasingDocument(PurchasingDocument purchasingDocument) {
-        this.purchasingDocument = purchasingDocument;
     }    
 
 }

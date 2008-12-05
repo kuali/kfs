@@ -23,12 +23,12 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class PurchasingAccountsPayableNewProcessItemValidation extends GenericValidation {
 
-    private PurchasingAccountsPayableDocument purapDocument;
+    //private PurchasingAccountsPayableDocument purapDocument;
     private PurapService purapService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
-
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) event.getDocument();
         //Fetch the business rules that are common to the below the line items on all purap documents
         String documentTypeClassName = purapDocument.getClass().getName();
         String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
@@ -58,13 +58,6 @@ public class PurchasingAccountsPayableNewProcessItemValidation extends GenericVa
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }    
-    
-    public PurchasingAccountsPayableDocument getPurapDocument() {
-        return purapDocument;
-    }
-
-    public void setPurapDocument(PurchasingAccountsPayableDocument purapDocument) {
-        this.purapDocument = purapDocument;
-    }    
+     
 
 }

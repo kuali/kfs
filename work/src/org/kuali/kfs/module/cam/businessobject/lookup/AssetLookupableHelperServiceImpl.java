@@ -39,7 +39,7 @@ import org.kuali.rice.kns.util.UrlFactory;
  * This class overrids the base getActionUrls method
  */
 public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLookupableHelperServiceImpl.class);
+
     AssetService assetService;
 
     /**
@@ -55,21 +55,20 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         
         // For retired asset, all action link will be hidden.
         if (assetService.isAssetRetired(asset)) {
-            anchorHtmlDataList.add(getViewAssetUrl(bo));
+            anchorHtmlDataList.add(getViewAssetUrl(asset));
         }
         else {
             anchorHtmlDataList.add(getUrlData(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
-            anchorHtmlDataList.add(getLoanUrl(bo));
-            anchorHtmlDataList.add(getMergeUrl(bo));
-            anchorHtmlDataList.add(getSeparateUrl(bo));
-            anchorHtmlDataList.add(getTransferUrl(bo));
+            anchorHtmlDataList.add(getLoanUrl(asset));
+            anchorHtmlDataList.add(getMergeUrl(asset));
+            anchorHtmlDataList.add(getSeparateUrl(asset));
+            anchorHtmlDataList.add(getTransferUrl(asset));
         }
 
         return anchorHtmlDataList;
     }
 
-    private HtmlData getViewAssetUrl(BusinessObject bo) {
-        Asset asset = (Asset) bo;
+    protected HtmlData getViewAssetUrl(Asset asset) {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
@@ -82,9 +81,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return anchorHtmlData;
     }
 
-    protected HtmlData getMergeUrl(BusinessObject bo) {
-        Asset asset = (Asset) bo;
-
+    protected HtmlData getMergeUrl(Asset asset) {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetRetirementGlobal.class.getName());
@@ -98,8 +95,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return new AnchorHtmlData(href, CamsConstants.AssetActions.MERGE, CamsConstants.AssetActions.MERGE);
     }
 
-    protected HtmlData getLoanUrl(BusinessObject bo) {
-        Asset asset = (Asset) bo;
+    protected HtmlData getLoanUrl(Asset asset) {
         AnchorHtmlData anchorHtmlData = null;
         List<HtmlData> childURLDataList = new ArrayList<HtmlData>();
 
@@ -153,9 +149,13 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return anchorHtmlData;
     }
 
-    protected HtmlData getSeparateUrl(BusinessObject bo) {
-        Asset asset = (Asset) bo;
+    protected HtmlData getSeparateUrl(Asset asset) {
+        String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, getSeparateParameters(asset));
 
+        return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
+    }
+    
+    protected Properties getSeparateParameters(Asset asset) {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
@@ -163,14 +163,10 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         // parameter that tells us this is a separate action. We read this in AssetMaintenanbleImpl.processAfterNew
         parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
 
-        String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
-
-        return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
+        return parameters;
     }
 
-    protected HtmlData getTransferUrl(BusinessObject bo) {
-        Asset asset = (Asset) bo;
-
+    protected HtmlData getTransferUrl(Asset asset) {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());

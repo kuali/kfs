@@ -54,11 +54,13 @@ public class CamsConstants extends JSTLConstants {
         public static final String ONE_UP = "../";
         public static final String TRANSFER = "camsAssetTransfer.do";
         public static final String EQUIPMENT_LOAN_OR_RETURN = "camsEquipmentLoanOrReturn.do";
+        public static final String PAYMENT = "camsAssetPayment.do";
     }
 
     public static class DocumentTypeName {
         public static final String TRANSFER = "AssetTransferDocument";
         public static final String EQUIPMENT_LOAN_OR_RETURN = "EquipmentLoanOrReturnDocument";
+        public static final String PAYMENT = "AssetPaymentDocument";
     }
 
     public static class PaymentDocumentTypeCodes {

@@ -19,31 +19,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
-import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This class overrides the base getActionUrls method for Asset Payment. Even though it's a payment lookup screen we are maintaining
  * assets.
  */
-public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private LookupableHelperService assetLookupableHelperService;
+public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelperServiceImpl {
+    
     private BusinessObjectService businessObjectService;
 
     /**
@@ -62,17 +59,22 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
         List assetPrimaryKey = new ArrayList();
         assetPrimaryKey.add(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
 
-
-        assetLookupableHelperService.setBusinessObjectClass(Asset.class);
-
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-
-        anchorHtmlDataList = assetLookupableHelperService.getCustomActionUrls(asset, assetPrimaryKey);
-        anchorHtmlDataList.add(getPaymentUrl(asset));
+        
+        // For retired asset, all action link will be hidden.
+        if (assetService.isAssetRetired(asset)) {
+            anchorHtmlDataList.add(super.getViewAssetUrl(asset));
+        }
+        else {
+            anchorHtmlDataList.add(super.getUrlData(asset, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, assetPrimaryKey));
+            anchorHtmlDataList.add(super.getLoanUrl(asset));
+            anchorHtmlDataList.add(super.getMergeUrl(asset));
+            anchorHtmlDataList.add(this.getSeparateUrl(assetPayment));
+            anchorHtmlDataList.add(super.getTransferUrl(asset));
+            anchorHtmlDataList.add(this.getPaymentUrl(asset));
+        }
 
         return anchorHtmlDataList;
-
-        // return assetLookupableHelperService.getCustomActionUrls(asset, assetPrimaryKey);
     }
 
     /**
@@ -92,37 +94,33 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
         return super.getInquiryUrl(businessObject, propertyName);
     }
     
-    private HtmlData getPaymentUrl(Asset asset) {
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData("", "", CamsConstants.AssetActions.PAYMENT);
-
+    protected HtmlData getPaymentUrl(Asset asset) {
         // Only active capital assets will have the payment link.
-        if (SpringContext.getBean(AssetService.class).isCapitalAsset(asset) && !SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
-            String href = "../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber();
-            anchorHtmlData = new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.PAYMENT);
+        if (assetService.isCapitalAsset(asset)) {
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+            parameters.put(CamsPropertyConstants.AssetPaymentDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+            parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
+            parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.PAYMENT);
+    
+            String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.PAYMENT, parameters);
+    
+            return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.PAYMENT);
+        } else {
+            return new AnchorHtmlData("", "", CamsConstants.AssetActions.PAYMENT);
         }
-
-        return anchorHtmlData;
     }
 
+    protected HtmlData getSeparateUrl(AssetPayment assetPayment) {
+        Properties parameters = getSeparateParameters(assetPayment.getAsset());
 
-    /**
-     * Gets the assetLookupableHelperService attribute.
-     * 
-     * @return Returns the assetLookupableHelperService.
-     */
-    public LookupableHelperService getAssetLookupableHelperService() {
-        return assetLookupableHelperService;
+        parameters.put(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER, assetPayment.getPaymentSequenceNumber().toString());
+
+        String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+
+        return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
     }
-
-    /**
-     * Sets the assetLookupableHelperService attribute value.
-     * 
-     * @param assetLookupableHelperService The assetLookupableHelperService to set.
-     */
-    public void setAssetLookupableHelperService(LookupableHelperService assetLookupableHelperService) {
-        this.assetLookupableHelperService = assetLookupableHelperService;
-    }
-
+    
     /**
      * Gets the businessObjectService attribute.
      * 

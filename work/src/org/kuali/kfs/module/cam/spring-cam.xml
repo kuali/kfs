@@ -161,11 +161,11 @@
     </bean>
     
     <bean id="assetPaymentLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
-        <property name="assetLookupableHelperService">
-            <ref bean="assetLookupableHelperService" />
-        </property>
       	<property name="businessObjectService">
             <ref bean="businessObjectService" />
+      	</property>
+      	<property name="assetService">
+            <ref bean="assetService" />
       	</property>
     </bean>
 

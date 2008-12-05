@@ -85,7 +85,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         document.getNewMaintainableObject().setGenerateDefaultValues(false);
 
         // set "asset number" and "type code" from URL
-        setSeparateSourceCapitalAssetNumber(assetGlobal, parameters);
+        setSeparateSourceCapitalAssetParameters(assetGlobal, parameters);
         setFinancialDocumentTypeCode(assetGlobal, parameters);
 
         // set current date for Global and Separate.
@@ -230,16 +230,22 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     }
 
     /**
-     * Set capital asset number from URL.
+     * Set capital asset number and payment sequence number from URL on the AssetGlobal BO. It only does so if each is available.
      * 
      * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
+     * @see org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * @param assetGlobal
      * @param parameters
      */
-    private void setSeparateSourceCapitalAssetNumber(AssetGlobal assetGlobal, Map<String, String[]> parameters) {
+    private void setSeparateSourceCapitalAssetParameters(AssetGlobal assetGlobal, Map<String, String[]> parameters) {
         String[] separateSourceCapitalAssetNumber = parameters.get(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER);
         if (separateSourceCapitalAssetNumber != null) {
             assetGlobal.setSeparateSourceCapitalAssetNumber(Long.parseLong(separateSourceCapitalAssetNumber[0].toString()));
+        }
+        
+        String[] separateSourcePaymentSequenceNumber = parameters.get(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
+        if (separateSourcePaymentSequenceNumber != null) {
+            assetGlobal.setSeparateSourcePaymentSequenceNumber(Integer.parseInt(separateSourcePaymentSequenceNumber[0].toString()));
         }
     }
 

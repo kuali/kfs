@@ -164,7 +164,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward performIncumbentSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean isSaved = this.save(form);
         if (!isSaved) {
-            mapping.findForward(KFSConstants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
@@ -177,7 +177,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward performPositionSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean isSaved = this.save(form);
         if (!isSaved) {
-            mapping.findForward(KFSConstants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);

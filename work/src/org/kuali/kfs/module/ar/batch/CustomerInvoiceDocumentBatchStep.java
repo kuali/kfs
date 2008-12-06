@@ -79,7 +79,21 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         else {
             customernames = Arrays.asList("ABB2","3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272"); 
         }
-        
+
+        // create non-random data
+        for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
+
+            billingDate = DateUtils.addDays(billingDate, -30);
+
+            createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "2224601");  // $10 entries
+            createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(2), "2224601");  // $20 entries
+            createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 2, new KualiDecimal(5), new BigDecimal(3), "2224601");  // $30 entries
+
+            Thread.sleep(5000);
+
+        }
+
+        // create random data
         for (String customername : customernames) {
             
             billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
@@ -88,11 +102,14 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
                   
                 billingDate = DateUtils.addDays(billingDate, -30);
                   
-                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, -1, null, null);
+                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, -1, null, null, "1031400");
                 Thread.sleep(5000);
     
             }
         }
+
+
+
         setInitiatedParameter();
         return true;
     }
@@ -145,7 +162,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
        return (pkMapForParameter);
     }
     
-    public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice) {
+    public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         
         CustomerInvoiceDocument customerInvoiceDocument;
@@ -165,13 +182,13 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         
         if (ObjectUtils.isNotNull(nonrandomquantity)&&ObjectUtils.isNotNull(nonrandomunitprice)&&numinvoicedetails>=1) {
             for (int i = 0; i < numinvoicedetails; i++) { 
-                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, nonrandomquantity, nonrandomunitprice));
+                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, nonrandomquantity, nonrandomunitprice, accountnumber));
             }  
         } else {       
             int randomnuminvoicedetails = (int) (Math.random()*9); // add up to 9
             if (randomnuminvoicedetails==0) randomnuminvoicedetails=1; // add at least one
             for (int i = 0; i < randomnuminvoicedetails; i++) { 
-                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, null, null));
+                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, null, null, accountnumber));
             }              
         }
         try {
@@ -182,7 +199,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
     }
     
-    public CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice){
+    public CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber){
         
         KualiDecimal quantity;
         BigDecimal unitprice;
@@ -204,7 +221,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
         customerInvoiceDetail.setChartOfAccountsCode("BL");
-        customerInvoiceDetail.setAccountNumber("1031400");
+        customerInvoiceDetail.setAccountNumber(accountnumber);    //   other BL account numbers:   2231401   2324601
         customerInvoiceDetail.setFinancialObjectCode("1500");
         customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());

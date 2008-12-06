@@ -61,7 +61,7 @@
 <xsd:element name="Extrinsic">
  	<xsd:complexType>
  		<xsd:simpleContent>
- 			<xsd:extension base="kfs:oneToThirtyCharType">
+ 			<xsd:extension base="kfs:zeroToThirtyCharType">
  				<xsd:attribute name="name" type="kfs:oneToTwentyOneCharType" />
  			</xsd:extension>
  		</xsd:simpleContent>
@@ -145,7 +145,7 @@
 									  						<xsd:element name="Classification" maxOccurs="unbounded">
 															  	<xsd:complexType>
 															  		<xsd:simpleContent>
-															  			<xsd:extension base="kfs:oneToThirtyCharType">
+															  			<xsd:extension base="kfs:zeroToThirtyCharType">
 															  				<xsd:attribute name="domain" type="kfs:oneToTwentyOneCharType" />
 															  			</xsd:extension>
 															  		</xsd:simpleContent>

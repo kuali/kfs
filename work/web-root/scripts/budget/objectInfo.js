@@ -147,7 +147,7 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
  * retrieve the intended incumbent and administrative post according to the given information
  */
 BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionNumberFieldName, iuClassificationLevelFieldName, administrativePostFieldName, emplidFieldName, personNameFieldName) {	
-	var emplid = DWRUtil.getValue( emplidFieldName ).trim().toUpperCase();
+	var emplid = getElementValue( emplidFieldName );
 
 	if (emplid == emptyString) {
 		setRecipientValue(personNameFieldName, emptyString);
@@ -162,7 +162,7 @@ BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionN
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
 				setRecipientValue( iuClassificationLevelFieldName, data.iuClassificationLevel);
-				setRecipientValue( personNameFieldName, data.personName);
+				setRecipientValue( personNameFieldName, data.name);
 			} else {
 				setRecipientValue(iuClassificationLevelFieldName, emptyString);
 				setRecipientValue( personNameFieldName, wrapError( "Intended incumbent not found" ), true );			
@@ -187,7 +187,7 @@ BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYe
 	
 	var universityFiscalYear = DWRUtil.getValue( universityFiscalYearFieldName ).trim();
 	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
-	var positionNumber = DWRUtil.getValue( positionNumberFieldName ).trim();
+	var positionNumber = getElementValue( positionNumberFieldName );
 
 	if (positionNumber == emptyString || universityFiscalYear == emptyString) {
 		setRecipientValue(positionDescriptionFieldName, emptyString);

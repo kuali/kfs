@@ -50,7 +50,10 @@
 <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
 <html:hidden property="${fundingLineName}.versionNumber" />  
 <html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
+<%--
+removed due to conflicts in javascript and using disabled setting
 <html:hidden property="${fundingLineName}.financialObjectCode" />
+--%>
 
 <html:hidden property="${fundingLineName}.persistedDeleteIndicator" /> 
 <html:hidden property="${fundingLineName}.newLineIndicator" />
@@ -122,7 +125,14 @@
 			displayHidden="false"
 			lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
 			accountingLineValuesMap="${fundingLine.valuesMap}" />
-	
+
+        <%--
+          Not using disabled="false" here since this confuses javascript when using this field
+          value in other field's detail function (like loadSubObjectInfo) when a hidden is defined
+          for this field. Instead we force the field to be readonly so it will have a hidden tag
+          created for it instead of the explicit hidden defined in this tag.
+          Changed readOnly="${hasBeenAdded || isKeyFieldsLocked}" to true
+        --%>	
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
 			accountingLine="${fundingLineName}"
 			field="financialObjectCode" detailFunction="loadObjectInfo"
@@ -130,8 +140,8 @@
 			detailField="financialObject.financialObjectCodeShortName"
 			attributes="${pbcafAttributes}" lookup="true" inquiry="true"
 			boClassSimpleName="ObjectCode"
-			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
-			displayHidden="false" disabled="true"
+			readOnly="true"
+			displayHidden="false"
 			lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
 			accountingLineValuesMap="${fundingLine.valuesMap}"
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />

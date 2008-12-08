@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OffsetAccountMaintenanceDocument" parent="OffsetAccountMaintenanceDocument-parentBean" />
 
@@ -55,9 +58,6 @@
     <property name="documentTypeName" value="OffsetAccountMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OFAC" />
-    <property name="workflowProperties" >
-      <ref bean="OffsetAccountMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -70,10 +70,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="OffsetAccountMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="OffsetAccountMaintenanceDocument-EditOffsetAccount" parent="OffsetAccountMaintenanceDocument-EditOffsetAccount-parentBean" />
 
@@ -103,12 +105,10 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="OffsetAccountMaintenanceDocument-workflowProperties" parent="OffsetAccountMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="OffsetAccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="OffsetAccountMaintenanceDocument-workflowAttributes" parent="OffsetAccountMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="OffsetAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  
 </beans>

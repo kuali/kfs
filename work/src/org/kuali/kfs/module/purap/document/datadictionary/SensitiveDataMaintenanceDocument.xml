@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="SensitiveDataMaintenanceDocument" parent="SensitiveDataMaintenanceDocument-parentBean" />
 
@@ -30,9 +33,6 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.SensitiveDataRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMSN" />
-    <property name="workflowProperties" >
-      <ref bean="SensitiveDataMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -45,10 +45,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="SensitiveDataMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="SensitiveDataMaintenanceDocument-EditSensitiveData" parent="SensitiveDataMaintenanceDocument-EditSensitiveData-parentBean" />
 
@@ -69,12 +71,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="SensitiveDataMaintenanceDocument-workflowProperties" parent="SensitiveDataMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="SensitiveDataMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="SensitiveDataMaintenanceDocument-workflowAttributes" parent="SensitiveDataMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="SensitiveDataMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

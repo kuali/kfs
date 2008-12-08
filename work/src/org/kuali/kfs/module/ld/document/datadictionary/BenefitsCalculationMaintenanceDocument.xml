@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="BenefitsCalculationMaintenanceDocument" parent="BenefitsCalculationMaintenanceDocument-parentBean" />
 
@@ -48,9 +51,6 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.BenefitsCalculationDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BCAL" />
-    <property name="workflowProperties" >
-      <ref bean="BenefitsCalculationMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -63,10 +63,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="BenefitsCalculationMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="BenefitsCalculationMaintenanceDocument-EditLaborCalculation" parent="BenefitsCalculationMaintenanceDocument-EditLaborCalculation-parentBean" />
 
@@ -96,12 +98,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="BenefitsCalculationMaintenanceDocument-workflowProperties" parent="BenefitsCalculationMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="BenefitsCalculationMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="BenefitsCalculationMaintenanceDocument-workflowAttributes" parent="BenefitsCalculationMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="BenefitsCalculationMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

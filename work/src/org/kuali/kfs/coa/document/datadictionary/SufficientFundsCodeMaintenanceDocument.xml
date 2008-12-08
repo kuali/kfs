@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="SufficientFundsCodeMaintenanceDocument" parent="SufficientFundsCodeMaintenanceDocument-parentBean" />
 
@@ -30,9 +33,6 @@
     <property name="documentTypeName" value="SufficientFundsCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="SFC" />
-    <property name="workflowProperties" >
-      <ref bean="SufficientFundsCodeMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -45,10 +45,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="SufficientFundsCodeMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode" parent="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode-parentBean" />
 
@@ -69,12 +71,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="SufficientFundsCodeMaintenanceDocument-workflowProperties" parent="SufficientFundsCodeMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="SufficientFundsCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="SufficientFundsCodeMaintenanceDocument-workflowAttributes" parent="SufficientFundsCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="SufficientFundsCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

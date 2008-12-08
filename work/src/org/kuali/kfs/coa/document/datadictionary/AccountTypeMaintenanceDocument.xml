@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountTypeMaintenanceDocument" parent="AccountTypeMaintenanceDocument-parentBean" />
 
@@ -29,8 +32,8 @@
     <property name="documentTypeName" value="AccountTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ATYP" />
-    <property name="workflowProperties" >
-      <ref bean="AccountTypeMaintenanceDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="AccountTypeMaintenanceDocument-workflowAttributes" />
     </property>
     <property name="authorizations" >
       <list>
@@ -68,12 +71,10 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="AccountTypeMaintenanceDocument-workflowProperties" parent="AccountTypeMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="AccountTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  
+  <!-- workflow attributes -->
+  <bean id="AccountTypeMaintenanceDocument-workflowAttributes" parent="AccountTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="AccountTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

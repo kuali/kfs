@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBankMaintenanceDocument" parent="AchBankMaintenanceDocument-parentBean" />
 
@@ -40,9 +43,6 @@
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.AchBankRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.pdp.document.authorization.AchBankDocumentAuthorizer" />
     <property name="documentTypeCode" value="ABNK" />
-    <property name="workflowProperties" >
-      <ref bean="AchBankMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -55,10 +55,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="AchBankMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="AchBankMaintenanceDocument-EditACHBank" parent="AchBankMaintenanceDocument-EditACHBank-parentBean" />
 
@@ -125,12 +127,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="AchBankMaintenanceDocument-workflowProperties" parent="AchBankMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="AchBankMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="AchBankMaintenanceDocument-workflowAttributes" parent="AchBankMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="AchBankMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

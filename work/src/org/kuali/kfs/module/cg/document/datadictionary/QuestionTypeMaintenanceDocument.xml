@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="QuestionTypeMaintenanceDocument" parent="QuestionTypeMaintenanceDocument-parentBean" />
 
@@ -29,9 +32,6 @@
     <property name="documentTypeName" value="QuestionTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer" />
     <property name="documentTypeCode" value="QNT" />
-    <property name="workflowProperties" >
-      <ref bean="QuestionTypeMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -44,10 +44,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="QuestionTypeMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="QuestionTypeMaintenanceDocument-EditQuestionType" parent="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean" />
 
@@ -75,12 +77,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="QuestionTypeMaintenanceDocument-workflowProperties" parent="QuestionTypeMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="QuestionTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+    <!-- workflow attributes -->
+  <bean id="QuestionTypeMaintenanceDocument-workflowAttributes" parent="QuestionTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="QuestionTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

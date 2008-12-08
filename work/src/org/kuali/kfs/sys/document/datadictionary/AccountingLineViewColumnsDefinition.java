@@ -43,7 +43,10 @@ public class AccountingLineViewColumnsDefinition extends DataDictionaryDefinitio
         List<AccountingLineViewField> layoutFields = new ArrayList<AccountingLineViewField>();
         
         for (AccountingLineViewFieldDefinition fieldDefinition : fields) {
-            layoutFields.add((AccountingLineViewField)fieldDefinition.createLayoutElement(accountingLineClass));
+            final AccountingLineViewField field = (AccountingLineViewField)fieldDefinition.createLayoutElement(accountingLineClass);
+            if (field != null) {
+                layoutFields.add(field);
+            }
         }
         
         return new AccountingLineViewColumns(this, layoutFields);

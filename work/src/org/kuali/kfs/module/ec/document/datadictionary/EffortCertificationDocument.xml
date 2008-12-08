@@ -42,6 +42,9 @@
         <ref bean="EffortCertificationDocument-versionNumber" />
       </list>
     </property>
+    <property name="workflowProperties">
+    	<ref bean="EffortCertificationDocument-workflowProperties" />
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -113,6 +116,23 @@
   <bean id="EffortCertificationDocument-versionNumber" parent="EffortCertificationDocument-versionNumber-parentBean" />
 
   <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  
+  <bean id="EffortCertificationDocument-workflowProperties" parent="EffortCertificationDocument-workflowProperties-parentBean" />
+
+  <bean id="EffortCertificationDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="document" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
 </beans>
 

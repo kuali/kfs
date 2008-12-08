@@ -1,9 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+        
   <bean id="ResearchRiskTypeMaintenanceDocument" parent="ResearchRiskTypeMaintenanceDocument-parentBean" />
 
   <bean id="ResearchRiskTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
@@ -29,9 +32,6 @@
     <property name="documentTypeName" value="ResearchRiskTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentAuthorizer" />
     <property name="documentTypeCode" value="RRT" />
-    <property name="workflowProperties" >
-      <ref bean="ResearchRiskTypeMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -44,10 +44,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="ResearchRiskTypeMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode" parent="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode-parentBean" />
 
@@ -77,12 +79,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="ResearchRiskTypeMaintenanceDocument-workflowProperties" parent="ResearchRiskTypeMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="ResearchRiskTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+    <!-- workflow attributes -->
+  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes" parent="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

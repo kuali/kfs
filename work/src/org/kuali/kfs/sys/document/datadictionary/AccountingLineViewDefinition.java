@@ -70,7 +70,10 @@ public class AccountingLineViewDefinition extends DataDictionaryDefinitionBase {
     public List<TableJoining> getAccountingLineLayoutElements(Class<? extends AccountingLine> accountingLineClass) {
         List<TableJoining> layoutElements = new ArrayList<TableJoining>();
         for (AccountingLineViewRenderableElementDefinition layoutElementDefinition : elements) {
-            layoutElements.add(layoutElementDefinition.createLayoutElement(accountingLineClass));
+            final TableJoining layoutElement = layoutElementDefinition.createLayoutElement(accountingLineClass);
+            if (layoutElement != null) {
+                layoutElements.add(layoutElement);
+            }
         }
         return layoutElements;
     }

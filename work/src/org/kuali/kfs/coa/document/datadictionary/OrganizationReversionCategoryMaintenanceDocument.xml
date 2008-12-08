@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OrganizationReversionCategoryMaintenanceDocument" parent="OrganizationReversionCategoryMaintenanceDocument-parentBean" />
 
@@ -29,9 +32,6 @@
     <property name="documentTypeName" value="OrganizationReversionCategoryMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ORGC" />
-    <property name="workflowProperties" >
-      <ref bean="OrganizationReversionCategoryMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -44,10 +44,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="OrganizationReversionCategoryMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="OrganizationReversionCategoryMaintenanceDocument-EditOrganizationReversionCategory" parent="OrganizationReversionCategoryMaintenanceDocument-EditOrganizationReversionCategory-parentBean" />
 
@@ -72,12 +74,10 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="OrganizationReversionCategoryMaintenanceDocument-workflowProperties" parent="OrganizationReversionCategoryMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="OrganizationReversionCategoryMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="OrganizationReversionCategoryMaintenanceDocument-workflowAttributes" parent="OrganizationReversionCategoryMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="OrganizationReversionCategoryMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  
 </beans>

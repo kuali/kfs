@@ -95,7 +95,10 @@ public class AccountingLineViewLineDefinition extends DataDictionaryDefinitionBa
     protected List<RenderableElement> getChildrenRenderableElements(Class<? extends AccountingLine> accountingLineClass) {
         List<RenderableElement> elements = new ArrayList<RenderableElement>();
         for (AccountingLineViewFieldDefinition fieldDefinition : fields) {
-            elements.add((RenderableElement)fieldDefinition.createLayoutElement(accountingLineClass));
+            final RenderableElement element = (RenderableElement)fieldDefinition.createLayoutElement(accountingLineClass);
+            if (element != null) {
+                elements.add(element);
+            }
         }
         return elements;
     }

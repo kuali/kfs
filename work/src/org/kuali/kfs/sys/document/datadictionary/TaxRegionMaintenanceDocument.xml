@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="TaxRegionMaintenanceDocument" parent="TaxRegionMaintenanceDocument-parentBean" />
 
@@ -40,9 +43,6 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionDocumentAuthorizer" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.TaxRegionRule" />
     
-    <property name="workflowProperties" >
-      <ref bean="BuildingMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -65,11 +65,12 @@
     </property>
     <property name="documentTypeName" value="TaxRegionMaintenanceDocument" />
     <property name="documentTypeCode" value="TAXR" />
-     
+     <property name="workflowAttributes">
+    	<ref bean="TaxRegionMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionFields" parent="TaxRegionMaintenanceDocument-CreateTaxRegionFields-parentBean" />
 
@@ -237,5 +238,10 @@
         </bean>
 	  </list>
     </property>
-  </bean>   
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="TaxRegionMaintenanceDocument-workflowAttributes" parent="TaxRegionMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="TaxRegionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

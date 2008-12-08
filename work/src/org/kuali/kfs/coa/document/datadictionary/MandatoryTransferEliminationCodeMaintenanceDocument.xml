@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="MandatoryTransferEliminationCodeMaintenanceDocument" parent="MandatoryTransferEliminationCodeMaintenanceDocument-parentBean" />
 
@@ -29,9 +32,6 @@
     <property name="documentTypeName" value="MandatoryTransferEliminationCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="MTE" />
-    <property name="workflowProperties" >
-      <ref bean="MandatoryTransferEliminationCodeMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -44,10 +44,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="MandatoryTransferEliminationCodeMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="MandatoryTransferEliminationCodeMaintenanceDocument-EditMandatoryTransferEliminationCode" parent="MandatoryTransferEliminationCodeMaintenanceDocument-EditMandatoryTransferEliminationCode-parentBean" />
 
@@ -68,12 +70,10 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="MandatoryTransferEliminationCodeMaintenanceDocument-workflowProperties" parent="MandatoryTransferEliminationCodeMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="MandatoryTransferEliminationCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="MandatoryTransferEliminationCodeMaintenanceDocument-workflowAttributes" parent="MandatoryTransferEliminationCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="MandatoryTransferEliminationCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  
 </beans>

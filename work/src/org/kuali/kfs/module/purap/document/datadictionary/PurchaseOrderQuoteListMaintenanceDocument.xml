@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PurchaseOrderQuoteListMaintenanceDocument" parent="PurchaseOrderQuoteListMaintenanceDocument-parentBean" />
 
@@ -29,9 +32,6 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteListRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMQT" />
-    <property name="workflowProperties" >
-      <ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -44,10 +44,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList" parent="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList-parentBean" />
 
@@ -120,12 +122,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties" parent="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes" parent="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

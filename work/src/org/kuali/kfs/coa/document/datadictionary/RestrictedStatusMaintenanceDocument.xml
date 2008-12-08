@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RestrictedStatusMaintenanceDocument" parent="RestrictedStatusMaintenanceDocument-parentBean" />
 
@@ -29,9 +32,6 @@
     <property name="documentTypeName" value="RestrictedStatusMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="RSTA" />
-    <property name="workflowProperties" >
-      <ref bean="RestrictedStatusMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -44,10 +44,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="RestrictedStatusMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="RestrictedStatusMaintenanceDocument-EditRestrictedStatus" parent="RestrictedStatusMaintenanceDocument-EditRestrictedStatus-parentBean" />
 
@@ -65,12 +67,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="RestrictedStatusMaintenanceDocument-workflowProperties" parent="RestrictedStatusMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="RestrictedStatusMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="RestrictedStatusMaintenanceDocument-workflowAttributes" parent="RestrictedStatusMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="RestrictedStatusMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

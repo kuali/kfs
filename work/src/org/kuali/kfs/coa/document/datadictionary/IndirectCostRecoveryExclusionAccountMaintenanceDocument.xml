@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-parentBean" />
 
@@ -49,9 +52,6 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryExclusionAccountPreRules" />
     <property name="documentTypeCode" value="ICRA" />
-    <property name="workflowProperties" >
-      <ref bean="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -64,10 +64,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount-parentBean" />
 
@@ -91,12 +93,9 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowProperties" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+    <!-- workflow attributes -->
+  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

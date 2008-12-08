@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument" parent="EffortCertificationReportEarnPaygroupMaintenanceDocument-parentBean" />
 
@@ -51,6 +54,9 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -82,4 +88,9 @@
       </list>
     </property>
   </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes" parent="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

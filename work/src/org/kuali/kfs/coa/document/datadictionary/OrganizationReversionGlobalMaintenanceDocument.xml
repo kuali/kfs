@@ -58,9 +58,6 @@
         <value>../scripts/chart/orgReversionChangeDocument.js</value>
       </list>
     </property>
-    <property name="workflowProperties" >
-      <ref bean="OrganizationReversionGlobalMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -76,7 +73,6 @@
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionOrganizations" parent="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionOrganizations-parentBean" />
 
@@ -167,26 +163,6 @@
                     p:name="organizationReversionCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="OrganizationReversionGlobalMaintenanceDocument-workflowProperties" parent="OrganizationReversionGlobalMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="OrganizationReversionGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.organizationReversionGlobalOrganizations" />
             </list>
           </property>
         </bean>

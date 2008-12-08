@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AssetDepreciationMethodMaintenanceDocument" parent="AssetDepreciationMethodMaintenanceDocument-parentBean" />
 
@@ -27,9 +30,6 @@
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DPRM" />
-    <property name="workflowProperties" >
-      <ref bean="AssetDepreciationMethodMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -42,10 +42,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="AssetDepreciationMethodMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="AssetDepreciationMethodMaintenanceDocument-EditAssetDepreciationMethod" parent="AssetDepreciationMethodMaintenanceDocument-EditAssetDepreciationMethod-parentBean" />
 
@@ -65,23 +67,10 @@
       </list>
     </property>
   </bean>
-
-  <bean id="AssetDepreciationMethodMaintenanceDocument-workflowProperties" parent="AssetDepreciationMethodMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="AssetDepreciationMethodMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="oldMaintainableObject.businessObject" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  
+  <!-- workflow attributes -->
+  <bean id="AssetDepreciationMethodMaintenanceDocument-workflowAttributes" parent="AssetDepreciationMethodMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="AssetDepreciationMethodMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

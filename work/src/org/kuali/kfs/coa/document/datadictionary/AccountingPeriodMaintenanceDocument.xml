@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountingPeriodMaintenanceDocument" parent="AccountingPeriodMaintenanceDocument-parentBean" />
 
@@ -31,9 +34,6 @@
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountingPeriodRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="APRD" />
-    <property name="workflowProperties" >
-      <ref bean="AccountingPeriodMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -46,10 +46,12 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="AccountingPeriodMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="AccountingPeriodMaintenanceDocument-EditAccountingPeriod" parent="AccountingPeriodMaintenanceDocument-EditAccountingPeriod-parentBean" />
 
@@ -78,12 +80,10 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="AccountingPeriodMaintenanceDocument-workflowProperties" parent="AccountingPeriodMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="AccountingPeriodMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  
+  <!-- workflow attributes -->
+  <bean id="AccountingPeriodMaintenanceDocument-workflowAttributes" parent="AccountingPeriodMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="AccountingPeriodMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="ObjectSubTypeMaintenanceDocument" parent="ObjectSubTypeMaintenanceDocument-parentBean" />
 
@@ -29,9 +32,6 @@
     <property name="documentTypeName" value="ObjectSubTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OSTY" />
-    <property name="workflowProperties" >
-      <ref bean="ObjectSubTypeMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -43,6 +43,9 @@
           </property>
         </bean>
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="ObjectSubTypeMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -68,12 +71,10 @@
       </list>
     </property>
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="ObjectSubTypeMaintenanceDocument-workflowProperties" parent="ObjectSubTypeMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="ObjectSubTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="ObjectSubTypeMaintenanceDocument-workflowAttributes" parent="ObjectSubTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="ObjectSubTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  
 </beans>

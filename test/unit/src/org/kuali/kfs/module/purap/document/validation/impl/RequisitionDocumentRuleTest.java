@@ -116,35 +116,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_WITH_INVALID_NON_US_VENDOR_ZIP_CODE_CONTAINS_LETTER.createRequisitionDocument();
         assertTrue(rule.processVendorValidation(req));
     }
-    
-    //The vendor zip code validation should take place if the vendor country is US and
-    //the requisition is not B2B. The valid zip code is ##### or #####-####
-    public void testProcessVendorValidation_REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTER() {
-        RequisitionDocument req = RequisitionDocumentFixture.REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTER.createRequisitionDocument();
-        assertFalse(rule.processVendorValidation(req));
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_POSTAL_CODE_INVALID));
-    }
-    
-    //The vendor zip code validation should take place if the vendor country is US and
-    //the requisition is not B2B. The valid zip code is ##### or #####-####
-    public void testProcessVendorValidation_REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_BAD_FORMAT() {
-        RequisitionDocument req = RequisitionDocumentFixture.REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_BAD_FORMAT.createRequisitionDocument();
-        assertFalse(rule.processVendorValidation(req));
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_POSTAL_CODE_INVALID));
-    }
-    
-    //The vendor zip code validation when the country is US and requisition is not B2B and the zip code is #####
-    public void testProcessVendorValidation_REQ_WITH_VALID_ZIP_CODE_SHORT_FORM() {
-        RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
-        assertTrue(rule.processVendorValidation(req));
-    }
-    
-    //The vendor zip code validation when the country is US and requisition is not B2B and the zip code is #####-####
-    public void testProcessVendorValidation_REQ_WITH_VALID_ZIP_CODE_WITH_4_TRAILING_NUMBERS() {
-        RequisitionDocument req = RequisitionDocumentFixture.REQ_WITH_VALID_US_VENDOR_ZIP_CODE_WITH_4_TRAILING_NUMBERS.createRequisitionDocument();
-        assertTrue(rule.processVendorValidation(req));
-    }
-    
+        
     /** End of Vendor Validations */
     
     /** Payment Info Validations */

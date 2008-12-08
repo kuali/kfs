@@ -95,35 +95,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * Performs validations for the fields in vendor tab. The business rules to be validated is: If this is a standard
-     * order requisition (not B2B), then if Country is United States and the postal code is required and if zip code is entered, it
-     * should be a valid US Zip code. (format)
-     * 
-     * @param purapDocument The requisition document object whose vendor tab is to be validated
-     * @return boolean true if it passes vendor validation, otherwise it will return false.
-     */
-    @Override
-    public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        errorMap.clearErrorPath();
-        errorMap.addToErrorPath(KFSPropertyConstants.DOCUMENT);
-        boolean valid = super.processVendorValidation(purapDocument);
-        RequisitionDocument reqDocument = (RequisitionDocument) purapDocument;
-        if (reqDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.STANDARD_ORDER)) {
-            if (!StringUtils.isBlank(reqDocument.getVendorCountryCode()) && reqDocument.getVendorCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES) && !StringUtils.isBlank(reqDocument.getVendorPostalCode())) {
-                ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
-                if (!zipPattern.matches(reqDocument.getVendorPostalCode())) {
-                    valid = false;
-                    errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
-                }
-            }
-        }
-        errorMap.clearErrorPath();
-
-        return valid;
-    }
-
-    /**
      * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
      * PurchaseOrderTotalLimit.
      * 

@@ -38,7 +38,35 @@
   				</bean>
   				<bean parent="Requisition-newProcessItemValidation" scope="prototype">								
 					<property name="quitOnFail" value="true" />
-				</bean>  												
+				</bean>  
+				<!-- Here's the start of Collection Validations testing, will it work ? -->
+			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.items" />
+  					<property name="validations">
+  						<list>
+  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="businessObjectForValidation" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  							<bean parent="Requisition-newIndividualItemValidation" scope="prototype">
+  							    <property name="parameterProperties">
+  							      	<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="itemForValidation" />
+  										</bean>
+  									</list>
+  							    </property>
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>												
   			</list>
   		</property>
   	</bean>

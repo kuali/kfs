@@ -32,4 +32,15 @@
 		<property name="requisitionService" ref="requisitionService" />
 	</bean>
 
+	<bean id="PurchasingAccountsPayable-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableNewIndividualItemValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="Purchasing-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewIndividualItemValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="Requisition-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
 </beans>

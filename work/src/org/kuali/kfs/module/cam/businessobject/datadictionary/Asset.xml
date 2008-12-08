@@ -138,6 +138,11 @@
         <ref bean="Asset-offCampusLocation.assetLocationStateCode" />
         <ref bean="Asset-offCampusLocation.assetLocationZipCode" />
         <ref bean="Asset-offCampusLocation.assetLocationCountryCode" />
+        
+        <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode" />
+	    <ref bean="Asset-offCampusLocation.postalZipCode.postalCode" />
+	    <ref bean="Asset-offCampusLocation.assetLocationCountry.postalCountryName" />
+        
         <ref bean="Asset-assetStatus.inventoryStatusCode" />        
         <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
         <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
@@ -1230,6 +1235,7 @@
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
   </bean>
+
   
   <bean id="Asset-assetStatus.inventoryStatusCode" parent="Asset-assetStatus.inventoryStatusCode-parentBean" />
   <bean id="Asset-assetStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
@@ -1244,6 +1250,28 @@
   <bean id="Asset-inventoryStatus.inventoryStatusCode" parent="Asset-inventoryStatus.inventoryStatusCode-parentBean" />
   <bean id="Asset-inventoryStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="name" value="inventoryStatus.inventoryStatusCode" />
+  </bean>
+
+
+  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" />
+  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
+	p:sourceAttributeName="postalStateCode">
+ 	<property name="name" value="offCampusLocation.assetLocationState.postalStateCode" />
+  </bean>
+
+
+  <bean id="Asset-offCampusLocation.postalZipCode.postalCode" parent="Asset-offCampusLocation.postalZipCode.postalCode-parentBean" />
+  <bean id="Asset-offCampusLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+ 	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+ 	p:sourceAttributeName="postalCode">
+  <property name="name" value="offCampusLocation.postalZipCode.postalCode" />
+  </bean>
+
+
+  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" />
+  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+	<property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName" />
   </bean>
   
   <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" />
@@ -1402,8 +1430,13 @@
                     p:attributeName="offCampusLocation.assetLocationCityName" />
               <bean parent="FieldDefinition"
                     p:attributeName="offCampusLocation.assetLocationState.postalStateCode" />
+<!--
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusLocation.assetLocationZipCode" />
+ --> 
               <bean parent="FieldDefinition"
                     p:attributeName="offCampusLocation.postalZipCode.postalCode" />
+
               <bean parent="FieldDefinition"
                     p:attributeName="offCampusLocation.assetLocationCountry.postalCountryName" />
             </list>

@@ -314,6 +314,7 @@
     <property name="label" value="Ship To Address Identifier" />
     <property name="shortLabel" value="Ship To Add Id" />
     <property name="maxLength" value="5" />
+    <property name="required" value="true"/>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="7" />
@@ -329,7 +330,7 @@
     <property name="label" value="Bill To Address Identifier" />
     <property name="shortLabel" value="Bill To Add Id" />
     <property name="maxLength" value="5" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="7" />

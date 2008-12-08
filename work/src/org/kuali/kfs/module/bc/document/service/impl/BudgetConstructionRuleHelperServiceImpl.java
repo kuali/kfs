@@ -87,6 +87,12 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      */
     public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         String emplid = appointmentFunding.getEmplid();
+
+        // VACANT emplid value is valid, don't do lookup in this case
+        if (BCConstants.VACANT_EMPLID.equalsIgnoreCase(emplid)) {
+            return true;
+        }
+
         BudgetConstructionIntendedIncumbent intendedIncumbent = appointmentFunding.getBudgetConstructionIntendedIncumbent();
 
         return this.isValidIncumbent(intendedIncumbent, emplid, errorMap, KFSPropertyConstants.EMPLID);
@@ -120,6 +126,12 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      */
     public boolean hasValidSubAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         String subAccountNumber = appointmentFunding.getSubAccountNumber();
+        
+        // ok when dashes, no lookup
+        if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
+            return true;
+        }
+
         SubAccount subAccount = appointmentFunding.getSubAccount();
 
         return this.isValidSubAccount(subAccount, subAccountNumber, errorMap, KFSPropertyConstants.SUB_ACCOUNT_NAME);
@@ -131,6 +143,12 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      */
     public boolean hasValidSubObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         String subObjectCode = appointmentFunding.getFinancialSubObjectCode();
+
+        // ok when dashes, no lookup
+        if (KFSConstants.getDashFinancialSubObjectCode().equals(subObjectCode)) {
+            return true;
+        }
+        
         SubObjCd subObject = appointmentFunding.getFinancialSubObject();
 
         return this.isValidSubObjectCode(subObject, subObjectCode, errorMap, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
@@ -236,9 +254,9 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
     public boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, ErrorMap errorMap, String errorPropertyName) {
-        if (BCConstants.VACANT_EMPLID.equals(currentValue)) {
-            return true;
-        }
+        // if (BCConstants.VACANT_EMPLID.equalsIgnoreCase(currentValue)) {
+        // return true;
+        // }
 
         if (ObjectUtils.isNull(intendedIncumbent)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(BudgetConstructionIntendedIncumbent.class, KFSPropertyConstants.EMPLID, currentValue);
@@ -300,9 +318,9 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
     public boolean isValidSubAccount(SubAccount subAccount, String currentValue, ErrorMap errorMap, String errorPropertyName) {
-        if (KFSConstants.getDashSubAccountNumber().equals(currentValue)) {
-            return true;
-        }
+//        if (KFSConstants.getDashSubAccountNumber().equals(currentValue)) {
+//            return true;
+//        }
 
         if (ObjectUtils.isNull(subAccount)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, currentValue);
@@ -324,9 +342,9 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
     public boolean isValidSubObjectCode(SubObjCd subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName) {
-        if (KFSConstants.getDashFinancialSubObjectCode().equals(currentValue)) {
-            return true;
-        }
+//        if (KFSConstants.getDashFinancialSubObjectCode().equals(currentValue)) {
+//            return true;
+//        }
 
         if (ObjectUtils.isNull(subObjectCode)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);

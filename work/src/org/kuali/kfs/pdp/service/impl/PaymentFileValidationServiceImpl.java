@@ -17,6 +17,7 @@ package org.kuali.kfs.pdp.service.impl;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -32,7 +33,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
@@ -169,16 +169,16 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
             int noteLineCount = 0;
             int detailCount = 0;
-            
+
             // verify payee id and owner code if customer requires them to be filled in
             if (paymentFile.getCustomer().getPayeeIdRequired() && StringUtils.isBlank(paymentGroup.getPayeeId())) {
                 errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYEE_ID_REQUIRED, Integer.toString(groupCount));
             }
-            
+
             if (paymentFile.getCustomer().getOwnershipCodeRequired() && StringUtils.isBlank(paymentGroup.getPayeeOwnerCd())) {
-                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYEE_OWNER_CODE, Integer.toString(groupCount));           
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYEE_OWNER_CODE, Integer.toString(groupCount));
             }
-            
+
             // validate payee id type
             if (StringUtils.isNotBlank(paymentGroup.getPayeeIdTypeCd())) {
                 PayeeType payeeType = (PayeeType) kualiCodeService.getByCode(PayeeType.class, paymentGroup.getPayeeIdTypeCd());
@@ -186,7 +186,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_PAYEE_ID_TYPE, Integer.toString(groupCount), paymentGroup.getPayeeIdTypeCd());
                 }
             }
-            
+
             // validate bank
             String bankCode = paymentGroup.getBankCode();
             if (StringUtils.isNotBlank(bankCode)) {
@@ -222,10 +222,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialSystemOriginCode())) {
                     OriginationCode originationCode = originationCodeService.getByPrimaryKey(paymentDetail.getFinancialSystemOriginCode());
                     if (originationCode == null) {
-                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_ORIGIN_CODE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialSystemOriginCode());  
+                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_ORIGIN_CODE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialSystemOriginCode());
                     }
                 }
-                
+
                 // validate doc type if given
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
                     try {
@@ -250,7 +250,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             }
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.pdp.service.PaymentFileValidationService#doSoftEdits(org.kuali.kfs.pdp.businessobject.PaymentFile)
      */
@@ -323,7 +323,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
         // set invoice date if it doesn't exist
         if (paymentDetail.getInvoiceDate() == null) {
-            paymentDetail.setInvoiceDate(dateTimeService.getCurrentTimestamp());
+            paymentDetail.setInvoiceDate(dateTimeService.getCurrentSqlDate());
         }
 
         if (paymentDetail.getPrimaryCancelledPayment() == null) {
@@ -515,10 +515,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param paymentGroup <code>PaymentGroup</code> to update
      */
     protected void defaultGroupIndicators(PaymentGroup paymentGroup) {
-        //combineGroups column does not accept null values, so it will never be null
-        /*if (paymentGroup.getCombineGroups() == null) {
-            paymentGroup.setCombineGroups(Boolean.TRUE);
-        }*/
+        // combineGroups column does not accept null values, so it will never be null
+        /*
+         * if (paymentGroup.getCombineGroups() == null) { paymentGroup.setCombineGroups(Boolean.TRUE); }
+         */
 
         if (paymentGroup.getCampusAddress() == null) {
             paymentGroup.setCampusAddress(Boolean.FALSE);
@@ -607,7 +607,12 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             }
         }
         else {
-            paymentGroup.setPaymentDate(now);
+            try {
+                paymentGroup.setPaymentDate(dateTimeService.convertToSqlDate(now));
+            }
+            catch (ParseException e) {
+                throw new RuntimeException("Unable to parse current timestamp into sql date " + e.getMessage());
+            }
         }
     }
 

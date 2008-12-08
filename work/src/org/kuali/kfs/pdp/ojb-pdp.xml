@@ -364,7 +364,7 @@
     <field-descriptor name="payeeIdTypeCd" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="payeeName" column="PMT_PAYEE_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="payeeOwnerCd" column="PAYEE_OWNR_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="paymentDate" column="PMT_DT" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="paymentDate" column="PMT_DT" jdbc-type="DATE"/>
     <field-descriptor name="physCampusProcessCd" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="processImmediate" column="PROC_IMD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="pymtAttachment" column="PMT_ATTCHMNT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -425,7 +425,7 @@
     <field-descriptor name="financialSystemOriginCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="invoiceNbr" column="INV_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceDate" column="INV_DT" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="invoiceDate" column="INV_DT" jdbc-type="DATE"/>
     <field-descriptor name="invTotDiscountAmount" column="INV_TOT_DSCT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invTotOtherCreditAmount" column="INV_TOT_OTHR_CRDT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invTotOtherDebitAmount" column="INV_TOT_OTHR_DEBIT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
@@ -464,7 +464,7 @@
     <field-descriptor name="origAdviceEmail" column="ORIG_ADV_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="origDisburseDate" column="ORIG_DISB_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="origDisburseNbr" column="ORIG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-    <field-descriptor name="origPaymentDate" column="ORIG_PMT_DT" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="origPaymentDate" column="ORIG_PMT_DT" jdbc-type="DATE"/>
     <field-descriptor name="origPmtSpecHandling" column="ORIG_PMT_SPCL_HANDLG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="origProcessImmediate" column="ORIG_PROC_IMD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="pmtCancelExtractStat" column="PMT_CNCL_EXTRT_STAT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>

@@ -19,18 +19,15 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
@@ -41,7 +38,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private Person changeUser;
     private String changeUserId; // PMT_CHG_USR_ID VARCHAR2 8
     private Timestamp changeTime; // PMT_CHG_TS DATE 7
-    private Timestamp origPaymentDate; // ORIG_PMT_DT DATE 7
+    private Date origPaymentDate; // ORIG_PMT_DT DATE 7
     private String origAchBankRouteNbr; // ORIG_ACH_BNK_RTNG_NBR VARCHAR2 17 0
     private String origAdviceEmail; // ORIG_ADV_EMAIL_ADDR VARCHAR2 50
     private KualiInteger origDisburseNbr; // ORIG_DISB_NBR NUMBER 9 0
@@ -158,7 +155,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="ORIG_PMT_DT"
      */
-    public Timestamp getOrigPaymentDate() {
+    public Date getOrigPaymentDate() {
         return origPaymentDate;
     }
 
@@ -253,7 +250,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     /**
      * @param timestamp
      */
-    public void setOrigPaymentDate(Timestamp timestamp) {
+    public void setOrigPaymentDate(Date timestamp) {
         origPaymentDate = timestamp;
     }
 
@@ -491,7 +488,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
         Person u = userService.getPerson(changeUserId);
         setChangeUser(u);
     }
-    
+
     public KualiInteger getProcessId() {
         return processId;
     }
@@ -506,11 +503,10 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        
+
         m.put(KFSPropertyConstants.ID, this.id);
 
         return m;
     }
 
 }
-

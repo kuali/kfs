@@ -19,6 +19,7 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
 
     private KualiInteger id;
     private String invoiceNbr;
-    private Timestamp invoiceDate;
+    private Date invoiceDate;
     private String purchaseOrderNbr;
     private String custPaymentDocNbr;
     private String financialSystemOriginCode;
@@ -129,11 +130,11 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         this.lastDisbursementActionDate = lastDisbursementActionDate;
     }
 
-    public Timestamp getInvoiceDate() {
+    public Date getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(Timestamp invoiceDate) {
+    public void setInvoiceDate(Date invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
@@ -144,7 +145,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @param invoiceDate Timestamp as string
      */
     public void setInvoiceDate(String invoiceDate) throws ParseException {
-        this.invoiceDate = new Timestamp(SpringContext.getBean(DateTimeService.class).convertToSqlDate(invoiceDate).getTime());
+        this.invoiceDate = SpringContext.getBean(DateTimeService.class).convertToSqlDate(invoiceDate);
     }
 
     /**

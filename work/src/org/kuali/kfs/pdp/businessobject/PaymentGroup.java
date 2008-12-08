@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -23,9 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
@@ -63,7 +61,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private String country; // PMT_CNTRY_NM
     private String zipCd; // PMT_ZIP_CD
     private Boolean campusAddress; // CMP_ADDR_IND
-    private Timestamp paymentDate; // PMT_DT DATE
+    private Date paymentDate; // PMT_DT DATE
     private Boolean pymtAttachment; // PMT_ATTCHMNT_IND
     private Boolean pymtSpecialHandling; // PMT_SPCL_HANDLG_IND
     private Boolean taxablePayment; // PMT_TXBL_IND
@@ -562,7 +560,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="PMT_DT"
      */
-    public Timestamp getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 
@@ -809,7 +807,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     /**
      * @param timestamp
      */
-    public void setPaymentDate(Timestamp timestamp) {
+    public void setPaymentDate(Date timestamp) {
         paymentDate = timestamp;
     }
 
@@ -820,7 +818,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @param paymentDate Timestamp as string
      */
     public void setPaymentDate(String paymentDate) throws ParseException {
-        this.paymentDate = new Timestamp(SpringContext.getBean(DateTimeService.class).convertToSqlDate(paymentDate).getTime());
+        this.paymentDate = SpringContext.getBean(DateTimeService.class).convertToSqlDate(paymentDate);
     }
 
     /**
@@ -886,9 +884,9 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     }
 
     public String toStringKey() {
-        StringBuffer buffer= new StringBuffer()  ;
+        StringBuffer buffer = new StringBuffer();
         CustomerProfile customerProfile = batch.getCustomerProfile();
-        
+
         buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE);
         buffer.append("=");
         buffer.append(customerProfile.getChartCode());
@@ -997,7 +995,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setId_type(String idType) {
         this.payeeIdTypeCd = idType;
     }
-    
+
     /**
      * Gets the adviceEmailSentDate attribute.
      * 

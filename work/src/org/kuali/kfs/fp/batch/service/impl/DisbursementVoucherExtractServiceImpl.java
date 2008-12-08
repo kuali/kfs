@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.batch.service.impl;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -25,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
@@ -153,7 +153,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         batch.setPaymentCount(new KualiInteger(count));
         batch.setPaymentTotalAmount(totalAmount);
-        
+
         businessObjectService.save(batch);
         paymentFileEmailService.sendLoadEmail(batch);
     }
@@ -266,14 +266,19 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setState(pd.getDisbVchrPayeeStateCode());
         pg.setZipCd(pd.getDisbVchrPayeeZipCode());
 
-        pg.setPaymentDate(batch.getFileProcessTimestamp());
+        try {
+            pg.setPaymentDate(dateTimeService.convertToSqlDate(batch.getFileProcessTimestamp()));
+        }
+        catch (ParseException e) {
+            throw new RuntimeException("Unable to parse file process timestamp into sql date " + e.getMessage());
+        }
 
         // It doesn't look like the DV has a way to do immediate processes
         pg.setProcessImmediate(Boolean.FALSE);
         pg.setPymtAttachment(document.isDisbVchrAttachmentCode());
         pg.setPymtSpecialHandling(document.isDisbVchrSpecialHandlingCode());
         pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
-        
+
         pg.setBankCode(document.getDisbVchrBankCode());
         pg.setPaymentStatusCode(KFSConstants.PdpConstants.PAYMENT_OPEN_STATUS_CODE);
 
@@ -297,7 +302,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pd.setOrganizationDocNbr(document.getDocumentHeader().getOrganizationDocumentNumber());
         }
         pd.setCustPaymentDocNbr(document.getDocumentNumber());
-        pd.setInvoiceDate(new Timestamp(processRunDate.getTime()));
+        pd.setInvoiceDate(new java.sql.Date(processRunDate.getTime()));
         pd.setOrigInvoiceAmount(document.getDisbVchrCheckTotalAmount());
         pd.setInvTotDiscountAmount(KualiDecimal.ZERO);
         pd.setInvTotOtherCreditAmount(KualiDecimal.ZERO);
@@ -493,7 +498,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         // Set these for now, we will update them later
         batch.setPaymentCount(KualiInteger.ZERO);
         batch.setPaymentTotalAmount(KualiDecimal.ZERO);
-        
+
         businessObjectService.save(batch);
 
         return batch;
@@ -762,4 +767,3 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
 }
-

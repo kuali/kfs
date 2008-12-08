@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
+import java.io.Serializable;
+
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Interface to aid voucher documents for handling debit/credit amounts.
  */
-public interface VoucherAccountingLineHelper {
+public interface VoucherAccountingLineHelper extends Serializable {
     /**
      * This method retrieves the credit amount.
      * 

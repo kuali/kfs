@@ -62,7 +62,7 @@
 						mode="Opaque"
 						x="18"
 						y="548"
-						width="193"
+						width="201"
 						height="16"
 						key="staticText-22"/>
 					<box></box>
@@ -88,9 +88,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="219"
+						x="224"
 						y="548"
-						width="193"
+						width="260"
 						height="16"
 						key="textField-23"/>
 					<box></box>
@@ -274,7 +274,7 @@
 						height="16"
 						key="textField-33"/>
 					<box></box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("invoiceDueDate")]]></textFieldExpression>
@@ -287,7 +287,7 @@
 						height="16"
 						key="textField-34"/>
 					<box></box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("invoiceAmountDue")]]></textFieldExpression>

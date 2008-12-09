@@ -14,6 +14,7 @@
     </property>
     <property name="documentTypeName" value="RequisitionDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    <!--  -->property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" /-->
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentPreRules" />
@@ -153,6 +154,7 @@
         <ref bean="RequisitionDocument-useTaxIndicator" />      
       </list>
     </property>
+    <property name="validationMap" ref="RequisitionDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -1050,5 +1052,33 @@
 		</property>		
   </bean>
 
+  <bean id="RequisitionDocument-validations" parent="RequisitionDocument-validations-parentBean" />
+  
+  <bean id="RequisitionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>Requisition-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>Requisition-approveDocumentValidation</value>
+			</entry>		
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>Requisition-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>Requisition-updateAccountingLineValidation</value>
+			</entry>	
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>Requisition-reviewAccountingLineValidation</value>
+			</entry>				
+    	</map>
+    </property>
+  </bean>  
   	
 </beans>

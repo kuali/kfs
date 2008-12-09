@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 /**
  * labor Document class for the Labor Ledger Correction Process.
  */
-public class LaborCorrectionDocument extends CorrectionDocument implements AmountTotaling {
+public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocument implements AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionDocument.class);
 
     /**

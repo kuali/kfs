@@ -4,22 +4,22 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CorrectionDocument" parent="CorrectionDocument-parentBean" />
+  <bean id="GeneralLedgerCorrectionProcessDocument" parent="GeneralLedgerCorrectionProcessDocument-parentBean" />
 
-  <bean id="CorrectionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="GeneralLedgerCorrectionProcessDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="General Ledger Correction Process" />
     <property name="shortLabel" value="GLCPDoc" />
     <property name="summary" value="General Ledger Correction Process Document" />
     <property name="description" value="General Ledger Correction Process Document" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.gl.document.CorrectionDocument" p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />
     </property>
-    <property name="documentTypeName" value="CorrectionDocument" />
-    <property name="documentClass" value="org.kuali.kfs.gl.document.CorrectionDocument" />
+    <property name="documentTypeName" value="GeneralLedgerCorrectionProcessDocument" />
+    <property name="documentClass" value="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="documentTypeCode" value="GLCP" />
     <property name="workflowProperties" >
-      <ref bean="CorrectionDocument-workflowProperties" />
+      <ref bean="GeneralLedgerCorrectionProcessDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -38,9 +38,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="CorrectionDocument-workflowProperties" parent="CorrectionDocument-workflowProperties-parentBean" />
+  <bean id="GeneralLedgerCorrectionProcessDocument-workflowProperties" parent="GeneralLedgerCorrectionProcessDocument-workflowProperties-parentBean" />
 
-  <bean id="CorrectionDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="GeneralLedgerCorrectionProcessDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

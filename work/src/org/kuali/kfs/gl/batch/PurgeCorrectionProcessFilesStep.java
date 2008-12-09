@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
@@ -44,8 +44,8 @@ public class PurgeCorrectionProcessFilesStep extends AbstractStep {
         int numberOfDaysFinal = Integer.parseInt(getParameterService().getParameterValue(getClass(), "NUMBER_OF_DAYS_FINAL"));
         Calendar financialDocumentFinalCalendar = getDateTimeService().getCurrentCalendar();
         financialDocumentFinalCalendar.add(GregorianCalendar.DAY_OF_YEAR, -numberOfDaysFinal);
-        Collection<CorrectionDocument> documentsFinalOnDate = correctionDocumentService.getCorrectionDocumentsFinalizedOn(new java.sql.Date(financialDocumentFinalCalendar.getTimeInMillis()));
-        for (CorrectionDocument document : documentsFinalOnDate) {
+        Collection<GeneralLedgerCorrectionProcessDocument> documentsFinalOnDate = correctionDocumentService.getCorrectionDocumentsFinalizedOn(new java.sql.Date(financialDocumentFinalCalendar.getTimeInMillis()));
+        for (GeneralLedgerCorrectionProcessDocument document : documentsFinalOnDate) {
             correctionDocumentService.removePersistedInputOriginEntries(document);
             correctionDocumentService.removePersistedOutputOriginEntries(document);
         }

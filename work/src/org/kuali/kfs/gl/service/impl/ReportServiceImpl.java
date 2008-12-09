@@ -40,7 +40,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.options.SearchOperatorsFinder;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.report.BalanceEncumbranceReport;
 import org.kuali.kfs.gl.report.BalanceReport;
@@ -889,7 +889,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the date the GLCP was created
      * @see org.kuali.kfs.gl.service.ReportService#correctionOnlineReport(org.kuali.kfs.gl.document.CorrectionDocument, java.util.Date)
      */
-    public void correctionOnlineReport(CorrectionDocument cDocument, Date runDate) {
+    public void correctionOnlineReport(GeneralLedgerCorrectionProcessDocument cDocument, Date runDate) {
         LOG.debug("correctionOnlineReport() started");
 
         Font headerFont = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD);

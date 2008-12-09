@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.businessobject.DemergerReportData;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.Options;
 
@@ -276,7 +276,7 @@ public interface ReportService {
      * @param cDocument the GLCP document to report on
      * @param runDate the date the GLCP was created
      */
-    public void correctionOnlineReport(CorrectionDocument cDocument, Date runDate);
+    public void correctionOnlineReport(GeneralLedgerCorrectionProcessDocument cDocument, Date runDate);
 
     /**
      * Poster output Summary Report: a summary of the three poster runs (pulling in the transactions from the main, reversal, and

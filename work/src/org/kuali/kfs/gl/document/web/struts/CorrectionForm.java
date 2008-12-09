@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.sys.KFSConstants;
@@ -119,7 +119,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     public CorrectionForm() {
         super();
 
-        setDocument(new CorrectionDocument());
+        setDocument(new GeneralLedgerCorrectionProcessDocument());
 
         // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
@@ -238,7 +238,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
         restrictedFunctionalityMode = false;
 
-        setDocument(new CorrectionDocument());
+        setDocument(new GeneralLedgerCorrectionProcessDocument());
 
         // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
@@ -295,8 +295,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         return (allEntries == null) ? null : allEntries.size();
     }
 
-    public CorrectionDocument getCorrectionDocument() {
-        return (CorrectionDocument) getDocument();
+    public GeneralLedgerCorrectionProcessDocument getCorrectionDocument() {
+        return (GeneralLedgerCorrectionProcessDocument) getDocument();
     }
 
     public String getEntryFinancialDocumentReversalDate() {
@@ -388,7 +388,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     public Integer getInputGroupId() {
-        return ((CorrectionDocument) getDocument()).getCorrectionInputGroupId();
+        return ((GeneralLedgerCorrectionProcessDocument) getDocument()).getCorrectionInputGroupId();
     }
 
     public boolean getProcessInBatch() {
@@ -677,7 +677,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     @Override
     protected void customInitMaxUploadSizes() {
         super.customInitMaxUploadSizes();
-        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM));
+        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
 
 }

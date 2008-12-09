@@ -39,7 +39,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
 import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
@@ -126,9 +126,9 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @return a CorrectionDocument if found
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
      */
-    public CorrectionDocument findByCorrectionDocumentHeaderId(String docId) {
+    public GeneralLedgerCorrectionProcessDocument findByCorrectionDocumentHeaderId(String docId) {
 
-        return (CorrectionDocument) documentDao.findByDocumentHeaderId(CorrectionDocument.class, docId);
+        return (GeneralLedgerCorrectionProcessDocument) documentDao.findByDocumentHeaderId(GeneralLedgerCorrectionProcessDocument.class, docId);
     }
 
     public void setCorrectionChangeDao(CorrectionChangeDao correctionChangeDao) {
@@ -324,7 +324,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param document a GLCP document
      * @return the name of the file to read
      */
-    protected String generateInputOriginEntryFileName(CorrectionDocument document) {
+    protected String generateInputOriginEntryFileName(GeneralLedgerCorrectionProcessDocument document) {
         String docId = document.getDocumentHeader().getDocumentNumber();
         return generateInputOriginEntryFileName(docId);
     }
@@ -335,7 +335,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param document a GLCP document
      * @return the name of the file to write to
      */
-    protected String generateOutputOriginEntryFileName(CorrectionDocument document) {
+    protected String generateOutputOriginEntryFileName(GeneralLedgerCorrectionProcessDocument document) {
         String docId = document.getDocumentHeader().getDocumentNumber();
         return generateOutputOriginEntryFileName(docId);
     }
@@ -367,7 +367,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param entries an Iterator of origin entries
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String, java.util.Iterator)
      */
-    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries) {
+    public void persistInputOriginEntriesForInitiatedOrSavedDocument(GeneralLedgerCorrectionProcessDocument document, Iterator<OriginEntryFull> entries) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
@@ -385,7 +385,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.gl.document.CorrectionDocument,
      *      java.util.Iterator)
      */
-    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries) {
+    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(GeneralLedgerCorrectionProcessDocument document, Iterator<OriginEntryFull> entries) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
@@ -438,7 +438,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @return an OutputStream to write to
      * @throws IOException if the file cannot be successfully opened
      */
-    protected BufferedOutputStream openEntryOutputStreamForOutputGroup(CorrectionDocument document) throws IOException {
+    protected BufferedOutputStream openEntryOutputStreamForOutputGroup(GeneralLedgerCorrectionProcessDocument document) throws IOException {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         return new BufferedOutputStream(new FileOutputStream(fullPathUniqueFileName));
     }
@@ -450,7 +450,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param document a GLCP document
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.gl.document.CorrectionDocument)
      */
-    public void removePersistedInputOriginEntries(CorrectionDocument document) {
+    public void removePersistedInputOriginEntries(GeneralLedgerCorrectionProcessDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         removePersistedOriginEntries(fullPathUniqueFileName);
     }
@@ -461,7 +461,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param document a GLCP document
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.gl.document.CorrectionDocument)
      */
-    public void removePersistedOutputOriginEntries(CorrectionDocument document) {
+    public void removePersistedOutputOriginEntries(GeneralLedgerCorrectionProcessDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         removePersistedOriginEntries(fullPathUniqueFileName);
     }
@@ -510,7 +510,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.kfs.gl.document.CorrectionDocument,
      *      int)
      */
-    public List<OriginEntryFull> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold) {
+    public List<OriginEntryFull> retrievePersistedInputOriginEntries(GeneralLedgerCorrectionProcessDocument document, int abortThreshold) {
         return retrievePersistedOriginEntries(generateInputOriginEntryFileName(document), abortThreshold);
     }
 
@@ -525,7 +525,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.kfs.gl.document.CorrectionDocument,
      *      int)
      */
-    public List<OriginEntryFull> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold) {
+    public List<OriginEntryFull> retrievePersistedOutputOriginEntries(GeneralLedgerCorrectionProcessDocument document, int abortThreshold) {
         return retrievePersistedOriginEntries(generateOutputOriginEntryFileName(document), abortThreshold);
     }
 
@@ -590,7 +590,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @return the iterator
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.kfs.gl.document.CorrectionDocument)
      */
-    public Iterator<OriginEntryFull> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document) {
+    public Iterator<OriginEntryFull> retrievePersistedInputOriginEntriesAsIterator(GeneralLedgerCorrectionProcessDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
     }
@@ -604,7 +604,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.kfs.gl.document.CorrectionDocument)
      */
-    public Iterator<OriginEntryFull> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document) {
+    public Iterator<OriginEntryFull> retrievePersistedOutputOriginEntriesAsIterator(GeneralLedgerCorrectionProcessDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
     }
@@ -642,7 +642,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.kfs.gl.document.CorrectionDocument)
      */
-    public boolean areInputOriginEntriesPersisted(CorrectionDocument document) {
+    public boolean areInputOriginEntriesPersisted(GeneralLedgerCorrectionProcessDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         File file = new File(fullPathUniqueFileName);
         return file.exists();
@@ -654,7 +654,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @return true if origin entries are stored to the system, false otherwise
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.kfs.gl.document.CorrectionDocument)
      */
-    public boolean areOutputOriginEntriesPersisted(CorrectionDocument document) {
+    public boolean areOutputOriginEntriesPersisted(GeneralLedgerCorrectionProcessDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         File file = new File(fullPathUniqueFileName);
         return file.exists();
@@ -669,7 +669,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @throws IOException thrown if IOExceptions occurred in writing the persisted origin entries
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#writePersistedInputOriginEntriesToStream(java.io.OutputStream)
      */
-    public void writePersistedInputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException {
+    public void writePersistedInputOriginEntriesToStream(GeneralLedgerCorrectionProcessDocument document, OutputStream out) throws IOException {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         writePersistedOriginEntriesToStream(fullPathUniqueFileName, out);
     }
@@ -682,7 +682,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @throws IOException thrown if IOExceptions occurred in writing the persisted origin entries
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#writePersistedOutputOriginEntriesToStream(java.io.OutputStream)
      */
-    public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException {
+    public void writePersistedOutputOriginEntriesToStream(GeneralLedgerCorrectionProcessDocument document, OutputStream out) throws IOException {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         writePersistedOriginEntriesToStream(fullPathUniqueFileName, out);
     }
@@ -717,7 +717,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param correctionDocumentEntryMetadata metadata about this GLCP document
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntryGroupsForDocumentSave(org.kuali.kfs.gl.document.CorrectionDocument, org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata)
      */
-    public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata) {
+    public void persistOriginEntryGroupsForDocumentSave(GeneralLedgerCorrectionProcessDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata) {
         if (correctionDocumentEntryMetadata.getAllEntries() == null && !correctionDocumentEntryMetadata.isRestrictedFunctionalityMode()) {
             // if we don't have origin entries loaded and not in restricted functionality mode, then there's nothing worth
             // persisting
@@ -901,7 +901,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     /**
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#getCorrectionDocumentsFinalizedOn(java.sql.Date)
      */
-    public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date) {
+    public Collection<GeneralLedgerCorrectionProcessDocument> getCorrectionDocumentsFinalizedOn(Date date) {
         return correctionDocumentDao.getCorrectionDocumentsFinalizedOn(date);
     }
 

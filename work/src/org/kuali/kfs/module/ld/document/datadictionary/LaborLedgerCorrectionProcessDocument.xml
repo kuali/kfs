@@ -4,9 +4,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="KualiLaborLedgerErrorCorrectionDocument" parent="KualiLaborLedgerErrorCorrectionDocument-parentBean" />
+  <bean id="LaborLedgerCorrectionProcessDocument" parent="LaborLedgerCorrectionProcessDocument-parentBean" />
 
-  <bean id="KualiLaborLedgerErrorCorrectionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="LaborLedgerCorrectionProcessDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Labor Ledger Correction Process" />
     <property name="shortLabel" value="Labor Ledger Correction Process" />
     <property name="summary" value="Labor Ledger Correction Process Document" />
@@ -17,12 +17,12 @@
             p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS"
             p:parameterDetailType="Correction" />
     </property>
-    <property name="documentTypeName" value="KualiLaborLedgerErrorCorrectionDocument" />
+    <property name="documentTypeName" value="LaborLedgerCorrectionProcessDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborCorrectionDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="documentTypeCode" value="LLCP" />
     <property name="workflowProperties" >
-      <ref bean="KualiLaborLedgerErrorCorrectionDocument-workflowProperties" />
+      <ref bean="LaborLedgerCorrectionProcessDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -41,9 +41,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="KualiLaborLedgerErrorCorrectionDocument-workflowProperties" parent="KualiLaborLedgerErrorCorrectionDocument-workflowProperties-parentBean" />
+  <bean id="LaborLedgerCorrectionProcessDocument-workflowProperties" parent="LaborLedgerCorrectionProcessDocument-workflowProperties-parentBean" />
 
-  <bean id="KualiLaborLedgerErrorCorrectionDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="LaborLedgerCorrectionProcessDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.rice.kns.web.ui.Column;
@@ -80,7 +80,7 @@ public interface CorrectionDocumentService {
      * @param docId the document id of the GLCP to find
      * @return a CorrectionDocument if found
      */
-    public CorrectionDocument findByCorrectionDocumentHeaderId(String docId);
+    public GeneralLedgerCorrectionProcessDocument findByCorrectionDocumentHeaderId(String docId);
 
     /**
      * Returns metadata to help render columns in the GLCP. Do not modify this list or the contents in this list.
@@ -96,14 +96,14 @@ public interface CorrectionDocumentService {
      * @param document an initiated or saved document
      * @param entries an Iterator of origin entries
      */
-    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries);
+    public void persistInputOriginEntriesForInitiatedOrSavedDocument(GeneralLedgerCorrectionProcessDocument document, Iterator<OriginEntryFull> entries);
 
     /**
      * Removes input origin entries that were saved to the database associated with the given document
      * 
      * @param document a GLCP document
      */
-    public void removePersistedInputOriginEntries(CorrectionDocument document);
+    public void removePersistedInputOriginEntries(GeneralLedgerCorrectionProcessDocument document);
 
     /**
      * Removes input origin entries that were saved to the database associated with the given document
@@ -121,7 +121,7 @@ public interface CorrectionDocumentService {
      * @return the list, or null if there are too many origin entries
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
      */
-    public List<OriginEntryFull> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold);
+    public List<OriginEntryFull> retrievePersistedInputOriginEntries(GeneralLedgerCorrectionProcessDocument document, int abortThreshold);
 
     /**
      * Returns true if the system is storing input origin entries for this class. Note that this does not mean that there's at least
@@ -132,7 +132,7 @@ public interface CorrectionDocumentService {
      * @param document a GLCP document
      * @return Returns true if system should store origin entries, false otherwise
      */
-    public boolean areInputOriginEntriesPersisted(CorrectionDocument document);
+    public boolean areInputOriginEntriesPersisted(GeneralLedgerCorrectionProcessDocument document);
 
     /**
      * Writes out the persisted input origin entries in an {@link OutputStream} in a flat file format
@@ -142,7 +142,7 @@ public interface CorrectionDocumentService {
      * @throws IOException thrown if errors were encountered writing to the Stream
      * @throws RuntimeException several reasons, including if the entries are not persisted
      */
-    public void writePersistedInputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
+    public void writePersistedInputOriginEntriesToStream(GeneralLedgerCorrectionProcessDocument document, OutputStream out) throws IOException;
 
     /**
      * This method persists an Iterator of input origin entries for a document that is in the initiated or saved state
@@ -150,14 +150,14 @@ public interface CorrectionDocumentService {
      * @param document an initiated or saved document
      * @param entries an Iterator of OriginEntries to persist
      */
-    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries);
+    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(GeneralLedgerCorrectionProcessDocument document, Iterator<OriginEntryFull> entries);
 
     /**
      * Removes all output origin entries persisted in the database created by the given document 
      * 
      * @param document a GLCP document
      */
-    public void removePersistedOutputOriginEntries(CorrectionDocument document);
+    public void removePersistedOutputOriginEntries(GeneralLedgerCorrectionProcessDocument document);
 
     /**
      * Removes all output origin entries persisted in the database created by the given document 
@@ -175,7 +175,7 @@ public interface CorrectionDocumentService {
      * @return the list, or null if there are too many origin entries
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
      */
-    public List<OriginEntryFull> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold);
+    public List<OriginEntryFull> retrievePersistedOutputOriginEntries(GeneralLedgerCorrectionProcessDocument document, int abortThreshold);
 
     /**
      * Retrieves input origin entries that have been persisted for this document in an iterator. Implementations of this method may
@@ -185,7 +185,7 @@ public interface CorrectionDocumentService {
      * @return the iterator
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
      */
-    public Iterator<OriginEntryFull> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document);
+    public Iterator<OriginEntryFull> retrievePersistedInputOriginEntriesAsIterator(GeneralLedgerCorrectionProcessDocument document);
 
     /**
      * Retrieves output origin entries that have been persisted for this document in an iterator. Implementations of this method may
@@ -195,7 +195,7 @@ public interface CorrectionDocumentService {
      * @return the iterator
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
      */
-    public Iterator<OriginEntryFull> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document);
+    public Iterator<OriginEntryFull> retrievePersistedOutputOriginEntriesAsIterator(GeneralLedgerCorrectionProcessDocument document);
 
     /**
      * Returns true if the system is storing output origin entries for this class. Note that this does not mean that there's at
@@ -206,7 +206,7 @@ public interface CorrectionDocumentService {
      * @param document a GLCP document to query
      * @return true if origin entries are stored to the system, false otherwise
      */
-    public boolean areOutputOriginEntriesPersisted(CorrectionDocument document);
+    public boolean areOutputOriginEntriesPersisted(GeneralLedgerCorrectionProcessDocument document);
 
     /**
      * Writes out the persisted output origin entries in an {@link OutputStream} in a flat file format\
@@ -216,7 +216,7 @@ public interface CorrectionDocumentService {
      * @throws IOException thrown if IOExceptions occurred in writing the persisted origin entries
      * @throws RuntimeException several reasons, including if the entries are not persisted
      */
-    public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
+    public void writePersistedOutputOriginEntriesToStream(GeneralLedgerCorrectionProcessDocument document, OutputStream out) throws IOException;
 
     /**
      * Saves the input and output origin entry groups for a document prior to saving the document
@@ -224,7 +224,7 @@ public interface CorrectionDocumentService {
      * @param document a GLCP document
      * @param correctionDocumentEntryMetadata metadata about this GLCP document
      */
-    public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
+    public void persistOriginEntryGroupsForDocumentSave(GeneralLedgerCorrectionProcessDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
 
     /**
      * Retrieves all of the documents that were finalized on a certain date
@@ -232,5 +232,5 @@ public interface CorrectionDocumentService {
      * @param date the date to find GLCP documents finalized on
      * @return a collection of documents
      */
-    public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date);
+    public Collection<GeneralLedgerCorrectionProcessDocument> getCorrectionDocumentsFinalizedOn(Date date);
 }

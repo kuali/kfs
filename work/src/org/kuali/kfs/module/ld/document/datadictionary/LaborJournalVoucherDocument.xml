@@ -4,9 +4,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="KualiLaborJournalVoucherDocument" parent="KualiLaborJournalVoucherDocument-parentBean" />
+  <bean id="LaborJournalVoucherDocument" parent="LaborJournalVoucherDocument-parentBean" />
 
-  <bean id="KualiLaborJournalVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="LaborJournalVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Labor Journal Voucher" />
     <property name="shortLabel" value="Labor Journal Voucher" />
@@ -18,14 +18,14 @@
             p:parameterName="JOURNAL_VOUCHER"
             p:parameterDetailType="JournalVoucher" />
     </property>
-    <property name="documentTypeName" value="KualiLaborJournalVoucherDocument" />
+    <property name="documentTypeName" value="LaborJournalVoucherDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.JournalVoucherDocumentAuthorizer" />
     <property name="documentTypeCode" value="LLJV" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
-      <ref bean="KualiLaborJournalVoucherDocument-workflowProperties" />
+      <ref bean="LaborJournalVoucherDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -41,32 +41,32 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="KualiLaborJournalVoucherDocument-accountingPeriod" />
-        <ref bean="KualiLaborJournalVoucherDocument-reversalDate" />
-        <ref bean="KualiLaborJournalVoucherDocument-balanceTypeCode" />
-        <ref bean="KualiLaborJournalVoucherDocument-offsetTypeCode" />
+        <ref bean="LaborJournalVoucherDocument-accountingPeriod" />
+        <ref bean="LaborJournalVoucherDocument-reversalDate" />
+        <ref bean="LaborJournalVoucherDocument-balanceTypeCode" />
+        <ref bean="LaborJournalVoucherDocument-offsetTypeCode" />
       </list>
     </property>
     
-    <property name="validationMap" ref="KualiLaborJournalVoucherDocument-validations" />
+    <property name="validationMap" ref="LaborJournalVoucherDocument-validations" />
     
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
 	    	</entry>
 	    	<entry>
     			<key><value>source-withExtEncumbrance</value></key>
-	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="AccountingLineGroup" />
+	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="AccountingLineGroup" />
 	    	</entry>
     		<entry>
     			<key><value>source-withDebitCredit</value></key>
-	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="AccountingLineGroup" />
+	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="AccountingLineGroup" />
 	    	</entry>
 	    	<entry>
     			<key><value>source-withDebitCreditExtEncumbrance</value></key>
-	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="AccountingLineGroup" />
+	    		<ref bean="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="AccountingLineGroup" />
 	    	</entry>	    	
     	</map>
     </property>
@@ -74,9 +74,9 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="KualiLaborJournalVoucherDocument-accountingPeriod" parent="KualiLaborJournalVoucherDocument-accountingPeriod-parentBean" />
+  <bean id="LaborJournalVoucherDocument-accountingPeriod" parent="LaborJournalVoucherDocument-accountingPeriod-parentBean" />
 
-  <bean id="KualiLaborJournalVoucherDocument-accountingPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborJournalVoucherDocument-accountingPeriod-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountingPeriod" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Accounting Period" />
@@ -93,25 +93,25 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The calendar accounting periods during which the Labor Journal Voucher applies. Select one from the pulldown list." />
   </bean>
-  <bean id="KualiLaborJournalVoucherDocument-reversalDate" parent="KualiLaborJournalVoucherDocument-reversalDate-parentBean" />
+  <bean id="LaborJournalVoucherDocument-reversalDate" parent="LaborJournalVoucherDocument-reversalDate-parentBean" />
 
-  <bean id="KualiLaborJournalVoucherDocument-reversalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  <bean id="LaborJournalVoucherDocument-reversalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="reversalDate" />
     <property name="label" value="Reversal Date" />
     <property name="shortLabel" value="Reversal Date" />
     <property name="required" value="false" />
     <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the Labor Ledger entries entered on the document's date. Use the calendar icon to select and format the Reversal Date." />
   </bean>
-  <bean id="KualiLaborJournalVoucherDocument-balanceTypeCode" parent="KualiLaborJournalVoucherDocument-balanceTypeCode-parentBean" />
+  <bean id="LaborJournalVoucherDocument-balanceTypeCode" parent="LaborJournalVoucherDocument-balanceTypeCode-parentBean" />
 
-  <bean id="KualiLaborJournalVoucherDocument-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="LaborJournalVoucherDocument-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
     <property name="name" value="balanceTypeCode" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The 2-character code and text describing the type of balance involved in the Journal Voucher. Select one from the pulldown list." />
   </bean>
-  <bean id="KualiLaborJournalVoucherDocument-offsetTypeCode" parent="KualiLaborJournalVoucherDocument-offsetTypeCode-parentBean" />
+  <bean id="LaborJournalVoucherDocument-offsetTypeCode" parent="LaborJournalVoucherDocument-offsetTypeCode-parentBean" />
 
-  <bean id="KualiLaborJournalVoucherDocument-offsetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborJournalVoucherDocument-offsetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offsetTypeCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Offset Type" />
@@ -132,9 +132,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="KualiLaborJournalVoucherDocument-workflowProperties" parent="KualiLaborJournalVoucherDocument-workflowProperties-parentBean" />
+  <bean id="LaborJournalVoucherDocument-workflowProperties" parent="LaborJournalVoucherDocument-workflowProperties-parentBean" />
 
-  <bean id="KualiLaborJournalVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="LaborJournalVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">
@@ -155,43 +155,43 @@
   
   <!-- Validations -->
   
-  <bean id="KualiLaborJournalVoucherDocument-validations" parent="KualiLaborJournalVoucherDocument-validations-parentBean" />
+  <bean id="LaborJournalVoucherDocument-validations" parent="LaborJournalVoucherDocument-validations-parentBean" />
   
-  <bean id="KualiLaborJournalVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="LaborJournalVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
-				<value>KualiLaborJournalVoucherDocument-approveDocumentValidation</value>
+				<value>LaborJournalVoucherDocument-approveDocumentValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
-				<value>KualiLaborJournalVoucherDocument-blanketApproveDocumentValidation</value>
+				<value>LaborJournalVoucherDocument-blanketApproveDocumentValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
-				<value>KualiLaborJournalVoucherDocument-updateAccountLineValidation</value>
+				<value>LaborJournalVoucherDocument-updateAccountLineValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
-				<value>KualiLaborJournalVoucherDocument-addAccountingLineValidation</value>
+				<value>LaborJournalVoucherDocument-addAccountingLineValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
-				<value>KualiLaborJournalVoucherDocument-deleteAccountingLineValidation</value>
+				<value>LaborJournalVoucherDocument-deleteAccountingLineValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
-				<value>KualiLaborJournalVoucherDocument-reviewAccountingLineValidation</value>
+				<value>LaborJournalVoucherDocument-reviewAccountingLineValidation</value>
 			</entry>
     	</map>
     </property>
   </bean>  
   
   <!-- accounting line groups -->
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" />  
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView" />
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView" />
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
@@ -200,9 +200,9 @@
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
   </bean>  
   
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" />  
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView-withExtEncumbrance" />
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" />  
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance" />
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
@@ -211,9 +211,9 @@
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
   </bean> 
   
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" />  
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCredit" />
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" />  
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCredit" />
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
@@ -222,9 +222,9 @@
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
   </bean>  
   
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" />  
-  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance" />
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" />  
+  <bean id="LaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance" />
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />

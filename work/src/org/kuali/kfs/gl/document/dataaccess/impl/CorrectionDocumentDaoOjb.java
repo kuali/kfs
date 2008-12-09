@@ -20,7 +20,7 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -37,9 +37,9 @@ public class CorrectionDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @param date the finalization date of GLCP documents to find
      * @return a Collection of GLCP documents
      */
-    public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date documentFinalDate) {
+    public Collection<GeneralLedgerCorrectionProcessDocument> getCorrectionDocumentsFinalizedOn(Date documentFinalDate) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSPropertyConstants.DOCUMENT_FINAL_DATE, documentFinalDate);
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(CorrectionDocument.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(GeneralLedgerCorrectionProcessDocument.class, criteria));
     }
 }

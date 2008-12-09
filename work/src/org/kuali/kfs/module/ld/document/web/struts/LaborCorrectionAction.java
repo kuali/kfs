@@ -41,7 +41,7 @@ import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
 import org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
@@ -123,7 +123,7 @@ public class LaborCorrectionAction extends CorrectionAction {
 
                     if ((!"showOutputGroup".equals(rForm.getMethodToCall())) && rForm.getShowOutputFlag()) {
                         // reapply the any criteria to pare down the list if the match criteria only flag is checked
-                        CorrectionDocument document = rForm.getCorrectionDocument();
+                        GeneralLedgerCorrectionProcessDocument document = rForm.getCorrectionDocument();
                         List<CorrectionChangeGroup> groups = document.getCorrectionChangeGroup();
                         updateEntriesFromCriteria(rForm, rForm.isRestrictedFunctionalityMode());
                     }
@@ -211,7 +211,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("uploadFile() started");
 
         CorrectionForm correctionForm = (CorrectionForm) form;
-        CorrectionDocument document = (CorrectionDocument) correctionForm.getDocument();
+        GeneralLedgerCorrectionProcessDocument document = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
 
         java.sql.Date today = CorrectionAction.dateTimeService.getCurrentSqlDate();
         OriginEntryGroup newOriginEntryGroup = CorrectionAction.originEntryGroupService.createGroup(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, false, false, false);
@@ -313,7 +313,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("loadAllEntries() started");
 
         if (!correctionForm.isRestrictedFunctionalityMode()) {
-            CorrectionDocument document = correctionForm.getCorrectionDocument();
+            GeneralLedgerCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
             List<LaborOriginEntry> laborSearchResults = laborOriginEntryService.getEntriesByGroupId(groupId);
             List<OriginEntryFull> searchResults = new ArrayList();
             searchResults.addAll(laborSearchResults);
@@ -347,7 +347,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("saveManualEdit() started");
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
-        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
+        GeneralLedgerCorrectionProcessDocument document = laborCorrectionForm.getCorrectionDocument();
 
         if (validLaborOriginEntry(laborCorrectionForm)) {
             int entryId = laborCorrectionForm.getLaborEntryForManualEdit().getEntryId();
@@ -395,7 +395,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("addManualEdit() started");
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
-        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
+        GeneralLedgerCorrectionProcessDocument document = laborCorrectionForm.getCorrectionDocument();
 
         if (validLaborOriginEntry(laborCorrectionForm)) {
             laborCorrectionForm.updateLaborEntryForManualEdit();
@@ -438,7 +438,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     public ActionForward manualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
-        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
+        GeneralLedgerCorrectionProcessDocument document = laborCorrectionForm.getCorrectionDocument();
         laborCorrectionForm.clearLaborEntryForManualEdit();
         
         laborCorrectionForm.clearEntryForManualEdit();
@@ -461,7 +461,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("editManualEdit() started");
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
-        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
+        GeneralLedgerCorrectionProcessDocument document = laborCorrectionForm.getCorrectionDocument();
 
         int entryId = Integer.parseInt(getImageContext(request, "entryId"));
 
@@ -591,7 +591,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     protected boolean validChangeGroups(CorrectionForm form) {
         LOG.debug("validChangeGroups() started");
 
-        CorrectionDocument doc = form.getCorrectionDocument();
+        GeneralLedgerCorrectionProcessDocument doc = form.getCorrectionDocument();
         String tab = "";
         if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(form.getEditMethod())) {
             tab = "editCriteria";
@@ -870,7 +870,7 @@ public class LaborCorrectionAction extends CorrectionAction {
 
                     BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
 
-                    SpringContext.getBean(CorrectionDocumentService.class).writePersistedInputOriginEntriesToStream((CorrectionDocument) laborCorrectionForm.getDocument(), bw);
+                    SpringContext.getBean(CorrectionDocumentService.class).writePersistedInputOriginEntriesToStream((GeneralLedgerCorrectionProcessDocument) laborCorrectionForm.getDocument(), bw);
 
                     bw.flush();
                     bw.close();
@@ -992,7 +992,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("selectSystemEditMethod() started");
 
         CorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
-        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
+        GeneralLedgerCorrectionProcessDocument document = laborCorrectionForm.getCorrectionDocument();
 
         if (checkMainDropdown(laborCorrectionForm)) {
             // Clear out any entries that were already loaded

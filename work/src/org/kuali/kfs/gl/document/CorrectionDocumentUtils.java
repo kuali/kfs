@@ -57,7 +57,7 @@ public class CorrectionDocumentUtils {
      * @return limit for record count functionality
      */
     public static int getRecordCountFunctionalityLimit() {
-        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
+        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }
@@ -72,7 +72,7 @@ public class CorrectionDocumentUtils {
      * 
      */
     public static int getRecordsPerPage() {
-        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
+        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }
@@ -362,7 +362,7 @@ public class CorrectionDocumentUtils {
      * @param statistics origin entry statistics that are being used to set document
      * @param document document with statistic information being set
      */
-    public static void copyStatisticsToDocument(OriginEntryStatistics statistics, CorrectionDocument document) {
+    public static void copyStatisticsToDocument(OriginEntryStatistics statistics, GeneralLedgerCorrectionProcessDocument document) {
         document.setCorrectionCreditTotalAmount(statistics.getCreditTotalAmount());
         document.setCorrectionDebitTotalAmount(statistics.getDebitTotalAmount());
         document.setCorrectionBudgetTotalAmount(statistics.getBudgetTotalAmount());

@@ -6,11 +6,11 @@
 
 	<!-- accountingInformation for Labor Journal Voucher line -->
 		
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingInformation"
-		parent="labor-KualiLaborJournalVoucherDocument-accountingInformation-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-accountingInformation"
+		parent="labor-LaborJournalVoucherDocument-accountingInformation-parent" />
 
 	<bean parent="AccountingLineView-line"
-		id="labor-KualiLaborJournalVoucherDocument-accountingInformation-parent" abstract="true">
+		id="labor-LaborJournalVoucherDocument-accountingInformation-parent" abstract="true">
 		<property name="elementName" value="accountingInformation" />
 		<property name="fields">
 			<list>
@@ -76,11 +76,11 @@
 		</property>
 	</bean>
 	
-	<bean id="labor-KualiLaborJournalVoucherDocument-employeeInformation"
-		parent="labor-KualiLaborJournalVoucherDocument-employeeInformation-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-employeeInformation"
+		parent="labor-LaborJournalVoucherDocument-employeeInformation-parent" />
 
 	<bean parent="AccountingLineView-line"
-		id="labor-KualiLaborJournalVoucherDocument-employeeInformation-parent" abstract="true">
+		id="labor-LaborJournalVoucherDocument-employeeInformation-parent" abstract="true">
 		<property name="elementName" value="employeeInformation" />
 		<property name="fields">
 			<list>
@@ -105,11 +105,11 @@
 	</bean>	
 	
 	
-	<bean id="labor-KualiLaborJournalVoucherDocument-payInformation"
-		parent="labor-KualiLaborJournalVoucherDocument-payInformation-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-payInformation"
+		parent="labor-LaborJournalVoucherDocument-payInformation-parent" />
 
 	<bean parent="AccountingLineView-line"
-		id="labor-KualiLaborJournalVoucherDocument-payInformation-parent" abstract="true">
+		id="labor-LaborJournalVoucherDocument-payInformation-parent" abstract="true">
 		<property name="elementName" value="payInformation" />
 		<property name="fields">
 			<list>
@@ -133,11 +133,11 @@
 		</property>
 	</bean>	
 	
-	<bean id="labor-KualiLaborJournalVoucherDocument-companyInformation"
-		parent="labor-KualiLaborJournalVoucherDocument-companyInformation-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-companyInformation"
+		parent="labor-LaborJournalVoucherDocument-companyInformation-parent" />
 
 	<bean parent="AccountingLineView-line"
-		id="labor-KualiLaborJournalVoucherDocument-companyInformation-parent" abstract="true">
+		id="labor-LaborJournalVoucherDocument-companyInformation-parent" abstract="true">
 		<property name="elementName" value="companyInformation" />
 		<property name="fields">
 			<list>
@@ -153,10 +153,10 @@
 		</property>
 	</bean>
 	
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView"
-		parent="labor-KualiLaborJournalVoucherDocument-accountingLineView-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView"
+		parent="labor-LaborJournalVoucherDocument-accountingLineView-parent" />
 
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-parent"
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
@@ -164,10 +164,10 @@
 				<bean parent="AccountingLineView-lines">
 					<property name="lines">
 						<list>
-							<ref bean="labor-KualiLaborJournalVoucherDocument-accountingInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-employeeInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-payInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-companyInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-accountingInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-employeeInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-payInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-companyInformation" />
 						</list>
 					</property>
 				</bean>
@@ -177,10 +177,10 @@
 		</property>
 	</bean>
 
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-withExtEncumbrance"
-		parent="labor-KualiLaborJournalVoucherDocument-accountingLineView-withExtEncumbrance-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance"
+		parent="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance-parent" />
 
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-withExtEncumbrance-parent"
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withExtEncumbrance-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
@@ -188,10 +188,10 @@
 				<bean parent="AccountingLineView-lines">
 					<property name="lines">
 						<list>
-							<ref bean="labor-KualiLaborJournalVoucherDocument-accountingInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-employeeInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-payInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-companyInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-accountingInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-employeeInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-payInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-companyInformation" />
 							<ref bean="ExtEncumbranceInformation"/>							
 						</list>
 					</property>
@@ -202,10 +202,10 @@
 		</property>
 	</bean>  	
   	
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCredit"
-		parent="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCredit-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCredit"
+		parent="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCredit-parent" />
 
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCredit-parent"
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCredit-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
@@ -213,10 +213,10 @@
 				<bean parent="AccountingLineView-lines">
 					<property name="lines">
 						<list>
-							<ref bean="labor-KualiLaborJournalVoucherDocument-accountingInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-employeeInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-payInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-companyInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-accountingInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-employeeInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-payInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-companyInformation" />
 						</list>
 					</property>
 				</bean>
@@ -226,10 +226,10 @@
 		</property>
 	</bean>
   	
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance"
-		parent="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance-parent" />
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance"
+		parent="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance-parent" />
   	
-	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance-parent"
+	<bean id="labor-LaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
@@ -237,10 +237,10 @@
 				<bean parent="AccountingLineView-lines">
 					<property name="lines">
 						<list>
-							<ref bean="labor-KualiLaborJournalVoucherDocument-accountingInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-employeeInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-payInformation" />
-							<ref bean="labor-KualiLaborJournalVoucherDocument-companyInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-accountingInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-employeeInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-payInformation" />
+							<ref bean="labor-LaborJournalVoucherDocument-companyInformation" />
 							<ref bean="ExtEncumbranceInformation"/>							
 						</list>
 					</property>
@@ -251,7 +251,7 @@
 		</property>
 	</bean>  	
 	  	
-  	<bean id="labor-KualiLaborJournalVoucherDocument-AccountingDocument-sourceDebitCerditTotals"
+  	<bean id="labor-LaborJournalVoucherDocument-AccountingDocument-sourceDebitCerditTotals"
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>

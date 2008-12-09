@@ -47,8 +47,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * origin entry groups and the origin entries within them.
  * 
  */
-public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
+public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerCorrectionProcessDocument.class);
 
     private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
     // CorrectionDocumentService.CORRECTION_TYPE_CRITERIA or
@@ -70,7 +70,7 @@ public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase
 
     private List<CorrectionChangeGroup> correctionChangeGroup;
 
-    public CorrectionDocument() {
+    public GeneralLedgerCorrectionProcessDocument() {
         super();
         correctionChangeGroupNextLineNumber = new Integer(0);
 
@@ -185,7 +185,7 @@ public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         String docId = getDocumentHeader().getDocumentNumber();
-        CorrectionDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
+        GeneralLedgerCorrectionProcessDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();

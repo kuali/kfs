@@ -18,7 +18,7 @@ package org.kuali.kfs.gl.document.dataaccess;
 import java.sql.Date;
 import java.util.Collection;
 
-import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 
 /**
  * A DAO interface that declares methods...or, in this case, a method...for CorrectionDocuments to interact 
@@ -31,5 +31,5 @@ public interface CorrectionDocumentDao {
      * @param date the finalization date of GLCP documents to find
      * @return a Collection of GLCP documents
      */
-    public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date);
+    public Collection<GeneralLedgerCorrectionProcessDocument> getCorrectionDocumentsFinalizedOn(Date date);
 }

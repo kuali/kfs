@@ -61,6 +61,22 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber);
+
+    /**
+     * 
+     * Retrieves all Open Invoices for the given Customer Name and Customer Type Code
+     * 
+     * Note that the customerName field is turned into a 'LIKE customerName*' query.
+     * 
+     * IMPORTANT - Workflow headers and status are not retrieved by this method, only the raw Customer 
+     * Invoice Document from the Database.  If you need a full workflow document, you can do use 
+     * DocumentService to retrieve each by document number.
+     * 
+     * @param customerName
+     * @param customerTypeCode
+     * @return
+     */
+    public Collection getOpenInvoiceDocumentsByCustomerNameByCustomerType(String customerName, String customerTypeCode);
     
     /**
      * 
@@ -217,7 +233,6 @@ public interface CustomerInvoiceDocumentService {
      * @param customerInvoiceDocumentNumber
      * @return
      */
-    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);    
-    
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
     
 }

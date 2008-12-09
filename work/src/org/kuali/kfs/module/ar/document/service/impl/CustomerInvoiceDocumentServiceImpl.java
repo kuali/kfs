@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -148,11 +149,30 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return invoices;
     }
     
+    public Collection getOpenInvoiceDocumentsByCustomerNameByCustomerType(String customerName, String customerTypeCode) {
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+        
+        //  trim and force-caps the customer name
+        customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
+        customerName = customerName.trim();
+        if (customerName.indexOf("%") < 0)
+            customerName += "%";
+        
+        //  trim and force-caps
+        customerTypeCode = customerTypeCode.trim().toUpperCase();
+        
+        invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerNameByCustomerType(customerName, customerTypeCode));
+        return invoices;
+    }
+    
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerName(String customerName) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
         //  trim and force-caps the customer name
-        customerName = customerName.trim().toUpperCase() + "%";
+        customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
+        customerName = customerName.trim();
+        if (customerName.indexOf("%") < 0)
+            customerName += "%";
         
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerName(customerName));
         return invoices;
@@ -161,7 +181,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerType(String customerTypeCode) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
-        //  trim and force-caps the customer name
+        //  trim and force-caps
         customerTypeCode = customerTypeCode.trim().toUpperCase();
         
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerType(customerTypeCode));

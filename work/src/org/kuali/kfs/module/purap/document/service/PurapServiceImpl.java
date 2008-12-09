@@ -40,7 +40,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -412,7 +412,7 @@ public class PurapServiceImpl implements PurapService {
         if (purapDocument instanceof PaymentRequestDocument) {
             value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
         }
-        else if (purapDocument instanceof CreditMemoDocument) {
+        else if (purapDocument instanceof VendorCreditMemoDocument) {
             value = PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
         }
         return value;
@@ -437,8 +437,8 @@ public class PurapServiceImpl implements PurapService {
             }
 
         }
-        else if (purapDocument instanceof CreditMemoDocument) {
-            CreditMemoDocument creditMemo = (CreditMemoDocument) purapDocument;
+        else if (purapDocument instanceof VendorCreditMemoDocument) {
+            VendorCreditMemoDocument creditMemo = (VendorCreditMemoDocument) purapDocument;
 
             if (creditMemo.isReopenPurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
                 // get the po id and get the current PO

@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -42,27 +42,27 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Struts Action Form for Credit Memo document.
  */
-public class CreditMemoForm extends AccountsPayableFormBase {
+public class VendorCreditMemoForm extends AccountsPayableFormBase {
 
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
-    public CreditMemoForm() {
+    public VendorCreditMemoForm() {
         super();
-        setDocument(new CreditMemoDocument());
+        setDocument(new VendorCreditMemoDocument());
     }
 
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {
-            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString()));
+        if (ObjectUtils.isNotNull(((VendorCreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {
+            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((VendorCreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString()));
         }
         else {
             getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-        if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription()));
+        if (ObjectUtils.isNotNull(((VendorCreditMemoDocument) getDocument()).getStatus())) {
+            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", ((VendorCreditMemoDocument) getDocument()).getStatus().getStatusDescription()));
         }
         else {
             getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", "Not Available"));
@@ -75,7 +75,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
      * @return - true if credit memo has been initiated, false otherwise
      */
     public boolean isCreditMemoInitiated() {
-        return StringUtils.equals(((CreditMemoDocument) getDocument()).getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE);
+        return StringUtils.equals(((VendorCreditMemoDocument) getDocument()).getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE);
     }
 
     /**
@@ -87,7 +87,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     public boolean isAbleToReopenPurchaseOrder() {
         boolean valid = false;
 
-        CreditMemoDocument creditMemo = (CreditMemoDocument) this.getDocument();
+        VendorCreditMemoDocument creditMemo = (VendorCreditMemoDocument) this.getDocument();
 
         if (!creditMemo.isSourceVendor() &&
                 SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo) == false && isApUser() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
@@ -104,7 +104,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
      * @return - true if document has been fully entered, false otherwise
      */
     public boolean isFullDocumentEntryCompleted() {
-        CreditMemoDocument creditMemo = (CreditMemoDocument) this.getDocument();
+        VendorCreditMemoDocument creditMemo = (VendorCreditMemoDocument) this.getDocument();
         return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo);
     }
 
@@ -118,7 +118,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         // clear out the extra buttons array
         extraButtons.clear();
 
-        CreditMemoDocument cmDocument = (CreditMemoDocument) getDocument();
+        VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) getDocument();
 
         String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);

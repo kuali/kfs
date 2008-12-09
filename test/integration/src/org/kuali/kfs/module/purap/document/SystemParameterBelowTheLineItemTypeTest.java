@@ -237,10 +237,10 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     @ConfigureContext(session = appleton)
     public final void testCreditMemoExistingItemTypesAreValid() throws Exception {
-        CreditMemoDocument creditMemoWithValidBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_BELOW_LINE_ITEMS.createCreditMemoDocument();
-        CreditMemoDocument creditMemoWithInvalidBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        VendorCreditMemoDocument creditMemoWithValidBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        VendorCreditMemoDocument creditMemoWithInvalidBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_BELOW_LINE_ITEMS.createCreditMemoDocument();
         
-        testExistingItemTypesAreValid(CreditMemoDocument.class, creditMemoWithValidBelowLineItems, creditMemoWithInvalidBelowLineItems);    
+        testExistingItemTypesAreValid(VendorCreditMemoDocument.class, creditMemoWithValidBelowLineItems, creditMemoWithInvalidBelowLineItems);    
     }
     
     /**
@@ -250,9 +250,9 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     @ConfigureContext(session = appleton)
     public final void testCreditMemoAllowsNegative() throws Exception {
-        CreditMemoDocument creditMemoWithValidNegativeBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_NEGATIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
-        CreditMemoDocument creditMemoWithInvalidNegativeBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_NEGATIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
-        testAllowsNegative(CreditMemoDocument.class, creditMemoWithValidNegativeBelowLineItems, creditMemoWithInvalidNegativeBelowLineItems);
+        VendorCreditMemoDocument creditMemoWithValidNegativeBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_NEGATIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        VendorCreditMemoDocument creditMemoWithInvalidNegativeBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_NEGATIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        testAllowsNegative(VendorCreditMemoDocument.class, creditMemoWithValidNegativeBelowLineItems, creditMemoWithInvalidNegativeBelowLineItems);
     }
     
     /**
@@ -262,9 +262,9 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     @ConfigureContext(session = appleton)
     public final void testCreditMemoAllowsPositive() throws Exception {
-        CreditMemoDocument creditMemoWithValidPositiveBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_POSITIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
-        CreditMemoDocument creditMemoWithInvalidPositiveBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_POSITIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
-        testAllowsPositive(CreditMemoDocument.class, creditMemoWithValidPositiveBelowLineItems, creditMemoWithInvalidPositiveBelowLineItems);
+        VendorCreditMemoDocument creditMemoWithValidPositiveBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_POSITIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        VendorCreditMemoDocument creditMemoWithInvalidPositiveBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_POSITIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        testAllowsPositive(VendorCreditMemoDocument.class, creditMemoWithValidPositiveBelowLineItems, creditMemoWithInvalidPositiveBelowLineItems);
     }
 
     /**
@@ -274,9 +274,9 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     @ConfigureContext(session = appleton)
     public final void testCreditMemoAllowsZero() throws Exception {
-        CreditMemoDocument creditMemoWithValidZeroBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_ZERO_BELOW_LINE_ITEMS.createCreditMemoDocument();
-        CreditMemoDocument creditMemoWithInvalidZeroBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_ZERO_BELOW_LINE_ITEMS.createCreditMemoDocument();
-        testAllowsZero(CreditMemoDocument.class, creditMemoWithValidZeroBelowLineItems, creditMemoWithInvalidZeroBelowLineItems);
+        VendorCreditMemoDocument creditMemoWithValidZeroBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_ZERO_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        VendorCreditMemoDocument creditMemoWithInvalidZeroBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_ZERO_BELOW_LINE_ITEMS.createCreditMemoDocument();
+        testAllowsZero(VendorCreditMemoDocument.class, creditMemoWithValidZeroBelowLineItems, creditMemoWithInvalidZeroBelowLineItems);
     }
     
     /**
@@ -286,9 +286,9 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     @ConfigureContext(session = appleton)
     public final void testCreditMemoRequiringDescription() throws Exception {
-        CreditMemoDocument creditMemoWithBelowLineItemsWithoutDescription = SystemParameterBelowTheLineItemCMFixture.CM_WITH_BELOW_LINE_ITEMS_WITHOUT_DESCRIPTION.createCreditMemoDocument();
-        CreditMemoDocument creditMemoWithBelowLineItemsWithDescription = SystemParameterBelowTheLineItemCMFixture.CM_WITH_BELOW_LINE_ITEMS_WITH_DESCRIPTION.createCreditMemoDocument();
-        testRequiringDescription(CreditMemoDocument.class, creditMemoWithBelowLineItemsWithoutDescription, creditMemoWithBelowLineItemsWithDescription);
+        VendorCreditMemoDocument creditMemoWithBelowLineItemsWithoutDescription = SystemParameterBelowTheLineItemCMFixture.CM_WITH_BELOW_LINE_ITEMS_WITHOUT_DESCRIPTION.createCreditMemoDocument();
+        VendorCreditMemoDocument creditMemoWithBelowLineItemsWithDescription = SystemParameterBelowTheLineItemCMFixture.CM_WITH_BELOW_LINE_ITEMS_WITH_DESCRIPTION.createCreditMemoDocument();
+        testRequiringDescription(VendorCreditMemoDocument.class, creditMemoWithBelowLineItemsWithoutDescription, creditMemoWithBelowLineItemsWithDescription);
     }
     
     /**

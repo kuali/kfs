@@ -51,7 +51,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -162,7 +162,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
         }
         else if (PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(docType)) {
-            CreditMemoDocument cm = (CreditMemoDocument) purapDocument;
+            VendorCreditMemoDocument cm = (VendorCreditMemoDocument) purapDocument;
             if (cm.isSourceDocumentPaymentRequest()) {
                 // if CM is off of PREQ, use vendor name associated with PREQ (primary or alternate)
                 PaymentRequestDocument cmPR = cm.getPaymentRequestDocument();
@@ -220,9 +220,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             LOG.info("generateEntriesCancelAccountsPayableDocument() cancel PaymentRequestDocument");
             generateEntriesCancelPaymentRequest((PaymentRequestDocument) apDocument);
         }
-        else if (apDocument instanceof CreditMemoDocument) {
+        else if (apDocument instanceof VendorCreditMemoDocument) {
             LOG.info("generateEntriesCancelAccountsPayableDocument() cancel CreditMemoDocument");
-            generateEntriesCancelCreditMemo((CreditMemoDocument) apDocument);
+            generateEntriesCancelCreditMemo((VendorCreditMemoDocument) apDocument);
         }
         else {
             // doc not found
@@ -313,7 +313,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     /**
      * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCreateCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
-    public void generateEntriesCreateCreditMemo(CreditMemoDocument cm) {
+    public void generateEntriesCreateCreditMemo(VendorCreditMemoDocument cm) {
         LOG.debug("generateEntriesCreateCreditMemo() started");
         generateEntriesCreditMemo(cm, CREATE_CREDIT_MEMO);
     }
@@ -324,7 +324,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param preq Payment Request document to cancel
      * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    private void generateEntriesCancelCreditMemo(CreditMemoDocument cm) {
+    private void generateEntriesCancelCreditMemo(VendorCreditMemoDocument cm) {
         LOG.debug("generateEntriesCancelCreditMemo() started");
         generateEntriesCreditMemo(cm, CANCEL_CREDIT_MEMO);
     }
@@ -445,7 +445,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param isCancel Indicates if request is a cancel or create
      * @return Boolean returned indicating whether entry creation succeeded
      */
-    private boolean generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
+    private boolean generateEntriesCreditMemo(VendorCreditMemoDocument cm, boolean isCancel) {
         LOG.debug("generateEntriesCreditMemo() started");
 
         cm.setGeneralLedgerPendingEntries(new ArrayList());
@@ -1222,7 +1222,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param po Purchase Order document modify encumbrances
      * @return List of accounting lines to use to create the pending general ledger entries
      */
-    private List<SourceAccountingLine> getCreditMemoEncumbrance(CreditMemoDocument cm, PurchaseOrderDocument po, boolean cancel) {
+    private List<SourceAccountingLine> getCreditMemoEncumbrance(VendorCreditMemoDocument cm, PurchaseOrderDocument po, boolean cancel) {
         LOG.debug("getCreditMemoEncumbrance() started");
 
         if (ObjectUtils.isNull(po)) {

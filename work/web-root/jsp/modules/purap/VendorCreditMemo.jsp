@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:documentPage showDocumentInfo="true" documentTypeName="CreditMemoDocument" htmlFormAction="purapCreditMemo" renderMultipart="true" showTabButtons="true">
+<kul:documentPage showDocumentInfo="true" documentTypeName="VendorCreditMemoDocument" htmlFormAction="purapVendorCreditMemo" renderMultipart="true" showTabButtons="true">
 
     <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
         <c:set var="fullEntryMode" value="true" scope="request" />
@@ -24,7 +24,7 @@
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
                      
     <c:if test="${displayInitTab}" > 
-    	<purap:creditMemoInit documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" /> 
+    	<purap:creditMemoInit documentAttributes="${DataDictionary.VendorCreditMemoDocument.attributes}" /> 
     	
     	<kul:panelFooter />
     
@@ -37,14 +37,14 @@
 		  <h4>This Credit Memo has been Held by <c:out value="${KualiForm.document.lastActionPerformedByPersonName}"/></h4>		
 	    </c:if>
 	    
-		<kfs:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" fiscalYearReadOnly="true" postingYearAttributes="${DataDictionary.CreditMemoDocument.attributes}" />
+		<kfs:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" fiscalYearReadOnly="true" postingYearAttributes="${DataDictionary.VendorCreditMemoDocument.attributes}" />
 	        
-		<purap:vendor documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
+		<purap:vendor documentAttributes="${DataDictionary.VendorCreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
 	
-		<purap:creditMemoInfo documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" />        
+		<purap:creditMemoInfo documentAttributes="${DataDictionary.VendorCreditMemoDocument.attributes}" />        
 
 	  	<purap:paymentRequestProcessItems 
-			documentAttributes="${DataDictionary.CreditMemoDocument.attributes}"
+			documentAttributes="${DataDictionary.VendorCreditMemoDocument.attributes}"
 			itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
 			accountingLineAttributes="${DataDictionary.CreditMemoAccount.attributes}" isCreditMemo="true" />
 	  

@@ -29,7 +29,7 @@ import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
@@ -747,7 +747,7 @@ public class PurapConstants extends JSTLConstants {
         map.put("PurchaseOrderVoidDocument", PurchaseOrderDocument.class.getName());
         map.put("PurchaseOrderSplitDocument", PurchaseOrderDocument.class.getName());
         map.put("PaymentRequestDocument", PaymentRequestDocument.class.getName());
-        map.put("CreditMemoDocument", CreditMemoDocument.class.getName());
+        map.put("VendorCreditMemoDocument", VendorCreditMemoDocument.class.getName());
         return map;
     }
 

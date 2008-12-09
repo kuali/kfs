@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 
 
@@ -168,8 +168,8 @@ public enum AccountsPayableDocumentFixture {
         return (PaymentRequestDocument) createAccountsPayableDocument(PaymentRequestDocument.class, purapFixture);
     }
 
-    public CreditMemoDocument createCreditMemoDocument(PurchasingAccountsPayableDocumentFixture purapFixture) {
-        return (CreditMemoDocument) createAccountsPayableDocument(CreditMemoDocument.class, purapFixture);
+    public VendorCreditMemoDocument createCreditMemoDocument(PurchasingAccountsPayableDocumentFixture purapFixture) {
+        return (VendorCreditMemoDocument) createAccountsPayableDocument(VendorCreditMemoDocument.class, purapFixture);
     }
 
     private AccountsPayableDocument createAccountsPayableDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {

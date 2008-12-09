@@ -26,7 +26,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -42,8 +42,8 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 /**
  * Struts Action for Credit Memo document.
  */
-public class CreditMemoAction extends AccountsPayableActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoAction.class);
+public class VendorCreditMemoAction extends AccountsPayableActionBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorCreditMemoAction.class);
 
     /**
      * Do initialization for a new credit memo.
@@ -53,7 +53,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
-        ((CreditMemoDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+        ((VendorCreditMemoDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
 
     /**
@@ -68,8 +68,8 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      * @return An ActionForward
      */
     public ActionForward continueCreditMemo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CreditMemoForm cmForm = (CreditMemoForm) form;
-        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
+        VendorCreditMemoForm cmForm = (VendorCreditMemoForm) form;
+        VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) cmForm.getDocument();
 
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);
@@ -101,8 +101,8 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      * @return An ActionForward
      */
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CreditMemoForm cmForm = (CreditMemoForm) form;
-        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
+        VendorCreditMemoForm cmForm = (VendorCreditMemoForm) form;
+        VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) cmForm.getDocument();
         creditMemoDocument.clearInitFields();
 
         return super.refresh(mapping, form, request, response);
@@ -122,7 +122,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      * @return An ActionForward
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService
      */
-    private ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CreditMemoDocument creditMemoDocument) throws Exception {
+    private ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, VendorCreditMemoDocument creditMemoDocument) throws Exception {
         ActionForward forward = null;
         String duplicateMessage = SpringContext.getBean(CreditMemoService.class).creditMemoDuplicateMessages(creditMemoDocument);
         if (StringUtils.isNotBlank(duplicateMessage)) {
@@ -148,7 +148,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      */
     @Override
     protected void customCalculate(PurchasingAccountsPayableDocument apDoc) {
-        CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
+        VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) apDoc;
 
         // call service method to finish up calculation
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(cmDocument);
@@ -173,7 +173,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                CreditMemoDocument cmDocument = SpringContext.getBean(CreditMemoService.class).addHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+                VendorCreditMemoDocument cmDocument = SpringContext.getBean(CreditMemoService.class).addHoldOnCreditMemo((VendorCreditMemoDocument) document, noteText);
                 return cmDocument;
             }
         };
@@ -196,7 +196,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                CreditMemoDocument cmDocument = SpringContext.getBean(CreditMemoService.class).removeHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+                VendorCreditMemoDocument cmDocument = SpringContext.getBean(CreditMemoService.class).removeHoldOnCreditMemo((VendorCreditMemoDocument) document, noteText);
                 return cmDocument;
             }
         };
@@ -211,7 +211,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
         return new PurQuestionCallback() {
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                CreditMemoDocument cmDocument = (CreditMemoDocument) document;
+                VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) document;
                 cmDocument.setClosePurchaseOrderIndicator(true);
                 return cmDocument;
             }

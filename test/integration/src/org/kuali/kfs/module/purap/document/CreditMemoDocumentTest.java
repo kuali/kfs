@@ -46,11 +46,11 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
  */
 @ConfigureContext(session = appleton)
 public class CreditMemoDocumentTest extends KualiTestBase {
-    public static final Class<CreditMemoDocument> DOCUMENT_CLASS = CreditMemoDocument.class;
+    public static final Class<VendorCreditMemoDocument> DOCUMENT_CLASS = VendorCreditMemoDocument.class;
     private static final String ACCOUNT_REVIEW = "Account Review";
     
     private RequisitionDocument requisitionDocument = null;
-    private CreditMemoDocument creditMemoDocument = null;
+    private VendorCreditMemoDocument creditMemoDocument = null;
    
     protected void setUp() throws Exception {
         super.setUp();
@@ -98,7 +98,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions=true)
-    public final CreditMemoDocument routeDocument(PaymentRequestDocument preqDocument) throws Exception {
+    public final VendorCreditMemoDocument routeDocument(PaymentRequestDocument preqDocument) throws Exception {
         creditMemoDocument = buildSimpleDocument();
         creditMemoDocument.setPaymentRequestDocument(preqDocument);
         creditMemoDocument.setPurchaseOrderIdentifier(preqDocument.getPurchaseOrderIdentifier());
@@ -151,7 +151,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     }
     */
 
-    public CreditMemoDocument buildSimpleDocument() throws Exception {
+    public VendorCreditMemoDocument buildSimpleDocument() throws Exception {
         return CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
     }
     

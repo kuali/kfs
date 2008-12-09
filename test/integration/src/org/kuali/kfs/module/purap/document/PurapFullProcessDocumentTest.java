@@ -86,7 +86,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         // 4. use the PO number to create a Credit Memo and have it go final
         changeCurrentUser(appleton);
         CreditMemoDocumentTest cmDocTest = new CreditMemoDocumentTest();
-        CreditMemoDocument cmDoc = cmDocTest.routeDocument(preqDoc);
+        VendorCreditMemoDocument cmDoc = cmDocTest.routeDocument(preqDoc);
         
         // 2. based on the PO document number, create the Amend PO doc and let it go final (with philips?)
         changeCurrentUser(parke);

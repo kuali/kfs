@@ -34,7 +34,7 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -462,8 +462,8 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
             return;
         }
-        if (apDocument instanceof CreditMemoDocument) {
-            CreditMemoDocument cm = (CreditMemoDocument) apDocument;
+        if (apDocument instanceof VendorCreditMemoDocument) {
+            VendorCreditMemoDocument cm = (VendorCreditMemoDocument) apDocument;
             if (cm.isSourceDocumentPaymentRequest()) {
                 // just update encumberances, items shouldn't change, get to them through po (or through preq)
                 List<PaymentRequestItem> items = cm.getPaymentRequestDocument().getItems();

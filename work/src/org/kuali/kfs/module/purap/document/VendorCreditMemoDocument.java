@@ -61,8 +61,8 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 /**
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
  */
-public class CreditMemoDocument extends AccountsPayableDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoDocument.class);
+public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorCreditMemoDocument.class);
 
     private Integer paymentRequestIdentifier;
     private String creditMemoNumber;
@@ -77,7 +77,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * Default constructor.
      */
-    public CreditMemoDocument() {
+    public VendorCreditMemoDocument() {
         super();
     }
 
@@ -260,7 +260,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public String getDocumentTitle() {
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(CreditMemoDocument.class, PurapParameterConstants.PURAP_OVERRIDE_CM_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_OVERRIDE_CM_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
         return super.getDocumentTitle();
@@ -622,7 +622,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     @Override
     protected boolean isAttachmentRequired() {
-        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
+        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValue(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
     }
 
     /**

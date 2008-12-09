@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 
 public enum SystemParameterBelowTheLineItemCMFixture {
     
@@ -82,8 +82,8 @@ public enum SystemParameterBelowTheLineItemCMFixture {
         this.creditMemoItemFixtures = creditMemoItemFixtures;
     }
     
-    public CreditMemoDocument createCreditMemoDocument() {
-        CreditMemoDocument doc = CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
+    public VendorCreditMemoDocument createCreditMemoDocument() {
+        VendorCreditMemoDocument doc = CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
         //Removes all the existing item from doc, we'll add the appropriate items later.
         doc.getItems().clear();         
         for (CreditMemoItemFixture creditMemoItemFixture : creditMemoItemFixtures) { 

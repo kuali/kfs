@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -74,14 +74,14 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((CreditMemoDocument) document)) {
+            if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((VendorCreditMemoDocument) document)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
         }
         if (!editMode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) || (! workflowDocument.isAdHocRequested())) {
             editModeMap.put(editMode, "TRUE");
         }
-        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) document;
+        VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) document;
         if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "TRUE");
         }
@@ -103,7 +103,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         }
 
         if (!creditMemoDocument.isUseTaxIndicator() &&
-            !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((CreditMemoDocument) document) &&   
+            !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((VendorCreditMemoDocument) document) &&   
             KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) ) {
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES, "TRUE");
         }
@@ -135,7 +135,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
-        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) document;
+        VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) document;
         if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             flags.setCanSave(false);
             flags.setCanClose(true);

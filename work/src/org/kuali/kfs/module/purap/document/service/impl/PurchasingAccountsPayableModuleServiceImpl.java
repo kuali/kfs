@@ -28,7 +28,7 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
@@ -141,8 +141,8 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
 
         String preqCancelNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
         String preqResetNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
-        String cmCancelNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
-        String cmResetNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
+        String cmCancelNote = parameterService.getParameterValue(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
+        String cmResetNote = parameterService.getParameterValue(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
 
         if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode)) {
             PaymentRequestDocument pr = paymentRequestService.getPaymentRequestByDocumentNumber(documentNumber);
@@ -159,7 +159,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
             }
         }
         else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
-            CreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
+            VendorCreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
             if (cm != null) {
                 if (disbursedPayment || primaryCancel) {
                     creditMemoService.cancelExtractedCreditMemo(cm, cmCancelNote);
@@ -192,7 +192,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
             }
         }
         else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
-            CreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
+            VendorCreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
             if (cm != null) {
                 creditMemoService.markPaid(cm, processDate);
             }

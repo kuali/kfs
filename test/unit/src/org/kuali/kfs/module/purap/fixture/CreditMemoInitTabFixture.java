@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.fixture;
 import java.sql.Date;
 
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.CMInit;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PREQInvoice;
 
@@ -56,19 +56,19 @@ public enum CreditMemoInitTabFixture {
         this.total = total;
     }
         
-    public CreditMemoDocument populateForRequiredness(CreditMemoDocument cmDocument) {
+    public VendorCreditMemoDocument populateForRequiredness(VendorCreditMemoDocument cmDocument) {
         cmDocument.setCreditMemoNumber(invoice_num);
         cmDocument.setCreditMemoDate(invoice_date);
         cmDocument.setCreditMemoAmount(amount);
         return cmDocument;
     }
     
-    public CreditMemoDocument populateForReferenceNumbers(CreditMemoDocument cmDocument) {
+    public VendorCreditMemoDocument populateForReferenceNumbers(VendorCreditMemoDocument cmDocument) {
         cmDocument.setVendorNumber(vendor_num);
         return cmDocument;
     }
     
-    public CreditMemoDocument populateForAmounts(CreditMemoDocument cmDocument) {
+    public VendorCreditMemoDocument populateForAmounts(VendorCreditMemoDocument cmDocument) {
         cmDocument.setCreditMemoAmount(amount);
         cmDocument.setGrandTotal(total);
         return cmDocument;

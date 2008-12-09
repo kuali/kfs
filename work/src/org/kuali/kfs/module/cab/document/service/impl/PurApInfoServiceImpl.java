@@ -35,7 +35,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -351,7 +351,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         // ideally we should do this a different way - maybe move it all into the service or save this info somehow (make sure and
         // update though)
         if (item.getPurapDocument() != null) {
-            PurchaseOrderDocument po = ((CreditMemoDocument) item.getPurapDocument()).getPurchaseOrderDocument();
+            PurchaseOrderDocument po = ((VendorCreditMemoDocument) item.getPurapDocument()).getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (item.getItemType().isLineItemIndicator()) {
                 poi = (PurchaseOrderItem) po.getItem(item.getItemLineNumber().intValue() - 1);

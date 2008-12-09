@@ -4,23 +4,23 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CreditMemoDocument" parent="CreditMemoDocument-parentBean" />
+  <bean id="VendorCreditMemoDocument" parent="VendorCreditMemoDocument-parentBean" />
 
-  <bean id="CreditMemoDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="VendorCreditMemoDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Credit Memo" />
     <property name="shortLabel" value="Credit Memo" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.CreditMemoDocument" p:parameterName="CREDIT_MEMO" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" p:parameterName="CREDIT_MEMO" />
     </property>
-    <property name="documentTypeName" value="CreditMemoDocument" />
-    <property name="documentClass" value="org.kuali.kfs.module.purap.document.CreditMemoDocument" />
+    <property name="documentTypeName" value="VendorCreditMemoDocument" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.CreditMemoDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules" />
     <property name="documentTypeCode" value="CM" />
      <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
-      <ref bean="CreditMemoDocument-workflowProperties" />
+      <ref bean="VendorCreditMemoDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -38,54 +38,54 @@
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="CreditMemoDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="VendorCreditMemoDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
 	    	</entry>
     	</map>
     </property>       
     <property name="attributes" >
       <list>
-        <ref bean="CreditMemoDocument-statusDescription" />
-        <ref bean="CreditMemoDocument-versionNumber" />
-        <ref bean="CreditMemoDocument-postingYear" />
-        <ref bean="CreditMemoDocument-vendorNumber" />
-        <ref bean="CreditMemoDocument-vendorDetailAssignedIdentifier" />
-        <ref bean="CreditMemoDocument-vendorCustomerNumber" />
-        <ref bean="CreditMemoDocument-vendorLine2Address" />
-        <ref bean="CreditMemoDocument-vendorStateCode" />
-        <ref bean="CreditMemoDocument-vendorAddressInternationalProvinceName" />
-        <ref bean="CreditMemoDocument-vendorPostalCode" />
-        <ref bean="CreditMemoDocument-totalDollarAmount" />
-        <ref bean="CreditMemoDocument-vendorAddressGeneratedIdentifier" />
-        <ref bean="CreditMemoDocument-vendorName" />
-        <ref bean="CreditMemoDocument-vendorLine1Address" />
-        <ref bean="CreditMemoDocument-vendorCityName" />
-        <ref bean="CreditMemoDocument-vendorCountryCode" />
-        <ref bean="CreditMemoDocument-accountsPayableApprovalTimestamp" />
-        <ref bean="CreditMemoDocument-holdIndicator" />
-        <ref bean="CreditMemoDocument-extractedTimestamp" />
-        <ref bean="CreditMemoDocument-processingCampusCode" />
-        <ref bean="CreditMemoDocument-noteLine1Text" />
-        <ref bean="CreditMemoDocument-noteLine2Text" />
-        <ref bean="CreditMemoDocument-noteLine3Text" />
-        <ref bean="CreditMemoDocument-purapDocumentIdentifier" />
-        <ref bean="CreditMemoDocument-vendorHeaderGeneratedIdentifier" />
-        <ref bean="CreditMemoDocument-statusCode" />
-        <ref bean="CreditMemoDocument-creditMemoDate" />
-        <ref bean="CreditMemoDocument-purchaseOrderIdentifier" />
-        <ref bean="CreditMemoDocument-purchaseOrderEndDate" />
-        <ref bean="CreditMemoDocument-creditMemoAmount" />
-        <ref bean="CreditMemoDocument-creditMemoNumber" />
-        <ref bean="CreditMemoDocument-itemMiscellaneousCreditDescription" />
-        <ref bean="CreditMemoDocument-paymentRequestIdentifier" />
-        <ref bean="CreditMemoDocument-purchaseOrderNotes" />
-        <ref bean="CreditMemoDocument-creditMemoType" />
-        <ref bean="CreditMemoDocument-lineItemTotal" />
-        <ref bean="CreditMemoDocument-grandTotal" />
-        <ref bean="CreditMemoDocument-grandPreTaxTotal" />
-        <ref bean="CreditMemoDocument-grandTaxAmount" />        
-        <ref bean="CreditMemoDocument-reopenPurchaseOrderIndicator" />
-        <ref bean="CreditMemoDocument-useTaxIndicator" />
-        <ref bean="CreditMemoDocument-bankCode" />
+        <ref bean="VendorCreditMemoDocument-statusDescription" />
+        <ref bean="VendorCreditMemoDocument-versionNumber" />
+        <ref bean="VendorCreditMemoDocument-postingYear" />
+        <ref bean="VendorCreditMemoDocument-vendorNumber" />
+        <ref bean="VendorCreditMemoDocument-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorCreditMemoDocument-vendorCustomerNumber" />
+        <ref bean="VendorCreditMemoDocument-vendorLine2Address" />
+        <ref bean="VendorCreditMemoDocument-vendorStateCode" />
+        <ref bean="VendorCreditMemoDocument-vendorAddressInternationalProvinceName" />
+        <ref bean="VendorCreditMemoDocument-vendorPostalCode" />
+        <ref bean="VendorCreditMemoDocument-totalDollarAmount" />
+        <ref bean="VendorCreditMemoDocument-vendorAddressGeneratedIdentifier" />
+        <ref bean="VendorCreditMemoDocument-vendorName" />
+        <ref bean="VendorCreditMemoDocument-vendorLine1Address" />
+        <ref bean="VendorCreditMemoDocument-vendorCityName" />
+        <ref bean="VendorCreditMemoDocument-vendorCountryCode" />
+        <ref bean="VendorCreditMemoDocument-accountsPayableApprovalTimestamp" />
+        <ref bean="VendorCreditMemoDocument-holdIndicator" />
+        <ref bean="VendorCreditMemoDocument-extractedTimestamp" />
+        <ref bean="VendorCreditMemoDocument-processingCampusCode" />
+        <ref bean="VendorCreditMemoDocument-noteLine1Text" />
+        <ref bean="VendorCreditMemoDocument-noteLine2Text" />
+        <ref bean="VendorCreditMemoDocument-noteLine3Text" />
+        <ref bean="VendorCreditMemoDocument-purapDocumentIdentifier" />
+        <ref bean="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorCreditMemoDocument-statusCode" />
+        <ref bean="VendorCreditMemoDocument-creditMemoDate" />
+        <ref bean="VendorCreditMemoDocument-purchaseOrderIdentifier" />
+        <ref bean="VendorCreditMemoDocument-purchaseOrderEndDate" />
+        <ref bean="VendorCreditMemoDocument-creditMemoAmount" />
+        <ref bean="VendorCreditMemoDocument-creditMemoNumber" />
+        <ref bean="VendorCreditMemoDocument-itemMiscellaneousCreditDescription" />
+        <ref bean="VendorCreditMemoDocument-paymentRequestIdentifier" />
+        <ref bean="VendorCreditMemoDocument-purchaseOrderNotes" />
+        <ref bean="VendorCreditMemoDocument-creditMemoType" />
+        <ref bean="VendorCreditMemoDocument-lineItemTotal" />
+        <ref bean="VendorCreditMemoDocument-grandTotal" />
+        <ref bean="VendorCreditMemoDocument-grandPreTaxTotal" />
+        <ref bean="VendorCreditMemoDocument-grandTaxAmount" />        
+        <ref bean="VendorCreditMemoDocument-reopenPurchaseOrderIndicator" />
+        <ref bean="VendorCreditMemoDocument-useTaxIndicator" />
+        <ref bean="VendorCreditMemoDocument-bankCode" />
       </list>
     </property>
   </bean>
@@ -93,103 +93,103 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CreditMemoDocument-statusDescription" parent="CreditMemoDocument-statusDescription-parentBean" />
+  <bean id="VendorCreditMemoDocument-statusDescription" parent="VendorCreditMemoDocument-statusDescription-parentBean" />
 
-  <bean id="CreditMemoDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-creditMemoStatus">
+  <bean id="VendorCreditMemoDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-creditMemoStatus">
     <property name="name" value="statusDescription" />
   </bean>
-  <bean id="CreditMemoDocument-versionNumber" parent="CreditMemoDocument-versionNumber-parentBean" />
+  <bean id="VendorCreditMemoDocument-versionNumber" parent="VendorCreditMemoDocument-versionNumber-parentBean" />
 
-  <bean id="CreditMemoDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  <bean id="VendorCreditMemoDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
-  <bean id="CreditMemoDocument-postingYear" parent="CreditMemoDocument-postingYear-parentBean" />
+  <bean id="VendorCreditMemoDocument-postingYear" parent="VendorCreditMemoDocument-postingYear-parentBean" />
 
-  <bean id="CreditMemoDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+  <bean id="VendorCreditMemoDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-vendorNumber" parent="CreditMemoDocument-vendorNumber-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorNumber" parent="VendorCreditMemoDocument-vendorNumber-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+  <bean id="VendorCreditMemoDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
     <property name="required" value="false" />
   </bean>
-  <bean id="CreditMemoDocument-vendorDetailAssignedIdentifier" parent="CreditMemoDocument-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorDetailAssignedIdentifier" parent="VendorCreditMemoDocument-vendorDetailAssignedIdentifier-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  <bean id="VendorCreditMemoDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
     <property name="required" value="false" />
   </bean>
-  <bean id="CreditMemoDocument-vendorCustomerNumber" parent="CreditMemoDocument-vendorCustomerNumber-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorCustomerNumber" parent="VendorCreditMemoDocument-vendorCustomerNumber-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorCustomerNumber-parentBean" abstract="true" parent="VendorCustomerNumber-vendorCustomerNumber">
+  <bean id="VendorCreditMemoDocument-vendorCustomerNumber-parentBean" abstract="true" parent="VendorCustomerNumber-vendorCustomerNumber">
     <property name="required" value="false" />
   </bean>
-  <bean id="CreditMemoDocument-vendorLine2Address" parent="CreditMemoDocument-vendorLine2Address-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorLine2Address" parent="VendorCreditMemoDocument-vendorLine2Address-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
+  <bean id="VendorCreditMemoDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="vendorLine2Address" />
   </bean>
-  <bean id="CreditMemoDocument-vendorStateCode" parent="CreditMemoDocument-vendorStateCode-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorStateCode" parent="VendorCreditMemoDocument-vendorStateCode-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
+  <bean id="VendorCreditMemoDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="vendorStateCode" />
   </bean>
-  <bean id="CreditMemoDocument-vendorAddressInternationalProvinceName" parent="CreditMemoDocument-vendorAddressInternationalProvinceName-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorAddressInternationalProvinceName" parent="VendorCreditMemoDocument-vendorAddressInternationalProvinceName-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
+  <bean id="VendorCreditMemoDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
     <property name="name" value="vendorAddressInternationalProvinceName" />
   </bean>
-  <bean id="CreditMemoDocument-vendorPostalCode" parent="CreditMemoDocument-vendorPostalCode-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorPostalCode" parent="VendorCreditMemoDocument-vendorPostalCode-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
+  <bean id="VendorCreditMemoDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorPostalCode" />
   </bean>
-  <bean id="CreditMemoDocument-totalDollarAmount" parent="CreditMemoDocument-totalDollarAmount-parentBean" />
+  <bean id="VendorCreditMemoDocument-totalDollarAmount" parent="VendorCreditMemoDocument-totalDollarAmount-parentBean" />
 
-  <bean id="CreditMemoDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  <bean id="VendorCreditMemoDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
   </bean>
-  <bean id="CreditMemoDocument-vendorAddressGeneratedIdentifier" parent="CreditMemoDocument-vendorAddressGeneratedIdentifier-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorAddressGeneratedIdentifier" parent="VendorCreditMemoDocument-vendorAddressGeneratedIdentifier-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorAddressGeneratedIdentifier-parentBean" abstract="true" parent="VendorAddress-vendorAddressGeneratedIdentifier">
+  <bean id="VendorCreditMemoDocument-vendorAddressGeneratedIdentifier-parentBean" abstract="true" parent="VendorAddress-vendorAddressGeneratedIdentifier">
     <property name="required" value="false" />
   </bean>
-  <bean id="CreditMemoDocument-vendorName" parent="CreditMemoDocument-vendorName-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorName" parent="VendorCreditMemoDocument-vendorName-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+  <bean id="VendorCreditMemoDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
     <property name="label" value="Vendor" />
     <property name="shortLabel" value="Vendor" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-vendorLine1Address" parent="CreditMemoDocument-vendorLine1Address-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorLine1Address" parent="VendorCreditMemoDocument-vendorLine1Address-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
+  <bean id="VendorCreditMemoDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="vendorLine1Address" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-vendorCityName" parent="CreditMemoDocument-vendorCityName-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorCityName" parent="VendorCreditMemoDocument-vendorCityName-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
+  <bean id="VendorCreditMemoDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="vendorCityName" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-vendorCountryCode" parent="CreditMemoDocument-vendorCountryCode-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorCountryCode" parent="VendorCreditMemoDocument-vendorCountryCode-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
+  <bean id="VendorCreditMemoDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-accountsPayableApprovalTimestamp" parent="CreditMemoDocument-accountsPayableApprovalTimestamp-parentBean" />
+  <bean id="VendorCreditMemoDocument-accountsPayableApprovalTimestamp" parent="VendorCreditMemoDocument-accountsPayableApprovalTimestamp-parentBean" />
 
-  <bean id="CreditMemoDocument-accountsPayableApprovalTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  <bean id="VendorCreditMemoDocument-accountsPayableApprovalTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="accountsPayableApprovalTimestamp" />
     <property name="label" value="AP Processed Date" />
     <property name="shortLabel" value="Date" />
   </bean>
-  <bean id="CreditMemoDocument-holdIndicator" parent="CreditMemoDocument-holdIndicator-parentBean" />
+  <bean id="VendorCreditMemoDocument-holdIndicator" parent="VendorCreditMemoDocument-holdIndicator-parentBean" />
 
-  <bean id="CreditMemoDocument-holdIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-holdIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="holdIndicator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Hold Indicator" />
@@ -199,24 +199,24 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-extractedTimestamp" parent="CreditMemoDocument-extractedTimestamp-parentBean" />
+  <bean id="VendorCreditMemoDocument-extractedTimestamp" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean" />
 
-  <bean id="CreditMemoDocument-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  <bean id="VendorCreditMemoDocument-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="extractedTimestamp" />
     <property name="label" value="Extract Date" />
     <property name="shortLabel" value="Extract Date" />
   </bean>
-  <bean id="CreditMemoDocument-processingCampusCode" parent="CreditMemoDocument-processingCampusCode-parentBean" />
+  <bean id="VendorCreditMemoDocument-processingCampusCode" parent="VendorCreditMemoDocument-processingCampusCode-parentBean" />
 
-  <bean id="CreditMemoDocument-processingCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
+  <bean id="VendorCreditMemoDocument-processingCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="processingCampusCode" />
     <property name="label" value="Process Campus" />
     <property name="shortLabel" value="Process Campus" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-noteLine1Text" parent="CreditMemoDocument-noteLine1Text-parentBean" />
+  <bean id="VendorCreditMemoDocument-noteLine1Text" parent="VendorCreditMemoDocument-noteLine1Text-parentBean" />
 
-  <bean id="CreditMemoDocument-noteLine1Text-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-noteLine1Text-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="noteLine1Text" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Check Stub Notes" />
@@ -231,9 +231,9 @@
             p:size="45" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-noteLine2Text" parent="CreditMemoDocument-noteLine2Text-parentBean" />
+  <bean id="VendorCreditMemoDocument-noteLine2Text" parent="VendorCreditMemoDocument-noteLine2Text-parentBean" />
 
-  <bean id="CreditMemoDocument-noteLine2Text-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-noteLine2Text-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="noteLine2Text" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Check Stub Notes" />
@@ -248,9 +248,9 @@
             p:size="45" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-noteLine3Text" parent="CreditMemoDocument-noteLine3Text-parentBean" />
+  <bean id="VendorCreditMemoDocument-noteLine3Text" parent="VendorCreditMemoDocument-noteLine3Text-parentBean" />
 
-  <bean id="CreditMemoDocument-noteLine3Text-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-noteLine3Text-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="noteLine3Text" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Check Stub Notes" />
@@ -265,47 +265,47 @@
             p:size="45" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-purapDocumentIdentifier" parent="CreditMemoDocument-purapDocumentIdentifier-parentBean" />
+  <bean id="VendorCreditMemoDocument-purapDocumentIdentifier" parent="VendorCreditMemoDocument-purapDocumentIdentifier-parentBean" />
 
-  <bean id="CreditMemoDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+  <bean id="VendorCreditMemoDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="label" value="Credit Memo Nbr" />
     <property name="shortLabel" value="CM Nbr" />
   </bean>
-  <bean id="CreditMemoDocument-vendorHeaderGeneratedIdentifier" parent="CreditMemoDocument-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier" parent="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier-parentBean" />
 
-  <bean id="CreditMemoDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  <bean id="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-statusCode" parent="CreditMemoDocument-statusCode-parentBean" />
+  <bean id="VendorCreditMemoDocument-statusCode" parent="VendorCreditMemoDocument-statusCode-parentBean" />
 
-  <bean id="CreditMemoDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-creditMemoStatus">
+  <bean id="VendorCreditMemoDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-creditMemoStatus">
     <property name="name" value="statusCode" />
   </bean>
-  <bean id="CreditMemoDocument-creditMemoDate" parent="CreditMemoDocument-creditMemoDate-parentBean" />
+  <bean id="VendorCreditMemoDocument-creditMemoDate" parent="VendorCreditMemoDocument-creditMemoDate-parentBean" />
 
-  <bean id="CreditMemoDocument-creditMemoDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  <bean id="VendorCreditMemoDocument-creditMemoDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="creditMemoDate" />
     <property name="label" value="Credit Memo Date" />
     <property name="shortLabel" value="Date" />
     <property name="required" value="true" />
   </bean>
-  <bean id="CreditMemoDocument-purchaseOrderIdentifier" parent="CreditMemoDocument-purchaseOrderIdentifier-parentBean" />
+  <bean id="VendorCreditMemoDocument-purchaseOrderIdentifier" parent="VendorCreditMemoDocument-purchaseOrderIdentifier-parentBean" />
 
-  <bean id="CreditMemoDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+  <bean id="VendorCreditMemoDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderIdentifier" />
     <property name="label" value="Purchase Order Nbr" />
     <property name="shortLabel" value="PO Nbr" />
   </bean>
-  <bean id="CreditMemoDocument-purchaseOrderEndDate" parent="CreditMemoDocument-purchaseOrderEndDate-parentBean" />
+  <bean id="VendorCreditMemoDocument-purchaseOrderEndDate" parent="VendorCreditMemoDocument-purchaseOrderEndDate-parentBean" />
 
-  <bean id="CreditMemoDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  <bean id="VendorCreditMemoDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="purchaseOrderEndDate" />
     <property name="label" value="PO End Date" />
     <property name="shortLabel" value="PO End Date" />
   </bean>
-  <bean id="CreditMemoDocument-creditMemoAmount" parent="CreditMemoDocument-creditMemoAmount-parentBean" />
+  <bean id="VendorCreditMemoDocument-creditMemoAmount" parent="VendorCreditMemoDocument-creditMemoAmount-parentBean" />
 
-  <bean id="CreditMemoDocument-creditMemoAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-creditMemoAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="creditMemoAmount" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Credit Memo Amount" />
@@ -320,9 +320,9 @@
             p:size="21" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-creditMemoNumber" parent="CreditMemoDocument-creditMemoNumber-parentBean" />
+  <bean id="VendorCreditMemoDocument-creditMemoNumber" parent="VendorCreditMemoDocument-creditMemoNumber-parentBean" />
 
-  <bean id="CreditMemoDocument-creditMemoNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-creditMemoNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="creditMemoNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Credit Memo Number" />
@@ -338,9 +338,9 @@
             p:size="37" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-itemMiscellaneousCreditDescription" parent="CreditMemoDocument-itemMiscellaneousCreditDescription-parentBean" />
+  <bean id="VendorCreditMemoDocument-itemMiscellaneousCreditDescription" parent="VendorCreditMemoDocument-itemMiscellaneousCreditDescription-parentBean" />
 
-  <bean id="CreditMemoDocument-itemMiscellaneousCreditDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-itemMiscellaneousCreditDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemMiscellaneousCreditDescription" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Miscellaneous Credit Description" />
@@ -355,9 +355,9 @@
             p:cols="80" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-paymentRequestIdentifier" parent="CreditMemoDocument-paymentRequestIdentifier-parentBean" />
+  <bean id="VendorCreditMemoDocument-paymentRequestIdentifier" parent="VendorCreditMemoDocument-paymentRequestIdentifier-parentBean" />
 
-  <bean id="CreditMemoDocument-paymentRequestIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-paymentRequestIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentRequestIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Request Nbr" />
@@ -371,9 +371,9 @@
             p:size="11" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-purchaseOrderNotes" parent="CreditMemoDocument-purchaseOrderNotes-parentBean" />
+  <bean id="VendorCreditMemoDocument-purchaseOrderNotes" parent="VendorCreditMemoDocument-purchaseOrderNotes-parentBean" />
 
-  <bean id="CreditMemoDocument-purchaseOrderNotes-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-purchaseOrderNotes-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderNotes" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="PO Notes" />
@@ -388,9 +388,9 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-creditMemoType" parent="CreditMemoDocument-creditMemoType-parentBean" />
+  <bean id="VendorCreditMemoDocument-creditMemoType" parent="VendorCreditMemoDocument-creditMemoType-parentBean" />
 
-  <bean id="CreditMemoDocument-creditMemoType-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-creditMemoType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="creditMemoType" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Credit Memo Type" />
@@ -404,37 +404,37 @@
             p:size="6" />
     </property>
   </bean>
-  <bean id="CreditMemoDocument-lineItemTotal" parent="CreditMemoDocument-lineItemTotal-parentBean" />
+  <bean id="VendorCreditMemoDocument-lineItemTotal" parent="VendorCreditMemoDocument-lineItemTotal-parentBean" />
 
-  <bean id="CreditMemoDocument-lineItemTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
+  <bean id="VendorCreditMemoDocument-lineItemTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="lineItemTotal" />
     <property name="label" value="Total credit processed prior to restocking fee" />
     <property name="shortLabel" value="Total credit processed prior to restocking fee" />
   </bean>
-  <bean id="CreditMemoDocument-grandTotal" parent="CreditMemoDocument-grandTotal-parentBean" />
+  <bean id="VendorCreditMemoDocument-grandTotal" parent="VendorCreditMemoDocument-grandTotal-parentBean" />
 
-  <bean id="CreditMemoDocument-grandTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
+  <bean id="VendorCreditMemoDocument-grandTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="grandTotal" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
   </bean>
-  <bean id="CreditMemoDocument-grandPreTaxTotal" parent="CreditMemoDocument-grandPreTaxTotal-parentBean" />
+  <bean id="VendorCreditMemoDocument-grandPreTaxTotal" parent="VendorCreditMemoDocument-grandPreTaxTotal-parentBean" />
 
-  <bean id="CreditMemoDocument-grandPreTaxTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
+  <bean id="VendorCreditMemoDocument-grandPreTaxTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="grandPreTaxTotal" />
     <property name="label" value="Grand Total Prior to Tax" />
     <property name="shortLabel" value="Grand Total Prior to Tax" />
   </bean>
-  <bean id="CreditMemoDocument-grandTaxAmount" parent="CreditMemoDocument-grandTaxAmount-parentBean" />
+  <bean id="VendorCreditMemoDocument-grandTaxAmount" parent="VendorCreditMemoDocument-grandTaxAmount-parentBean" />
 
-  <bean id="CreditMemoDocument-grandTaxAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
+  <bean id="VendorCreditMemoDocument-grandTaxAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="grandTaxAmount" />
     <property name="label" value="Grand Total Tax" />
     <property name="shortLabel" value="Grand Total Tax" />
   </bean>
-  <bean id="CreditMemoDocument-reopenPurchaseOrderIndicator" parent="CreditMemoDocument-reopenPurchaseOrderIndicator-parentBean" />
+  <bean id="VendorCreditMemoDocument-reopenPurchaseOrderIndicator" parent="VendorCreditMemoDocument-reopenPurchaseOrderIndicator-parentBean" />
 
-  <bean id="CreditMemoDocument-reopenPurchaseOrderIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorCreditMemoDocument-reopenPurchaseOrderIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="reopenPurchaseOrderIndicator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Reopen PO" />
@@ -445,24 +445,24 @@
     </property>
   </bean>
   
-  <bean id="CreditMemoDocument-useTaxIndicator" parent="CreditMemoDocument-useTaxIndicator-parentBean" />
+  <bean id="VendorCreditMemoDocument-useTaxIndicator" parent="VendorCreditMemoDocument-useTaxIndicator-parentBean" />
   
-  <bean id="CreditMemoDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  <bean id="VendorCreditMemoDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
   	<property name="name" value="useTaxIndicator" />
   	<property name="label" value="Use Tax Indicator" />
   	<property name="shortLabel" value="Use Tax" />
   </bean>
   
-  <bean id="CreditMemoDocument-bankCode" parent="CreditMemoDocument-bankCode-parentBean" />
+  <bean id="VendorCreditMemoDocument-bankCode" parent="VendorCreditMemoDocument-bankCode-parentBean" />
   
-  <bean id="CreditMemoDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
+  <bean id="VendorCreditMemoDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
 
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="CreditMemoDocument-workflowProperties" parent="CreditMemoDocument-workflowProperties-parentBean" />
+  <bean id="VendorCreditMemoDocument-workflowProperties" parent="VendorCreditMemoDocument-workflowProperties-parentBean" />
 
-  <bean id="CreditMemoDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="VendorCreditMemoDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">
@@ -542,9 +542,9 @@
 	</bean>  
 	  
     <!-- accounting line groups -->
-    <bean id="CreditMemoDocument-sourceAccountingLineGroup" parent="CreditMemoDocument-sourceAccountingLineGroup-parentBean" />  
-    <bean id="CreditMemoDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	    <property name="accountingLineView" ref="CreditMemoDocument-accountingLineView" />
+    <bean id="VendorCreditMemoDocument-sourceAccountingLineGroup" parent="VendorCreditMemoDocument-sourceAccountingLineGroup-parentBean" />  
+    <bean id="VendorCreditMemoDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	    <property name="accountingLineView" ref="VendorCreditMemoDocument-accountingLineView" />
 	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	    <property name="groupLabel" value="Source" />
 	    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
@@ -553,9 +553,9 @@
 	    <property name="importingAllowed" value="false" />
     </bean>
   
-    <bean id="CreditMemoDocument-accountingLineView" parent="CreditMemoDocument-accountingLineView-parent" />
+    <bean id="VendorCreditMemoDocument-accountingLineView" parent="VendorCreditMemoDocument-accountingLineView-parent" />
 
-    <bean id="CreditMemoDocument-accountingLineView-parent"
+    <bean id="VendorCreditMemoDocument-accountingLineView-parent"
 	      parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>

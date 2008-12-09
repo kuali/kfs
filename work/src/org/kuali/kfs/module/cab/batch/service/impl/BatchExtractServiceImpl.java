@@ -54,7 +54,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -119,11 +119,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @param entry GL Line
      * @return CreditMemoDocument
      */
-    protected CreditMemoDocument findCreditMemoDocument(Entry entry) {
-        CreditMemoDocument creditMemoDocument = null;
+    protected VendorCreditMemoDocument findCreditMemoDocument(Entry entry) {
+        VendorCreditMemoDocument creditMemoDocument = null;
         Map<String, String> keys = new LinkedHashMap<String, String>();
         keys.put(CabPropertyConstants.DOCUMENT_NUMBER, entry.getDocumentNumber());
-        Collection<CreditMemoDocument> matchingCms = businessObjectService.findMatching(CreditMemoDocument.class, keys);
+        Collection<VendorCreditMemoDocument> matchingCms = businessObjectService.findMatching(VendorCreditMemoDocument.class, keys);
         if (matchingCms != null && matchingCms.size() == 1) {
             creditMemoDocument = matchingCms.iterator().next();
         }
@@ -457,8 +457,8 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 Map<String, String> fieldValues = new HashMap<String, String>();
                 fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, entry.getDocumentNumber());
                 // check if vendor credit memo, then include as FP line
-                Collection<CreditMemoDocument> matchingCreditMemos = businessObjectService.findMatching(CreditMemoDocument.class, fieldValues);
-                for (CreditMemoDocument creditMemoDocument : matchingCreditMemos) {
+                Collection<VendorCreditMemoDocument> matchingCreditMemos = businessObjectService.findMatching(VendorCreditMemoDocument.class, fieldValues);
+                for (VendorCreditMemoDocument creditMemoDocument : matchingCreditMemos) {
                     if (creditMemoDocument.getPurchaseOrderIdentifier() == null) {
                         fpLines.add(entry);
                     }

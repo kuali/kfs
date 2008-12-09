@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
@@ -51,7 +51,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      * @param cmDocument the Credit Memo Document this item belongs to.
      * @param poItem the Purchase Order Item to copy from.
      */
-    public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem) {
+    public CreditMemoItem(VendorCreditMemoDocument cmDocument, PurchaseOrderItem poItem) {
         this(cmDocument, poItem, new HashMap<String, ExpiredOrClosedAccountEntry>());
     }
 
@@ -63,7 +63,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      * @param poItem the Purchase Order Item to copy from.
      * @param expiredOrClosedAccountList the list of expired or closed accounts to check against.
      */
-    public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+    public CreditMemoItem(VendorCreditMemoDocument cmDocument, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         super();
 
         setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
@@ -114,7 +114,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      * @param preqItem the Payment Request Item to copy from.
      * @param poItem the Purchase Order Item to copy from.
      */
-    public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
+    public CreditMemoItem(VendorCreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
         this(cmDocument, preqItem, poItem, new HashMap<String, ExpiredOrClosedAccountEntry>());
         //FIXME: delete this after verifying that we don't need anything from this in the other constructor
 //
@@ -172,7 +172,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      * @param poItem the Purchase Order Item to copy from.
      * @param expiredOrClosedAccountList the list of expired or closed accounts to check against.
      */
-    public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+    public CreditMemoItem(VendorCreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         super();
 
         setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());

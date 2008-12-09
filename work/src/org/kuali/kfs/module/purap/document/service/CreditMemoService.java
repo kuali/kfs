@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.rice.kim.bo.Person;
@@ -38,7 +38,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param chartCode Chart to select from.
      * @return Iterator of credit memos.
      */
-    public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
+    public Iterator<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
      * Pulls a distinct list of all vendors on CM documents which are ready for extraction.
@@ -55,7 +55,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param vendor
      * @return
      */
-    public Collection<CreditMemoDocument> getCreditMemosToExtractByVendor( String chartCode, VendorGroupingHelper vendor );
+    public Collection<VendorCreditMemoDocument> getCreditMemosToExtractByVendor( String chartCode, VendorGroupingHelper vendor );
     
     /**
      * Get a credit memo by document number.
@@ -63,7 +63,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param documentNumber  The document number of the credit memo to be retrieved.
      * @return                The credit memo document whose document number matches the input parameter.
      */
-    public CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber);
+    public VendorCreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber);
 
     /**
      * Retrieves the Credit Memo document by the purapDocumentIdentifier.
@@ -71,7 +71,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param purchasingDocumentIdentifier  The purapDocumentIdentifier of the credit memo to be retrieved.
      * @return                              The credit memo document whose purapDocumentIdentifier matches the input parameter.
      */
-    public CreditMemoDocument getCreditMemoDocumentById(Integer purchasingDocumentIdentifier);
+    public VendorCreditMemoDocument getCreditMemoDocumentById(Integer purchasingDocumentIdentifier);
 
     /**
      * Makes call to dao to check for duplicate credit memos, and if one is found a message is returned. A duplicate error happens
@@ -81,7 +81,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param cmDocument - CreditMemoDocument to run duplicate check on.
      * @return String - message indicating a duplicate was found.
      */
-    public String creditMemoDuplicateMessages(CreditMemoDocument cmDocument);
+    public String creditMemoDuplicateMessages(VendorCreditMemoDocument cmDocument);
 
     /**
      * Iterates through the items of the purchase order document and checks for items that have been invoiced.
@@ -96,14 +96,14 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * 
      * @param creditMemoDocument - credit memo document to save.
      */
-    public void populateAndSaveCreditMemo(CreditMemoDocument creditMemoDocument);
+    public void populateAndSaveCreditMemo(VendorCreditMemoDocument creditMemoDocument);
 
     /**
      * Performs the credit memo item extended price calculation.
      * 
      * @param cmDocument - credit memo document to calculate.
      */
-    public void calculateCreditMemo(CreditMemoDocument cmDocument);
+    public void calculateCreditMemo(VendorCreditMemoDocument cmDocument);
 
     /**
      * Marks a credit memo as on hold.
@@ -113,7 +113,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @return the CreditMemoDocument with updated information.
      * @throws Exception
      */
-    public CreditMemoDocument addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
+    public VendorCreditMemoDocument addHoldOnCreditMemo(VendorCreditMemoDocument cmDocument, String note) throws Exception;
 
     /**
      * Determines if the document can be put on hold and if the user has permission to do so.
@@ -125,7 +125,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param user - user requesting the hold.
      * @return boolean - true if hold can occur, false if not allowed.
      */
-    public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, Person user);
+    public boolean canHoldCreditMemo(VendorCreditMemoDocument cmDocument, Person user);
 
     /**
      * Removes a hold on the credit memo document.
@@ -134,7 +134,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param note - note explaining why the credit memo is being taken off hold.
      * @return the CreditMemoDocument with updated information.
      */
-    public CreditMemoDocument removeHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
+    public VendorCreditMemoDocument removeHoldOnCreditMemo(VendorCreditMemoDocument cmDocument, String note) throws Exception;
 
     /**
      * Determines if the document can be taken off hold and if the given user has permission to do so.
@@ -144,7 +144,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param user - user requesting to remove the hold.
      * @return boolean - true if user can take document off hold, false if they cannot.
      */
-    public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, Person user);
+    public boolean canRemoveHoldCreditMemo(VendorCreditMemoDocument cmDocument, Person user);
 
     /**
      * Determines if the document can be canceled and if the given user has permission to do so.
@@ -155,14 +155,14 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param user - user requesting the cancel.
      * @return boolean - true if document can be canceled, false if it cannot be.
      */
-    public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, Person user);
+    public boolean canCancelCreditMemo(VendorCreditMemoDocument cmDocument, Person user);
 
     /**
      * This is called by PDP to cancel a CreditMemoDocument that has already been extracted     
      * @param cmDocument  The credit memo document to be resetted.
      * @param note        The note to be added to the credit memo document.
      */
-    public void resetExtractedCreditMemo(CreditMemoDocument cmDocument, String note);
+    public void resetExtractedCreditMemo(VendorCreditMemoDocument cmDocument, String note);
 
     /**
      * This is called by PDP to cancel a CreditMemoDocument that has already been extracted
@@ -170,7 +170,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param cmDocument  The credit memo document to be canceled.
      * @param note        The note to be added to the document to be canceled.
      */
-    public void cancelExtractedCreditMemo(CreditMemoDocument cmDocument, String note);
+    public void cancelExtractedCreditMemo(VendorCreditMemoDocument cmDocument, String note);
 
     /**
      * Reopens the purchase order document related to the given credit memo
@@ -179,7 +179,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param cmDocument  The credit memo document to be used to obtained the 
      *                    purchase order document to be closed.
      */
-    public void reopenClosedPO(CreditMemoDocument cmDocument);
+    public void reopenClosedPO(VendorCreditMemoDocument cmDocument);
 
     /**
      * Mark a credit memo is being used on a payment
@@ -187,7 +187,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param cm           The credit memo document to be marked as paid.
      * @param processDate  The date to be set as the credit memo's paid timestamp.
      */
-    public void markPaid(CreditMemoDocument cm, Date processDate);
+    public void markPaid(VendorCreditMemoDocument cm, Date processDate);
     
     /**
      * Determines if there are active credit memos for a purchase order.

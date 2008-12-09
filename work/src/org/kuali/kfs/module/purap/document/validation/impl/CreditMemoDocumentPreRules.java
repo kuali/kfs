@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
@@ -62,7 +62,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         String questionText = super.createInvoiceNoMatchQuestionText(accountsPayableDocument);                
         
         CurrencyFormatter cf = new CurrencyFormatter();
-        CreditMemoDocument cm = (CreditMemoDocument) accountsPayableDocument;
+        VendorCreditMemoDocument cm = (VendorCreditMemoDocument) accountsPayableDocument;
         StringBuffer questionTextBuffer = new StringBuffer("");
         questionTextBuffer.append(questionText);
         questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.leftTd { border-bottom:1px solid #000000; border-right:1px solid #000000; padding:3px; width:300px; } td.rightTd { border-bottom:1px solid #000000; border-left:1px solid #000000; padding:3px; width:300px; } </style>" );

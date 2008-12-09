@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.service;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -65,7 +65,7 @@ public interface PurapGeneralLedgerService {
      * 
      * @param cm CreditMemoDocument which holds the accounts to create the entries
      */
-    public void generateEntriesCreateCreditMemo(CreditMemoDocument cm);
+    public void generateEntriesCreateCreditMemo(VendorCreditMemoDocument cm);
 
     /**
      * Generates general ledger pending entries for the cancellation of an Accounts Payable document.

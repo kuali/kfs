@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 
 public enum CreditMemoDocumentFixture {
@@ -101,8 +101,8 @@ public enum CreditMemoDocumentFixture {
         this.accountsPayableProcessorIdentifier = accountsPayableProcessorIdentifier;
     }
     
-    public CreditMemoDocument createCreditMemoDocument() {
-        CreditMemoDocument doc = apDocumentFixture.createCreditMemoDocument(purapDocumentFixture);
+    public VendorCreditMemoDocument createCreditMemoDocument() {
+        VendorCreditMemoDocument doc = apDocumentFixture.createCreditMemoDocument(purapDocumentFixture);
         doc.setPaymentRequestIdentifier(this.paymentRequestIdentifier);
         doc.setCreditMemoNumber(this.creditMemoNumber);
         doc.setCreditMemoDate(this.creditMemoDate);

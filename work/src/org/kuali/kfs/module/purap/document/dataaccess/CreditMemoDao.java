@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -35,7 +35,7 @@ public interface CreditMemoDao {
      * @param chartCode - if not null, limit results to a single chart
      * @return - Iterator of credit memos
      */
-    public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
+    public Iterator<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
      * Get all the credit memos that need to be extracted for a particular vendor record.
@@ -45,7 +45,7 @@ public interface CreditMemoDao {
      * @param vendorDetailAssignedIdentifier
      * @return - Iterator of credit memos
      */
-    public Collection<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor );
+    public Collection<VendorCreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor );
     
     /**
      * This method tests for a duplicate entry of a credit memo by the combination of vendorNumber HeaderId, vendorNumber and

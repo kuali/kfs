@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
@@ -219,7 +219,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param cmd   The credit memo document to be used to obtain the payment requests.
      * @return      The iterator of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, CreditMemoDocument cmd);
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, VendorCreditMemoDocument cmd);
 
     /**
      * Get all the payment requests that match a vendor.

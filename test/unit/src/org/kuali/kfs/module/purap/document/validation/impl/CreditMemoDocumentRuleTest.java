@@ -28,7 +28,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocumentTest;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocumentTest;
@@ -52,7 +52,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 @ConfigureContext(session = appleton)
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
 
-    CreditMemoDocument creditMemo;
+    VendorCreditMemoDocument creditMemo;
     CreditMemoDocumentRule rule;
     
     @Override
@@ -504,7 +504,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
      */
     public void testValidateObjectCode_Happy() {
         PurApAccountingLine accountingLine = PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1.createPurApAccountingLine(
-                CreditMemoDocument.class,
+                VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BASIC_ACCOUNT_1,
                 AccountingLineFixture.LINE6);
         assertTrue(rule.validateObjectCode(creditMemo, accountingLine));
@@ -531,7 +531,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
      */ 
     public void testVerifyAccountingStringsBetween0And100Percent_Happy() {
         PurApAccountingLine accountingLine = PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1.createPurApAccountingLine(
-                CreditMemoDocument.class,
+                VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BASIC_ACCOUNT_1,
                 AccountingLineFixture.LINE6);
         assertTrue(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
@@ -539,7 +539,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentTooHigh() {
         PurApAccountingLine accountingLine = PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1.createPurApAccountingLine(
-                CreditMemoDocument.class,
+                VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_TOO_HIGH,
                 AccountingLineFixture.LINE6);
         assertFalse(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
@@ -547,7 +547,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentZero() {
         PurApAccountingLine accountingLine = PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1.createPurApAccountingLine(
-                CreditMemoDocument.class,
+                VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_ZERO,
                 AccountingLineFixture.LINE6);
         assertFalse(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
@@ -555,7 +555,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentNegative() {
         PurApAccountingLine accountingLine = PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1.createPurApAccountingLine(
-                CreditMemoDocument.class,
+                VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_NEGATIVE,
                 AccountingLineFixture.LINE6);
         assertFalse(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));

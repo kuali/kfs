@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.fixture;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.integration.purap.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
-import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 
 public enum CreditMemoItemFixture {
 
@@ -269,7 +269,7 @@ public enum CreditMemoItemFixture {
         this.poInvoicedTotalQuantity = poInvoicedTotalQuantity;
     }
 
-    public void addTo(CreditMemoDocument creditMemoDocument) {
+    public void addTo(VendorCreditMemoDocument creditMemoDocument) {
         CreditMemoItem item = null;
         item = (CreditMemoItem) this.createCreditMemoItem();
         creditMemoDocument.addItem(item);

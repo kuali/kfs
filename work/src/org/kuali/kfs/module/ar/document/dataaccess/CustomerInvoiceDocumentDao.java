@@ -46,6 +46,18 @@ public interface CustomerInvoiceDocumentDao {
     
     /**
      * 
+     * Retrieves all Open invoices, by the specified Customer Name and Customer Type Code
+     * 
+     * Retrieves all Open invoices, by the specified Customer Name (a LIKE customerName* search) and Customer Type Code.
+     * 
+     * @param customerName
+     * @param customerTypeCode
+     * @return
+     */
+    public Collection getOpenByCustomerNameByCustomerType(String customerName, String customerTypeCode);
+    
+    /**
+     * 
      * Retrieves all Open invoices, by the specified Customer Name.
      * 
      * NOTE - this search uses customerName as a leading substring search, 

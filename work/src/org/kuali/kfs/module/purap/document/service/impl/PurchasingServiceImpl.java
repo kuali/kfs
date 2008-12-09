@@ -241,12 +241,12 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
     public boolean checkCapitalAssetLocation(CapitalAssetLocation location) {
         // if any of the date fields have a value AND one of them does not have a value...
-        if (location != null &&
+        if (ObjectUtils.isNotNull(location) &&
                 (StringUtils.isEmpty(location.getCapitalAssetLine1Address()) ||
                 StringUtils.isEmpty(location.getCapitalAssetCityName()) ||
                 StringUtils.isEmpty(location.getCapitalAssetStateCode()) ||
-                StringUtils.isEmpty(location.getCapitalAssetPostalCode()) /* FIXME: Heather  ||
-                StringUtils.isEmpty(location.getCapitalAssetCountryCode()) */ )) { 
+                StringUtils.isEmpty(location.getCapitalAssetPostalCode()) ||
+                StringUtils.isEmpty(location.getCapitalAssetCountryCode()) )) { 
             String missingFields = "";
             if (StringUtils.isEmpty(location.getCapitalAssetLine1Address())) {
                 missingFields += "Address";
@@ -269,12 +269,12 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                 }
                 missingFields += "Postal Code";
             }
-            /* FIXME: Heather            if (StringUtils.isEmpty(location.getCapitalAssetCountryCode())) {
+            if (StringUtils.isEmpty(location.getCapitalAssetCountryCode())) {
                 if (!StringUtils.isEmpty(missingFields)) {
                     missingFields += ", ";
                 }
                 missingFields += "Country";
-            } */
+            }
             // add error!
             GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS, missingFields);
             return false;

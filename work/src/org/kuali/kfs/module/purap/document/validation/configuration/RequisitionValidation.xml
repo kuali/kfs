@@ -38,7 +38,7 @@
   				</bean>
   				<bean parent="Requisition-newProcessItemValidation" scope="prototype">								
 					<property name="quitOnFail" value="true" />
-				</bean>  
+				</bean>  												
 				<!-- Here's the start of Collection Validations testing, will it work ? -->
 			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
   					<property name="collectionProperty" value="document.items" />
@@ -70,8 +70,9 @@
   			</list>
   		</property>
   	</bean>
+
   
-  	<bean id="Requisition-approveDocumentValidation" parent="AssetPayment-approveDocumentValidation-parentBean" scope="prototype" />
+  	<bean id="Requisition-approveDocumentValidation" parent="Requisition-approveDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="Requisition-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">

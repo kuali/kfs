@@ -43,6 +43,7 @@
 	>
 	</style>
 
+	<parameter name="invoice" isForPrompting="false" class="java.util.Map"/>
 
 	<field name="documentNumber" class="java.lang.String"/>
 	<field name="documentFinalDate" class="java.sql.Date"/>
@@ -143,7 +144,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="469"
+						x="471"
 						y="4"
 						width="90"
 						height="18"
@@ -162,7 +163,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="380"
+						x="381"
 						y="4"
 						width="90"
 						height="18"
@@ -186,7 +187,7 @@
 						style="dataCell"
 						mode="Transparent"
 						x="1"
-						y="21"
+						y="5"
 						width="100"
 						height="20"
 						key="textField-7"/>
@@ -201,7 +202,7 @@
 						style="dataCell"
 						mode="Transparent"
 						x="101"
-						y="21"
+						y="5"
 						width="67"
 						height="20"
 						key="textField-8"/>
@@ -211,13 +212,13 @@
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{documentFinalDate}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
 						x="168"
-						y="21"
-						width="213"
+						y="5"
+						width="215"
 						height="20"
 						key="textField-9"/>
 					<box leftPadding="10"></box>
@@ -226,51 +227,12 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{documentDescription}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="19"
-						y="9"
-						width="164"
-						height="12"
-						key="textField-13"/>
-					<box></box>
-					<textElement>
-						<font size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{orgName}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="196"
-						y="9"
-						width="127"
-						height="12"
-						key="textField-14"/>
-					<box></box>
-					<textElement>
-						<font size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fein}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="343"
-						y="8"
-						width="127"
-						height="12"
-						key="textField-15"/>
-					<box></box>
-					<textElement>
-						<font size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{docType}]]></textFieldExpression>
-				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
-						x="469"
-						y="21"
+						x="471"
+						y="5"
 						width="90"
 						height="20"
 						key="textField-17"/>
@@ -284,8 +246,8 @@
 					<reportElement
 						style="dataCell"
 						mode="Opaque"
-						x="380"
-						y="21"
+						x="381"
+						y="5"
 						width="90"
 						height="20"
 						key="textField-19"/>
@@ -298,7 +260,147 @@
 			</band>
 		</detail>
 		<columnFooter>
-			<band height="20"  isSplitAllowed="true" >
+			<band height="63"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1"
+						y="13"
+						width="110"
+						height="18"
+						backcolor="#DDDDDD"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[CURRENT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="221"
+						y="13"
+						width="110"
+						height="18"
+						backcolor="#DDDDDD"
+						key="staticText-2"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[61-90 DAYS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="111"
+						y="13"
+						width="110"
+						height="18"
+						backcolor="#DDDDDD"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[31-60 DAYS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="441"
+						y="13"
+						width="120"
+						height="18"
+						backcolor="#DDDDDD"
+						key="staticText-4"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[ACCOUNT BALANCE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="331"
+						y="13"
+						width="110"
+						height="18"
+						backcolor="#DDDDDD"
+						key="staticText-5"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[OVER 90 DAYS]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="30"
+						width="110"
+						height="18"
+						key="textField-20"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total0to30")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="111"
+						y="31"
+						width="110"
+						height="18"
+						key="textField-21"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total31to60")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="221"
+						y="30"
+						width="110"
+						height="18"
+						key="textField-22"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total61to90")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="331"
+						y="30"
+						width="110"
+						height="18"
+						key="textField-23"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total90plus")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="441"
+						y="31"
+						width="120"
+						height="18"
+						key="textField-24"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("amountDue")]]></textFieldExpression>
+				</textField>
 			</band>
 		</columnFooter>
 		<pageFooter>

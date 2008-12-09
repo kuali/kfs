@@ -17,6 +17,9 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.File;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,11 +28,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -54,6 +60,7 @@ import org.kuali.kfs.module.ar.report.util.CustomerStatementDetailReportDataHold
 import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -307,7 +314,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String chart = billingOrg.getChartOfAccountsCode();
         String org = billingOrg.getOrganizationCode();
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode",chart );
+        criteria.put("chartOfAccountsCode", chart);
         criteria.put("organizationCode", org);
         OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
@@ -368,14 +375,13 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param details
      * @return
      */
-    public File generateStatement(String billingChartCode, String billingOrgCode, String customerNumber, List<CustomerStatementDetailReportDataHolder> details){
+    public File generateStatement(String billingChartCode, String billingOrgCode, String customerNumber, Org processingOrg, List<CustomerStatementDetailReportDataHolder> details){
 
         CustomerStatementReportDataHolder reportDataHolder = new CustomerStatementReportDataHolder();
         CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
         CustomerAddress billToAddr = addrService.getPrimaryAddress(customerNumber);
 
         initializeDateTimeService();
-        
         
         Map<String, String> customerMap = new HashMap<String, String>();
         customerMap.put("id", customerNumber);
@@ -396,7 +402,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         reportDataHolder.setCustomer(customerMap);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
-        invoiceMap.put("createDate", dateTimeService.toDateString(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityDate()));
+        invoiceMap.put("createDate", dateTimeService.toDateString(dateTimeService.getCurrentDate()));
         invoiceMap.put("customerOrg", billingOrgCode);
         Org billingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(billingChartCode, billingOrgCode);
         invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
@@ -417,7 +423,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> sysinfoMap = new HashMap<String, String>();
         InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", billingChartCode );
+        criteria.put("chartOfAccountsCode", billingChartCode);
         criteria.put("organizationCode", billingOrgCode);
         OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
@@ -434,14 +440,19 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
 
         criteria.clear();
-        // TODO Why are there hard-coded values in here for a chart and org code?
-        criteria.put("chartOfAccountsCode", "UA");
-        criteria.put("organizationCode", "VPIT");
-        Org processingOrg = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, criteria);
-
+        criteria.put("universityFiscalYear", fiscalYear);
+        criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
+        criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
+        SystemInformation sysinfo = (SystemInformation)businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
+        
         sysinfoMap.put("univName", StringUtils.upperCase(finder.getValue()));
         sysinfoMap.put("univAddr", generateCityStateZipLine(processingOrg.getOrganizationCityName(), processingOrg.getOrganizationStateCode(), processingOrg.getOrganizationZipCode()));
+        if (sysinfo != null) {
+            sysinfoMap.put("FEIN", "FED ID #"+sysinfo.getUniversityFederalEmployerIdentificationNumber());
+        }
 
+//        calculateAgingAmounts(details, invoiceMap); // HOLD OFF ON THIS UNTIL THE CODING IS TESTED AND WORKING - KULAR-530
+        
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(details);
         reportDataHolder.setInvoice(invoiceMap);
@@ -549,7 +560,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
             }
             if (invoice.compareTo(ctrlDoc) != 0) {  
-                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details));
+                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
                 details.clear();
             }
             ctrlDoc = invoice;
@@ -586,7 +597,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
             }
             if (invoice.compareTo(ctrlDoc) != 0) {  
-                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details));
+                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
                 details.clear();
             }
             ctrlDoc = invoice;
@@ -623,13 +634,12 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 details.add(detail);
             }
             if (invoice.compareTo(ctrlDoc) != 0) {  
-                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details));
+                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
                 details.clear();
             }
             ctrlDoc = invoice;
         }
         return reports;
-
     }
 
     /**
@@ -647,6 +657,96 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         return cityStateZip.toString();
     }
 
+    /**
+     * 
+     * This method...
+     */
+    private void calculateAgingAmounts(List<CustomerStatementDetailReportDataHolder> details, Map<String, String> invoiceMap) {
+        KualiDecimal total0to30 = KualiDecimal.ZERO;
+        KualiDecimal total31to60 = KualiDecimal.ZERO;
+        KualiDecimal total61to90 = KualiDecimal.ZERO;
+        KualiDecimal total91toSYSPR = KualiDecimal.ZERO;
+        KualiDecimal totalSYSPRplus1orMore = KualiDecimal.ZERO;
+
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+        String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE");     // ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
+
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        java.util.Date reportRunDate = dateTimeService.getCurrentDate();
+        java.util.Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
+        java.util.Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
+        java.util.Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
+        java.util.Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1*Integer.parseInt(nbrDaysForLastBucket));
+        
+        
+        
+        Map<String, Object> knownCustomers = new HashMap<String, Object>(details.size());
+
+        KualiDecimal totalbalance = new KualiDecimal(0.00);
+        CustomerAgingReportDetail custDetail = null;
+        String previousCustomerNumber = "";
+        int detailnum=0;
+        // iterate over all invoices consolidating balances for each customer
+        for(CustomerStatementDetailReportDataHolder csdrdh : details) {
+            CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+            CustomerInvoiceDocument ci = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(csdrdh.getDocumentNumber());
+            for (CustomerInvoiceDetail cid : customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci)) {
+                String invoiceDocumentNumber = cid.getDocumentNumber();
+                CustomerInvoiceDocument custInvoice = SpringContext.getBean(CustomerInvoiceDocumentService.class).getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+                Date approvalDate;
+                detailnum++;
+                approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
+                if (ObjectUtils.isNull(approvalDate)) {
+                    continue;
+                }
+    
+                if(custInvoice!=null && SpringContext.getBean(CustomerInvoiceDetailService.class).getOpenAmount(cid).isNonZero()) {   
+    
+                    Customer customerobj = custInvoice.getCustomer();                        
+                    String customerNumber = customerobj.getCustomerNumber();    // tested and works
+                    String customerName = customerobj.getCustomerName();  // tested and works
+    
+    
+                    if (knownCustomers.containsKey(customerNumber)) { 
+                        custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
+                    } else {
+                        custDetail = new CustomerAgingReportDetail();
+                        custDetail.setCustomerName(customerName);
+                        custDetail.setCustomerNumber(customerNumber);
+                        knownCustomers.put(customerNumber, custDetail);
+                    }
+                    if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {                                
+                        custDetail.setUnpaidBalance0to30(cid.getOpenAmount().add(custDetail.getUnpaidBalance0to30()));
+                        total0to30 = total0to30.add(cid.getOpenAmount());
+                    }
+                    if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
+                        custDetail.setUnpaidBalance31to60(cid.getOpenAmount().add(custDetail.getUnpaidBalance31to60()));
+                        total31to60 = total31to60.add(cid.getOpenAmount());
+                    }
+                    if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
+                        custDetail.setUnpaidBalance61to90(cid.getOpenAmount().add(custDetail.getUnpaidBalance61to90()));
+                        total61to90 = total61to90.add(cid.getOpenAmount());
+                    }
+                    if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
+                        custDetail.setUnpaidBalance91toSYSPR(cid.getOpenAmount().add(custDetail.getUnpaidBalance91toSYSPR()));
+                        total91toSYSPR = total91toSYSPR.add(cid.getOpenAmount());
+                    }
+                    if (approvalDate.before(cutoffdate120)) {
+                        custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getOpenAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                        totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getOpenAmount());
+                    }            
+                }        
+            } 
+        }
+        
+        invoiceMap.put("total0to30", total0to30.toString());
+        invoiceMap.put("total31to60", total31to60.toString());
+        invoiceMap.put("total61to90", total61to90.toString());
+        invoiceMap.put("total90plus", total91toSYSPR.toString());
+        
+    }
+    
     /**
      * Initializes the dateTimeService attribute. 
      * 

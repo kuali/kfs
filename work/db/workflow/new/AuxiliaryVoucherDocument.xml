@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="ns:workflow">
+<documentTypes xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType" xmlns="ns:workflow/DocumentType">
+<documentType>
+<name>AuxiliaryVoucherDocument</name>
+<parent>FinancialProcessingTransactionalDocument</parent>
+<docHandler>${application.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Account Review"/>
+          <requests name="Account Review" nextNode="Org Review"/>
+          <requests name="Org Review"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="Account Review">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Org Review">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

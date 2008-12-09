@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="ns:workflow">
+<documentTypes xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType" xmlns="ns:workflow/DocumentType">
+<documentType>
+<name>BudgetAdjustmentDocument</name>
+<parent>FinancialProcessingTransactionalDocument</parent>
+<docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Approval No Approval Split"/>
+          <split name="Approval No Approval Split" nextNode="Do More Nothing">
+            <branch name="ApprovalBranch">
+              <requests name="Account Review" nextNode="Org Review"/>
+              <requests name="Org Review" nextNode="Subfund"/>
+              <requests name="Subfund" nextNode="Award Workgroup"/>
+              <requests name="Award Workgroup" nextNode="Join"/>
+            </branch>
+            <branch name="NoApprovalBranch">
+              <simple name="Do Nothing" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+          <simple name="Do More Nothing"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="Account Review">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Org Review">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Subfund">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Award Workgroup">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<split name="Approval No Approval Split">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="Do Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<simple name="Do More Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="Join"/>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

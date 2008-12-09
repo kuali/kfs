@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="ns:workflow">
+<documentTypes xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType" xmlns="ns:workflow/DocumentType">
+<documentType>
+<name>ObjectConsolidationMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<routeNodes/>
+</documentType>
+</documentTypes>
+</data>

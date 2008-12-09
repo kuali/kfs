@@ -131,7 +131,7 @@ public class CustomerDigesterAdapter {
     
     private void convertCustomerBooleanProperties() {
         
-        customer.setCustomerActiveIndicator(convertToLittleBoolean("customerActiveIndicator", applyDefaultValue("customerActiveIndicator", customerDigesterVO.getCustomerActiveIndicator())));
+        customer.setActive(convertToLittleBoolean("customerActiveIndicator", applyDefaultValue("customerActiveIndicator", customerDigesterVO.getCustomerActiveIndicator())));
         customer.setCustomerTaxExemptIndicator(convertToLittleBoolean("customerTaxExemptIndicator", applyDefaultValue("customerTaxExemptIndicator", customerDigesterVO.getCustomerTaxExemptIndicator())));
         return;
     }

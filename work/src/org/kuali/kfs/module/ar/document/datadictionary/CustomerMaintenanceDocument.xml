@@ -19,6 +19,17 @@
       </list>
     </property>
 
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="customerType"
+              p:attributeToHighlightOnFail="customerTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="customerParentCompany"
+              p:attributeToHighlightOnFail="customerParentCompanyNumber" />
+      </list>
+    </property>    
+
     <property name="lockingKeys" >
       <list>
         <value>customerNumber</value>
@@ -78,7 +89,7 @@
               p:name="customerTypeCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerRecordAddDate"

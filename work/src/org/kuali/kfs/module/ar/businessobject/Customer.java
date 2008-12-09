@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -11,7 +12,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Customer extends PersistableBusinessObjectBase {
+public class Customer extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String customerNumber;
     private String customerName;
@@ -23,7 +24,7 @@ public class Customer extends PersistableBusinessObjectBase {
     private Date customerLastActivityDate;
     private String customerTaxTypeCode;
     private String customerTaxNbr;
-    private boolean customerActiveIndicator;
+    private boolean active;
     private String customerPhoneNumber;
     private String customer800PhoneNumber;
     private String customerContactName;
@@ -197,21 +198,21 @@ public class Customer extends PersistableBusinessObjectBase {
 
 
       /**
-     * Gets the customerActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the customerActiveIndicator
+     * @return Returns the active
      */
-    public boolean isCustomerActiveIndicator() {
-        return customerActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the customerActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param customerActiveIndicator The customerActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setCustomerActiveIndicator(boolean customerActiveIndicator) {
-        this.customerActiveIndicator = customerActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

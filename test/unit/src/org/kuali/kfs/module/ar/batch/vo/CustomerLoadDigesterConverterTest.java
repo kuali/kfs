@@ -60,7 +60,7 @@ public class CustomerLoadDigesterConverterTest extends KualiTestBase {
         assertNotNull("Customer Last Activity Date should not be null.", customer.getCustomerLastActivityDate());
         assertNotNull("Customer Tax Type Code should not be null.", customer.getCustomerTaxTypeCode());
         assertNotNull("Customer Tax Number should not be null.", customer.getCustomerTaxNbr());
-        assertNotNull("Customer Active Indicator should not be null.", customer.isCustomerActiveIndicator());
+        assertNotNull("Customer Active Indicator should not be null.", customer.isActive());
         assertNotNull("Customer Phone Number should not be null.", customer.getCustomerPhoneNumber());
         assertNotNull("Customer 800 Phone Number should not be null.", customer.getCustomer800PhoneNumber());
         assertNotNull("Customer Contact Name should not be null.", customer.getCustomerContactName());

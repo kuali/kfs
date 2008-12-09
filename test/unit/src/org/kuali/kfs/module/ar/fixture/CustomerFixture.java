@@ -32,7 +32,7 @@ public enum CustomerFixture {
     public Customer createCustomer(){
         Customer customer = new Customer();
         customer.setCustomerNumber(customerNumber);
-        customer.setCustomerActiveIndicator(customerActiveIndicator);
+        customer.setActive(customerActiveIndicator);
         return customer;
     }
 }

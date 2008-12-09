@@ -113,7 +113,7 @@
 	<field-descriptor name="customerAddressChangeDate" column="CUST_ADDR_CHG_DT" jdbc-type="DATE"/>
 	<field-descriptor name="customerRecordAddDate" column="CUST_REC_ADD_DT" jdbc-type="DATE"/>
 	<field-descriptor name="customerLastActivityDate" column="CUST_LST_ACTV_DT" jdbc-type="DATE"/>
-	<field-descriptor name="customerActiveIndicator" column="CUST_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="CUST_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="customerPhoneNumber" column="CUST_PHONE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customer800PhoneNumber" column="CUST_800_PHONE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerContactName" column="CUST_CNTCT_NM" jdbc-type="VARCHAR"/>

@@ -390,7 +390,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
             Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
 
-            if (customer != null && !customer.isCustomerActiveIndicator()) {
+            if (customer != null && !customer.isActive()) {
 
                 GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_IS_INACTIVE);
                 isValid = false;

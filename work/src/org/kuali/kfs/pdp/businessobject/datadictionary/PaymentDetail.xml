@@ -20,7 +20,7 @@
       <list>
         <ref bean="PaymentDetail-paymentGroup.payeeName" />
         <ref bean="PaymentDetail-paymentGroup.batch.customerProfile.chartCode" />
-        <ref bean="PaymentDetail-paymentGroup.batch.customerProfile.orgCode" />
+        <ref bean="PaymentDetail-paymentGroup.batch.customerProfile.unitCode" />
         <ref bean="PaymentDetail-paymentGroup.batch.customerProfile.customerShortName" />
         <ref bean="PaymentDetail-paymentGroup.batch.id" />
         <ref bean="PaymentDetail-paymentGroup.batch.customerFileCreateTimestamp" />
@@ -139,10 +139,10 @@
   <bean id="PaymentDetail-paymentGroup.payeeIdTypeCd-parentBean" abstract="true" parent="PaymentGroup-payeeIdTypeCd">
     <property name="name" value="paymentGroup.payeeIdTypeCd" />
   </bean>
-  <bean id="PaymentDetail-paymentGroup.batch.customerProfile.orgCode" parent="PaymentDetail-paymentGroup.batch.customerProfile.orgCode-parentBean" />
+  <bean id="PaymentDetail-paymentGroup.batch.customerProfile.unitCode" parent="PaymentDetail-paymentGroup.batch.customerProfile.unitCode-parentBean" />
 
-  <bean id="PaymentDetail-paymentGroup.batch.customerProfile.orgCode-parentBean" abstract="true" parent="PaymentGroup-batch.customerProfile.orgCode">
-    <property name="name" value="paymentGroup.batch.customerProfile.orgCode" />
+  <bean id="PaymentDetail-paymentGroup.batch.customerProfile.unitCode-parentBean" abstract="true" parent="PaymentGroup-batch.customerProfile.unitCode">
+    <property name="name" value="paymentGroup.batch.customerProfile.unitCode" />
   </bean>
   <bean id="PaymentDetail-purchaseOrderNbr" parent="PaymentDetail-purchaseOrderNbr-parentBean" />
 
@@ -851,7 +851,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.chartCode" />     
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.customerProfile.orgCode" />                                                                                           
+                    p:attributeName="paymentGroup.batch.customerProfile.unitCode" />                                                                                           
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" />
               <bean parent="FieldDefinition"

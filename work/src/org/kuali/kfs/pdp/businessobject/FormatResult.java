@@ -171,7 +171,7 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
         }
         sb.append(getSortGroupId());
         sb.append(cust.getChartCode());
-        sb.append(cust.getOrgCode());
+        sb.append(cust.getUnitCode());
         sb.append(cust.getSubUnitCode());
         return sb.toString();
     }

@@ -17,7 +17,7 @@
         <ref bean="BankChangeHistory-paymentGroup.disbursementTypeCode" />
         <ref bean="BankChangeHistory-paymentGroup.processId" />
         <ref bean="BankChangeHistory-paymentGroup.batch.customerProfile.chartCode" />
-        <ref bean="BankChangeHistory-paymentGroup.batch.customerProfile.orgCode" />
+        <ref bean="BankChangeHistory-paymentGroup.batch.customerProfile.unitCode" />
         <ref bean="BankChangeHistory-paymentGroup.batch.customerProfile.subUnitCode" />
         <ref bean="BankChangeHistory-custPaymentDocNbr" />
         <ref bean="BankChangeHistory-purchaseOrderNbr" />
@@ -42,9 +42,9 @@
     <property name="name" value="paymentGroup.batch.customerProfile.chartCode" />
   </bean>    
   
-  <bean id="BankChangeHistory-paymentGroup.batch.customerProfile.orgCode" parent="BankChangeHistory-paymentGroup.batch.customerProfile.orgCode-parentBean" />
-  <bean id="BankChangeHistory-paymentGroup.batch.customerProfile.orgCode-parentBean" abstract="true" parent="CustomerProfile-orgCode">
-    <property name="name" value="paymentGroup.batch.customerProfile.orgCode" />
+  <bean id="BankChangeHistory-paymentGroup.batch.customerProfile.unitCode" parent="BankChangeHistory-paymentGroup.batch.customerProfile.unitCode-parentBean" />
+  <bean id="BankChangeHistory-paymentGroup.batch.customerProfile.unitCode-parentBean" abstract="true" parent="CustomerProfile-unitCode">
+    <property name="name" value="paymentGroup.batch.customerProfile.unitCode" />
   </bean> 
   
   <bean id="BankChangeHistory-paymentGroup.batch.customerProfile.subUnitCode" parent="BankChangeHistory-paymentGroup.batch.customerProfile.subUnitCode-parentBean" />
@@ -156,7 +156,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.chartCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.customerProfile.orgCode" />
+                    p:attributeName="paymentGroup.batch.customerProfile.unitCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" p:noLookup="true"/>
               <bean parent="FieldDefinition"
@@ -172,7 +172,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.chartCode" />     
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.customerProfile.orgCode" />                                                                                           
+                    p:attributeName="paymentGroup.batch.customerProfile.unitCode" />                                                                                           
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" />
               <bean parent="FieldDefinition"

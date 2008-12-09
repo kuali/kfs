@@ -113,7 +113,7 @@
     <field-descriptor name="defaultSubObjectCode" column="DFLT_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="fileThresholdAmount" column="FL_THRSHLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="fileThresholdEmailAddress" column="CUST_FILE_THRSHLD_EMAIL_ADDR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="orgCode" column="ORG_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="unitCode" column="ORG_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentThresholdAmount" column="PMT_THRSHLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="paymentThresholdEmailAddress" column="CUST_PMT_THRSHLD_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="processingEmailAddr" column="CUST_PRCS_EMAIL_ADDR" jdbc-type="VARCHAR"/>

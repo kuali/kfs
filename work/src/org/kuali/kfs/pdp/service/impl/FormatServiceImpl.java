@@ -352,7 +352,7 @@ public class FormatServiceImpl implements FormatService {
                 LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
 
-                throw new FormatException("A bank is needed for CHCK for customer: " + customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
+                throw new FormatException("A bank is needed for CHCK for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
             }
         }
         else {
@@ -374,7 +374,7 @@ public class FormatServiceImpl implements FormatService {
                 LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
 
-                throw new FormatException("A bank is needed for ACH for customer: " + customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
+                throw new FormatException("A bank is needed for ACH for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
             }
 
             paymentGroup.setAchBankRoutingNbr(payeeAchAccount.getBankRoutingNumber());

@@ -373,7 +373,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
                     writeCloseTag(os, 4, "payment");
 
-                    String unit = paymentGroup.getBatch().getCustomerProfile().getChartCode() + "-" + paymentGroup.getBatch().getCustomerProfile().getOrgCode() + "-" + paymentGroup.getBatch().getCustomerProfile().getSubUnitCode();
+                    String unit = paymentGroup.getBatch().getCustomerProfile().getChartCode() + "-" + paymentGroup.getBatch().getCustomerProfile().getUnitCode() + "-" + paymentGroup.getBatch().getCustomerProfile().getSubUnitCode();
 
                     Integer count = 1;
                     if (unitCounts.containsKey(unit)) {
@@ -454,7 +454,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private void writeCustomerProfile(BufferedWriter os, int indent, CustomerProfile cp) throws IOException {
         writeOpenTag(os, indent, "customerProfile");
         writeTag(os, indent + 2, "chartCode", cp.getChartCode());
-        writeTag(os, indent + 2, "orgCode", cp.getOrgCode());
+        writeTag(os, indent + 2, "orgCode", cp.getUnitCode());
         writeTag(os, indent + 2, "subUnitCode", cp.getSubUnitCode());
         writeOpenTag(os, indent + 2, "checkHeaderNoteLines");
         writeTag(os, indent + 4, "note", cp.getCheckHeaderNoteTextLine1());

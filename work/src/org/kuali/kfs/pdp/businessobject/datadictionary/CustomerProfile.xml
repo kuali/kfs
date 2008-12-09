@@ -25,7 +25,7 @@
         <ref bean="CustomerProfile-processingEmailAddr" />
         <ref bean="CustomerProfile-defaultPhysicalCampusProcessingCode" />
         <ref bean="CustomerProfile-chartCode" />
-		<ref bean="CustomerProfile-orgCode" />
+		<ref bean="CustomerProfile-unitCode" />
 		<ref bean="CustomerProfile-subUnitCode" />
 		<ref bean="CustomerProfile-defaultChartCode" />
 		<ref bean="CustomerProfile-defaultAccountNumber" />
@@ -215,9 +215,9 @@
     </property>
   </bean>
   
-  <bean id="CustomerProfile-orgCode" parent="CustomerProfile-orgCode-parentBean" />
-  <bean id="CustomerProfile-orgCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="orgCode" />
+  <bean id="CustomerProfile-unitCode" parent="CustomerProfile-unitCode-parentBean" />
+  <bean id="CustomerProfile-unitCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitCode" />
     <property name="label" value="Organization" />
     <property name="shortLabel" value="Organization" />
     <property name="summary" value="Organization" />
@@ -836,7 +836,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="chartCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="orgCode" />
+                    p:attributeName="unitCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="subUnitCode" />
               <bean parent="FieldDefinition"
@@ -996,7 +996,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="chartCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="orgCode" />
+              p:attributeName="unitCode" />
         <bean parent="FieldDefinition"
               p:attributeName="subUnitCode" />
         <bean parent="FieldDefinition"

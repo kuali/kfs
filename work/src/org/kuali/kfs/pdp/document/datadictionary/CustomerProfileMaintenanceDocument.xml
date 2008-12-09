@@ -65,7 +65,7 @@
     <property name="lockingKeys" >
       <list>
         <value>chartCode</value>
-        <value>orgCode</value>
+        <value>unitCode</value>
         <value>subUnitCode</value>
       </list>
     </property>
@@ -110,7 +110,7 @@
               p:name="chartCode" 
               p:required="true" />      
           <bean parent="MaintainableFieldDefinition"
-	              p:name="orgCode" 
+	              p:name="unitCode" 
               p:required="true" />
           <bean parent="MaintainableFieldDefinition"
 	              p:name="subUnitCode"  

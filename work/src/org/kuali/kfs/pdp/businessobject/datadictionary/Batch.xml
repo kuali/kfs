@@ -20,7 +20,7 @@
       <list>
         <ref bean="Batch-customerProfile.chartCode" />
         <ref bean="Batch-id" />
-        <ref bean="Batch-customerProfile.orgCode" />
+        <ref bean="Batch-customerProfile.unitCode" />
         <ref bean="Batch-paymentCount" />
         <ref bean="Batch-customerProfile.subUnitCode" />
         <ref bean="Batch-paymentTotalAmount" />
@@ -62,10 +62,10 @@
     <property name="summary" value="batchID" />
     <property name="description" value="The batch ID." />
   </bean>
-  <bean id="Batch-customerProfile.orgCode" parent="Batch-customerProfile.orgCode-parentBean" />
+  <bean id="Batch-customerProfile.unitCode" parent="Batch-customerProfile.unitCode-parentBean" />
 
-  <bean id="Batch-customerProfile.orgCode-parentBean" abstract="true" parent="CustomerProfile-orgCode">
-    <property name="name" value="customerProfile.orgCode" />
+  <bean id="Batch-customerProfile.unitCode-parentBean" abstract="true" parent="CustomerProfile-unitCode">
+    <property name="name" value="customerProfile.unitCode" />
   </bean>
   <bean id="Batch-paymentCount" parent="Batch-paymentCount-parentBean" />
 
@@ -163,7 +163,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="id" />
               <bean parent="FieldDefinition"
-                    p:attributeName="customerProfile.orgCode" />
+                    p:attributeName="customerProfile.unitCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="paymentCount" />
               <bean parent="FieldDefinition"
@@ -195,7 +195,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="customerProfile.chartCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.orgCode" />
+              p:attributeName="customerProfile.unitCode" />
         <bean parent="FieldDefinition"
               p:attributeName="customerProfile.subUnitCode" />
         <bean parent="FieldDefinition"
@@ -215,7 +215,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="customerProfile.chartCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.orgCode" />
+              p:attributeName="customerProfile.unitCode" />
         <bean parent="FieldDefinition"
               p:attributeName="customerProfile.subUnitCode" />
         <bean parent="FieldDefinition"

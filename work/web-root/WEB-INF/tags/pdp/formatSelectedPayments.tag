@@ -50,7 +50,7 @@
             <tr>
               
                <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.chartCode" />
-               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.orgCode" />
+               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.unitCode" />
                <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.subUnitCode" />
                <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.customerShortName" />
                <html:hidden property="formatProcessSummary.processSummary[${ctr}].processTotalCount" />

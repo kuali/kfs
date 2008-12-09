@@ -39,7 +39,7 @@
             	        <html:hidden property="customer[${ctr}].versionNumber" />
 	                    <html:hidden property="customer[${ctr}].objectId" />
 	                    <html:hidden property="customer[${ctr}].chartCode" />
-	                    <html:hidden property="customer[${ctr}].orgCode" />
+	                    <html:hidden property="customer[${ctr}].unitCode" />
 	                    <html:hidden property="customer[${ctr}].subUnitCode" />
 	                    <html:hidden property="customer[${ctr}].id" />
 	                    <tr>

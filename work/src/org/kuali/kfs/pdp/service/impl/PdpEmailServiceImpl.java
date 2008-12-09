@@ -306,7 +306,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.getToAddresses().addAll(toAddressList);
 
         body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_FILE_LOADED) + "\n\n");
-        addPaymentFieldsToBody(body, batch.getId().intValue(), customer.getChartCode(), customer.getOrgCode(), customer.getSubUnitCode(), batch.getCustomerFileCreateTimestamp(), batch.getPaymentCount().intValue(), batch.getPaymentTotalAmount());
+        addPaymentFieldsToBody(body, batch.getId().intValue(), customer.getChartCode(), customer.getUnitCode(), customer.getSubUnitCode(), batch.getCustomerFileCreateTimestamp(), batch.getPaymentCount().intValue(), batch.getPaymentTotalAmount());
 
         message.setMessage(body.toString());
 
@@ -643,7 +643,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         
         body.append(batchIdLabel + ": " + paymentGroup.getBatch().getId() + " \n");
         body.append(chartMessageLabel + ": " + cp.getChartCode() + " \n");
-        body.append(organizationLabel + ": " + cp.getOrgCode() + " \n");
+        body.append(organizationLabel + ": " + cp.getUnitCode() + " \n");
         body.append(subUnitLabel + ": " + cp.getSubUnitCode() + " \n");
         body.append(creationDateLabel + ": " + paymentGroup.getBatch().getCustomerFileCreateTimestamp() + " \n\n");
         body.append(paymentCountLabel + ": " + paymentGroup.getBatch().getPaymentCount() + " \n\n");

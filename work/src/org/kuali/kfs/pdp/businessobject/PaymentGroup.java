@@ -296,7 +296,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
         CustomerProfile cp = this.getBatch().getCustomerProfile();
         sb.append(cp.getChartCode());
-        sb.append(getWidthString(4, cp.getOrgCode()));
+        sb.append(getWidthString(4, cp.getUnitCode()));
         sb.append(getWidthString(4, cp.getSubUnitCode()));
 
         if (defaultSortOrderParameterValue.equals(String.valueOf(sortGroupId))) {
@@ -884,15 +884,15 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     }
 
     public String toStringKey() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuffer buffer= new StringBuffer()  ;
         CustomerProfile customerProfile = batch.getCustomerProfile();
-
+        
         buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE);
         buffer.append("=");
         buffer.append(customerProfile.getChartCode());
         buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE);
         buffer.append("=");
-        buffer.append(customerProfile.getOrgCode());
+        buffer.append(customerProfile.getUnitCode());
         buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);
         buffer.append("=");
         buffer.append(customerProfile.getSubUnitCode());
@@ -995,7 +995,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setId_type(String idType) {
         this.payeeIdTypeCd = idType;
     }
-
+    
     /**
      * Gets the adviceEmailSentDate attribute.
      * 

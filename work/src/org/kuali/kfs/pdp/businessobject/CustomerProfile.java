@@ -83,7 +83,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private KualiInteger id; // CUST_ID
     private boolean nraReview; // CUST_NRA_RVW_IND
-    private String orgCode; // ORG_CD
+    private String unitCode; // ORG_CD
     private boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
     private boolean payeeIdRequired; // CUST_PAYEE_ID_REQ_IND
     private KualiDecimal paymentThresholdAmount; // PMT_THRSHLD_AMT
@@ -98,7 +98,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private boolean active; 
     private boolean selectedForFormat;
 
-    private Org organization;
     private Chart chartOfAccounts;
     private Campus defaultProcessingCampus;
     private Chart defaultChart;
@@ -120,7 +119,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     public String getCustomerShortName() {
-        return chartCode + "-" + orgCode + "-" + subUnitCode;
+        return chartCode + "-" + unitCode + "-" + subUnitCode;
     }
 
     public void setCustomerShortName(String customerShortName) {
@@ -128,7 +127,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     public String getSortName() {
-        return (this.chartCode + this.orgCode + this.subUnitCode);
+        return (this.chartCode + this.unitCode + this.subUnitCode);
     }
 
     /**
@@ -192,7 +191,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
             return false;
         }
         CustomerProfile tc = (CustomerProfile) obj;
-        return new EqualsBuilder().append(chartCode, tc.getChartCode()).append(orgCode, tc.getOrgCode()).append(subUnitCode, tc.getSubUnitCode()).isEquals();
+        return new EqualsBuilder().append(chartCode, tc.getChartCode()).append(unitCode, tc.getUnitCode()).append(subUnitCode, tc.getSubUnitCode()).isEquals();
     }
 
     /**
@@ -407,10 +406,10 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
 
     /**
      * @hibernate.property column="ORG_CD" length="4" not-null="true"
-     * @return Returns the orgCode.
+     * @return Returns the unitCode.
      */
-    public String getOrgCode() {
-        return orgCode;
+    public String getUnitCode() {
+        return unitCode;
     }
 
     /**
@@ -469,7 +468,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     public int hashCode() {
-        return new HashCodeBuilder(59, 67).append(chartCode).append(orgCode).append(subUnitCode).toHashCode();
+        return new HashCodeBuilder(59, 67).append(chartCode).append(unitCode).append(subUnitCode).toHashCode();
     }
 
     /**
@@ -746,10 +745,10 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @param orgCode The orgCode to set.
+     * @param unitCode The unitCode to set.
      */
-    public void setOrgCode(String orgCode) {
-        this.orgCode = orgCode;
+    public void setUnitCode(String orgCode) {
+        this.unitCode = orgCode;
     }
 
     /**
@@ -823,7 +822,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     public String toString() {
-        return new ToStringBuilder(this).append("chartCode", this.chartCode).append("orgCode", this.orgCode).append("subUnitCode", this.subUnitCode).toString();
+        return new ToStringBuilder(this).append("chartCode", this.chartCode).append("unitCode", this.unitCode).append("subUnitCode", this.subUnitCode).toString();
     }
 
     public Chart getChartOfAccounts() {
@@ -832,20 +831,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
 
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
-    }
-
-    public Org getOrganization() {
-        return organization;
-    }
-
-    /**
-     * This method sets the organization.
-     * 
-     * @param organization
-     * @deprecated
-     */
-    public void setOrganization(Org organization) {
-        this.organization = organization;
     }
 
 

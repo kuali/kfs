@@ -31,7 +31,7 @@
         <ref bean="ProcessSummary-process.processTimestamp" />
         <ref bean="ProcessSummary-process.processUser.name" />
         <ref bean="ProcessSummary-customer.chartCode" />
-        <ref bean="ProcessSummary-customer.orgCode" />
+        <ref bean="ProcessSummary-customer.unitCode" />
         <ref bean="ProcessSummary-customer.subUnitCode" />
         <ref bean="ProcessSummary-customer.customerDescription" />
         <ref bean="ProcessSummary-disbursementType.name" />
@@ -192,10 +192,10 @@
   <bean id="ProcessSummary-customer.chartCode-parentBean" abstract="true" parent="CustomerProfile-chartCode">
     <property name="name" value="customer.chartCode" />
   </bean>
-  <bean id="ProcessSummary-customer.orgCode" parent="ProcessSummary-customer.orgCode-parentBean" />
+  <bean id="ProcessSummary-customer.unitCode" parent="ProcessSummary-customer.unitCode-parentBean" />
 
-  <bean id="ProcessSummary-customer.orgCode-parentBean" abstract="true" parent="CustomerProfile-orgCode">
-    <property name="name" value="customer.orgCode" />
+  <bean id="ProcessSummary-customer.unitCode-parentBean" abstract="true" parent="CustomerProfile-unitCode">
+    <property name="name" value="customer.unitCode" />
   </bean>
   <bean id="ProcessSummary-customer.subUnitCode" parent="ProcessSummary-customer.subUnitCode-parentBean" />
 
@@ -247,7 +247,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="customer.chartCode" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="customer.orgCode" />                                                                                           
+                    p:attributeName="customer.unitCode" />                                                                                           
               <bean parent="FieldDefinition"
                     p:attributeName="customer.subUnitCode" />
               <bean parent="FieldDefinition"
@@ -312,7 +312,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="customer.chartCode" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="customer.orgCode" />                                                                                           
+                    p:attributeName="customer.unitCode" />                                                                                           
               <bean parent="FieldDefinition"
                     p:attributeName="customer.subUnitCode" />
               <bean parent="FieldDefinition"

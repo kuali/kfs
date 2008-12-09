@@ -17,7 +17,7 @@
 				<ref bean="PaymentGroup-batch.customerProfile.chartCode" />
 				<ref bean="PaymentGroup-batch.customerProfile.customerShortName" />
 				<ref bean="PaymentGroup-payeeIdTypeCd" />
-				<ref bean="PaymentGroup-batch.customerProfile.orgCode" />
+				<ref bean="PaymentGroup-batch.customerProfile.unitCode" />
 				<ref bean="PaymentGroup-payeeId" />
 				<ref bean="PaymentGroup-batch.customerProfile.subUnitCode" />
 				<ref bean="PaymentGroup-disbursementTypeCode" />
@@ -128,12 +128,12 @@
 		<property name="summary" value="payeeIdTypeCd" />
 		<property name="description" value="Payee ID Type." />
 	</bean>
-	<bean id="PaymentGroup-batch.customerProfile.orgCode"
-		parent="PaymentGroup-batch.customerProfile.orgCode-parentBean" />
+	<bean id="PaymentGroup-batch.customerProfile.unitCode"
+		parent="PaymentGroup-batch.customerProfile.unitCode-parentBean" />
 
-	<bean id="PaymentGroup-batch.customerProfile.orgCode-parentBean"
-		abstract="true" parent="Batch-customerProfile.orgCode">
-		<property name="name" value="batch.customerProfile.orgCode" />
+	<bean id="PaymentGroup-batch.customerProfile.unitCode-parentBean"
+		abstract="true" parent="Batch-customerProfile.unitCode">
+		<property name="name" value="batch.customerProfile.unitCode" />
 	</bean>
 	<bean id="PaymentGroup-payeeId"
 		parent="PaymentGroup-payeeId-parentBean" />

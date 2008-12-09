@@ -45,6 +45,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -224,7 +225,8 @@ public class RequisitionDocumentTest extends KualiTestBase {
     
     public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {
         requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
-        assertFalse(SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument)));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument));
+        assertFalse(GlobalVariables.getErrorMap().isEmpty());
     }
 
     private UserNameFixture getInitialUserName() {

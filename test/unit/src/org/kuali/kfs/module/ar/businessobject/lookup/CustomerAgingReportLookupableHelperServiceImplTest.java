@@ -90,11 +90,11 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
     public void testGetSearchResultsMap() {
         Collection<?> displayList;
         // create set of customer invoices
-        //customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("EAT17609", new Date(), 1, new KualiDecimal(4), new BigDecimal(25.00), "1031400");
-       // customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("EAT17609", new Date(), 1, new KualiDecimal(1), new BigDecimal(25.00), "1031400");
-        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", new Date(), 2, new KualiDecimal(5), new BigDecimal(1), "2224601", "BA");  // $10 entries
-        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", new Date(), 2, new KualiDecimal(5), new BigDecimal(2), "2224601", "BA");  // $20 entries
-        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", new Date(), 2, new KualiDecimal(5), new BigDecimal(3), "2224601", "BA");  // $30 entries        
+        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("EAT17609", new Date(), 1, new KualiDecimal(4), new BigDecimal(50.00), "1031400", "BL");
+//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("EAT17609", new Date(), 1, new KualiDecimal(1), new BigDecimal(25.00), "1031400", "BL");
+//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", new Date(), 2, new KualiDecimal(5), new BigDecimal(1), "2224601", "BA");  // $10 entries
+//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", new Date(), 2, new KualiDecimal(5), new BigDecimal(2), "2224601", "BA");  // $20 entries
+//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", new Date(), 2, new KualiDecimal(5), new BigDecimal(3), "2224601", "BA");  // $30 entries
 
         // run search
         assertNotNull("search results not null", displayList = customerAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));

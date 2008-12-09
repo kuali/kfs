@@ -25,8 +25,10 @@ import java.util.Map;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -102,7 +104,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
                   
                 billingDate = DateUtils.addDays(billingDate, -30);
                   
-                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, -1, null, null, "1031400", "BL");
+                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
                 Thread.sleep(5000);
     
             }
@@ -178,8 +180,38 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST CUSTOMER INVOICE DOCUMENT");
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
-        
-        
+
+        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
+        CustomerAddress customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
+
+        customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+        customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
+        customerInvoiceDocument.setBillingAddressTypeCode("P");
+        customerInvoiceDocument.setBillingAddressName(customerBillToAddress.getCustomerAddressName());
+        customerInvoiceDocument.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
+        customerInvoiceDocument.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
+        customerInvoiceDocument.setBillingCityName(customerBillToAddress.getCustomerCityName());
+        customerInvoiceDocument.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
+        customerInvoiceDocument.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
+        customerInvoiceDocument.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
+        customerInvoiceDocument.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
+        customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
+        customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
+
+//        customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
+//        customerInvoiceDocument.setShippingAddressTypeCode("P");
+//        customerInvoiceDocument.setShippingAddressName(customerShipToAddress.getCustomerAddressName());
+//        customerInvoiceDocument.setShippingLine1StreetAddress(customerShipToAddress.getCustomerLine1StreetAddress());
+//        customerInvoiceDocument.setShippingLine2StreetAddress(customerShipToAddress.getCustomerLine2StreetAddress());
+//        customerInvoiceDocument.setShippingCityName(customerShipToAddress.getCustomerCityName());
+//        customerInvoiceDocument.setShippingStateCode(customerShipToAddress.getCustomerStateCode());
+//        customerInvoiceDocument.setShippingZipCode(customerShipToAddress.getCustomerZipCode());
+//        customerInvoiceDocument.setShippingCountryCode(customerShipToAddress.getCustomerCountryCode());
+//        customerInvoiceDocument.setShippingAddressInternationalProvinceName(customerShipToAddress.getCustomerAddressInternationalProvinceName());
+//        customerInvoiceDocument.setShippingInternationalMailCode(customerShipToAddress.getCustomerInternationalMailCode());
+//        customerInvoiceDocument.setShippingEmailAddress(customerShipToAddress.getCustomerEmailAddress());
+
+
         if (ObjectUtils.isNotNull(nonrandomquantity)&&ObjectUtils.isNotNull(nonrandomunitprice)&&numinvoicedetails>=1) {
             for (int i = 0; i < numinvoicedetails; i++) { 
                 customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, nonrandomquantity, nonrandomunitprice, accountnumber, chartcode));

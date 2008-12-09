@@ -609,7 +609,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         String paymentRequestDocType = documentTypeService.getDocumentTypeCodeByClass(PaymentRequestDocument.class);
         paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
-
+        
         paymentDetail.setInvoiceDate(paymentRequestDocument.getInvoiceDate());
         paymentDetail.setOrigInvoiceAmount(paymentRequestDocument.getVendorInvoiceAmount());
         paymentDetail.setNetPaymentAmount(paymentRequestDocument.getDocumentHeader().getFinancialDocumentTotalAmount());
@@ -787,6 +787,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             pnt.setCustomerNoteText(accountsPayableDocument.getNoteLine3Text());
             paymentDetail.addNote(pnt);
         }
+        
+        PaymentNoteText pnt = new PaymentNoteText();
+        pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
+        pnt.setCustomerNoteText("Sales Tax: " + accountsPayableDocument.getTotalRemitTax());
     }
 
     /**

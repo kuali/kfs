@@ -76,13 +76,15 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     private UniversityDateService universityDateService;
     private DateTimeService dateTimeService;
 
+    private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
+
     /**
      * 
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateCreditMemo(org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument)
      */
     public File generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException{
         CustomerCreditMemoReportDataHolder reportDataHolder = new CustomerCreditMemoReportDataHolder();
-        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        initializeDateTimeService();
         String invoiceNumber = creditMemo.getFinancialDocumentReferenceInvoiceNumber();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceNumber);
@@ -121,7 +123,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
 
         reportDataHolder.setCustomer(customerMap);
-        dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
         if (ObjectUtils.isNotNull(invoice.getCustomerPurchaseOrderNumber())) {
@@ -215,7 +216,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public File generateInvoice(CustomerInvoiceDocument invoice) {
 
         CurrencyFormatter currencyFormatter = new CurrencyFormatter();
-        PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
         
         CustomerInvoiceReportDataHolder reportDataHolder = new CustomerInvoiceReportDataHolder();
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
@@ -233,37 +233,33 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             customerMap.put("billToName", billToAddr.getCustomerAddressName());
             customerMap.put("billToStreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
             customerMap.put("billToStreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
-            StringBuffer billCityStateZip = new StringBuffer(billToAddr.getCustomerCityName());
+            String billCityStateZip = "";
             if (billToAddr.getCustomerCountryCode().equals("US")) { 
-                billCityStateZip.append(", ").append(billToAddr.getCustomerStateCode());
-                billCityStateZip.append("  ").append(billToAddr.getCustomerZipCode());
+                billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerStateCode(), billToAddr.getCustomerZipCode());
             } else {
-                billCityStateZip.append(", ").append(billToAddr.getCustomerAddressInternationalProvinceName());
-                billCityStateZip.append("  ").append(billToAddr.getCustomerInternationalMailCode());
+                billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerAddressInternationalProvinceName(), billToAddr.getCustomerInternationalMailCode());
                 customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
             }
-            customerMap.put("billToCityStateZip", billCityStateZip.toString());
+            customerMap.put("billToCityStateZip", billCityStateZip);
         }
         if (shipToAddr !=null) {
             customerMap.put("shipToName", shipToAddr.getCustomerAddressName());
             customerMap.put("shipToStreetAddressLine1", shipToAddr.getCustomerLine1StreetAddress());
             customerMap.put("shipToStreetAddressLine2", shipToAddr.getCustomerLine2StreetAddress());
-            StringBuffer shipCityStateZip = new StringBuffer(shipToAddr.getCustomerCityName());
+            String shipCityStateZip = "";
             if (shipToAddr.getCustomerCountryCode().equals("US")) { 
-                shipCityStateZip.append(", ").append(shipToAddr.getCustomerStateCode());
-                shipCityStateZip.append("  ").append(shipToAddr.getCustomerZipCode());
+                shipCityStateZip = generateCityStateZipLine(shipToAddr.getCustomerCityName(), shipToAddr.getCustomerStateCode(), shipToAddr.getCustomerZipCode());
             } else {
-                shipCityStateZip.append(", ").append(shipToAddr.getCustomerAddressInternationalProvinceName());
-                shipCityStateZip.append("  ").append(shipToAddr.getCustomerInternationalMailCode());
+                shipCityStateZip = generateCityStateZipLine(shipToAddr.getCustomerCityName(), shipToAddr.getCustomerAddressInternationalProvinceName(), shipToAddr.getCustomerInternationalMailCode());
                 customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getPostalCountryName());
             }
-            customerMap.put("shipToCityStateZip", shipCityStateZip.toString());
+            customerMap.put("shipToCityStateZip", shipCityStateZip);
         }
         reportDataHolder.setCustomer(customerMap);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
         invoiceMap.put("poNumber", invoice.getCustomerPurchaseOrderNumber());
-        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        initializeDateTimeService();
         if(invoice.getCustomerPurchaseOrderDate() != null) {
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
@@ -327,21 +323,16 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         SystemInformation sysinfo = (SystemInformation)businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         sysinfoMap.put("univName", StringUtils.upperCase(finder.getValue()));
-        String univAddr = processingOrg.getOrganizationCityName() +", "+ 
-        processingOrg.getOrganizationStateCode() +" "+ processingOrg.getOrganizationZipCode();
-        sysinfoMap.put("univAddr", univAddr);
+        sysinfoMap.put("univAddr", generateCityStateZipLine(processingOrg.getOrganizationCityName(), processingOrg.getOrganizationStateCode(), processingOrg.getOrganizationZipCode()));
         if (sysinfo != null) {
-            sysinfoMap.put("FEIN", "FED ID: "+sysinfo.getUniversityFederalEmployerIdentificationNumber());
+            sysinfoMap.put("FEIN", "FED ID #"+sysinfo.getUniversityFederalEmployerIdentificationNumber());
         }
         sysinfoMap.put("checkPayableTo", orgOptions.getOrganizationCheckPayableToName());
         sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
         sysinfoMap.put("remitToAddressLine1", orgOptions.getOrganizationRemitToLine1StreetAddress());
         sysinfoMap.put("remitToAddressLine2", orgOptions.getOrganizationRemitToLine2StreetAddress());
 
-        StringBuffer remitCityStateZip = new StringBuffer(orgOptions.getOrganizationRemitToCityName());
-        remitCityStateZip.append(", ").append(orgOptions.getOrganizationRemitToStateCode());
-        remitCityStateZip.append("  ").append(orgOptions.getOrganizationRemitToZipCode());
-        sysinfoMap.put("remitToCityStateZip", remitCityStateZip.toString());
+        sysinfoMap.put("remitToCityStateZip", generateCityStateZipLine(orgOptions.getOrganizationRemitToCityName(), orgOptions.getOrganizationRemitToStateCode(), orgOptions.getOrganizationRemitToZipCode()));
         
         invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(orgOptions.getOrganizationFaxNumber()));
         invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(orgOptions.getOrganizationPhoneNumber()));
@@ -383,37 +374,36 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
         CustomerAddress billToAddr = addrService.getPrimaryAddress(customerNumber);
 
+        initializeDateTimeService();
+        
+        
         Map<String, String> customerMap = new HashMap<String, String>();
         customerMap.put("id", customerNumber);
         if (billToAddr != null){ 
-            customerMap.put("Name", billToAddr.getCustomerAddressName());
-            customerMap.put("StreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
-            customerMap.put("StreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
-            customerMap.put("City", billToAddr.getCustomerCityName());
-
+            customerMap.put("billToName", billToAddr.getCustomerAddressName());
+            customerMap.put("billToStreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
+            customerMap.put("billToStreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
+            String billCityStateZip = "";
             if (billToAddr.getCustomerCountryCode().equals("US")) { 
-                customerMap.put("State", billToAddr.getCustomerStateCode());
-                customerMap.put("Zipcode", billToAddr.getCustomerZipCode());
+                billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerStateCode(), billToAddr.getCustomerZipCode());
             } else {
-                customerMap.put("State", billToAddr.getCustomerAddressInternationalProvinceName());
-                customerMap.put("Zipcode", billToAddr.getCustomerInternationalMailCode());
-                customerMap.put("Country", billToAddr.getCustomerCountry().getPostalCountryName());
-            } 
+                billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerAddressInternationalProvinceName(), billToAddr.getCustomerInternationalMailCode());
+                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
+            }
+            customerMap.put("billToCityStateZip", billCityStateZip);
         }
 
         reportDataHolder.setCustomer(customerMap);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
-
+        invoiceMap.put("createDate", dateTimeService.toDateString(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityDate()));
         invoiceMap.put("customerOrg", billingOrgCode);
-        OrganizationService orgService = SpringContext.getBean(OrganizationService.class);
-        Org billingOrg = orgService.getByPrimaryId(billingChartCode, billingOrgCode);
+        Org billingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(billingChartCode, billingOrgCode);
         invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
-        // invoiceMap.put("ocrLine", "");
+        
         KualiDecimal amountDue = new KualiDecimal(0);
         for (CustomerStatementDetailReportDataHolder data : details) {
             if (data.getFinancialDocumentTotalAmountCharge()!=null) {
-                System.out.println(data.getFinancialDocumentTotalAmountCharge()+"    charge");
                 amountDue = amountDue.add(data.getFinancialDocumentTotalAmountCharge());
             }
             if (data.getFinancialDocumentTotalAmountCredit()!=null) {
@@ -421,9 +411,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
         }
         invoiceMap.put("amountDue", amountDue.toString());
-        OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);
-        String ocrLine = ocrService.generateOCRLine(amountDue, customerNumber, null);
+        String ocrLine = SpringContext.getBean(OCRLineService.class).generateOCRLine(amountDue, customerNumber, null);
         invoiceMap.put("ocrLine", ocrLine);
+        
         Map<String, String> sysinfoMap = new HashMap<String, String>();
         InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
         Map<String, String> criteria = new HashMap<String, String>();
@@ -435,12 +425,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
         sysinfoMap.put("remitToAddressLine1", orgOptions.getOrganizationRemitToLine1StreetAddress());
         sysinfoMap.put("remitToAddressLine2", orgOptions.getOrganizationRemitToLine2StreetAddress());
-        sysinfoMap.put("remitToCity", orgOptions.getOrganizationRemitToCityName());
-        sysinfoMap.put("remitToState", orgOptions.getOrganizationRemitToState().toString());
-        sysinfoMap.put("remitToZip", orgOptions.getOrganizationRemitToZipCode());
+        sysinfoMap.put("remitToCityStateZip", generateCityStateZipLine(orgOptions.getOrganizationRemitToCityName(), orgOptions.getOrganizationRemitToStateCode(), orgOptions.getOrganizationRemitToZipCode()));
 
-        invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
-        invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
+        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(orgOptions.getOrganizationFaxNumber()));
+        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(orgOptions.getOrganizationPhoneNumber()));
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
@@ -451,16 +439,13 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         criteria.put("organizationCode", "VPIT");
         Org processingOrg = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, criteria);
 
-        sysinfoMap.put("univName", finder.getValue());
-        String univAddr = processingOrg.getOrganizationCityName() +", "+ 
-        processingOrg.getOrganizationStateCode() +" "+ processingOrg.getOrganizationZipCode();
-        sysinfoMap.put("univAddr", univAddr);
+        sysinfoMap.put("univName", StringUtils.upperCase(finder.getValue()));
+        sysinfoMap.put("univAddr", generateCityStateZipLine(processingOrg.getOrganizationCityName(), processingOrg.getOrganizationStateCode(), processingOrg.getOrganizationZipCode()));
 
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(details);
         reportDataHolder.setInvoice(invoiceMap);
 
-        dateTimeService = SpringContext.getBean(DateTimeService.class);
         Date runDate = dateTimeService.getCurrentSqlDate();
         CustomerStatementReportService service = SpringContext.getBean(CustomerStatementReportService.class);
         File f = service.generateReport(reportDataHolder, runDate);
@@ -472,7 +457,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateInvoicesByBillingOrg(java.lang.String, java.lang.String, java.sql.Date)
      */
     public List<File> generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date) {
-        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        initializeDateTimeService();
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
         List<File> reports = new ArrayList<File>();
@@ -499,7 +484,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateInvoicesByProcessingOrg(java.lang.String, java.lang.String, java.sql.Date)
      */
     public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date){
-        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        initializeDateTimeService();
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         List<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
         List<File> reports = new ArrayList<File>();
@@ -647,4 +632,30 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
     }
 
+    /**
+     * 
+     * This method...
+     * @param city
+     * @param state
+     * @param zipCode
+     * @return
+     */
+    private String generateCityStateZipLine(String city, String state, String zipCode) {
+        StringBuffer cityStateZip = new StringBuffer(city);
+        cityStateZip.append(", ").append(state);
+        cityStateZip.append("  ").append(zipCode);
+        return cityStateZip.toString();
+    }
+
+    /**
+     * Initializes the dateTimeService attribute. 
+     * 
+     * TODO: Probably should replace this with getters and setters and have the values assigned by Spring injection
+     */
+    public void initializeDateTimeService() {
+        if(dateTimeService==null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+    }
+    
 }

@@ -20,7 +20,9 @@ import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -38,6 +40,11 @@ public class RequisitionNewIndividualItemValidation extends PurchasingNewIndivid
         return super.validate(event);
     }
         
+    @Override
+    protected boolean commodityCodeIsRequired() {
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+    }
+    
     public ParameterService getParameterService() {
         return parameterService;
     }

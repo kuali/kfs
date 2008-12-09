@@ -37,7 +37,8 @@
 	</bean>
 	
 	<bean id="Purchasing-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewIndividualItemValidation" abstract="true">
-		<property name="parameterService" ref="parameterService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="Requisition-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">
@@ -54,6 +55,4 @@
 	    <property name="accountService" ref="accountService" />
 	</bean>
 	
-	<bean id="Requisition-commodityCodeBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionCommodityCodeBranchingValidation" abstract="true"/>
-
 </beans>

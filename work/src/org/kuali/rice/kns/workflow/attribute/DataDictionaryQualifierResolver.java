@@ -15,9 +15,11 @@
  */
 package org.kuali.rice.kns.workflow.attribute;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.engine.RouteContext;
@@ -28,8 +30,8 @@ import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.RoutingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * QualifierResolver which uses Data Dictionary defined workflow attributes to gather a collection
@@ -96,7 +98,7 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
         final String routeLevel = context.getNodeInstance().getName();
         final DocumentEntry documentEntry = getDocumentEntry(context);
         final RoutingTypeDefinition routingTypeDefinition = getWorkflowAttributeDefintion(documentEntry, routeLevel);
-        final Document document = getDocument(context);
+        final Document document = getDocument(context, documentEntry.getDocumentClass());
         
         if (document != null && routingTypeDefinition != null) {
             List<AttributeSet> qualifiers = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class).resolveRoutingTypeQualifiers(document, routingTypeDefinition);
@@ -121,15 +123,13 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
      * @param context the current route context
      * @return the document
      */
-    protected Document getDocument(RouteContext context) {
+    protected Document getDocument(RouteContext context, Class<? extends Document> documentClass) {
         String documentID = getDocumentId(context);
-        try {
-            if (documentID != null) return SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentID);
-            return null;
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Could not retrieve document #"+documentID, we);
-        }
+        
+        Map<String, String> documentNumberCriteria = new HashMap<String, String>();
+        documentNumberCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentID);
+        if (documentID != null) return (Document)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(documentClass, documentNumberCriteria);
+        return null;
     }
     
     /**

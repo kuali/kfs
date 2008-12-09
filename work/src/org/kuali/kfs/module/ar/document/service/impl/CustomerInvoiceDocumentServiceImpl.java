@@ -32,7 +32,6 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -46,9 +45,7 @@ import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.DocumentDao;
@@ -104,6 +101,73 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocumentDao.getAll();
     }
 
+    public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments() {
+        return getAllOpenCustomerInvoiceDocuments(true);
+    }
+
+    public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocumentsWithoutWorkflow() {
+        return getAllOpenCustomerInvoiceDocuments(false);
+    }
+    
+    public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments(boolean includeWorkflowHeaders) {
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+        
+        //  retrieve the set of documents without workflow headers
+        invoices = customerInvoiceDocumentDao.getAllOpen();
+        
+        //  if we dont need workflow headers, then we're done
+        if (!includeWorkflowHeaders) {
+            return invoices;
+        }
+        
+        //  make a list of necessary workflow docs to retrieve
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (CustomerInvoiceDocument invoice : invoices) {
+            documentHeaderIds.add(invoice.getDocumentNumber());
+        }
+
+        //  get all of our docs with full workflow headers
+        List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
+        try {
+            docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+        }
+        catch (WorkflowException e) {
+            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+        }
+
+        return docs;
+    }
+    
+    public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+        
+        //  trim and force-caps the customer number
+        customerNumber = customerNumber.trim().toUpperCase();
+        
+        invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerNumber(customerNumber));
+        return invoices;
+    }
+    
+    public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerName(String customerName) {
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+
+        //  trim and force-caps the customer name
+        customerName = customerName.trim().toUpperCase() + "%";
+        
+        invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerName(customerName));
+        return invoices;
+    }
+    
+    public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerType(String customerTypeCode) {
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+
+        //  trim and force-caps the customer name
+        customerTypeCode = customerTypeCode.trim().toUpperCase();
+        
+        invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerType(customerTypeCode));
+        return invoices;
+    }
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */

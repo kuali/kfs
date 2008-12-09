@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,7 +46,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,40 +126,55 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     }
     */
     public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup(Map<String, String> fieldValues) {
+        
+        //  only one of these four will be used, based on priority
         String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
         String customerName = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
         String customerTypeCode = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_TYPE_CODE);
         String customerInvoiceNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_INVOICE_NUMBER);
+        
+        //  this may be combined with any of the four above
         String age = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.AGE);
 
+        //  this is the priority order for searching if multiples are entered
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments;
+        if (StringUtils.isNotEmpty(customerInvoiceNumber)) {
+            customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+            customerInvoiceDocuments.add(customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(customerInvoiceNumber));
+        }
+        else if (StringUtils.isNotEmpty(customerNumber)) {
+            customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        }
+        else if (StringUtils.isNotEmpty(customerName)) {
+            customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerName(customerName);
+        }
+        else if (StringUtils.isNotEmpty(customerTypeCode)) {
+            customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerType(customerTypeCode);
+        }
+        else {
+             customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        }
+        
+        //  if no age value was specified, then we're done!
+        if (StringUtils.isEmpty(age)) {
+            return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocuments);
+        }
+        
+        // walk through what we have, and do any extra filtering based on age, if necessary
         boolean eligibleInvoiceFlag;
-        
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = customerInvoiceDocumentService.getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
-        
         Collection<CustomerInvoiceDocument> eligibleInvoices = new ArrayList<CustomerInvoiceDocument>();
-        for (Iterator itr = customerInvoiceDocuments.iterator(); itr.hasNext();) {
+        for (CustomerInvoiceDocument invoice : customerInvoiceDocuments) {
             eligibleInvoiceFlag = true;
-            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) itr.next();
             
-            if (invoice.getOpenAmount().isLessEqual(KualiDecimal.ZERO))
-                continue;
-            
-            if (StringUtils.isNotEmpty(customerNumber))
-                eligibleInvoiceFlag &= StringUtils.equals(customerNumber, invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
-            if (StringUtils.isNotEmpty(customerName))
-                eligibleInvoiceFlag &= StringUtils.equals(customerName, invoice.getAccountsReceivableDocumentHeader().getCustomer().getCustomerName());
-            if (StringUtils.isNotEmpty(customerTypeCode))
-                eligibleInvoiceFlag &= StringUtils.equals(customerTypeCode, invoice.getAccountsReceivableDocumentHeader().getCustomer().getCustomerTypeCode());
-            if (StringUtils.isNotEmpty(customerInvoiceNumber))
-                eligibleInvoiceFlag &= StringUtils.equals(customerInvoiceNumber, invoice.getDocumentNumber());
-            if (StringUtils.isNotEmpty(age))
-                if (ObjectUtils.isNotNull(invoice.getAge())) {
-                    eligibleInvoiceFlag &=((new Integer(age)).compareTo(invoice.getAge()) <= 0);
-                } else
-                    eligibleInvoiceFlag = false;
-            
-            if (eligibleInvoiceFlag)
+            if (ObjectUtils.isNotNull(invoice.getAge())) {
+                eligibleInvoiceFlag &=((new Integer(age)).compareTo(invoice.getAge()) <= 0);
+            } else {
+                eligibleInvoiceFlag = false;
+            }
+        
+            if (eligibleInvoiceFlag) {
                 eligibleInvoices.add(invoice);
+            }
         }
 
         return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(eligibleInvoices);

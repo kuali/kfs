@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -31,6 +29,67 @@ public interface CustomerInvoiceDocumentService {
     public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments(); 
     
     public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
+    
+    /**
+     * 
+     * Retrieves all invoice documents that are Open with outstanding balances, including workflow
+     * headers.
+     * 
+     * @return A collection of CustomerInvoiceDocument documents, or an empty list of no matches.
+     */
+    public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments();
+    
+    /**
+     * Retrieves all invoice documents that are Open with outstanding balances.
+     * 
+     * Will NOT retrieve workflow headers, so results of this are not suitable for using to route, save, 
+     * or otherwise perform workflow operations upon.
+     * 
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocumentsWithoutWorkflow();
+
+    /**
+     * 
+     * Retrieves all Open Invoices for this given Customer Number.
+     * 
+     * IMPORTANT - Workflow headers and status are not retrieved by this method, only the raw Customer 
+     * Invoice Document from the Database.  If you need a full workflow document, you can do use 
+     * DocumentService to retrieve each by document number.
+     * 
+     * @param customerNumber
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber);
+    
+    /**
+     * 
+     * Retrieves all Open Invoices for the given Customer Name.
+     * 
+     * Note that this is a leading substring search, so whatever is entered into the customerName 
+     * field is turned into a 'LIKE customerName*' query.
+     * 
+     * IMPORTANT - Workflow headers and status are not retrieved by this method, only the raw Customer 
+     * Invoice Document from the Database.  If you need a full workflow document, you can do use 
+     * DocumentService to retrieve each by document number.
+     * 
+     * @param customerName
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerName(String customerName);
+    
+    /**
+     * 
+     * Retrieves all Open Invoices for the given Customer Type Code.
+     * 
+     * IMPORTANT - Workflow headers and status are not retrieved by this method, only the raw Customer 
+     * Invoice Document from the Database.  If you need a full workflow document, you can do use 
+     * DocumentService to retrieve each by document number.
+     * 
+     * @param customerTypeCode
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerType(String customerTypeCode);
     
     /**
      * This method sets up default values for customer invoice document on initiation.

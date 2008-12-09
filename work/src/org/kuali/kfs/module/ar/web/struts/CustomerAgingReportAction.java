@@ -86,40 +86,24 @@ public class CustomerAgingReportAction extends KualiAction {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
-
-        
         
         LookupableHelperService lookupablehelper =  lookupable.getLookupableHelperService();
         Collection displayList = new ArrayList();
         List<ResultRow> resultTable = new ArrayList<ResultRow>();
 
- //       lookupable.validateSearchParameters(lookupForm.getFields());
-
         try {
             displayList = lookupable.performLookup(lookupForm, resultTable, true);
-
-           // resultTable = (List<ResultRow>) displayList;
 
             Object[] resultTableAsArray = resultTable.toArray();
 
 
             CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
- //           Long resultsSize = totalSize - 5;
 
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
 
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
            
-//            request.setAttribute("total0to30", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal0to30());
-//            request.setAttribute("total31to60", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal31to60());
-//            request.setAttribute("total61to90", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal61to90());
-//            request.setAttribute("total91toSYSPR", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal91toSYSPR());
-//            request.setAttribute("totalSYSPRplus1orMore", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotalSYSPRplus1orMore());
-//
-//            
-
-
             if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
             }

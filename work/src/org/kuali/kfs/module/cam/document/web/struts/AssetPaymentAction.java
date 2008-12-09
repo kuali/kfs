@@ -17,6 +17,8 @@ package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,25 +33,37 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabKeyConstants;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetSegmentedLookupResultsService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
@@ -92,7 +106,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         Collection<PersistableBusinessObject> rawValues = null;
         Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
 
-        //If multiple asset lookup was used to select the assets, then....
+        // If multiple asset lookup was used to select the assets, then....
         if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, assetPaymentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = assetPaymentForm.getLookupResultsSequenceNumber();
 
@@ -186,7 +200,6 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     /**
      * Inserts a new asset into the document
      * 
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -204,9 +217,9 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         String sCapitalAssetNumber = assetPaymentForm.getCapitalAssetNumber();
 
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
-        
-        //Validating the asset code is numeric
-        Long capitalAssetNumber=null;
+
+        // Validating the asset code is numeric
+        Long capitalAssetNumber = null;
         try {
             capitalAssetNumber = Long.parseLong(sCapitalAssetNumber);
         }
@@ -221,7 +234,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         newAssetPaymentAssetDetail.setDocumentNumber(assetPaymentDocument.getDocumentNumber());
         newAssetPaymentAssetDetail.setCapitalAssetNumber(capitalAssetNumber);
         newAssetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
-        //Validating the new asset
+        // Validating the new asset
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentAddAssetEvent(errorPath, assetPaymentForm.getDocument(), newAssetPaymentAssetDetail));
         if (rulePassed) {
             // Storing the current asset cost.
@@ -256,4 +269,31 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AssetPaymentDocument assetPaymentDocument = ((AssetPaymentForm) form).getAssetPaymentDocument();
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (question != null) {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                assetPaymentDocument.setObjectSubTypesQuestionAnswered(ConfirmationQuestion.YES);
+            }
+        }
+        try {
+            ActionForward forward = super.route(mapping, form, request, response);
+        }
+        catch (Exception e) {
+            // logic for object sub types inconsistent question
+            if (question == null && assetPaymentDocument.isObjectSubTypesQuestionRequired()) {
+                KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+                ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+                String parameterDetail = "(module:" + parameterService.getNamespace(AssetGlobal.class) + "/component:" + parameterService.getDetailType(AssetGlobal.class) + ")";
+                String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
+                return this.performQuestionWithoutInput(mapping, form, request, response, CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, KNSConstants.ROUTE_METHOD, "");
+            }
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

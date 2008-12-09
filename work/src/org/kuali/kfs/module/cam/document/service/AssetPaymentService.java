@@ -119,4 +119,11 @@ public interface AssetPaymentService {
      * @return
      */
     public boolean validateAssets(String errorPath,Asset asset);
+    
+    /**
+     * This method determines whether or not an asset has different object sub type codes in its documents.
+     * 
+     * @return true when the asset has payments with object codes that point to different object sub type codes
+     */
+    public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document);
 }

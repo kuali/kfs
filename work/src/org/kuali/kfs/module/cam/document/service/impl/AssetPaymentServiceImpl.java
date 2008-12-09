@@ -19,12 +19,14 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
@@ -43,6 +45,7 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -301,7 +304,78 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         return valid;
     }
     
-    
+
+    /**
+     * This method determines whether or not an asset has different object sub type codes in its documents.
+     * 
+     * @return true when the asset has payments with object codes that point to different object sub type codes
+     */
+    public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document) {
+        // This method will only execute if the document is being submitted.
+        if (!document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+            return false;
+        }
+
+        List<String> subTypes = new ArrayList<String>();
+        subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+
+        List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
+        List<String> validObjectSubTypes = new ArrayList<String>();
+
+        String objectSubTypeCode = null;
+
+        /*
+         * Expected system parameter elements (object sub types). [BD,BF] [CM,CF,CO] [UC,UF,UO] [LI,LF]
+         */
+
+        // Getting the list of object sub type codes from the asset payments on the jsp.
+        List<String> objectSubTypeList = new ArrayList<String>();
+        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
+            assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
+            if (ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
+                return false;
+            }
+            objectSubTypeList.add(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
+        }
+
+        if (!SpringContext.getBean(AssetService.class).isObjectSubTypeCompatible(objectSubTypeList)) {
+            return true;
+        }
+
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
+        for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
+            assetPaymentAssetDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
+            List<AssetPayment> assetPayments = assetPaymentAssetDetail.getAsset().getAssetPayments();
+
+            // Comparing against the already approved asset payments
+            if (!assetPayments.isEmpty()) {
+                for (AssetPayment assetPayment : assetPayments) {
+                    String paymentSubObjectType = assetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+
+                    validObjectSubTypes = new ArrayList<String>();
+                    for (String subType : subTypes) {
+                        validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
+                        if (validObjectSubTypes.contains(paymentSubObjectType)) {
+                            break;
+                        }
+                        validObjectSubTypes = new ArrayList<String>();
+                    }
+                    if (validObjectSubTypes.isEmpty())
+                        validObjectSubTypes.add(paymentSubObjectType);
+
+                    // Comparing the same asset payment document
+                    for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
+                        if (!validObjectSubTypes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
+                            // Differences where found.
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        // If none object sub types are different...
+        return false;
+    }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;

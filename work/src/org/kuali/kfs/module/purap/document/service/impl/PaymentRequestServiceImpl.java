@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -46,9 +45,9 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService;
@@ -1371,11 +1370,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         if (docs != null) {
             for (PaymentRequestDocument preqDoc : docs) {
                 
-                boolean changeStatus = determineReceivingRequirements(preqDoc);
+                boolean approveDoc = determineReceivingRequirements(preqDoc);
                 
-                if (changeStatus){
+                if (approveDoc){
                     try{
-                        KNSServiceLocator.getDocumentService().routeDocument(preqDoc, "Routed by Receiving Required PREQ job", null);
+                        KNSServiceLocator.getDocumentService().approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
                     }
                     catch (WorkflowException e) {
                         e.printStackTrace();

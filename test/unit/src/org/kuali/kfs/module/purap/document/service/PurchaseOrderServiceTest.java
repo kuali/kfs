@@ -314,7 +314,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCreateAndRoutePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
-        RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+        RequisitionDocument req = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
         AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
         String docId = req.getDocumentNumber();
         

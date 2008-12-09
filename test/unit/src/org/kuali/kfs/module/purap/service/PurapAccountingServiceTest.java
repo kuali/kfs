@@ -15,14 +15,16 @@
  */
 package org.kuali.kfs.module.purap.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -32,6 +34,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
 public class PurapAccountingServiceTest extends KualiTestBase {
@@ -289,23 +292,53 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     
     /*
      * Tests of updateAccountAmounts(PurchasingAccountsPayableDocument document)
-     */
-    
+     */   
     public void testUpdateAccountAmounts_BeforeFullEntry_PercentToAmount() {
-        
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
+        preq.getItems().get(0).setTotalAmount(KualiDecimal.ZERO);
+        purapAccountingService.updateAccountAmounts(preq);
+        assertFalse(preq.getItems().get(0).getTotalAmount().isZero());
     }
-    
+
     public void testUpdateAccountAmounts_BeforeFullEntry_AmountNotToPercent() {
-        
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
+        purapAccountingService.updateAccountAmounts(preq);
+        PurApItem item = preq.getItems().get(0);
+        int i = 0;
+        boolean orResult = false;
+        for (PurApAccountingLine correctLine : fixture.getPurApAccountingLineList()) {
+            PurApAccountingLine line = item.getSourceAccountingLines().get(i++);
+            if(!line.getAccountLinePercent().equals(correctLine.getAccountLinePercent())) {
+                orResult = true;
+                break;
+            }
+        }
+        assertFalse(orResult);
     }
     
     public void testUpdateAccountAmounts_AfterFullEntry_AmountToPercent() {
-        
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
+        preq.setStatusCode(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+        purapAccountingService.updateAccountAmounts(preq);
+        PurApItem item = preq.getItems().get(0);
+        int i = 0;
+        for (PurApAccountingLine correctLine : fixture.getPurApAccountingLineList()) {
+            PurApAccountingLine line = item.getSourceAccountingLines().get(i++);
+            assertTrue(line.getAccountLinePercent().equals(correctLine.getAccountLinePercent()));
+        }
     }
     
-    public void testUpdateAccountAmounts_AfterFullEntry_PercentNotToAmount() {
-        
-    }
+    /*public void testUpdateAccountAmounts_AfterFullEntry_PercentNotToAmount() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
+        PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
+        preq.setStatusCode(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+        preq.getItems().get(0).setTotalAmount(KualiDecimal.ZERO);
+        purapAccountingService.updateAccountAmounts(preq);
+        assertTrue(preq.getItems().get(0).getTotalAmount().isZero());
+    }*/
     
     /*
      * Tests of updateItemAccountAmounts(PurApItem item)

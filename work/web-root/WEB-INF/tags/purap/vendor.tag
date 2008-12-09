@@ -72,6 +72,9 @@
                         <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
                         lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
                         fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressInternationalProvince:document.vendorAddressInternationalProvinceName,defaultAddressCountryCode:document.vendorCountryCode"/>
+                        <c:if test="${displayRequisitionFields}">
+                            <html:image property="methodToCall.clearVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-clearvendor.gif" alt="clear vendor" styleClass="tinybutton"/>
+                        </c:if>
                     </c:if>
                     <c:if test="${lockB2BEntry}">
                         &nbsp;&nbsp;<portal:portalLink displayTitle="true" title="Shop Catalogs" url="b2b.do?methodToCall=shopCatalogs" />

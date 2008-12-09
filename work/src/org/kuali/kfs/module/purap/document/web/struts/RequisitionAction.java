@@ -98,4 +98,37 @@ public class RequisitionAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Clears the vendor selection from the Requisition.  NOTE, this functionality is only available on Requisition and not PO.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request A HttpServletRequest
+     * @param response A HttpServletResponse
+     * @return An ActionForward
+     * @throws Exception
+     */
+    public ActionForward clearVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        RequisitionDocument document = (RequisitionDocument) baseForm.getDocument();
+
+        document.setVendorHeaderGeneratedIdentifier(null);
+        document.setVendorDetailAssignedIdentifier(null);
+        document.setVendorDetail(null);
+        document.setVendorName("");
+        document.setVendorLine1Address("");
+        document.setVendorLine2Address("");
+        document.setVendorAddressInternationalProvinceName("");
+        document.setVendorCityName("");
+        document.setVendorStateCode("");
+        document.setVendorPostalCode("");
+        document.setVendorCountryCode("");
+        document.setVendorContractGeneratedIdentifier(null);
+        document.setVendorContractName("");
+        document.setVendorFaxNumber("");
+        document.setVendorCustomerNumber("");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

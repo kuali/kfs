@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -105,6 +106,23 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean checkReferenceExists(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
 
+        // Validate Financial Posted date
+        if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
+            valid &= validatePostedDate(assetPaymentDetail);
+            
+        }
+        
+        if (valid) {
+            // Check for ObjectCode
+            if (StringUtils.isNotBlank(assetPaymentDetail.getFinancialObjectCode())) {
+                assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
+                if (ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_INVALID, assetPaymentDetail.getFinancialObjectCode());
+                    valid = false;
+                }
+            }
+        }
+        
         if (StringUtils.isBlank(assetGlobal.getAcquisitionTypeCode()) || ObjectUtils.isNull(assetGlobal.getAcquisitionType())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_REQUIRED);
             valid &= false;
@@ -127,21 +145,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_PAYMENT_ACCT_NOT_VALID, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
                 valid &= false;
-            }
-        }
-
-        // Check for ObjectCode
-        if (StringUtils.isNotBlank(assetPaymentDetail.getFinancialObjectCode())) {
-            if (assetPaymentDetail.getPostingYear() == null) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED);
-                valid &= false;
-            }
-            else {
-                assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-                if (ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_INVALID, assetPaymentDetail.getFinancialObjectCode());
-                    valid &= false;
-                }
             }
         }
 
@@ -210,6 +213,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         else if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equals(collectionName)) {
             AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
+            
             if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
             }
@@ -298,19 +302,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateDocumentTypeForNonNew(assetGlobal.getAcquisitionTypeCode(), assetPaymentDetail);
         }
 
-        // Validate Financial Posted date
-        if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
-            success &= validatePostedDate(assetPaymentDetail);
-        }
-
         // TODO: Do we need this rule? This rule violates PurAP Credit memo payment lines. In that case, payment will be negative.
         // handle payment information amount should be positive
         if (assetPaymentDetail.getAmount() != null && assetPaymentDetail.getAmount().isNegative()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
             success &= false;
         }
-
-        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
 
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
 
@@ -349,11 +346,17 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validatePostedDate(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
-        // if payment posted date can't be a future date
         if (!getAssetPaymentService().extractPostedDatePeriod(assetPaymentDetail)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
             valid &= false;
         }
+        // payment posted date can't be a future date, i.e. extracted fiscal year from posted date should be less than or equal the
+        // current fiscal year.
+        else if (assetPaymentDetail.getPostingYear().compareTo(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()) > 0) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
+            valid = false;
+        }
+
         return valid;
     }
 
@@ -390,11 +393,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      * @return valid
      */
     private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
-        if (ObjectUtils.isNull(objectCode)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
-            return false;
-        }
-        
         boolean valid = true;
 
         // The acquisition type code of (F, G, N, S, T) requires a capital object code.
@@ -714,23 +712,24 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
+
     /**
      * Give an error if this asset can't be separated due to mismatching amount on asset and AssetPayment records
+     * 
      * @param assetGlobal
      * @return validation success of failure
      */
     public static boolean validateAssetTotalCostMatchesPaymentTotalCost(AssetGlobal assetGlobal) {
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
-        KualiDecimal assetTotalCost = ObjectUtils.isNull(assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount()) ? new KualiDecimal(0) :  assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount();
+        KualiDecimal assetTotalCost = ObjectUtils.isNull(assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount()) ? new KualiDecimal(0) : assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount();
         KualiDecimal paymentTotalCost = paymentSummaryService.calculatePaymentTotalCost(assetGlobal.getSeparateSourceCapitalAsset());
         if (!paymentTotalCost.equals(assetTotalCost)) {
             GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_TOTAL_COST_NOT_MATCH_PAYMENT_TOTAL_COST);
-            
+
             return false;
         }
-        
+
         return true;
     }
 

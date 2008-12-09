@@ -51,14 +51,13 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurApInfoServiceImpl implements PurApInfoService {
     private static final Logger LOG = Logger.getLogger(PurApInfoServiceImpl.class);
     private BusinessObjectService businessObjectService;
-    private PurchaseOrderService purchaseOrderService;
 
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#setPurchaseOrderInfo(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public void setPurchaseOrderFromPurAp(PurApLineForm purApLineForm) {
-        PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(purApLineForm.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument purchaseOrderDocument = this.getPurchaseOrderService().getCurrentPurchaseOrder(purApLineForm.getPurchaseOrderIdentifier());
         // Set contact email address.
         if (purchaseOrderDocument.getInstitutionContactEmailAddress() != null) {
             purApLineForm.setPurApContactEmailAddress(purchaseOrderDocument.getInstitutionContactEmailAddress());
@@ -91,7 +90,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             return;
         }
         Integer poId = purApDocs.get(0).getPurchaseOrderIdentifier();
-        PurchaseOrderDocument purApdocument = (PurchaseOrderDocument) purchaseOrderService.getCurrentPurchaseOrder(poId);
+        PurchaseOrderDocument purApdocument = (PurchaseOrderDocument) this.getPurchaseOrderService().getCurrentPurchaseOrder(poId);
         if (ObjectUtils.isNull(purApdocument)) {
             return;
         }
@@ -121,7 +120,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param purApDocs
      */
     protected void setMultipleSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
-        List<CapitalAssetSystem> capitalAssetSystems = purchaseOrderService.retrieveCapitalAssetSystemsForMultipleSystem(poId);
+        List<CapitalAssetSystem> capitalAssetSystems = this.getPurchaseOrderService().retrieveCapitalAssetSystemsForMultipleSystem(poId);
         if (ObjectUtils.isNotNull(capitalAssetSystems)) {
             // TODO: currently PurAp multiple system in fact return one system.
             CapitalAssetSystem capitalAssetSystem = capitalAssetSystems.get(0);
@@ -150,7 +149,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param purApDocs
      */
     protected void setOneSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
-        CapitalAssetSystem capitalAssetSystem = purchaseOrderService.retrieveCapitalAssetSystemForOneSystem(poId);
+        CapitalAssetSystem capitalAssetSystem = this.getPurchaseOrderService().retrieveCapitalAssetSystemForOneSystem(poId);
         String capitalAssetTransactionTypeCode = getCapitalAssetTransTypeForOneSystem(poId);
         List<ItemCapitalAsset> purApCapitalAssets = null;
         // if modify existing asset, acquire the assets from Purap
@@ -194,7 +193,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @return
      */
     protected String getCapitalAssetTransTypeForOneSystem(Integer poId) {
-        PurchaseOrderDocument poDoc = purchaseOrderService.getCurrentPurchaseOrder(poId);
+        PurchaseOrderDocument poDoc = this.getPurchaseOrderService().getCurrentPurchaseOrder(poId);
         if (ObjectUtils.isNotNull(poDoc)) {
             List<PurchasingCapitalAssetItem> capitalAssetItems = poDoc.getPurchasingCapitalAssetItems();
 
@@ -212,7 +211,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param purApDocs
      */
     protected void setIndividualAssetsFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
-        List<PurchasingCapitalAssetItem> capitalAssetItems = purchaseOrderService.retrieveCapitalAssetItemsForIndividual(poId);
+        List<PurchasingCapitalAssetItem> capitalAssetItems = this.getPurchaseOrderService().retrieveCapitalAssetItemsForIndividual(poId);
         String capitalAssetTransactionTypeCode = null;
         List<ItemCapitalAsset> purApCapitalAssets = null;
 
@@ -400,17 +399,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @return Returns the purchaseOrderService.
      */
     public PurchaseOrderService getPurchaseOrderService() {
-        return purchaseOrderService;
+        return SpringContext.getBean(PurchaseOrderService.class);
     }
-
-    /**
-     * Sets the purchaseOrderService attribute value.
-     * 
-     * @param purchaseOrderService The purchaseOrderService to set.
-     */
-    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
-        this.purchaseOrderService = purchaseOrderService;
-    }
-
 
 }

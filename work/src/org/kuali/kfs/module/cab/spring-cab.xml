@@ -198,7 +198,6 @@
     </bean>
 	<bean id="purApInfoService" class="org.kuali.kfs.module.cab.document.service.impl.PurApInfoServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="purchaseOrderService" ref="purchaseOrderService" />
 	</bean>  
 	<bean id="purApLineDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.dataaccess.impl.PurApLineDaoOjb"></bean>
 	<bean id="purApLineService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineServiceImpl">

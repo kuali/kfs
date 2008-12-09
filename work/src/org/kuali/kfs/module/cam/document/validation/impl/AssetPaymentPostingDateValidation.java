@@ -60,19 +60,19 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         Date expenditureFinancialDocumentPostedDate = assetPaymentDetail.getExpenditureFinancialDocumentPostedDate();
         if (expenditureFinancialDocumentPostedDate != null) {
-            Calendar documentPostedDate = dateTimeService.getCalendar(expenditureFinancialDocumentPostedDate);
-
             Map<String, Object> keyToFind = new HashMap<String, Object>();
             keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, expenditureFinancialDocumentPostedDate);
 
-            if (businessObjectService.findByPrimaryKey(UniversityDate.class, keyToFind) == null) {
+            UniversityDate universityDate = (UniversityDate)businessObjectService.findByPrimaryKey(UniversityDate.class, keyToFind);
+            
+            if (universityDate == null) {
                 String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 valid = false;
             }
-            // Validating the posted document date is not greater than the current fiscal year.
+            // Validating the fiscal year extracted from posted document date is not greater than the current fiscal year.
             Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-            if (documentPostedDate.get(Calendar.YEAR) > currentFiscalYear.intValue()) {
+            if (universityDate.getUniversityFiscalYear().compareTo(currentFiscalYear) > 0) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
                 valid = false;
             }

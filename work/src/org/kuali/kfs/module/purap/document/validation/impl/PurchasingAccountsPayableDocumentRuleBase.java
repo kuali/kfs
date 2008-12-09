@@ -275,7 +275,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 }
             }
             
-
             i++;
         }
 

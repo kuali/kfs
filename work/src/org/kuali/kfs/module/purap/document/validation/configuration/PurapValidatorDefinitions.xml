@@ -43,4 +43,17 @@
 	<bean id="Requisition-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
+	
+	<bean id="Requisition-processAdditionalValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
+
+	<bean id="PurchasingAccountsPayable-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessVendorValidation" abstract="true"/>
+
+	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true"/>
+
+	<bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
+	    <property name="accountService" ref="accountService" />
+	</bean>
+	
+	<bean id="Requisition-commodityCodeBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionCommodityCodeBranchingValidation" abstract="true"/>
+
 </beans>

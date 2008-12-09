@@ -165,9 +165,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean" />
+  <bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
 
-  <dd:boAttributeRef id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />  
+  <dd:boAttributeRef id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
+  	
 
   <bean id="Account-chartOfAccounts.codeAndDescription" parent="Account-chartOfAccounts.codeAndDescription-parentBean" />
 
@@ -181,13 +184,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                      label="Endowment Chart of Accounts Code"
                      shortLabel="Endowment Chart Code" />
   
-  <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean" />
+  <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean" >
+  	<property name="forceUppercase" value="true" />
+  </bean>
 
   <dd:boAttribute id="Account-accountNumber-parentBean" abstract="true"
       attributeName="accountNumber" forceUppercase="true" label="Account Number"
       shortLabel="Account Number" required="true" maxLength="7"
   >
-      <dd:text size="10" />
+  	  <dd:text size="10" />
       <dd:validationPattern parent="AlphaNumericValidationPattern">
         <dd:property name="exactLength" value="7" />        
       </dd:validationPattern>
@@ -286,7 +291,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-accountCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountCityName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Account City Name" />
     <property name="shortLabel" value="CityName" />
     <property name="maxLength" value="25" />
@@ -325,7 +329,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-accountStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountStreetAddress" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Street Address" />
     <property name="shortLabel" value="StreetAddr" />
     <property name="maxLength" value="30" />
@@ -510,7 +513,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialIcrSeriesIdentifier" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Indirect Cost Rate" />
     <property name="shortLabel" value="Indr Cost Rate" />
     <property name="maxLength" value="3" />
@@ -828,7 +830,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId-parentBean" />
   <bean id="Account-contractsAndGrantsAccountResponsibilityId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractsAndGrantsAccountResponsibilityId" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="CG Account Responsibility Id" />
     <property name="shortLabel" value="Responsibility Id" />
     <property name="maxLength" value="4" />

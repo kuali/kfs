@@ -42,10 +42,12 @@
   <bean id="OffsetDefinition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="OffsetDefinition-chartOfAccountsCode" parent="OffsetDefinition-chartOfAccountsCode-parentBean" />
 
   <bean id="OffsetDefinition-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OffsetDefinition-financialObjectCode" parent="OffsetDefinition-financialObjectCode-parentBean" />
 
@@ -55,11 +57,13 @@
 
   <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="OffsetDefinition-financialBalanceTypeCode" parent="OffsetDefinition-financialBalanceTypeCode-parentBean" />
 
   <bean id="OffsetDefinition-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
     <property name="name" value="financialBalanceTypeCode" />
+    <property name="forceUppercase" value="true" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

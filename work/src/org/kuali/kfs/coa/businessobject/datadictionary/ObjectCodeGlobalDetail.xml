@@ -28,6 +28,7 @@
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
     <property name="required" value="false" />
+    <property name="forceUppercase" value="true" />
   </bean>
   <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode" parent="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" />
 

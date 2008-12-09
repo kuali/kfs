@@ -4,23 +4,23 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="VendorDetailMaintenanceDocument" parent="VendorDetailMaintenanceDocument-parentBean" />
+  <bean id="VendorMaintenanceDocument" parent="VendorMaintenanceDocument-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="VendorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail" />
     <property name="maintainableClass" value="org.kuali.kfs.vnd.document.VendorMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="VendorDetailMaintenanceDocument-Vendor" />
-        <ref bean="VendorDetailMaintenanceDocument-Address" />
-        <ref bean="VendorDetailMaintenanceDocument-Contact" />
-        <ref bean="VendorDetailMaintenanceDocument-SupplierDiversity" />
-        <ref bean="VendorDetailMaintenanceDocument-ShippingSpecialConditions" />
-        <ref bean="VendorDetailMaintenanceDocument-VendorCommodityCodes" />
-        <ref bean="VendorDetailMaintenanceDocument-SearchAlias" />
-        <ref bean="VendorDetailMaintenanceDocument-VendorPhoneNumber" />
-        <ref bean="VendorDetailMaintenanceDocument-CustomerNumber" />
-        <ref bean="VendorDetailMaintenanceDocument-Contracts" />
+        <ref bean="VendorMaintenanceDocument-Vendor" />
+        <ref bean="VendorMaintenanceDocument-Address" />
+        <ref bean="VendorMaintenanceDocument-Contact" />
+        <ref bean="VendorMaintenanceDocument-SupplierDiversity" />
+        <ref bean="VendorMaintenanceDocument-ShippingSpecialConditions" />
+        <ref bean="VendorMaintenanceDocument-VendorCommodityCodes" />
+        <ref bean="VendorMaintenanceDocument-SearchAlias" />
+        <ref bean="VendorMaintenanceDocument-VendorPhoneNumber" />
+        <ref bean="VendorMaintenanceDocument-CustomerNumber" />
+        <ref bean="VendorMaintenanceDocument-Contracts" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -34,13 +34,13 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:parameterName="VENDOR" />
     </property>
-    <property name="documentTypeName" value="VendorDetailMaintenanceDocument" />
+    <property name="documentTypeName" value="VendorMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorPreRules" />
     <property name="documentTypeCode" value="PVEN" />
     <property name="workflowProperties" >
-      <ref bean="VendorDetailMaintenanceDocument-workflowProperties" />
+      <ref bean="VendorMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -59,9 +59,9 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="VendorDetailMaintenanceDocument-Vendor" parent="VendorDetailMaintenanceDocument-Vendor-parentBean" />
+  <bean id="VendorMaintenanceDocument-Vendor" parent="VendorMaintenanceDocument-Vendor-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-Vendor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-Vendor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Vendor" />
     <property name="title" value="Vendor" />
     <property name="maintainableItems" >
@@ -183,9 +183,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-Address" parent="VendorDetailMaintenanceDocument-Address-parentBean" />
+  <bean id="VendorMaintenanceDocument-Address" parent="VendorMaintenanceDocument-Address-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-Address-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-Address-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Address" />
     <property name="title" value="Address" />
     <property name="maintainableItems" >
@@ -287,9 +287,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-Contact" parent="VendorDetailMaintenanceDocument-Contact-parentBean" />
+  <bean id="VendorMaintenanceDocument-Contact" parent="VendorMaintenanceDocument-Contact-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-Contact-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-Contact-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Contact" />
     <property name="title" value="Contact" />
     <property name="maintainableItems" >
@@ -394,9 +394,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-SupplierDiversity" parent="VendorDetailMaintenanceDocument-SupplierDiversity-parentBean" />
+  <bean id="VendorMaintenanceDocument-SupplierDiversity" parent="VendorMaintenanceDocument-SupplierDiversity-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-SupplierDiversity-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-SupplierDiversity-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Supplier Diversity" />
     <property name="title" value="Supplier Diversity" />
     <property name="maintainableItems" >
@@ -430,9 +430,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-ShippingSpecialConditions" parent="VendorDetailMaintenanceDocument-ShippingSpecialConditions-parentBean" />
+  <bean id="VendorMaintenanceDocument-ShippingSpecialConditions" parent="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-ShippingSpecialConditions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Shipping Special Conditions" />
     <property name="title" value="Shipping Special Conditions" />
     <property name="maintainableItems" >
@@ -469,9 +469,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-VendorCommodityCodes" parent="VendorDetailMaintenanceDocument-VendorCommodityCodes-parentBean" />
+  <bean id="VendorMaintenanceDocument-VendorCommodityCodes" parent="VendorMaintenanceDocument-VendorCommodityCodes-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-VendorCommodityCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-VendorCommodityCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Vendor Commodity Codes" />
     <property name="title" value="Vendor Commodity Codes" />
     <property name="maintainableItems" >
@@ -513,9 +513,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-SearchAlias" parent="VendorDetailMaintenanceDocument-SearchAlias-parentBean" />
+  <bean id="VendorMaintenanceDocument-SearchAlias" parent="VendorMaintenanceDocument-SearchAlias-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-SearchAlias-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-SearchAlias-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Search Alias" />
     <property name="title" value="Search Alias" />
     <property name="maintainableItems" >
@@ -545,9 +545,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-VendorPhoneNumber" parent="VendorDetailMaintenanceDocument-VendorPhoneNumber-parentBean" />
+  <bean id="VendorMaintenanceDocument-VendorPhoneNumber" parent="VendorMaintenanceDocument-VendorPhoneNumber-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-VendorPhoneNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-VendorPhoneNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Vendor Phone Number" />
     <property name="title" value="Vendor Phone Number" />
     <property name="maintainableItems" >
@@ -593,9 +593,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-CustomerNumber" parent="VendorDetailMaintenanceDocument-CustomerNumber-parentBean" />
+  <bean id="VendorMaintenanceDocument-CustomerNumber" parent="VendorMaintenanceDocument-CustomerNumber-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-CustomerNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-CustomerNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Customer Number" />
     <property name="title" value="Customer Number" />
     <property name="maintainableItems" >
@@ -639,9 +639,9 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorDetailMaintenanceDocument-Contracts" parent="VendorDetailMaintenanceDocument-Contracts-parentBean" />
+  <bean id="VendorMaintenanceDocument-Contracts" parent="VendorMaintenanceDocument-Contracts-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-Contracts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="VendorMaintenanceDocument-Contracts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Contracts" />
     <property name="title" value="Contracts" />
     <property name="maintainableItems" >
@@ -759,9 +759,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="VendorDetailMaintenanceDocument-workflowProperties" parent="VendorDetailMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="VendorMaintenanceDocument-workflowProperties" parent="VendorMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="VendorDetailMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="VendorMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

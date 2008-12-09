@@ -265,7 +265,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{docType}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
@@ -280,7 +280,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{financialDocumentTotalAmountCredit}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Opaque"

@@ -479,6 +479,13 @@ public class KFSKeyConstants {
     public static final String MSG_AUTO_FORWARD = "message.gl.AutoForward";
     public static final String MSG_ACCOUNT_CLOSED_TO = "message.gl.AccountClosedTo";
 
+    public static final String ERROR_FISCAL_YEAR_CANNOT_BE_NULL_BALANCE_TYPE_A2 = "error.gl.FiscalYearCannotBeNullForBalanceTypeA2";
+    public static final String ERROR_FISCAL_PERIOD_CANNOT_BE_NULL_BALANCE_TYPE_A2 = "error.gl.FiscalPeriodCannotBeNullForBalanceTypeA2";
+    public static final String ERROR_REFERENCE_ORIGIN_CODE_NOT_FOUND = "error.gl.ReferenceOriginCodeNotFound";
+    
+    public static final String ERROR_REFERENCE_FIELDS = "error.gl.ReferenceFields";
+    public static final String ERROR_DESCRIPTION_CANNOT_BE_BLANK = "error.gl.DescriptionCannotBeBlank";
+    
     // Credit Card Vendor errors
     public static final String ERROR_CCV_INCOME_SUBACCOUNT_REQUIRED = "error.document.ccv.incomeSubAccount.required";
     public static final String ERROR_CCV_EXPENSE_SUBACCOUNT_REQUIRED = "error.document.ccv.expenseSubAccount.required";

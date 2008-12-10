@@ -140,10 +140,17 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments;
         if (StringUtils.isNotEmpty(customerInvoiceNumber)) {
             customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
-            customerInvoiceDocuments.add(customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(customerInvoiceNumber));
+            CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(customerInvoiceNumber);
+            if (customerInvoiceDocument.isOpenInvoiceIndicator())
+                customerInvoiceDocuments.add(customerInvoiceDocument);
+            else
+                customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         }
         else if (StringUtils.isNotEmpty(customerNumber)) {
             customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        }
+        else if (StringUtils.isNotEmpty(customerName) && StringUtils.isNotEmpty(customerTypeCode)) {
+            customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNameByCustomerType(customerName, customerTypeCode);
         }
         else if (StringUtils.isNotEmpty(customerName)) {
             customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerName(customerName);
@@ -152,7 +159,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerType(customerTypeCode);
         }
         else {
-             customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+             customerInvoiceDocuments = customerInvoiceDocumentService.getAllOpenCustomerInvoiceDocumentsWithoutWorkflow();
         }
         
         //  if no age value was specified, then we're done!

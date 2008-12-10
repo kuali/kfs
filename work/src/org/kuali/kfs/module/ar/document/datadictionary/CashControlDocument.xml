@@ -26,6 +26,13 @@
         </bean>
       </list>
     </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="customerPaymentMedium"
+              p:attributeToHighlightOnFail="customerPaymentMediumCode" />
+      </list>
+    </property>
     <property name="attributes" >
       <list>
         <ref bean="CashControlDocument-referenceFinancialDocumentNumber" />

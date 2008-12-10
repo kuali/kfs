@@ -46,6 +46,8 @@
                 <td class="datacell-nowrap">
 					<c:choose>
 						<c:when test="${!readOnly}">
+							<!-- REGISTERING EDITABLE FIELD -->
+							${kfunc:registerEditableProperty(KualiForm, selectedAccountingPeriod)}
 							<select id="selectedAccountingPeriod" name="selectedAccountingPeriod">
 								<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
 									<c:set var="accountingPeriodCompositeValue" value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />

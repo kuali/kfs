@@ -71,26 +71,12 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)document;
-        success &= validateExplanation(customerInvoiceWriteoffDocument);
         success &= validateWriteoffGLPEGenerationInformation( customerInvoiceWriteoffDocument);
         success &= doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument);
         
         GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         return success;        
-    }
-    
-    protected boolean validateExplanation(CustomerInvoiceWriteoffDocument document) {
-        boolean success = true;
-        
-        String explanation = document.getDocumentHeader().getExplanation();
-        if (ObjectUtils.isNull(explanation) || StringUtils.isEmpty(explanation.trim())) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_EMPTY_EXPLANATION);
-            success = false;
-        } else if (explanation.trim().length() < 10) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVALID_EXPLANATION);
-        }
-        return success;
     }
     
     /**

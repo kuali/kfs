@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>EffortCertificationDocument</name>
+<parent>EffortCertificationTransactionalDocument</parent>
+<docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="ProjectManagement"/>
+          <requests name="ProjectManagement" nextNode="Account Review"/>
+          <requests name="Account Review" nextNode="Org Review"/>
+          <requests name="Org Review" nextNode="Do Award Split"/>
+          <split name="Do Award Split" nextNode="Do Nothing">
+            <branch name="EffortDistributionIsChangedBranch">
+              <requests name="Award Workgroup" nextNode="Award Join"/>
+            </branch>
+            <branch name="EffortDistributionIsNotChangedBranch">
+              <simple name="Award Do Nothing" nextNode="Award Join"/>
+            </branch>
+            <join name="Award Join"/>
+          </split>
+          <simple name="Do Nothing" nextNode="Do Recreate Split"/>
+          <split name="Do Recreate Split" nextNode="Do Nothing Again">
+            <branch name="RecreateWorkgroupBranch">
+              <requests name="Recreate Workgroup" nextNode="Recreate Join"/>
+            </branch>
+            <branch name="NoRecreateWorkgroupBranch">
+              <simple name="Recreate Do Nothing" nextNode="Recreate Join"/>
+            </branch>
+            <join name="Recreate Join"/>
+          </split>
+          <simple name="Do Nothing Again"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="ProjectManagement">
+<ruleTemplate>KualiProjectDirectorTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Account Review">
+<ruleTemplate>KualiAccountTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Org Review">
+<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Award">
+<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Recreate Workgroup">
+<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<split name="Do Award Split">
+<type>org.kuali.kfs.module.ec.document.routing.node.DoEffortCertificationAwardRoutingSplitNode</type>
+</split>
+<split name="Do Recreate Split">
+<type>org.kuali.kfs.module.ec.document.routing.node.DoEffortCertificationRecreateRoutingSplitNode</type>
+</split>
+<simple name="Award Do Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<simple name="Do Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<simple name="Recreate Do Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<simple name="Do Nothing Again">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="Award Join"/>
+<join name="Recreate Join"/>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

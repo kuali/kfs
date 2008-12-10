@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>RequisitionDocument</name>
+<parent>PurchasingTransactionalDocument</parent>
+<docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Organization"/>
+          <requests name="Organization" nextNode="SubAccount"/>
+          <requests name="SubAccount" nextNode="Account Review"/>
+          <requests name="Account Review" nextNode="Org Review"/>
+          <requests name="Org Review" nextNode="Commodity"/>
+          <requests name="Commodity" nextNode="SeparationOfDuties"/>
+          <requests name="SeparationOfDuties"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="Organization">
+<ruleTemplate>KualiRequisitionContentTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="SubAccount">
+<ruleTemplate>KualiSubAccountTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Account Review">
+<ruleTemplate>KualiAccountTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<mandatoryRoute>true</mandatoryRoute>
+</role>
+<role name="Org Review">
+<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Commodity">
+<ruleTemplate>KualiPurApCommodityCodeTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="SeparationOfDuties">
+<ruleTemplate>KualiRequisitionSeparationOfDutiesTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<data xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="ns:workflow">
-<documentTypes xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType" xmlns="ns:workflow/DocumentType">
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>BudgetAdjustmentDocument</name>
 <parent>FinancialProcessingTransactionalDocument</parent>
@@ -26,19 +26,23 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="Account Review">
+<ruleTemplate>KualiAccountTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Org Review">
+<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Subfund">
+<role name="SubFund">
+<ruleTemplate>KualiSubFundTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Award Workgroup">
+<role name="Award">
+<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <split name="Approval No Approval Split">
-<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+<type>org.kuali.kfs.fp.document.routing.node.BudgetAdjustmentDocumentApprovalNoApprovalSplitNode</type>
 </split>
 <simple name="Do Nothing">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>

@@ -3,7 +3,7 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>OrganizationReversionMaintenanceDocument</name>
-<parent>ChartSimpleMaintenanceDocument</parent>
+<parent>ChartComplexMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routeNodes/>
 </documentType>

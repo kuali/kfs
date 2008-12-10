@@ -226,6 +226,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String NEW_WINDOW_URL_TARGET = "_blank";
     public static final String AND = "and";
     public static final String COMMA = ",";
+    public static final String PERFORMANCE_BALANCE_INQUIRY_FOR_METHOD = "performBalanceInquiryFor";
+    public static final String INSERT_METHOD = "insert";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field

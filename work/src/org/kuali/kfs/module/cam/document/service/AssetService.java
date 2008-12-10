@@ -168,12 +168,17 @@ public interface AssetService {
     public void setSeparateHistory(Asset asset);
     
     /**
+     * @param capitalAssetNumber to check whether it got separated
+     * @return the list of document numbers that separated the particular asset
+     */
+    public List<String> getDocumentNumbersThatSeparatedThisAsset(Long capitalAssetNumber);
+    
+    /**
      * 
      * Sets the fiscal year and month in the asset object based on the creation date of the asset
      * @param asset
      */
     public void setFiscalPeriod(Asset asset);
-    
     
     /**
      * 

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -310,7 +311,7 @@ public class AssetServiceImpl implements AssetService {
             throw new IllegalStateException("Asset #" + asset.getCapitalAssetNumber().toString() + " was created from more then one asset document.");
         }
         else if (assetGlobalDetails.size() == 1) {
-            // Fine the document associated to that
+            // Find the document associated to that
             Map<String, String> paramsAssetGlobal = new HashMap<String, String>();
             paramsAssetGlobal.put(CamsPropertyConstants.AssetGlobal.DOCUMENT_NUMBER, assetGlobalDetails.iterator().next().getDocumentNumber());
             AssetGlobal assetGlobal = (AssetGlobal) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetGlobal.class, paramsAssetGlobal);
@@ -324,6 +325,25 @@ public class AssetServiceImpl implements AssetService {
         // Else no history, just return
     }
 
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#getDocumentNumberThatSeparatedThisAsset(java.lang.Long)
+     */
+    public List<String> getDocumentNumbersThatSeparatedThisAsset(Long capitalAssetNumber) {
+        Map<String, String> paramsAssetGlobal = new HashMap<String, String>();
+        paramsAssetGlobal.put(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, capitalAssetNumber.toString());
+        Collection<AssetGlobal> assetGlobals = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobal.class, paramsAssetGlobal);
+        
+        List<String> separateDocumentNumbers = new ArrayList<String>();
+        for (Iterator<AssetGlobal> assetGlobalIter = assetGlobals.iterator(); assetGlobalIter.hasNext();) {
+            AssetGlobal assetGlobal = assetGlobalIter.next();
+            
+            if(DocumentStatusCodes.APPROVED.equals(assetGlobal.getDocumentHeader().getFinancialDocumentStatusCode())) {
+                separateDocumentNumbers.add(assetGlobal.getDocumentNumber());
+            }
+        }
+        
+        return separateDocumentNumbers;
+    }
 
     /**
      * sets the posting year and posting month based on the asset creation date

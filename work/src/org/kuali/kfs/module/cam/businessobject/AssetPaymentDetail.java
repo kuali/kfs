@@ -43,6 +43,24 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         super();
     }
 
+    public AssetPaymentDetail(AssetPayment assetPayment) {
+        // populate AssetPaymentDetail with AssetPayment data
+        this.setSequenceNumber(assetPayment.getPaymentSequenceNumber());
+        this.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
+        this.setAccountNumber(assetPayment.getAccountNumber());
+        this.setSubAccountNumber(assetPayment.getSubAccountNumber());
+        this.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
+        this.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
+        this.setProjectCode(assetPayment.getProjectCode());
+        this.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
+        this.setExpenditureFinancialDocumentNumber(assetPayment.getDocumentNumber());
+        this.setRequisitionNumber(assetPayment.getRequisitionNumber());
+        this.setExpenditureFinancialDocumentPostedDate(assetPayment.getFinancialDocumentPostingDate());
+        this.setPostingYear(assetPayment.getFinancialDocumentPostingYear());
+        this.setPostingPeriodCode(assetPayment.getFinancialDocumentPostingPeriodCode());
+        this.setAmount(assetPayment.getAccountChargeAmount());
+    }
+    
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

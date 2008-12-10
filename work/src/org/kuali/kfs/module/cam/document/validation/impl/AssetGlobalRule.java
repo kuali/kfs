@@ -497,6 +497,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateTotalCostAmount(assetGlobal);
 
             success &= validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
+            
+            if (getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+                AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
+            }
         } // end ASEP
 
         success &= validateLocationCollection(assetGlobal, assetSharedDetails);
@@ -733,6 +737,26 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * Give an error if this asset has already been separated
+     * 
+     * @param assetGlobal
+     * @return validation success of failure
+     */
+    public static boolean validateAssetAlreadySeparated(Long separateSourceCapitalAssetNumber) {
+        AssetService assetService = SpringContext.getBean(AssetService.class);
+
+        List<String> documentNumbers = assetService.getDocumentNumbersThatSeparatedThisAsset(separateSourceCapitalAssetNumber);
+        
+        if (!documentNumbers.isEmpty()) {
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_ALREADY_SEPARATED, new String[] {documentNumbers.toString()});
+
+            return false;
+        }
+
+        return true;
+    }
+    
     private ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }

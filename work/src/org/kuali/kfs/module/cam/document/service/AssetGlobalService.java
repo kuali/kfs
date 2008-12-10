@@ -61,6 +61,14 @@ public interface AssetGlobalService {
     public boolean isAssetSeparateDocument(AssetGlobal assetGlobal);
 
     /**
+     * Validates if the document type matches that of Asset Separate by payment
+     * 
+     * @param assetGlobal
+     * @return boolean
+     */
+    public boolean isAssetSeparateByPaymentDocument(AssetGlobal assetGlobal);
+    
+    /**
      * Add and return the total amount for all unique assets created.
      * 
      * @param assetGlobal

@@ -110,6 +110,9 @@
               p:name="separateSourceCapitalAssetNumber"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="separateSourcePaymentSequenceNumber"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="totalCostAmount"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"

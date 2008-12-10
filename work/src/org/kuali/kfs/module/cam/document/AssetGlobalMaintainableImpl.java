@@ -95,12 +95,14 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             Asset asset = getAsset(assetGlobal);
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
-            populateAssetInformation(assetGlobal, asset);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
-            populateAssetSeparateRecalculateSourceAmount(assetGlobal, asset);
             
             AssetGlobalRule.validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
+            
+            if (getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+                AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
+            }
         }
 
         super.processAfterNew(document, parameters);
@@ -130,17 +132,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
         AssetOrganization assetOrganization = (AssetOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetOrganization.class, map);
         return assetOrganization;
-    }
-
-    /**
-     * Populate Asset Information for Asset Separate document
-     * 
-     * @param assetGlobal
-     * @param asset
-     */
-    private void populateAssetInformation(AssetGlobal assetGlobal, Asset asset) {
-        // for asset number see setSeparateSourceCapitalAssetNumber()
-        assetGlobal.setTotalCostAmount(asset.getTotalCostAmount());
     }
 
     /**
@@ -178,7 +169,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     }
 
     /**
-     * Populate Asset Payment Details for Asset Separate document
+     * Populate Asset Payment Details for Asset Separate document. It will do this whether we are seperating by asset or payment. If it is by asset
+     * it picks up all the payments and sets the total amount on the document of that per the asset. If it is by payment it picks only the payment
+     * out we are interested in and set the document total amount to that payment only.
      * 
      * @param assetGlobal
      * @param asset
@@ -188,45 +181,44 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         assetGlobal.getAssetPaymentDetails().clear();
         List<AssetPaymentDetail> newAssetPaymentDetailList = assetGlobal.getAssetPaymentDetails();
 
-        for (AssetPayment assetPayment : asset.getAssetPayments()) {
-            // create new AssetPaymentDetail
-            AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
-
-            // populate AssetPaymentDetail with AssetPayment data
-            assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
-            assetPaymentDetail.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
-            assetPaymentDetail.setAccountNumber(assetPayment.getAccountNumber());
-            assetPaymentDetail.setSubAccountNumber(assetPayment.getSubAccountNumber());
-            assetPaymentDetail.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
-            assetPaymentDetail.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
-            assetPaymentDetail.setProjectCode(assetPayment.getProjectCode());
-            assetPaymentDetail.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
-            assetPaymentDetail.setExpenditureFinancialDocumentNumber(assetPayment.getDocumentNumber());
-            assetPaymentDetail.setRequisitionNumber(assetPayment.getRequisitionNumber());
-            assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(assetPayment.getFinancialDocumentPostingDate());
-            assetPaymentDetail.setPostingYear(assetPayment.getFinancialDocumentPostingYear());
-            assetPaymentDetail.setPostingPeriodCode(assetPayment.getFinancialDocumentPostingPeriodCode());
-            assetPaymentDetail.setAmount(assetPayment.getAccountChargeAmount());
-
-            // add assetPaymentDetail to AssetPaymentDetail list
-            newAssetPaymentDetailList.add(assetPaymentDetail);
+        if (!getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+            // Separate by Asset. Pick all payments up
+            
+            for (AssetPayment assetPayment : asset.getAssetPayments()) {
+                // create new AssetPaymentDetail
+                AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail(assetPayment);
+    
+                // add assetPaymentDetail to AssetPaymentDetail list
+                newAssetPaymentDetailList.add(assetPaymentDetail);
+            }
+            
+            // Set total amount per asset
+            assetGlobal.setTotalCostAmount(asset.getTotalCostAmount());
+            assetGlobal.setSeparateSourceRemainingAmount(asset.getTotalCostAmount());
+        } else {
+            for (AssetPayment assetPayment : asset.getAssetPayments()) {
+                // Separate by Payment. Pick only the appropriate payment up and then break
+                
+                if (assetPayment.getPaymentSequenceNumber().equals(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
+                    // create new AssetPaymentDetail
+                    AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail(assetPayment);
+        
+                    // add assetPaymentDetail to AssetPaymentDetail list
+                    newAssetPaymentDetailList.add(assetPaymentDetail);
+                    
+                    // Set total amount per payment
+                    assetGlobal.setTotalCostAmount(assetPayment.getAccountChargeAmount());
+                    assetGlobal.setSeparateSourceRemainingAmount(assetPayment.getAccountChargeAmount());
+                    
+                    break;
+                }
+            }
         }
 
+        assetGlobal.setSeparateSourceTotalAmount(KualiDecimal.ZERO);
+        
         // set AssetGlobal payment details with new payment details
         assetGlobal.setAssetPaymentDetails(newAssetPaymentDetailList);
-    }
-
-    /**
-     * Populates "Remaining Total Amount" field with the source total amount.
-     * 
-     * @param assetGlobal
-     * @param asset
-     */
-    private void populateAssetSeparateRecalculateSourceAmount(AssetGlobal assetGlobal, Asset asset) {
-        assetGlobal.setSeparateSourceRemainingAmount(asset.getTotalCostAmount());
-        if (assetGlobal.getSeparateSourceTotalAmount() == null) {
-            assetGlobal.setSeparateSourceTotalAmount(KualiDecimal.ZERO);
-        }
     }
 
     /**
@@ -558,26 +550,40 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         }
 
         // button actions for Asset Separate document
-        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal) && sharedDetailsList.size() >= 1) {
             String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
 
             // calculate equal source total amounts and set separate source amount fields
-            if (customAction != null && CamsConstants.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0]) && sharedDetailsList.size() >= 1) {
+            if (customAction != null && CamsConstants.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0])) {
                 KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetGlobal.getTotalCostAmount(), CamsConstants.CURRENCY_USD);
                 KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal);
                 setEqualSeparateSourceAmounts(equalSourceAmountsArray, assetGlobal);
+                
+                recalculateTotalAmount(assetGlobal);
             }
 
             // calculate source asset remaining amount
-            if (customAction != null && CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON.equals(customAction[0]) && sharedDetailsList.size() >= 1) {
-                // set Less Additions
-                assetGlobal.setSeparateSourceTotalAmount(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal));
-                // set Remaining Total Amount
-                assetGlobal.setSeparateSourceRemainingAmount(assetGlobal.getTotalCostAmount().subtract(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal)));
+            if (customAction != null && (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON.equals(customAction[0]))) {
+                // Don't do anything because we are anyway 
             }
+            
+            // Do recalculate every time even if button (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON) wasn't pressed. We
+            // do that so that it also happens on add / delete lines.
+            recalculateTotalAmount(assetGlobal);
         }
     }
 
+    /**
+     * Recalculate amounts in the Recalculate Total Amount Tab
+     * @param assetGlobal
+     */
+    protected void recalculateTotalAmount(AssetGlobal assetGlobal) {
+        // set Less Additions
+        assetGlobal.setSeparateSourceTotalAmount(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal));
+        // set Remaining Total Amount
+        assetGlobal.setSeparateSourceRemainingAmount(assetGlobal.getTotalCostAmount().subtract(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal)));
+    }
+    
     /**
      * Separates the current asset amount equally into new unique assets.
      * 

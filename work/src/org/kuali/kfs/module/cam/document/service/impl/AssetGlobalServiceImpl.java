@@ -192,8 +192,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
         this.assetPaymentService = assetPaymentService;
     }
-
-
+    
     /**
      * Gets the businessObjectService attribute.
      * 
@@ -297,13 +296,20 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
-     * Validates if the document type is that of Asset Separate.
-     * 
-     * @param assetGlobal
-     * @return boolean
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparateDocument(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
     public boolean isAssetSeparateDocument(AssetGlobal assetGlobal) {
         if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentTypeCode()) && assetGlobal.getFinancialDocumentTypeCode().equals(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE)) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparateByPaymentDocument(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
+     */
+    public boolean isAssetSeparateByPaymentDocument(AssetGlobal assetGlobal) {
+        if (this.isAssetSeparateDocument(assetGlobal) && ObjectUtils.isNotNull(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
             return true;
         }
         return false;
@@ -375,10 +381,16 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         // set the source asset amounts properly
         Asset separateSourceCapitalAsset = assetGlobal.getSeparateSourceCapitalAsset();
 
+        // Need to make a copy because offsetPayments are changed and saved
         HashMap<String, AssetPayment> offsetAssetPayments = new HashMap<String, AssetPayment>();
         for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
-            // Need to make a copy because offsetPayments are changed and saved
-            offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
+            if (!this.isAssetSeparateByPaymentDocument(assetGlobal)) {
+                offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
+            } else if (assetPayment.getPaymentSequenceNumber().equals(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
+                // If this is separate by payment, then only add the payment that we are interested in
+                offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
+                break;
+            }
         }
 
         // create new assets with inner loop handling payments
@@ -391,7 +403,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
             // take care of all the payments for this asset
             for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-                AssetPayment assetPayment = setupSeparateAssetPayment(assetGlobalDetail.getCapitalAssetNumber(), assetGlobal.getAcquisitionTypeCode(), assetGlobalDetail.getSeparateSourceAmount(), separateSourceCapitalAsset, assetPaymentDetail, offsetAssetPayments);
+                AssetPayment assetPayment = setupSeparateAssetPayment(assetGlobalDetail.getCapitalAssetNumber(), assetGlobal.getAcquisitionTypeCode(), assetGlobalDetail.getSeparateSourceAmount(), assetGlobal.getTotalCostAmount(), assetPaymentDetail, separateSourceCapitalAsset.getAssetPayments(), offsetAssetPayments);
 
                 paymentsAccountChargeAmount = paymentsAccountChargeAmount.add(assetPayment.getAccountChargeAmount());
 
@@ -404,14 +416,14 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
             // TODO following is better done in a junit test case
             if (!asset.getTotalCostAmount().equals(assetGlobalDetail.getSeparateSourceAmount())) {
-                throw new IllegalStateException("Unexpected amount calculation discreptancy.");
+                throw new IllegalStateException("Unexpected amount calculation discreptancy while seperating by asset.");
             }
-
+            
             persistables.add(asset);
         }
 
         // reduce the amount of the (new) target assets from the source asset
-        separateSourceCapitalAsset.setTotalCostAmount(assetGlobal.getTotalCostAmount().subtract(assetsAccountChargeAmount));
+        separateSourceCapitalAsset.setTotalCostAmount(assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount().subtract(assetsAccountChargeAmount));
         persistables.add(separateSourceCapitalAsset);
 
         int paymentSequenceNumber = assetPaymentService.getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber()) + 1;
@@ -524,13 +536,14 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * 
      * @param capitalAssetNumber to use for the payment
      * @param acquisitionTypeCode for logic in determining how dates are to be set
-     * @param separateSourceAmount
-     * @param separateSourceCapitalAsset
+     * @param separateSourceAmount amount for this asset
+     * @param totalCostToAllocate amount that may be allocated (in the case of splitting by asset it's the asset total cost, in the case of splitting by payment it's the payment to be split cost)
      * @param assetPaymentDetail containing data for the payment
-     * @param offsetAssetPayments
+     * @param separateSourceCapitalAssetPayments AssetPayments from the source capital asset
+     * @param offsetAssetPayments AssetPayments to be created as offset entries to the capital asset
      * @return payment for an asset in separate
      */
-    protected AssetPayment setupSeparateAssetPayment(Long capitalAssetNumber, String acquisitionTypeCode, KualiDecimal separateSourceAmount, Asset separateSourceCapitalAsset, AssetPaymentDetail assetPaymentDetail, HashMap<String, AssetPayment> offsetAssetPayments) {
+    protected AssetPayment setupSeparateAssetPayment(Long capitalAssetNumber, String acquisitionTypeCode, KualiDecimal separateSourceAmount, KualiDecimal totalCostToAllocate, AssetPaymentDetail assetPaymentDetail, List<AssetPayment> separateSourceCapitalAssetPayments, HashMap<String, AssetPayment> offsetAssetPayments) {
         AssetPayment assetPayment = new AssetPayment(assetPaymentDetail, acquisitionTypeCode);
         assetPayment.setCapitalAssetNumber(capitalAssetNumber);
         assetPayment.setPaymentSequenceNumber(assetPaymentDetail.getSequenceNumber());
@@ -539,10 +552,9 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
         AssetPayment sourceAssetPayment = null;
         // Need the sourceAssetPayment for split of misc. fields that we don't track on the document. Finding the correct source
-        // asset
-        // payment isn't very efficient particularly if we are doing this (repeatedly) for several target assets. HashMap?
+        // asset payment isn't very efficient particularly if we are doing this (repeatedly) for several target assets. HashMap?
         // Note: This is NOT the offsetAssetPayments HashMap because the offsetAssetPayments are modified each iteration.
-        for (AssetPayment currentAssetPayment : separateSourceCapitalAsset.getAssetPayments()) {
+        for (AssetPayment currentAssetPayment : separateSourceCapitalAssetPayments) {
             if (assetPaymentDetail.getSequenceNumber().equals(currentAssetPayment.getPaymentSequenceNumber())) {
                 sourceAssetPayment = currentAssetPayment;
                 break;
@@ -555,7 +567,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         }
 
         // separate ratio for this asset
-        double separateRatio = separateSourceAmount.doubleValue() / separateSourceCapitalAsset.getTotalCostAmount().doubleValue();
+        double separateRatio = separateSourceAmount.doubleValue() / totalCostToAllocate.doubleValue();
 
         // account amount from current payment source asset * target total cost / source total cost
         assetPayment.setAccountChargeAmount(safeMultiply(assetPaymentDetail.getAmount(), separateRatio));
@@ -577,8 +589,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         assetPayment.setPeriod12Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod12Depreciation1Amount(), separateRatio));
 
         // Reduce the amounts of the original assets payments by what was added to the newly created asset. Note
-        // separateSourceAmount may vary by asset, and
-        // each payment may have a different value. So we need to do this for each
+        // separateSourceAmount may vary by asset, and each payment may have a different value. So we need to do
+        // this for each
         AssetPayment offsetAssetPayment = offsetAssetPayments.get(sourceAssetPayment.getObjectId());
 
         offsetAssetPayment.setAccountChargeAmount(safeSubtract(offsetAssetPayment.getAccountChargeAmount(), assetPayment.getAccountChargeAmount()));

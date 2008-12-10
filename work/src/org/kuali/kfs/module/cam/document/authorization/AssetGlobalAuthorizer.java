@@ -59,6 +59,11 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, false);
+            
+            // Show payment sequence number field only if a separate by payment was selected
+            if(!getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+                auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
+            }
         }
         else {
             setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);

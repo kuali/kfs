@@ -1891,6 +1891,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             item.fixAccountReferences();
         }
     }
+    
+    public List getPendingPurchaseOrderFaxes() {
+        return purchaseOrderDao.getPendingPurchaseOrdersForFaxing();
+    }
 
 }
 

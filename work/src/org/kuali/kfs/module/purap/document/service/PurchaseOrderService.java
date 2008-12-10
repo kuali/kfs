@@ -413,7 +413,11 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     public List<CapitalAssetSystem> retrieveCapitalAssetSystemsForMultipleSystem(Integer poId);
 
 
-    
+    /**
+     * This method gets all the Purchase orders that are waiting for faxing
+     * @return List of POs
+     */
+    public List<PurchaseOrderDocument> getPendingPurchaseOrderFaxes();
     
     
 }

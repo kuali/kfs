@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 
 
@@ -78,4 +79,10 @@ public interface PurchaseOrderDao {
      * @return List of PurchaseOrderAutoClose objects
      */
     public List<PurchaseOrderView> getAutoCloseRecurringPurchaseOrders(List<String> excludedVendorChoiceCodes);
+    
+    /**
+     * This method gets all the Purchase orders that are waiting for faxing
+     * @return List of POs
+     */
+    public List<PurchaseOrderDocument> getPendingPurchaseOrdersForFaxing();
 }

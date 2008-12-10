@@ -170,4 +170,12 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return l;
     }
     
+    public List<PurchaseOrderDocument> getPendingPurchaseOrdersForFaxing() {
+        LOG.debug("Getting pending purchase orders for faxing");
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.PENDING_FAX);
+        QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class,criteria);
+        List l = (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        return l;
+   }
 }

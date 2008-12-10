@@ -48,12 +48,14 @@
 				<value>autoClosePurchaseOrdersJob</value>
 				<value>autoCloseRecurringOrdersJob</value>
 				<value>electronicInvoiceExtractJob</value>
+				<value>faxPendingDocumentJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
 			<list>
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
 				<value>electronicInvoiceExtractJobTrigger</value>
+				<value>faxPendingDocumentTrigger</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
@@ -526,6 +528,20 @@
         </property>
     </bean>
     
+    <bean id="faxPendingDocumentStep" class="org.kuali.kfs.module.purap.batch.FaxPendingDocumentStep" parent="step">
+	    <property name="faxBatchDocumentsService">
+            <ref bean="faxBatchDocumentsService" />
+        </property>
+    </bean>
+    
+    <bean id="faxPendingDocumentJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="faxPendingDocumentStep" />
+            </list>
+        </property>
+    </bean>
+    
     <bean id="autoClosePurchaseOrdersJob" parent="scheduledJobDescriptor">
         <property name="steps">
             <list>
@@ -557,6 +573,11 @@
 	
 	<bean id="electronicInvoiceExtractJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="electronicInvoiceExtractJob" />
+		<property name="cronExpression" value="00 00 11,15 ? * *" />
+	</bean>
+	
+	<bean id="faxPendingDocumentTrigger" parent="cronTrigger">
+		<property name="jobName" value="faxPendingDocumentJob" />
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
 	</bean>
 
@@ -596,6 +617,15 @@
 	</bean>
 
 	<bean id="purApOjbCollectionHelper" class="org.kuali.kfs.module.purap.util.PurApOjbCollectionHelper" />
+	
+	<bean id="faxBatchDocumentsService" class="org.kuali.kfs.module.purap.document.service.impl.FaxBatchDocumentsServiceImpl">
+		<property name="faxService">
+			<ref bean="faxService"/>
+		</property>
+		<property name="purchaseOrderService">
+			<ref bean="purchaseOrderService"/>
+		</property>
+	</bean>
 	
 	<bean id="purapRunDateService" class="org.kuali.kfs.module.purap.batch.service.impl.PurapRunDateServiceImpl">
 		<property name="parameterService">

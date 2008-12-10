@@ -67,12 +67,17 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         
         //  make sure no null/blank invoiceNumbers get sent
         boolean anyFound = false;
-        boolean customerNoteMissing = false;
+        boolean customerNoteMissingOrInvalid = false;
         int ind = 0;
+        String customerNote;
         for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : lookupResults ){
-            if (StringUtils.isEmpty(customerInvoiceWriteoffLookupResult.getCustomerNote())) {
+            customerNote = customerInvoiceWriteoffLookupResult.getCustomerNote().trim();
+            if (StringUtils.isEmpty(customerNote)) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_REQUIRED);
-                customerNoteMissing = true;
+                customerNoteMissingOrInvalid = true;
+            }else if (customerNote.length() < 5) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_INVALID);
+                customerNoteMissingOrInvalid = true;
             }
 
             for (CustomerInvoiceDocument invoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments()) {
@@ -83,7 +88,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
             ind++;
         }
         
-        if (customerNoteMissing || !anyFound) {
+        if (customerNoteMissingOrInvalid || !anyFound) {
             // only submit this if there's at least one invoiceNumber in the stack
             if (!anyFound)
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);

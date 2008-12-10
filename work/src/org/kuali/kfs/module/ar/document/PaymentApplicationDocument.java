@@ -17,9 +17,7 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
@@ -51,7 +49,6 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentType;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -620,36 +617,31 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         super.handleRouteStatusChange();
         
         if(getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
-            java.util.Date _today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-            java.sql.Date today = new java.sql.Date(_today.getTime());
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
-            // This map structure should allow me to keep unique documents.a
-            Map<String,Document> documents = new HashMap<String,Document>();
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
+            //  get the now time to stamp invoices with
+            java.sql.Date today = new java.sql.Date(dateTimeService.getCurrentDate().getTime());
+            
             for(InvoicePaidApplied ipa : getInvoicePaidApplieds()) {
                 String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
+                CustomerInvoiceDocument invoice = null;
+                
+                //  attempt to retrieve the invoice doc
                 try {
-                    CustomerInvoiceDocument invoice = 
-                        (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceDocumentNumber);
-                    
-                    // KULAR-384
+                     invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceDocumentNumber);
+                } catch(WorkflowException we) {
+                    LOG.error("Failed to load the Invoice document due to a WorkflowException.", we);
+                }
+                if (invoice == null) {
+                    throw new RuntimeException("DocumentService returned a Null CustomerInvoice Document for Doc# " + invoiceDocumentNumber + ".");
+                }
+                
+                // KULAR-384 - close the invoice if the open amount is zero
+                if (KualiDecimal.ZERO.equals(invoice.getOpenAmount())) {
                     invoice.setClosedDate(today);
                     invoice.setOpenInvoiceIndicator(false);
-                    
-                    documents.put(invoiceDocumentNumber,invoice);
-                    
-                    // Don't save the documents here. It'll cause OptimisticLockExceptions.
-                    
-                } catch(WorkflowException we) {
-                    LOG.error("Failed to update closed date on Invoice.", we);
-                }
-            }
-            
-            // Save each document.
-            for(Document d : documents.values()) {
-                try {
-                    documentService.saveDocument(d);
-                } catch(WorkflowException we) {
-                    LOG.error("Failed to update closed date on Invoice.", we);
+                    documentService.updateDocument(invoice);
                 }
             }
         }

@@ -23,6 +23,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.document.web.util.RendererUtil;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -40,6 +41,7 @@ public class DropDownRenderer extends FieldRendererBase {
         try {
             out.write(buildSelectControl());
             renderQuickFinderIfNecessary(pageContext, parentTag);
+            RendererUtil.registerEditableProperty(pageContext, getFieldName());
         }
         catch (IOException ioe) {
             throw new JspException("Difficulty rendering drop down control", ioe);

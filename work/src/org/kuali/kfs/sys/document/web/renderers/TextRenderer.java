@@ -20,14 +20,14 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.taglib.html.TextTag;
+import org.kuali.rice.kns.web.taglib.html.KNSTextTag;
 import org.springframework.web.util.HtmlUtils;
 
 /**
  * Represents a field rendered as a text field
  */
 public class TextRenderer extends FieldRendererBase {
-    private TextTag tag = new TextTag();
+    private KNSTextTag tag = new KNSTextTag();
 
     /**
      * cleans up the html:text tag 

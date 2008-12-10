@@ -23,12 +23,19 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.util.RendererUtil;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.pojo.PojoFormBase;
 
 /**
  * Renders a quick field for an element
  */
 public class QuickFinderRenderer extends FieldRendererBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickFinderRenderer.class);
+    
     private int tabIndex = -1;
     
     /**
@@ -54,7 +61,7 @@ public class QuickFinderRenderer extends FieldRendererBase {
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         JspWriter out = pageContext.getOut();
         try {
-            out.write(buildQuickFinderHtml());
+            out.write(buildQuickFinderHtml(pageContext));
         } catch (IOException ioe) {
             throw new JspException("Cannot render quick finder for field "+getField(), ioe);
         }
@@ -65,11 +72,11 @@ public class QuickFinderRenderer extends FieldRendererBase {
      * @param businessObjectToRender the business object we're rendering
      * @return the html for the quick finder
      */
-    protected String buildQuickFinderHtml() {
+    protected String buildQuickFinderHtml(PageContext pageContext) {
         StringBuilder quickFinderHtml = new StringBuilder();
         quickFinderHtml.append("&nbsp;<input type=\"image\" ");
         //quickFinderHtml.append("tabindex=\"${tabindex}\" ");
-        quickFinderHtml.append(buildQuickFinderName());
+        quickFinderHtml.append("name=\"").append(buildQuickFinderName(pageContext)).append("\" ");
         
         quickFinderHtml.append("src=\"");
         quickFinderHtml.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url"));
@@ -105,43 +112,43 @@ public class QuickFinderRenderer extends FieldRendererBase {
      * Builds the (quite complex) name for the quick finder field
      * @return the name of the quick finder field
      */
-    protected String buildQuickFinderName() {
-        StringBuilder name = new StringBuilder();
-        name.append("name=\"methodToCall.performLookup.");
+    protected String buildQuickFinderName(PageContext pageContext) {
+        StringBuilder nameBuf = new StringBuilder();
+        nameBuf.append("methodToCall.performLookup.");
         
-        name.append("(!!");
-        name.append(getField().getQuickFinderClassNameImpl());
-        name.append("!!).");
+        nameBuf.append("(!!");
+        nameBuf.append(getField().getQuickFinderClassNameImpl());
+        nameBuf.append("!!).");
         
-        name.append("(((");
-        name.append(getField().getFieldConversions());
-        name.append("))).");
+        nameBuf.append("(((");
+        nameBuf.append(getField().getFieldConversions());
+        nameBuf.append("))).");
         
-        name.append("((#");
-        name.append(getField().getLookupParameters());
-        name.append("#)).");
+        nameBuf.append("((#");
+        nameBuf.append(getField().getLookupParameters());
+        nameBuf.append("#)).");
         
-        name.append("((<>))."); // hide return link
+        nameBuf.append("((<>))."); // hide return link
         
-        name.append("(([]))."); // extra button source
+        nameBuf.append("(([]))."); // extra button source
         
-        name.append("((**))."); // extra button params
+        nameBuf.append("((**))."); // extra button params
         
-        name.append("((^^))."); // supress actions
+        nameBuf.append("((^^))."); // supress actions
         
-        name.append("((&&))."); // read only fields
+        nameBuf.append("((&&))."); // read only fields
         
-        name.append("((/");
-        name.append(getField().getReferencesToRefresh());
-        name.append("/)).");
+        nameBuf.append("((/");
+        nameBuf.append(getField().getReferencesToRefresh());
+        nameBuf.append("/)).");
         
-        name.append("((~~))."); // auto-search
+        nameBuf.append("((~~))."); // auto-search
         
-        name.append("anchor"); // anchor
+        nameBuf.append("anchor"); // anchor
         
-        name.append("\" "); // close the name
-        
-        return name.toString();
+        String name = nameBuf.toString();
+        RendererUtil.registerEditableProperty(pageContext, name);
+        return name;
     }
 
     /**

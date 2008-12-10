@@ -20,14 +20,14 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.taglib.html.CheckboxTag;
+import org.kuali.rice.kns.web.taglib.html.KNSCheckboxTag;
 import org.springframework.web.util.HtmlUtils;
 
 /**
  * Renders a field as a checkbox control
  */
 public class CheckboxRenderer extends FieldRendererBase {
-    private CheckboxTag checkboxTag = new CheckboxTag();
+    private KNSCheckboxTag checkboxTag = new KNSCheckboxTag();
 
     /**
      * 

@@ -19,14 +19,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.apache.struts.taglib.html.TextareaTag;
+import org.kuali.rice.kns.web.taglib.html.KNSTextareaTag;
 import org.springframework.web.util.HtmlUtils;
 
 /**
  * Renders a field as a text area
  */
 public class TextAreaRenderer extends FieldRendererBase {
-    private TextareaTag tag = new TextareaTag();
+    private KNSTextareaTag tag = new KNSTextareaTag();
 
     /**
      * Resets the text area tag

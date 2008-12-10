@@ -24,16 +24,16 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.taglib.html.ImageTag;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
+import org.kuali.rice.kns.web.taglib.html.KNSImageTag;
 
 /**
  * Renders an action for the accounting line view.
  */
 public class ActionsRenderer implements Renderer {
     private List<AccountingLineViewAction> actions;
-    private ImageTag actionButton = new ImageTag();
+    private KNSImageTag actionButton = new KNSImageTag();
     private int tabIndex;
     private String postButtonSpacing;
     private String tagBeginning;

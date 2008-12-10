@@ -42,20 +42,10 @@
 <!-- Attribute Definitions -->
 
   <bean id="CustomerInvoiceItemCode-active" parent="CustomerInvoiceItemCode-active-parentBean" />
-
-  <bean id="CustomerInvoiceItemCode-active-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceItemCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Active" />
-    <property name="shortLabel" value="Active" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="summary" value="active" />
-    <property name="description" value="active description..." />
   </bean>
-  
+
   <bean id="CustomerInvoiceItemCode-taxableIndicator" parent="CustomerInvoiceItemCode-taxableIndicator-parentBean" />
 
   <bean id="CustomerInvoiceItemCode-taxableIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -437,6 +427,8 @@
               p:attributeName="defaultInvoiceChartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="defaultInvoiceAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -455,6 +447,8 @@
               p:attributeName="defaultInvoiceChartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="defaultInvoiceAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

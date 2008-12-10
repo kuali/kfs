@@ -10,13 +10,14 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCdCurrent;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
+public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private String chartOfAccountsCode;
 	private String organizationCode;

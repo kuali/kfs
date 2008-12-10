@@ -762,6 +762,10 @@ public class KFSKeyConstants {
     
     public static final class AccountingLineViewRendering {
         public static final String ACCOUNTING_LINE_ACTIONS_LABEL = "accounting.line.actions.header.label";
+        public static final String ACCOUNTING_LINE_BALANCE_INQUIRY_ACTION_LABEL = "accounting.line.actions.balanceInquiry.label";
+        public static final String ACCOUNTING_LINE_DELETE_ACTION_LABEL = "accounting.line.actions.delete.label";
+        public static final String ACCOUNTING_LINE_ADD_ACTION_LABEL = "accounting.line.actions.add.label";
+        public static final String ACCOUNTING_LINE_COPY_ACTION_LABEL = "accounting.line.actions.copy.label";
     }
     
     public static final class Bank {

@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,20 +30,26 @@ import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
+
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 
 /**
- * This class retrieves the important references related to the OriginEntryFull family of business objects;
- * it uses a cache to store records its seen before, which hopefully improves performance
+ * This class retrieves the important references related to the OriginEntryFull family of business objects; it uses a cache to store
+ * records its seen before, which hopefully improves performance
  */
 public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLookupServiceImpl.class);
@@ -50,16 +57,19 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     private PersistenceStructureService persistenceStructureService;
     private ThreadLocal<CachingLookup> localLookupService = new ThreadLocal<CachingLookup>();
     private Map<String, List> primaryKeyLists = new HashMap<String, List>();
+    // TODO: maybe temporary - could use CachingLookup instead and put this there, but was quicker to do this way
+    private CachingDao cachingDao;
+
 
     /**
      * Get A21SubAccount for given origin entryable
      * 
      * @param entry the origin entry to retrieve the A21 sub account of
      * @return the related A21 SubAccount record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getA21SubAccount(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getA21SubAccount(org.kuali.module.gl.bo.OriginEntry)
      */
     public A21SubAccount getA21SubAccount(OriginEntry entry) {
-        return lookupReference(entry, A21SubAccount.class);
+        return cachingDao.getA21SubAccount(entry);
     }
 
     /**
@@ -67,32 +77,38 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the account of
      * @return the related account record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getAccount(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getAccount(org.kuali.module.gl.bo.OriginEntry)
      */
     public Account getAccount(OriginEntry entry) {
-        return lookupReference(entry, Account.class);
+        return cachingDao.getAccount(entry);
     }
+
 
     /**
      * Retrieves the accounting period for the given origin entryable
      * 
      * @param entry the origin entry to retrieve the accounting period of
      * @return the related AccountingPeriod record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getAccountingPeriod(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getAccountingPeriod(org.kuali.module.gl.bo.OriginEntry)
      */
     public AccountingPeriod getAccountingPeriod(OriginEntry entry) {
-        return lookupReference(entry, AccountingPeriod.class);
+        return cachingDao.getAccountingPeriod(entry);
     }
+
+    public AccountingPeriod getAccountingPeriod(Integer universityFiscalYear, String universityFiscalPeriodCode) {
+        return cachingDao.getAccountingPeriod(universityFiscalYear, universityFiscalPeriodCode);
+    }
+
 
     /**
      * Retrieve balance type, or, evidently, balance typ, for given origin entry
      * 
      * @param entry the origin entry to retrieve the balance type of
      * @return the related balance typ record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getBalanceType(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getBalanceType(org.kuali.module.gl.bo.OriginEntry)
      */
     public BalanceTyp getBalanceType(OriginEntry entry) {
-        return lookupReference(entry, BalanceTyp.class, "code:financialBalanceTypeCode");
+        return cachingDao.getBalanceType(entry);
     }
 
     /**
@@ -100,10 +116,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to get the chart for
      * @return the related Chart record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getChart(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getChart(org.kuali.module.gl.bo.OriginEntry)
      */
     public Chart getChart(OriginEntry entry) {
-        return lookupReference(entry, Chart.class);
+        return cachingDao.getChart(entry);
     }
 
     /**
@@ -111,10 +127,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the document type of
      * @return the related document type record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getDocumentType(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getDocumentType(org.kuali.module.gl.bo.OriginEntry)
      */
     public DocumentType getDocumentType(OriginEntry entry) {
-        return lookupReference(entry, DocumentType.class, "documentTypeCode:financialDocumentTypeCode");
+        return cachingDao.getDocumentType(entry);
     }
 
     /**
@@ -122,10 +138,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry origin entryable to lookup the reference document type for
      * @return the related reference DocumentType record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getReferenceDocumentType(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getReferenceDocumentType(org.kuali.module.gl.bo.OriginEntry)
      */
     public DocumentType getReferenceDocumentType(OriginEntry entry) {
-        return lookupReference(entry, DocumentType.class, "documentTypeCode:referenceFinancialDocumentTypeCode");
+        return cachingDao.getReferenceDocumentType(entry);
     }
 
     /**
@@ -133,10 +149,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the financial object of
      * @return the related financial object record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getFinancialObject(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getFinancialObject(org.kuali.module.gl.bo.OriginEntry)
      */
     public ObjectCode getFinancialObject(OriginEntry entry) {
-        return lookupReference(entry, ObjectCode.class);
+        return cachingDao.getFinancialObject(entry);
     }
 
     /**
@@ -144,10 +160,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the financial sub object of
      * @return the related financial sub object record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getFinancialSubObject(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getFinancialSubObject(org.kuali.module.gl.bo.OriginEntry)
      */
     public SubObjCd getFinancialSubObject(OriginEntry entry) {
-        return lookupReference(entry, SubObjCd.class);
+        return cachingDao.getFinancialSubObject(entry);
     }
 
     /**
@@ -155,10 +171,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the object type of
      * @return the related object type record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getObjectType(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getObjectType(org.kuali.module.gl.bo.OriginEntry)
      */
     public ObjectType getObjectType(OriginEntry entry) {
-        return lookupReference(entry, ObjectType.class, "code:financialObjectTypeCode");
+        return cachingDao.getObjectType(entry);
     }
 
     /**
@@ -166,21 +182,34 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the related options record of
      * @return the related Options record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getOption(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getOption(org.kuali.module.gl.bo.OriginEntry)
      */
     public Options getOption(OriginEntry entry) {
-        return lookupReference(entry, Options.class);
+        return cachingDao.getOption(entry);
     }
+
+    public Options getOption(Integer fiscalYear) {
+        return cachingDao.getOption(fiscalYear);
+    }
+
+    //TODO: should fail the modularization test -- will be moved to Labor
+//    public LaborObject getLaborObject(OriginEntry entry) {
+//        return cachingDao.getLaborObject(entry);
+//    }
 
     /**
      * Retrieves the origination code for the given origin entryable
      * 
      * @param entry the origin entry to retrieve the origin code of
      * @return the related OriginationCode record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getOriginationCode(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getOriginationCode(org.kuali.module.gl.bo.OriginEntry)
      */
     public OriginationCode getOriginationCode(OriginEntry entry) {
-        return lookupReference(entry, OriginationCode.class, "originationCode:referenceFinancialSystemOriginationCode");
+        return cachingDao.getOriginationCode(entry);
+    }
+
+    public OriginationCode getOriginationCode(String financialSystemOriginationCode) {
+        return cachingDao.getOriginationCode(financialSystemOriginationCode);
     }
 
     /**
@@ -188,10 +217,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the project code of
      * @return the related ProjectCode record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getProjectCode(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getProjectCode(org.kuali.module.gl.bo.OriginEntry)
      */
     public ProjectCode getProjectCode(OriginEntry entry) {
-        return lookupReference(entry, ProjectCode.class, "code:projectCode");
+        return cachingDao.getProjectCode(entry);
     }
 
     /**
@@ -199,10 +228,34 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the sub account of
      * @return the related SubAccount record, or null if not found
-     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getSubAccount(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.module.gl.service.OriginEntryLookupService#getSubAccount(org.kuali.module.gl.bo.OriginEntry)
      */
     public SubAccount getSubAccount(OriginEntry entry) {
-        return lookupReference(entry, SubAccount.class);
+        return cachingDao.getSubAccount(entry);
+    }
+
+    public SubFundGroup getSubFundGroup(String subFundGroupCode) {
+        return cachingDao.getSubFundGroup(subFundGroupCode);
+    }
+
+    public Account getAccount(String chartCode, String accountNumber) {
+        return cachingDao.getAccount(chartCode, accountNumber);
+    }
+
+    public UniversityDate getUniversityDate(Date date) {
+        return cachingDao.getUniversityDate(date);
+    }
+
+    public OffsetDefinition getOffsetDefinition(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {
+        return cachingDao.getOffsetDefinition(universityFiscalYear, chartOfAccountsCode, financialDocumentTypeCode, financialBalanceTypeCode);
+    }
+
+    public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+        return cachingDao.getObjectCode(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+    }
+
+    public Org getOrg(String chartOfAccountsCode, String organizationCode) {
+        return cachingDao.getOrg(chartOfAccountsCode, organizationCode);
     }
 
     /**
@@ -211,7 +264,8 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the entry to perform the lookup on
      * @param referenceClassToRetrieve the class of a related object
-     * @param fieldNameOverrides if the name of a field in the entry is not the name of the field in a related class, this map can override the entry's field names for the sake of the lookup
+     * @param fieldNameOverrides if the name of a field in the entry is not the name of the field in a related class, this map can
+     *        override the entry's field names for the sake of the lookup
      * @return a Map with the key of the object to lookup in it
      */
     private Map<String, Object> getKeyMapFromEntry(OriginEntry entry, Class referenceClassToRetrieve, Map<String, String> fieldNameOverrides) {
@@ -269,7 +323,8 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @param <T> the class of the object that needs to be looked up
      * @param entry an entry to perform the lookup on
      * @param type the class of the related object to lookup
-     * @param fieldNameOverrides if the name of a field in the entry is not the name of the field in a related class, this map can override the entry's field names for the sake of the lookup 
+     * @param fieldNameOverrides if the name of a field in the entry is not the name of the field in a related class, this map can
+     *        override the entry's field names for the sake of the lookup
      * @return the related object or null if not found in the cache or persistence store
      */
     private <T> T lookupReference(OriginEntry entry, Class<T> type, String fieldNameOverrides) {
@@ -280,7 +335,8 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     /**
      * Converts the field name overrides string and turns it into objects
      * 
-     * @param fieldNameOverrides if the name of a field in the entry is not the name of the field in a related class, this map can override the entry's field names for the sake of the lookup 
+     * @param fieldNameOverrides if the name of a field in the entry is not the name of the field in a related class, this map can
+     *        override the entry's field names for the sake of the lookup
      * @return a Map where the key is the name of the field in the entry and the value is the name of the field in the related class
      */
     private Map<String, String> convertFieldsToMap(String fieldNameOverrides) {
@@ -349,4 +405,13 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     public void setLookupService(CachingLookup lookupService) {
         this.localLookupService.set(lookupService);
     }
+
+    public CachingDao getCachingDao() {
+        return cachingDao;
+    }
+
+    public void setCachingDao(CachingDao cachingDao) {
+        this.cachingDao = cachingDao;
+    }
+
 }

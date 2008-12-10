@@ -169,6 +169,11 @@ public enum CustomerInvoiceDocumentFixture {
             customerInvoiceDocument.setBilledByOrganizationCode(billedByOrganizationCode);
         }
         
+        //  this is a little hacky, as some of these dont even have a customer attached, 
+        // but these are required fields now
+        customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
+        customerInvoiceDocument.setCustomerShipToAddressIdentifier(1);
+
         //set AR doc Header
         AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
         arDocHeader.setCustomerNumber(customerNumber);

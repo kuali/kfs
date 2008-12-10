@@ -1750,79 +1750,79 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4, outputTransactions);
     }
 
-    /**
-     * Tests that the scrubber considers entries with inactive balance types to be errors
-     * 
-     * @throws Exception thrown if any exception is encountered for any reason
-     */
-    public void testInactiveBalanceType() throws Exception {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.CODE, "AC");
-        this.deactivate(BalanceTyp.class, primaryKeys);
-
-        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
-
-        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
-
-        scrub(inputTransactions);
-        assertOriginEntries(4, outputTransactions);
-    }
-
-    /**
-     * Tests that the scrubber considers entries with inactive origination codes to be errors
-     * 
-     * @throws Exception thrown if any exception is encountered for any reason
-     */
-    public void testInactiveOriginCode() throws Exception {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, "EU");
-        this.deactivate(OriginationCode.class, primaryKeys);
-
-        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
-
-        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
-
-        scrub(inputTransactions);
-        assertOriginEntries(4, outputTransactions);
-    }
-
-    /**
-     * Tests that the scrubber considers entries with inactive origination codes to be errors
-     * 
-     * @throws Exception thrown if any exception is encountered for any reason
-     */
-    public void testInactiveObjectCode() throws Exception {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
-        primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
-        primaryKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "4110");
-        this.deactivate(ObjectCode.class, primaryKeys);
-
-        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
-
-        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
-
-        scrub(inputTransactions);
-        assertOriginEntries(4, outputTransactions);
-    }
-
-    /**
-     * Tests that the scrubber considers entries with inactive origination codes to be errors
-     * 
-     * @throws Exception thrown if any exception is encountered for any reason
-     */
-    public void testInactiveObjectType() throws Exception {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.CODE, "EX");
-        this.deactivate(ObjectType.class, primaryKeys);
-
-        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
-
-        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
-
-        scrub(inputTransactions);
-        assertOriginEntries(4, outputTransactions);
-    }
+//    /**
+//     * Tests that the scrubber considers entries with inactive balance types to be errors
+//     * 
+//     * @throws Exception thrown if any exception is encountered for any reason
+//     */
+//    public void testInactiveBalanceType() throws Exception {
+//        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+//        primaryKeys.put(KFSPropertyConstants.CODE, "AC");
+//        this.deactivate(BalanceTyp.class, primaryKeys);
+//
+//        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
+//
+//        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
+//
+//        scrub(inputTransactions);
+//        assertOriginEntries(4, outputTransactions);
+//    }
+//
+//    /**
+//     * Tests that the scrubber considers entries with inactive origination codes to be errors
+//     * 
+//     * @throws Exception thrown if any exception is encountered for any reason
+//     */
+//    public void testInactiveOriginCode() throws Exception {
+//        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+//        primaryKeys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, "EU");
+//        this.deactivate(OriginationCode.class, primaryKeys);
+//
+//        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
+//
+//        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
+//
+//        scrub(inputTransactions);
+//        assertOriginEntries(4, outputTransactions);
+//    }
+//
+//    /**
+//     * Tests that the scrubber considers entries with inactive origination codes to be errors
+//     * 
+//     * @throws Exception thrown if any exception is encountered for any reason
+//     */
+//    public void testInactiveObjectCode() throws Exception {
+//        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+//        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
+//        primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
+//        primaryKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "4110");
+//        this.deactivate(ObjectCode.class, primaryKeys);
+//
+//        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
+//
+//        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
+//
+//        scrub(inputTransactions);
+//        assertOriginEntries(4, outputTransactions);
+//    }
+//
+//    /**
+//     * Tests that the scrubber considers entries with inactive origination codes to be errors
+//     * 
+//     * @throws Exception thrown if any exception is encountered for any reason
+//     */
+//    public void testInactiveObjectType() throws Exception {
+//        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+//        primaryKeys.put(KFSPropertyConstants.CODE, "EX");
+//        this.deactivate(ObjectType.class, primaryKeys);
+//
+//        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
+//
+//        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]) };
+//
+//        scrub(inputTransactions);
+//        assertOriginEntries(4, outputTransactions);
+//    }
 
     /**
      * Loads an array of String-formatted entries into the database, and then runs the scrubber on those entries

@@ -249,13 +249,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 valid &= false;
             }
         }
-        if (StringUtils.isNotBlank(assetTransferDocument.getOffCampusStateCode())) {
-            State stateCode = assetTransferDocument.getOffCampusState();
-            if (ObjectUtils.isNull(stateCode)) {
-                putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE, assetTransferDocument.getOffCampusStateCode());
-                valid &= false;
-            }
-        }
         if (StringUtils.isNotBlank(assetTransferDocument.getAssetRepresentative().getPrincipalName())) {
             PersonService personService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
             Person person = personService.getPersonByPrincipalName(assetTransferDocument.getAssetRepresentative().getPrincipalName());

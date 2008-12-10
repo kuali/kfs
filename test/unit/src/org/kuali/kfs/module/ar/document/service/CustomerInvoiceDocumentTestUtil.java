@@ -15,19 +15,16 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.fixture.CustomerFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
-import org.kuali.kfs.module.ec.service.impl.EffortCertificationDocumentServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
-
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentTestUtil {
     
@@ -89,6 +86,7 @@ public class CustomerInvoiceDocumentTestUtil {
             routedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, null, null);
         } catch (Exception e){
             LOG.error(e.getMessage());
+            throw new RuntimeException("The Customer Invoice Document was not routed, and is not available for testing.", e);
         }
         return ObjectUtils.isNotNull(routedDocument)? routedDocument.getDocumentNumber() : null;
     }

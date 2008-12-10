@@ -55,7 +55,7 @@
 <bean id="CustomerAgingReportDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"></bean>
 
 <bean id="CustomerAgingReportDetail-organizationCode" parent="CustomerAgingReportDetail-organizationCode-parentBean" />
-<bean id="CustomerAgingReportDetail-organizationCode-parentBean" abstract="true" parent="Org-organizationCode"></bean>
+<bean id="CustomerAgingReportDetail-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode"></bean>
 
 <bean id="CustomerAgingReportDetail-accountNumber" parent="CustomerAgingReportDetail-accountNumber-parentBean" />
 <bean id="CustomerAgingReportDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"></bean>

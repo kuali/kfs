@@ -38,7 +38,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
     private boolean active;
 
     private Chart chart;
-    private Org org;
+    private Organization org;
     private Person person;
     private ReportingCodes reportingCodes;
 
@@ -144,7 +144,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
     /**
      * @return Returns the org.
      */
-    public Org getOrg() {
+    public Organization getOrg() {
         return org;
     }
 
@@ -152,7 +152,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
      * @param org The org to set.
      * @deprecated
      */
-    public void setOrg(Org org) {
+    public void setOrg(Organization org) {
         this.org = org;
     }
 

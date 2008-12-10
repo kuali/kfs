@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
@@ -60,7 +60,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     private SubAccount subAccount;
     private Person budgetLockUser;
     private Person budgetTransactionLockUser;
-    private Org organizationLevelOrganization;
+    private Organization organizationLevelOrganization;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
 
     private List pendingBudgetConstructionGeneralLedgerRevenueLines;
@@ -447,7 +447,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * 
      * @return Returns the organizationLevelOrganization.
      */
-    public Org getOrganizationLevelOrganization() {
+    public Organization getOrganizationLevelOrganization() {
         return organizationLevelOrganization;
     }
 
@@ -457,7 +457,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param organizationLevelOrganization The organizationLevelOrganization to set.
      * @deprecated
      */
-    public void setOrganizationLevelOrganization(Org organizationLevelOrganization) {
+    public void setOrganizationLevelOrganization(Organization organizationLevelOrganization) {
         this.organizationLevelOrganization = organizationLevelOrganization;
     }
 

@@ -439,7 +439,7 @@ public interface AccountIntf {
      * 
      * @return Returns the organization
      */
-    public Org getOrganization();
+    public Organization getOrganization();
 
     /**
      * Sets the organization attribute.
@@ -447,7 +447,7 @@ public interface AccountIntf {
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization);
+    public void setOrganization(Organization organization);
 
     /**
      * Gets the accountType attribute.

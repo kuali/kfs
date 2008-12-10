@@ -19,7 +19,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -33,7 +33,7 @@ public class OrganizationParameter extends PersistableBusinessObjectBase {
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private boolean activeIndicator;
 
     public boolean isActiveIndicator() {
@@ -70,14 +70,14 @@ public class OrganizationParameter extends PersistableBusinessObjectBase {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
     /**
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

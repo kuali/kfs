@@ -145,7 +145,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AccountGlobal-organizationCode" parent="AccountGlobal-organizationCode-parentBean" />
 
-  <bean id="AccountGlobal-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="AccountGlobal-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="required" value="false" />
   </bean>
   <bean id="AccountGlobal-accountCityName" parent="AccountGlobal-accountCityName-parentBean" />

@@ -41,15 +41,15 @@ import org.kuali.rice.kns.util.UrlFactory;
 /**
  * 
  */
-public class Org extends PersistableBusinessObjectBase implements Inactivateable {
-    private static final Logger LOG = Logger.getLogger(Org.class);
+public class Organization extends PersistableBusinessObjectBase implements Inactivateable {
+    private static final Logger LOG = Logger.getLogger(Organization.class);
 
     private static final long serialVersionUID = 121873645110037203L;
 
     /**
      * Default no-arg constructor.
      */
-    public Org() {
+    public Organization() {
         organizationInFinancialProcessingIndicator = false;
     }
 
@@ -76,13 +76,13 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     private String organizationLine2Address;
 
     private Chart chartOfAccounts;
-    private Org hrisOrganization;
+    private Organization hrisOrganization;
     private Account organizationDefaultAccount;
     private Person organizationManagerUniversal;
     private ResponsibilityCenter responsibilityCenter;
     private Campus organizationPhysicalCampus;
-    private OrgType organizationType;
-    private Org reportsToOrganization;
+    private OrganizationType organizationType;
+    private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
     private Account organizationPlantAccount;
     private Account campusPlantAccount;
@@ -346,7 +346,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * 
      * @return Returns the organizationType
      */
-    public OrgType getOrganizationType() {
+    public OrganizationType getOrganizationType() {
         return organizationType;
     }
 
@@ -356,7 +356,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * @param organizationType The organizationType to set.
      * @deprecated
      */
-    public void setOrganizationType(OrgType organizationType) {
+    public void setOrganizationType(OrganizationType organizationType) {
         this.organizationType = organizationType;
     }
 
@@ -365,7 +365,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * 
      * @return Returns the reportsToOrganization
      */
-    public Org getReportsToOrganization() {
+    public Organization getReportsToOrganization() {
         return reportsToOrganization;
     }
 
@@ -375,7 +375,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
-    public void setReportsToOrganization(Org reportsToOrganization) {
+    public void setReportsToOrganization(Organization reportsToOrganization) {
         this.reportsToOrganization = reportsToOrganization;
     }
 
@@ -829,9 +829,9 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
 
     public String getOrganizationHierarchy() {
         StringBuffer result = new StringBuffer();
-        Set<Org> seen = new HashSet<Org>();
+        Set<Organization> seen = new HashSet<Organization>();
 
-        Org org = this;
+        Organization org = this;
 
         while (org != null && org.getReportsToOrganizationCode() != null && !seen.contains(org)) {
             String rChart = org.getReportsToChartOfAccountsCode();
@@ -884,7 +884,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
 
             if (this.getClass().isAssignableFrom(obj.getClass())) {
 
-                Org other = (Org) obj;
+                Organization other = (Organization) obj;
 
                 LOG.debug("this: " + this);
                 LOG.debug("other: " + other);

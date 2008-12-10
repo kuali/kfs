@@ -33,7 +33,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
 import org.kuali.kfs.fp.businessobject.FunctionControlCode;
@@ -990,7 +990,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
          */
         criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ORGANIZATION_CODE, KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.REPORTS_TO_ORGANIZATION_CODE, KFSPropertyConstants.RESPONSIBILITY_CENTER_CODE };
-        ReportQueryByCriteria queryID = new ReportQueryByCriteria(Org.class, queryAttr, criteriaID, true);
+        ReportQueryByCriteria queryID = new ReportQueryByCriteria(Organization.class, queryAttr, criteriaID, true);
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (Results.hasNext()) {
             Object[] ReturnList = (Object[]) Results.next();

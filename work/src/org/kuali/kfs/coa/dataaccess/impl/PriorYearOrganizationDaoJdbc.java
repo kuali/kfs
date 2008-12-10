@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.PriorYearOrganization;
 import org.kuali.kfs.coa.dataaccess.PriorYearOrganizationDao;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
@@ -55,7 +55,7 @@ public class PriorYearOrganizationDaoJdbc extends PlatformAwareDaoBaseJdbc imple
      */
     public int copyCurrentOrganizationsToPriorYearTable() {
         String priorYrOrgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearOrganization.class).getFullTableName();
-        String orgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Org.class).getFullTableName();
+        String orgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Organization.class).getFullTableName();
 
         // 1. Copy all the rows from the current org table to the prior year org table
         getSimpleJdbcTemplate().update("INSERT into " + priorYrOrgTableName + " SELECT * from " + orgTableName);

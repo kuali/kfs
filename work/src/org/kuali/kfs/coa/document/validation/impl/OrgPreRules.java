@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.OrganizationExtension;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * confirmations, etc.
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
-    private Org newOrg;
+    private Organization newOrg;
     private PostalCodeService postalZipCodeService = SpringContext.getBean(PostalCodeService.class);
 
     public OrgPreRules() {
@@ -50,7 +50,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
 
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
-        updateHRMSUpdateDate((Org) document.getOldMaintainableObject().getBusinessObject(), (Org) document.getNewMaintainableObject().getBusinessObject());
+        updateHRMSUpdateDate((Organization) document.getOldMaintainableObject().getBusinessObject(), (Organization) document.getNewMaintainableObject().getBusinessObject());
 
         return true;
     }
@@ -80,7 +80,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newOrg convenience objects, make sure all possible sub-objects are populated
-        newOrg = (Org) document.getNewMaintainableObject().getBusinessObject();
+        newOrg = (Organization) document.getNewMaintainableObject().getBusinessObject();
     }
 
     /**
@@ -89,7 +89,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
      * @param oldData
      * @param newData
      */
-    private void updateHRMSUpdateDate(Org oldData, Org newData) {
+    private void updateHRMSUpdateDate(Organization oldData, Organization newData) {
         if (oldData != null) {
             OrganizationExtension oldExt = oldData.getOrganizationExtension();
             OrganizationExtension newExt = newData.getOrganizationExtension();

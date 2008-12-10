@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -111,7 +111,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         LOG.info("checkOrganizationCode called");
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean success = true;
-        Org org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode(), newOrganizationParameter.getOrganizationCode());
+        Organization org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode(), newOrganizationParameter.getOrganizationCode());
         if (ObjectUtils.isNull(org)) {
             success &= false;
             errorMap.putError(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + KFSPropertyConstants.ORGANIZATION_CODE, PurapKeyConstants.ERROR_INVALID_ORGANIZATION_CODE);

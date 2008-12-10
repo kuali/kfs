@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
@@ -47,7 +47,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	private SubObjCd defaultInvoiceFinancialSubObject;
 	private ObjectCode organizationLateChargeObject;
 	private Chart chartOfAccounts;
-	private Org organization;
+	private Organization organization;
 	private Chart defaultInvoiceChartOfAccounts;
 	private SubAccount defaultInvoiceSubAccount;
 	private Account defaultInvoiceAccount;
@@ -637,7 +637,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	 * @return Returns the organization
 	 * 
 	 */
-	public Org getOrganization() { 
+	public Organization getOrganization() { 
 		return organization;
 	}
 
@@ -647,7 +647,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	 * @param organization The organization to set.
 	 * @deprecated
 	 */
-	public void setOrganization(Org organization) {
+	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 

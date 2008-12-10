@@ -27,7 +27,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -613,7 +613,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         // get the organization review hierachy path for which the user could be an approver
-        List<Org> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(person);
+        List<Organization> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(person);
         if (organazationReviewHierachy == null || organazationReviewHierachy.isEmpty()) {
             return false;
         }

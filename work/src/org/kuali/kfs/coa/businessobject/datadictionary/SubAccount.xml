@@ -106,7 +106,7 @@
   </bean>
   <bean id="SubAccount-finReportOrganizationCode" parent="SubAccount-finReportOrganizationCode-parentBean" />
 
-  <bean id="SubAccount-finReportOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="SubAccount-finReportOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="finReportOrganizationCode" />
     <property name="label" value="Financial Reporting Org Code" />
     <property name="required" value="false" />

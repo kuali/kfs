@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -51,7 +51,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private SubObjCd universityClearingSubObject;
 	private ObjectCode universityClearingObject;
 	private ObjectCode discountFinancialObject;
-	private Org processingOrganization;
+	private Organization processingOrganization;
 	private Chart processingChartOfAccount;
 	private Account universityClearingAccount;
 	private Chart universityClearingChartOfAccounts;
@@ -643,7 +643,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	 * @return Returns the processingOrganization
 	 * 
 	 */
-	public Org getProcessingOrganization() { 
+	public Organization getProcessingOrganization() { 
 		return processingOrganization;
 	}
 
@@ -653,7 +653,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	 * @param processingOrganization The processingOrganization to set.
 	 * @deprecated
 	 */
-	public void setProcessingOrganization(Org processingOrganization) {
+	public void setProcessingOrganization(Organization processingOrganization) {
 		this.processingOrganization = processingOrganization;
 	}
 

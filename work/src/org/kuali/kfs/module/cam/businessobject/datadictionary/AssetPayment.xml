@@ -134,27 +134,27 @@
 
 
   <bean id="AssetPayment-account.organization.organizationPlantAccountNumber" parent="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" />
-  <bean id="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" abstract="true" parent="Org-organizationPlantAccountNumber">
+  <bean id="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" abstract="true" parent="Organization-organizationPlantAccountNumber">
     <property name="name" value="account.organization.organizationPlantAccountNumber" />
     <property name="shortLabel" value="Org. Plant Accnt#" />
   </bean>
 
 
   <bean id="AssetPayment-account.organization.chartOfAccountsCode" parent="AssetPayment-account.organization.chartOfAccountsCode-parentBean" />
-  <bean id="AssetPayment-account.organization.chartOfAccountsCode-parentBean" abstract="true" parent="Org-chartOfAccountsCode">
+  <bean id="AssetPayment-account.organization.chartOfAccountsCode-parentBean" abstract="true" parent="Organization-chartOfAccountsCode">
     <property name="name" value="account.organization.chartOfAccountsCode" />
     <property name="label" value="Organization Chart Code" />
 	<property name="shortLabel" value="Org. Chart Code" />    
   </bean>
 
   <bean id="AssetPayment-account.organization.campusPlantAccountNumber" parent="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" />
-  <bean id="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" abstract="true" parent="Org-campusPlantAccountNumber">
+  <bean id="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" abstract="true" parent="Organization-campusPlantAccountNumber">
     <property name="name" value="account.organization.campusPlantAccountNumber" />
     <property name="shortLabel" value="Campus Plant Accnt #" />
   </bean>
 
   <bean id="AssetPayment-account.organization.campusPlantChartCode" parent="AssetPayment-account.organization.campusPlantChartCode-parentBean" />
-  <bean id="AssetPayment-account.organization.campusPlantChartCode-parentBean" abstract="true" parent="Org-campusPlantChartCode">
+  <bean id="AssetPayment-account.organization.campusPlantChartCode-parentBean" abstract="true" parent="Organization-campusPlantChartCode">
     <property name="name" value="account.organization.campusPlantChartCode" />
     <property name="label" value="Campus Plant Chart Code" />
     <property name="shortLabel" value="Campus Plant Chart Code" />    

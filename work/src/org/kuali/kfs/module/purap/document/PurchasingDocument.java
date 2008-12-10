@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
@@ -364,12 +364,12 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      */
     public void setRecurringPaymentType(RecurringPaymentType recurringPaymentType);
 
-    public Org getOrganization();
+    public Organization getOrganization();
 
     /**
      * @deprecated
      */
-    public void setOrganization(Org organization);
+    public void setOrganization(Organization organization);
 
     public Chart getChartOfAccounts();
 
@@ -392,12 +392,12 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      */
     public void setNonInstitutionFundOrgChartOfAccounts(Chart nonInstitutionFundOrgChartOfAccounts);
 
-    public Org getNonInstitutionFundOrganization();
+    public Organization getNonInstitutionFundOrganization();
 
     /**
      * @deprecated
      */
-    public void setNonInstitutionFundOrganization(Org nonInstitutionFundOrganization);
+    public void setNonInstitutionFundOrganization(Organization nonInstitutionFundOrganization);
 
     public Account getNonInstitutionFundAccount();
 

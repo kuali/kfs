@@ -61,7 +61,7 @@
   </bean>
   <bean id="OrganizationReversion-organizationCode" parent="OrganizationReversion-organizationCode-parentBean" />
 
-  <bean id="OrganizationReversion-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OrganizationReversion-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationReversion-budgetReversionChartOfAccountsCode" parent="OrganizationReversion-budgetReversionChartOfAccountsCode-parentBean" />

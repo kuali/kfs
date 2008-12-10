@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.businessobject;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 
 /** Simple utility interface for abstracting an object which contains both a chart and organization code. */
 public interface ChartOrgHolder {
@@ -27,5 +27,5 @@ public interface ChartOrgHolder {
     
     Chart getChartOfAccounts();
     
-    Org getOrganization();
+    Organization getOrganization();
 }

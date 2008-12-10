@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
@@ -39,7 +39,7 @@ public class OutstandingCertificationsByReport extends PersistableBusinessObject
     private Options options;
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private Chart chart;
-    private Org organization;
+    private Organization organization;
 
     /**
      * Return the chartOfAccountsCode
@@ -183,7 +183,7 @@ public class OutstandingCertificationsByReport extends PersistableBusinessObject
      * 
      * @return
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -192,7 +192,7 @@ public class OutstandingCertificationsByReport extends PersistableBusinessObject
      * 
      * @param organization
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

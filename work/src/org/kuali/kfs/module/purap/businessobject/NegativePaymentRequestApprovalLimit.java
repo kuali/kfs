@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -39,7 +39,7 @@ public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObje
 
     private Chart chartOfAccounts;
     private Account account;
-    private Org organization;
+    private Organization organization;
 
     /**
      * Default constructor.
@@ -102,14 +102,14 @@ public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObje
         this.negativePaymentRequestApprovalLimitIdentifier = negativePaymentRequestApprovalLimitIdentifier;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
     /**
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

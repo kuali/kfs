@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -36,7 +36,7 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
 
     private Account account;
     private Chart chartOfAccounts;
-    private Org reportsToOrganization;
+    private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
     private BudgetConstructionOrganizationReports budgetConstructionOrganizationReports;
 
@@ -168,7 +168,7 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
      * 
      * @return Returns the reportsToOrganization
      */
-    public Org getReportsToOrganization() {
+    public Organization getReportsToOrganization() {
         return reportsToOrganization;
     }
 
@@ -178,7 +178,7 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
-    public void setReportsToOrganization(Org reportsToOrganization) {
+    public void setReportsToOrganization(Organization reportsToOrganization) {
         this.reportsToOrganization = reportsToOrganization;
     }
 

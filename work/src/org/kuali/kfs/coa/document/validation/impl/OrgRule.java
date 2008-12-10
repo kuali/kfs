@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -48,8 +48,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     private static OrganizationService orgService;
 
-    private Org oldOrg;
-    private Org newOrg;
+    private Organization oldOrg;
+    private Organization newOrg;
     private boolean isHrmsOrgActivated;
 
     /**
@@ -312,7 +312,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             int count = 0;
             String delim = "";
             for (Iterator iter = childOrgs.iterator(); iter.hasNext();) {
-                Org org = (Org) iter.next();
+                Organization org = (Organization) iter.next();
                 childOrgsList.append(delim + org.getChartOfAccountsCode() + "-" + org.getOrganizationCode());
                 count++;
                 if (count >= 1) {
@@ -377,8 +377,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @param organization
      * @return true if it does
      */
-    private boolean getOrgMustReportToSelf(Org organization) {
-        return SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode()).evaluationSucceeds();
+    private boolean getOrgMustReportToSelf(Organization organization) {
+        return SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode()).evaluationSucceeds();
     }
 
     /**
@@ -398,7 +398,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         String lastReportsToChartOfAccountsCode;
         String lastReportsToOrganizationCode;
         boolean continueSearch;
-        Org tempOrg;
+        Organization tempOrg;
         Integer loopCount;
         Integer maxLoopCount = 40;
 
@@ -477,7 +477,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                             continueSearch = false;
                         }
                         // stop the search if we reach an org that must report to itself
-                        if (continueSearch && SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
+                        if (continueSearch && SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                             continueSearch = false;
                         }
 
@@ -490,8 +490,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                     success = false;
                 }
                 // org must be the only one of that type
-                String topLevelOrgTypeCode = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
-                List<Org> topLevelOrgs = orgService.getActiveOrgsByType(topLevelOrgTypeCode);
+                String topLevelOrgTypeCode = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+                List<Organization> topLevelOrgs = orgService.getActiveOrgsByType(topLevelOrgTypeCode);
                 if (!topLevelOrgs.isEmpty()) {
                     // is the new org in the topLevelOrgs list? If not, then there's an error; if so, we're editing the top level
                     // org
@@ -526,7 +526,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
             organizationTypeCode = newOrg.getOrganizationTypeCode();
-            if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
+            if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                 exemptOrganizationTypeCode = true;
             }
         }
@@ -577,7 +577,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @return true or false depending on the app configuration
      */
     protected boolean isHrmsOrgActivated() {
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Org.class, KFSConstants.ChartApcParms.APC_HRMS_ACTIVE_KEY);
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Organization.class, KFSConstants.ChartApcParms.APC_HRMS_ACTIVE_KEY);
     }
 
     /**
@@ -590,10 +590,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldOrg = (Org) super.getOldBo();
+        oldOrg = (Organization) super.getOldBo();
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newOrg = (Org) super.getNewBo();
+        newOrg = (Organization) super.getNewBo();
     }
 
     /**
@@ -605,7 +605,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     protected boolean isPlantAuthorized(Person user) {
 
         // attempt to get the group name that grants access to the Plant fields
-        String allowedPlantWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
+        String allowedPlantWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
 
         if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, allowedPlantWorkgroup)) {
             LOG.info("User '" + user.getPrincipalName() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");

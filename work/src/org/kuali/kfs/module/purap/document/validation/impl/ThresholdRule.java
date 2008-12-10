@@ -22,7 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ChartService;
@@ -183,7 +183,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
             Map pkMap = new HashMap();
             pkMap.put(ThresholdField.ORGANIZATION_CODE.getName(), newThreshold.getOrganizationCode());
         
-            Org org = (Org) getBoService().findByPrimaryKey(Org.class, pkMap);
+            Organization org = (Organization) getBoService().findByPrimaryKey(Organization.class, pkMap);
             if (org == null) {
                putFieldError(ThresholdField.ORGANIZATION_CODE.getName(), PurapKeyConstants.THRESHOLD_FIELD_INVALID, newThreshold.getOrganizationCode());
                return false;

@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -36,7 +36,7 @@ public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements
     protected String organizationCode;
 
     protected Chart chartOfAccounts;
-    protected Org organization;
+    protected Organization organization;
 
     protected static transient OrganizationService organizationService;
     protected static transient ChartService chartService;
@@ -81,7 +81,7 @@ public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements
         return chartOfAccounts;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
         if ( organization == null ) {
             organization = getOrganizationService().getByPrimaryId(chartOfAccountsCode, organizationCode);
         }

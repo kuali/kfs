@@ -7,8 +7,8 @@
   <bean id="CFDACloseDocument" parent="CFDACloseDocument-parentBean" />
 
   <bean id="CFDACloseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Post-Award Close" />
-    <property name="shortLabel" value="Post-Award Close" />
+    <property name="label" value="CFDA Close" />
+    <property name="shortLabel" value="CFDA Close" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Close" p:parameterName="CLOSE" />
     </property>

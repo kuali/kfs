@@ -31,7 +31,7 @@
   </bean>
   <bean id="VendorContractOrganization-organizationCode" parent="VendorContractOrganization-organizationCode-parentBean" />
 
-  <bean id="VendorContractOrganization-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="VendorContractOrganization-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
   <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount" parent="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" />
 

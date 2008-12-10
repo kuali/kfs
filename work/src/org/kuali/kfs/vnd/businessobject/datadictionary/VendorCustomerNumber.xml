@@ -58,7 +58,7 @@
   </bean>
   <bean id="VendorCustomerNumber-vendorOrganizationCode" parent="VendorCustomerNumber-vendorOrganizationCode-parentBean" />
 
-  <bean id="VendorCustomerNumber-vendorOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="VendorCustomerNumber-vendorOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="vendorOrganizationCode" />
     <property name="required" value="false" />
   </bean>

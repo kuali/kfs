@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.service;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -47,13 +47,13 @@ public interface AccountsReceivableAuthorizationService {
      * @param person
      * @return
      */
-    public Org personHomeOrg(Person person);
+    public Organization personHomeOrg(Person person);
     
     /**
      * 
      * Determine the current user's Home Org, for the purposes of AR.
      * @return
      */
-    public Org currentUserHomeOrg();
+    public Organization currentUserHomeOrg();
     
 }

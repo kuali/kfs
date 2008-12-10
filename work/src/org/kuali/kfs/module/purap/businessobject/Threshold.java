@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.AcctType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -47,7 +47,7 @@ public class Threshold extends PersistableBusinessObjectBase {
     private AcctType accountType;
     private SubFundGroup subFundGroup;
     private ObjectCode financialObject;
-    private Org organization;
+    private Organization organization;
     private VendorDetail vendorDetail;
     private CommodityCode commodityCode;
     private VendorDetail tempVendorDetail;
@@ -129,11 +129,11 @@ public class Threshold extends PersistableBusinessObjectBase {
         this.financialObjectCode = financialObjectCode;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

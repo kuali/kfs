@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCdCurrent;
@@ -38,7 +38,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
 	private boolean taxableIndicator;
 
     private Chart chartOfAccounts;
-	private Org organization;
+	private Organization organization;
 	private Account defaultInvoiceAccount;
 	private SubAccount defaultInvoiceSubAccount;
 	private Chart defaultInvoiceChartOfAccounts;
@@ -422,7 +422,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
 	 * @return Returns the organization
 	 * 
 	 */
-	public Org getOrganization() { 
+	public Organization getOrganization() { 
 		return organization;
 	}
 
@@ -432,7 +432,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
 	 * @param organization The organization to set.
 	 * @deprecated
 	 */
-	public void setOrganization(Org organization) {
+	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 

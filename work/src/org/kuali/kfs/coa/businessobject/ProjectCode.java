@@ -34,7 +34,7 @@ public class ProjectCode extends KualiCodeBase {
 
     private Person projectManagerUniversal;
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
 
     /**
      * Default no-arg constructor.
@@ -97,7 +97,7 @@ public class ProjectCode extends KualiCodeBase {
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -106,7 +106,7 @@ public class ProjectCode extends KualiCodeBase {
      * 
      * @param organization The organization to set.
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

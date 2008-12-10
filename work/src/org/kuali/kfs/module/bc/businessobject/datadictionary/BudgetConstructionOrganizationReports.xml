@@ -49,7 +49,7 @@
   </bean>
   <bean id="BudgetConstructionOrganizationReports-organizationCode" parent="BudgetConstructionOrganizationReports-organizationCode-parentBean" />
 
-  <bean id="BudgetConstructionOrganizationReports-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="BudgetConstructionOrganizationReports-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
   <bean id="BudgetConstructionOrganizationReports-reportsToChartOfAccountsCode" parent="BudgetConstructionOrganizationReports-reportsToChartOfAccountsCode-parentBean" />
 
@@ -74,7 +74,7 @@
   </bean>
   <bean id="BudgetConstructionOrganizationReports-reportsToOrganizationCode" parent="BudgetConstructionOrganizationReports-reportsToOrganizationCode-parentBean" />
 
-  <bean id="BudgetConstructionOrganizationReports-reportsToOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="BudgetConstructionOrganizationReports-reportsToOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="reportsToOrganizationCode" />
     <property name="label" value="Reports To Organization" />
     <property name="shortLabel" value="Rpts To Org" />

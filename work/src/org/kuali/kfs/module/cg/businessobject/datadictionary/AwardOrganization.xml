@@ -44,7 +44,7 @@
   </bean>
   <bean id="AwardOrganization-organizationCode" parent="AwardOrganization-organizationCode-parentBean" />
 
-  <bean id="AwardOrganization-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="AwardOrganization-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AwardOrganization-proposalNumber" parent="AwardOrganization-proposalNumber-parentBean" />
@@ -54,7 +54,7 @@
   </bean>
   <bean id="AwardOrganization-organization.organizationName" parent="AwardOrganization-organization.organizationName-parentBean" />
 
-  <bean id="AwardOrganization-organization.organizationName-parentBean" abstract="true" parent="Org-organizationName">
+  <bean id="AwardOrganization-organization.organizationName-parentBean" abstract="true" parent="Organization-organizationName">
     <property name="name" value="organization.organizationName" />
     <property name="label" value="Name" />
   </bean>

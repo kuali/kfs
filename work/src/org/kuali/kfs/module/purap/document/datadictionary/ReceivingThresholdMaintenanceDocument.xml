@@ -22,7 +22,7 @@
         <value>thresholdIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Threshold" />
+    <property name="label" value="Receiving Threshold" />
     <property name="shortLabel" value="Threshold" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"

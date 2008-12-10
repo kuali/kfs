@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.document.authorization;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -57,7 +57,7 @@ public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAut
             return auths;
         }
 
-        String groupName = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
+        String groupName = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
 
         // if the user is NOT a member of the special group, then mark all the
         // ICR & CS fields read-only.

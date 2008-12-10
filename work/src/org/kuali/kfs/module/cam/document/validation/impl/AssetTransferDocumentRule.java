@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
@@ -283,7 +283,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         else if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {
             // for a capital asset, check if plant account is defined
-            Org ownerOrg = organizationOwnerAccount.getOrganization();
+            Organization ownerOrg = organizationOwnerAccount.getOrganization();
             Account campusPlantAccount = ownerOrg.getCampusPlantAccount();
             Account organizationPlantAccount = ownerOrg.getOrganizationPlantAccount();
             String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();

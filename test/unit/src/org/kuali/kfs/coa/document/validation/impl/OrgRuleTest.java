@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -82,11 +82,11 @@ public class OrgRuleTest extends ChartRuleTestBase {
     }
 
     private OrgRule rule;
-    private Org org;
+    private Organization org;
     private MaintenanceDocument maintDoc;
 
     public void testDefaultExistenceChecks_chartOfAccounts_good() {
-        org = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
+        org = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         maintDoc = this.newMaintDoc(org);
         testDefaultExistenceCheck(org, "organizationCode", false);
         assertGlobalErrorMapEmpty();
@@ -96,8 +96,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      * This tests makes certain that only one top level heirarchy is allowed.
      */
     public void testCheckSimpleRules_topLevelHeirarchy_noMoreThanOne() {
-        Org oldBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
-        Org newBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getBadTopLevelOrgKeys()));
+        Organization oldBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
+        Organization newBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getBadTopLevelOrgKeys()));
         maintDoc = this.newMaintDoc(oldBO, newBO);
         maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
         newBO.setReportsToChartOfAccountsCode(OrgKeys.CampusOrg.CHART_OF_ACCOUNTS_CODE); // simulate trying to create a new top
@@ -112,8 +112,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      */
     public void testCheckSimpleRules_topLevelHeirarchy_mayEdit() {
         rule = new OrgRule();
-        Org oldBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
-        Org newBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
+        Organization oldBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
+        Organization newBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         newBO.setReportsToChartOfAccountsCode(OrgKeys.TopLevelOrg.CHART_OF_ACCOUNTS_CODE); // simulate editing top level org
         newBO.setReportsToOrganizationCode(OrgKeys.TopLevelOrg.ORGANIZATION_CODE);
         maintDoc = this.newMaintDoc(oldBO, newBO);
@@ -126,8 +126,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      * This method assures that on edit, a university level org does not need a default account number.
      */
     public void testCheckDefaultAccountNumber_canEditUniversity() {
-        Org oldBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
-        Org newBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
+        Organization oldBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
+        Organization newBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
         maintDoc = this.newMaintDoc(oldBO, newBO);
         maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
@@ -139,8 +139,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      * This method assures that on edit, a campus level org does not need a default account number.
      */
     public void testCheckDefaultAccountNumber_canEditCampus() {
-        Org oldBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getCampusOrgKeys()));
-        Org newBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getCampusOrgKeys()));
+        Organization oldBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getCampusOrgKeys()));
+        Organization newBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getCampusOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
         maintDoc = this.newMaintDoc(oldBO, newBO);
         maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
@@ -152,8 +152,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      * This method assures that on edit, a non-university/non-campus *does* need a default account number.
      */
     public void testCheckDefaultAccountNumber_cannotEditDepartment() {
-        Org oldBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getDepartmentOrgKeys()));
-        Org newBO = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getDepartmentOrgKeys()));
+        Organization oldBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getDepartmentOrgKeys()));
+        Organization newBO = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getDepartmentOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
         maintDoc = this.newMaintDoc(oldBO, newBO);
         maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing

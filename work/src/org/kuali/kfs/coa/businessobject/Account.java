@@ -108,7 +108,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
     private Chart chartOfAccounts;
     private Chart endowmentIncomeChartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private AcctType accountType;
     private Campus accountPhysicalCampus;
     private State accountState;
@@ -772,7 +772,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -782,7 +782,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

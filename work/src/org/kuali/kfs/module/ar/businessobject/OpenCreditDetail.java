@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -37,8 +37,8 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
     private Account account;
     private Chart billByChartOfAccount;
     private Chart processingChartOfAccount;
-    private Org billedByOrganization;
-    private Org processingOrganization;
+    private Organization billedByOrganization;
+    private Organization processingOrganization;
     private Customer customer;
     private CustomerInvoiceDetail invoiceItem;
     
@@ -422,7 +422,7 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
      * Gets the billedByOrganization attribute. 
      * @return Returns the billedByOrganization.
      */
-    public Org getBilledByOrganization() {
+    public Organization getBilledByOrganization() {
         return billedByOrganization;
     }
 
@@ -431,7 +431,7 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
      * @param billedByOrganization The billedByOrganization to set.
      * @deprecated
      */
-    public void setBilledByOrganization(Org billedByOrganization) {
+    public void setBilledByOrganization(Organization billedByOrganization) {
         this.billedByOrganization = billedByOrganization;
     }
 
@@ -490,7 +490,7 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
      * Gets the processingOrganization attribute. 
      * @return Returns the processingOrganization.
      */
-    public Org getProcessingOrganization() {
+    public Organization getProcessingOrganization() {
         return processingOrganization;
     }
 
@@ -499,7 +499,7 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
      * @param processingOrganization The processingOrganization to set.
      * @deprecated
      */
-    public void setProcessingOrganization(Org processingOrganization) {
+    public void setProcessingOrganization(Organization processingOrganization) {
         this.processingOrganization = processingOrganization;
     }
     

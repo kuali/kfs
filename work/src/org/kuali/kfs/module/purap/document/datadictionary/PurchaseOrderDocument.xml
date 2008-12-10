@@ -685,7 +685,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-nonInstitutionFundOrganizationCode" parent="PurchaseOrderDocument-nonInstitutionFundOrganizationCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-nonInstitutionFundOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="PurchaseOrderDocument-nonInstitutionFundOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="nonInstitutionFundOrganizationCode" />
     <property name="label" value="Non Institution Fund Org Organization Code" />
     <property name="shortLabel" value="Code" />

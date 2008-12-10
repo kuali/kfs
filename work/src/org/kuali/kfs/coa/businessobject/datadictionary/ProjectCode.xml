@@ -71,7 +71,7 @@
   </bean>
   <bean id="ProjectCode-organizationCode" parent="ProjectCode-organizationCode-parentBean" />
 
-  <bean id="ProjectCode-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="ProjectCode-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
   <bean id="ProjectCode-projectManagerUniversalId" parent="ProjectCode-projectManagerUniversalId-parentBean" />
 

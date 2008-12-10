@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorHeader;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -306,7 +306,7 @@ public class CollectorBatch implements Serializable {
         if (dataDictionaryService.getAttributeForceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
             setChartOfAccountsCode(getChartOfAccountsCode().toUpperCase());
         }
-        if (dataDictionaryService.getAttributeForceUppercase(Org.class, KFSPropertyConstants.ORGANIZATION_CODE)) {
+        if (dataDictionaryService.getAttributeForceUppercase(Organization.class, KFSPropertyConstants.ORGANIZATION_CODE)) {
             setOrganizationCode(getOrganizationCode().toUpperCase());
         }
 

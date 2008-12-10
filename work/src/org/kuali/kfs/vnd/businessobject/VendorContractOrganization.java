@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -44,7 +44,7 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
     private boolean active;
 
     private VendorContract vendorContract;
-    private Org organization;
+    private Organization organization;
     private Chart chartOfAccounts;
 
     /**
@@ -108,7 +108,7 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
         this.active = active;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
 
         return organization;
     }
@@ -119,7 +119,7 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

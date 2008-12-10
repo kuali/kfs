@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.service;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -42,7 +42,7 @@ public interface PermissionService {
      * @param person the specified user
      * @return a list of organizations where the user is a BC document approver
      */
-    public List<Org> getOrgReview(Person person) throws Exception;
+    public List<Organization> getOrgReview(Person person) throws Exception;
 
     /**
      * determine whether or not a user is a BC approver for the passed in organization primary key values
@@ -61,7 +61,7 @@ public interface PermissionService {
      * @param person the specified user
      * @return true if the specified user is an organization level approver for the given organization; otherwise, false
      */
-    public boolean isOrgReviewApprover(Org organization, Person person);
+    public boolean isOrgReviewApprover(Organization organization, Person person);
 
     /**
      * get the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
@@ -69,7 +69,7 @@ public interface PermissionService {
      * @param person the specified user
      * @return the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
      */
-    public List<Org> getOrganizationReviewHierachy(Person person);
+    public List<Organization> getOrganizationReviewHierachy(Person person);
 
     /**
      * determine whether the specified user is a manager or account delegate of the given account

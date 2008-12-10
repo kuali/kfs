@@ -19,8 +19,8 @@
         <value>cfdaNumber</value>
       </list>
     </property>
-    <property name="label" value="CFDA Reference" />
-    <property name="shortLabel" value="CFDA Reference" />
+    <property name="label" value="CFDA" />
+    <property name="shortLabel" value="CFDA" />
     <property name="summary" value="Catalog of Federal Domestic Assistance Reference Maintenance Document" />
     <property name="description" value="Document used to create or update Catalog of Federal Domestic Assistance Reference objects" />
     <property name="helpDefinition" >

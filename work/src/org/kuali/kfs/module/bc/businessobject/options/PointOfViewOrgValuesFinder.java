@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -41,11 +41,11 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         Person person = GlobalVariables.getUserSession().getPerson();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(person);
+            List<Organization> pointOfViewOrgs = permissionService.getOrgReview(person);
             pointOfViewOrgKeyLabels = new ArrayList();
             pointOfViewOrgKeyLabels.add(new KeyLabelPair("", ""));
             for (Iterator iter = pointOfViewOrgs.iterator(); iter.hasNext();) {
-                Org element = (Org) iter.next();
+                Organization element = (Organization) iter.next();
                 pointOfViewOrgKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode() + "-" + element.getOrganizationCode(), element.getChartOfAccountsCode() + "-" + element.getOrganizationCode()));
             }
         }

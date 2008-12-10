@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -128,7 +128,7 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         Person person = GlobalVariables.getUserSession().getPerson();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(person);
+            List<Organization> pointOfViewOrgs = permissionService.getOrgReview(person);
             if (pointOfViewOrgs.isEmpty()) {
                 // GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
                 String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;

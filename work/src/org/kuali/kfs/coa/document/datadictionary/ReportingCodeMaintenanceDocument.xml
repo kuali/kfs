@@ -36,8 +36,8 @@
         <value>financialReportingCode</value>
       </list>
     </property>
-    <property name="label" value="Financial Reporting Code" />
-    <property name="shortLabel" value="Financial Reporting Code" />
+    <property name="label" value="Reporting Code" />
+    <property name="shortLabel" value="Reporting Code" />
     <property name="summary" value="Financial Reporting Code Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create, remove or modify Financial Reporting Codes." />
     <property name="helpDefinition" >

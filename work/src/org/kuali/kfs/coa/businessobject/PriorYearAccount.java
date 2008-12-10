@@ -93,7 +93,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private String indirectCostRecoveryAcctNbr;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private AcctType accountType;
     private Campus accountPhysicalCampus;
     private State accountState;
@@ -689,7 +689,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -699,7 +699,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -55,7 +55,7 @@ public class ChartOrgExtensionAttribute implements ExtensionAttribute {
         rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, CHART, CHART));
         Map fieldConversionMap = new HashMap();
         fieldConversionMap.put(CHART, CHART);
-        rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, ORG, ORG, fieldConversionMap));
+        rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Organization.class, ORG, ORG, fieldConversionMap));
     }
 
     public List<Row> getRows() {
@@ -75,8 +75,8 @@ public class ChartOrgExtensionAttribute implements ExtensionAttribute {
             throw new ValidationException("Could not locate workgroup extension data in order to perform validation.");
         }
         List errors = new ArrayList();
-        String chart = LookupUtils.forceUppercase(Org.class, CHART, extensions.get(CHART));
-        String org = LookupUtils.forceUppercase(Org.class, ORG, extensions.get(ORG));
+        String chart = LookupUtils.forceUppercase(Organization.class, CHART, extensions.get(CHART));
+        String org = LookupUtils.forceUppercase(Organization.class, ORG, extensions.get(ORG));
 
         ValidationResults results = new ValidationResults();
         if (StringUtils.isBlank(chart) || StringUtils.isBlank(org)) {
@@ -85,7 +85,7 @@ public class ChartOrgExtensionAttribute implements ExtensionAttribute {
             }
         }
         else {
-            Org organization = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart, org);
+            Organization organization = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart, org);
             if (organization == null) {
                 results.addValidationResult("Chart/org is invalid.");
             }

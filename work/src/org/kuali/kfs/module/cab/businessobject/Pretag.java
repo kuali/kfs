@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -37,7 +37,7 @@ public class Pretag extends PersistableBusinessObjectBase {
     private boolean active;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private AssetType capitalAssetType;
     private Person personUniversal;
 
@@ -367,7 +367,7 @@ public class Pretag extends PersistableBusinessObjectBase {
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -377,7 +377,7 @@ public class Pretag extends PersistableBusinessObjectBase {
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

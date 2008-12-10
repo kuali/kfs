@@ -90,7 +90,7 @@
   </bean>
   <bean id="OrganizationExtension-organizationCode" parent="OrganizationExtension-organizationCode-parentBean" />
 
-  <bean id="OrganizationExtension-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OrganizationExtension-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationExtension-hrmsCompany" parent="OrganizationExtension-hrmsCompany-parentBean" />

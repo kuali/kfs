@@ -36,7 +36,7 @@ import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -377,13 +377,13 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originEntryBalanceType;
     }
     
-    public Org getOrg(String chartOfAccountsCode, String organizationCode) {
-        Org organization= null;
+    public Organization getOrg(String chartOfAccountsCode, String organizationCode) {
+        Organization organization= null;
         String key = "CA_ORG_T:" + chartOfAccountsCode + "/" + organizationCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                organization = (Org) value;
+                organization = (Organization) value;
             }
         } else {
             try {
@@ -391,7 +391,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 orgPreparedSelect.setString(2, organizationCode);
                 ResultSet rs = orgPreparedSelect.executeQuery();
                 if (rs.next()) {
-                    organization = new Org();
+                    organization = new Organization();
                     organization.setChartOfAccountsCode(chartOfAccountsCode);
                     organization.setOrganizationCode(organizationCode);
                     organization.setOrganizationPlantChartCode(rs.getString(1));

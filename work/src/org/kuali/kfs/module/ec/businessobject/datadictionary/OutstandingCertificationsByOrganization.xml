@@ -110,7 +110,7 @@
   </bean>
   <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode" parent="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode-parentBean" />
 
-  <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="effortCertificationDetailLines.account.organizationCode" />
   </bean>
   <bean id="OutstandingCertificationsByOrganization-emplid" parent="OutstandingCertificationsByOrganization-emplid-parentBean" />

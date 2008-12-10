@@ -194,14 +194,14 @@
   </bean>
   <bean id="OrganizationAccountingDefault-organizationCode" parent="OrganizationAccountingDefault-organizationCode-parentBean" />
 
-  <bean id="OrganizationAccountingDefault-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OrganizationAccountingDefault-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="label" value="Billing Organization Code" />
     <property name="shortLabel" value="OrgCode" />
   </bean>
   
   <bean id="OrganizationAccountingDefault-organization.codeAndDescription" parent="OrganizationAccountingDefault-organization.codeAndDescription-parentBean" />
   
-  <bean id="OrganizationAccountingDefault-organization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  <bean id="OrganizationAccountingDefault-organization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription-parentBean">
   	<property name="name" value="organization.codeAndDescription" />
   	<property name="label" value="Billing Organization Code" />
   </bean>     

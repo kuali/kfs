@@ -213,10 +213,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </dd:boAttribute>
 
   <bean id="Account-organizationCode" parent="Account-organizationCode-parentBean" />
-  <dd:boAttributeRef id="Account-organizationCode-parentBean" abstract="true" parent="Org-organizationCode" />
+  <dd:boAttributeRef id="Account-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode" />
 
   <bean id="Account-organization.codeAndDescription" parent="Account-organization.codeAndDescription-parentBean" />
-  <dd:boAttributeRef id="Account-organization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription"
+  <dd:boAttributeRef id="Account-organization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription"
   	attributeName="organization.codeAndDescription" />
 
   <bean id="Account-accountTypeCode" parent="Account-accountTypeCode-parentBean" />

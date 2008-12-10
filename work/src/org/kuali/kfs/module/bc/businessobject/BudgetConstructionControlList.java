@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -47,7 +47,7 @@ public class BudgetConstructionControlList extends PersistableBusinessObjectBase
     private BudgetConstructionHeader budgetConstructionHeader;
     private Account account;
     private Chart chartOfAccounts;
-    private Org selectedOrganization;
+    private Organization selectedOrganization;
     private Chart selectedOrganizationChartOfAccounts;
     private SubAccount subAccount;
     private SubFundGroup selectedSubFundGroup;
@@ -330,7 +330,7 @@ public class BudgetConstructionControlList extends PersistableBusinessObjectBase
      * 
      * @return Returns the selectedOrganization
      */
-    public Org getSelectedOrganization() {
+    public Organization getSelectedOrganization() {
         return selectedOrganization;
     }
 
@@ -340,7 +340,7 @@ public class BudgetConstructionControlList extends PersistableBusinessObjectBase
      * @param selectedOrganization The selectedOrganization to set.
      * @deprecated
      */
-    public void setSelectedOrganization(Org selectedOrganization) {
+    public void setSelectedOrganization(Organization selectedOrganization) {
         this.selectedOrganization = selectedOrganization;
     }
 

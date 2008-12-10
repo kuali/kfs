@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
@@ -46,7 +46,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
+    public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
     }
 
@@ -57,7 +57,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @see org.kuali.kfs.coa.service.impl.OrganizationServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
     @Cached
-    public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
+    public Organization getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
         return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
     }
 
@@ -95,7 +95,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveOrgsByType(java.lang.String)
      */
-    public List<Org> getActiveOrgsByType(String organizationTypeCode) {
+    public List<Organization> getActiveOrgsByType(String organizationTypeCode) {
         if (StringUtils.isBlank(organizationTypeCode)) {
             throw new IllegalArgumentException("String parameter organizationTypeCode was null or blank.");
         }
@@ -107,11 +107,11 @@ public class OrganizationServiceImpl implements OrganizationService {
      * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveFinancialOrgs()
      */
-    public List<Org> getActiveFinancialOrgs() {
+    public List<Organization> getActiveFinancialOrgs() {
         Map<String, Object> criteriaMap = new HashMap<String, Object>();
         criteriaMap.put("organizationInFinancialProcessingIndicator", Boolean.TRUE);
         criteriaMap.put("active", Boolean.TRUE);
-        return (List<Org>)boService.findMatching(Org.class, criteriaMap);
+        return (List<Organization>)boService.findMatching(Organization.class, criteriaMap);
     }
     
     /**
@@ -120,7 +120,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     public String[] getRootOrganizationCode() {
         String rootChart = getChartService().getUniversityChart().getChartOfAccountsCode();
-        String selfReportsOrgType = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        String selfReportsOrgType = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
         return (organizationDao.getRootOrganizationCode(rootChart, selfReportsOrgType));
     }
 

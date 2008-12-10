@@ -301,7 +301,7 @@
   </bean>
   <bean id="CustomerInvoiceDocument-billedByOrganizationCode" parent="CustomerInvoiceDocument-billedByOrganizationCode-parentBean" />
 
-  <bean id="CustomerInvoiceDocument-billedByOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="CustomerInvoiceDocument-billedByOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="billedByOrganizationCode" />
     <property name="label" value="Billing Organization Code" />
     <property name="shortLabel" value="Billing Org Code" />

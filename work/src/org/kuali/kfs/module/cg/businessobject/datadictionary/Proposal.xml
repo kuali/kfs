@@ -151,7 +151,7 @@
 
   <bean id="Proposal-routingChart" parent="Proposal-routingChart-parentBean" />
 
-  <bean id="Proposal-routingChart-parentBean" abstract="true" parent="Org-chartOfAccountsCode">
+  <bean id="Proposal-routingChart-parentBean" abstract="true" parent="Organization-chartOfAccountsCode">
     <property name="name" value="routingChart" />
     <property name="label" value="Chart" />
     <property name="required" value="false" />
@@ -161,7 +161,7 @@
   </bean>
   <bean id="Proposal-routingOrg" parent="Proposal-routingOrg-parentBean" />
 
-  <bean id="Proposal-routingOrg-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="Proposal-routingOrg-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="routingOrg" />
     <property name="label" value="Organization" />
     <property name="required" value="false" />
@@ -178,7 +178,7 @@
   </bean>
   <bean id="Proposal-proposalOrganizations.organization.organizationCode" parent="Proposal-proposalOrganizations.organization.organizationCode-parentBean" />
 
-  <bean id="Proposal-proposalOrganizations.organization.organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="Proposal-proposalOrganizations.organization.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="proposalOrganizations.organization.organizationCode" />
     <property name="shortLabel" value="Org Cd" />
   </bean>

@@ -188,7 +188,7 @@
   </bean>
   <bean id="PurApGenericAttributes-organizationCode" parent="PurApGenericAttributes-organizationCode-parentBean" />
 
-  <bean id="PurApGenericAttributes-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="PurApGenericAttributes-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="label" value="Chart/Org" />
     <property name="shortLabel" value="Chart/Org" />
   </bean>

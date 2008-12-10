@@ -28,7 +28,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -1166,7 +1166,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 valid &= false;
             }
             chartOrgMap.put("organizationCode", orgCode);
-            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Org.class, chartOrgMap) < 1) {
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Organization.class, chartOrgMap) < 1) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }
@@ -1314,7 +1314,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 valid &= false;
             }
             chartOrgMap.put("organizationCode", orgCode);
-            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Org.class, chartOrgMap) < 1) {
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Organization.class, chartOrgMap) < 1) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }

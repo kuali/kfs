@@ -91,7 +91,7 @@
   </bean>
   <bean id="Pretag-organizationCode" parent="Pretag-organizationCode-parentBean" />
 
-  <bean id="Pretag-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="Pretag-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="label" value="Organization Owner Organization Code" />
     <property name="shortLabel" value="Org Code" />
     <property name="required" value="false" />

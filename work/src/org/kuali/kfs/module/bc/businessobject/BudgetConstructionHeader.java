@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -54,7 +54,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
     private SubAccount subAccount;
     private Person budgetLockUser;
     private Person budgetTransactionLockUser;
-    private Org organizationLevelOrganization;
+    private Organization organizationLevelOrganization;
     private DocumentHeader financialDocument;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
 
@@ -353,7 +353,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
      * 
      * @return Returns the organizationLevelOrganization.
      */
-    public Org getOrganizationLevelOrganization() {
+    public Organization getOrganizationLevelOrganization() {
         return organizationLevelOrganization;
     }
 
@@ -363,7 +363,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
      * @param organizationLevelOrganization The organizationLevelOrganization to set.
      * @deprecated
      */
-    public void setOrganizationLevelOrganization(Org organizationLevelOrganization) {
+    public void setOrganizationLevelOrganization(Organization organizationLevelOrganization) {
         this.organizationLevelOrganization = organizationLevelOrganization;
     }
 

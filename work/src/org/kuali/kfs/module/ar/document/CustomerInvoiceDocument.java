@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
@@ -118,7 +118,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Chart billByChartOfAccount;
-	private Org billedByOrganization;
+	private Organization billedByOrganization;
 	private CustomerProcessingType customerSpecialProcessing;
     private Account paymentAccount;
     private Chart paymentChartOfAccounts;
@@ -708,7 +708,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 * @return Returns the billedByOrganization
 	 *
 	 */
-	public Org getBilledByOrganization() {
+	public Organization getBilledByOrganization() {
 	    if(billedByOrganization==null) {
 	        if(StringUtils.isNotBlank(getBilledByOrganizationCode()) && StringUtils.isNotBlank(getBillByChartOfAccountCode())) {
 	            billedByOrganization = SpringContext.getBean(OrganizationService.class).getByPrimaryId(getBillByChartOfAccountCode(), getBilledByOrganizationCode());
@@ -724,7 +724,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 * @param billedByOrganization The billedByOrganization to set.
 	 * @deprecated
 	 */
-	public void setBilledByOrganization(Org billedByOrganization) {
+	public void setBilledByOrganization(Organization billedByOrganization) {
 		this.billedByOrganization = billedByOrganization;
 	}
 

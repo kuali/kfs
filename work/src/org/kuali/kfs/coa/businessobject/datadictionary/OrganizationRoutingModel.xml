@@ -69,7 +69,7 @@
   </bean>
   <bean id="OrganizationRoutingModel-organizationCode" parent="OrganizationRoutingModel-organizationCode-parentBean" />
 
-  <bean id="OrganizationRoutingModel-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OrganizationRoutingModel-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="OrganizationRoutingModel-organizationRoutingModelName" parent="OrganizationRoutingModel-organizationRoutingModelName-parentBean" />

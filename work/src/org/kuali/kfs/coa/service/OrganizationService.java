@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.service;
 
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 
 /**
  * This interface defines methods that an Org Service must provide.
@@ -31,14 +31,14 @@ public interface OrganizationService {
      * @param organizationCode
      * @return An Org instance.
      */
-    public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode);
+    public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
     /**
      * Method is used by KualiOrgReviewAttribute to enable caching of orgs for routing.
      * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode);
+    public Organization getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode);
 
     /**
      * Retrieves a List of Accounts that are active, and are tied to this Org. If there are no Accounts that meet this criteria, an
@@ -66,7 +66,7 @@ public interface OrganizationService {
      * @param organizationTypeCode
      * @return
      */
-    public List<Org> getActiveOrgsByType(String organizationTypeCode);
+    public List<Organization> getActiveOrgsByType(String organizationTypeCode);
 
     
     /**
@@ -74,7 +74,7 @@ public interface OrganizationService {
      * 
      * @return A List of Orgs that are active and financial processing.
      */
-    public List<Org> getActiveFinancialOrgs();
+    public List<Organization> getActiveFinancialOrgs();
     
     /**
      * returns the chart and organization of the ACTIVE root-level organization

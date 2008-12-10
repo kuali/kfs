@@ -19,7 +19,7 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -40,7 +40,7 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
     private boolean active;
 
     private VendorDetail vendorDetail;
-    private Org vendorOrganization;
+    private Organization vendorOrganization;
     private Chart chartOfAccounts;
 
     /**
@@ -128,7 +128,7 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
         this.vendorDetail = vendorDetail;
     }
 
-    public Org getVendorOrganization() {
+    public Organization getVendorOrganization() {
 
         return vendorOrganization;
     }
@@ -139,7 +139,7 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
      * @param vendorOrganization The vendorOrganization to set.
      * @deprecated
      */
-    public void setVendorOrganization(Org vendorOrganization) {
+    public void setVendorOrganization(Organization vendorOrganization) {
         this.vendorOrganization = vendorOrganization;
     }
 

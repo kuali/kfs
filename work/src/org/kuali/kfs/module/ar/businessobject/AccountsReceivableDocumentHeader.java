@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -26,7 +26,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 
 	private Customer customer;
 	private Chart processingChartOfAccount;
-	private Org processingOrganization;
+	private Organization processingOrganization;
     private DocumentHeader documentHeader;
     
 	/**
@@ -212,7 +212,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @return Returns the processingOrganization
 	 * 
 	 */
-	public Org getProcessingOrganization() { 
+	public Organization getProcessingOrganization() { 
         if(processingOrganization==null) {
             if(StringUtils.isNotBlank(getProcessingOrganizationCode()) && StringUtils.isNotBlank(getProcessingChartOfAccountCode())) {
                 processingOrganization = SpringContext.getBean(OrganizationService.class).getByPrimaryId(getProcessingChartOfAccountCode(), getProcessingOrganizationCode());
@@ -228,7 +228,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @param processingOrganization The processingOrganization to set.
 	 * @deprecated
 	 */
-	public void setProcessingOrganization(Org processingOrganization) {
+	public void setProcessingOrganization(Organization processingOrganization) {
 		this.processingOrganization = processingOrganization;
 	}
 

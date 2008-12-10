@@ -58,9 +58,9 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     private Chart chartOfAccounts;
     private Account organizationDefaultAccount;
-    private Org organization;
+    private Organization organization;
     private Campus organizationPhysicalCampus;
-    private Org reportsToOrganization;
+    private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
     private Account organizationPlantAccount;
     private Account campusPlantAccount;
@@ -571,7 +571,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -581,7 +581,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 
@@ -609,7 +609,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the reportsToOrganization
      */
-    public Org getReportsToOrganization() {
+    public Organization getReportsToOrganization() {
         return reportsToOrganization;
     }
 
@@ -619,7 +619,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
-    public void setReportsToOrganization(Org reportsToOrganization) {
+    public void setReportsToOrganization(Organization reportsToOrganization) {
         this.reportsToOrganization = reportsToOrganization;
     }
 

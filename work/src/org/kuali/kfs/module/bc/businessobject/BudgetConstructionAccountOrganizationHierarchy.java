@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -36,7 +36,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends PersistableB
     private String organizationCode;
     private Chart chartOfAccounts;
     private Account account;
-    private Org organization;
+    private Organization organization;
     private Chart organizationChartOfAccounts;
 
     /**
@@ -203,7 +203,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends PersistableB
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -213,7 +213,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends PersistableB
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

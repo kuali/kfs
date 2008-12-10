@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -42,7 +42,7 @@ public class CampusAttributesTranslator extends KimAttributesTranslatorBase {
             return attributes;
         AttributeSet translatedAttributes = new AttributeSet();
         translatedAttributes.putAll(attributes);
-        Org org = ((OrganizationService)SpringContext.getBean(OrganizationService.class)).getByPrimaryId(
+        Organization org = ((OrganizationService)SpringContext.getBean(OrganizationService.class)).getByPrimaryId(
                 attributes.get(KimConstants.KIM_ATTRIB_CHART_CODE), attributes.get(KimConstants.KIM_ATTRIB_ORGANIZATION_CODE));
         if(org!=null && org.getOrganizationPhysicalCampus()!=null)
             translatedAttributes.put(KimConstants.KIM_ATTRIB_CAMPUS_CODE, org.getOrganizationPhysicalCampus().getCampusCode());

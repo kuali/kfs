@@ -22,8 +22,8 @@
         <value>personRoleCode</value>
       </list>
     </property>
-    <property name="label" value="Person Role" />
-    <property name="shortLabel" value="Person Role" />
+    <property name="label" value="Contracts And Grants Role Code" />
+    <property name="shortLabel" value="C G Role" />
     <property name="summary" value="Person Role maintenance document" />
     <property name="description" value="Document used to create or update Person Role objects" />
     <property name="helpDefinition" >

@@ -828,7 +828,7 @@
 	<field-descriptor name="contactPersonPhoneNumber" column="CNTCT_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="contactMailingAddress" column="CNTCT_MAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="contactDepartmentName" column="CNTCT_DEPT_NM" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>

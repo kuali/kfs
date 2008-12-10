@@ -19,7 +19,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -34,7 +34,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     private boolean proposalPrimaryOrganizationIndicator;
     private boolean active = true;
 
-    private Org organization;
+    private Organization organization;
     private Chart chartOfAccounts;
 
     /**
@@ -143,7 +143,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -153,7 +153,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

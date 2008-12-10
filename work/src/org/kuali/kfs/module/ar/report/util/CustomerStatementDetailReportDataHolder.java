@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -39,7 +39,7 @@ public class CustomerStatementDetailReportDataHolder {
     private String docType;
     
     
-    public CustomerStatementDetailReportDataHolder(FinancialSystemDocumentHeader docHeader, Org processingOrg, String docType) {
+    public CustomerStatementDetailReportDataHolder(FinancialSystemDocumentHeader docHeader, Organization processingOrg, String docType) {
        documentDescription = docHeader.getDocumentDescription();
       // financialDocumentTotalAmount = docHeader.getFinancialDocumentTotalAmount();
        if (docType.equals("Credit Memo"))

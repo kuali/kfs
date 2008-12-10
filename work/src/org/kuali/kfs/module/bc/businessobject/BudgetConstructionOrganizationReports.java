@@ -19,7 +19,7 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ResponsibilityCenter;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -37,9 +37,9 @@ public class BudgetConstructionOrganizationReports extends PersistableBusinessOb
     private String selectionKeyCode;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private Chart reportsToChartOfAccounts;
-    private Org reportsToOrganization;
+    private Organization reportsToOrganization;
     private ResponsibilityCenter responsibilityCenter;
 
     /**
@@ -168,7 +168,7 @@ public class BudgetConstructionOrganizationReports extends PersistableBusinessOb
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -178,7 +178,7 @@ public class BudgetConstructionOrganizationReports extends PersistableBusinessOb
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 
@@ -206,7 +206,7 @@ public class BudgetConstructionOrganizationReports extends PersistableBusinessOb
      * 
      * @return Returns the reportsToOrganization
      */
-    public Org getReportsToOrganization() {
+    public Organization getReportsToOrganization() {
         return reportsToOrganization;
     }
 
@@ -216,7 +216,7 @@ public class BudgetConstructionOrganizationReports extends PersistableBusinessOb
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
-    public void setReportsToOrganization(Org reportsToOrganization) {
+    public void setReportsToOrganization(Organization reportsToOrganization) {
         this.reportsToOrganization = reportsToOrganization;
     }
 

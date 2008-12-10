@@ -33,7 +33,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
@@ -308,7 +308,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 Account account = assetPayment.getAccount();
                 
                 // Organization code the asset payment account is associated with.
-                Org org = account.getOrganization();
+                Organization org = account.getOrganization();
                 
                 // Object code the asset payment is associated with
                 ObjectCode financialObject = assetPayment.getFinancialObject();

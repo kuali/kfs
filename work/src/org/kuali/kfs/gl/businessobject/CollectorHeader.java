@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -41,7 +41,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
     private String contactMailingAddress;
     private String contactDepartmentName;
 
-    private Org organization;
+    private Organization organization;
     private Chart chartOfAccounts;
     private Campus campus;
 
@@ -171,7 +171,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -181,7 +181,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

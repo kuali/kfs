@@ -24,7 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -66,7 +66,7 @@ public class PermissionServiceImpl implements PermissionService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.rice.kim.bo.Person)
      */
-    public List<Org> getOrgReview(Person person) throws Exception {
+    public List<Organization> getOrgReview(Person person) throws Exception {
         return this.getOrgReview(person.getPrincipalName());
     }
 
@@ -92,7 +92,7 @@ public class PermissionServiceImpl implements PermissionService {
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(org.kuali.kfs.coa.businessobject.Org,
      *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean isOrgReviewApprover(Org organzation, Person person) {
+    public boolean isOrgReviewApprover(Organization organzation, Person person) {
         try {
             return this.isOrgReviewApprover(organzation.getChartOfAccountsCode(), organzation.getOrganizationCode(), person);
         }
@@ -107,8 +107,8 @@ public class PermissionServiceImpl implements PermissionService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(org.kuali.rice.kim.bo.Person)
      */
-    public List<Org> getOrganizationReviewHierachy(Person person) {
-        List<Org> organazationReview = null;
+    public List<Organization> getOrganizationReviewHierachy(Person person) {
+        List<Organization> organazationReview = null;
 
         try {
             organazationReview = this.getOrgReview(person);
@@ -179,8 +179,8 @@ public class PermissionServiceImpl implements PermissionService {
      * @param principalName the specified person user identifier
      * @return the list of organizations where the user is a BC document approver
      */
-    private List<Org> getOrgReview(String principalName) throws Exception {
-        List<Org> orgReview = new ArrayList<Org>();
+    private List<Organization> getOrgReview(String principalName) throws Exception {
+        List<Organization> orgReview = new ArrayList<Organization>();
 
         RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(principalName);
         RuleDTO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
@@ -200,7 +200,7 @@ public class PermissionServiceImpl implements PermissionService {
             }
 
             if (chartOfAccounts != null && organizationCode != null) {
-                Org org = organizationService.getByPrimaryId(chartOfAccounts, organizationCode);
+                Organization org = organizationService.getByPrimaryId(chartOfAccounts, organizationCode);
                 if (org != null && !orgReview.contains(org)) {
                     orgReview.add(org);
                 }

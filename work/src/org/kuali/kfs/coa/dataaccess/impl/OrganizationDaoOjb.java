@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -40,18 +40,18 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     /**
      * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
+    public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
 
-        return (Org) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Org.class, criteria));
+        return (Organization) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Organization.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#save(org.kuali.kfs.coa.businessobject.Org)
      */
-    public void save(Org organization) {
+    public void save(Organization organization) {
         getPersistenceBrokerTemplate().store(organization);
     }
 
@@ -87,7 +87,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
         criteria.addEqualTo("active", Boolean.TRUE);
 
-        orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Org.class, criteria));
+        orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Organization.class, criteria));
 
         if (orgs.isEmpty() || orgs.size() == 0) {
             return Collections.EMPTY_LIST;
@@ -98,14 +98,14 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     /**
      * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getActiveOrgsByType(java.lang.String)
      */
-    public List<Org> getActiveOrgsByType(String organizationTypeCode) {
-        List<Org> orgs = new ArrayList<Org>();
+    public List<Organization> getActiveOrgsByType(String organizationTypeCode) {
+        List<Organization> orgs = new ArrayList<Organization>();
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("organizationTypeCode", organizationTypeCode);
         criteria.addEqualTo("active", Boolean.TRUE);
 
-        orgs = (List<Org>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Org.class, criteria));
+        orgs = (List<Organization>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Organization.class, criteria));
 
         if (orgs.isEmpty() || orgs.size() == 0) {
             return Collections.EMPTY_LIST;
@@ -126,7 +126,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
         // the root organization must be active
         criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         String[] attributeList = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ORGANIZATION_CODE };
-        ReportQueryByCriteria rptQuery = new ReportQueryByCriteria(Org.class, attributeList, criteria);
+        ReportQueryByCriteria rptQuery = new ReportQueryByCriteria(Organization.class, attributeList, criteria);
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rptQuery);
         if (Results.hasNext()) {
             Object[] returnList = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(Results);

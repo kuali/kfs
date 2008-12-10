@@ -41,7 +41,7 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
     private Account account;
     private ReportingCodes reportingCode;
     private Chart chart;
-    private Org org;
+    private Organization org;
     private Chart financialReportChart;
 
 
@@ -278,7 +278,7 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
     /**
      * @return Returns the org.
      */
-    public Org getOrg() {
+    public Organization getOrg() {
         return org;
     }
 
@@ -286,7 +286,7 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
      * @param org The org to set.
      * @deprecated
      */
-    public void setOrg(Org org) {
+    public void setOrg(Organization org) {
         this.org = org;
     }
 

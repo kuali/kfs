@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -51,7 +51,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
     public boolean personBelongsToBillingOrg(Person person) {
         
         //  get the person's org from the kns authz system
-        Org personHomeOrg = personHomeOrg(person);
+        Organization personHomeOrg = personHomeOrg(person);
         
         //  if the person's home org doesnt exist or is not setup right, then fail
         if (personHomeOrg == null) {
@@ -64,7 +64,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         return isOrgABillingOrg(personHomeOrg);
     }
 
-    public Org personHomeOrg(Person person) {
+    public Organization personHomeOrg(Person person) {
         if (person == null) {
             throw new IllegalArgumentException("A null or invalid person object was passed in.");
         }
@@ -86,7 +86,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         return personChartOrg.getOrganization();
     }
     
-    public Org currentUserHomeOrg() {
+    public Organization currentUserHomeOrg() {
         Person currentUser = ValueFinderUtil.getCurrentPerson();
         if (currentUser == null) {
             throw new IllegalArgumentException("No user session is currently setup, so there is no Current User.");
@@ -94,7 +94,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         return personHomeOrg(currentUser);
     }
     
-    private boolean isOrgABillingOrg(Org org) {
+    private boolean isOrgABillingOrg(Organization org) {
         return isOrgABillingOrg(org.getChartOfAccountsCode(), org.getOrganizationCode());
     }
     

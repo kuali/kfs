@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -26,7 +26,7 @@ public class OpenPaymentDetail extends PersistableBusinessObjectBase {
     private String financialDocumentDescription; 
 
     private Chart processingChartOfAccount;
-    private Org processingOrganization;
+    private Organization processingOrganization;
     private Customer customer;
     
     /**
@@ -254,7 +254,7 @@ public class OpenPaymentDetail extends PersistableBusinessObjectBase {
      * Gets the processingOrganization attribute. 
      * @return Returns the processingOrganization.
      */
-    public Org getProcessingOrganization() {
+    public Organization getProcessingOrganization() {
         return processingOrganization;
     }
 
@@ -263,7 +263,7 @@ public class OpenPaymentDetail extends PersistableBusinessObjectBase {
      * @param processingOrganization The processingOrganization to set.
      * @deprecated
      */
-    public void setProcessingOrganization(Org processingOrganization) {
+    public void setProcessingOrganization(Organization processingOrganization) {
         this.processingOrganization = processingOrganization;
     }
 

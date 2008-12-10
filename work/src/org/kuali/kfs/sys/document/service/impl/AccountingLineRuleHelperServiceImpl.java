@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.FundGroup;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -96,7 +96,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getOrganizationCodeLabel()
      */
     public String getOrganizationCodeLabel() {
-        return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Org.class.getName()).getAttributeDefinition(KFSPropertyConstants.ORGANIZATION_CODE).getShortLabel();
+        return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Organization.class.getName()).getAttributeDefinition(KFSPropertyConstants.ORGANIZATION_CODE).getShortLabel();
     }
 
     /**

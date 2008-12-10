@@ -3,7 +3,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.PostalCodeService;
@@ -37,10 +37,10 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private String organizationCheckPayableToName;
     private String organizationPostalZipCode;
 
-    private Org organization;
+    private Organization organization;
 	private Chart chartOfAccounts;
 	private Chart processingChartOfAccount;
-	private Org processingOrganization;
+	private Organization processingOrganization;
     private State organizationRemitToState;
     private PrintInvoiceOptions printInvoiceOptions;
     private PostalCode orgPostalZipCode;
@@ -436,7 +436,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @return Returns the organization
 	 * 
 	 */
-	public Org getOrganization() { 
+	public Organization getOrganization() { 
 		return organization;
 	}
 
@@ -446,7 +446,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @param organization The organization to set.
 	 * @deprecated
 	 */
-	public void setOrganization(Org organization) {
+	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 
@@ -496,7 +496,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @return Returns the processingOrganization
 	 * 
 	 */
-	public Org getProcessingOrganization() { 
+	public Organization getProcessingOrganization() { 
 		return processingOrganization;
 	}
 
@@ -506,7 +506,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @param processingOrganization The processingOrganization to set.
 	 * @deprecated
 	 */
-	public void setProcessingOrganization(Org processingOrganization) {
+	public void setProcessingOrganization(Organization processingOrganization) {
 		this.processingOrganization = processingOrganization;
 	}
 

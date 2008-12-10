@@ -29,7 +29,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.OrganizationService;
@@ -1101,14 +1101,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
             // get the subset of hier rows where the user is an approver
             try {
-                List<Org> povOrgs = (List<Org>) permissionService.getOrgReview(person);
+                List<Organization> povOrgs = (List<Organization>) permissionService.getOrgReview(person);
                 if (povOrgs.isEmpty()) {
 
                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
 
                 }
                 else {
-                    for (Org povOrg : povOrgs) {
+                    for (Organization povOrg : povOrgs) {
                         if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
                             rvwHierApproverList.put(rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()).getOrganizationLevelCode(), rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()));
                         }

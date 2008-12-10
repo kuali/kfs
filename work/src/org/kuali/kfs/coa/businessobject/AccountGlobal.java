@@ -76,7 +76,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     private Account incomeStreamAccount;
     private Chart incomeStreamFinancialCoa;
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private SubFundGroup subFundGroup;
     private State accountState;
     private HigherEdFunction financialHigherEdFunction;
@@ -816,7 +816,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the organization.
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -825,7 +825,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param organization The organization to set.
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

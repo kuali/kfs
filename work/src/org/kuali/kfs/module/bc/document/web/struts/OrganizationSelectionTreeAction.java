@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
@@ -80,7 +80,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
         Person person = GlobalVariables.getUserSession().getPerson();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(person);
+            List<Organization> pointOfViewOrgs = permissionService.getOrgReview(person);
             if (pointOfViewOrgs.isEmpty()) {
                 GlobalVariables.getErrorMap().putError("pointOfViewOrg", BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
             }
@@ -104,7 +104,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         Person person = GlobalVariables.getUserSession().getPerson();
 
         // check if user has only one available point of view. if so, select that point of view and build selection
-        List<Org> pointOfViewOrgs = permissionService.getOrgReview(person);
+        List<Organization> pointOfViewOrgs = permissionService.getOrgReview(person);
         if (pointOfViewOrgs != null && pointOfViewOrgs.size() == 1) {
             orgSelTreeForm.setCurrentPointOfViewKeyCode(pointOfViewOrgs.get(0).getChartOfAccountsCode() + "-" + pointOfViewOrgs.get(0).getOrganizationCode());
 

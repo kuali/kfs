@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
@@ -57,7 +57,7 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
     private BigDecimal positionCsfLeaveFteQuantity;
 
     private Chart organizationChartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private Account account;
@@ -475,7 +475,7 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -485,7 +485,7 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

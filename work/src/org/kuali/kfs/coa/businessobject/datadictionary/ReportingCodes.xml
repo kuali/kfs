@@ -72,7 +72,7 @@
   </bean>
   <bean id="ReportingCodes-organizationCode" parent="ReportingCodes-organizationCode-parentBean" />
 
-  <bean id="ReportingCodes-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="ReportingCodes-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="ReportingCodes-financialReportingCode" parent="ReportingCodes-financialReportingCode-parentBean" />

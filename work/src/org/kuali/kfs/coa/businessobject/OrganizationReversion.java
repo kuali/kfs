@@ -44,8 +44,8 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
     private Chart budgetReversionChartOfAccounts;
     private Chart cashReversionFinancialChartOfAccounts;
     private Options universityFiscal;
-    private Org organization;
-    private List<Org> organizations; // This is only used by the "global" document
+    private Organization organization;
+    private List<Organization> organizations; // This is only used by the "global" document
     private List<OrganizationReversionDetail> organizationReversionDetail;
     private boolean active;
 
@@ -53,7 +53,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
      * Default constructor.
      */
     public OrganizationReversion() {
-        organizations = new TypedArrayList(Org.class);
+        organizations = new TypedArrayList(Organization.class);
         organizationReversionDetail = new TypedArrayList(OrganizationReversionDetail.class);
     }   
 
@@ -256,7 +256,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the organization
      */
-    public List<Org> getOrganizations() {
+    public List<Organization> getOrganizations() {
         return organizations;
     }
 
@@ -266,7 +266,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganizations(List<Org> organization) {
+    public void setOrganizations(List<Organization> organization) {
         this.organizations = organization;
     }
 
@@ -378,11 +378,11 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
         return m;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

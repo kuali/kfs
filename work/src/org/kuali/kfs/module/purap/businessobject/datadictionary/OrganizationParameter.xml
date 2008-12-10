@@ -35,7 +35,7 @@
   </bean>
   <bean id="OrganizationParameter-organizationCode" parent="OrganizationParameter-organizationCode-parentBean" />
 
-  <bean id="OrganizationParameter-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OrganizationParameter-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
   <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit" parent="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean" />
 

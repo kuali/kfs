@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
@@ -163,7 +163,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl implements Gener
      * @return a properly initialized OrgReviewRoutingData with the org to review
      */
     protected OrgReviewRoutingData gatherOrgToReview() {
-        final Org org = (Org)getBusinessObject();
+        final Organization org = (Organization)getBusinessObject();
         return new OrgReviewRoutingData(org.getChartOfAccountsCode(), org.getOrganizationCode());
     }
 }

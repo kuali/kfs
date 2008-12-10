@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 
 /**
  * This interface defines data access methods for {@link Org}
@@ -30,14 +30,14 @@ public interface OrganizationDao {
      * @param organizationCode
      * @return an {@link Org} based on primary keys
      */
-    public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode);
+    public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
     /**
      * This method saves a specific {@link Org}
      * 
      * @param organization
      */
-    public void save(Org organization);
+    public void save(Organization organization);
 
     /**
      * This method retrieves a list of active {@link Org}s defined by their chart and organization code
@@ -63,7 +63,7 @@ public interface OrganizationDao {
      * @param organizationType
      * @return a list of active {@link Org}s based on their organization type code
      */
-    public List<Org> getActiveOrgsByType(String organizationTypeCode);
+    public List<Organization> getActiveOrgsByType(String organizationTypeCode);
 
     /**
      * This method retrieves a list of root organization codes (as a string array) based on their root chart and reports to org type

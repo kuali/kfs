@@ -34,7 +34,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
     private String organizationReversionObjectCode;
 
     private ObjectCode organizationReversionObject;
-    private Org organization;
+    private Organization organization;
     private Chart chartOfAccounts;
     private OrganizationReversionCategory organizationReversionCategory;
     private Options universityFiscal;
@@ -184,7 +184,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -194,7 +194,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

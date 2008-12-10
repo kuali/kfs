@@ -29,7 +29,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -166,7 +166,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> sysinfoMap = new HashMap<String, String>();
         InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
 
-        Org billingOrg = invoice.getBilledByOrganization();
+        Organization billingOrg = invoice.getBilledByOrganization();
         String chart = billingOrg.getChartOfAccountsCode();
         String org = billingOrg.getOrganizationCode();
         Map<String, String> criteria = new HashMap<String, String>();
@@ -178,7 +178,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
         criteria = new HashMap<String, String>();
 
-        Org processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
+        Organization processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
 
         criteria.put("universityFiscalYear", fiscalYear);
         criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
@@ -310,7 +310,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> sysinfoMap = new HashMap<String, String>();
         InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
 
-        Org billingOrg = invoice.getBilledByOrganization();
+        Organization billingOrg = invoice.getBilledByOrganization();
         String chart = billingOrg.getChartOfAccountsCode();
         String org = billingOrg.getOrganizationCode();
         Map<String, String> criteria = new HashMap<String, String>();
@@ -322,7 +322,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
         criteria = new HashMap<String, String>();
 
-        Org processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
+        Organization processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
 
         criteria.put("universityFiscalYear", fiscalYear);
         criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
@@ -375,7 +375,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param details
      * @return
      */
-    public File generateStatement(String billingChartCode, String billingOrgCode, String customerNumber, Org processingOrg, List<CustomerStatementDetailReportDataHolder> details){
+    public File generateStatement(String billingChartCode, String billingOrgCode, String customerNumber, Organization processingOrg, List<CustomerStatementDetailReportDataHolder> details){
 
         CustomerStatementReportDataHolder reportDataHolder = new CustomerStatementReportDataHolder();
         CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
@@ -404,7 +404,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> invoiceMap = new HashMap<String, String>();
         invoiceMap.put("createDate", dateTimeService.toDateString(dateTimeService.getCurrentDate()));
         invoiceMap.put("customerOrg", billingOrgCode);
-        Org billingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(billingChartCode, billingOrgCode);
+        Organization billingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(billingChartCode, billingOrgCode);
         invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
         
         KualiDecimal amountDue = new KualiDecimal(0);

@@ -159,7 +159,7 @@
 
   <bean id="Award-routingChart" parent="Award-routingChart-parentBean" />
 
-  <bean id="Award-routingChart-parentBean" abstract="true" parent="Org-chartOfAccountsCode">
+  <bean id="Award-routingChart-parentBean" abstract="true" parent="Organization-chartOfAccountsCode">
     <property name="name" value="routingChart" />
     <property name="label" value="Chart" />
     <property name="required" value="false" />
@@ -169,7 +169,7 @@
   </bean>
   <bean id="Award-routingOrg" parent="Award-routingOrg-parentBean" />
 
-  <bean id="Award-routingOrg-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="Award-routingOrg-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="routingOrg" />
     <property name="label" value="Organization" />
     <property name="required" value="false" />
@@ -223,7 +223,7 @@
   </bean>
   <bean id="Award-awardOrganizations.organization.organizationCode" parent="Award-awardOrganizations.organization.organizationCode-parentBean" />
 
-  <bean id="Award-awardOrganizations.organization.organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="Award-awardOrganizations.organization.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="awardOrganizations.organization.organizationCode" />
     <property name="shortLabel" value="Org Cd" />
   </bean>

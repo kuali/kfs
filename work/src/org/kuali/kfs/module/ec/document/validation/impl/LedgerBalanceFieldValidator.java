@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
@@ -166,11 +166,11 @@ public class LedgerBalanceFieldValidator {
      * @return null if the given ledger balances have the accounts that belong to a single organization; otherwise, a message
      */
     public static Message isFromSingleOrganization(Collection<LaborLedgerBalance> ledgerBalances) {
-        Org tempOrganization = null;
+        Organization tempOrganization = null;
 
         boolean isFirstTime = true;
         for (LaborLedgerBalance balance : ledgerBalances) {
-            Org organization = balance.getAccount().getOrganization();
+            Organization organization = balance.getAccount().getOrganization();
 
             if (isFirstTime) {
                 tempOrganization = organization;

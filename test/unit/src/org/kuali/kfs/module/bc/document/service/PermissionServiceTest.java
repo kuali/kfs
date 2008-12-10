@@ -21,7 +21,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 public class PermissionServiceTest extends KualiTestBase {
 
     private PermissionService permissionService;
-    private List<Org> orgs;
+    private List<Organization> orgs;
 
     private boolean runTests() { // change this to return false to prevent running tests
         return true;

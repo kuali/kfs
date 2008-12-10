@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -33,7 +33,7 @@ public class RoutingFormOrganizationCreditPercent extends PersistableBusinessObj
     private String organizationCreditRoleText;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private RoutingFormDocument routingFormDocument;
 
     /**
@@ -161,7 +161,7 @@ public class RoutingFormOrganizationCreditPercent extends PersistableBusinessObj
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -171,7 +171,7 @@ public class RoutingFormOrganizationCreditPercent extends PersistableBusinessObj
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

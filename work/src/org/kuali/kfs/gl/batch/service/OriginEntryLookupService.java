@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -171,7 +171,7 @@ public interface OriginEntryLookupService {
     public UniversityDate getUniversityDate(Date date);
     public OffsetDefinition getOffsetDefinition(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode);
     public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
-    public Org getOrg(String chartOfAccountsCode, String organizationCode);
+    public Organization getOrg(String chartOfAccountsCode, String organizationCode);
     //TODO: need to move labor
     //public LaborObject getLaborObject(OriginEntry originEntry);
 }

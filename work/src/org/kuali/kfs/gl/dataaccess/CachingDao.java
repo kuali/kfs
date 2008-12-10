@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -175,7 +175,7 @@ public interface CachingDao {
 
     public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
 
-    public Org getOrg(String chartOfAccountsCode, String organizationCode);
+    public Organization getOrg(String chartOfAccountsCode, String organizationCode);
 
     public ObjLevel getObjLevel(String chartOfAccountsCode, String financialObjectLevelCode);
 

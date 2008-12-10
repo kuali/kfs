@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.searching.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.purap.document.searching.attribute.KualiPurchaseOrderIncompleteStatusesAttribute;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,8 +40,8 @@ public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerato
      */
     @Override
     public String getErrorMessageForNonSpecialUserInvalidCriteria() {
-        String chartCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Org.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        String orgCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Org.class, KFSPropertyConstants.ORGANIZATION_CODE);
+        String chartCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Organization.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String orgCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Organization.class, KFSPropertyConstants.ORGANIZATION_CODE);
         return "User must enter a valid " + chartCodeLabel + " and a valid " + orgCodeLabel;
     }
 

@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.sys.KFSConstants;
@@ -38,8 +38,8 @@ public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMain
      //   try {
         OrganizationAccountingDefault orgAcctDefault = (OrganizationAccountingDefault)document.getDocumentBusinessObject();
         ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
-        Org userOrg = chartOrg.getOrganization();
-        Org docOrg = orgAcctDefault.getOrganization();
+        Organization userOrg = chartOrg.getOrganization();
+        Organization docOrg = orgAcctDefault.getOrganization();
         
         if (ObjectUtils.equals(userOrg, docOrg) || isUserInArSupervisorGroup(user) ){
             editModes.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");

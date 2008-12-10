@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.validation.impl;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
@@ -113,7 +113,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
         String lastReportsToOrganizationCode;
         boolean continueSearch;
         BudgetConstructionOrganizationReports tempBCOrgReports;
-        Org tempOrg;
+        Organization tempOrg;
         Integer loopCount;
         Integer maxLoopCount = 40;
 
@@ -127,7 +127,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
             // Check the Org Type of the Org business object to see if it is the root (reports to self)
 
             if (ObjectUtils.isNotNull(tempOrg)) {
-                if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
+                if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                     orgMustReportToSelf = true;
                 }
             }

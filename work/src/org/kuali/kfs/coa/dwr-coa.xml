@@ -82,7 +82,7 @@
 	    	<param name="beanName" value="subFundGroupService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
-	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.Org">
+	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.Organization">
 	   		<param name="include" value="organizationCode,organizationName,organizationStateCode,organizationZipCode,organizationCityName" />
 	   	</convert>
 	    <create creator="spring" javascript="OrganizationService">

@@ -157,7 +157,7 @@
         <dd:routingAttributes>
             <dd:routingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" attributeName="financialDocumentTotalAmount" />
             <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Org" attributeName="organizationCode" />
+            <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Organization" attributeName="organizationCode" />
             <dd:routingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.AccountingLine" attributeName="overrideCode" />
         </dd:routingAttributes>
         <dd:documentValuePathGroup>

@@ -22,7 +22,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
@@ -218,9 +218,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                     }
                     if (!rvwHierMap.isEmpty()) {
                         try {
-                            List<Org> povOrgs = (List<Org>) SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getPerson());
+                            List<Organization> povOrgs = (List<Organization>) SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getPerson());
                             if (!povOrgs.isEmpty()) {
-                                for (Org povOrg : povOrgs) {
+                                for (Organization povOrg : povOrgs) {
                                     if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
                                         BudgetConstructionAccountOrganizationHierarchy level = rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode());
                                         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level, "organization");

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -45,7 +45,7 @@ public class ReceivingAddress extends PersistableBusinessObjectBase {
     private boolean active;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
 
     /**
      * Default constructor.
@@ -168,14 +168,14 @@ public class ReceivingAddress extends PersistableBusinessObjectBase {
         this.chartOfAccounts = chartOfAccounts;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
     /**
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

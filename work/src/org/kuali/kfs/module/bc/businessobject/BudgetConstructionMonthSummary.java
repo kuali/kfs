@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCons;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -58,7 +58,7 @@ public class BudgetConstructionMonthSummary extends PersistableBusinessObjectBas
     private String financialObjectLevelCode;
 
     private Chart organizationChartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private Chart chartOfAccounts;
     private SubFundGroup subFundGroup;
     private ObjLevel financialObjectLevel;
@@ -557,7 +557,7 @@ public class BudgetConstructionMonthSummary extends PersistableBusinessObjectBas
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -567,7 +567,7 @@ public class BudgetConstructionMonthSummary extends PersistableBusinessObjectBas
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

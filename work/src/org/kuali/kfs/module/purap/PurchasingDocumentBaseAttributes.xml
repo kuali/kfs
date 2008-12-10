@@ -20,7 +20,7 @@
 
 <attributeReference name="organizationCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="organizationCode"/>
 <!-- 
-<attributeReference name="organizationCode" sourceClassName="org.kuali.kfs.coa.businessobject.Org" sourceAttributeName="organizationCode">
+<attributeReference name="organizationCode" sourceClassName="org.kuali.kfs.coa.businessobject.Organization" sourceAttributeName="organizationCode">
     <label>Chart/Org</label>
     <shortLabel>Chart/Org</shortLabel>
 </attributeReference>
@@ -311,7 +311,7 @@
 
 </attributeReference>
 
-<attributeReference name="nonInstitutionFundOrganizationCode" sourceClassName="org.kuali.kfs.coa.businessobject.Org" sourceAttributeName="organizationCode">
+<attributeReference name="nonInstitutionFundOrganizationCode" sourceClassName="org.kuali.kfs.coa.businessobject.Organization" sourceAttributeName="organizationCode">
     <label>Non Institution Fund Org Organization Code</label>
     <shortLabel>Code</shortLabel>
 	<required>false</required>

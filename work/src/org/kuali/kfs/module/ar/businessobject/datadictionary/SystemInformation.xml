@@ -228,7 +228,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="SystemInformation-processingOrganization.codeAndDescription" parent="SystemInformation-processingOrganization.codeAndDescription-parentBean" />
   
-  <bean id="SystemInformation-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  <bean id="SystemInformation-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription-parentBean">
   	<property name="name" value="processingOrganization.codeAndDescription" />
   	<property name="label" value="Processing Organization Code" />
   </bean>    

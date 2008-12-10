@@ -23,7 +23,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * Org Type Business Object
  */
-public class OrgType extends PersistableBusinessObjectBase implements Inactivateable {
+public class OrganizationType extends PersistableBusinessObjectBase implements Inactivateable {
     private String organizationTypeCode;
     private String organizationTypeName;
     private boolean active;

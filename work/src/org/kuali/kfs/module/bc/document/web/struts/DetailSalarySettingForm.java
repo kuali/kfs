@@ -24,7 +24,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -420,7 +420,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
 
         // instruct the detail salary setting by multiple account mode if current user is an organization level approver
-        List<Org> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(this.getPerson());
+        List<Organization> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(this.getPerson());
         if (organizationReviewHierachy != null && !organizationReviewHierachy.isEmpty()) {
             return false;
         }

@@ -82,13 +82,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="OrganizationOptions-organizationCode" parent="OrganizationOptions-organizationCode-parentBean" />
 
-  <bean id="OrganizationOptions-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OrganizationOptions-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="label" value="Billing Organization Code" />
   </bean>
   
   <bean id="OrganizationOptions-organization.codeAndDescription" parent="OrganizationOptions-organization.codeAndDescription-parentBean" />
   
-  <bean id="OrganizationOptions-organization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  <bean id="OrganizationOptions-organization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription-parentBean">
   	<property name="name" value="organization.codeAndDescription" />
   	<property name="label" value="Billing Organization Code" />
   </bean>
@@ -101,14 +101,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="OrganizationOptions-processingOrganizationCode" parent="OrganizationOptions-processingOrganizationCode-parentBean" />
 
-  <bean id="OrganizationOptions-processingOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  <bean id="OrganizationOptions-processingOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="processingOrganizationCode" />
     <property name="label" value="Processing Organization Code" />
   </bean>
   
   <bean id="OrganizationOptions-processingOrganization.codeAndDescription" parent="OrganizationOptions-processingOrganization.codeAndDescription-parentBean" />
   
-  <bean id="OrganizationOptions-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  <bean id="OrganizationOptions-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription-parentBean">
   	<property name="name" value="processingOrganization.codeAndDescription" />
   	<property name="label" value="Processing Organization Code" />
   </bean>  

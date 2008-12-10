@@ -39,7 +39,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
     private boolean active;
     private List<OrganizationRoutingModel> organizationRoutingModel;
 
-    private Org organization;
+    private Organization organization;
     private Chart chartOfAccounts;
 
     /**
@@ -111,7 +111,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -121,7 +121,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

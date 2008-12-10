@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -45,7 +45,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
     private String financialSubObjectCode;
 
     private Chart selectedOrganizationChartOfAccounts;
-    private Org selectedOrganization;
+    private Organization selectedOrganization;
     private ObjectCode financialObject;
     private SubObjCd financialSubObject;
     private Account account;
@@ -312,7 +312,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
      * 
      * @return Returns the selectedOrganization
      */
-    public Org getSelectedOrganization() {
+    public Organization getSelectedOrganization() {
         return selectedOrganization;
     }
 
@@ -322,7 +322,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
      * @param selectedOrganization The selectedOrganization to set.
      * @deprecated
      */
-    public void setSelectedOrganization(Org selectedOrganization) {
+    public void setSelectedOrganization(Organization selectedOrganization) {
         this.selectedOrganization = selectedOrganization;
     }
 

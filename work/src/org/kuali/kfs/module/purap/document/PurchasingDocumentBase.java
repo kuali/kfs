@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -151,11 +151,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private PurchaseOrderCostSource purchaseOrderCostSource;
     private DeliveryRequiredDateReason deliveryRequiredDateReason;
     private RecurringPaymentType recurringPaymentType;
-    private Org organization;
+    private Organization organization;
     private Chart chartOfAccounts;
     private Campus deliveryCampus;
     private Chart nonInstitutionFundOrgChartOfAccounts;
-    private Org nonInstitutionFundOrganization;
+    private Organization nonInstitutionFundOrganization;
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
@@ -925,7 +925,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return nonInstitutionFundChartOfAccounts;
     }
 
-    public Org getNonInstitutionFundOrganization() {
+    public Organization getNonInstitutionFundOrganization() {
         return nonInstitutionFundOrganization;
     }
 
@@ -933,7 +933,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return nonInstitutionFundOrgChartOfAccounts;
     }
 
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -1004,7 +1004,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     /**
      * @deprecated
      */
-    public void setNonInstitutionFundOrganization(Org nonInstitutionFundOrganization) {
+    public void setNonInstitutionFundOrganization(Organization nonInstitutionFundOrganization) {
         this.nonInstitutionFundOrganization = nonInstitutionFundOrganization;
     }
 
@@ -1018,7 +1018,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     /**
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

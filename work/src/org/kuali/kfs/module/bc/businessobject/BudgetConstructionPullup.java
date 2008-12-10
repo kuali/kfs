@@ -19,7 +19,7 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -39,8 +39,8 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
     public boolean isLeaf;
 
     private Chart chartOfAccounts;
-    private Org organization;
-    private Org reportsToOrganization;
+    private Organization organization;
+    private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
 
     /**
@@ -196,7 +196,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -206,7 +206,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 
@@ -215,7 +215,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
      * 
      * @return Returns the reportsToOrganization
      */
-    public Org getReportsToOrganization() {
+    public Organization getReportsToOrganization() {
         return reportsToOrganization;
     }
 
@@ -225,7 +225,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
-    public void setReportsToOrganization(Org reportsToOrganization) {
+    public void setReportsToOrganization(Organization reportsToOrganization) {
         this.reportsToOrganization = reportsToOrganization;
     }
 

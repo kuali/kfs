@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.OrgType;
+import org.kuali.kfs.coa.businessobject.OrganizationType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -45,7 +45,7 @@ public class OrgTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         // get a list of all OrgTypes
-        List<OrgType> orgTypes = (List<OrgType>) SpringContext.getBean(KeyValuesService.class).findAll(OrgType.class);
+        List<OrganizationType> orgTypes = (List<OrganizationType>) SpringContext.getBean(KeyValuesService.class).findAll(OrganizationType.class);
 
         // sort using comparator.
         Collections.sort(orgTypes, new OrgTypeComparator());
@@ -54,7 +54,7 @@ public class OrgTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", "")); // blank first entry
 
-        for (OrgType orgType : orgTypes) {
+        for (OrganizationType orgType : orgTypes) {
             if(orgType.isActive()) {
                 labels.add(new KeyLabelPair(orgType.getOrganizationTypeCode(), orgType.getOrganizationTypeCode() + " - " + orgType.getOrganizationTypeName()));
             }

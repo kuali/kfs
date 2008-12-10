@@ -19,7 +19,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -36,7 +36,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     private boolean active = true;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
 
     /**
      * Default no-args constructor.
@@ -143,7 +143,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -155,7 +155,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      *             creation of the object and should not be changed.
      */
     @Deprecated
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

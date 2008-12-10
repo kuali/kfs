@@ -74,7 +74,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
     private Timestamp hrmsLastUpdateDate;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
     private Person hrmsPersonnelApproverUniversal;
     private Campus hrmsIuCampus;
     private Person fiscalApproverUniversal;
@@ -903,7 +903,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * 
      * @return Returns the organization
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -913,7 +913,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.service;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 import org.kuali.kfs.coa.service.impl.OrganizationServiceImpl;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -40,13 +40,13 @@ public class OrganizationServiceTest extends KualiTestBase {
     }
 
     public void testGetByPrimaryId() throws Exception {
-        Org o = new Org();
+        Organization o = new Organization();
         o.setChartOfAccountsCode("XX");
         o.setOrganizationCode("ZZZZ");
         o.setOrganizationName("Sleep Org");
 
         organizationDao.retrieved = o;
-        Org retrieved = organizationService.getByPrimaryId("X", "Y");
+        Organization retrieved = organizationService.getByPrimaryId("X", "Y");
         assertNotNull("Didn't save", retrieved);
         assertEquals("Wrong chart", "XX", retrieved.getChartOfAccountsCode());
         assertEquals("Wrong code", "ZZZZ", retrieved.getOrganizationCode());
@@ -58,14 +58,14 @@ public class OrganizationServiceTest extends KualiTestBase {
     }
 
     class FakeOrganizationDao implements OrganizationDao {
-        public Org saved;
-        public Org retrieved;
+        public Organization saved;
+        public Organization retrieved;
 
-        public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
+        public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
             return retrieved;
         }
 
-        public void save(Org organization) {
+        public void save(Organization organization) {
             saved = organization;
         }
 
@@ -77,7 +77,7 @@ public class OrganizationServiceTest extends KualiTestBase {
             return Collections.EMPTY_LIST;
         }
 
-        public List<Org> getActiveOrgsByType(String organizationTypeCode) {
+        public List<Organization> getActiveOrgsByType(String organizationTypeCode) {
             return Collections.EMPTY_LIST;
         }
 

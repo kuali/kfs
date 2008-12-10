@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -58,7 +58,7 @@ public class OrganizationHierarchyRoleTypeServiceImpl extends KimRoleTypeService
         }
         
         if( StringUtils.equalsIgnoreCase(roleQualifier.get("descendsOrgHierarchy"), "TRUE")){
-            Org org = getOrganizationService().getByPrimaryId(qualification.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), qualification.get(KFSPropertyConstants.ORGANIZATION_CODE));
+            Organization org = getOrganizationService().getByPrimaryId(qualification.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), qualification.get(KFSPropertyConstants.ORGANIZATION_CODE));
             return hasMatchOrganization(org, roleQualifier); 
            
         }else{
@@ -83,7 +83,7 @@ public class OrganizationHierarchyRoleTypeServiceImpl extends KimRoleTypeService
         this.organizationService = organizationService;
     }
     
-    private boolean hasMatchOrganization(Org org, AttributeSet roleQualifier){
+    private boolean hasMatchOrganization(Organization org, AttributeSet roleQualifier){
         if(org != null && !StringUtils.isNotBlank(org.getReportsToOrganizationCode()) && !StringUtils.isNotBlank(org.getReportsToChartOfAccountsCode())) {
             String rChart = org.getReportsToChartOfAccountsCode();
             String rOrg = org.getReportsToOrganizationCode();

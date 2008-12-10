@@ -34,7 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -160,7 +160,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     public org.kuali.rice.kew.lookupable.Row getOrgRow() {
         Map fieldConversionMap = new HashMap();
         fieldConversionMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
-        return KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY, fieldConversionMap);
+        return KualiWorkflowUtils.buildTextRowWithLookup(Organization.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY, fieldConversionMap);
     }
 
     /**
@@ -191,8 +191,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     public KualiOrgReviewAttribute(String finCoaCd, String orgCd) {
         this();
-        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", finCoaCd);
-        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", orgCd);
+        this.finCoaCd = LookupUtils.forceUppercase(Organization.class, "chartOfAccountsCode", finCoaCd);
+        this.orgCd = LookupUtils.forceUppercase(Organization.class, "organizationCode", orgCd);
     }
 
     public List getRuleExtensionValues() {
@@ -216,8 +216,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();
-        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
-        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
+        this.finCoaCd = LookupUtils.forceUppercase(Organization.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
+        this.orgCd = LookupUtils.forceUppercase(Organization.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
         this.fromAmount = (String) paramMap.get(FROM_AMOUNT_KEY);
         this.toAmount = (String) paramMap.get(TO_AMOUNT_KEY);
         this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
@@ -235,8 +235,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
-        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
-        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
+        this.finCoaCd = LookupUtils.forceUppercase(Organization.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
+        this.orgCd = LookupUtils.forceUppercase(Organization.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
         this.totalDollarAmount = (String) paramMap.get(TOTAL_AMOUNT_KEY);
         this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
         if (isRequired()) {
@@ -253,7 +253,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             errors.add(new WorkflowServiceErrorImpl("Chart/org is required.", "routetemplate.chartorgattribute.chartorg.required"));
         }
         else {
-            Org org = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(finCoaCd, orgCd);
+            Organization org = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(finCoaCd, orgCd);
             if (org == null) {
                 errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
             }
@@ -298,8 +298,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         for (Iterator iterator = rules.iterator(); iterator.hasNext();) {
             RuleBaseValues rule = (RuleBaseValues) iterator.next();
             List ruleExtensions = rule.getRuleExtensions();
-            this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions));
-            this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", getRuleExtentionValue(ORG_CD_KEY, ruleExtensions));
+            this.finCoaCd = LookupUtils.forceUppercase(Organization.class, "chartOfAccountsCode", getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions));
+            this.orgCd = LookupUtils.forceUppercase(Organization.class, "organizationCode", getRuleExtentionValue(ORG_CD_KEY, ruleExtensions));
             this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
             this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
             this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions));
@@ -318,7 +318,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         boolean matchesOrg = false;
         for (Iterator iter = chartOrgOverrideValues.iterator(); iter.hasNext();) {
             OrgOverride orgOverride = (OrgOverride) iter.next();
-            Org org = orgOverride.getOrg();
+            Organization org = orgOverride.getOrg();
             if (org.getChartOfAccountsCode().equals(this.getFinCoaCd()) && org.getOrganizationCode().equals(this.getOrgCd())) {
                 if (this.overrideCd != null){
                     String docOverrideCd = orgOverride.getOverrideCd();
@@ -367,7 +367,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     private void buildOrgReviewHierarchy(int counter, Set chartOrgOverrideSet, OrgOverride startOrgOverride) {
         LOG.info("buildOrgReviewHierarchy iteration: " + counter);
         String overrideCd = startOrgOverride.getOverrideCd();
-        Org startOrg = startOrgOverride.getOrg();
+        Organization startOrg = startOrgOverride.getOrg();
         // this will cause NPEs, so we dont let it through
         if (startOrg == null) {
             throw new IllegalArgumentException("Parameter value for startOrg passed in was null.");
@@ -379,7 +379,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 return;
             }
         }
-        Org reportsToOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
+        Organization reportsToOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
         if (reportsToOrg == null) {
             throw new RuntimeException("Org " + startOrg.getChartOfAccountsCode() + "-" + startOrg.getOrganizationCode() + " has a reportsToOrganization (" + startOrg.getReportsToChartOfAccountsCode() + "-" + startOrg.getReportsToOrganizationCode() + ") " + " that does not exist in the system.");
         }
@@ -454,7 +454,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     org = xpath.evaluate("//workgroup/extensions/extension/data[@key='" + KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME + "']", docContent.getDocument());
                 }
                 if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
-                    Org docOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart, org);
+                    Organization docOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart, org);
                     if (docOrg == null) {
                         throw new RuntimeException("Org declared on the document cannot be found in the system, routing cannot continue.");
                     }
@@ -465,8 +465,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 }
                 else {
                     // now look at the global documents
-                    List<Org> globalDocOrgs = getGlobalDocOrgs(docType.getName(), xpath, docContent);
-                    for (Org globalOrg : globalDocOrgs) {
+                    List<Organization> globalDocOrgs = getGlobalDocOrgs(docType.getName(), xpath, docContent);
+                    for (Organization globalOrg : globalDocOrgs) {
                         OrgOverride globalOrgOverride = new OrgOverride(globalOrg, null);
                         chartOrgOverrideValues.add(globalOrg);
                         buildOrgReviewHierarchy(0, chartOrgOverrideValues, globalOrgOverride);
@@ -531,8 +531,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         return chartOrgOverrideValues;
     }
 
-    private List<Org> getGlobalDocOrgs(String docTypeName, XPath xpath, DocumentContent docContent) throws Exception {
-        List<Org> orgs = new ArrayList<Org>();
+    private List<Organization> getGlobalDocOrgs(String docTypeName, XPath xpath, DocumentContent docContent) throws Exception {
+        List<Organization> orgs = new ArrayList<Organization>();
         if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
             NodeList accountGlobalDetails = (NodeList) xpath.evaluate(KualiWorkflowUtils.ACCOUNT_GLOBAL_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
             for (int index = 0; index < accountGlobalDetails.getLength(); index++) {
@@ -549,7 +549,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 Element orgReversionChangeDetail = (Element) orgReversionChangeDetails.item(index);
                 String chartOfAccountsCode = getChildElementValue(orgReversionChangeDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                 String orgCode = getChildElementValue(orgReversionChangeDetail, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
-                Org org = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chartOfAccountsCode, orgCode);
+                Organization org = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chartOfAccountsCode, orgCode);
                 orgs.add(org);
             }
         }
@@ -703,8 +703,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             String chart2 = rule2.getRuleExtensionValue(FIN_COA_CD_KEY).getValue();
             String org1 = rule1.getRuleExtensionValue(ORG_CD_KEY).getValue();
             String org2 = rule2.getRuleExtensionValue(ORG_CD_KEY).getValue();
-            Org docOrg1 = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart1, org1);
-            Org docOrg2 = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart2, org2);
+            Organization docOrg1 = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart1, org1);
+            Organization docOrg2 = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart2, org2);
             int distanceFromRoot1 = getDistanceFromRoot(docOrg1);
             int distanceFromRoot2 = getDistanceFromRoot(docOrg2);
             if (distanceFromRoot1 == distanceFromRoot2) {
@@ -715,13 +715,13 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             return new Integer(distanceFromRoot2).compareTo(new Integer(distanceFromRoot1));
         }
 
-        private int getDistanceFromRoot(Org org) {
+        private int getDistanceFromRoot(Organization org) {
             if (org.getChartOfAccountsCode().equalsIgnoreCase(org.getReportsToChartOfAccountsCode())) {
                 if (org.getOrganizationCode().equalsIgnoreCase(org.getReportsToOrganizationCode())) {
                     return 0;
                 }
             }
-            Org reportsToOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(org.getReportsToChartOfAccountsCode(), org.getReportsToOrganizationCode());
+            Organization reportsToOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(org.getReportsToChartOfAccountsCode(), org.getReportsToOrganizationCode());
             if (reportsToOrg == null) {
                 throw new RuntimeException("Org " + org.getChartOfAccountsCode() + "-" + org.getOrganizationCode() + " has a reportsToOrganization (" + org.getReportsToChartOfAccountsCode() + "-" + org.getReportsToOrganizationCode() + ") " + " that does not exist in the system.");
             }
@@ -732,20 +732,20 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     
     private class OrgOverride{
         String overrideCd;
-        Org org;
+        Organization org;
 
-        OrgOverride(Org org){
+        OrgOverride(Organization org){
             this.org=org;      
         }
         
-        OrgOverride(Org org, String overrideCd){
+        OrgOverride(Organization org, String overrideCd){
             this.org=org;
             this.overrideCd=overrideCd;
         }
-        public Org getOrg() {
+        public Organization getOrg() {
             return org;
         }
-        public void setOrg(Org org) {
+        public void setOrg(Organization org) {
             this.org = org;
         }
         

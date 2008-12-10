@@ -31,7 +31,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -254,7 +254,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
         return cachingDao.getObjectCode(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
     }
 
-    public Org getOrg(String chartOfAccountsCode, String organizationCode) {
+    public Organization getOrg(String chartOfAccountsCode, String organizationCode) {
         return cachingDao.getOrg(chartOfAccountsCode, organizationCode);
     }
 

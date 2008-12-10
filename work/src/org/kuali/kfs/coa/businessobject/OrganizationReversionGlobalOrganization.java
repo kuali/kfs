@@ -33,7 +33,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     private String organizationCode;
 
     private Chart chartOfAccounts;
-    private Org organization;
+    private Organization organization;
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -114,7 +114,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
      * 
      * @return Returns the organization.
      */
-    public Org getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
@@ -124,7 +124,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
      * @param organization The organization to set.
      * @deprecated
      */
-    public void setOrganization(Org organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

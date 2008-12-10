@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.businessobject.inquiry;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -34,8 +34,8 @@ import org.kuali.rice.kns.web.ui.Section;
 public class OrgInquirable extends KfsInquirableImpl {
 
     public void addAdditionalSections(List sections, BusinessObject bo) {
-        if (bo instanceof Org) {
-            Org org = (Org) bo;
+        if (bo instanceof Organization) {
+            Organization org = (Organization) bo;
 
             List rows = new ArrayList();
 

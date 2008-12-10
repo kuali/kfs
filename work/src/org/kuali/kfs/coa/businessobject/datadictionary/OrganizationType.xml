@@ -4,23 +4,23 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OrgType" parent="OrgType-parentBean" />
+  <bean id="OrganizationType" parent="OrganizationType-parentBean" />
 
-  <bean id="OrgType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrgType" />
+  <bean id="OrganizationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationType" />
     <property name="inquiryDefinition" >
-      <ref bean="OrgType-inquiryDefinition" />
+      <ref bean="OrganizationType-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="OrgType-lookupDefinition" />
+      <ref bean="OrganizationType-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="organizationTypeCode" />
     <property name="objectLabel" value="Organization Type" />
     <property name="attributes" >
       <list>
-        <ref bean="OrgType-organizationTypeCode" />
-        <ref bean="OrgType-organizationTypeName" />
-        <ref bean="OrgType-active" />
+        <ref bean="OrganizationType-organizationTypeCode" />
+        <ref bean="OrganizationType-organizationTypeName" />
+        <ref bean="OrganizationType-active" />
       </list>
     </property>
   </bean>
@@ -28,9 +28,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="OrgType-organizationTypeCode" parent="OrgType-organizationTypeCode-parentBean" />
+  <bean id="OrganizationType-organizationTypeCode" parent="OrganizationType-organizationTypeCode-parentBean" />
 
-  <bean id="OrgType-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="OrganizationType-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Type Code" />
@@ -45,9 +45,9 @@
             p:size="1" />
     </property>
   </bean>
-  <bean id="OrgType-organizationTypeName" parent="OrgType-organizationTypeName-parentBean" />
+  <bean id="OrganizationType-organizationTypeName" parent="OrganizationType-organizationTypeName-parentBean" />
 
-  <bean id="OrgType-organizationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="OrganizationType-organizationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationTypeName" />
     <property name="label" value="Organization Type Name" />
     <property name="shortLabel" value="Name" />
@@ -58,18 +58,18 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="OrgType-active" parent="OrgType-active-parentBean" />
+  <bean id="OrganizationType-active" parent="OrganizationType-active-parentBean" />
 
-  <bean id="OrgType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="OrganizationType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="OrgType-inquiryDefinition" parent="OrgType-inquiryDefinition-parentBean" />
+  <bean id="OrganizationType-inquiryDefinition" parent="OrganizationType-inquiryDefinition-parentBean" />
 
-  <bean id="OrgType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="OrganizationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Organization Type Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -94,9 +94,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="OrgType-lookupDefinition" parent="OrgType-lookupDefinition-parentBean" />
+  <bean id="OrganizationType-lookupDefinition" parent="OrganizationType-lookupDefinition-parentBean" />
 
-  <bean id="OrgType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="OrganizationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Organization Type Lookup" />
     <property name="instructions" value="Lookup an Organization Type" />
     <property name="defaultSort" >

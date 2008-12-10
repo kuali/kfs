@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
+import java.sql.Date;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -22,11 +23,16 @@ import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
@@ -75,6 +81,8 @@ public interface OriginEntryLookupService {
      * @return the related Options record, or null if not found
      */
     public Options getOption(OriginEntry entry);
+    
+    public Options getOption(Integer fiscalYear);
 
     /**
      * Get object type for given origin entry
@@ -147,6 +155,8 @@ public interface OriginEntryLookupService {
      * @return the related OriginationCode record, or null if not found
      */
     public OriginationCode getOriginationCode(OriginEntry entry);
+    
+    public OriginationCode getOriginationCode(String financialSystemOriginationCode);
 
     /**
      * Set the caching lookup for this lookup service
@@ -154,4 +164,16 @@ public interface OriginEntryLookupService {
      * @param lookupService an instance of CachingLookup to use to communicated with the persistence store
      */
     public void setLookupService(CachingLookup lookupService);
+    
+    //TODO is it right to put these here?  They weren't here before.  Was getAccount already setting this on the account??
+    public SubFundGroup getSubFundGroup(String subFundGroupCode);
+    public Account getAccount(String chartOfAccountsCode, String accountNumber);
+    public UniversityDate getUniversityDate(Date date);
+    public OffsetDefinition getOffsetDefinition(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode);
+    public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+    public Org getOrg(String chartOfAccountsCode, String organizationCode);
+    //TODO: need to move labor
+    //public LaborObject getLaborObject(OriginEntry originEntry);
 }
+
+

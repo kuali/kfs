@@ -39,7 +39,7 @@
 						mode="Transparent"
 						x="284"
 						y="589"
-						width="259"
+						width="227"
 						height="35"
 						key="rectangle-1"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -100,7 +100,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="357"
+						x="350"
 						y="644"
 						width="191"
 						height="16"
@@ -113,7 +113,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="357"
+						x="350"
 						y="661"
 						width="191"
 						height="16"
@@ -126,7 +126,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="357"
+						x="350"
 						y="678"
 						width="191"
 						height="16"
@@ -139,7 +139,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="357"
+						x="350"
 						y="695"
 						width="191"
 						height="16"
@@ -170,7 +170,7 @@
 						mode="Opaque"
 						x="285"
 						y="590"
-						width="130"
+						width="110"
 						height="16"
 						backcolor="#DDDDDD"
 						key="staticText-29"/>
@@ -185,7 +185,7 @@
 						mode="Opaque"
 						x="285"
 						y="607"
-						width="130"
+						width="110"
 						height="16"
 						backcolor="#DDDDDD"
 						key="staticText-30"/>
@@ -210,7 +210,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="427"
+						x="400"
 						y="590"
 						width="105"
 						height="16"
@@ -219,11 +219,11 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("invoiceDueDate")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("createDate")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="427"
+						x="400"
 						y="607"
 						width="105"
 						height="16"
@@ -252,7 +252,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="661"
+						y="644"
 						width="191"
 						height="16"
 						key="textField-35"/>
@@ -265,7 +265,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="678"
+						y="661"
 						width="191"
 						height="16"
 						key="textField-36"/>
@@ -278,7 +278,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="712"
+						y="695"
 						width="191"
 						height="16"
 						key="textField-37"/>
@@ -291,7 +291,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="695"
+						y="678"
 						width="191"
 						height="16"
 						key="textField-40"/>
@@ -304,21 +304,8 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="644"
-						width="203"
-						height="16"
-						key="textField-41"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("invoiceAttentionLineText")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="62"
 						y="735"
-						width="488"
+						width="478"
 						height="14"
 						key="textField-43"/>
 					<box></box>
@@ -342,7 +329,7 @@
 					<reportElement
 						x="284"
 						y="606"
-						width="259"
+						width="227"
 						height="0"
 						key="line-2"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -354,8 +341,8 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="122"
-						width="164"
+						y="139"
+						width="191"
 						height="16"
 						key="textField-76"/>
 					<box></box>
@@ -367,8 +354,8 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="156"
-						width="164"
+						y="173"
+						width="191"
 						height="16"
 						key="textField-77"/>
 					<box></box>
@@ -452,7 +439,7 @@
 					<reportElement
 						x="296"
 						y="105"
-						width="247"
+						width="255"
 						height="16"
 						key="textField-81"/>
 					<box></box>
@@ -490,8 +477,8 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="139"
-						width="164"
+						y="156"
+						width="191"
 						height="16"
 						key="textField-87"/>
 					<box></box>
@@ -503,8 +490,8 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="173"
-						width="164"
+						y="190"
+						width="191"
 						height="16"
 						key="textField-89"/>
 					<box></box>
@@ -632,6 +619,19 @@
 					</textElement>
 				<text><![CDATA[ATTN:]]></text>
 				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="72"
+						y="122"
+						width="191"
+						height="16"
+						key="textField-101"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToName")]]></textFieldExpression>
+				</textField>
 			</band>
 		</title>
 		<pageHeader>
@@ -759,6 +759,21 @@
 						stretchType="RelativeToTallestObject"/>
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="customer">
+						<subreportParameterExpression><![CDATA[$P{customer}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="invoice">
+						<subreportParameterExpression><![CDATA[$P{invoice}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sysinfo">
+						<subreportParameterExpression><![CDATA[$P{sysinfo}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="details">
+						<subreportParameterExpression><![CDATA[$P{details}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{details})]]></dataSourceExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "StatementDetails.jasper"]]></subreportExpression>

@@ -451,7 +451,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             sysinfoMap.put("FEIN", "FED ID #"+sysinfo.getUniversityFederalEmployerIdentificationNumber());
         }
 
-//        calculateAgingAmounts(details, invoiceMap); // HOLD OFF ON THIS UNTIL THE CODING IS TESTED AND WORKING - KULAR-530
+        calculateAgingAmounts(details, invoiceMap); // HOLD OFF ON THIS UNTIL THE CODING IS TESTED AND WORKING - KULAR-530
         
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(details);
@@ -660,6 +660,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     /**
      * 
      * This method...
+     * @param details
+     * @param invoiceMap
      */
     private void calculateAgingAmounts(List<CustomerStatementDetailReportDataHolder> details, Map<String, String> invoiceMap) {
         KualiDecimal total0to30 = KualiDecimal.ZERO;
@@ -678,8 +680,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         java.util.Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
         java.util.Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
         java.util.Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1*Integer.parseInt(nbrDaysForLastBucket));
-        
-        
         
         Map<String, Object> knownCustomers = new HashMap<String, Object>(details.size());
 
@@ -706,7 +706,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                     Customer customerobj = custInvoice.getCustomer();                        
                     String customerNumber = customerobj.getCustomerNumber();    // tested and works
                     String customerName = customerobj.getCustomerName();  // tested and works
-    
     
                     if (knownCustomers.containsKey(customerNumber)) { 
                         custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);

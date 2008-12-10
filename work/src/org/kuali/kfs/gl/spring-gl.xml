@@ -810,6 +810,9 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
+		</property>
 	</bean>
 	
 	<bean id="originEntryLiteService" class="org.kuali.kfs.gl.service.impl.OriginEntryLiteServiceImpl">
@@ -1659,6 +1662,16 @@
 	<bean id="glBalanceAnnualAndCGTotalNotZeroIterator" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" singleton="false">
 		<property name="balancePredicate">
 			<bean class="org.kuali.kfs.gl.batch.service.impl.BalanceAnnualAndCGTotalNotZeroPredicate" />
+		</property>
+	</bean>
+	
+	<bean id="cachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.CachingDaoJdbc" init-method="init" >
+		<property name="dataSource" ref="dataSource" />
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
 		</property>
 	</bean>
 </beans>

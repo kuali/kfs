@@ -230,6 +230,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     public List<AssetGlpeSourceDetail> getSourceAssetGlpeSourceDetails() {
+        if (this.sourceAssetGlpeSourceDetails == null) {
+            this.sourceAssetGlpeSourceDetails = new ArrayList<AssetGlpeSourceDetail>();
+        }
         return this.sourceAssetGlpeSourceDetails;
     }
 
@@ -800,7 +803,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
 
     public List<AssetGlpeSourceDetail> getTargetAssetGlpeSourceDetails() {
-        return targetAssetGlpeSourceDetails;
+        if (this.targetAssetGlpeSourceDetails == null) {
+            this.targetAssetGlpeSourceDetails = new ArrayList<AssetGlpeSourceDetail>();
+        }
+        return this.targetAssetGlpeSourceDetails;
     }
 
 
@@ -915,6 +921,5 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         getGeneralLedgerPendingEntries().clear();
         getSourceAssetGlpeSourceDetails().clear();
         getTargetAssetGlpeSourceDetails().clear();
-
     }
 }

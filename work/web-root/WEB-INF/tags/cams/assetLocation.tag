@@ -18,6 +18,8 @@
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="assetLocationAttributes" value="${DataDictionary.AssetLocation.attributes}" />
 <c:set var="assetTransferAttributes" value="${DataDictionary.AssetTransferDocument.attributes}" />
+<c:set var="assetValue" value="${KualiForm.document.asset}" />
+
 
 <kul:tab tabTitle="Asset Location" defaultOpen="${!defaultTabHide}">    
 		<div class="tab-container" align="center">
@@ -47,19 +49,35 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingSubRoomNumber}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.buildingSubRoomNumber" attributeEntry="${assetAttributes.buildingRoomNumber}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>  
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStateCode" attributeEntry="${assetLocationAttributes.assetLocationStateCode}" readOnly="true"/></td>
+				<td class="grid" width="25%">
+					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStateCode" attributeEntry="${assetLocationAttributes.assetLocationStateCode}" readOnly="true" readOnlyBody="true">
+						<kul:inquiry boClassName="org.kuali.rice.kns.bo.State" keyValues="postalStateCode=${assetValue.offCampusLocation.assetLocationState.postalStateCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationState.postalStateCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
 				</td>						
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right" colspan="2"></th>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>  
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationZipCode" attributeEntry="${assetLocationAttributes.assetLocationZipCode}" readOnly="true"/></td>
+				<td class="grid" width="25%">
+					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationZipCode" attributeEntry="${assetLocationAttributes.assetLocationZipCode}" readOnly="true" readOnlyBody="true">
+						<kul:inquiry boClassName="org.kuali.rice.kns.bo.PostalCode" keyValues="postalCode=${assetValue.offCampusLocation.postalZipCode.postalCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+                			<html:hidden write="true" property="document.asset.offCampusLocation.postalZipCode.postalCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+				</td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right" colspan="2"></th>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>  
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCountryCode" attributeEntry="${assetLocationCountryCode}" readOnly="true"/></td>
-				</td>						
+				<td class="grid" width="25%">
+					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCountry.postalCountryName" attributeEntry="${assetLocationAttributes.assetLocationCountryCode}" readOnly="true" readOnlyBody="true">
+						<kul:inquiry boClassName="org.kuali.rice.kns.bo.Country" keyValues="postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationCountry.postalCountryName" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+				</td>
 			</tr>
 		</table>
 		</div>

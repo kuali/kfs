@@ -311,6 +311,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP3167)
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCreateAndRoutePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO

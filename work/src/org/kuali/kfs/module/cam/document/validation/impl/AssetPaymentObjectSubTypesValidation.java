@@ -56,18 +56,18 @@ public class AssetPaymentObjectSubTypesValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
-        boolean result = false;
+        boolean result = true;
 
+        // question is answered with no
+        if (ConfirmationQuestion.NO.equalsIgnoreCase(assetPaymentDocument.getObjectSubTypesQuestionAnswered())) {
+            result = false;
+        }
         // if question has not asked yet...
-        if (StringUtils.isEmpty(assetPaymentDocument.getObjectSubTypesQuestionAnswered()) && assetPaymentService.hasDifferentObjectSubTypes(assetPaymentDocument)) {
+        else if (StringUtils.isEmpty(assetPaymentDocument.getObjectSubTypesQuestionAnswered()) && assetPaymentService.hasDifferentObjectSubTypes(assetPaymentDocument)) {
             assetPaymentDocument.setObjectSubTypesQuestionRequired(true);
+            result = false;
         }
-        
-        if (ConfirmationQuestion.YES.equalsIgnoreCase(assetPaymentDocument.getObjectSubTypesQuestionAnswered())) {
-            // yes
-            result = true;
-        }
-        
+               
         return result;
     }
 

@@ -312,9 +312,9 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      */
     public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document) {
         // This method will only execute if the document is being submitted.
-        if (!document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-            return false;
-        }
+//        if (!document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+//            return false;
+//        }
 
         List<String> subTypes = new ArrayList<String>();
         subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);

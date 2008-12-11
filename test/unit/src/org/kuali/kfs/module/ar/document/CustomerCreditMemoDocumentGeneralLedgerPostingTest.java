@@ -45,6 +45,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
 
     private TaxService taxService;
     
+    @Override
     public void setUp() throws Exception {
         
         //  wire up the mock instead of the regular TaxService

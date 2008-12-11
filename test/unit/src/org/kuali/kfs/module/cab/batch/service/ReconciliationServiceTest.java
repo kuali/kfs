@@ -60,7 +60,7 @@ public class ReconciliationServiceTest extends BatchTestBase {
         assertFalse(cabReconciliationService1.equals(cabReconciliationService2));
     }
 
-    @RelatesTo(JiraIssue.KULCAP814)
+    // @RelatesTo(JiraIssue.KULCAP814)
     public void testReconcile() throws Exception {
         ReconciliationService service = SpringContext.getBean(ReconciliationService.class);
         Collection<Entry> glEntries = batchExtractService.findElgibleGLEntries(new ExtractProcessLog());

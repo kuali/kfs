@@ -33,3 +33,6 @@ delete from pur_reqs_t where reqs_id < 1000;
 delete from krns_doc_hdr_t where doc_hdr_id in ('11','12','13','21','22','23','31','32','33','34','35','36','41','51','52');
 delete from fs_doc_header_t where fdoc_nbr in ('11','12','13','21','22','23','31','32','33','34','35','36','41','51','52');
 delete from krew_doc_hdr_t where doc_hdr_id < 1000;
+-----
+delete from KREW_RTE_NODE_T where RTE_NODE_ID in (21,22,23);
+delete from KREW_RTE_NODE_INSTN_T where RTE_NODE_INSTN_ID in (21,22,23);

@@ -141,6 +141,8 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("po/pur_po_cptl_ast_itm_t.sql", connection);
         executeSqls("po/pur_po_cptl_ast_itm_ast_t.sql", connection);
         executeSqls("po/pur_po_cptl_ast_loc_t.sql", connection);
+        executeSqls("po/krew_rte_node_t.sql", connection);
+        executeSqls("po/krew_rte_node_instn_t.sql", connection);
         // preq
         executeSqls("preq/krew_doc_hdr_t.sql", connection);
         executeSqls("preq/krns_doc_hdr_t.sql", connection);

@@ -81,7 +81,7 @@ public class ExtractStepTest extends BatchTestBase {
         extractStep.setBatchExtractReportService(SpringContext.getBean(BatchExtractReportService.class));
     }
 
-    @RelatesTo(JiraIssue.KULCAP814)
+    //@RelatesTo(JiraIssue.KULCAP814)
     public void testExecute() throws Exception {
         java.sql.Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
 

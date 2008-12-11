@@ -455,11 +455,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         // only for "Asset Separate" document
         if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
 
-            // TODO is this needed?
-            // cannot create more than 9 assets at a time
             if (getAssetPaymentService().getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
+                /* @TODO KULCAP-828
                 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_ASSET_SPLIT_MAX_LIMIT);
                 success &= false;
+                */
             }
 
             // new source payments must be greater than the capital asset cost amount

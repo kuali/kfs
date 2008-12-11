@@ -1430,13 +1430,8 @@
                     p:attributeName="offCampusLocation.assetLocationCityName" />
               <bean parent="FieldDefinition"
                     p:attributeName="offCampusLocation.assetLocationState.postalStateCode" />
-<!--
-              <bean parent="FieldDefinition"
-                    p:attributeName="offCampusLocation.assetLocationZipCode" />
- --> 
               <bean parent="FieldDefinition"
                     p:attributeName="offCampusLocation.postalZipCode.postalCode" />
-
               <bean parent="FieldDefinition"
                     p:attributeName="offCampusLocation.assetLocationCountry.postalCountryName" />
             </list>

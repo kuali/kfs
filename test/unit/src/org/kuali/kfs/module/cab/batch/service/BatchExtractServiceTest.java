@@ -56,7 +56,6 @@ public class BatchExtractServiceTest extends BatchTestBase {
         boService = SpringContext.getBean(BusinessObjectService.class);
     }
 
-   // @RelatesTo(JiraIssue.KULCAP814)
     public void testBatchProcess() throws Exception {
         ExtractProcessLog processLog = new ExtractProcessLog();
         Collection<Entry> glEntries = batchExtractService.findElgibleGLEntries(processLog);

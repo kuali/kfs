@@ -17,9 +17,8 @@ package org.kuali.kfs.module.ar.document;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -28,20 +27,42 @@ import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-
+import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = UserNameFixture.khuntley)
 public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTestBase {
 
+    private TaxService taxService;
+    
+    public void setUp() throws Exception {
+        
+        //  wire up the mock instead of the regular TaxService
+        Map<String, TaxService> taxServices = SpringContext.getBeansOfType(TaxService.class);
+        taxService = taxServices.get("arTaxServiceMock");
+    }
+    
+    public void testMockTaxServiceWorks() {
+        List<TaxDetail> taxDetails;
+        
+        taxDetails = taxService.getSalesTaxDetails(null, "12345", new KualiDecimal(100));
+        assertTrue("taxDetails should be empty.", (taxDetails.size() == 0));
+        
+        taxDetails = taxService.getSalesTaxDetails(null, "85705", new KualiDecimal(100));
+        assertTrue("taxDetails should have three elements.", taxDetails.size() == 3);
+        
+    }
+    
     /**
      * This method tests if general ledger entries are created correctly for income, sales tax, and district tax
      */
@@ -211,6 +232,8 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
         String receivableOffsetGenerationMethod = TestUtils.getParameterService().getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         int index = receivableOffsetGenerationMethod.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)? 2 : 1; 
         GeneralLedgerPendingEntry income = (GeneralLedgerPendingEntry) doc.getGeneralLedgerPendingEntries().get(index);
+        
+        //TODO: mock the tax service for Olga
         
         assertEquals("Income Chart of Accounts Code should be " + testCustomerInvoiceDetail.getChartOfAccountsCode() + " but is actually " + income.getChartOfAccountsCode(), testCustomerInvoiceDetail.getChartOfAccountsCode(), income.getChartOfAccountsCode());
         assertEquals("Income Account Number should be " + testCustomerInvoiceDetail.getAccountNumber() + " but is actually " + income.getAccountNumber(), testCustomerInvoiceDetail.getAccountNumber(), income.getAccountNumber());

@@ -28,4 +28,7 @@
 	</bean>
 
 	<bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
+	
+	<bean id="arTaxServiceMock" class="org.kuali.kfs.module.ar.service.mock.TaxServiceMockImpl" />
+
 </beans>

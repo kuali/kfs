@@ -140,7 +140,7 @@
 	</bean>
 
 	<!-- Update Accounting Line Event -->
-    <bean id="PurchaseOrder-updateAccountingLineValidation" parent="Requisition-updateAccountingLineValidation-parentBean" scope="prototype" />
+    <bean id="PurchaseOrder-updateAccountingLineValidation" parent="PurchaseOrder-updateAccountingLineValidation-parentBean" scope="prototype" />
   
 	<bean id="PurchaseOrder-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">

@@ -37,6 +37,10 @@
   					</property>
   				</bean>
 
+  				<bean parent="Purchasing-newProcessItemValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
 				<bean parent="PurchaseOrder-processVendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  
@@ -143,60 +147,6 @@
     <bean id="PurchaseOrder-updateAccountingLineValidation" parent="PurchaseOrder-updateAccountingLineValidation-parentBean" scope="prototype" />
   
 	<bean id="PurchaseOrder-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
-  					<property name="validations">
-  						<list>
-  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-								<property name="quitOnFail" value="false" />
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="false" />
-							</bean>			
-							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="PurchaseOrder-accountingLineAccessibleValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
-  		</property>
-	</bean>
-
-	<!-- Review Accounting Line Event -->
-    <bean id="PurchaseOrder-reviewAccountingLineValidation" parent="PurchaseOrder-reviewAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="PurchaseOrder-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">

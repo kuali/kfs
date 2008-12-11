@@ -18,7 +18,8 @@
     <property name="documentTypeName" value="PurchaseOrderAmendmentDocument" />
     <property name="sessionDocument" value="true" />    
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <!--  property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentDocumentRule" /-->
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentDocumentPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderAmendmentDocumentAuthorizer" />
     <property name="documentTypeCode" value="POA" />
@@ -51,6 +52,7 @@
         <ref bean="PurchaseOrderAmendmentDocument-receivingDeliveryCampusCode" />
       </list>
     </property>
+    <property name="validationMap" ref="PurchaseOrderAmendmentDocument-validations" />
   </bean>
   
   <!-- Attribute Definitions -->
@@ -109,6 +111,43 @@
         </bean>
       </list>
     </property>
+  </bean>
+
+  <bean id="PurchaseOrderAmendmentDocument-validations" parent="PurchaseOrderAmendmentDocument-validations-parentBean" />
+  
+  <bean id="PurchaseOrderAmendmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <property name="sourceMap">
+	  <map>			
+	    <entry>
+		  <key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+		  <value>PurchaseOrderAmendment-routeDocumentValidation</value>
+		</entry>
+		<entry>
+		  <key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+		  <value>PurchaseOrder-approveDocumentValidation</value>
+		</entry>	
+	    <entry>
+		  <key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+		  <value>PurchaseOrderAmendment-addAccountingLineValidation</value>
+		</entry>		
+		<entry>
+		  <key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+		  <value>PurchaseOrder-updateAccountingLineValidation</value>
+		</entry>	
+	    <entry>
+		  <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent</value></key>
+		  <value>PurchaseOrder-performSplitValidation</value>
+		</entry>	
+		<entry>
+		  <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddQuoteToVendorEvent</value></key>
+		  <value>PurchaseOrder-performAddQuoteToVendorValidation</value>
+		</entry>	
+	    <entry>
+		  <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent</value></key>
+		  <value>PurchaseOrder-performAssignSensitiveDataValidation</value>
+		</entry>				    			    				    	    
+      </map>
+    </property>	  
   </bean>
 
 </beans>

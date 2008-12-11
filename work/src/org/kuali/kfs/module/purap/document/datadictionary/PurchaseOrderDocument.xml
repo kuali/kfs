@@ -15,8 +15,8 @@
     <property name="documentTypeName" value="PurchaseOrderDocument" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    <!--  property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" /-->
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <!-- property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" /-->
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules" />
     <property name="documentTypeCode" value="PO" />
@@ -1365,10 +1365,6 @@
 			    <entry>
 				    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
 				    <value>PurchaseOrder-updateAccountingLineValidation</value>
-			    </entry>	
-			    <entry>
-				    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
-				    <value>PurchaseOrder-reviewAccountingLineValidation</value>
 			    </entry>	
 			    <entry>
 				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent</value></key>

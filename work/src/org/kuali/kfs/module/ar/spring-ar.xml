@@ -333,7 +333,7 @@
 	
 	<bean id="lockboxJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="lockboxJob" />
-		<property name="cronExpression" value="0 0 4 * * ?" />
+		<property name="cronExpression" value="0 30 4 * * ?" />
 	</bean>
 	
 	<bean id="lockboxStep" class="org.kuali.kfs.module.ar.batch.LockboxStep" parent="step">

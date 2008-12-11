@@ -170,7 +170,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="11" />
+            p:size="80" />
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The attention line for this invoice" />

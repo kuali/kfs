@@ -33,5 +33,8 @@
     <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
   </c:otherwise>
 </c:choose>
-<input type="image" tabindex="${tabindex}" name="methodToCall.performBalanceInquiryLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${actionPath}]))"
+
+<c:set var="balanceInquiryLookupButtonName" value="methodToCall.performBalanceInquiryLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${actionPath}]))" />
+${kfunc:registerEditableProperty(KualiForm, balanceInquiryLookupButtonName)}
+<input type="image" tabindex="${tabindex}" name="${balanceInquiryLookupButtonName}"
    src="${ConfigProperties.kr.externalizable.images.url}${imageName}" alt="search" title="search" border="0" class="tinybutton" valign="middle"/>

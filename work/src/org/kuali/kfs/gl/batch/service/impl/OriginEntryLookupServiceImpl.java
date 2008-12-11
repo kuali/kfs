@@ -41,9 +41,9 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
-
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 
@@ -51,6 +51,7 @@ import org.kuali.rice.kns.service.PersistenceStructureService;
  * This class retrieves the important references related to the OriginEntryFull family of business objects; it uses a cache to store
  * records its seen before, which hopefully improves performance
  */
+@NonTransactional
 public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLookupServiceImpl.class);
 

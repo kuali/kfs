@@ -142,9 +142,9 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
 
-        // If asset is retired then deny "Save", "Submit" and "Approve"
+        // If capital asset is retired then deny "Save", "Submit" and "Approve"
         Asset asset = (Asset) document.getDocumentBusinessObject();
-        if (getAssetService().isAssetRetired(asset)) {
+        if (getAssetService().isAssetRetired(asset) && getAssetService().isCapitalAsset(asset)) {
             GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_NOEDIT, new String[] {});
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);

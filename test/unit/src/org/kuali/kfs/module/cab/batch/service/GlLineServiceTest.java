@@ -37,8 +37,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -218,7 +216,6 @@ public class GlLineServiceTest extends KualiTestBase {
         assertEquals(false, detail.isTransferPaymentIndicator());
     }
 
-    @RelatesTo(JiraIssue.KULCAP826)
     public void testCreateAssetPaymentDocument_noFPData() throws Exception {
         AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);
         assertNotNull(document);

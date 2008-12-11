@@ -234,9 +234,6 @@
 	<reference-descriptor name="acquisitionType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="acquisitionTypeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="agencyNumber" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetGlobal" table="CM_CPTLAST_DOC_T">
@@ -300,9 +297,6 @@
 	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 		<foreignkey field-ref="organizationOwnerAccountNumber" />
-	</reference-descriptor>	
-	<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="agencyNumber" />
 	</reference-descriptor>	
 	<!-- General ledger entries  -->
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

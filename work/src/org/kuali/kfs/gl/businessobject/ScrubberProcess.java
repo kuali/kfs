@@ -1104,6 +1104,7 @@ public class ScrubberProcess {
         ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
         Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
+        scrubbedEntryAccount.setOrganization(referenceLookup.get().getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
 
         ParameterEvaluator objectSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode());
         ParameterEvaluator subFundGroupCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode());
@@ -1292,6 +1293,7 @@ public class ScrubberProcess {
 
         ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
+        scrubbedEntryAccount.setOrganization(referenceLookup.get().getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
 
         if (liabilityEntry.getChartOfAccountsCode().equals(liabilityEntry.getAccount().getOrganization().getChartOfAccountsCode()) && scrubbedEntryAccount.getOrganizationCode().equals(liabilityEntry.getAccount().getOrganization().getOrganizationCode()) && liabilityEntry.getAccountNumber().equals(liabilityEntry.getAccount().getAccountNumber()) && liabilityEntry.getChartOfAccountsCode().equals(liabilityEntry.getAccount().getChartOfAccountsCode())) {
             persistenceService.retrieveReferenceObject(liabilityEntry, KFSPropertyConstants.FINANCIAL_OBJECT);

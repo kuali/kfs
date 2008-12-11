@@ -192,6 +192,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     
     public KualiDecimal getBalanceToBeApplied() throws WorkflowException {
         
+        //  if this payapp doc isnt based on a cash control doc, then there 
+        // will be no cash control details, so no balance to be applied
+        CashControlDetail cashControlDetail = getCashControlDetail();
+        if (cashControlDetail == null) {
+            return KualiDecimal.ZERO;
+        }
+        
         // KULAR-504: "Balance" must equal line item amount from Cash Control - not the total Cash Control
         KualiDecimal amount = getCashControlDetail().getFinancialDocumentLineAmount();
         

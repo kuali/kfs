@@ -42,7 +42,7 @@ public class RequisitionNewIndividualItemValidation extends PurchasingNewIndivid
         
     @Override
     protected boolean commodityCodeIsRequired() {
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        return parameterService.getIndicatorParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
     }
     
     public ParameterService getParameterService() {

@@ -778,6 +778,6 @@
     <!-- validations -->
 	<import resource="document/validation/configuration/PurapValidatorDefinitions.xml" />
 	<import resource="document/validation/configuration/RequisitionValidation.xml" />
-	
+	<import resource="document/validation/configuration/PurchaseOrderValidation.xml" />
 </beans>
 

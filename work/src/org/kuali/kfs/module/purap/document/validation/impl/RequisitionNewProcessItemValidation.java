@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 public class RequisitionNewProcessItemValidation extends PurchasingNewProcessItemValidation {
 
     private RequisitionService requisitionService;
+    private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
     
     public boolean validate(AttributedDocumentEvent event) {
         return super.validate(event);
@@ -42,7 +43,7 @@ public class RequisitionNewProcessItemValidation extends PurchasingNewProcessIte
      */
     @Override
     protected boolean requiresAccountValidationOnAllEnteredItems(PurchasingAccountsPayableDocument document) {
-        if (SpringContext.getBean(PurApWorkflowIntegrationService.class).willDocumentStopAtGivenFutureRouteNode(document, NodeDetailEnum.CONTENT_REVIEW)) {
+        if (purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode(document, NodeDetailEnum.CONTENT_REVIEW)) {
 
             return false;
         }
@@ -56,6 +57,14 @@ public class RequisitionNewProcessItemValidation extends PurchasingNewProcessIte
 
     public void setRequisitionService(RequisitionService requisitionService) {
         this.requisitionService = requisitionService;
+    }
+
+    public PurApWorkflowIntegrationService getPurapWorkflowIntegrationService() {
+        return purapWorkflowIntegrationService;
+    }
+
+    public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
+        this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
     }    
 
 }

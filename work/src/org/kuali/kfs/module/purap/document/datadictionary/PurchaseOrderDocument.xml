@@ -15,6 +15,7 @@
     <property name="documentTypeName" value="PurchaseOrderDocument" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
+    <!--  property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" /-->
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules" />
@@ -173,6 +174,7 @@
         <ref bean="PurchaseOrderDocument-useTaxIndicator" />
       </list>
     </property>
+    <property name="validationMap" ref="PurchaseOrderDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -1343,4 +1345,44 @@
 		  </property>
     </bean>
   
+    <bean id="PurchaseOrderDocument-validations" parent="PurchaseOrderDocument-validations-parentBean" />
+  
+    <bean id="PurchaseOrderDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+    	<property name="sourceMap">
+	    	<map>			
+		    	<entry>
+			    	<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				    <value>PurchaseOrder-routeDocumentValidation</value>
+			    </entry>
+			    <entry>
+				    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				    <value>PurchaseOrder-approveDocumentValidation</value>
+			    </entry>	
+			    <entry>
+				    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				    <value>PurchaseOrder-addAccountingLineValidation</value>
+			    </entry>		
+			    <entry>
+				    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				    <value>PurchaseOrder-updateAccountingLineValidation</value>
+			    </entry>	
+			    <entry>
+				    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				    <value>PurchaseOrder-reviewAccountingLineValidation</value>
+			    </entry>	
+			    <entry>
+				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent</value></key>
+				    <value>PurchaseOrder-performSplitValidation</value>
+			    </entry>	
+			    <entry>
+				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddQuoteToVendorEvent</value></key>
+				    <value>PurchaseOrder-performAddQuoteToVendorValidation</value>
+			    </entry>	
+			    <entry>
+				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent</value></key>
+				    <value>PurchaseOrder-performAssignSensitiveDataValidation</value>
+			    </entry>				    			    				    	    
+		    </map>
+	    </property>	  
+    </bean>
 </beans>

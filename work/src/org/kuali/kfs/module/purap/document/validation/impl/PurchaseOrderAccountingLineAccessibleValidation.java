@@ -18,27 +18,17 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not
  */
-public class RequisitionAccountingLineAccessibleValidation extends PurchasingAccountsPayableAccountingLineAccessibleValidation {
+public class PurchaseOrderAccountingLineAccessibleValidation extends PurchasingAccountsPayableAccountingLineAccessibleValidation {
 
     /**
      * Validates that the given accounting line is accessible for editing by the current user.
@@ -46,12 +36,12 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        KualiWorkflowDocument workflowDocument = event.getDocument().getDocumentHeader().getWorkflowDocument();
+        PurchaseOrderDocument financialDocument = (PurchaseOrderDocument)event.getDocument();
+        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-        if (((RequisitionDocument) event.getDocument()).isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
-            // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
-
+        if (financialDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
+            // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on PO
             return true;
         }
         else {
@@ -59,6 +49,6 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
             return super.validate(event);
         }
     }
-    
+
 }
 

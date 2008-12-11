@@ -28,23 +28,16 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class RequisitionProcessAdditionalValidation extends GenericValidation {
 
-    
-    public boolean validate(AttributedDocumentEvent event) {
-        boolean valid = true;
-        valid = validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit((PurchasingDocument)event.getDocument());
-
-        return valid;
-    }
-    
     /**
      * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
      * PurchaseOrderTotalLimit.
      * 
      * @param purDocument the requisition document to be validated
      * @return boolean true if the TotalDollarAmount is less than the PurchaseOrderTotalLimit and false otherwise.
-     */
-    public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
+     */    
+    public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
+        PurchasingDocument purDocument = (PurchasingDocument)event.getDocument();
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {

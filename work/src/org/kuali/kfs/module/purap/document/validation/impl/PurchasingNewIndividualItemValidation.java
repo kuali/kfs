@@ -43,12 +43,13 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
 
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
+    private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         valid &= super.validate(event);
         RecurringPaymentType recurringPaymentType = ((PurchasingDocument)event.getDocument()).getRecurringPaymentType(); 
-        valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateItemCapitalAssetWithErrors(recurringPaymentType, getItemForValidation(), false);
+        valid &= capitalAssetBuilderModuleService.validateItemCapitalAssetWithErrors(recurringPaymentType, getItemForValidation(), false);
         valid &= validateUnitOfMeasure(getItemForValidation());       
         valid &= validateItemUnitPrice(getItemForValidation());      
         
@@ -85,8 +86,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
             String uomCode = purItem.getItemUnitOfMeasureCode();
             if (StringUtils.isEmpty(uomCode)) {
                 valid = false;
-                String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                        getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
                                         getLabel();
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
@@ -131,7 +131,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
                 return true;
             }
         }
-        String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        String documentType = dataDictionaryService.getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
 
         if (!valid) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
@@ -150,8 +150,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         boolean valid = true;      
         if (StringUtils.isEmpty(item.getItemDescription())) {
             valid = false;
-            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_DESCRIPTION).getLabel();
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
@@ -170,8 +169,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         if (item.getItemType().isLineItemIndicator()) {
             if (ObjectUtils.isNull(item.getItemUnitPrice())) {
                 valid = false;
-                String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                        getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_PRICE).getLabel();
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
             }
@@ -205,15 +203,13 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()))) {
             valid = false;
-            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel();            
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
-            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel(); 
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + item.getItemIdentifierString());
         }
@@ -238,8 +234,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
-            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                    getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
+            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
         }
@@ -247,7 +242,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
             //Find out whether the commodity code has existed in the database
             Map<String,String> fieldValues = new HashMap<String, String>();
             fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purItem.getPurchasingCommodityCode());
-            if (SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, fieldValues) != 1) {
+            if (businessObjectService.countMatching(CommodityCode.class, fieldValues) != 1) {
                 //This is the case where the commodity code on the item does not exist in the database.
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
@@ -261,6 +256,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
     }
     
     protected boolean validateThatCommodityCodeIsActive(PurApItem item) {
+        item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
         if (!((PurchasingItemBase)item).getCommodityCode().isActive()) {
             //This is the case where the commodity code on the item is not active.
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
@@ -283,6 +279,14 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public CapitalAssetBuilderModuleService getCapitalAssetBuilderModuleService() {
+        return capitalAssetBuilderModuleService;
+    }
+
+    public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
+        this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
     
 

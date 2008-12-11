@@ -56,9 +56,9 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
-import org.kuali.kfs.module.purap.document.validation.event.AssignSensitiveDataEvent;
-import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAddQuoteToVendorEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -67,8 +67,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -520,7 +520,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         boolean copyNotes = poToSplit.isCopyingNotesWhenSplitting();
 
         // Check business rules before splitting.
-        if (!SpringContext.getBean(KualiRuleService.class).applyRules(new SplitPurchaseOrderEvent(poToSplit))) {
+
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedSplitPurchaseOrderEvent(poToSplit));
+        if (!rulePassed) {
             poToSplit.setPendingSplit(true);
         }
         else {
@@ -640,7 +642,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
         // check business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AssignSensitiveDataEvent("", po, sds));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent(po, sds));
         if (!rulePassed) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -1374,7 +1376,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
 
         if (StringUtils.isBlank(poForm.getNewPurchaseOrderVendorStipulationLine().getVendorStipulationDescription())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_STIPULATION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_STIPULATION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
         }
         else {
             PurchaseOrderVendorStipulation newStipulation = poForm.getAndResetNewPurchaseOrderVendorStipulationLine();
@@ -1466,7 +1468,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         PurchaseOrderVendorQuote vendorQuote = poForm.getNewPurchaseOrderVendorQuote();
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddVendorToQuoteEvent("", document, vendorQuote));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddQuoteToVendorEvent(document, vendorQuote));
         if (rulePassed) {
             poForm.getNewPurchaseOrderVendorQuote().setDocumentNumber(document.getDocumentNumber());
             document.getPurchaseOrderVendorQuotes().add(vendorQuote);

@@ -182,7 +182,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String CAPITAL_ASSET_TAB_ERRORS = "document.purchasingCapitalAsset*,newPurchasingItemCapitalAssetLine*";
     public static final String SPLIT_PURCHASE_ORDER_TAB_ERRORS = "document.splitPurchaseOrder";
     public static final String ASSIGN_SENSITIVE_DATA_TAB_ERRORS = "document.assignSensitiveData";
-
+    public static final String STIPULATIONS_TAB_ERRORS = "document.purchaseOrderVendorStipulation*,newPurchaseOrderVendorStipulationLine*";
     // PO/Quotes Tab Constants
     public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*,newPurchaseOrderVendorQuote*";
 

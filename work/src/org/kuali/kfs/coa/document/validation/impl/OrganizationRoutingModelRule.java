@@ -17,8 +17,8 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
-import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
-import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -36,7 +36,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
-    private OrganizationRoutingModelName model;
+    private AccountDelegateModel model;
 
     private static final String ORG_ROUTING_MODEL_PREFIX = "organizationRoutingModel";
 
@@ -54,8 +54,8 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      */
     @Override
     public void setupConvenienceObjects() {
-        model = (OrganizationRoutingModelName) super.getNewBo();
-        for (OrganizationRoutingModel delegateModel : model.getOrganizationRoutingModel()) {
+        model = (AccountDelegateModel) super.getNewBo();
+        for (AccountDelegateModelDetail delegateModel : model.getOrganizationRoutingModel()) {
             delegateModel.refreshNonUpdateableReferences();
         }
     }
@@ -114,7 +114,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         setupConvenienceObjects();
-        return checkSimpleRulesForOrganizationRoutingModel(this.model, (OrganizationRoutingModel) line);
+        return checkSimpleRulesForOrganizationRoutingModel(this.model, (AccountDelegateModelDetail) line);
     }
 
     /**
@@ -123,13 +123,13 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param globalDelegateTemplate the Organization Routing Model parent to check
      * @return true if document passes all rules, false if otherwise
      */
-    protected boolean checkSimpleRules(OrganizationRoutingModelName globalDelegateTemplate) {
+    protected boolean checkSimpleRules(AccountDelegateModel globalDelegateTemplate) {
         boolean success = true;
 
         success &= checkModelNameHasAtLeastOneModel(globalDelegateTemplate);
 
         int line = 0;
-        for (OrganizationRoutingModel delegateModel : globalDelegateTemplate.getOrganizationRoutingModel()) {
+        for (AccountDelegateModelDetail delegateModel : globalDelegateTemplate.getOrganizationRoutingModel()) {
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".organizationRoutingModel[" + line + "].");
             success &= checkSimpleRulesForOrganizationRoutingModel(globalDelegateTemplate, delegateModel);
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".organizationRoutingModel[" + line + "].");
@@ -143,7 +143,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if model passes all the checks, false if otherwise
      */
-    protected boolean checkSimpleRulesForOrganizationRoutingModel(OrganizationRoutingModelName globalDelegateTemplate, OrganizationRoutingModel delegateModel) {
+    protected boolean checkSimpleRulesForOrganizationRoutingModel(AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel) {
         boolean success = true;
 
         if (delegateModel.isActive()) {
@@ -164,7 +164,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param globalDelegateTemplate the account delegate model to check
      * @return true if account delegate model has at least one account delegate template in it
      */
-    protected boolean checkModelNameHasAtLeastOneModel(OrganizationRoutingModelName globalDelegateTemplate) {
+    protected boolean checkModelNameHasAtLeastOneModel(AccountDelegateModel globalDelegateTemplate) {
         boolean success = true;
         if (globalDelegateTemplate.getOrganizationRoutingModel().size() == 0) {
             success = false;
@@ -180,11 +180,11 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @return true if account delegate model has at least one active model in it.
      */
     // method not currently in use, as per Bill's comments in KULRNE-4805
-    protected boolean checkModelNameHasAtLeastOneActiveModel(OrganizationRoutingModelName globalDelegateTemplate) {
+    protected boolean checkModelNameHasAtLeastOneActiveModel(AccountDelegateModel globalDelegateTemplate) {
         boolean success = true;
         int activeModelCount = 0;
 
-        for (OrganizationRoutingModel mdl : globalDelegateTemplate.getOrganizationRoutingModel()) {
+        for (AccountDelegateModelDetail mdl : globalDelegateTemplate.getOrganizationRoutingModel()) {
             if (mdl.isActive()) {
                 activeModelCount++;
             }
@@ -208,7 +208,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param delegateModel Organization Routing Model to check
      * @return true if Organization Routing Model passes the checks, false if otherwise
      */
-    protected boolean checkDelegateFromAmountPositive(OrganizationRoutingModel delegateModel) {
+    protected boolean checkDelegateFromAmountPositive(AccountDelegateModelDetail delegateModel) {
         boolean result = true;
         if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
             if (delegateModel.getApprovalFromThisAmount().isLessThan(KualiDecimal.ZERO)) {
@@ -225,7 +225,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param delegateModel Organization Routing Model to check
      * @return true if Organization Routing Model passes all checks, false if otherwise
      */
-    protected boolean checkDelegateToAmountNotNull(OrganizationRoutingModel delegateModel) {
+    protected boolean checkDelegateToAmountNotNull(AccountDelegateModelDetail delegateModel) {
         boolean result = true;
         if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount()) && ObjectUtils.isNull(delegateModel.getApprovalToThisAmount())) {
             GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
@@ -241,7 +241,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param delegateModel Organization Routing Model to check
      * @return true if the Organization Routing Model passes the checks, false if otherwise
      */
-    protected boolean checkDelegateToAmountGreaterThanFromAmount(OrganizationRoutingModel delegateModel) {
+    protected boolean checkDelegateToAmountGreaterThanFromAmount(AccountDelegateModelDetail delegateModel) {
         boolean result = true;
         if (ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
             if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount()) && !delegateModel.getApprovalToThisAmount().equals(KualiDecimal.ZERO)) {
@@ -264,7 +264,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param delegateModel the Organization Routing Model to check
      * @return true if delegate user passes the rules described above; false if they fail
      */
-    protected boolean checkDelegateUserRules(OrganizationRoutingModel delegateModel) {
+    protected boolean checkDelegateUserRules(AccountDelegateModelDetail delegateModel) {
         boolean success = true;
 
         // refresh account delegate
@@ -313,7 +313,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @return true if model, delegate template or org routing model is null, or if the primary routing indicator is set to false or the doc type code is empty
      * otherwise it checks to make sure that there is indeed one model marked as the primary route
      */
-    protected boolean checkPrimaryRoutePerDocType(OrganizationRoutingModelName globalDelegateTemplate, OrganizationRoutingModel delegateModel) {
+    protected boolean checkPrimaryRoutePerDocType(AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel) {
         boolean success = true;
 
         // exit immediately if the adding line isnt a Primary routing
@@ -330,7 +330,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         // at this point, the delegateGlobal being added is a Primary for ALL docTypes, so we need to
         // test whether any in the existing list are also Primary, regardless of docType
         String docType = delegateModel.getFinancialDocumentTypeCode();
-        for (OrganizationRoutingModel currDelegateModel : globalDelegateTemplate.getOrganizationRoutingModel()) {
+        for (AccountDelegateModelDetail currDelegateModel : globalDelegateTemplate.getOrganizationRoutingModel()) {
             if (currDelegateModel.isActive() && !delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator() && delegateModel.getFinancialDocumentTypeCode().equals(currDelegateModel.getFinancialDocumentTypeCode())) {
                 success = false;
                 GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE, new String[0]);

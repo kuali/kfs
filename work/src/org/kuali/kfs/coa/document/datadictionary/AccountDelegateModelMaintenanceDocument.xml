@@ -7,7 +7,7 @@
   <bean id="AccountDelegateModelMaintenanceDocument" parent="AccountDelegateModelMaintenanceDocument-parentBean" />
 
   <bean id="AccountDelegateModelMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModel" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -27,7 +27,7 @@
     <property name="summary" value="Account Delegate Model Maintenance Document" />
     <property name="description" value="Account Delegate Model Maintenance Document" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName" p:parameterName="DELEGATE_MODEL" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountDelegateModel" p:parameterName="DELEGATE_MODEL" />
     </property>
     <property name="documentTypeName" value="AccountDelegateModelMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelRule" />
@@ -87,7 +87,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationRoutingModel" />
-          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationRoutingModel" />
+          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail" />
           <property name="summaryTitle" value="Account Delegate Model Delegate" />
           <property name="summaryFields" >
             <list>

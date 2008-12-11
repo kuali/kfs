@@ -23,7 +23,7 @@
 
   <bean id="AccountDelegateGlobal-model.chartOfAccountsCode" parent="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean" />
 
-  <bean id="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean" abstract="true" parent="OrganizationRoutingModelName-chartOfAccountsCode">
+  <bean id="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean" abstract="true" parent="AccountDelegateModel-chartOfAccountsCode">
     <property name="name" value="model.chartOfAccountsCode" />
     <property name="required" value="false" />
     <property name="control" >
@@ -34,13 +34,13 @@
   </bean>
   <bean id="AccountDelegateGlobal-model.organizationCode" parent="AccountDelegateGlobal-model.organizationCode-parentBean" />
 
-  <bean id="AccountDelegateGlobal-model.organizationCode-parentBean" abstract="true" parent="OrganizationRoutingModelName-organizationCode">
+  <bean id="AccountDelegateGlobal-model.organizationCode-parentBean" abstract="true" parent="AccountDelegateModel-organizationCode">
     <property name="name" value="model.organizationCode" />
     <property name="shortLabel" value="Org" />
   </bean>
   <bean id="AccountDelegateGlobal-model.organizationRoutingModelName" parent="AccountDelegateGlobal-model.organizationRoutingModelName-parentBean" />
 
-  <bean id="AccountDelegateGlobal-model.organizationRoutingModelName-parentBean" abstract="true" parent="OrganizationRoutingModelName-organizationRoutingModelName">
+  <bean id="AccountDelegateGlobal-model.organizationRoutingModelName-parentBean" abstract="true" parent="AccountDelegateModel-organizationRoutingModelName">
     <property name="name" value="model.organizationRoutingModelName" />
     <property name="label" value="Model Name" />
     <property name="shortLabel" value="Load" />

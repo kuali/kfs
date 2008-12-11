@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
-import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
@@ -36,7 +36,7 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
      */
     @Override
     protected boolean doCustomPreRules(MaintenanceDocument maintDoc) {
-        OrganizationRoutingModelName model = (OrganizationRoutingModelName) maintDoc.getNewMaintainableObject().getBusinessObject();
+        AccountDelegateModel model = (AccountDelegateModel) maintDoc.getNewMaintainableObject().getBusinessObject();
         copyKeyAttributesToModelDetail(model);
         return true;
     }
@@ -47,8 +47,8 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
      * {@link OrganizationRoutingModel} objects  
      * @param model
      */
-    protected void copyKeyAttributesToModelDetail(OrganizationRoutingModelName model) {
-        for (OrganizationRoutingModel modelDelegate : model.getOrganizationRoutingModel()) {
+    protected void copyKeyAttributesToModelDetail(AccountDelegateModel model) {
+        for (AccountDelegateModelDetail modelDelegate : model.getOrganizationRoutingModel()) {
             modelDelegate.setChartOfAccountsCode(model.getChartOfAccountsCode());
             modelDelegate.setOrganizationCode(model.getOrganizationCode());
             modelDelegate.setOrganizationRoutingModelName(model.getOrganizationRoutingModelName());

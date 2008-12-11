@@ -30,14 +30,14 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * 
  */
-public class OrganizationRoutingModelName extends PersistableBusinessObjectBase implements Inactivateable {
-    private static final Logger LOG = Logger.getLogger(OrganizationRoutingModelName.class);
+public class AccountDelegateModel extends PersistableBusinessObjectBase implements Inactivateable {
+    private static final Logger LOG = Logger.getLogger(AccountDelegateModel.class);
 
     private String chartOfAccountsCode;
     private String organizationCode;
     private String organizationRoutingModelName;
     private boolean active;
-    private List<OrganizationRoutingModel> organizationRoutingModel;
+    private List<AccountDelegateModelDetail> organizationRoutingModel;
 
     private Organization organization;
     private Chart chartOfAccounts;
@@ -45,8 +45,8 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
     /**
      * Default constructor.
      */
-    public OrganizationRoutingModelName() {
-        organizationRoutingModel = new TypedArrayList(OrganizationRoutingModel.class);
+    public AccountDelegateModel() {
+        organizationRoutingModel = new TypedArrayList(AccountDelegateModelDetail.class);
     }
 
     /**
@@ -149,7 +149,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * 
      * @return Returns the organizationRoutingModel.
      */
-    public List<OrganizationRoutingModel> getOrganizationRoutingModel() {
+    public List<AccountDelegateModelDetail> getOrganizationRoutingModel() {
         return organizationRoutingModel;
     }
 
@@ -158,7 +158,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * 
      * @param organizationRoutingModel The organizationRoutingModel to set.
      */
-    public void setOrganizationRoutingModel(List<OrganizationRoutingModel> organizationRoutingModel) {
+    public void setOrganizationRoutingModel(List<AccountDelegateModelDetail> organizationRoutingModel) {
         this.organizationRoutingModel = organizationRoutingModel;
     }
 

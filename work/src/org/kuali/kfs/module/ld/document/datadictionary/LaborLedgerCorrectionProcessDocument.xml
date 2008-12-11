@@ -15,7 +15,7 @@
       <bean parent="HelpDefinition"
             p:parameterNamespace="KFS-GL"
             p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS"
-            p:parameterDetailType="Correction" />
+            p:parameterDetailType="GeneralLedgerCorrectionProcess" />
     </property>
     <property name="documentTypeName" value="LaborLedgerCorrectionProcessDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborCorrectionDocument" />

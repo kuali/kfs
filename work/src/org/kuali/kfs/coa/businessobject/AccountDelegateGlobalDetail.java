@@ -52,7 +52,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
         super();
     }
 
-    public AccountDelegateGlobalDetail(OrganizationRoutingModel model) {
+    public AccountDelegateGlobalDetail(AccountDelegateModelDetail model) {
         accountDelegatePrimaryRoutingIndicator = model.getAccountDelegatePrimaryRoutingIndicator();
         accountDelegateStartDate = model.getAccountDelegateStartDate();
         accountDelegateUniversalId = model.getAccountDelegateUniversalId();

@@ -27,8 +27,8 @@ import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
-import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
-import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
@@ -68,11 +68,11 @@ public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainab
             pkMap.put("chartOfAccountsCode", globalDelegate.getModelChartOfAccountsCode());
             pkMap.put("organizationCode", globalDelegate.getModelOrganizationCode());
 
-            OrganizationRoutingModelName globalDelegateTemplate = (OrganizationRoutingModelName) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationRoutingModelName.class, pkMap);
+            AccountDelegateModel globalDelegateTemplate = (AccountDelegateModel) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AccountDelegateModel.class, pkMap);
             if (globalDelegateTemplate != null) {
                 // 2. if there is a model record, then let's populate the global delegate
                 // based on that
-                for (OrganizationRoutingModel model : globalDelegateTemplate.getOrganizationRoutingModel()) {
+                for (AccountDelegateModelDetail model : globalDelegateTemplate.getOrganizationRoutingModel()) {
                     if (model.isActive()) { // only populate with active models
                         AccountDelegateGlobalDetail newDelegate = new AccountDelegateGlobalDetail(model);
                         // allow deletion of the new delegate from the global delegate

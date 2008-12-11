@@ -30,7 +30,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * 
  */
-public class OrganizationRoutingModel extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountDelegateModelDetail extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -50,10 +50,10 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
     /**
      * Default constructor.
      */
-    public OrganizationRoutingModel() {
+    public AccountDelegateModelDetail() {
     }
 
-    public OrganizationRoutingModel(AccountDelegateGlobalDetail delegateGlobalDetail) {
+    public AccountDelegateModelDetail(AccountDelegateGlobalDetail delegateGlobalDetail) {
         accountDelegateUniversalId = delegateGlobalDetail.getAccountDelegateUniversalId();
         accountDelegatePrimaryRoutingIndicator = delegateGlobalDetail.getAccountDelegatePrimaryRoutingIndicator();
         approvalFromThisAmount = delegateGlobalDetail.getApprovalFromThisAmount();
@@ -320,8 +320,8 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
     }
 
     public boolean equals(Object o) {
-        if (o instanceof OrganizationRoutingModel) {
-            OrganizationRoutingModel orgRouteModel = (OrganizationRoutingModel) o;
+        if (o instanceof AccountDelegateModelDetail) {
+            AccountDelegateModelDetail orgRouteModel = (AccountDelegateModelDetail) o;
             return (((this.getChartOfAccountsCode() == null && orgRouteModel.getChartOfAccountsCode() == null) || this.getChartOfAccountsCode().equals(orgRouteModel.getChartOfAccountsCode())) && ((this.getOrganizationCode() == null && orgRouteModel.getOrganizationCode() == null) || this.getOrganizationCode().equals(orgRouteModel.getOrganizationCode())) && ((this.getOrganizationRoutingModelName() == null && orgRouteModel.getOrganizationRoutingModelName() == null) || this.getOrganizationRoutingModelName().equals(orgRouteModel.getOrganizationRoutingModelName())) && ((this.getAccountDelegateUniversalId() == null && orgRouteModel.getAccountDelegateUniversalId() == null) || this.getAccountDelegateUniversalId().equals(orgRouteModel.getAccountDelegateUniversalId())) && ((this.getFinancialDocumentTypeCode() == null && orgRouteModel.getFinancialDocumentTypeCode() == null) || this.getFinancialDocumentTypeCode().equals(orgRouteModel.getFinancialDocumentTypeCode())));
         }
         else {

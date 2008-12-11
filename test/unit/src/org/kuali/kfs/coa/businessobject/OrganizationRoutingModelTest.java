@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 @ConfigureContext
 public class OrganizationRoutingModelTest extends KualiTestBase {
 
-    OrganizationRoutingModel model;
+    AccountDelegateModelDetail model;
 
     @Override
     protected void setUp() throws Exception {
@@ -38,7 +38,7 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, "BL");
         fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, "CLAS");
-        List<OrganizationRoutingModel> results = (List<OrganizationRoutingModel>) SpringContext.getBean(BusinessObjectService.class).findMatching(OrganizationRoutingModel.class, fieldValues);
+        List<AccountDelegateModelDetail> results = (List<AccountDelegateModelDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(AccountDelegateModelDetail.class, fieldValues);
         assertFalse("no models found", results.isEmpty());
 
         model = results.get(0);
@@ -46,7 +46,7 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
 
     public void testSaveModel() {
         String name = model.getOrganizationRoutingModelName();
-        OrganizationRoutingModel routingModel = new OrganizationRoutingModel();
+        AccountDelegateModelDetail routingModel = new AccountDelegateModelDetail();
         routingModel.setOrganizationRoutingModelName(name);
         routingModel.setChartOfAccountsCode(model.getChartOfAccountsCode());
         routingModel.setOrganizationCode(model.getOrganizationCode());
@@ -62,11 +62,11 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("ORG_RTNG_MDL_NM", name);
 
-        Collection<OrganizationRoutingModel> foundModel = SpringContext.getBean(BusinessObjectService.class).findMatching(clazz, fieldValues);
+        Collection<AccountDelegateModelDetail> foundModel = SpringContext.getBean(BusinessObjectService.class).findMatching(clazz, fieldValues);
 
         List<AccountDelegateGlobalDetail> delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
 
-        for (OrganizationRoutingModel model : foundModel) {
+        for (AccountDelegateModelDetail model : foundModel) {
             delegateGlobals.add(new AccountDelegateGlobalDetail(model));
         }
 

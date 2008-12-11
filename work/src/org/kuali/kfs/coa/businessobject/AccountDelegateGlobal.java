@@ -49,7 +49,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     private String modelChartOfAccountsCode;
     private String modelOrganizationCode;
 
-    private OrganizationRoutingModelName model;
+    private AccountDelegateModel model;
 
     List<AccountGlobalDetail> accountGlobalDetails;
     List<AccountDelegateGlobalDetail> delegateGlobals;
@@ -336,11 +336,11 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
         this.modelOrganizationCode = loadModelOrganizationCode;
     }
 
-    public OrganizationRoutingModelName getModel() {
+    public AccountDelegateModel getModel() {
         return model;
     }
 
-    public void setModel(OrganizationRoutingModelName loadModel) {
+    public void setModel(AccountDelegateModel loadModel) {
         this.model = loadModel;
     }
 

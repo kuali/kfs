@@ -492,6 +492,16 @@ public class LockServiceImpl implements LockService {
         boolean done = false;
 
         BudgetConstructionLockStatus bcLockStatus = new BudgetConstructionLockStatus();
+
+        // gwp - 12/9/2008 Adding extra if test to handle a current transaction lock by the user
+        // as a successful lock even though this is not how Uniface handled it.
+        // The old FIS kept track of the issued locks and only called this once
+        // even when multiple BCAF rows were being updated and saved
+        if (this.isTransactionLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, principalId)){
+            bcLockStatus.setLockStatus(LockStatus.SUCCESS);
+            done = true;
+        }
+
         while (!done) {
             BudgetConstructionHeader bcHeader = budgetConstructionDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
             if (bcHeader != null) {
@@ -873,4 +883,3 @@ public class LockServiceImpl implements LockService {
     }
 
 }
-

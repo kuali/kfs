@@ -20,7 +20,11 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.SearchableAttributeDateTimeValue;
@@ -127,10 +131,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @return hopefully, a collection of objects
      */
     protected Collection getCollectionByPath(BusinessObject businessObject, String collectionPath) {
-        if (businessObject instanceof PersistableBusinessObject) {
-            ((PersistableBusinessObject)businessObject).refreshReferenceObject(collectionPath);
-        }
-        return (Collection)ObjectUtils.getPropertyValue(businessObject, collectionPath);
+        return (Collection)getPropertyByPath(businessObject, collectionPath);
     }
     
     /**
@@ -213,58 +214,12 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
     protected List<Object> aardvarkSearchValuesForPaths(Document document, List<String> paths) {
         List<Object> searchValues = new ArrayList<Object>();
         for (String path : paths) {
-            searchValues.addAll(aardvarkSearchValuesForPath(document, path));
+            flatAdd(searchValues, getPropertyByPath(document, path));
         }
         return searchValues;
     }
     
-    /**
-     * A recursive method, this grabs values from the given object out of the path
-     * @param object an object to grab values from
-     * @param path a potentially nested path
-     * @return a List of values
-     */
-    protected List<Object> aardvarkSearchValuesForPath(Object object, String path) {
-        List<Object> searchingValues = new ArrayList<Object>();
-        
-        final String[] splitPath = headAndTailPath(path);
-        final String head = splitPath[0];
-        final String tail = splitPath[1];
-        
-        if (object instanceof PersistableBusinessObject) {
-            ((PersistableBusinessObject)object).refreshReferenceObject(head);
-        }
-        final Object headValue = ObjectUtils.getPropertyValue(object, head);
-        if (headValue != null) {
-            if (tail == null) {
-                searchingValues.add(headValue);
-            } else {
-                // oops!  we've still got path left...
-                if (headValue instanceof Collection) {
-                    // oh dear, a collection; we've got to loop through this
-                    for (Object currentElement : (Collection)headValue) {
-                        searchingValues.addAll( aardvarkSearchValuesForPath(currentElement, tail) );
-                    }
-                } else {
-                    searchingValues.addAll( aardvarkSearchValuesForPath(headValue, tail) );
-                }
-            }
-        }
-        return searchingValues;
-    }
-    
-    /**
-     * Splits the first property off from a path, leaving the tail
-     * @param path the path to split
-     * @return an array; if the path is nested, the first element will be the first part of the path up to a "." and second element is the rest of the path while if the path is simple, returns the path as the first element and a null as the second element
-     */
-    protected String[] headAndTailPath(String path) {
-        final int firstDot = path.indexOf('.');
-        if (firstDot < 0) {
-            return new String[] { path, null };
-        }
-        return new String[] { path.substring(0, firstDot), path.substring(firstDot + 1) };
-    }
+
     
     /**
      * Using the type of the sent in value, determines what kind of SearchableAttributeValue implementation should be passed back 
@@ -363,5 +318,98 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         attribute.setSearchableAttributeKey(attributeKey);
         attribute.setSearchableAttributeValue(value.toString());
         return attribute;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService#getPropertyByPath(java.lang.Object, java.lang.String)
+     */
+    public Object getPropertyByPath(Object object, String path) {
+        if (object instanceof Collection) return getPropertyOfCollectionByPath((Collection)object, path);
+        
+        final String[] splitPath = headAndTailPath(path);
+        final String head = splitPath[0];
+        final String tail = splitPath[1];
+        
+        if (object instanceof PersistableBusinessObject && tail != null) {
+            ((PersistableBusinessObject)object).refreshReferenceObject(head);
+        }
+        final Object headValue = ObjectUtils.getPropertyValue(object, head);
+        if (headValue != null) {
+            if (tail == null) {
+                return headValue;
+            } else {
+                // we've still got path left...
+                if (headValue instanceof Collection) {
+                    // oh dear, a collection; we've got to loop through this
+                    Collection values = makeNewCollectionOfSameType((Collection)headValue);
+                    for (Object currentElement : (Collection)headValue) {
+                        flatAdd(values, getPropertyByPath(currentElement, tail));
+                    }
+                    return values;
+                } else {
+                    return getPropertyByPath(headValue, tail);
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Finds a child object, specified by the given path, on each object of the given collection
+     * @param collection the collection of objects
+     * @param path the path of the property to retrieve
+     * @return a Collection of the values culled from each child
+     */
+    public Collection getPropertyOfCollectionByPath(Collection collection, String path) {
+        Collection values = makeNewCollectionOfSameType(collection);
+        for (Object o : collection) {
+            flatAdd(values, getPropertyByPath(o, path));
+        }
+        return values;
+    }
+    
+    /**
+     * Makes a new collection of exactly the same type of the collection that was handed to it
+     * @param collection the collection to make a new collection of the same type as
+     * @return a new collection.  Of the same type.
+     */
+    public Collection makeNewCollectionOfSameType(Collection collection) {
+        if (collection instanceof List) return new ArrayList();
+        if (collection instanceof Set) return new HashSet();
+        try {
+            return collection.getClass().newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Couldn't instantiate class of collection we'd already instantiated??", ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Illegal Access on class of collection we'd already accessed??", iae);
+        }
+    }
+    
+    /**
+     * Splits the first property off from a path, leaving the tail
+     * @param path the path to split
+     * @return an array; if the path is nested, the first element will be the first part of the path up to a "." and second element is the rest of the path while if the path is simple, returns the path as the first element and a null as the second element
+     */
+    protected String[] headAndTailPath(String path) {
+        final int firstDot = path.indexOf('.');
+        if (firstDot < 0) {
+            return new String[] { path, null };
+        }
+        return new String[] { path.substring(0, firstDot), path.substring(firstDot + 1) };
+    }
+    
+    /**
+     * Convenience method which makes sure that if the given object is a collection, it is added to the given collection flatly
+     * @param c a collection, ready to be added to
+     * @param o an object of dubious type
+     */
+    protected void flatAdd(Collection c, Object o) {
+        if (o instanceof Collection) {
+            c.addAll((Collection) o);
+        } else {
+            c.add(o);
+        }
     }
 }

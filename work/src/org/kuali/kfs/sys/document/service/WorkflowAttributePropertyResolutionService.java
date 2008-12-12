@@ -43,4 +43,12 @@ public interface WorkflowAttributePropertyResolutionService {
      * @return a List of SearchableAttributeValue objects for index
      */
     public abstract List<SearchableAttributeValue> resolveSearchableAttributeValues(Document document, WorkflowAttributes workflowAttributes);
+    
+    /**
+     * Retrieves an object, the child of another given object passed in as a parameter, by the given path
+     * @param object an object to find a child object of
+     * @param path the path to that child object
+     * @return the child object
+     */
+    public abstract Object getPropertyByPath(Object object, String path);
 }

@@ -74,9 +74,64 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         
         // Validate that the cumulative amount applied doesn't exceed the amount owed.
         try {
-            if(!paymentApplicationDocument.getCashControlTotalAmount().isGreaterEqual(paymentApplicationDocument.getTotalApplied())) {
+            if(!PaymentApplicationDocumentRuleUtil.validateCumulativeSumOfInvoicePaidAppliedDoesntExceedCashControlTotal(paymentApplicationDocument)) {
                 isValid = false;
                 LOG.info("The total amount applied exceeds the total amount owed per the cash control document total amount.");
+            }
+        } catch(WorkflowException workflowException) {
+            isValid = false;
+            LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
+        }
+        
+        // Validate that the cumulative amount applied doesn't exceed the amount owed.
+        try {
+            if(!PaymentApplicationDocumentRuleUtil.validateCumulativeSumOfInvoicePaidAppliedsIsGreaterThanOrEqualToZero(paymentApplicationDocument)) {
+                isValid = false;
+                LOG.info("The total amount applied is less than zero.");
+            }
+        } catch(WorkflowException workflowException) {
+            isValid = false;
+            LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
+        }
+        
+        // Validate that the unapplied total doesn't exceed the cash control total
+        try {
+            if(!PaymentApplicationDocumentRuleUtil.validateUnappliedAmountDoesntExceedCashControlTotal(paymentApplicationDocument)) {
+                isValid = false;
+                LOG.info("The total unapplied amount exceeds the total amount owed per the cash control document total amount.");
+            }
+        } catch(WorkflowException workflowException) {
+            isValid = false;
+            LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
+        }
+        
+        // Validate that the unapplied total isn't less than zero
+        try {
+            if(!PaymentApplicationDocumentRuleUtil.validateUnappliedAmountIsGreaterThanOrEqualToZero(paymentApplicationDocument)) {
+                isValid = false;
+                LOG.info("The total unapplied amount is less than zero.");
+            }
+        } catch(WorkflowException workflowException) {
+            isValid = false;
+            LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
+        }
+        
+        // Validate that the non-invoiced total doesn't exceed the cash control total
+        try {
+            if(!PaymentApplicationDocumentRuleUtil.validateNonInvoicedAmountDoesntExceedCashControlTotal(paymentApplicationDocument)) {
+                isValid = false;
+                LOG.info("The total non-invoiced amount exceeds the total amount owed per the cash control document total amount.");
+            }
+        } catch(WorkflowException workflowException) {
+            isValid = false;
+            LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
+        }
+        
+        // Validate that the non-invoiced total isn't less than zero
+        try {
+            if(!PaymentApplicationDocumentRuleUtil.validateNonInvoicedAmountIsGreaterThanOrEqualToZero(paymentApplicationDocument)) {
+                isValid = false;
+                LOG.info("The total unapplied amount is less than zero.");
             }
         } catch(WorkflowException workflowException) {
             isValid = false;

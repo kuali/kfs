@@ -137,7 +137,12 @@ public enum CustomerInvoiceDetailFixture {
             new BigDecimal(1), // invoiceItemUnitPrice
             new KualiDecimal(1), // amount
             new KualiDecimal(0), // invoiceItemTaxAmount
-            null);
+            null),
+    
+    ONE_DOLLAR_INVOICE_DETAIL(new KualiDecimal(1)),
+    TEN_DOLLAR_INVOICE_DETAIL(new KualiDecimal(10)),
+    FIFTY_DOLLAR_INVOICE_DETAIL(new KualiDecimal(50)),
+    ONE_HUNDRED_DOLLAR_INVOICE_DETAIL(new KualiDecimal(100));
 
     public String documentNumber;
     public String chartOfAccountsCode;
@@ -156,7 +161,46 @@ public enum CustomerInvoiceDetailFixture {
     public CustomerInvoiceDetail parentCustomerInvoiceDetail;
 
     /**
-     * Private Constructor.
+     * Create a customer invoice detail where all you really care about is the amount.
+     * 
+     * @param amount
+     */
+    CustomerInvoiceDetailFixture(KualiDecimal amount) {
+        this(null, // documentNumber
+            "BL", // chartOfAccountsCode
+            "1031400", // accountNumber
+            "ADV", // subAccountNumber
+            "5000", // financialObjectCode
+            "SAC", // financialSubObjectCode
+            "CID", // organizationRefId
+            "BOB", // projectCode
+            null, // accountsReceivableObjectCode
+            Date.valueOf("2008-01-01"), // invoiceItemServiceDate
+            new BigDecimal(1), // invoiceItemQuantity
+            amount.bigDecimalValue(), // invoiceItemUnitPrice
+            amount, // amount
+            new KualiDecimal(0), // invoiceItemTaxAmount
+            null);
+    }
+    
+    /**
+     * Create a customer invoice detail with specific values for all fields.
+     * 
+     * @param documentNumber
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param financialObjectCode
+     * @param financialSubObjectCode
+     * @param organizationReferenceId
+     * @param projectCode
+     * @param accountsReceivableObjectCode
+     * @param invoiceItemServiceDate
+     * @param invoiceItemQuantity
+     * @param invoiceItemUnitPrice
+     * @param amount
+     * @param invoiceItemTaxAmount
+     * @param parentCustomerInvoiceDetail
      */
     CustomerInvoiceDetailFixture(String documentNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String organizationReferenceId, String projectCode, String accountsReceivableObjectCode, Date invoiceItemServiceDate, BigDecimal invoiceItemQuantity, BigDecimal invoiceItemUnitPrice, KualiDecimal amount, KualiDecimal invoiceItemTaxAmount, CustomerInvoiceDetail parentCustomerInvoiceDetail) {
         this.documentNumber = documentNumber;
@@ -222,7 +266,6 @@ public enum CustomerInvoiceDetailFixture {
         customerInvoiceDetail.setOrganizationReferenceId(organizationReferenceId);
         customerInvoiceDetail.setProjectCode(projectCode);
         customerInvoiceDetail.setSubAccountNumber(subAccountNumber);
-        //customerInvoiceDetail.refresh();
         customerInvoiceDocument.addSourceAccountingLine(customerInvoiceDetail);
         return customerInvoiceDetail;
     }

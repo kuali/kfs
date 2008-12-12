@@ -193,25 +193,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     /**
-     * This method returns the sum of all non-invoiced items on the document.
-     * 
-     * @return
-     */
-    public KualiDecimal getNonInvoicedTotal() {
-        KualiDecimal amount = new KualiDecimal(0);
-        for(NonInvoiced nonInvoiced : getNonInvoiceds()) {
-            amount = amount.add(nonInvoiced.getFinancialDocumentLineAmount());
-        }
-        return amount;
-    }
-    
-    /**
      * This method returns the total non-ar amount committed via this document.
      * 
      * @return
      */
     public KualiDecimal getTotalNonAr() {
-        return getNonInvoicedTotal();
+        return getNonInvoicedTotalAmount();
     }
     
     /**

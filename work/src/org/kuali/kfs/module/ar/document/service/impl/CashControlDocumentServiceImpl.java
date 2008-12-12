@@ -86,7 +86,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // refresh nonupdatable references and save the PaymentApplicationDocument
         doc.refreshNonUpdateableReferences();
 
-
         // This attribute is transient but is necessary to sort of bootstrap, allowing some validation rules
         // to succeed before the document is saved again.
         doc.setCashControlDetail(cashControlDetail);

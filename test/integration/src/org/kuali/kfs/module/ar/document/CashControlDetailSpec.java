@@ -20,6 +20,11 @@ import java.sql.Date;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CashControlDetailSpec {
+    
+    static public CashControlDetailSpec specFor(KualiDecimal amount) {
+        return new CashControlDetailSpec("ABB2","9999",new Date(System.currentTimeMillis()),amount);        
+    }
+    
     public CashControlDetailSpec() {}
     public CashControlDetailSpec(String customerNumber, String customerPaymentMediumIdentifier, Date customerPaymentDate, KualiDecimal financialDocumentLineAmount) {
         this.customerNumber = customerNumber;

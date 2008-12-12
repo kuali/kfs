@@ -94,22 +94,29 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         }
     }
     
-    public void testOverApplyingFails() throws Exception {
+    public InvoiceAndCashControlDocumentPair createCashControlDocument(CustomerInvoiceDetailFixture[] invoiceDetailFixtures, CashControlDetailSpec[] cashControlDetailSpecs) throws WorkflowException {
         
-        // This invoice is for $1
+        // Create an invoice
         CustomerInvoiceDocument invoice = 
             CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocumentAndReturnIt(
-                    CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE,
-                    new CustomerInvoiceDetailFixture[] {
-                            CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL
-                    },
-                    null);
+                    CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, invoiceDetailFixtures, null);
         
-        // Receive a payment of $2 from the Customer.
-        List<CashControlDetailSpec> specs = new ArrayList<CashControlDetailSpec>();
-        specs.add(new CashControlDetailSpec("ABB2","9999",new Date(System.currentTimeMillis()),new KualiDecimal(1)));
-        specs.add(new CashControlDetailSpec("ABB2","9999",new Date(System.currentTimeMillis()),new KualiDecimal(1)));
-        CashControlDocument cashControlDocument = createAndSaveNewCashControlDocument(specs);
+        // Create a cash control document as well.
+        CashControlDocument cashControlDocument = createAndSaveNewCashControlDocument(cashControlDetailSpecs);
+        
+        return new InvoiceAndCashControlDocumentPair(invoice,cashControlDocument);
+    }
+    
+    public boolean applyFundsToPaymentApplication(CustomerInvoiceDetailFixture[] invoiceDetailFixtures, CashControlDetailSpec[] cashControlDetailSpecs, KualiDecimal[] amountsToApply) throws Exception {
+        // Verify that we have an amount to apply to each invoice detail.
+        if(cashControlDetailSpecs.length != amountsToApply.length) {
+            throw new Exception("The number of cash control detail specs must equal the number of amounts to apply.");
+        }
+        
+        // Create the invoice and cash control document we need to be able to test the payment application document.
+        InvoiceAndCashControlDocumentPair pair = createCashControlDocument(invoiceDetailFixtures,cashControlDetailSpecs);
+        CashControlDocument cashControlDocument = pair.cashControlDocument;
+        CustomerInvoiceDocument invoice = pair.invoiceDocument;
         
         // The customer now has $1 credit. They owed us $1 and paid us $2.
         
@@ -121,6 +128,13 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         CustomerInvoiceDetail sampleInvoiceDetail = customerInvoiceDetails.iterator().next();
         
         // Now try to apply too much money in receivables (cash control details) against the the outstanding balance (sample invoice detail)
+        
+        // counter allows us to match amounts to apply with specific invoice details
+        int counter = 0;
+        
+        // aggregateOperationSucceeds allows us to measure the success of all operations in aggregate
+        boolean aggregateOperationSucceeds = true;
+        
         for(CashControlDetail cashControlDetail : cashControlDetails) {
             
             // payments are credit against the customer balance via the payment application document referenced from the cash control document.
@@ -139,11 +153,12 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
             invoicePaidApplied.setInvoiceItemNumber(sampleInvoiceDetail.getInvoiceItemNumber());
             
             // Apply too much money (double the amount owed)
-            invoicePaidApplied.setInvoiceItemAppliedAmount(sampleInvoiceDetail.getAmount().multiply(new KualiDecimal(2)));
+            // sampleInvoiceDetail.getAmount().multiply(new KualiDecimal(2))
+            invoicePaidApplied.setInvoiceItemAppliedAmount(amountsToApply[counter]);
             
             invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
             invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-            invoicePaidApplied.setPaidAppliedItemNumber(specs.size());
+            invoicePaidApplied.setPaidAppliedItemNumber(cashControlDetailSpecs.length);
             
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
             if (invoicePaidApplied != null) {
@@ -155,27 +170,72 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
                 sampleInvoiceDetail.setAmountToBeApplied(invoicePaidApplied.getInvoiceItemAppliedAmount());
             }
 
-            // Indicates whether or not the save fails due to validation errors.
-            boolean failed = false;
-            
             // Try to save the document
             try {
                 documentService.saveDocument(paymentApplicationDocument);
             } catch(ValidationException validationException) {
-                failed = true;
+                // Indicate a failures
+                aggregateOperationSucceeds &= false;
             }
             
-            // Assert that errors were encountered when saving.
-            assertTrue(failed);
         }
         
-    }
-    
-    public void testUnderApplyingFails() throws Exception {
-        // TODO implement
+        return aggregateOperationSucceeds;
     }
     
     public void testExactlyApplyingSucceeds() throws Exception {
+        // Set our customer up to owe $1
+        CustomerInvoiceDetailFixture[] invoiceDetailFixtures = 
+            new CustomerInvoiceDetailFixture[] { CustomerInvoiceDetailFixture.ONE_DOLLAR_INVOICE_DETAIL };
+
+        // Receive a payment of $1 from the Customer.
+        CashControlDetailSpec[] cashControlDetailSpecs = new CashControlDetailSpec[] {
+                CashControlDetailSpec.specFor(new KualiDecimal(1))                
+        };
+        
+        KualiDecimal[] amountsToApply = new KualiDecimal[] {
+                new KualiDecimal(1)
+        };
+        
+        assertTrue(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply));
+    }
+
+    public void testUnderApplyingFailsWithoutUnapplied() throws Exception {
+        // Set our customer up to owe $10
+        CustomerInvoiceDetailFixture[] invoiceDetailFixtures = 
+            new CustomerInvoiceDetailFixture[] { CustomerInvoiceDetailFixture.TEN_DOLLAR_INVOICE_DETAIL };
+
+        // Receive a payment of $10 from the Customer.
+        CashControlDetailSpec[] cashControlDetailSpecs = new CashControlDetailSpec[] {
+                CashControlDetailSpec.specFor(new KualiDecimal(10))                
+        };
+        
+        KualiDecimal[] amountsToApply = new KualiDecimal[] {
+                new KualiDecimal(1)
+        };
+        
+        assertFalse(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply));
+    }
+        
+    public void testOverApplyingFails() throws Exception {
+        
+        // Set our customer up to owe $1
+        CustomerInvoiceDetailFixture[] invoiceDetailFixtures = 
+            new CustomerInvoiceDetailFixture[] { CustomerInvoiceDetailFixture.ONE_DOLLAR_INVOICE_DETAIL };
+
+        // Receive a payment of $2 from the Customer.
+        CashControlDetailSpec[] cashControlDetailSpecs = new CashControlDetailSpec[] {
+                CashControlDetailSpec.specFor(new KualiDecimal(2))                
+        };
+        
+        KualiDecimal[] amountsToApply = new KualiDecimal[] {
+                new KualiDecimal(2)
+        };
+        
+        assertFalse(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply));
+    }
+    
+    public void testUnderApplyingFails() throws Exception {
         // TODO implement
     }
     
@@ -183,10 +243,26 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
     }
     
+    private CashControlDocument createAndSaveNewCashControlDocument(CashControlDetailSpec[] specs) throws WorkflowException {
+        List<CashControlDetailSpec> _specs = new ArrayList<CashControlDetailSpec>();
+        for(CashControlDetailSpec spec : specs) {
+            _specs.add(spec);
+        }
+        return createAndSaveNewCashControlDocument(_specs);
+    }
+
     private CashControlDocument createAndSaveNewCashControlDocument(List<CashControlDetailSpec> specs) throws WorkflowException {
         CashControlDocument cashControlDocument = createNewCashControlDocument(specs);
         documentService.saveDocument(cashControlDocument);
         return cashControlDocument;
+    }
+    
+    private CashControlDocument createNewCashControlDocument(CashControlDetailSpec[] specs) throws WorkflowException {
+        List<CashControlDetailSpec> _specs = new ArrayList<CashControlDetailSpec>();
+        for(CashControlDetailSpec spec : specs) {
+            _specs.add(spec);
+        }
+        return createNewCashControlDocument(_specs);
     }
     
     private CashControlDocument createNewCashControlDocument(List<CashControlDetailSpec> specs) throws WorkflowException {
@@ -230,6 +306,17 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         cashControlDetail.setCustomerPaymentDate(spec.customerPaymentDate);
         cashControlDetail.setFinancialDocumentLineAmount(spec.financialDocumentLineAmount);
         return cashControlDetail;
+    }
+    
+    private class InvoiceAndCashControlDocumentPair {
+        CashControlDocument cashControlDocument;
+        CustomerInvoiceDocument invoiceDocument;
+        
+        InvoiceAndCashControlDocumentPair() {};
+        InvoiceAndCashControlDocumentPair(CustomerInvoiceDocument invoice, CashControlDocument cashControl) {
+            this.invoiceDocument = invoice;
+            this.cashControlDocument = cashControl;
+        }
     }
     
 }

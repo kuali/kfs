@@ -77,6 +77,82 @@ public class PaymentApplicationDocumentRuleUtil {
     }
     
     /**
+     * The sum of invoice paid applied amounts cannot exceed the cash control total amount
+     * 
+     * @param paymentApplicationDocument
+     * @return
+     * @throws WorkflowException
+     */
+    public static boolean validateCumulativeSumOfInvoicePaidAppliedDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        KualiDecimal appliedTotal = new KualiDecimal(0);
+        for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
+            invoicePaidApplied.refreshReferenceObject("invoiceItem");
+            appliedTotal = appliedTotal.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
+        }
+        return paymentApplicationDocument.getCashControlTotalAmount().isGreaterEqual(appliedTotal);
+    }
+
+    /**
+     * The sum of invoice paid applied amounts cannot be less than zero.
+     * 
+     * @param paymentApplicationDocument
+     * @return
+     * @throws WorkflowException
+     */
+    public static boolean validateCumulativeSumOfInvoicePaidAppliedsIsGreaterThanOrEqualToZero(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        KualiDecimal appliedTotal = new KualiDecimal(0);
+        for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
+            invoicePaidApplied.refreshReferenceObject("invoiceItem");
+            appliedTotal = appliedTotal.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
+        }
+        return KualiDecimal.ZERO.isGreaterEqual(appliedTotal);
+    }
+    
+    /**
+     * The sum of non invoiceds must be less than or equal to the cash control total amount
+     * 
+     * @param paymentApplicationDocument
+     * @return
+     * @throws WorkflowException
+     */
+    public static boolean validateNonInvoicedAmountDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        return paymentApplicationDocument.getCashControlTotalAmount().isGreaterEqual(paymentApplicationDocument.getNonInvoicedTotalAmount());
+    }
+    
+    /**
+     * The unapplied amount can't be negative
+     * 
+     * @param paymentApplicationDocument
+     * @return
+     * @throws WorkflowException
+     */
+    public static boolean validateNonInvoicedAmountIsGreaterThanOrEqualToZero(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        return KualiDecimal.ZERO.isLessEqual(paymentApplicationDocument.getNonInvoicedTotalAmount());
+    }
+
+    /**
+     * The unapplied amount must be less than or equal to the cash control total amount
+     * 
+     * @param paymentApplicationDocument
+     * @return
+     * @throws WorkflowException
+     */
+    public static boolean validateUnappliedAmountDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        return paymentApplicationDocument.getCashControlTotalAmount().isGreaterEqual(paymentApplicationDocument.getNonAppliedHoldingTotal());
+    }
+    
+    /**
+     * The unapplied amount can't be negative
+     * 
+     * @param paymentApplicationDocument
+     * @return
+     * @throws WorkflowException
+     */
+    public static boolean validateUnappliedAmountIsGreaterThanOrEqualToZero(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        return KualiDecimal.ZERO.isLessEqual(paymentApplicationDocument.getNonAppliedHoldingTotal());
+    }
+
+    /**
      * Validate non-ar/non-invoice line items on a PaymentApplicationDocument.
      * 
      * @param nonInvoiced

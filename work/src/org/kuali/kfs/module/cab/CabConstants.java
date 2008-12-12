@@ -24,7 +24,6 @@ public class CabConstants extends JSTLConstants {
     public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
 
     public static class Parameters {
-        public static final String FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES = "FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES ";
         public static final String LAST_EXTRACT_TIME = "LAST_EXTRACT_TIME";
         public static final String SUB_FUND_GROUPS = "SUB_FUND_GROUPS";
         public static final String FISCAL_PERIODS = "FISCAL_PERIODS";

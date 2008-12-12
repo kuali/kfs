@@ -68,6 +68,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // create a new PaymentApplicationdocument
         PaymentApplicationDocument doc = (PaymentApplicationDocument) documentService.getNewDocument(PaymentApplicationDocument.class);
+        
         // set a description to say that this application document has been created by the CashControldocument
         doc.getDocumentHeader().setDocumentDescription(description);
 
@@ -84,7 +85,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         
         // refresh nonupdatable references and save the PaymentApplicationDocument
         doc.refreshNonUpdateableReferences();
+
+
+        // This attribute is transient but is necessary to sort of bootstrap, allowing some validation rules
+        // to succeed before the document is saved again.
+        doc.setCashControlDetail(cashControlDetail);
+        
         documentService.saveDocument(doc);
+        
         return doc;
     }
 
@@ -94,16 +102,17 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      */
     public void addNewCashControlDetail(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
 
+        // add cash control detail
+        cashControlDocument.addCashControlDetail(cashControlDetail);
+
         // create a new PaymentApplicationdocument
+        // This has to happen after adding the cash control detail so that payment application saving rules succeed.
         PaymentApplicationDocument doc = createAndSavePaymentApplicationDocument(description, cashControlDocument, cashControlDetail);
 
         // update new cash control detail fields to refer to the new created PaymentApplicationDocument
         cashControlDetail.setReferenceFinancialDocument(doc);
         cashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
         // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
-
-        // add cash control detail
-        cashControlDocument.addCashControlDetail(cashControlDetail);
 
     }
 

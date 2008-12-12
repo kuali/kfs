@@ -15,12 +15,15 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.util.ArrayList;
+
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.fixture.CustomerFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -47,7 +50,7 @@ public class CustomerInvoiceDocumentTestUtil {
      * @param customerInvoiceDocumentFixture
      * @param customerInvoiceDocumentFixtures
      */
-    public static String saveNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDocumentFixtures, CustomerFixture customerFixture){
+    public static String saveNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDocumentFixtures, CustomerFixture customerFixture) throws WorkflowException {
                 
         CustomerInvoiceDocument document = null;
         if( ObjectUtils.isNotNull( customerFixture ) ){
@@ -71,7 +74,7 @@ public class CustomerInvoiceDocumentTestUtil {
      * @param customerInvoiceDocumentFixture
      * @param customerInvoiceDocumentFixtures
      */
-    public static String submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures, CustomerFixture customerFixture){
+    public static String submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures, CustomerFixture customerFixture) throws WorkflowException {
         
         CustomerInvoiceDocument document = null;
         if( ObjectUtils.isNotNull( customerFixture ) ){
@@ -83,7 +86,7 @@ public class CustomerInvoiceDocumentTestUtil {
         
         Document routedDocument = null;
         try {
-            routedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, null, null);
+            routedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, "TESTING", new ArrayList());
         } catch (Exception e){
             LOG.error(e.getMessage());
             throw new RuntimeException("The Customer Invoice Document was not routed, and is not available for testing.", e);
@@ -97,7 +100,7 @@ public class CustomerInvoiceDocumentTestUtil {
      * @param customerInvoiceDocumentFixture
      * @param customerInvoiceDocumentFixtures
      */
-    public static CustomerInvoiceDocument submitNewCustomerInvoiceDocumentAndReturnIt(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures, CustomerFixture customerFixture){
+    public static CustomerInvoiceDocument submitNewCustomerInvoiceDocumentAndReturnIt(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures, CustomerFixture customerFixture) throws WorkflowException {
         CustomerInvoiceDocument document = null;
         if( ObjectUtils.isNotNull( customerFixture ) ){
             document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerFixture, customerInvoiceDetailFixtures);
@@ -108,7 +111,7 @@ public class CustomerInvoiceDocumentTestUtil {
         
         Document routedDocument = null;
         try {
-            routedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, null, null);
+            routedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, "TESTING", new ArrayList());
         } catch (Exception e){
             LOG.error(e.getMessage());
         }

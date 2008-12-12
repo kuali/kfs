@@ -23,6 +23,7 @@ import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase {
@@ -41,7 +42,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
         super.tearDown();
     }
     
-    public void testUnitPriceNotEqualToZero_True(){
+    public void testUnitPriceNotEqualToZero_True() throws WorkflowException {
         CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL.createCustomerInvoiceDetail(); 
         CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.BASE_CIDOC_NO_CUSTOMER.createCustomerInvoiceDocument( null );
         
@@ -51,7 +52,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
         assertTrue(validation.validate(null));        
     }
     
-    public void testUnitPriceNotEqualToZero_False(){
+    public void testUnitPriceNotEqualToZero_False() throws WorkflowException {
         CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_AMOUNT_EQUALS_ZERO.createCustomerInvoiceDetail(); 
         CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.BASE_CIDOC_NO_CUSTOMER.createCustomerInvoiceDocument( null );
         
@@ -61,7 +62,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
         assertFalse(validation.validate(null));          
     }
     
-    public void testUnitPriceNotNegativeWhenReversalAndDiscount_True(){
+    public void testUnitPriceNotNegativeWhenReversalAndDiscount_True() throws WorkflowException {
         CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_DISCOUNT_WITH_POSITIVE_AMOUNT.createCustomerInvoiceDetail(); 
         CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.REVERSAL_CIDOC.createCustomerInvoiceDocument( null );
         
@@ -71,7 +72,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
         assertTrue(validation.validate(null));        
     }
     
-   public void testUnitPriceNotNegativeWhenReversalAndDiscount_False(){
+   public void testUnitPriceNotNegativeWhenReversalAndDiscount_False() throws WorkflowException {
        CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_DISCOUNT_WITH_NEGATIVE_AMOUNT.createCustomerInvoiceDetail(); 
        CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.REVERSAL_CIDOC.createCustomerInvoiceDocument( null );
        
@@ -81,7 +82,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
        assertFalse(validation.validate(null));
     }  
    
-   public void testUnitPriceNotPositiveWhenReversalAndNotDiscount_True(){
+   public void testUnitPriceNotPositiveWhenReversalAndNotDiscount_True() throws WorkflowException {
        CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_WITH_NEGATIVE_AMOUNT.createCustomerInvoiceDetail(); 
        CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.REVERSAL_CIDOC.createCustomerInvoiceDocument( null );
        
@@ -91,7 +92,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
        assertTrue(validation.validate(null));        
    }
    
-  public void testUnitPriceNotPositiveWhenReversalAndNotDiscount_False(){
+  public void testUnitPriceNotPositiveWhenReversalAndNotDiscount_False() throws WorkflowException {
       CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL.createCustomerInvoiceDetail(); 
       CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.REVERSAL_CIDOC.createCustomerInvoiceDocument( null );
       
@@ -101,7 +102,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
       assertFalse(validation.validate(null));
    }   
   
-  public void testUnitPriceNotNegativeWhenNotReversalAndNotDiscount_True(){
+  public void testUnitPriceNotNegativeWhenNotReversalAndNotDiscount_True() throws WorkflowException {
       CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL.createCustomerInvoiceDetail(); 
       CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.BASE_CIDOC_NO_CUSTOMER.createCustomerInvoiceDocument( null );
       
@@ -111,7 +112,7 @@ public class CustomerInvoiceDetailUnitPriceValidationTest extends KualiTestBase 
       assertTrue(validation.validate(null));
    }   
   
-  public void testUnitPriceNotNegativeWhenNotReversalAndNotDiscount_False(){
+  public void testUnitPriceNotNegativeWhenNotReversalAndNotDiscount_False() throws WorkflowException {
       CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_WITH_NEGATIVE_AMOUNT.createCustomerInvoiceDetail(); 
       CustomerInvoiceDocument customerInvoiceDocument = CustomerInvoiceDocumentFixture.BASE_CIDOC_NO_CUSTOMER.createCustomerInvoiceDocument( null );
       

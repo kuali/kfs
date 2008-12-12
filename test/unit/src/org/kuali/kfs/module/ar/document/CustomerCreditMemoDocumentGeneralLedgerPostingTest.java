@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -27,6 +29,7 @@ import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -67,7 +70,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
     /**
      * This method tests if general ledger entries are created correctly for income, sales tax, and district tax
      */
-    public void testGenerateGeneralLedgerPendingEntries_BasicGLPEs() {
+    public void testGenerateGeneralLedgerPendingEntries_BasicGLPEs() throws WorkflowException {
 
         // get document with GLPE's generated
         CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU, CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL);
@@ -81,7 +84,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
     /**
      * This method tests if general ledger entries are created correctly when the receivable is set to use the FAU
      */
-    public void testGenerateGeneralLedgerPendingEntries_ReceivableFAU() {
+    public void testGenerateGeneralLedgerPendingEntries_ReceivableFAU() throws WorkflowException {
 
         // get document with GLPE's generated
         CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU, CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL);
@@ -102,7 +105,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
      * This method tests if general ledger entries are created correctly when the receivable is set to use the Chart of Accounts
      * Code
      */
-    public void testGenerateGeneralLedgerPendingEntries_ReceivableChart() {
+    public void testGenerateGeneralLedgerPendingEntries_ReceivableChart() throws WorkflowException {
         // get document with GLPE's generated
         CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART, CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE);
 
@@ -125,7 +128,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
      * 
      * TODO Test needs to be written after AR Object Code is added to Sub Fund Group
      */
-    public void testGenerateGeneralLedgerPendingEntries_SubFundGroup() {
+    public void testGenerateGeneralLedgerPendingEntries_SubFundGroup() throws WorkflowException {
         // get document with GLPE's generated
         CustomerCreditMemoDocument doc = getCustomerCreditMemoDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND, CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE);
         
@@ -151,7 +154,7 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
      * @param customerInvoiceDocumentFixture
      * @return
      */
-    public CustomerCreditMemoDocument getCustomerCreditMemoDocumentWithGLPEs(String receivableOffsetGenerationMethodValue, CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture customerInvoiceDetailFixture) {
+    public CustomerCreditMemoDocument getCustomerCreditMemoDocumentWithGLPEs(String receivableOffsetGenerationMethodValue, CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture customerInvoiceDetailFixture)  throws WorkflowException {
         // update system parameter to make system use FAU receivable for Customer Invoice Document
         TestUtils.setSystemParameter(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, receivableOffsetGenerationMethodValue);
 

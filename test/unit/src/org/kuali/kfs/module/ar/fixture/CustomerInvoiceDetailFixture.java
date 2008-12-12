@@ -207,9 +207,24 @@ public enum CustomerInvoiceDetailFixture {
      * 
      * @param customerInvoiceDocument
      */
-    public void addTo(CustomerInvoiceDocument customerInvoiceDocument) {
+    public CustomerInvoiceDetail addTo(CustomerInvoiceDocument customerInvoiceDocument) {
         CustomerInvoiceDetail customerInvoiceDetail = this.createCustomerInvoiceDetail();
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
+        customerInvoiceDetail.setAccountNumber(accountNumber);
+        customerInvoiceDetail.setAmount(amount);
+        customerInvoiceDetail.setChartOfAccountsCode(chartOfAccountsCode);
+        customerInvoiceDetail.setFinancialObjectCode(financialObjectCode);
+        customerInvoiceDetail.setFinancialSubObjectCode(financialSubObjectCode);
+        customerInvoiceDetail.setInvoiceItemQuantity(invoiceItemQuantity);
+        customerInvoiceDetail.setInvoiceItemServiceDate(invoiceItemServiceDate);
+        customerInvoiceDetail.setInvoiceItemTaxAmount(invoiceItemTaxAmount);
+        customerInvoiceDetail.setInvoiceItemUnitPrice(invoiceItemUnitPrice);
+        customerInvoiceDetail.setOrganizationReferenceId(organizationReferenceId);
+        customerInvoiceDetail.setProjectCode(projectCode);
+        customerInvoiceDetail.setSubAccountNumber(subAccountNumber);
+        //customerInvoiceDetail.refresh();
         customerInvoiceDocument.addSourceAccountingLine(customerInvoiceDetail);
+        return customerInvoiceDetail;
     }
+    
 }

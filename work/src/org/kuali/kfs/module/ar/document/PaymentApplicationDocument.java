@@ -68,6 +68,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     private NonAppliedHolding nonAppliedHolding;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private transient PaymentApplicationDocumentService paymentApplicationDocumentService;
+    private transient CashControlDetail cashControlDetail;
 
     public PaymentApplicationDocument() {
         super();
@@ -99,31 +100,51 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return paymentNumber;
     }
-    
+
+    /**
+     * @return
+     * @throws WorkflowException
+     */
     public CashControlDocument getCashControlDocument() throws WorkflowException {
         CashControlDocument cashControlDocument = 
             getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
         return cashControlDocument;
     }
-    
+
+    /**
+     * @return
+     * @throws WorkflowException
+     */
     public CashControlDetail getCashControlDetail() throws WorkflowException {
-        CashControlDetail cashControlDetail = 
-            getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
-        return cashControlDetail;
-    }
-    
-    public KualiDecimal getCashControlTotalAmount() throws WorkflowException {
-        CashControlDocument cashControlDocument = 
-            getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
-        CashControlDetail cashControlDetail = 
-            getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
-        KualiDecimal amount = KualiDecimal.ZERO;
-        if(null != cashControlDocument) {
-            amount = cashControlDetail.getFinancialDocumentLineAmount();
+        if(null != cashControlDetail) {
+            return cashControlDetail;
+        } else {
+            return getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
         }
-        return amount;
     }
     
+    public void setCashControlDetail(CashControlDetail cashControlDetail) {
+        this.cashControlDetail = cashControlDetail;
+    }
+    
+    /**
+     * @return
+     * @throws WorkflowException
+     */
+    public KualiDecimal getCashControlTotalAmount() throws WorkflowException {
+//        CashControlDocument cashControlDocument = 
+//            getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
+//        CashControlDetail cashControlDetail = 
+//            getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
+//        KualiDecimal amount = KualiDecimal.ZERO;
+//        if(null != cashControlDocument) {
+        return getCashControlDetail().getFinancialDocumentLineAmount();
+//        }
+    }
+    
+    /**
+     * @return the sum of all invoice paid applieds.
+     */
     public KualiDecimal getInvoicePaidAppliedsTotal() {
         KualiDecimal amount = new KualiDecimal(0);
         for(InvoicePaidApplied payment : getInvoicePaidApplieds()) {
@@ -132,6 +153,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return amount;
     }
     
+    /**
+     * @return the sum of all non-invoiced distributions
+     */
     public KualiDecimal getNonInvoicedDistributionsTotal() {
         KualiDecimal amount = new KualiDecimal(0);
         for(NonInvoicedDistribution nonInvoicedDistribution : getNonInvoicedDistributions()) {
@@ -140,6 +164,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return amount;
     }
     
+    /**
+     * @return the sum of all non-applied distributions
+     */
     public KualiDecimal getNonAppliedDistributionsTotal() {
         KualiDecimal amount = new KualiDecimal(0);
         for(NonAppliedDistribution nonAppliedDistribution : getNonAppliedDistributions()) {
@@ -148,6 +175,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return amount;
     }
     
+    /**
+     * @return the non-applied holding total.
+     */
     public KualiDecimal getNonAppliedHoldingTotal() {
         KualiDecimal amount = KualiDecimal.ZERO;
         NonAppliedHolding nonAppliedHolding = getNonAppliedHolding();
@@ -162,6 +192,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return amount;
     }
     
+    /**
+     * This method returns the sum of all non-invoiced items on the document.
+     * 
+     * @return
+     */
     public KualiDecimal getNonInvoicedTotal() {
         KualiDecimal amount = new KualiDecimal(0);
         for(NonInvoiced nonInvoiced : getNonInvoiceds()) {
@@ -170,15 +205,31 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return amount;
     }
     
+    /**
+     * This method returns the total non-ar amount committed via this document.
+     * 
+     * @return
+     */
     public KualiDecimal getTotalNonAr() {
         return getNonInvoicedTotal();
     }
     
+    /**
+     * This method returns the total amount allocated against the cash
+     * control total.
+     * 
+     * @return
+     */
     public KualiDecimal getTotalApplied() {
         KualiDecimal amount = KualiDecimal.ZERO;
         try {
+            // The amount received via the cash control document
             KualiDecimal ccta = getCashControlTotalAmount();
+            
+            // The amount received via the cash control document minus the amount applied.
             KualiDecimal btba = getBalanceToBeApplied();
+            
+            // The difference between the two is the amount applied.
             amount = ccta.subtract(btba);
         } catch(WorkflowException w) {
             LOG.error("Failed to calculate total applied amount.", w);
@@ -186,10 +237,23 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return amount;
     }
     
+    /**
+     * This method returns the total unapplied amount on the payment application document.
+     * 
+     * @return
+     */
     public KualiDecimal getTotalUnapplied() {
         return getNonAppliedHoldingTotal();
     }
     
+    /**
+     * This method subtracts the sum of the invoice paid applieds, non-ar and 
+     * unapplied totals from the outstanding amount received via the cash
+     * control document.
+     * 
+     * @return
+     * @throws WorkflowException
+     */
     public KualiDecimal getBalanceToBeApplied() throws WorkflowException {
         
         //  if this payapp doc isnt based on a cash control doc, then there 

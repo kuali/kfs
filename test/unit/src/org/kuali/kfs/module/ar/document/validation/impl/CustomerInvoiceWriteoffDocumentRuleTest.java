@@ -90,7 +90,7 @@ public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {
     /**
      * This method...
      */
-    public void testDoesOrganizationAccountingDefaultHaveWriteoffInformation_Valid(){
+    public void testDoesOrganizationAccountingDefaultHaveWriteoffInformation_Valid() throws WorkflowException {
         OrganizationAccountingDefault organizationAccountingDefault = new OrganizationAccountingDefault();
         organizationAccountingDefault.setChartOfAccountsCode(ORG_ACCT_DEFAULT_CHART);
         organizationAccountingDefault.setOrganizationCode(ORG_ACCT_DEFAULT_ORG);
@@ -114,7 +114,7 @@ public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {
     /**
      * This method...
      */
-    public void testDoesOrganizationAccountingDefaultHaveWriteoffInformation_Invalid(){
+    public void testDoesOrganizationAccountingDefaultHaveWriteoffInformation_Invalid() throws WorkflowException {
         
         String customerInvoiceDocumentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO,
                 new CustomerInvoiceDetailFixture[]
@@ -140,7 +140,7 @@ public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {
     /**
      * This method...
      */
-    public void testDoesCustomerInvoiceDocumentHaveValidBalance_Valid(){
+    public void testDoesCustomerInvoiceDocumentHaveValidBalance_Valid() throws WorkflowException {
         
         String customerInvoiceDocumentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO,
                 new CustomerInvoiceDetailFixture[]
@@ -156,7 +156,7 @@ public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {
     /**
      * This method...
      */
-    public void testDoesCustomerInvoiceDocumentHaveValidBalance_Invalid(){
+    public void testDoesCustomerInvoiceDocumentHaveValidBalance_Invalid() throws WorkflowException {
         
         String customerInvoiceDocumentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO,
                 new CustomerInvoiceDetailFixture[]

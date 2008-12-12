@@ -193,6 +193,9 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return cashControlDocument;
     }
     
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDetailForPaymentApplicationDocument(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
+     */
     public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException {
         String payAppDocumentNumber = document.getDocumentNumber();
         String cashControlDocumentNumber = document.getDocumentHeader().getOrganizationDocumentNumber();

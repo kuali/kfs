@@ -1692,6 +1692,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return
      */
     public void setCustomerBillToAddressOnInvoice(CustomerAddress customerBillToAddress) {
+        
+        this.setCustomerName(accountsReceivableDocumentHeader.getCustomer().getCustomerName());
 
         this.setBillingAddressTypeCode(customerBillToAddress.getCustomerAddressTypeCode());
         this.setBillingAddressName(customerBillToAddress.getCustomerAddressName());
@@ -1711,6 +1713,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return
      */
     public void setCustomerShipToAddressOnInvoice(CustomerAddress customerShipToAddress) {
+
+        Customer customer = accountsReceivableDocumentHeader.getCustomer();
+        this.setCustomerName(customer.getCustomerName());
 
         this.setShippingAddressTypeCode(customerShipToAddress.getCustomerAddressTypeCode());
         this.setShippingAddressName(customerShipToAddress.getCustomerAddressName());

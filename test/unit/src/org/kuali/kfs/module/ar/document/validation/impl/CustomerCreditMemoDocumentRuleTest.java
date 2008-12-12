@@ -255,7 +255,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if checkIfInvoiceNumberIsValid returns true if passed a valid invoice number
      */
-    public void testCheckIfInvoiceNumberIsValid_True() {
+    public void testCheckIfInvoiceNumberIsValid_True() throws WorkflowException {
 
         String documentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER,
             new CustomerInvoiceDetailFixture[]
@@ -268,7 +268,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if checkIfThereIsNoAnotherCRMInRouteForTheInvoice returns true if there are no CRMs associated with the invoice 
      */
-    public void testCheckIfThereIsNoAnotherCRMInRouteForTheInvoice_True() {
+    public void testCheckIfThereIsNoAnotherCRMInRouteForTheInvoice_True() throws WorkflowException {
         String documentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER,
             new CustomerInvoiceDetailFixture[]
             {CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE},
@@ -280,7 +280,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
      *  This method tests if checkIfThereIsNoAnotherCRMInRouteForTheInvoice returns false if passed an invoice number for which there is a CRM in route. 
      */
 
-    public void testCheckIfThereIsNoAnotherCRMInRouteForTheInvoice_False() {
+    public void testCheckIfThereIsNoAnotherCRMInRouteForTheInvoice_False() throws WorkflowException {
         String invoiceNumber = "";
         
         // create a new invoice

@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * This class tests the GLPE Helper for the Customer Invoice Document
@@ -38,7 +39,7 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
     /**
      * This method tests if general ledger entries are created correctly for income, sales tax, and district tax
      */
-    public void testGenerateGeneralLedgerPendingEntries_BasicGLPEs() {
+    public void testGenerateGeneralLedgerPendingEntries_BasicGLPEs() throws WorkflowException {
 
         // get document with GLPE's generated
         CustomerInvoiceDocument doc = getCustomerInvoiceDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU, CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL);
@@ -51,7 +52,7 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
     /**
      * This method tests if general ledger entries are created correctly when the receivable is set to use the FAU
      */
-    public void testGenerateGeneralLedgerPendingEntries_ReceivableFAU() {
+    public void testGenerateGeneralLedgerPendingEntries_ReceivableFAU() throws WorkflowException {
 
         // get document with GLPE's generated
         CustomerInvoiceDocument doc = getCustomerInvoiceDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU, CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE, CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL);
@@ -72,7 +73,7 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
      * This method tests if general ledger entries are created correctly when the receivable is set to use the Chart of Accounts
      * Code
      */
-    public void testGenerateGeneralLedgerPendingEntries_ReceivableChart() {
+    public void testGenerateGeneralLedgerPendingEntries_ReceivableChart() throws WorkflowException {
 
         // get document with GLPE's generated
         CustomerInvoiceDocument doc = getCustomerInvoiceDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART, CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE);
@@ -96,7 +97,7 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
      * 
      * TODO Test needs to be written after AR Object Code is added to Sub Fund Group
      */
-    public void testGenerateGeneralLedgerPendingEntries_SubFundGroup() {
+    public void testGenerateGeneralLedgerPendingEntries_SubFundGroup() throws WorkflowException {
      // get document with GLPE's generated
         CustomerInvoiceDocument doc = getCustomerInvoiceDocumentWithGLPEs(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND, CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER, CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE);
         
@@ -123,7 +124,7 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
      * @param customerInvoiceDocumentFixture
      * @return
      */
-    public CustomerInvoiceDocument getCustomerInvoiceDocumentWithGLPEs(String receivableOffsetGenerationMethodValue, CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture customerInvoiceDetailFixture) {
+    public CustomerInvoiceDocument getCustomerInvoiceDocumentWithGLPEs(String receivableOffsetGenerationMethodValue, CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture customerInvoiceDetailFixture) throws WorkflowException {
         // update system parameter to make system use FAU receivable for Customer Invoice Document
         TestUtils.setSystemParameter(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, receivableOffsetGenerationMethodValue);
 

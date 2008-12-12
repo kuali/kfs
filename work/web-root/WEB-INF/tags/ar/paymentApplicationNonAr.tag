@@ -34,15 +34,6 @@
 			    var kualiForm = document.forms['KualiForm'];
 			    var kualiElements = kualiForm.elements;
 			</SCRIPT>
-            
-<%--
-            <c:choose>
-                <c:when test="${!isCustomerSelected}">
-                    No Customer Selected
-                </c:when>
-                <c:otherwise>
---%>
-        
             <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>
                     <kul:htmlAttributeHeaderCell literalLabel=" "/>             

@@ -19,7 +19,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,10 +34,45 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentApplicationDocumentRuleUtil {
 
-    public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced, KualiDecimal cashControlBalanceToBeApplied) throws WorkflowException {
+    public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced) throws WorkflowException {
         boolean isValid = validateApplieds(invoiceDetails, applicationDocument);
         isValid &= validateUnapplied(applicationDocument);
-        isValid &= validateNonInvoiced(newNonInvoiced, cashControlBalanceToBeApplied);
+        isValid &= validateNonInvoiced(newNonInvoiced, applicationDocument.getBalanceToBeApplied());
+        return isValid;
+    }
+    
+    /**
+     * This method checks that an invoice paid applied is for a valid amount.
+     * 
+     * @param invoicePaidApplied
+     * @return
+     */
+    public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied) {
+        boolean isValid = true;
+        
+        invoicePaidApplied.refreshReferenceObject("invoiceItem");
+        KualiDecimal amountOwed = invoicePaidApplied.getInvoiceItem().getAmount();
+        KualiDecimal amountPaid = invoicePaidApplied.getInvoiceItemAppliedAmount();
+        
+        // Get a handle on the global error map
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        // Can't pay more than you owe.
+        if(!amountPaid.isLessEqual(amountOwed)) {
+            isValid = false;
+            errorMap.putError(
+                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
+                ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
+        }
+        
+        // Paying zero means nothing.
+        if(!amountPaid.isGreaterThan(KualiDecimal.ZERO)) {
+            isValid = false;
+            errorMap.putError(
+                ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
+                ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
+        }
+        
         return isValid;
     }
     
@@ -149,7 +186,9 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateUnapplied(PaymentApplicationDocument applicationDocument) throws WorkflowException {
-        KualiDecimal cashControlTotalAmount = applicationDocument.getCashControlDetail().getFinancialDocumentLineAmount();
+        // The amount of the unapplied attribute must be less than the cash control document amount
+        CashControlDetail cashControlDetail = applicationDocument.getCashControlDetail();
+        KualiDecimal cashControlTotalAmount = cashControlDetail.getFinancialDocumentLineAmount();
         KualiDecimal totalUnapplied = applicationDocument.getTotalUnapplied();
         boolean isValid = cashControlTotalAmount.isGreaterEqual(totalUnapplied);
         if(!isValid) {
@@ -157,6 +196,7 @@ public class PaymentApplicationDocumentRuleUtil {
             String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT;
             GlobalVariables.getErrorMap().putError(propertyName, errorKey);
         }
+        // The amount of the unapplied can't exceed the remaining balance to be applied 
         KualiDecimal totalBalaceToBeApplied = applicationDocument.getBalanceToBeApplied();
         isValid = totalBalaceToBeApplied.isGreaterEqual(totalUnapplied);
         if(!isValid) {

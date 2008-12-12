@@ -17,12 +17,19 @@ package org.kuali.kfs.module.ar.fixture;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public enum CustomerInvoiceDocumentFixture {
     
@@ -127,7 +134,7 @@ public enum CustomerInvoiceDocumentFixture {
      * @param customerInvoiceDetailFixtures
      * @return
      */
-    public CustomerInvoiceDocument createCustomerInvoiceDocument(CustomerFixture customerFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures){
+    public CustomerInvoiceDocument createCustomerInvoiceDocument(CustomerFixture customerFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures) throws WorkflowException {
     
         CustomerInvoiceDocument customerInvoiceDocument = createCustomerInvoiceDocument( customerInvoiceDetailFixtures );
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerFixture.customerNumber);
@@ -141,7 +148,7 @@ public enum CustomerInvoiceDocumentFixture {
      * @param customerInvoiceDetailFixtures
      * @return
      */
-    public CustomerInvoiceDocument createCustomerInvoiceDocument(CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures){
+    public CustomerInvoiceDocument createCustomerInvoiceDocument(CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures) throws WorkflowException {
         
         CustomerInvoiceDocument customerInvoiceDocument = null;
         try {
@@ -150,6 +157,10 @@ public enum CustomerInvoiceDocumentFixture {
         catch (WorkflowException e) {
             throw new RuntimeException("Document creation failed.");
         }
+        
+        // Just verify the workflow pieces
+        DocumentHeader documentHeader = customerInvoiceDocument.getDocumentHeader();
+        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
         
         //probably should change this to use values set in fixture
         SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
@@ -171,23 +182,56 @@ public enum CustomerInvoiceDocumentFixture {
         
         //  this is a little hacky, as some of these dont even have a customer attached, 
         // but these are required fields now
-        customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
-        customerInvoiceDocument.setCustomerShipToAddressIdentifier(1);
+        //customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
+        //customerInvoiceDocument.setCustomerShipToAddressIdentifier(1);
 
         //set AR doc Header
-        AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
+        AccountsReceivableDocumentHeader arDocHeader = null;
+        
+        if(ObjectUtils.isNull(customerInvoiceDocument.getAccountsReceivableDocumentHeader())) {
+            arDocHeader = new AccountsReceivableDocumentHeader();
+            customerInvoiceDocument.setAccountsReceivableDocumentHeader(arDocHeader);
+        } else {
+            arDocHeader = customerInvoiceDocument.getAccountsReceivableDocumentHeader();
+        }
         arDocHeader.setCustomerNumber(customerNumber);
         arDocHeader.setProcessingChartOfAccountCode( processingChartOfAccountsCode );
         arDocHeader.setProcessingOrganizationCode( processingOrganizationCode );
         arDocHeader.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
-        customerInvoiceDocument.setAccountsReceivableDocumentHeader(arDocHeader);
+        //customerInvoiceDocument.setAccountsReceivableDocumentHeader(arDocHeader);
+        
+        // refresh to set the Customer on the arDocHeader so setaddressoninvoice doesn't throw an NPE
+        arDocHeader.refresh();
+        
+        CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
+        CustomerAddress customerShipToAddress = customerAddressService.getPrimaryAddress(customerNumber);
+        CustomerAddress customerBillToAddress = customerShipToAddress;
+        if (ObjectUtils.isNotNull(customerShipToAddress)) {
+            customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
+            customerInvoiceDocument.setCustomerShipToAddressOnInvoice(customerShipToAddress);
+            customerInvoiceDocument.setCustomerShipToAddressIdentifier(customerShipToAddress.getCustomerAddressIdentifier());
+            
+            customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+            customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
+            customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
+        }
+        
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         
         //associated customer invoice detail fixtures with invoice document
         if ( customerInvoiceDetailFixtures != null ){
-            for (CustomerInvoiceDetailFixture customerInvoiceDetailFixture : customerInvoiceDetailFixtures) { 
-                customerInvoiceDetailFixture.addTo(customerInvoiceDocument);
-            }        
+            for (CustomerInvoiceDetailFixture customerInvoiceDetailFixture : customerInvoiceDetailFixtures) {
+                CustomerInvoiceDetail detail = customerInvoiceDetailFixture.addTo(customerInvoiceDocument);
+                // FIXME Set the accountsReceivableObjectCode
+                String accountsReceivableObjectCode = customerInvoiceDetailService.getAccountsReceivableObjectCodeBasedOnReceivableParameter(detail);
+                detail.setAccountsReceivableObjectCode(accountsReceivableObjectCode);
+            }
         }
+        
+        //customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
+        //customerInvoiceDocument.getPaymentFinancialObject().refresh();
+        
+        SpringContext.getBean(DocumentService.class).saveDocument(customerInvoiceDocument);
         
         return customerInvoiceDocument;
     }

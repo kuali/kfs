@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
@@ -58,7 +57,6 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchContent(org.kuali.rice.kew.docsearch.DocumentSearchContext)
      */
     public String getSearchContent(DocumentSearchContext documentSearchContext) {
-        LOG.info("getSearchContent start");
 
         return "";
     }
@@ -68,20 +66,19 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      */
     public List<SearchableAttributeValue> getSearchStorageValues(DocumentSearchContext documentSearchContext) {
         
-        LOG.info("getSearchStorageValues start");
         String docId = documentSearchContext.getDocumentId();
-        documentSearchContext.getDocumentTypeName();
+        DocumentEntry docEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
+
         DocumentService docService = SpringContext.getBean(DocumentService.class);
-        Document document = null;
-        try {
-            document = docService.getByDocumentHeaderId(docId);
-        } catch (WorkflowException wfe) {
-            wfe.printStackTrace();
+        Document doc = null;
+        try  {
+            doc = docService.getByDocumentHeaderIdSessionless(docId);
+        } catch (WorkflowException we) {
+            
         }
-        WorkflowAttributes workflowAttributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName()).getWorkflowAttributes();
-        
+        WorkflowAttributes workflowAttributes = docEntry.getWorkflowAttributes();
         WorkflowAttributePropertyResolutionService waprs = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
-        return waprs.resolveSearchableAttributeValues(document, workflowAttributes);
+        return waprs.resolveSearchableAttributeValues(doc, workflowAttributes);
     }
 
     /**
@@ -89,27 +86,11 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      */
     public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
         
-        LOG.info("getSearchingRows start");
        
-        // TODO Auto-generated method stub
        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
        WorkflowAttributes workflowAttributes = entry.getWorkflowAttributes();
 
        List<Row> retvals = createFieldRowsForWorkflowAttributes(workflowAttributes);
-
-       
-//        List<SearchingTypeDefinition> searchingTypeDefinitions = workflowAttributes.getSearchingAttributeDefinitions();
-//        for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
-//            SearchingAttribute attr = definition.getSearchingAttribute();
-//            String attributeName = attr.getAttributeName();
-//            String businessObjectClassName = attr.getBusinessObjectClassName();
-//            List<String> paths = definition.getDocumentValues();
-//            
-          //  Class<? extends BusinessObject> businessObjectClass = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(businessObjectClassName).getDocumentClass();
-            
-            
-      //  }
-//      /  Map<String, WorkflowAttributeDefinition> searchingAttrDefn = workflowAttributes.getSearchingAttributeDefinitions();
         
         return retvals;
     }
@@ -118,7 +99,6 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#validateUserSearchInputs(java.util.Map, org.kuali.rice.kew.docsearch.DocumentSearchContext)
      */
     public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> paramMap, DocumentSearchContext searchContext) {
-        LOG.info("validate start");
 
         return null;
     }
@@ -136,9 +116,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
           SearchingAttribute attr = definition.getSearchingAttribute();
           String attributeName = attr.getAttributeName();
           String businessObjectClassName = attr.getBusinessObjectClassName();
-        //  List<String> paths = definition.getDocumentValues();
           final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClassName);
-       //   for (String path : paths) {
               Field searchField = buildSearchField(attributeName, boEntry);
               List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);
@@ -151,7 +129,6 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
               }
               searchFields.add(new Row(fieldList));
               
-      //    }
       }
         
         return searchFields;
@@ -307,7 +284,6 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             if (relationship != null) {
                 final Class lookingUpClass = relationship.getRelatedClass();
                 String retVal = getWorkflowLookupServiceName(lookingUpClass);
-               // System.out.println(retVal);
                 return retVal;
             } else {
                 return null;

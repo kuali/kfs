@@ -5,14 +5,6 @@
 <name>ProposalAwardTypeMaintenanceDocument</name>
 <parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-<routePaths>
-        <routePath>
-          <start name="Central Review"/>
-        </routePath>
-      </routePaths>
-<routeNodes>
-<start name="Central Review"/>
-</routeNodes>
 </documentType>
 </documentTypes>
 </data>

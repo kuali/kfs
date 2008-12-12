@@ -4,7 +4,6 @@
 <documentType>
 <name>AssetDepreciationDocument</name>
 <parent>CapitalAssetManagementTransactionalDocument</parent>
-<docHandler>this-document-has-no-ui</docHandler>
 <routeNodes/>
 </documentType>
 </documentTypes>

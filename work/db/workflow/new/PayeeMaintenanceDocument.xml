@@ -7,14 +7,14 @@
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Org Review"/>
-          <requests name="Org Review" nextNode="Employee Payees Review"/>
+          <start name="Adhoc Routing" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Employee Payees Review"/>
           <requests name="Employee Payees Review"/>
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="Adhoc Routing"/>
-<role name="Org Review">
+<role name="OrganizationHierarchy">
 <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

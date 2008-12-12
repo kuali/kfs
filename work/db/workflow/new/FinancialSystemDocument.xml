@@ -4,6 +4,13 @@
 <documentType>
 <name>FinancialSystemDocument</name>
 <parent>KualiDocument</parent>
+<postProcessorName>org.kuali.kfs.sys.document.workflow.PostProcessor</postProcessorName>
+			<attributes>
+				<attribute>
+					<name>FinancialSystemSearchableAttribute</name>
+				</attribute>
+			</attributes>
+
 <docHandler/>
 <routeNodes/>
 </documentType>

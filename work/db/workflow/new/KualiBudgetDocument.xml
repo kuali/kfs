@@ -8,8 +8,8 @@
 <routePaths>
         <routePath>
           <start name="Adhoc Routing" nextNode="Project Director"/>
-          <requests name="Project Director" nextNode="Org Review"/>
-          <requests name="Org Review"/>
+          <requests name="Project Director" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
         </routePath>
       </routePaths>
 <routeNodes>
@@ -18,7 +18,7 @@
 <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Org Review">
+<role name="OrganizationHierarchy">
 <ruleTemplate>KualiResearchOrgReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

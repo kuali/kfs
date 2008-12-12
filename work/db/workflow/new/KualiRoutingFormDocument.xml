@@ -9,16 +9,16 @@
         <routePath>
           <start name="Adhoc Routing" nextNode="Project Director"/>
           <requests name="Project Director" nextNode="Split"/>
-          <split name="Split" nextNode="Research Risk">
+          <split name="Split" nextNode="ResearchRisk">
             <branch name="Adhoc Approvers Branch">
               <requests name="Adhoc Approvers" nextNode="Final Notification"/>
             </branch>
             <branch name="Org Review Branch">
-              <requests name="Org Review" nextNode="Final Notification"/>
+              <requests name="OrganizationHierarchy" nextNode="Final Notification"/>
             </branch>
             <join name="Final Notification"/>
           </split>
-          <requests name="Research Risk"/>
+          <requests name="ResearchRisk"/>
         </routePath>
       </routePaths>
 <routeNodes>
@@ -31,11 +31,11 @@
 <ruleTemplate>KualiResearchAdhocApproverTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Org Review">
+<role name="OrganizationHierarchy">
 <ruleTemplate>KualiResearchOrgReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Research Risk">
+<role name="ResearchRisk">
 <ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

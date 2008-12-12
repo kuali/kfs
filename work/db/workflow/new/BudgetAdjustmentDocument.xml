@@ -10,10 +10,10 @@
           <start name="Adhoc Routing" nextNode="Approval No Approval Split"/>
           <split name="Approval No Approval Split" nextNode="Do More Nothing">
             <branch name="ApprovalBranch">
-              <requests name="Account Review" nextNode="Org Review"/>
-              <requests name="Org Review" nextNode="Subfund"/>
-              <requests name="Subfund" nextNode="Award Workgroup"/>
-              <requests name="Award Workgroup" nextNode="Join"/>
+              <requests name="Account" nextNode="OrganizationHierarchy"/>
+              <requests name="OrganizationHierarchy" nextNode="Subfund"/>
+              <requests name="Subfund" nextNode="Award"/>
+              <requests name="Award" nextNode="Join"/>
             </branch>
             <branch name="NoApprovalBranch">
               <simple name="Do Nothing" nextNode="Join"/>
@@ -25,11 +25,11 @@
       </routePaths>
 <routeNodes>
 <start name="Adhoc Routing"/>
-<role name="Account Review">
+<role name="Account">
 <ruleTemplate>KualiAccountTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Org Review">
+<role name="OrganizationHierarchy">
 <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

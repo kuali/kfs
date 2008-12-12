@@ -7,18 +7,18 @@
 <docHandler>${application.url}/researchBudgetParameters.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Project Director"/>
-          <requests name="Project Director" nextNode="Org Review"/>
-          <requests name="Org Review"/>
+          <start name="Adhoc Routing" nextNode="ProjectDirector"/>
+          <requests name="ProjectDirector" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="Adhoc Routing"/>
-<role name="Project Director">
+<role name="ProjectDirector">
 <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Org Review">
+<role name="OrganizationHierarchy">
 <ruleTemplate>KualiResearchOrgReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

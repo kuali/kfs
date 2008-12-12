@@ -6,18 +6,18 @@
 <parent>KualiBaseDocument</parent>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Account Review"/>
-          <requests name="Account Review" nextNode="Org Review"/>
-          <requests name="Org Review"/>
+          <start name="Adhoc Routing" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="Adhoc Routing"/>
-<role name="Account Review">
+<role name="Account">
 <ruleTemplate>KualiAccountTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Org Review">
+<role name="OrganizationHierarchy">
 <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

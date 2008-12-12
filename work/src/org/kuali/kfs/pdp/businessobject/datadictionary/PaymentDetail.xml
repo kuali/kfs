@@ -881,8 +881,10 @@
               <bean parent="FieldDefinition" 
                     p:attributeName="paymentGroup.batch.id"/>
               <bean parent="FieldDefinition" 
-                    p:attributeName="paymentGroupId"/>                    
-                    
+                    p:attributeName="paymentGroupId"/> 
+              <bean parent="FieldDefinition" 
+                    p:attributeName="financialDocumentTypeCode"/> 
+                                       
       </list>
     </property>
     <property name="resultFields" >
@@ -908,7 +910,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.disbursementNbr" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="netPaymentAmount" />                  
+                    p:attributeName="netPaymentAmount"/>                  
       </list>
     </property>
   </bean>

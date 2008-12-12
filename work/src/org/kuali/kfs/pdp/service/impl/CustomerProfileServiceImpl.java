@@ -39,7 +39,7 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         Map fieldValues = new HashMap();
         
         fieldValues.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, chartCode);
-        fieldValues.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE, orgCode);
+        fieldValues.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE, orgCode);
         fieldValues.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE, subUnitCode);
         List customerProfileList = (List) this.businessObjectService.findMatching(CustomerProfile.class, fieldValues);
         if (customerProfileList.isEmpty()) return null;

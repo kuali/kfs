@@ -183,7 +183,7 @@ public class PdpPropertyConstants {
     
     public static class CustomerProfile {
         public static final String CUSTOMER_PROFILE_CHART_CODE = "chartCode";
-        public static final String CUSTOMER_PROFILE_ORG_CODE = "orgCode";
+        public static final String CUSTOMER_PROFILE_UNIT_CODE = "unitCode";
         public static final String CUSTOMER_PROFILE_SUB_UNIT_CODE = "subUnitCode";
     }
     

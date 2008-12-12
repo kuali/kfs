@@ -890,7 +890,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE);
         buffer.append("=");
         buffer.append(customerProfile.getChartCode());
-        buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE);
+        buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE);
         buffer.append("=");
         buffer.append(customerProfile.getUnitCode());
         buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);

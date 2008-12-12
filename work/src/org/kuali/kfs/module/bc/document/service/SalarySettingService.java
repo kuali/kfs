@@ -214,7 +214,16 @@ public interface SalarySettingService {
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion);
 
     /**
-     * save the given appointment fundings and associated salary setting expansion
+     * save the pending budget general ledger rows associated with a given salary setting expansion
+     * this also handles updating the special 2PLG row
+     * 
+     * @param salarySettingExpansion
+     */
+    public void savePBGLSalarySetting(SalarySettingExpansion salarySettingExpansion);
+
+    /**
+     * save the given appointment fundings and associated salary setting expansion,
+     * also known as, pending budget general ledger row
      * 
      * @param appointmentFunding the given appointment funding
      */
@@ -257,6 +266,15 @@ public interface SalarySettingService {
      */
     public SalarySettingExpansion retriveSalarySalarySettingExpansion(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
+    /**
+     * retrieve a list of PendingBudgetConstructionAppointmentFunding from the information provided by
+     * the given SalarySettingExpansion
+     * 
+     * @param salarySettingExpansion
+     * @return the list of PendingBudgetConstructionAppointmentFunding
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> retrievePendingBudgetConstructionAppointmentFundings(SalarySettingExpansion salarySettingExpansion);
+    
     /**
      * update the access flags of the given appointment funding according to the given information
      * 

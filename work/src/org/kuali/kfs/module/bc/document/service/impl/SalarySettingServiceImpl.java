@@ -41,6 +41,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
@@ -50,9 +51,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +75,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private BudgetDocumentService budgetDocumentService;
     private BenefitsCalculationService benefitsCalculationService;
     private PermissionService permissionService;
+    private OptionsService optionsService;
+    private LockService lockService;
 
     /**
      * for now just return false, implement application parameter if decision is made implement this functionality
@@ -203,7 +208,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateCSFFteQuantity(java.lang.Integer, java.lang.Integer, java.math.BigDecimal)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateCSFFteQuantity(java.lang.Integer,
+     *      java.lang.Integer, java.math.BigDecimal)
      */
     public BigDecimal calculateCSFFteQuantity(Integer payMonth, Integer normalWorkMonth, BigDecimal requestedCSFTimePercent) {
         LOG.debug("calculateCSFFteQuantity() start");
@@ -448,8 +454,61 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
         businessObjectService.save(salarySettingExpansion);
 
+        // now create a pseudo funding line if the BCAF list is empty so we can pass it to create 2PLG below
+        Boolean wasSalarySettingExpansionBCAFEmpty = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding().isEmpty();
+        if (wasSalarySettingExpansionBCAFEmpty){
+            appointmentFundings.add(this.createPseudoAppointmentFundingLine(salarySettingExpansion));
+        }
+
         // update or create plug line if the total amount has been changed
         if (changes.isNonZero()) {
+
+            budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(appointmentFundings.get(0), changes.negated());
+        }
+    }
+
+    public void savePBGLSalarySetting(SalarySettingExpansion salarySettingExpansion) {
+        LOG.debug("savePBGLSalarySetting() start");
+
+        // gwp - added this method to handle detail salary setting PBGL updates
+        // instead of using saveSalarySetting(SalarySettingExpansion salarySettingExpansion)
+
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
+
+        // this is already done in saveSalarySetting by a call to saveAppointmentFundings
+        // this.resetDeletedFundingLines(appointmentFundings);
+        // this.updateAppointmentFundingsBeforeSaving(appointmentFundings);
+
+        KualiInteger requestedAmountTotal = SalarySettingCalculator.getAppointmentRequestedAmountTotal(appointmentFundings);
+        KualiInteger changes = KualiInteger.ZERO;
+
+        if (requestedAmountTotal != null) {
+            KualiInteger annualBalanceAmount = salarySettingExpansion.getAccountLineAnnualBalanceAmount();
+            changes = (annualBalanceAmount != null) ? requestedAmountTotal.subtract(annualBalanceAmount) : requestedAmountTotal;
+        }
+
+        // salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+        // businessObjectService.save(salarySettingExpansion);
+
+        // now create a pseudo funding line if the BCAF list is empty so we can pass it to create 2PLG below
+        Boolean wasSalarySettingExpansionBCAFEmpty = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding().isEmpty();
+        if (wasSalarySettingExpansionBCAFEmpty){
+            appointmentFundings.add(this.createPseudoAppointmentFundingLine(salarySettingExpansion));
+        }
+
+        // For detail salary setting, we need to update existing or create new PBGL row for the BCAF set
+        // We can't save salarySettingExpansion here since it will also save the associated BCAF rows
+        // which in this case would be rows we might not have worked on.
+        // Also, don't save PBGL if it is not in DB already and the BCAF set was empty (no doo doo).
+        // that is, save if PBGL exists in DB or BCAF was not empty
+        if (salarySettingExpansion.getVersionNumber() != null || !wasSalarySettingExpansionBCAFEmpty){
+
+            budgetDocumentService.updatePendingBudgetGeneralLedger(appointmentFundings.get(0), changes);
+        }
+
+        // update or create plug line if the total amount has been changed
+        if (changes.isNonZero()) {
+
             budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(appointmentFundings.get(0), changes.negated());
         }
     }
@@ -458,20 +517,92 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#saveSalarySetting(java.util.List)
      */
     public void saveSalarySetting(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+
+        // Do the save/delete of BCAF rows from the salary setting detail screen first
+        this.saveAppointmentFundings(appointmentFundings);
+        
+        // TODO need to handle purging last line in the screen for an expansion to release funding lock
+        // maybe use BCAF.isPurged somehow to create a list of BCAF rows to unlock
+
+        // From the DB get the current unique set of SalarySettingExpansions (PBGL)
+        // associated with our Incumbent or Position BCAF rows.
+        // Each PBGL row from the DB will, in turn, have all the BCAF rows associated, including the
+        // ones we just stored as part of this save operation (see above)
+        // No one else would be updating these since we have a transaction lock on the account
         Set<SalarySettingExpansion> salarySettingExpansionSet = new HashSet<SalarySettingExpansion>();
+        Set<SalarySettingExpansion> purgedSseSet = new HashSet<SalarySettingExpansion>();
+        Set<SalarySettingExpansion> unpurgedSseSet = new HashSet<SalarySettingExpansion>();
         for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
             SalarySettingExpansion salarySettingExpansion = this.retriveSalarySalarySettingExpansion(fundingLine);
 
             if (salarySettingExpansion != null) {
                 salarySettingExpansionSet.add(salarySettingExpansion);
             }
+            else {
+                // No PBGL row yet, create one to work with in memory only for now.
+                // Don't set versionNumber, this will indicate this is in memory only,
+                // so we can check for the case where there are no BCAF rows in the DB
+                // and no PBGL row either. We don't want to create a new zero request PBGL row in this case.
+                salarySettingExpansion = new SalarySettingExpansion();
+                salarySettingExpansion.setUniversityFiscalYear(fundingLine.getUniversityFiscalYear());
+                salarySettingExpansion.setChartOfAccountsCode(fundingLine.getChartOfAccountsCode());
+                salarySettingExpansion.setAccountNumber(fundingLine.getAccountNumber());
+                salarySettingExpansion.setSubAccountNumber(fundingLine.getSubAccountNumber());
+                salarySettingExpansion.setFinancialObjectCode(fundingLine.getFinancialObjectCode());
+                salarySettingExpansion.setFinancialSubObjectCode(fundingLine.getFinancialSubObjectCode());
+                salarySettingExpansion.setFinancialBalanceTypeCode(optionsService.getOptions(fundingLine.getUniversityFiscalYear()).getBaseBudgetFinancialBalanceTypeCd());
+                salarySettingExpansion.setFinancialObjectTypeCode(optionsService.getOptions(fundingLine.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd());
+                salarySettingExpansion.setAccountLineAnnualBalanceAmount(KualiInteger.ZERO);
+                salarySettingExpansion.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
+
+                // If this has been created in memory already, the list should already be attached
+                // and be in the current salarySettingExpansionSet.
+                // This handles the case where at least 2 new BCAF rows for the same non-existent PBGL row
+                // were saved earlier as part of this save operation.
+                if (!salarySettingExpansionSet.contains(salarySettingExpansion)) {
+
+                    // Get the BCAF rows from the DB that are associated with the
+                    // newly created salarySettingExpansion and attach so the
+                    // method savePBGLSalarySetting() called below can get the total.
+                    List<PendingBudgetConstructionAppointmentFunding> bcafRows = this.retrievePendingBudgetConstructionAppointmentFundings(salarySettingExpansion);
+                    salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding().addAll(bcafRows);
+                    salarySettingExpansionSet.add(salarySettingExpansion);
+                }
+            }
+            
+            // TODO collect the set of purge/notpurged SalarySettingExpansions here
+            if (fundingLine.isPurged()){
+                purgedSseSet.add(salarySettingExpansion);
+            }
+            else {
+                unpurgedSseSet.add(salarySettingExpansion);
+            }
         }
+        
+        // TODO remove from set of purged SSEs the set of notpurged SSEs
+        // leftover are those SSEs to release funding locks for after successful save
+        purgedSseSet.removeAll(unpurgedSseSet);
 
-        this.saveAppointmentFundings(appointmentFundings);
-
+        // Use the salarySettingExpansionSet to drive the update of PBGL rows (including any 2PLGs)
         for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionSet) {
-            this.saveSalarySetting(salarySettingExpansion);
+
+            this.savePBGLSalarySetting(salarySettingExpansion);
         }
+        
+        // TODO iterate leftover purged SSEs and release funding lock for each
+        for (SalarySettingExpansion salarySettingExpansion : purgedSseSet) {
+            String chartOfAccountsCode = salarySettingExpansion.getChartOfAccountsCode();
+            String accountNumber = salarySettingExpansion.getAccountNumber();
+            String subAccountNumber = salarySettingExpansion.getSubAccountNumber();
+            Integer fiscalYear = salarySettingExpansion.getUniversityFiscalYear();
+            String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+            
+            // TODO release the associated funding lock
+            lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, principalId);
+            
+        }
+        
+        // TODO also need to get the associated positions to unlock if SS by incumbent
     }
 
     /**
@@ -492,6 +623,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // save the appointment funding lines that have been updated or newly created
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>(appointmentFundings);
         savableAppointmentFundings.removeAll(purgedAppointmentFundings);
+
+        // gwp - added this as part of double save optimistic exception fix
+        // since savePBGLSalarySetting does not call this like saveSalarySetting does
+        this.resetDeletedFundingLines(appointmentFundings);
+
         this.updateAppointmentFundingsBeforeSaving(savableAppointmentFundings);
         businessObjectService.save(savableAppointmentFundings);
     }
@@ -506,6 +642,22 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetDocument.getDocumentNumber());
 
         return (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, fieldValues);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#retrievePendingBudgetConstructionAppointmentFundings(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> retrievePendingBudgetConstructionAppointmentFundings(SalarySettingExpansion salarySettingExpansion) {
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, salarySettingExpansion.getUniversityFiscalYear());
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingExpansion.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingExpansion.getAccountNumber());
+        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingExpansion.getSubAccountNumber());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, salarySettingExpansion.getFinancialObjectCode());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, salarySettingExpansion.getFinancialSubObjectCode());
+
+        return (List<PendingBudgetConstructionAppointmentFunding>) businessObjectService.findMatching(PendingBudgetConstructionAppointmentFunding.class, fieldValues);
     }
 
     /**
@@ -664,7 +816,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFunding.setAppointmentRequestedFteQuantity(requestedFteQuantity);
 
         // TODO verify that this test and call should have been added
-        if (!appointmentFunding.getAppointmentFundingDurationCode().equals(NONE.durationCode)){
+        if (!appointmentFunding.getAppointmentFundingDurationCode().equals(NONE.durationCode)) {
             BigDecimal requestedCSFFteQuantity = this.calculateCSFFteQuantityFromAppointmentFunding(appointmentFunding);
             appointmentFunding.setAppointmentRequestedCsfFteQuantity(requestedCSFFteQuantity);
         }
@@ -742,6 +894,29 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         return vacantAppointmentFunding;
     }
 
+    /**
+     * create a pseudo appointment funding for the salary setting expansion
+     * this is used when there are no funding lines for the salary setting expansion
+     * to get a funding line to be used to pass primary key info
+     * 
+     * @param salarySettingExpansion
+     * @return a pseudo appointment funding
+     */
+    private PendingBudgetConstructionAppointmentFunding createPseudoAppointmentFundingLine(SalarySettingExpansion salarySettingExpansion) {
+        PendingBudgetConstructionAppointmentFunding pseudoAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
+        
+        pseudoAppointmentFunding.setUniversityFiscalYear(salarySettingExpansion.getUniversityFiscalYear());
+        pseudoAppointmentFunding.setChartOfAccountsCode(salarySettingExpansion.getChartOfAccountsCode());
+        pseudoAppointmentFunding.setAccountNumber(salarySettingExpansion.getAccountNumber());
+        pseudoAppointmentFunding.setSubAccountNumber(salarySettingExpansion.getSubAccountNumber());
+        pseudoAppointmentFunding.setFinancialObjectCode(salarySettingExpansion.getFinancialObjectCode());
+        pseudoAppointmentFunding.setFinancialSubObjectCode(salarySettingExpansion.getFinancialSubObjectCode());
+        pseudoAppointmentFunding.setAppointmentFundingDeleteIndicator(false);
+        pseudoAppointmentFunding.setAppointmentRequestedAmount(KualiInteger.ZERO);
+        pseudoAppointmentFunding.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+
+        return pseudoAppointmentFunding;
+    }
     /**
      * preprocess the funding reason of the given appointment funding before the funding is saved
      * 
@@ -834,5 +1009,22 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
+    }
+
+    /**
+     * Sets the optionsService attribute value.
+     * 
+     * @param optionsService The optionsService to set.
+     */
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
+    /**
+     * Sets the lockService attribute value.
+     * @param lockService The lockService to set.
+     */
+    public void setLockService(LockService lockService) {
+        this.lockService = lockService;
     }
 }

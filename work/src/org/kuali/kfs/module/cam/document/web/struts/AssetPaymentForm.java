@@ -34,20 +34,22 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
 
-    // Indicates which result set we are using when refreshing/returning from a multi-value lookup.    
-    private String lookupResultsSequenceNumber; 
-                                             
-    // Type of result returned by the multi-value lookup. ?to be persisted in the lookup results service instead?    
-    private String lookupResultsBOClassName; 
-                                           
+    // Indicates which result set we are using when refreshing/returning from a multi-value lookup.
+    private String lookupResultsSequenceNumber;
+
+    // Type of result returned by the multi-value lookup. ?to be persisted in the lookup results service instead?
+    private String lookupResultsBOClassName;
+
     // The name of the collection looked up (by a multiple value lookup)
-    private String lookedUpCollectionName; 
-        
+    private String lookedUpCollectionName;
+
     String capitalAssetNumber = "";
+
     /**
      * Constructs a AssetPaymentForm.java.
      */
@@ -177,5 +179,14 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     @Override
     public String getRefreshCaller() {
         return KFSConstants.MULTIPLE_VALUE;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#addRequiredNonEditableProperties()
+     */
+    @Override
+    public void addRequiredNonEditableProperties() {
+        super.addRequiredNonEditableProperties();
+        registerRequiredNonEditableProperty(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
     }
 }

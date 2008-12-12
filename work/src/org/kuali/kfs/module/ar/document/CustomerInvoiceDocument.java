@@ -1208,6 +1208,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             endCalendar.add(Calendar.MONTH, addCounter);
             this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(new Date(endCalendar.getTime().getTime())));
         }
+        // Force upper case
+        setBilledByOrganizationCode(getBilledByOrganizationCode().toUpperCase());
     }
 
 

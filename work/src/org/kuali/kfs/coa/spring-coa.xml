@@ -319,7 +319,7 @@
 
 	<bean id="workflow-org.kuali.kfs.coa.businessobject.Organization-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.coa.businessobject.Org</value>
+			<value>org.kuali.kfs.coa.businessobject.Organization</value>
 		</property>
 	</bean>
 

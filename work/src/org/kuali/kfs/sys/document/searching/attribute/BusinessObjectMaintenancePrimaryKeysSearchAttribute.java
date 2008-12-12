@@ -15,30 +15,23 @@
  */
 package org.kuali.kfs.sys.document.searching.attribute;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.lookupable.Field;
 import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
-import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
@@ -46,19 +39,18 @@ import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 /**
  * A search attribute which allows for searching on any maintenance document by the
@@ -82,22 +74,32 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         List<SearchableAttributeValue> searchValues = null;
         final Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
         if (businessObjectClass != null) {
-            final Document document = parseDocumentContent(documentSearchContext.getDocumentContent());
+          
+            String docId = documentSearchContext.getDocumentId();
+            DocumentEntry docEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
+
+            DocumentService docService = SpringContext.getBean(DocumentService.class);
+            FinancialSystemMaintenanceDocument document = null;
+            try  {
+                document = (FinancialSystemMaintenanceDocument)docService.getByDocumentHeaderIdSessionless(docId);
+            } catch (WorkflowException we) {
+                
+            }
             
             if (GlobalBusinessObject.class.isAssignableFrom(businessObjectClass)) {
-                final String documentNumber = aardvarkDocumentNumber(document);
-                final GlobalBusinessObject globalBO = retrieveGlobalBusinessObject(documentNumber, businessObjectClass, document);
-                
+                final String documentNumber = documentSearchContext.getDocumentId();
+                final GlobalBusinessObject globalBO = retrieveGlobalBusinessObject(documentNumber, businessObjectClass);
+
                 if (globalBO != null) {
                     searchValues = findAllSearchableAttributesForGlobalBusinessObject(globalBO);
                 }
             } else {
-                searchValues = parsePrimaryKeyValuesFromDocumentContent(businessObjectClass, document);
+                searchValues = parsePrimaryKeyValuesFromDocument(businessObjectClass, document);
             }
         }
         return searchValues;
     }
-    
+
 
     /**
      * 
@@ -106,7 +108,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
     public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
         Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
         Class<? extends Maintainable> maintainableClass = getMaintainableClass(documentSearchContext.getDocumentTypeName());
-        
+
         KualiGlobalMaintainableImpl globalMaintainable = null;
         try {
             globalMaintainable = (KualiGlobalMaintainableImpl)maintainableClass.newInstance();
@@ -116,8 +118,8 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         }
         return (businessObjectClass == null ? null : createFieldRowsForBusinessObject(businessObjectClass));
     }
-    
-    
+
+
     /**
      * Returns the class of the object being maintained by the given maintenance document type name
      * @param documentTypeName the name of the document type to look up the maintained business object for
@@ -127,7 +129,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         MaintenanceDocumentEntry entry = retrieveMaintenanceDocumentEntry(documentTypeName);
         return (entry == null ? null : entry.getBusinessObjectClass());
     }
-    
+
     /**
      * Returns the maintainable of the object being maintained by the given maintenance document type name
      * @param documentTypeName the name of the document type to look up the maintained business object for
@@ -137,7 +139,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         MaintenanceDocumentEntry entry = retrieveMaintenanceDocumentEntry(documentTypeName);
         return (entry == null ? null : entry.getMaintainableClass());
     }
-    
+
     /**
      * Retrieves the maintenance document entry for the given document type name
      * @param documentTypeName the document type name to look up the data dictionary document entry for
@@ -146,49 +148,28 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
     protected MaintenanceDocumentEntry retrieveMaintenanceDocumentEntry(String documentTypeName) {
         return (MaintenanceDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentTypeName);
     }
-    
-    /**
-     * Converts XML in a String to a DOM document object
-     * @param documentContent the XML content to parse over
-     * @return a DOM document object for that XML content
-     */
-    protected Document parseDocumentContent(String documentContent) {
-        Document document = null;
-        if (StringUtils.isBlank(documentContent)) {
-            return null;
-        }
-        
-        try {
-            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new BufferedReader(new StringReader(documentContent))));
-        } catch (Exception e){
-            throw new RuntimeException("Error trying to parse docContent: "+documentContent, e);
-        }
-        return document;
-    }
-    
+
     /**
      * 
      * @param businessObjectClass
      * @param documentContent
      * @return
      */
-    protected List<SearchableAttributeValue> parsePrimaryKeyValuesFromDocumentContent(Class<? extends BusinessObject> businessObjectClass, Document document) {
+    protected List<SearchableAttributeValue> parsePrimaryKeyValuesFromDocument(Class<? extends BusinessObject> businessObjectClass, FinancialSystemMaintenanceDocument document) {
         List<SearchableAttributeValue> values = new ArrayList<SearchableAttributeValue>();
-        
-        if (document != null) {
-            final List primaryKeyNames = SpringContext.getBean(BusinessObjectMetaDataService.class).listPrimaryKeyFieldNames(businessObjectClass);
-        
-            for (Object primaryKeyNameAsObj : primaryKeyNames) {
-                final String primaryKeyName = (String)primaryKeyNameAsObj;
-                final SearchableAttributeValue searchableValue = parseSearchableAttributeValueForPrimaryKey(primaryKeyName, businessObjectClass, document);
-                if (searchableValue != null) {
-                    values.add(searchableValue);
-                }
+
+        final List primaryKeyNames = SpringContext.getBean(BusinessObjectMetaDataService.class).listPrimaryKeyFieldNames(businessObjectClass);
+
+        for (Object primaryKeyNameAsObj : primaryKeyNames) {
+            final String primaryKeyName = (String)primaryKeyNameAsObj;
+            final SearchableAttributeValue searchableValue = parseSearchableAttributeValueForPrimaryKey(primaryKeyName, businessObjectClass, document);
+            if (searchableValue != null) {
+                values.add(searchableValue);
             }
         }
         return values;
     }
-    
+
     /**
      * Creates a searchable attribute value for the given property name out of the document XML
      * @param propertyName the name of the property to return
@@ -196,16 +177,20 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      * @param document the document XML
      * @return a generated SearchableAttributeValue, or null if a value could not be created
      */
-    protected SearchableAttributeValue parseSearchableAttributeValueForPrimaryKey(String propertyName, Class<? extends BusinessObject> businessObjectClass, Document document) {
-        final String propertyValue = aardvarkProperty(propertyName, document);
+    protected SearchableAttributeValue parseSearchableAttributeValueForPrimaryKey(String propertyName, Class<? extends BusinessObject> businessObjectClass, FinancialSystemMaintenanceDocument document) {
+        
+        Maintainable maintainable  = document.getNewMaintainableObject();
+        PersistableBusinessObject bo = maintainable.getBusinessObject();
+        
+        final Object propertyValue = ObjectUtils.getPropertyValue(bo, propertyName);
         if (propertyValue == null) return null;
-            
+
         SearchableAttributeStringValue value = new SearchableAttributeStringValue();
         value.setSearchableAttributeKey(propertyName);
-        value.setSearchableAttributeValue(propertyValue);
+        value.setSearchableAttributeValue(propertyValue.toString());
         return value;
     }
-    
+
     /**
      * Returns the property type of the given property of the given class
      * @param propertyName the name of the property
@@ -225,57 +210,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         }
         return field.getType();
     }
-    
-    /**
-     * 
-     * @param xpathExpression
-     * @param document
-     * @return
-     */
-    protected String aardvarkValueFromDocument(String xpathExpression, Document document) {
-        XPath xpath = XPathHelper.newXPath(document);
-        
-        try {
-            NodeList nodes = (NodeList)xpath.evaluate(xpathExpression, document, XPathConstants.NODESET);
-            if (nodes != null) {
-                for (int i = 0; i < nodes.getLength(); i++) {
-                    Node node = nodes.item(i);
-                    return node.getNodeValue();
-                }
-            }
-        }
-        catch (XPathExpressionException xpee) {
-            throw new RuntimeException(xpee);
-        }
-        catch (DOMException dome) {
-            throw new RuntimeException(dome);
-        }
-        return null;
-    }
-    
-    /**
-     * Retrieves the String for the value of the given property name within the document
-     * @param propertyName the name of the property whose value must be found
-     * @param workflowDocument the document that is being searched through
-     * @return with any luck, the value of the property
-     */
-    protected String aardvarkProperty(String propertyName, Document document) {
-        String findField = "//document/newMaintainableDocument/businessObject/"+propertyName;
-        
-        return aardvarkValueFromDocument(findField, document);
-    }
-    
-    /**
-     * 
-     * @param document
-     * @return
-     */
-    protected String aardvarkDocumentNumber(Document document) {
-        String expression = "//document/documentNumber";
-        
-        return aardvarkValueFromDocument(expression, document);
-    }
-    
+
     /**
      * 
      * @param documentNumber
@@ -283,20 +218,20 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      * @param document
      * @return
      */
-    protected GlobalBusinessObject retrieveGlobalBusinessObject(String documentNumber, Class<? extends BusinessObject> businessObjectClass, Document document) {
+    protected GlobalBusinessObject retrieveGlobalBusinessObject(String documentNumber, Class<? extends BusinessObject> businessObjectClass) {
         GlobalBusinessObject globalBO = null;
-        
+
         Map pkMap = new LinkedHashMap();
         pkMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        
+
         List returnedBOs = (List)SpringContext.getBean(BusinessObjectService.class).findMatching(businessObjectClass, pkMap);
         if (returnedBOs.size() > 0) {
             globalBO = (GlobalBusinessObject)returnedBOs.get(0);
         }
-        
+
         return globalBO;
     }
-    
+
     /**
      * 
      * @param globalBO
@@ -304,17 +239,17 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      */
     protected List<SearchableAttributeValue> findAllSearchableAttributesForGlobalBusinessObject(GlobalBusinessObject globalBO) {
         List<SearchableAttributeValue> searchValues = new ArrayList<SearchableAttributeValue>();
-        
+
         for (PersistableBusinessObject bo : globalBO.generateGlobalChangesToPersist()) {
             SearchableAttributeValue value = generateSearchableAttributeFromChange(bo);
             if (value != null) {
                 searchValues.add(value);
             }
         }
-        
+
         return searchValues;
     }
-    
+
     /**
      * 
      * @param changeToPersist
@@ -322,11 +257,11 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      */
     protected SearchableAttributeValue generateSearchableAttributeFromChange(PersistableBusinessObject changeToPersist) {
         List primaryKeyNames = SpringContext.getBean(BusinessObjectMetaDataService.class).listPrimaryKeyFieldNames(changeToPersist.getClass());
-        
+
         for (Object primaryKeyNameAsObject : primaryKeyNames) {
             String primaryKeyName = (String)primaryKeyNameAsObject;
             Object value = ObjectUtils.getPropertyValue(changeToPersist, primaryKeyName);
-            
+
             if (value != null) {
                 SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
                 searchableAttributeValue.setSearchableAttributeKey(primaryKeyName);
@@ -336,7 +271,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         }
         return null;
     }
-    
+
     /**
      * Creates a list of search fields, one for each primary key of the maintained business object 
      * @param businessObjectClass the class of the maintained business object
@@ -344,7 +279,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      */
     protected List<Row> createFieldRowsForBusinessObject(Class<? extends BusinessObject> businessObjectClass) {
         List<Row> searchFields = new ArrayList<Row>();
-        
+
         final List primaryKeyNamesAsObjects = SpringContext.getBean(BusinessObjectMetaDataService.class).listPrimaryKeyFieldNames(businessObjectClass);
         final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClass.getName());
         for (Object primaryKeyNameAsObject : primaryKeyNamesAsObjects) {
@@ -360,10 +295,10 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
             }
             searchFields.add(new Row(fieldList));
         }
-        
+
         return searchFields;
     }
-    
+
     /**
      * Builds a search field for the given property
      * @param propertyName the name of the property to search on
@@ -376,7 +311,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
 
         // 4. quickfinder?
         final String quickfinderServiceName = getQuickfinderServiceName(businessObjectEntry.getBusinessObjectClass(), propertyName);
-        
+
         if (quickfinderServiceName != null) {
             field.setQuickFinderClassNameImpl(quickfinderServiceName);
             field.setHasLookupable(true);
@@ -384,9 +319,9 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         }
         return field;
     }
-    
 
-    
+
+
     /**
      * Builds a date picker to go with a field
      * @param propertyName the name of the property which is going to have a date picker associated with it
@@ -395,7 +330,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
     protected Field buildDatePickerField(String propertyName) {
         return new Field("", "", Field.DATEPICKER, false, propertyName + "_datepicker", "", null, "");
     }
-    
+
     /**
      * Retrieves the attribute definition from the business object data dictionary entry
      * @param propertyName the property to find the attribute definition for
@@ -405,7 +340,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
     protected AttributeDefinition getAttributeFromEntry(String propertyName, BusinessObjectEntry businessObjectEntry) {
         return businessObjectEntry.getAttributeDefinition(propertyName);
     }
-    
+
     /**
      * Builds the field based on the attribute entry
      * @param attributeDefinition the definition of the attribute
@@ -421,11 +356,11 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
                 "", // property value
                 getValidValues(attributeDefinition), // field valid values
                 "" // quick finder class name
-                );
+        );
         calibrateField(field, attributeDefinition);
         return field;
     }
-    
+
     /**
      * Determines what KEW field type the given attribute definition should be converted to
      * @param attributeDefinition the attribute definition, which hopefully has a KNS field type
@@ -442,7 +377,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
         if (attributeDefinition.getControl().isCurrency()) return Field.TEXT;
         return "";
     }
-    
+
     /**
      * Retrieves a list of key/value pairs if the attribute definition describes a field wth a constrained values set;
      * returns null otherwise
@@ -451,10 +386,10 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      */
     protected List getValidValues(AttributeDefinition attributeDefinition) {
         if (!attributeDefinition.getControl().isSelect() && !attributeDefinition.getControl().isRadio()) return null;
-        
+
         Class<? extends KeyValuesFinder> valuesFinderClass = attributeDefinition.getControl().getValuesFinderClass();
         if (valuesFinderClass == null) return null;
-            
+
         try {
             KeyValuesFinder valuesFinder = valuesFinderClass.newInstance();
             return convertToKEWKeyLabelPairs(valuesFinder.getKeyValues());
@@ -481,7 +416,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
             field.setAllowWildcards(true);
             field.setCaseSensitive(true);
         }
-        
+
         if (attributeDefinition.getControl().isDatePicker()) {
             field.setHasDatePicker(true);
         }
@@ -514,7 +449,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
             if (relationship != null) {
                 final Class lookingUpClass = relationship.getRelatedClass();
                 String retVal = getWorkflowLookupServiceName(lookingUpClass);
-               // System.out.println(retVal);
+                // System.out.println(retVal);
                 return retVal;
             } else {
                 return null;
@@ -527,13 +462,14 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
             throw new RuntimeException("IllegalAccessException while trying to instantiate class: "+businessObjectClass.getName()+" to determine search attributes lookup helper", iae);
         }
     }
-    
+
     /**
      * Returns the name of the workflow lookupable service for the given business object if one exists; otherwise
      * returns null
      * @param businessObjectClass the business object class to try to find a workflow lookup for
      * @return null if no lookup service name could be found; the name of the service if found
      */
+    
     protected String getWorkflowLookupServiceName(Class businessObjectClass) {
         final Map<String, ? extends org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl> workflowLookups = SpringContext.getBeansOfType(org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl.class);
         final Set<String> workflowLookupServiceNames = workflowLookups.keySet();
@@ -547,7 +483,7 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      * @return the proposed name of the workflow lookupable service
      */
     protected String convertBusinessObjectClassToProposedWorklowLookupServiceName(Class<? extends BusinessObject> businessObjectClass) {
-       return "workflow-"+businessObjectClass.getName()+"-Lookupable"; 
+        return "workflow-"+businessObjectClass.getName()+"-Lookupable"; 
     }
 
     /**
@@ -556,17 +492,17 @@ public class BusinessObjectMaintenancePrimaryKeysSearchAttribute implements Sear
      */
     public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> parameterMap, DocumentSearchContext documentSearchContext) {
         Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
-        
+
         if (businessObjectClass != null) {
             BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClass.getName());
-        
+
             for (Object parameterAsObject : parameterMap.keySet()) {
                 forceUpperCaseIfNeeded(parameterMap, parameterAsObject, boEntry);
             }
         }
         return null;
     }
-    
+
     /**
      * Forces a parameter to be upper case if its corresponding attribute in the data dictionary requires it
      * @param parameterMap the map of parameters

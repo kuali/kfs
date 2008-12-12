@@ -88,6 +88,9 @@ import org.kuali.rice.kns.service.DataDictionaryService;
  * role associated with the responsibility.
  */
 public class DataDictionaryQualifierResolver implements QualifierResolver {
+    private static final String KIM_ATTRIBUTE_DOCUMENT_TYPE_NAME = "documentTypeName";
+    private static final String KIM_ATTRIBUTE_DOCUMENT_NUMBER = "documentNumber";
+    private static final String KIM_ATTRIBUTE_ROUTE_LEVEL_NAME = "routeLevelName";
 
     /**
      * Given the RouteContext, determines the document type of the document being routed and the current
@@ -177,8 +180,8 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
      * @param routeLevel the document's current route level
      */
     protected void addCommonQualifiersToAttributeSet(AttributeSet qualifier, Document document, DocumentEntry documentEntry, String routeLevel) {
-        qualifier.put("documentNumber", document.getDocumentNumber());
-        qualifier.put("documentType", documentEntry.getDocumentTypeName());
-        qualifier.put("routeLevelName", routeLevel);
+        qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_DOCUMENT_NUMBER, document.getDocumentNumber());
+        qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_DOCUMENT_TYPE_NAME, documentEntry.getDocumentTypeName());
+        qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_ROUTE_LEVEL_NAME, routeLevel);
     }
 }

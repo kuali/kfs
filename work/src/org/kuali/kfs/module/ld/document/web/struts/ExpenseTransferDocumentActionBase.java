@@ -59,6 +59,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -83,6 +84,11 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      */
     public ActionForward performBalanceInquiryLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        financialDocumentForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        financialDocumentForm.registerNextMethodToCallIsRefresh(true);
+        
         TransactionalDocument document = financialDocumentForm.getTransactionalDocument();
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();

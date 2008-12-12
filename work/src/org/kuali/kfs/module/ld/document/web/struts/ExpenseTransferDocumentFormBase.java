@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Base Struts Action Form for all expense transfer documents.
@@ -44,6 +45,12 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     public ExpenseTransferDocumentFormBase() {
         super();
         setUniversityFiscalYear(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getUniversityFiscalYear());
+    }
+
+    @Override
+    public void addRequiredNonEditableProperties() {
+        super.addRequiredNonEditableProperties();
+        registerRequiredNonEditableProperty(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
     }
 
     /**

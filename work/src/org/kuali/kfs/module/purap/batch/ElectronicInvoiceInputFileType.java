@@ -18,19 +18,15 @@ package org.kuali.kfs.module.purap.batch;
 import java.io.File;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Batch input type for the electronic invoice job.
  */
 public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceInputFileType.class);
-
-    private DateTimeService dateTimeService;
-
     /**
      * Returns the identifier of the electronic invoice file type
      * 
@@ -41,31 +37,24 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
     }
 
     public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public boolean validate(Object parsedFileContents) {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     public boolean checkAuthorization(Person user, File batchFile) {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     public String getTitleKey() {
-        // TODO Auto-generated method stub
-        return null;
+        return PurapKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_EINVOICE;
     }
 
     public Class getUploadWorkgroupParameterComponent() {
-        // TODO Auto-generated method stub
-        return null;
+        return ElectronicInvoiceStep.class;
     }
-
-   
 
 }
 

@@ -290,6 +290,7 @@ public class PurapKeyConstants {
     public static final String ERROR_BULK_RECEIVING_PDF = "error.bulkreceiving.pdf";
     
     //Electronic Invoice
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_EINVOICE = "message.batchUpload.title.einvoice";
     public static final String ERROR_REJECT_INVALID_DUNS = "errors.reject.invalidDuns";
     public static final String ERROR_REJECT_INVOICE_NUMBER_EMPTY = "errors.reject.invoicenumber.empty";
     public static final String ERROR_REJECT_INVOICE_DATE_INVALID = "errors.reject.invoicedate.invalid";

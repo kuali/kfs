@@ -49,6 +49,7 @@
 				<value>autoCloseRecurringOrdersJob</value>
 				<value>electronicInvoiceExtractJob</value>
 				<value>faxPendingDocumentJob</value>
+				<value>purapMassRequisitionJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -566,6 +567,14 @@
 		</property>
 	</bean>
 	
+	<bean id="purapMassRequisitionJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="purapMassRequisitionStep" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="purchasingPreDisbursementImmediatesExtractJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="purchasingPreDisbursementImmediatesExtractJob" />
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
@@ -580,7 +589,7 @@
 		<property name="jobName" value="faxPendingDocumentJob" />
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
 	</bean>
-
+	
 	<bean id="purchasingPreDisbursementExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

@@ -19,10 +19,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -81,7 +83,10 @@ public enum PurapAccountingServiceFixture {
             PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
-            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),;
+            PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
+    REQ_SUMMARY_ONE_ITEM( new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 },
+            new AccountingLineFixture[] { AccountingLineFixture.PURAP_LINE1 },
+            new Integer[] {0} ),;
     
     KualiDecimal totalAmount;
     Integer percentScale;
@@ -92,7 +97,16 @@ public enum PurapAccountingServiceFixture {
             AccountingLineFixture.PURAP_LINE1,
             AccountingLineFixture.PURAP_LINE2,
             AccountingLineFixture.PURAP_LINE3};
+    List<PurApItem> items = new ArrayList<PurApItem>();
 
+    /**
+     * Constructs a PurapAccountingServiceFixture.java.
+     * 
+     * @param totalAmount
+     * @param percentScale
+     * @param accountClass
+     * @param purApAcctLineFixtures
+     */
     private PurapAccountingServiceFixture(
             KualiDecimal totalAmount, 
             Integer percentScale, 
@@ -114,6 +128,39 @@ public enum PurapAccountingServiceFixture {
         }
     }
     
+    /**
+     * Constructs a PurapAccountingServiceFixture.java.
+     * 
+     * @param itemFixtures
+     */
+    private PurapAccountingServiceFixture(RequisitionItemFixture[] itemFixtures, AccountingLineFixture[] acctLineFixtures, Integer[] positions) {
+        for(RequisitionItemFixture itemFixture : itemFixtures) {
+            PurchasingItem item = itemFixture.createRequisitionItem();
+            items.add(item);
+        }
+        for( int i = 0; i < acctLineFixtures.length; i++ ) {
+            AccountingLineFixture acctLineFixture = acctLineFixtures[i];
+            SourceAccountingLine sourceLine = null;
+            try {
+                sourceLine = acctLineFixture.createSourceAccountingLine();
+                sourceAccountingLineList.add(sourceLine);
+                PurApAccountingLine purApAccountingLine = PurApAccountingLineFixture.BASIC_ACCOUNT_1.createPurApAccountingLine(RequisitionAccount.class, acctLineFixture);
+                if(positions[i] != null) {
+                    items.get(positions[i].intValue()).getSourceAccountingLines().add(purApAccountingLine);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * Adds an identical total and a list of source accounting lines to each item of a given RequisitionDocument.
+     *  
+     * @param   req     A RequisitionDocument
+     * @return          The same document, with the totals and source accounting line lists added to its items
+     */
     private RequisitionDocument augmentRequisitionDocument(RequisitionDocument req) {
         List<RequisitionItem> augmentedItems = new TypedArrayList(RequisitionItem.class);
         for(RequisitionItem item : (List<RequisitionItem>)req.getItems()) {
@@ -125,16 +172,34 @@ public enum PurapAccountingServiceFixture {
         return req;
     }
     
+    /**
+     * Creates a minimal RequisitionDocument populated with one item with the current total amount and set of
+     * source accounting lines.
+     * 
+     * @return  A RequisitionDocument with one, populated item
+     */
     public RequisitionDocument generateRequisitionDocument_OneItem() {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
         return augmentRequisitionDocument(req);
     }
     
+    /**
+     * Creates a minimal RequisitionDocument populated with two items, each with the current total amount and 
+     * set of source accounting lines.
+     * 
+     * @return  A RequisitionDocument with two, populated items
+     */
     public RequisitionDocument generateRequisitionDocument_TwoItems() {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_TWO_ITEMS.createRequisitionDocument();
         return augmentRequisitionDocument(req);
     }
     
+    /**
+     * Adds an identical total and a list of source accounting lines to each item of a given PaymentRequestDocument.
+     * 
+     * @param preq      A PaymentRequestDocument
+     * @return          The same document, with the totals and source accounting line lists add to its items
+     */
     private PaymentRequestDocument augmentPaymentRequestDocument(PaymentRequestDocument preq) {
         List<PaymentRequestItem> augmentedItems = new TypedArrayList(PaymentRequestItem.class);
         for(PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
@@ -146,11 +211,23 @@ public enum PurapAccountingServiceFixture {
         return preq;
     }
     
+    /**
+     * Creates a minimal PaymentRequestDocument populated with one item with the current total amount and set of
+     * source accounting lines.
+     *  
+     * @return  A PaymentRequestDocument with one, populated item
+     */
     public PaymentRequestDocument generatePaymentRequestDocument_OneItem() {
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS.createPaymentRequestDocument();
         return augmentPaymentRequestDocument(preq);
     }
     
+    /**
+     * Creates a minimal PaymentRequestDocument populated with two items, each with the current total amount and 
+     * set of source accounting lines.
+     * 
+     * @return  A PaymentRequestDocument with two, populated items
+     */
     public PaymentRequestDocument generatePaymentRequestDocument_TwoItems() {
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_TWO_ITEM.createPaymentRequestDocument();
         return augmentPaymentRequestDocument(preq);
@@ -195,4 +272,13 @@ public enum PurapAccountingServiceFixture {
     public void setPurApAccountingLineList(List<PurApAccountingLine> purApAccountingLineList) {
         this.purApAccountingLineList = purApAccountingLineList;
     }
+
+    public List<PurApItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<PurApItem> items) {
+        this.items = items;
+    }
+    
 }

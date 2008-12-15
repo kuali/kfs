@@ -118,6 +118,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.setVendorStateCode("IL");
             reqDoc.setVendorPostalCode("33555");
             reqDoc.setVendorCountryCode("US");
+            reqDoc.setUseTaxIndicator(false);
 
             // set item attributes
             RequisitionItem item1 = new RequisitionItem();
@@ -130,8 +131,8 @@ public class PurapMassRequisitionStep extends AbstractStep {
             item1.setItemQuantity(new KualiDecimal(20));
             item1.setExtendedPrice(new KualiDecimal(604));
             item1.setItemAssignedToTradeInIndicator(false);
-            // set accounting line attributes
 
+            // set accounting line attributes
             RequisitionAccount account1 = new RequisitionAccount();
             account1.setPostingYear(2004);
             account1.setChartOfAccountsCode("BL");
@@ -143,6 +144,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
 
             item1.getSourceAccountingLines().add(account1);
             reqDoc.getItems().add(item1);
+            reqDoc.fixItemReferences();
         }
         catch (WorkflowException e1) {
             // TODO Auto-generated catch block
@@ -196,6 +198,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.setVendorStateCode("MA");
             reqDoc.setVendorPostalCode("01501");
             reqDoc.setVendorCountryCode("US");
+            reqDoc.setUseTaxIndicator(false);
 
             // set item attributes
             RequisitionItem item1 = new RequisitionItem();
@@ -207,9 +210,9 @@ public class PurapMassRequisitionStep extends AbstractStep {
             item1.setItemTypeCode("SRVC");
             item1.setItemQuantity(null);
             item1.setExtendedPrice(new KualiDecimal(5000));
-            item1.setItemAssignedToTradeInIndicator(false);
+            item1.setItemAssignedToTradeInIndicator(false);           
+            
             // set accounting line attributes
-
             RequisitionAccount account1 = new RequisitionAccount();
             account1.setPostingYear(2004);
             account1.setChartOfAccountsCode("BL");
@@ -221,6 +224,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
 
             item1.getSourceAccountingLines().add(account1);
             reqDoc.getItems().add(item1);
+            reqDoc.fixItemReferences();
         }
         catch (WorkflowException e1) {
             // TODO Auto-generated catch block

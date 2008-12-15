@@ -266,6 +266,18 @@ public class PurapAccountingServiceTest extends KualiTestBase {
      * Tests of generateSummary(List<PurApItem> items)
      */
     
+    public void testGenerateSummary_OneItem_OneAccount() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummary(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        for(int i = 0; i < originalSourceAccounts.size(); i++) {
+            SourceAccountingLine sourceAccount = sourceLines.get(i);
+            compareSourceAccounts(sourceAccount, originalSourceAccounts.get(i));
+        }
+    }
+    
     /*
      * Tests of generateSummaryWithNoZeroTotals(List<PurApItem> items)
      */

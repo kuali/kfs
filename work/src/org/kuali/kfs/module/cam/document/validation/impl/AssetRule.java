@@ -285,11 +285,18 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateInventoryStatusCode() {
         boolean valid = true;
-        Person user = GlobalVariables.getUserSession().getPerson();
-        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
-            valid &= parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
-            GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
+        // disallow change to "R" for any user.
+        if (assetService.isCapitalAsset(newAsset) && assetService.isAssetRetired(newAsset)) {
+            putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_NOEDIT);
+            valid = false;
+        }
+        else {
+            Person user = GlobalVariables.getUserSession().getPerson();
+            if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+                GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
+                valid &= parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+                GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
+            }
         }
         return valid;
     }
@@ -414,4 +421,3 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
 }
-

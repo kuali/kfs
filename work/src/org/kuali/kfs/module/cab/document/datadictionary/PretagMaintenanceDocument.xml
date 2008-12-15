@@ -30,6 +30,14 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="building"
+              p:collection="pretagDetails"
+              p:attributeToHighlightOnFail="buildingCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="buildingRoom"
+              p:collection="pretagDetails"
+              p:attributeToHighlightOnFail="buildingRoomNumber" />
       </list>
     </property>
     <property name="lockingKeys" >

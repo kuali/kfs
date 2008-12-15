@@ -153,7 +153,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         assetGlobal.setVendorName(asset.getVendorName());
         assetGlobal.setManufacturerName(asset.getManufacturerName());
         assetGlobal.setManufacturerModelNumber(asset.getManufacturerModelNumber());
-        assetGlobal.setOrganizationText(assetOrganization.getOrganizationText());
+        if (ObjectUtils.isNotNull(assetOrganization)) {
+            assetGlobal.setOrganizationText(assetOrganization.getOrganizationText());
+        }
         // added in case of NULL date in DB
         if (asset.getLastInventoryDate() == null) {
             assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());

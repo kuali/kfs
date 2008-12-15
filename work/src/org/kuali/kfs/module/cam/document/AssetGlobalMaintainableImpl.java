@@ -558,7 +558,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             // calculate equal source total amounts and set separate source amount fields
             if (customAction != null && CamsConstants.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0])) {
                 KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetGlobal.getTotalCostAmount(), CamsConstants.CURRENCY_USD);
-                KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal);
+                // add source asset to the current location quantity
+                KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal + 1);
                 setEqualSeparateSourceAmounts(equalSourceAmountsArray, assetGlobal);
                 
                 recalculateTotalAmount(assetGlobal);

@@ -297,7 +297,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         nonInvoiced.setDocumentNumber(applicationDocument.getDocumentNumber());
         nonInvoiced.setFinancialDocumentLineNumber(applicationForm.getNextNonInvoicedLineNumber());
         
-        if(PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument.getBalanceToBeApplied())) {
+        if(PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument)) {
             // add advanceDeposit
             applicationDocument.getNonInvoiceds().add(nonInvoiced);
 

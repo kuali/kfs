@@ -39,24 +39,26 @@ public class PaymentApplicationDocumentRuleUtilsTest extends KualiTestBase {
         
         boolean result = true;
         
-        //  test correctly funding from non-AR (to make sure it doesnt false-positive fail)
-        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("750.00"));
-        assertTrue("Rule should pass.", result);
+        // These cases are tested in PaymentApplicationDocumentTest
         
-        //  test overfunding from non-AR
-        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("250.00"));
-        assertFalse("Rule should fail, since nonArLine is overfunded.", result);
-        
-        //  test not allowing zero
-        nonArLine.setFinancialDocumentLineAmount(new KualiDecimal("0.00"));
-        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("500.00"));
-        assertFalse("Rules should fail, since nonArLine total is zero.", result);
-        
-        //  test failing validateBO test
-        nonArLine.setAccountNumber(NON_AR_ACCOUNT_NBR_BAD);
-        nonArLine.setFinancialDocumentLineAmount(new KualiDecimal("500.00"));
-        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("500.00"));
-        assertFalse("Rule should fail as nonsense account number is used.", result);
+//        //  test correctly funding from non-AR (to make sure it doesnt false-positive fail)
+//        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("750.00"));
+//        assertTrue("Rule should pass.", result);
+//        
+//        //  test overfunding from non-AR
+//        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("250.00"));
+//        assertFalse("Rule should fail, since nonArLine is overfunded.", result);
+//        
+//        //  test not allowing zero
+//        nonArLine.setFinancialDocumentLineAmount(new KualiDecimal("0.00"));
+//        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("500.00"));
+//        assertFalse("Rules should fail, since nonArLine total is zero.", result);
+//        
+//        //  test failing validateBO test
+//        nonArLine.setAccountNumber(NON_AR_ACCOUNT_NBR_BAD);
+//        nonArLine.setFinancialDocumentLineAmount(new KualiDecimal("500.00"));
+//        result = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonArLine, new KualiDecimal("500.00"));
+//        assertFalse("Rule should fail as nonsense account number is used.", result);
         
     }
     

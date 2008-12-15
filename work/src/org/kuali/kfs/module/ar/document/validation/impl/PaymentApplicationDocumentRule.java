@@ -50,7 +50,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         // Validate the nonInvoiced payments
         for(NonInvoiced nonInvoiced : paymentApplicationDocument.getNonInvoiceds()) {
             try {
-                if(!PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, paymentApplicationDocument.getBalanceToBeApplied())) {
+                if(!PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, paymentApplicationDocument)) {
                     isValid = false;
                     LOG.info("One of the non-invoiced lines on the payment application document is not valid.");
                 }
@@ -143,7 +143,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
     
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         
-        //  if the super failed, dont even bother running these rules
+        //  if the super failed, don't even bother running these rules
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         if (!isValid) return false;
         

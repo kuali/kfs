@@ -37,7 +37,7 @@ public class PaymentApplicationDocumentRuleUtil {
     public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced) throws WorkflowException {
         boolean isValid = validateApplieds(invoiceDetails, applicationDocument);
         isValid &= validateUnapplied(applicationDocument);
-        isValid &= validateNonInvoiced(newNonInvoiced, applicationDocument.getBalanceToBeApplied());
+        isValid &= validateNonInvoiced(newNonInvoiced, applicationDocument);
         return isValid;
     }
     
@@ -158,7 +158,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param nonInvoiced
      * @return
      */
-    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, KualiDecimal cashControlBalanceToBeApplied) {
+    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
         
@@ -181,17 +181,19 @@ public class PaymentApplicationDocumentRuleUtil {
                 ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_REQUIRED);
         } else {
+            KualiDecimal cashControlBalanceToBeApplied = new KualiDecimal(0);
+            cashControlBalanceToBeApplied = cashControlBalanceToBeApplied.add(paymentApplicationDocument.getCashControlTotalAmount());
+            cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getTotalApplied());
+            cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getTotalUnapplied());
+            
             if (nonArLineAmount.isZero()) {
                 isValid = false;
                 errorMap.putError(
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
                     ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
             }
-            // KULAR-414: Invoice Balance is irrelevant in Non-AR tab
-            // selectedInvoiceBalance is changed to balanceToBeApplied
-            
             //  check that we're not trying to apply more funds to the invoice than the invoice has balance (ie, over-applying)
-            else if (nonArLineAmount.isGreaterThan(cashControlBalanceToBeApplied)) {
+            else if (KualiDecimal.ZERO.isGreaterThan(cashControlBalanceToBeApplied.subtract(nonArLineAmount))) {
                 isValid = false;
                 errorMap.putError(
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,

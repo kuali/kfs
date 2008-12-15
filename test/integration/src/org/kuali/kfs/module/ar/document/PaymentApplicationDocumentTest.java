@@ -25,6 +25,7 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentTestUtil;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -107,10 +108,13 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         return new InvoiceAndCashControlDocumentPair(invoice,cashControlDocument);
     }
     
-    public boolean applyFundsToPaymentApplication(CustomerInvoiceDetailFixture[] invoiceDetailFixtures, CashControlDetailSpec[] cashControlDetailSpecs, KualiDecimal[] amountsToApply) throws Exception {
+    public boolean applyFundsToPaymentApplication(CustomerInvoiceDetailFixture[] invoiceDetailFixtures, CashControlDetailSpec[] cashControlDetailSpecs, KualiDecimal[] amountsToApply, KualiDecimal[] unappliedAmounts) throws Exception {
         // Verify that we have an amount to apply to each invoice detail.
-        if(cashControlDetailSpecs.length != amountsToApply.length) {
+        if(null != amountsToApply && cashControlDetailSpecs.length != amountsToApply.length) {
             throw new Exception("The number of cash control detail specs must equal the number of amounts to apply.");
+        }
+        if(null != unappliedAmounts && cashControlDetailSpecs.length != unappliedAmounts.length) {
+            throw new Exception("The number of cash control detail specs must equal the number of unapplied amounts.");
         }
         
         // Create the invoice and cash control document we need to be able to test the payment application document.
@@ -140,36 +144,52 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
             // payments are credit against the customer balance via the payment application document referenced from the cash control document.
             PaymentApplicationDocument paymentApplicationDocument = cashControlDetail.getReferenceFinancialDocument();
             
-            // Create a new applied payment
-            InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
+            // ------ Set invoice paid applieds
             
-            // set the document number for the invoice paid applied to the payment application document number.
-            invoicePaidApplied.setDocumentNumber(paymentApplicationDocument.getDocumentNumber());
-           
-            // Set the invoice paid applied ref doc number to the document number for the customer invoice document
-            invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(invoice.getDocumentNumber());
-            
-            // Apply this payment to the sample invoice detail
-            invoicePaidApplied.setInvoiceItemNumber(sampleInvoiceDetail.getInvoiceItemNumber());
-            
-            // Apply too much money (double the amount owed)
-            // sampleInvoiceDetail.getAmount().multiply(new KualiDecimal(2))
-            invoicePaidApplied.setInvoiceItemAppliedAmount(amountsToApply[counter]);
-            
-            invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
-            invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-            invoicePaidApplied.setPaidAppliedItemNumber(cashControlDetailSpecs.length);
-            
-            // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
-            if (invoicePaidApplied != null) {
+            // Make sure we've got an amount to apply directly to this document
+            if(counter < amountsToApply.length && null != amountsToApply[counter]) {
+                // Create a new applied payment
+                // Applying one big payment is just as good as applying a bunch of smaller payments from a testing perspective
+                InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
                 
-                // add it to the payment application document list of applied payments
-                paymentApplicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
-
-                // set the new applied amount for the customer invoice detail
-                sampleInvoiceDetail.setAmountToBeApplied(invoicePaidApplied.getInvoiceItemAppliedAmount());
+                // set the document number for the invoice paid applied to the payment application document number.
+                invoicePaidApplied.setDocumentNumber(paymentApplicationDocument.getDocumentNumber());
+               
+                // Set the invoice paid applied ref doc number to the document number for the customer invoice document
+                invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(invoice.getDocumentNumber());
+                
+                // Apply this payment to the sample invoice detail
+                invoicePaidApplied.setInvoiceItemNumber(sampleInvoiceDetail.getInvoiceItemNumber());
+                
+                // Apply too much money (double the amount owed)
+                // sampleInvoiceDetail.getAmount().multiply(new KualiDecimal(2))
+                invoicePaidApplied.setInvoiceItemAppliedAmount(amountsToApply[counter]);
+                
+                invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+                invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+                invoicePaidApplied.setPaidAppliedItemNumber(cashControlDetailSpecs.length);
+                
+                // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
+                if (invoicePaidApplied != null) {
+                    
+                    // add it to the payment application document list of applied payments
+                    paymentApplicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
+    
+                    // set the new applied amount for the customer invoice detail
+                    sampleInvoiceDetail.setAmountToBeApplied(invoicePaidApplied.getInvoiceItemAppliedAmount());
+                }
             }
-
+            
+            // ------ Set the unapplied amount
+            
+            // Make sure we've got an unapplied amount specified for this detail
+            if(null != unappliedAmounts && counter < unappliedAmounts.length && null != unappliedAmounts[counter]) {
+                NonAppliedHolding nonAppliedHolding = new NonAppliedHolding();
+                nonAppliedHolding.setFinancialDocumentLineAmount(unappliedAmounts[counter]);
+                nonAppliedHolding.setReferenceFinancialDocumentNumber(paymentApplicationDocument.getDocumentNumber());
+                paymentApplicationDocument.setNonAppliedHolding(nonAppliedHolding);
+            }
+            
             // Try to save the document
             try {
                 documentService.saveDocument(paymentApplicationDocument);
@@ -197,7 +217,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
                 new KualiDecimal(1)
         };
         
-        assertTrue(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply));
+        assertTrue(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply,null));
     }
 
     public void testUnderApplyingFailsWithoutUnapplied() throws Exception {
@@ -214,9 +234,30 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
                 new KualiDecimal(1)
         };
         
-        assertFalse(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply));
+        assertFalse(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply,null));
     }
+    
+    public void testUnderApplyingSucceedsWithUnapplied() throws Exception {
+        // Set our customer up to owe $10
+        CustomerInvoiceDetailFixture[] invoiceDetailFixtures = 
+            new CustomerInvoiceDetailFixture[] { CustomerInvoiceDetailFixture.TEN_DOLLAR_INVOICE_DETAIL };
+
+        // Receive a payment of $10 from the Customer.
+        CashControlDetailSpec[] cashControlDetailSpecs = new CashControlDetailSpec[] {
+                CashControlDetailSpec.specFor(new KualiDecimal(10))                
+        };
         
+        KualiDecimal[] amountsToApply = new KualiDecimal[] {
+                new KualiDecimal(1)
+        };
+        
+        KualiDecimal[] unappliedAmounts = new KualiDecimal[] {
+                new KualiDecimal(9)
+        };
+
+        assertFalse(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply,null));
+    }
+    
     public void testOverApplyingFails() throws Exception {
         
         // Set our customer up to owe $1
@@ -232,11 +273,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
                 new KualiDecimal(2)
         };
         
-        assertFalse(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply));
-    }
-    
-    public void testUnderApplyingFails() throws Exception {
-        // TODO implement
+        assertFalse(applyFundsToPaymentApplication(invoiceDetailFixtures,cashControlDetailSpecs,amountsToApply,null));
     }
     
     protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {

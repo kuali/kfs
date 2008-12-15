@@ -105,7 +105,7 @@ public class PaymentApplicationDocumentRuleUtil {
             invoicePaidApplied.refreshReferenceObject("invoiceItem");
             appliedTotal = appliedTotal.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
-        return KualiDecimal.ZERO.isGreaterEqual(appliedTotal);
+        return KualiDecimal.ZERO.isLessEqual(appliedTotal);
     }
     
     /**

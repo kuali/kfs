@@ -221,6 +221,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // only for "Asset Separate" document
         if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+            // qty. of assets (unique) to be created
+            success &= validateLocationQuantity(line);
             // total cost must be > 0
             success &= validateTotalCostAmount(assetGlobal);
         }
@@ -228,6 +230,22 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * Validated the location quantity
+     * 
+     * @param line
+     * @return boolean
+     */
+    private boolean validateLocationQuantity(PersistableBusinessObject line) {
+        boolean success = true;
+        AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) line;
+        if (assetGlobalDetail.getLocationQuantity() <= 0) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.LOCATION_QUANTITY, CamsKeyConstants.AssetSeparate.ERROR_ZERO_OR_NEGATIVE_LOCATION_QUANTITY, assetGlobalDetail.getLocationQuantity().toString());
+            success &= false;
+        }
+        return success;
+    }
+    
 
     private boolean validateTagDuplication(List<AssetGlobalDetail> assetSharedDetails, String campusTagNumber) {
         boolean success = true;

@@ -315,6 +315,7 @@ public class CamsPropertyConstants {
         public static String ORGANIZATION_TEXT = "organizationText";
         public static String MANUFACTURER_MODEL_NUMBER = "manufacturerModelNumber";
         public static String SEPARATE_SOURCE_AMOUNT = "separateSourceAmount";
+        public static String LOCATION_QUANTITY = "locationQuantity";
     }
 
     public static class AssetDepreciationConvention {

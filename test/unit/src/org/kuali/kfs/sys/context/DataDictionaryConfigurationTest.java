@@ -155,7 +155,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         super.setUp();
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
     }
-    @RelatesTo(JiraIssue.KFSMI1545)
+    
     public void testAllKFSDocumentNamesAgreeWithDataDictionaryLabel() throws Exception {
         String errorString = "";
         int badNameCount = 0;

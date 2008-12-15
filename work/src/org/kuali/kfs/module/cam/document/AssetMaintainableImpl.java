@@ -263,7 +263,6 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
         routingInfo.add(assetTagNumberRoutingData);
-        // }
     }
 
     private AssetService getAssetService() {

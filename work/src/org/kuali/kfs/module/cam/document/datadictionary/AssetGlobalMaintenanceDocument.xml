@@ -18,6 +18,7 @@
         <ref bean="AssetGlobalMaintenanceDocument-RecalculateSourceAmount" />
       </list>
     </property>
+    
     <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition"
@@ -26,6 +27,9 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="organizationOwnerAccount"
               p:attributeToHighlightOnFail="organizationOwnerAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="inventoryStatus"
+              p:attributeToHighlightOnFail="inventoryStatusCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="assetCondition"
               p:attributeToHighlightOnFail="conditionCode" />
@@ -39,9 +43,45 @@
               p:attributeName="agency"
               p:attributeToHighlightOnFail="agencyNumber" />
         <bean parent="ReferenceDefinition"
+              p:attributeName="building"
+              p:collection="assetSharedDetails"
+              p:attributeToHighlightOnFail="buildingCode" />              
+        <bean parent="ReferenceDefinition"
+              p:attributeName="buildingRoom"
+              p:collection="assetSharedDetails"
+              p:attributeToHighlightOnFail="buildingRoomNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chart"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="account"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="accountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="subAccount"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="subAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="objectCode"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="financialObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="subObjectCode"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="financialSubObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="project"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="projectCode" />
+        <bean parent="ReferenceDefinition"
               p:attributeName="expenditureFinancialDocumentType"
               p:collection="assetPaymentDetails"
               p:attributeToHighlightOnFail="expenditureFinancialDocumentTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="expenditureFinancialSystemOrigination"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="expenditureFinancialSystemOriginationCode"/>
       </list>
     </property>
     <property name="lockingKeys" >

@@ -58,8 +58,7 @@
               p:attributeToHighlightOnFail="inventoryStatusCode" />     
         <bean parent="ReferenceDefinition"
               p:attributeName="acquisitionType"
-              p:attributeToHighlightOnFail="acquisitionTypeCode" />     
-        
+              p:attributeToHighlightOnFail="acquisitionTypeCode"/>
       </list>
     </property>
     <property name="lockingKeys" >

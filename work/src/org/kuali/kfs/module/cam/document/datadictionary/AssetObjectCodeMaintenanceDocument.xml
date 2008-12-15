@@ -20,6 +20,12 @@
     <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialObjectSubType"
+              p:attributeToHighlightOnFail="financialObjectSubTypeCode" />
+        <bean parent="ReferenceDefinition"
               p:attributeName="capitalizationFinancialObject"
               p:attributeToHighlightOnFail="capitalizationFinancialObjectCode" />
         <bean parent="ReferenceDefinition"

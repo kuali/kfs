@@ -5,29 +5,6 @@
 <name>YearEndBenefitExpenseTransferDocument</name>
 <parent>LaborDistributionYearEndTransactionalDocument</parent>
 <docHandler>${application.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler</docHandler>
-<routePaths>
-        <routePath>
-          <start name="Adhoc Routing" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy" nextNode="SubFund"/>
-          <requests name="SubFund" nextNode="Award"/>
-          <requests name="Award"/>
-        </routePath>
-      </routePaths>
-<routeNodes>
-<start name="Adhoc Routing"/>
-<role name="OrganizationHierarchy">
-<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-<role name="SubFund">
-<ruleTemplate>KualiSubFundTemplate</ruleTemplate>
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-<role name="Award">
-<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-</routeNodes>
 </documentType>
 </documentTypes>
 </data>

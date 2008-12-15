@@ -14,7 +14,7 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="Campus">
-<ruleTemplate>KualiInitiatorCampusRuleTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiInitiatorCampusRuleTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

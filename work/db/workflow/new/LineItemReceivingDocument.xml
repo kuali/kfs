@@ -14,7 +14,7 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="Awaiting Purchase Order Open Status">
-<ruleTemplate>AwaitingPurchaseOrderOpenStatusTemplate</ruleTemplate>
+<!--<ruleTemplate>AwaitingPurchaseOrderOpenStatusTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

@@ -9,8 +9,8 @@
         <routePath>
           <start name="Adhoc Routing" nextNode="ContractManagement"/>
           <requests name="ContractManagement" nextNode="Commodity"/>
-          <requests name="Commodity" nextNode="Contracts and Grants Review"/>
-          <requests name="Contracts and Grants Review" nextNode="Budget"/>
+          <requests name="Commodity" nextNode="Award"/>
+          <requests name="Award" nextNode="Budget"/>
           <requests name="Budget" nextNode="Tax"/>
           <requests name="Tax" nextNode="PrintTransmission"/>
           <requests name="PrintTransmission"/>
@@ -19,27 +19,27 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="ContractManagement">
-<ruleTemplate>KualiInternalPurchasingTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiInternalPurchasingTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Commodity">
-<ruleTemplate>KualiPurApCommodityCodeTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiPurApCommodityCodeTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Contracts and Grants Review">
-<ruleTemplate>KualiPurApContractsAndGrantsTemplate</ruleTemplate>
+<role name="Award">
+<!--<ruleTemplate>KualiPurApContractsAndGrantsTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Budget">
-<ruleTemplate>KualiPurApBudgetReviewTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiPurApBudgetReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Tax">
-<ruleTemplate>KualiVendorTaxReviewTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiVendorTaxReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="PrintTransmission">
-<ruleTemplate>KualiPurchaseOrderTransmissionTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiPurchaseOrderTransmissionTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

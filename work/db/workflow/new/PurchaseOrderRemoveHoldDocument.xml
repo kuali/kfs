@@ -14,7 +14,7 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="AccountsPayable">
-<ruleTemplate>KualiPurchaseOrderRemoveHoldNotify</ruleTemplate>
+<!--<ruleTemplate>KualiPurchaseOrderRemoveHoldNotify</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

@@ -8,9 +8,9 @@
 <routePaths>
         <routePath>
           <start name="Adhoc Routing" nextNode="ProjectManagement"/>
-          <requests name="ProjectManagement" nextNode="Account Review"/>
-          <requests name="Account Review" nextNode="Org Review"/>
-          <requests name="Org Review" nextNode="Do Award Split"/>
+          <requests name="ProjectManagement" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Do Award Split"/>
           <split name="Do Award Split" nextNode="Do Nothing">
             <branch name="EffortDistributionIsChangedBranch">
               <requests name="Award Workgroup" nextNode="Award Join"/>
@@ -36,23 +36,23 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="ProjectManagement">
-<ruleTemplate>KualiProjectDirectorTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiProjectDirectorTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Account Review">
-<ruleTemplate>KualiAccountTemplate</ruleTemplate>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Org Review">
-<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Award">
-<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Recreate Workgroup">
-<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+<!--<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <split name="Do Award Split">

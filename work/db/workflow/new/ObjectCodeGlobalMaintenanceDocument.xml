@@ -14,7 +14,7 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="Chart">
-<ruleTemplate>KualiChartTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

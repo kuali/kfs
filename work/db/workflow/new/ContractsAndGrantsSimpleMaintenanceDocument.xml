@@ -7,17 +7,12 @@
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Default Verification Workgroup Routing"/>
-          <requests name="Default Verification Workgroup Routing"/>
+          <start name="Adhoc Routing" />
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="Adhoc Routing"/>
-<role name="Default Verification Workgroup Routing">
-<ruleTemplate>KraPreAwardMaintenanceDocTemplate</ruleTemplate>
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-<mandatoryRoute>true</mandatoryRoute>
-</role>
+
 </routeNodes>
 </documentType>
 </documentTypes>

@@ -7,16 +7,12 @@
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Workflow Review"/>
-          <requests name="Workflow Review"/>
+          <start name="Adhoc Routing" />
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="Adhoc Routing"/>
-<role name="Workflow Review">
-<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
+
 </routeNodes>
 </documentType>
 </documentTypes>

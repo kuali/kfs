@@ -15,11 +15,11 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="OrganizationHierarchy">
-<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="ResearchRisk">
-<ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 

@@ -19,27 +19,27 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="AccountSupervisor">
-<ruleTemplate>KualiAccountSupervisorTemplate</ruleTemplate>
+<!--  <ruleTemplate>KualiAccountSupervisorTemplate</ruleTemplate> -->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="AccountReview">
-<ruleTemplate>KualiAccountTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="OrganizationHierarchy">
-<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Chart">
-<ruleTemplate>KualiChartTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Subfund">
-<ruleTemplate>KualiAccountSubFundTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiAccountSubFundTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Award">
-<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

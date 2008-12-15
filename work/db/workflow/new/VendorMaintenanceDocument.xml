@@ -10,8 +10,8 @@
           <start name="Adhoc Routing" nextNode="Approval No Approval Split"/>
           <split name="Approval No Approval Split">
             <branch name="ApprovalBranch">
-              <requests name="Vendor Type" nextNode="Initiator Notification"/>
-              <requests name="Initiator Notification" nextNode="Join"/>
+              <requests name="Vendor Type" nextNode="Initiator"/>
+              <requests name="Initiator" nextNode="Join"/>
             </branch>
             <branch name="NoApprovalBranch">
               <simple name="Do Nothing" nextNode="Join"/>
@@ -23,11 +23,11 @@
 <routeNodes>
 <start name="Adhoc Routing"/>
 <role name="Management">
-<ruleTemplate>KualiVendorDocumentTypeTemplate</ruleTemplate>
+<!--<ruleTemplate>KualiVendorDocumentTypeTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Initiator Notification">
-<ruleTemplate>KualiVendorNotificationTemplate</ruleTemplate>
+<role name="Initiator">
+<!--<ruleTemplate>KualiVendorNotificationTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <split name="Approval No Approval Split">

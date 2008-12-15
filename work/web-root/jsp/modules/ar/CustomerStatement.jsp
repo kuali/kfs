@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 	
-	<c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
+	<c:set var="orgAttributes" value="${DataDictionary.Organization.attributes}" />
 	<c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 	<c:set var="invoiceAttributes" value="${DataDictionary.CustomerInvoiceDocument.attributes}" />
 	<c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />

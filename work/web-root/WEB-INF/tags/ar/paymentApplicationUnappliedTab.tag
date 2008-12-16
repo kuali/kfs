@@ -46,7 +46,7 @@
                             property="document.nonAppliedHolding.financialDocumentLineAmount"
                             readOnly="${readOnly}" />
                         <html:image property="methodToCall.commitUnapplied"
-                            src="${ConfigProperties.externalizable.images.url}tinybutton-save.gif"
+                            src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
                             alt="Commit Unapplied" title="Commit Unapplied" styleClass="tinybutton" />
                     </td>
                 </tr>

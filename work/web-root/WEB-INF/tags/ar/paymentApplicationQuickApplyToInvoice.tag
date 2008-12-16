@@ -62,7 +62,7 @@
                         <tr>
                             <td colspan='3' style='text-align: right;'>
                                 <html:image property="methodToCall.quickApply"
-                                    src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+                                    src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
                                     alt="Quick Apply" title="Quick Apply" styleClass="tinybutton" />
                             </td>
                         </tr>

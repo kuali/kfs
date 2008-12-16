@@ -965,7 +965,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 accountPreparedSelect = connection.prepareStatement("select acct_expiration_dt, acct_closed_ind, sub_fund_grp_cd, org_cd, cont_fin_coa_cd, cont_account_nbr, fin_series_id, acct_icr_typ_cd, acct_sf_cd from ca_account_t where fin_coa_cd = ? and account_nbr = ?");
                 subFundGroupPreparedSelect = connection.prepareStatement("select fund_grp_cd from ca_sub_fund_grp_t where sub_fund_grp_cd = ?");
                 objectCodePreparedSelect = connection.prepareStatement("select fin_obj_typ_cd, fin_obj_sub_typ_cd, fin_obj_level_cd, fin_obj_active_cd, rpts_to_fin_coa_cd, rpts_to_fin_obj_cd from ca_object_code_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
-                offsetDefinitionPreparedSelect = connection.prepareStatement("select fin_object_cd from gl_offset_defn_t where univ_fiscal_yr = ? and fin_coa_cd = ? and doc_typ_cd = ? and fin_balance_typ_cd = ?");
+                offsetDefinitionPreparedSelect = connection.prepareStatement("select fin_object_cd from gl_offset_defn_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fdoc_typ_cd = ? and fin_balance_typ_cd = ?");
                 universityDatePreparedSelect = connection.prepareStatement("select univ_fiscal_yr, univ_fiscal_prd_cd from sh_univ_date_t where univ_dt = ?");
                 subAccountPreparedSelect = connection.prepareStatement("select sub_acct_actv_cd from ca_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
                 parameterPreparedSelect = connection.prepareStatement("select SH_PARM_TXT,SH_PARM_TYP_CD,SH_PARM_CONS_CD from sh_parm_t where SH_PARM_NMSPC_CD = ? and SH_PARM_DTL_TYP_CD = ? and SH_PARM_NM = ?");

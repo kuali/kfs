@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -221,12 +222,14 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         assertEquals(source.get("organizationDocumentNumber"),correct.get("organizationDocumentNumber"));
     }
     
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testGenerateSummaryAccounts_OneRequisitionAccountOneItemWithPositiveTotal() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_PRORATION_ONE_ACCOUNT;
         PurchasingAccountsPayableDocument doc = fixture.generateRequisitionDocument_OneItem();
         makePerAccountComparisons(fixture, doc);
     }
     
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testGenerateSummaryAccounts_OneRequisitionAccountTwoItemsWithPositiveTotal() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_PRORATION_ONE_ACCOUNT;
         PurchasingAccountsPayableDocument doc = fixture.generateRequisitionDocument_TwoItems();
@@ -304,7 +307,8 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     
     /*
      * Tests of updateAccountAmounts(PurchasingAccountsPayableDocument document)
-     */   
+     */ 
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testUpdateAccountAmounts_BeforeFullEntry_PercentToAmount() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
         PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
@@ -313,6 +317,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         assertFalse(preq.getItems().get(0).getTotalAmount().isZero());
     }
 
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)    
     public void testUpdateAccountAmounts_BeforeFullEntry_AmountNotToPercent() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
         PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
@@ -330,6 +335,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         assertFalse(orResult);
     }
     
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testUpdateAccountAmounts_AfterFullEntry_AmountToPercent() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
         PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();

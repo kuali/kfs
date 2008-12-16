@@ -54,7 +54,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = kuluser, shouldCommitTransactions=true)
+@ConfigureContext(session = parke, shouldCommitTransactions=true)
 public class PurchaseOrderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderServiceTest.class);
 
@@ -73,8 +73,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
 
-
-    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderRetransmit() throws Exception {   
         // Create and save a minimally-populated basic PO document for each test.
         PurchaseOrderDocument po = 
@@ -112,7 +110,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
     
-    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderPrint() throws Exception {        
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -136,7 +133,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     }
 
     
-    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testGetInternalPurchasingDollarLimit() {
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_WITH_VENDOR_CONTRACT.createPurchaseOrderDocument();
 
@@ -220,7 +216,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * Tests that the PurchaseOrderService would attempt to update vendor with missing commodity codes.
      * 
      */
-    @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testUpdateVendorCommodityCode() {
         PurchaseOrderDocument po = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_ACTIVE_COMMODITY_CODE_WITH_VENDOR_COMMODITY_CODE.createPurchaseOrderDocument();
         
@@ -246,7 +241,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCreateAutomaticPurchaseOrderDocument() throws Exception {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
@@ -265,7 +259,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCreatePurchaseOrderDocument() throws Exception {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
         AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
@@ -284,7 +277,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCreateAndSavePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
@@ -312,7 +304,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * @throws Exception
      */
     @RelatesTo(JiraIssue.KULPURAP3167)
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCreateAndRoutePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
@@ -338,7 +329,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * @throws Exception
      */
     @RelatesTo(JiraIssue.KULPURAP3140)
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testPrintPurchaseOrderQuoteRequestsListPDF() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -373,7 +363,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * @throws Exception
      */
     @RelatesTo(JiraIssue.KULPURAP3140)
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testPrintPurchaseOrderQuotePDF() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -408,7 +397,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testPerformPurchaseOrderFirstTransmitViaPrinting() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -446,7 +434,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testPerformPurchaseOrderPreviewPrinting() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -484,7 +471,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testPerformPrintPurchaseOrderPDFOnly() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -523,7 +509,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCompletePurchaseOrder_NonB2B() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -543,7 +528,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public void testCompletePurchaseOrder_B2B() throws Exception {
         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
@@ -559,7 +543,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertNotNull(purchaseOrderDocument.getPurchaseOrderInitialOpenTimestamp());
     }
     
-//    @ConfigureContext(session = parke, shouldCommitTransactions = true)
 //    public void testRetransmitB2BPurchaseOrder() throws Exception {
 //        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
 //        final String docId = requisitionDocument.getDocumentNumber();

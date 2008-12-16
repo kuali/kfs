@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -35,7 +36,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  * 
  * @see org.kuali.kfs.module.purap.document.NegativeAPOTest.
  */
-@ConfigureContext(session = kuluser)
+@ConfigureContext(session = parke)
 public class RequisitionServiceTest extends KualiTestBase {    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceTest.class);
 

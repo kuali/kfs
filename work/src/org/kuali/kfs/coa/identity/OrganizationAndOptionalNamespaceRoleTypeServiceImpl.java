@@ -50,9 +50,14 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRole
         validateRequiredAttributesAgainstReceived(
                 qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         
-        String chart = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String orgCode = qualification.get(KimAttributes.ORGANIZATION_CODE);
-        String namespace = qualification.get(KimAttributes.NAMESPACE_CODE);
+        String chart = "";
+        String orgCode = "";
+        String namespace = "";
+        if ( qualification != null ) {
+            chart = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
+            orgCode = qualification.get(KimAttributes.ORGANIZATION_CODE);
+            namespace = qualification.get(KimAttributes.NAMESPACE_CODE);
+        }
         
         String roleChart = roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
         String roleOrgCode = roleQualifier.get(KimAttributes.ORGANIZATION_CODE);
@@ -75,27 +80,48 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRole
         // perform special matching to make a match that includes the namespace take priority
         RoleMembershipInfo namespaceMatch = null;
         RoleMembershipInfo nonNamespaceMatch = null;
-        String chart = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String orgCode = qualification.get(KimAttributes.ORGANIZATION_CODE);
-        String namespace = qualification.get(KimAttributes.NAMESPACE_CODE);
+        String chart = "";
+        String orgCode = "";
+        String namespace = "";
+        if ( qualification != null ) {
+            chart = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
+            orgCode = qualification.get(KimAttributes.ORGANIZATION_CODE);
+            namespace = qualification.get(KimAttributes.NAMESPACE_CODE);
+        }
         // look for match
         for ( RoleMembershipInfo rmi : roleMemberList ) {
             String roleChart = rmi.getQualifier().get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
             String roleOrgCode = rmi.getQualifier().get(KimAttributes.ORGANIZATION_CODE);
             String roleNamespace = rmi.getQualifier().get(KimAttributes.NAMESPACE_CODE);
-            // compare the chart/org, but also match if none were passed
-            if ( (StringUtils.equals(chart, roleChart) 
-                    && StringUtils.equals(orgCode, roleOrgCode))
-                    || (StringUtils.isBlank(chart) && StringUtils.isBlank(orgCode)) ) {
-                // check for an exact namespace match (also match null and empty strings)
-                if ( StringUtils.equals(namespace, roleNamespace) || (StringUtils.isBlank(roleNamespace) && StringUtils.isBlank(namespace)) ) {
+            if ( StringUtils.equals(namespace, roleNamespace) || (StringUtils.isBlank(roleNamespace) && StringUtils.isBlank(namespace)) ) {
+                // check chart org for exact namespace;
+                if ( (StringUtils.equals(chart, roleChart) 
+                        && StringUtils.equals(orgCode, roleOrgCode))
+                        || (StringUtils.isBlank(chart) && StringUtils.isBlank(orgCode)) ) {
                     namespaceMatch = rmi;
-                    break; // namespace matches will take precedence, so skip further checks 
-                // check for a blank namespace if the qualifier is not blank
-                } else if ( StringUtils.isNotBlank(namespace) && StringUtils.isBlank(roleNamespace) ) {
+                }             
+                nonNamespaceMatch = null;
+                break;
+            } else if ( StringUtils.isNotBlank(namespace) && StringUtils.isBlank(roleNamespace) ) {
+                if ( (StringUtils.equals(chart, roleChart) 
+                        && StringUtils.equals(orgCode, roleOrgCode))
+                        || (StringUtils.isBlank(chart) && StringUtils.isBlank(orgCode)) ) {
                     nonNamespaceMatch = rmi;
-                }
-            }            
+                }                
+            }
+            // compare the chart/org, but also match if none were passed
+//            if ( (StringUtils.equals(chart, roleChart) 
+//                    && StringUtils.equals(orgCode, roleOrgCode))
+//                    || (StringUtils.isBlank(chart) && StringUtils.isBlank(orgCode)) ) {
+//                // check for an exact namespace match (also match null and empty strings)
+//                if ( StringUtils.equals(namespace, roleNamespace) || (StringUtils.isBlank(roleNamespace) && StringUtils.isBlank(namespace)) ) {
+//                    namespaceMatch = rmi;
+//                    break; // namespace matches will take precedence, so skip further checks 
+//                // check for a blank namespace if the qualifier is not blank
+//                } else if ( StringUtils.isNotBlank(namespace) && StringUtils.isBlank(roleNamespace) ) {
+//                    nonNamespaceMatch = rmi;
+//                }
+//            }            
         }
         List<RoleMembershipInfo> matchingMemberships = new ArrayList<RoleMembershipInfo>( 1 );
         if ( nonNamespaceMatch != null || namespaceMatch != null ) {

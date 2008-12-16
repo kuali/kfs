@@ -32,7 +32,7 @@ public class MaintenanceFieldBeanDefinitionParser extends KualiBeanDefinitionPar
         // get all attributes
         String attributeName = element.getAttribute("attributeName");
         String required = element.getAttribute("required");
-        String readOnly = element.getAttribute("readOnly");
+        String unconditionallyReadOnly = element.getAttribute("unconditionallyReadOnly");
         String defaultValue = element.getAttribute("defaultValue");
         String defaultValueFinderClass = element.getAttribute("defaultValueFinderClass");
         String javascriptLeaveFieldFunction = element.getAttribute("javascriptLeaveFieldFunction");
@@ -45,8 +45,8 @@ public class MaintenanceFieldBeanDefinitionParser extends KualiBeanDefinitionPar
         if ( StringUtils.hasText(required) ) {
             bean.addPropertyValue("required", Boolean.parseBoolean(required));
         }
-        if ( StringUtils.hasText(readOnly) ) {
-            bean.addPropertyValue("readOnly", Boolean.parseBoolean(readOnly));
+        if ( StringUtils.hasText(unconditionallyReadOnly) ) {
+            bean.addPropertyValue("unconditionallyReadOnly", Boolean.parseBoolean(unconditionallyReadOnly));
         }
         if ( StringUtils.hasText(defaultValue) ) {
             bean.addPropertyValue("defaultValue", defaultValue);

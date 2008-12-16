@@ -165,7 +165,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
      * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getLookupInstructions()
      */
     public String getLookupInstructions() {
-        return Utilities.getApplicationConstant(KEWConstants.RULE_SEARCH_INSTRUCTION_KEY);
+        return Utilities.getApplicationConstant(KEWConstants.RULE_SEARCH_INSTRUCTION);
     }
 
     /**

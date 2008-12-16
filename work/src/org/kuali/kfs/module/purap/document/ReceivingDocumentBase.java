@@ -965,7 +965,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            workflowDocument.appSpecificRouteDocumentToUser(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdDTO(userNetworkId), responsibilityNote, true);
+            workflowDocument.appSpecificRouteDocumentToUser(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, annotationNote, new NetworkIdDTO(userNetworkId), responsibilityNote, true);
         }
     }
     /**

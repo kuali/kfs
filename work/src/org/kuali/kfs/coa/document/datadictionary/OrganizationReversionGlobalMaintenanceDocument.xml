@@ -151,14 +151,14 @@
             <list>
               <bean parent="MaintainableFieldDefinition"
                     p:name="organizationReversionCategoryCode"
-                    p:readOnly="true"
+                    p:unconditionallyReadOnly="true"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="organizationReversionObjectCode"
                     p:webUILeaveFieldFunction="updateObjectNames" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="objectCodeNames"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="organizationReversionCode" />
               <bean parent="MaintainableFieldDefinition"

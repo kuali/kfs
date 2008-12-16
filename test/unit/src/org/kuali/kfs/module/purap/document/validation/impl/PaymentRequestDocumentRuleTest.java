@@ -35,6 +35,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
+import org.kuali.rice.kew.dto.GroupIdDTO;
+import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -223,6 +225,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             public Set<Person> getAllPriorApprovers() throws WorkflowException {
                 return null;
             }
+            
+            public void appSpecificRouteDocumentToUser(String actionRequested, String routeTypeName, String annotation, UserIdDTO recipient, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+                
+            }
+
+            public void appSpecificRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, GroupIdDTO groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+                
+            }
+            
+            
         };
         
         PaymentRequestDocument document2 = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
@@ -304,6 +316,14 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             
             public Set<Person> getAllPriorApprovers() throws WorkflowException {
                 return null;
+            }
+            
+            public void appSpecificRouteDocumentToUser(String actionRequested, String routeTypeName, String annotation, UserIdDTO recipient, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+                
+            }
+
+            public void appSpecificRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, GroupIdDTO groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+                
             }
         };
         

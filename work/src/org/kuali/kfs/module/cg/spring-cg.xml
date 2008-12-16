@@ -14,9 +14,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           
     <bean id="cgModuleConfiguration" parent="cgModuleConfiguration-parentBean" />
     
     <bean id="cgModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
@@ -96,17 +105,17 @@
 		</property>
 	</bean>
 	
-	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="proposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="proposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="proposalLookupableHelperService" />
 		</property>
 	</bean>
 
-    <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+    <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 
-    <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="awardLookupableHelperService" />
         </property>
@@ -140,13 +149,13 @@
     </bean>
 
 	<!-- Workflow Lookupables -->
-    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Proposal-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Proposal-Lookupable" parent="workflowLookupable" scope="prototype">
         <property name="businessObjectClassName">
             <value>org.kuali.kfs.module.cg.businessobject.Proposal</value>
         </property>
     </bean>
 	
-    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Agency-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Agency-Lookupable" parent="workflowLookupable" scope="prototype">
         <property name="businessObjectClassName">
             <value>org.kuali.kfs.module.cg.businessobject.Agency</value>
         </property>
@@ -373,10 +382,47 @@
 	
 	<!-- Workflow Lookupables-->
 	
-	<bean id="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable" parent="workflowLookupable" scope="prototype">
         <property name="businessObjectClassName">
             <value>org.kuali.kfs.module.cg.businessobject.ResearchRiskType</value>
         </property>
     </bean>
+    
+    <bean id="contractsAndGrantsResponsibilityRoleTypeService" class="org.kuali.kfs.module.cg.identity.ContractsAndGrantsResponsibilityRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="contractsAndGrantsResponsibilityRoleTypeService"
+	      p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" />
+	  </property>
+	</bean>
+	
+    <bean id="researchTransactionalDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchTransactionalDocumentDerivedRoleTypeServiceImpl"/>    
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="researchTransactionalDocumentDerivedRoleTypeService"
+	      p:localServiceName="researchTransactionalDocumentDerivedRoleTypeService" />
+	  </property>
+	</bean>
+	
+    <bean id="researchRiskReviewRoleTypeServiceImpl" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl"/>    
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="researchRiskReviewRoleTypeServiceImpl"
+	      p:localServiceName="researchRiskReviewRoleTypeServiceImpl" />
+	  </property>
+	</bean>
+
+    <bean id="researchQuestionTypeRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchQuestionTypeRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="researchQuestionTypeRoleTypeService"
+	      p:localServiceName="researchQuestionTypeRoleTypeService" />
+	  </property>
+	</bean>
+
 </beans>
 

@@ -14,9 +14,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           
     <bean id="pdpModuleConfiguration" parent="pdpModuleConfiguration-parentBean" />
 
     <bean id="pdpModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
@@ -422,10 +431,10 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
-	<bean id="pdpPayeeAchAccountLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PayeeAchAccountLookupableHelperService" parent="lookupableHelperService" singleton="false">
+	<bean id="pdpPayeeAchAccountLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PayeeAchAccountLookupableHelperService" parent="lookupableHelperService" scope="prototype">
 	</bean>
 	
-	<bean id="pdpPayeeAchAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="pdpPayeeAchAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 	    <property name="lookupableHelperService">
 	        <ref bean="pdpPayeeAchAccountLookupableHelperService" />
 	    </property>
@@ -452,7 +461,7 @@
 		</property>
 	</bean>
 
-	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" singleton="false">
+	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
         <property name="personService">
             <ref bean="personService" />
         </property>
@@ -465,35 +474,35 @@
         </property>
 	</bean>
 
-	<bean id="batchLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="batchLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="batchLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="paymentDetailLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" singleton="false">
+	<bean id="paymentDetailLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
 	</bean>
 
-	<bean id="paymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="paymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="paymentDetailLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" singleton="false">
+	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype">
         <property name="configurationService" ref="kualiConfigurationService" />
 	</bean>
 
-	<bean id="formatProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="formatProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="formatProcessLookupableHelperService" />
 		</property>
 	</bean>		
 	
-	<bean id="paymentProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" parent="lookupableHelperService" singleton="false">
+	<bean id="paymentProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype">
 	    <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -514,20 +523,29 @@
         </property>        
 	</bean>
 
-	<bean id="paymentProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="paymentProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="paymentProcessLookupableHelperService" />
 		</property>
 	</bean>			
 	
-	<bean id="bankChangeHistoryLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
+	<bean id="bankChangeHistoryLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
 	</bean>
 	
-	<bean id="bankChangeHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="bankChangeHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="bankChangeHistoryLookupableHelperService" />
 		</property>
 	</bean>	
-	
+
+    <bean id="customerRoleTypeService" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="customerRoleTypeService"
+	      p:localServiceName="customerRoleTypeService" />
+	  </property>
+	</bean>
+
 </beans>
 

@@ -275,7 +275,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         AccountingLineViewFieldDefinition fieldDefinition = new AccountingLineViewFieldDefinition();
         
         fieldDefinition.setRequired(currentDefinition.isRequired());
-        fieldDefinition.setReadOnly(currentDefinition.isReadOnly());
+        fieldDefinition.setUnconditionallyReadOnly(currentDefinition.isUnconditionallyReadOnly());
         fieldDefinition.setReadOnlyAfterAdd(currentDefinition.isReadOnlyAfterAdd());
         fieldDefinition.setNoLookup(currentDefinition.isNoLookup());
         

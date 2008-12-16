@@ -59,7 +59,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="effortCertificationReportPeriodStatusCode"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="effortCertificationReportPeriodStatusDescription"
               p:required="true" />

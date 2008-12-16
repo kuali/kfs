@@ -112,7 +112,7 @@
               p:webUILeaveFieldFunction="updateBCPositionFTE" />
         <bean parent="MaintainableFieldDefinition"
               p:name="positionFullTimeEquivalency"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="positionSalaryPlanDefault"
               p:required="true" />

@@ -109,7 +109,7 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="vendorDetail.vendorName"
                     p:template="vendorDetail.vendorName" 
-                    p:readOnly="true"/>                    
+                    p:unconditionallyReadOnly="true"/>                    
             </list>
           </property>
           <property name="duplicateIdentificationFields">

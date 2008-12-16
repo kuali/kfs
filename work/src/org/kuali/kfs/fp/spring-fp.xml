@@ -14,8 +14,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean" />
 	
@@ -337,13 +346,13 @@
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.fp.businessobject.PaymentReasonCode-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.fp.businessobject.PaymentReasonCode-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.fp.businessobject.PaymentReasonCode</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.fp.businessobject.TaxControlCode-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.fp.businessobject.TaxControlCode-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.fp.businessobject.TaxControlCode</value>
 		</property>
@@ -374,9 +383,9 @@
 	    </property>
 	</bean>
 
-	<bean id="nonResidentAlienTaxPercentLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="nonResidentAlienTaxPercentLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="nonResidentAlienTaxPercentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="nonResidentAlienTaxPercentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="nonResidentAlienTaxPercentLookupableHelperService" />
 		</property>
@@ -405,13 +414,13 @@
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>
 	
-	<bean id="disbursementPayeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="disbursementPayeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="disbursementPayeeLookupableHelperService" />
 		</property>
 	</bean>
  
-	<bean id="disbursementPayeeLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+	<bean id="disbursementPayeeLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="vendorLookupable">
 			<ref bean="vendorLookupable" />
 		</property>	
@@ -423,7 +432,7 @@
 		</property>		
 	</bean>
 	
-	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" singleton="false" parent="kualiInquirable"/>
+	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>
 	
 	<bean id="disbursementVoucherPaymentReasonService" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherPaymentReasonServiceImpl">
 		<property name="parameterService">
@@ -459,6 +468,15 @@
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
-	
+
+    <bean id="paymentMethodRoleTypeService" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="paymentMethodRoleTypeService"
+	      p:localServiceName="paymentMethodRoleTypeService" />
+	  </property>
+	</bean>
+
 </beans>
 

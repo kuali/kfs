@@ -14,8 +14,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="camModuleConfiguration" parent="camModuleConfiguration-parentBean" />
 
@@ -150,17 +159,17 @@
 <!-- ********* end of report service beans ********** -->
 
 
-    <bean id="assetLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+    <bean id="assetLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     	<property name="assetService" ref="assetService"/>    
     </bean>
        
-    <bean id="assetLookupable" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableImpl" singleton="false">
+    <bean id="assetLookupable" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="assetLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="assetPaymentLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
       	<property name="businessObjectService">
             <ref bean="businessObjectService" />
       	</property>
@@ -169,22 +178,22 @@
       	</property>
     </bean>
 
-    <bean id="assetPaymentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="assetPaymentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="assetPaymentLookupableHelperService" />
         </property>
     </bean> 
 
     
-    <bean id="assetRetirementReasonLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
-	<bean id="assetRetirementReasonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="assetRetirementReasonLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="assetRetirementReasonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="assetRetirementReasonLookupableHelperService" />
 		</property>
 	</bean>
 
-    <bean id="assetAcquisitionLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
-	<bean id="assetAcquisitionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="assetAcquisitionLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="assetAcquisitionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="assetAcquisitionLookupableHelperService" />
 		</property>
@@ -324,4 +333,14 @@
             <ref bean="dateTimeService"/>
         </property>
 	</bean>
+	
+	<bean id="assetDerivedRoleTypeService" class="org.kuali.kfs.module.cam.identity.AssetDerivedRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="assetDerivedRoleTypeService"
+	      p:localServiceName="assetDerivedRoleTypeService" />
+	  </property>
+	</bean>
+
 </beans>

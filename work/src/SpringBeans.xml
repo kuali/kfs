@@ -136,6 +136,7 @@
 				<value>documentDao</value>
 				<value>documentHeaderService</value>
 				<value>documentAuthorizationService</value>
+				<value>documentPresentationControllerService</value>
 				<value>kualiRuleService</value>
 				<value>postProcessorService</value>
 				<value>workflowDocumentService</value>
@@ -660,6 +661,12 @@
 		</property>
 	</bean>
 	
+	<bean id="documentPresentationControllerService" class="org.kuali.rice.kns.service.impl.DocumentPresentationControllerServiceImpl">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	
 	<bean id="keyValuesService" class="org.kuali.rice.kns.service.impl.KeyValuesServiceImpl">
 		<property name="businessObjectDao">
 			<ref bean="businessObjectDao" />
@@ -876,5 +883,9 @@
 		</property>
 	</bean>
 	
-	
+    <bean id="kfsService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
+      <property name="serviceNameSpaceURI" value="" />
+      <property name="retryAttempts" value="0" />
+    </bean>
+  	
 </beans>

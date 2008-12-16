@@ -67,7 +67,7 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="contractLanguageCreateDate"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" 

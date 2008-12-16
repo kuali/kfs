@@ -13,21 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.service.impl;
+package org.kuali.kfs.coa.identity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kim.util.KimConstants;
 
 public class ChartRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
+    protected List<String> requiredAttributes = new ArrayList<String>();
+    {
+        requiredAttributes.add(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE);
+    }
+    
+    /***
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     */
     @Override
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        if (!qualification.containsKey(KimConstants.KIM_ATTRIB_CHART_CODE) || !roleQualifier.containsKey(KimConstants.KIM_ATTRIB_CHART_CODE)) {
-            throw new RuntimeException("Chart of accounts code not found in qualifier.");
-        }
-        return StringUtils.equals(qualification.get(KimConstants.KIM_ATTRIB_CHART_CODE), roleQualifier.get(KimConstants.KIM_ATTRIB_CHART_CODE));
+        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
+        validateRequiredAttributesAgainstReceived(requiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
+        
+        return StringUtils.equals(qualification.get(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE), 
+                roleQualifier.get(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE));
     }
 
 }

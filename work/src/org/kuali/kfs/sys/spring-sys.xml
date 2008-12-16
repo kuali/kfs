@@ -558,5 +558,37 @@
     <bean id="workflowAttributesPropertyResolutionService" class="org.kuali.kfs.sys.document.service.impl.WorkflowAttributePropertyResolutionServiceImpl" />
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
-	
+
+    <bean id="kfsService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
+      <property name="serviceNameSpaceURI" value="" />
+      <property name="retryAttempts" value="0" />
+    </bean>
+
+    <bean id="employeeDerivedRoleTypeService" class="org.kuali.kfs.sys.identity.EmployeeDerivedRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="employeeDerivedRoleTypeService"
+	      p:localServiceName="employeeDerivedRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="financialSystemDocumentTypePermissionTypeService" class="org.kuali.kfs.sys.identity.FinancialSystemDocumentTypePermissionTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="financialSystemDocumentTypePermissionTypeService"
+	      p:localServiceName="financialSystemDocumentTypePermissionTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="organizationAndOptionalNamespaceRoleTypeService" class="org.kuali.kfs.coa.identity.OrganizationAndOptionalNamespaceRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <property name="serviceDefinition">
+      <bean parent="kfsService"
+        p:service-ref="organizationAndOptionalNamespaceRoleTypeService"
+        p:localServiceName="organizationAndOptionalNamespaceRoleTypeService" />
+    </property>
+  </bean>
+
 </beans>

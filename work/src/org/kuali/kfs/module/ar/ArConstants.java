@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar;
 
 public class ArConstants {
 
+    public static final String AR_NAMESPACE_CODE = "KFS-AR";
+    
     //System Parameters
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";

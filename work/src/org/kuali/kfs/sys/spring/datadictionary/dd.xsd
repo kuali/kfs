@@ -583,7 +583,7 @@ For 1:n references, this class represents the type of the element of the collect
     </xsd:element>
 
     <!-- 
-        dd:maintField attributeName="" required="" readOnly="" defaultValue="" defaultValueFinderClass="" 
+        dd:maintField attributeName="" required="" unconditionallyReadOnly="" defaultValue="" defaultValueFinderClass="" 
                         javascriptLeaveFieldFunction="" javascriptLeaveFieldCallbackFunction=""
             dd:property name="" value="" ref=""
       -->
@@ -620,10 +620,11 @@ Whether this field is required to be filled in on the maintenance document.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
-                    <xsd:attribute name="readOnly" type="xsd:boolean">
+                    <xsd:attribute name="unconditionallyReadOnly" type="xsd:boolean">
                         <xsd:annotation>
                             <xsd:documentation>
-Whether this field should be read-only on the maintenance document.
+Whether this field should be unconditionally read-only on the maintenance document.  Note that the read-only status of the field will
+not be affected by any permissions.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>

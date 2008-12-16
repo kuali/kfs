@@ -14,9 +14,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           
     <bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean" />
 
     <bean id="purapModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
@@ -85,13 +94,13 @@
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>
 	<!--  end override -->
-	<bean id="workflow-org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod</value>
 		</property>
 	</bean>
 
-    <bean id="workflow-org.kuali.kfs.module.purap.businessobject.SensitiveData-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.module.purap.businessobject.SensitiveData-Lookupable" parent="workflowLookupable" scope="prototype">
         <property name="businessObjectClassName">
             <value>org.kuali.kfs.module.purap.businessobject.SensitiveData</value>
         </property>
@@ -359,9 +368,9 @@
 	
 	<bean id="thresholdDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.ThresholdDaoOjb" />
 	
-	<bean id="thresholdLookupableHelperService" class="org.kuali.kfs.module.purap.businessobject.lookup.ThresholdLookupableHelperService" parent="lookupableHelperService" singleton="false"/>
+	<bean id="thresholdLookupableHelperService" class="org.kuali.kfs.module.purap.businessobject.lookup.ThresholdLookupableHelperService" parent="lookupableHelperService" scope="prototype"/>
 	
-	<bean id="thresholdLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="thresholdLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 	    <property name="lookupableHelperService">
 	        <ref bean="thresholdLookupableHelperService" />
 	    </property>
@@ -477,7 +486,7 @@
 	<bean id="receivingAddressDao" parent="platformAwareDao" 
 		class="org.kuali.kfs.module.purap.document.dataaccess.impl.ReceivingAddressDaoOjb" />
 
-	<bean id="singleConfirmationQuestion" class="org.kuali.kfs.module.purap.SingleConfirmationQuestion" singleton="false" />
+	<bean id="singleConfirmationQuestion" class="org.kuali.kfs.module.purap.SingleConfirmationQuestion" scope="prototype" />
 	
 	<!--  Batch Jobs -->
 	
@@ -783,7 +792,25 @@
 	       <value>${externalizable.static.content.url}/xsd/purap/b2bPunchOutResponse.xsd</value> 
 	    </property>
 	</bean>
-	
+
+    <bean id="relatedDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.purap.identity.RelatedDocumentDerivedRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="relatedDocumentDerivedRoleTypeService"
+	      p:localServiceName="relatedDocumentDerivedRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="sensitiveDataRoleTypeService" class="org.kuali.kfs.module.purap.identity.SensitiveDataRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="sensitiveDataRoleTypeService"
+	      p:localServiceName="sensitiveDataRoleTypeService" />
+	  </property>
+	</bean>
+
     <!-- validations -->
 	<import resource="document/validation/configuration/PurapValidatorDefinitions.xml" />
 	<import resource="document/validation/configuration/RequisitionValidation.xml" />

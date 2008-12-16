@@ -78,14 +78,14 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="projectManagerUniversalId"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="projectManagerUniversal.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="projectManagerUniversal.name"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="chartOfAccountsCode"
               p:required="true" />

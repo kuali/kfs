@@ -68,7 +68,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="agencyNumber"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true"
               p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextAgencyNumberFinder" />
         <bean parent="MaintainableFieldDefinition"

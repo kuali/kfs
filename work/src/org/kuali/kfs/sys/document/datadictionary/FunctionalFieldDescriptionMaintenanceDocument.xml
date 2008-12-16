@@ -79,9 +79,9 @@
 				<bean parent="MaintainableFieldDefinition"
 					p:name="propertyName" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="namespaceCode" p:readOnly="true" />
+					p:name="namespaceCode" p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="businessObjectProperty.businessObjectComponent.componentLabel" p:readOnly="true" />
+					p:name="businessObjectProperty.businessObjectComponent.componentLabel" p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="businessObjectProperty.propertyLabel" p:lookupReadOnly="true" p:required="true" />
 				<bean parent="MaintainableFieldDefinition"

@@ -14,8 +14,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="coaModuleConfiguration" parent="coaModuleConfiguration-parentBean" />
 	
@@ -239,135 +248,135 @@
 
 	<bean id="a21SubAccountDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.A21SubAccountDaoOjb" />
 	
-	<bean id="workflow-org.kuali.module.chart.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.Campus-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.rice.kns.bo.Campus</value>
 		</property>
 	</bean> 
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.Chart-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.Chart-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.Chart</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.Account-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.Account-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.Account</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.SubAccount-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.SubAccount-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.SubAccount</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ProjectCode-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ProjectCode-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.ProjectCode</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectCode-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectCode-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.ObjectCodeCurrent</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectCodeCurrent-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectCodeCurrent-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.ObjectCodeCurrent</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjLevel-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjLevel-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.ObjLevel</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectType-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.ObjectType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjSubTyp-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjSubTyp-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.ObjSubTyp</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.FundGroup-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.FundGroup-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.FundGroup</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.SubFundGroup-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.SubFundGroup-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.SubFundGroup</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.SubFundGroupType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.SubFundGroupType-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.SubFundGroupType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.Organization-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.Org-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.coa.businessobject.Organization</value>
+			<value>org.kuali.kfs.coa.businessobject.Org</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ResponsibilityCenter-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ResponsibilityCenter-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.ResponsibilityCenter</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.OrganizationType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.OrgType-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.coa.businessobject.OrganizationType</value>
+			<value>org.kuali.kfs.coa.businessobject.OrgType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.AcctType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.AcctType-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.AcctType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.HigherEdFunction-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.HigherEdFunction-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.coa.businessobject.HigherEdFunction</value>
 		</property>
 	</bean>
 
-	<bean id="OrgReviewLookupable" class="org.kuali.kfs.sys.document.routing.OrgReviewLookupableImpl" singleton="false" />
+	<bean id="OrgReviewLookupable" class="org.kuali.kfs.sys.document.routing.OrgReviewLookupableImpl" scope="prototype" />
 
-	<bean id="accountLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.KualiAccountLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="accountLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.KualiAccountLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="accountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="accountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="accountLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="organizationRoutingModelLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="organizationRoutingModelLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="organizationRoutingModelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="organizationRoutingModelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="organizationRoutingModelLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.IndirectCostRecoveryExclusionTypeLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.IndirectCostRecoveryExclusionTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="indirectCostRecoveryExclusionByTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="indirectCostRecoveryExclusionByTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="indirectCostRecoveryExclusionByTypeLookupableHelperService" />
 		</property>
@@ -658,37 +667,34 @@
 		</property>
     </bean>
     
-    <bean name="chartRoleService" class="org.kuali.kfs.coa.service.impl.ChartRoleTypeServiceImpl">
-    	<property name="acceptedAttributeNames">
-    		<list>
-    			<value>Chart Code</value>
-    		</list>
-    	</property>
-    </bean>
+    <bean name="chartRoleService" class="org.kuali.kfs.coa.identity.ChartRoleTypeServiceImpl"/>
     
-     <bean name="organizationHierarchyRoleTypeService" class="org.kuali.kfs.coa.service.impl.OrganizationHierarchyRoleTypeServiceImpl">
-    	<property name="acceptedAttributeNames">
-    		<list>
-    			<value>Chart Code</value>
-    			<value>Organization Code</value>
-    		</list>
-    	</property>
-    	<property name="organizationService">
-			<ref bean="organizationService" />
-		</property>
+     <bean name="organizationHierarchyRoleTypeService" class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl">
+    	<property name="organizationService" ref="organizationService" />
     </bean>
 
-    <bean name="campusRoleService" class="org.kuali.kfs.coa.service.impl.CampusRoleTypeServiceImpl">
-    	<property name="acceptedAttributeNames">
-    		<list>
-				<value>Chart Code</value>
-				<value>Organization Code</value>
-				<value>Campus Code</value>
-    		</list>
-    	</property>
+     <bean name="organizationRoleTypeService" class="org.kuali.kfs.coa.identity.OrganizationRoleTypeServiceImpl"/>
+  
+  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <property name="serviceDefinition">
+      <bean parent="kfsService"
+        p:service-ref="organizationHierarchyRoleTypeService"
+        p:localServiceName="organizationHierarchyRoleTypeService" />
+    </property>
+  </bean>
+    
+  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <property name="serviceDefinition">
+      <bean parent="kfsService"
+        p:service-ref="organizationRoleTypeService"
+        p:localServiceName="organizationRoleTypeService" />
+    </property>
+  </bean>
+
+    <bean name="campusRoleService" class="org.kuali.kfs.coa.identity.CampusRoleTypeServiceImpl">
     	<property name="kimAttributesTranslators">
     		<list>
-				<bean class="org.kuali.kfs.coa.service.impl.CampusAttributesTranslator">
+				<bean class="org.kuali.kfs.coa.identity.CampusAttributesTranslator">
 					<property name="supportedAttributeNames">
 						<list>
 							<value>Chart Code</value>
@@ -704,4 +710,96 @@
     		</list>
     	</property>
     </bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="campusRoleService"
+	      p:localServiceName="campusRoleService" />
+	  </property>
+	</bean>
+	
+    <bean id="accountRoleTypeService" class="org.kuali.kfs.coa.identity.AccountRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="accountRoleTypeService"
+	      p:localServiceName="accountRoleTypeService" />
+	  </property>
+	</bean>
+	
+    <bean id="accountDerivedRoleTypeService" class="org.kuali.kfs.coa.identity.AccountDerivedRoleTypeServiceImpl">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+	</bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="accountDerivedRoleTypeService"
+	      p:localServiceName="accountDerivedRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="organizationHierarchyReviewRoleTypeService" class="org.kuali.kfs.coa.identity.OrganizationHierarchyReviewRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="organizationHierarchyReviewRoleTypeService"
+	      p:localServiceName="organizationHierarchyReviewRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="accountingOrganizationHierarchyReviewRoleTypeService" class="org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="accountingOrganizationHierarchyReviewRoleTypeService"
+	      p:localServiceName="accountingOrganizationHierarchyReviewRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="organizationOptionalHierarchyRoleTypeService" class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl">
+		<property name="organizationService">
+			<ref bean="organizationService" />
+		</property>
+    </bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="organizationOptionalHierarchyRoleTypeService"
+	      p:localServiceName="organizationOptionalHierarchyRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="subAccountReviewRoleTypeService" class="org.kuali.kfs.coa.identity.SubAccountReviewRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="subAccountReviewRoleTypeService"
+	      p:localServiceName="subAccountReviewRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="subFundReviewRoleTypeService" class="org.kuali.kfs.coa.identity.SubFundReviewRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="subFundReviewRoleTypeService"
+	      p:localServiceName="subFundReviewRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="chartDerivedRoleTypeService" class="org.kuali.kfs.coa.identity.ChartDerivedRoleTypeServiceImpl">
+		<property name="organizationService">
+			<ref bean="organizationService" />
+		</property>
+	</bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="chartDerivedRoleTypeService"
+	      p:localServiceName="chartDerivedRoleTypeService" />
+	  </property>
+	</bean>
+    
 </beans>

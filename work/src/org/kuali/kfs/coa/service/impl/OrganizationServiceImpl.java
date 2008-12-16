@@ -80,7 +80,6 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveChildOrgs(java.lang.String, java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
-
         if (StringUtils.isBlank(chartOfAccountsCode)) {
             throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
         }
@@ -91,6 +90,62 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
     }
 
+    @Cached
+    public boolean isParentOrg( String childChartOfAccountsCode, String childOrganizationCode, String parentChartOfAccountsCode, String parentOrganizationCode ) {
+        if (StringUtils.isBlank(childChartOfAccountsCode)) {
+            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
+        }
+        if (StringUtils.isBlank(childOrganizationCode)) {
+            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
+        }
+        if (StringUtils.isBlank(parentChartOfAccountsCode)) {
+            throw new IllegalArgumentException("String parameter parentChartOfAccountsCode was null or blank.");
+        }
+        if (StringUtils.isBlank(parentOrganizationCode)) {
+            throw new IllegalArgumentException("String parameter parentOrganizationCode was null or blank.");
+        }
+    
+        Organization currOrg = organizationDao.getByPrimaryId(childChartOfAccountsCode, childOrganizationCode);
+        while ( currOrg != null ) {
+            if ( currOrg.getReportsToChartOfAccountsCode().equals(parentChartOfAccountsCode)
+                    && currOrg.getReportsToOrganizationCode().equals(parentOrganizationCode) ) {
+                return true;
+            }
+            // if no parent, we've reached the top - stop and return false
+            if ( StringUtils.isBlank(currOrg.getReportsToChartOfAccountsCode())
+                    || StringUtils.isBlank(currOrg.getReportsToOrganizationCode())
+                    || (currOrg.getReportsToChartOfAccountsCode().equals(currOrg.getChartOfAccountsCode())
+                            && currOrg.getReportsToOrganizationCode().equals(currOrg.getOrganizationCode()))
+                    ) {
+                return false;
+            }
+            currOrg = organizationDao.getByPrimaryId(currOrg.getReportsToChartOfAccountsCode(), currOrg.getReportsToOrganizationCode());
+        }
+        
+        
+        return false;
+    }
+    
+//    public boolean isChildOrg( String chartOfAccountsCode, String organizationCode, String parentChartOfAccountsCode, String parentOrganizationCode ) {
+//        boolean isChild = false;
+//        if (StringUtils.isBlank(chartOfAccountsCode)) {
+//            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
+//        }
+//        if (StringUtils.isBlank(organizationCode)) {
+//            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
+//        }
+//        if (StringUtils.isBlank(parentChartOfAccountsCode)) {
+//            throw new IllegalArgumentException("String parameter parentChartOfAccountsCode was null or blank.");
+//        }
+//        if (StringUtils.isBlank(parentOrganizationCode)) {
+//            throw new IllegalArgumentException("String parameter parentOrganizationCode was null or blank.");
+//        }
+//        
+//        
+//        
+//        return isChild;
+//    }
+    
     /**
      * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveOrgsByType(java.lang.String)

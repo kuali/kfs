@@ -75,14 +75,14 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="11"/>
         </property>
-        <property name="displayMask">
-            <bean parent="Mask">
-                <property name="maskFormatter">
-                    <bean parent="MaskFormatterLiteral" p:literal="*********"/>
-                </property>
-            </bean>
-        </property>
-        <property name="displayWorkgroup" value="PA_TAX_NUMBER_USERS"/>
+        <property name="attributeSecurity">
+		<bean class="org.kuali.rice.kns.datadictionary.AttributeSecurity">
+  			<property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			</property>
+  		</bean>
+  		</property>
     </bean>
     <bean id="Customer-customerTaxTypeCode" parent="Customer-customerTaxTypeCode-parentBean"/>
 

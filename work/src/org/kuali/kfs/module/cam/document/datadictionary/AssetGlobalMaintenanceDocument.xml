@@ -134,7 +134,7 @@
               p:name="Acquisition Type" />
         <bean parent="MaintainableFieldDefinition"
               p:name="acquisitionTypeCode"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
       </list>
     </property>
   </bean>
@@ -148,13 +148,13 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="separateSourceCapitalAssetNumber"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="separateSourcePaymentSequenceNumber"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="totalCostAmount"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="calculateEqualSourceAmountsButton" />
       </list>
@@ -179,7 +179,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationOwnerAccount.organizationCode"
               p:required="false"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="agencyNumber"
               p:required="false" />
@@ -208,7 +208,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="lastInventoryDate"
               p:required="false"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="createDate"
@@ -217,10 +217,10 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetInServiceDate"
               p:required="false"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetDepreciationDate"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="landCountyName" />
         <bean parent="MaintainableFieldDefinition"
@@ -345,7 +345,7 @@
                   <list>
                 	 <bean parent="MaintainableFieldDefinition"
                    		  p:name="capitalAssetNumber"
-                   		  p:readOnly="true" />
+                   		  p:unconditionallyReadOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="serialNumber" 
                           p:readOnlyAfterAdd="false" />
@@ -375,7 +375,7 @@
 			              p:name="assetRepresentative.principalName" />
 			        <bean parent="MaintainableFieldDefinition"
 			              p:name="assetRepresentative.name"
-			              p:readOnly="true" />
+			              p:unconditionallyReadOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                     	  p:name="capitalAssetTypeCode"
                           p:readOnlyAfterAdd="false" /> 
@@ -426,7 +426,7 @@
             <list>
               <bean parent="MaintainableFieldDefinition"
                     p:name="sequenceNumber"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="chartOfAccountsCode"
                     p:readOnlyAfterAdd="true"
@@ -477,10 +477,10 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="postingYear"
                     p:readOnlyAfterAdd="true"
-                    p:readOnly="false" />
+                    p:unconditionallyReadOnly="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="postingPeriodCode"
-                    p:readOnly="false" />
+                    p:unconditionallyReadOnly="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="amount"
                     p:readOnlyAfterAdd="true"
@@ -494,7 +494,7 @@
               p:name="Total Payment Amount" />
         <bean parent="MaintainableFieldDefinition"
               p:name="totalAssetPaymentAmount"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
       </list>
     </property>
   </bean>
@@ -507,13 +507,13 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="totalCostAmount"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="separateSourceTotalAmount"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="separateSourceRemainingAmount"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="calculateSeparateSourceRemainingAmountButton" />
       </list>

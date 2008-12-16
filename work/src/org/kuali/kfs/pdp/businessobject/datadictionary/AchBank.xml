@@ -68,15 +68,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="displayMask" >
-      <bean parent="Mask">
-        <property name="maskFormatter" >
-          <bean parent="MaskFormatterLiteral"
-                p:literal="*********" />
-        </property>
-      </bean>
-    </property>
-    <property name="displayWorkgroup" value="PD_VIEW_ACH" />
+    <property name="attributeSecurity">
+		<bean class="org.kuali.rice.kns.datadictionary.AttributeSecurity">
+  			<property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			</property>
+  		</bean>
+  	</property>
   </bean>
   <bean id="AchBank-bankOfficeCode" parent="AchBank-bankOfficeCode-parentBean" />
 

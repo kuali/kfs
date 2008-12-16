@@ -105,14 +105,14 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finCoaManagerUniversalId"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finCoaManagerUniversal.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finCoaManagerUniversal.name"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finChartOfAccountDescription"
               p:required="true" />

@@ -67,7 +67,7 @@
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="purchaseOrderQuoteLanguageCreateDate"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
       </list>
     </property>

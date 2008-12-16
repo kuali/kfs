@@ -80,7 +80,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="customerNumber"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerName"
               p:webUILeaveFieldFunction="setCustomerAddressName"
@@ -93,13 +93,13 @@
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerRecordAddDate"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerLastActivityDate"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerAddressChangeDate"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
 
       </list>
     </property>
@@ -175,7 +175,7 @@
             <list>
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressIdentifier"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressTypeCode" />
               <bean parent="MaintainableFieldDefinition"

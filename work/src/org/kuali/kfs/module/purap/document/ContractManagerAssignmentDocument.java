@@ -128,7 +128,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
-                    workflowDoc.appSpecificRouteDocumentToUser(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, new NetworkIdDTO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
+                    workflowDoc.appSpecificRouteDocumentToUser(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, new NetworkIdDTO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
                 }
                 catch (WorkflowException e) {
                     // do nothing; document should have processed successfully and problem is with sending FYI

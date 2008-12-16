@@ -14,8 +14,7 @@
     <property name="documentTypeName" value="AssetPaymentDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetPaymentDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <!-- property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules" />    
-     -->
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer" />
     <property name="documentTypeCode" value="MPAY" />
     <property name="workflowProperties" >
@@ -131,7 +130,7 @@
 	  <property name="accountingLineView" ref="AssetPaymentDocument-accountingLineView" />
 	  <property name="accountingLineClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" />
 	  <property name="groupLabel" value="Source" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentAccountingLineAuthorizer" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AssetPaymentAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
@@ -200,8 +199,8 @@
 				<bean parent="AccountingLineView-field" p:name="expenditureFinancialDocumentNumber" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field" p:name="expenditureFinancialDocumentTypeCode" p:useShortLabel="true" p:required="true"/>
 				<bean parent="AccountingLineView-field" p:name="expenditureFinancialDocumentPostedDate" p:useShortLabel="true" p:required="true"/>
-				<bean parent="AccountingLineView-field" p:name="postingYear" p:useShortLabel="true" p:readOnly="true"/>          
-				<bean parent="AccountingLineView-field" p:name="postingPeriodCode" p:useShortLabel="true" p:readOnly="true"/>
+				<bean parent="AccountingLineView-field" p:name="postingYear" p:useShortLabel="true" p:unconditionallyReadOnly="true"/>          
+				<bean parent="AccountingLineView-field" p:name="postingPeriodCode" p:useShortLabel="true" p:unconditionallyReadOnly="true"/>
 				<bean parent="AccountingLineView-field" p:name="transferPaymentIndicator" p:hidden="true" />
 				<bean parent="AccountingLineView-field" p:name="sequenceNumber" p:hidden="true" />
             </list>

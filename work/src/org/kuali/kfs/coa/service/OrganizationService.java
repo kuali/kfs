@@ -60,6 +60,8 @@ public interface OrganizationService {
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
 
+    public boolean isParentOrg( String childChartOfAccountsCode, String childOrganizationCode, String parentChartOfAccountsCode, String parentOrganizationCode );
+    
     /**
      * Returns a list of active organizations with the given organization type code.
      * 

@@ -188,7 +188,7 @@
 					p:webUILeaveFieldFunction="loadSubAccountInfo"
 					p:dynamicLabelProperty="subAccount.subAccountName" />
 				<bean parent="AccountingLineView-field"
-					p:name="financialObjectCode" p:required="true" p:readOnly="true"
+					p:name="financialObjectCode" p:required="true" p:unconditionallyReadOnly="true"
 					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
 					<property name="overrideFields">
 						<list>

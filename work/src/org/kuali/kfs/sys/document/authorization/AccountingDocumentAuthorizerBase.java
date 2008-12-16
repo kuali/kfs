@@ -33,9 +33,11 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -46,8 +48,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AccountingDocumentAuthorizerBase extends FinancialSystemTransactionalDocumentAuthorizerBase implements AccountingDocumentAuthorizer {
     private static Log LOG = LogFactory.getLog(AccountingDocumentAuthorizerBase.class);
-
-    protected PersonService personService;
 
     /**
      * The Kuali user interface code automatically reconstructs a complete document from a form's contents when a form is submitted,
@@ -198,18 +198,17 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
 
         return editableAccounts;
     }
-
-
-    public PersonService getKfsUserService() {
-        if ( personService == null ) {
-            personService = SpringContext.getBean(PersonService.class);
+    
+    @Override
+    protected void populateRoleQualification(Document document, Map<String,String> attributes) {
+        super.populateRoleQualification(document, attributes);
+        
+        // add the document amount
+        if ( ((AccountingDocument)document).getSourceTotal() != null ) {
+            attributes.put(KimAttributes.DOCUMENT_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());
+        } else {
+            attributes.put(KimAttributes.DOCUMENT_AMOUNT, "0" );
         }
-        return personService;
-    }
-
-
-    public void setKfsUserService(PersonService personService) {
-        this.personService = personService;
     }
 }
 

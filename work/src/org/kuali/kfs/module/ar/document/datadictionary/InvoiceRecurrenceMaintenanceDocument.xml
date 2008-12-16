@@ -64,11 +64,11 @@
               p:webUILeaveFieldFunction="loadCustomerNumberAndName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerNumber"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customer.customerName"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="documentRecurrenceBeginDate"

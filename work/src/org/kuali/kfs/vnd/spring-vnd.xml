@@ -14,9 +14,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           
     <bean id="vndModuleConfiguration" parent="vndModuleConfiguration-parentBean" />
 
 	<bean id="vndModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
@@ -51,19 +60,19 @@
 		<property name="moduleConfiguration" ref="vndModuleConfiguration" />
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.vnd.businessobject.VendorType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.vnd.businessobject.ContractManager-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.vnd.businessobject.ContractManager-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.vnd.businessobject.ContractManager</value>
 		</property>
 	</bean>
 
-    <bean id="workflow-org.kuali.kfs.vnd.businessobject.CommodityCode-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.vnd.businessobject.CommodityCode-Lookupable" parent="workflowLookupable" scope="prototype">
         <property name="businessObjectClassName">
             <value>org.kuali.kfs.vnd.businessobject.CommodityCode</value>
         </property>
@@ -93,7 +102,7 @@
         </property>
     </bean>
     
-    <bean id="vendorLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorLookupableHelperServiceImpl" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -120,7 +129,7 @@
         </property>
     </bean>
 
-    <bean id="vendorContactLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContactLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorContactLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContactLookupableHelperServiceImpl" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -138,7 +147,7 @@
         </property>
     </bean>
     
-    <bean id="vendorPhoneLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorPhoneLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorPhoneLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorPhoneLookupableHelperServiceImpl" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -156,7 +165,7 @@
         </property>
     </bean>
     
-    <bean id="vendorContractLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContractLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorContractLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContractLookupableHelperServiceImpl" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -180,7 +189,7 @@
         </property>
     </bean>
     
-    <bean id="vendorAddressLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorAddressLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorAddressLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorAddressLookupableHelperServiceImpl" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -201,7 +210,7 @@
         </property>
     </bean>
   
-    <bean id="vendorCustomerNumberLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorCustomerNumberLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorCustomerNumberLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorCustomerNumberLookupableHelperServiceImpl" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -222,37 +231,37 @@
         </property>
     </bean>
     
-    <bean id="vendorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="vendorLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorContactLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorContactLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="vendorContactLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorPhoneLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorPhoneLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="vendorPhoneLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorContractLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorContractLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="vendorContractLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorAddressLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorAddressLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="vendorAddressLookupableHelperService" />
         </property>
     </bean>
   
-    <bean id="vendorCustomerNumberLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorCustomerNumberLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="vendorCustomerNumberLookupableHelperService" />
         </property>
@@ -268,5 +277,33 @@
             <ref bean="commodityCodeDao" />
         </property> 
     </bean>
+    
+    <bean id="commodityReviewRoleTypeService" class="org.kuali.kfs.vnd.identity.CommodityReviewRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="commodityReviewRoleTypeService"
+	      p:localServiceName="commodityReviewRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="contractManagerRoleTypeService" class="org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="contractManagerRoleTypeService"
+	      p:localServiceName="contractManagerRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="vendorTypeRoleTypeService" class="org.kuali.kfs.vnd.identity.VendorTypeRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="vendorTypeRoleTypeService"
+	      p:localServiceName="vendorTypeRoleTypeService" />
+	  </property>
+	</bean>    
+    
 </beans>
 

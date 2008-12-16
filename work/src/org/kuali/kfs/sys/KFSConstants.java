@@ -1177,13 +1177,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final class FinancialDocumentTypeCodes {
         public static final String ALL = "ALL";
         public static final String BUDGET_CONSTRUCTION = "BC";
-        public static final String GENERAL_ERROR_CORRECTION = "GEC";
-        public static final String YEAR_END_GENERAL_ERROR_CORRECTION = "YEGE";
-        public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE = "DI";
-        public static final String YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE = "YEDI";
-        public static final String INTERNAL_BILLING = "IB";
-        public static final String SERVICE_BILLING = "SB";
-        
     }
     
     public static final class AccountingLineViewStandardBlockNames {
@@ -1279,5 +1272,18 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PAYMENT_REASON_REQUIRING_TAX_REVIEW = "P";
         public static final String OTHER = "N";
     }
+    
+    public static class SysKimConstants{
+        public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
+        public static final String FISCAL_OFFICER_KIM_ROLE_NAME = "Fiscal Officer";
+        public static final String FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME = "Fiscal Officer Primary Delegate";
+        public static final String FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME = "Fiscal Officer Secondary Delegate";
+        public static final String AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME = "Award Project Director";
+        public static final String ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME = "Active Faculty or Staff";
+        public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME = "Active Professional Employee";
+        
+        public static final String CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME = "Claim Electronic Payment";
+    }
+
 }
 

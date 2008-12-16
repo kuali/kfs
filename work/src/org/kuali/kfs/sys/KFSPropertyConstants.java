@@ -1220,5 +1220,6 @@ public class KFSPropertyConstants {
     public static final String TAX_NUMBER = "taxNumber";
     public static final String VENDOR_TYPE_CODE = "vendorTypeCode";
     public static final String PRINCIPAL_ID = "principalId";
+
 }
 

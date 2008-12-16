@@ -127,7 +127,7 @@
               p:webUILeaveFieldFunction="onblur_agencyNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="agency.fullName"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="awardProjectTitle"
               p:required="true" />
@@ -147,7 +147,7 @@
               p:webUILeaveFieldFunction="onblur_awardIndirectCostAmount" />
         <bean parent="MaintainableFieldDefinition"
               p:name="awardTotalAmount"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="agencyFuture1Amount" />
         <bean parent="MaintainableFieldDefinition"
@@ -159,7 +159,7 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="awardClosingDate"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="proposalAwardTypeCode"
               p:required="true" />
@@ -173,7 +173,7 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="federalFundedAmount"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="federalPassThroughIndicator" />
         <bean parent="MaintainableFieldDefinition"
@@ -181,7 +181,7 @@
               p:webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="federalPassThroughAgency.fullName"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="federalPassThroughFundedAmount" />
         <bean parent="MaintainableFieldDefinition"
@@ -236,7 +236,7 @@
                     p:webUILeaveFieldFunction="accountNameLookup" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="account.accountName"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="projectDirector.principalName"
                     p:required="true"
@@ -245,10 +245,10 @@
                     p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="projectDirector.name"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="principalId"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
             </list>
@@ -285,10 +285,10 @@
                     p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="projectDirector.name"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="principalId"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="awardPrimaryProjectDirectorIndicator" />
               <bean parent="MaintainableFieldDefinition"
@@ -333,7 +333,7 @@
                     p:webUILeaveFieldFunction="organizationNameLookup" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="organization.organizationName"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="awardPrimaryOrganizationIndicator" />
               <bean parent="MaintainableFieldDefinition"
@@ -371,7 +371,7 @@
                     p:webUILeaveFieldFunction="onblur_subcontractorNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="subcontractor.subcontractorName"
-                    p:readOnly="true" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="awardSubcontractorDescription" />
               <bean parent="MaintainableFieldDefinition"

@@ -114,16 +114,16 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="displayMask" >
-      <bean parent="Mask">
-        <property name="maskFormatter" >
-          <bean parent="MaskFormatterLiteral"
-                p:literal="***************" />
-        </property>
-      </bean>
-    </property>
-    <property name="displayWorkgroup" value="kualiUniversalGroup" />
+    <property name="attributeSecurity">
+		<bean class="org.kuali.rice.kns.datadictionary.AttributeSecurity">
+  			<property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="xxxxxxxxxxxxxxxxxxxxxxxxxxxx" /> 
+  			</property>
+  		</bean>
+  </property>
   </bean>
+  
   <bean id="Bank-bankAccountDescription" parent="Bank-bankAccountDescription-parentBean" />
 
   <bean id="Bank-bankAccountDescription-parentBean" abstract="true" parent="AttributeDefinition">

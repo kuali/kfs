@@ -13,22 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.service.impl;
+package org.kuali.kfs.coa.identity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kim.util.KimConstants;
 
 public class CampusRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
+    protected List<String> requiredAttributes = new ArrayList<String>();
+    {
+        requiredAttributes.add(KimAttributes.CAMPUS_CODE);
+    }
+    
     @Override
-    public boolean performMatch(final AttributeSet qualification, final AttributeSet roleQualifier) {
-        if (!qualification.containsKey(KimConstants.KIM_ATTRIB_CAMPUS_CODE) || !roleQualifier.containsKey(KimConstants.KIM_ATTRIB_CAMPUS_CODE)) {
-            throw new RuntimeException("Campus code not found in qualifier.");
-        }
-        return StringUtils.equals(qualification.get(KimConstants.KIM_ATTRIB_CAMPUS_CODE), roleQualifier.get(KimConstants.KIM_ATTRIB_CAMPUS_CODE));
+    public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
+        validateRequiredAttributesAgainstReceived(requiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
+
+        return StringUtils.equals(
+                qualification.get(KimAttributes.CAMPUS_CODE), roleQualifier.get(KimAttributes.CAMPUS_CODE));
     }
 
 }

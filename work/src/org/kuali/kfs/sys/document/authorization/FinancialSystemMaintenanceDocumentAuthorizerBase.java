@@ -15,10 +15,19 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 
@@ -28,6 +37,8 @@ import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBa
 public class FinancialSystemMaintenanceDocumentAuthorizerBase extends MaintenanceDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(FinancialSystemMaintenanceDocumentAuthorizerBase.class);
 
+    private static RoleService roleService;
+    
     /**
      * Adds settings for KFS maintenance-document-specific flags.
      * 
@@ -35,7 +46,9 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
      */
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        LOG.debug("calling FinancialSystemMaintenanceDocumentAuthorizerBase.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("calling FinancialSystemMaintenanceDocumentAuthorizerBase.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
+        }
         FinancialSystemDocumentActionFlags flags =  new FinancialSystemDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         // if document implements AmountTotaling interface, then we should display the total
@@ -47,6 +60,36 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
         }
 
         return flags;
+    }
+
+    @Override
+    protected void populateRoleQualification(Document document, Map<String,String> attributes) {
+        super.populateRoleQualification(document, attributes);
+        
+        // get the KFS-SYS User qualifiers
+        // get the namespace from the current qualifier set (set by the superclass)
+        String namespaceCode = attributes.get(KimAttributes.NAMESPACE_CODE);
+        Person initiator = getPersonService().getPersonByPrincipalName( document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId() );
+
+        // build a new attribute set for checking the role service
+        AttributeSet userRoleQualifiers = new AttributeSet();
+        userRoleQualifiers.put(KimAttributes.NAMESPACE_CODE, namespaceCode);        
+        List<AttributeSet> userRoleInfo = getRoleService().getRoleQualifiersForPrincipal(initiator.getPrincipalId(), 
+                KFSConstants.ParameterNamespaces.KFS, KimConstants.KIM_ROLE_NAME_USER, userRoleQualifiers);
+
+        if ( userRoleInfo != null && !userRoleInfo.isEmpty() ) {
+            attributes.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, userRoleInfo.get(0).get(KimAttributes.CHART_OF_ACCOUNTS_CODE));
+            attributes.put(KimAttributes.ORGANIZATION_CODE, userRoleInfo.get(0).get(KimAttributes.ORGANIZATION_CODE));
+        }
+        attributes.put(KimAttributes.CAMPUS_CODE, initiator.getCampusCode());
+        
+    }
+
+    public static RoleService getRoleService() {
+        if ( roleService == null ) {
+            roleService = KIMServiceLocator.getRoleManagementService();
+        }
+        return roleService;
     }
 
 }

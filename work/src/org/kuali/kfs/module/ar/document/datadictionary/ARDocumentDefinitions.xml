@@ -39,8 +39,8 @@
 		<property name="elementName" value="invoiceSubAmountsInformation" />
 		<property name="fields">
 			<list>
-				<bean parent="AccountingLineView-field"	p:name="invoiceItemTaxAmount"         p:required="false" p:readOnly="true" />
-				<bean parent="AccountingLineView-field"	p:name="openAmount"                   p:required="false" p:readOnly="true" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemTaxAmount"         p:required="false" p:unconditionallyReadOnly="true" />
+				<bean parent="AccountingLineView-field"	p:name="openAmount"                   p:required="false" p:unconditionallyReadOnly="true" />
 			</list>
 		</property>
 	</bean>
@@ -62,7 +62,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="amount" p:required="true" p:readOnly="true" />
+				<bean parent="AccountingLineView-field" p:name="amount" p:required="true" p:unconditionallyReadOnly="true" />
 				<bean parent="AccountingLineView-actions" />
 			</list>
 		</property>

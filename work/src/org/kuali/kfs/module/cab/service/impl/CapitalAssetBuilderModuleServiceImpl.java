@@ -75,6 +75,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -94,7 +95,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
 
-    /**
+   /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateIndividualCapitalAssetSystemFromPurchasing(java.lang.String,
      *      java.util.List, java.lang.String, java.lang.String)
      */
@@ -779,14 +780,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     * 
+     * @param accountingDocument and capitalAssetInformation
+     * @return True if the FinancialProcessingData is valid.
      */
     public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
 
         // Check if we need to collect cams data
-        boolean dataEntryExpected = this.hasCapitalAssetObjectSubType(accountingDocument);
+        String dataEntryExpected = this.getCapitalAssetObjectSubTypeLinesFlag(accountingDocument);
 
-        if (!dataEntryExpected) {
+        if ( StringUtils.isBlank(dataEntryExpected)) {
+            // Data is not expected
             if (!isCapitalAssetInformationBlank(capitalAssetInformation)) {
                 // If no parameter was found or determined that data shouldn't be collected, give error if data was entered
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
@@ -800,13 +805,21 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         else {
             // Data is expected
             if (isCapitalAssetInformationBlank(capitalAssetInformation)) {
-                // No data is entered, give error
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_REQUIRE_DATA_ENTRY);
+                // No data is entered
+                if (isCapitalAssetDataRequired(accountingDocument, dataEntryExpected)) {
+                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_REQUIRE_DATA_ENTRY);
+                    return false;
+                }
+                else
+                    return true;
+            }
+            else if (!isNewAssetBlank(capitalAssetInformation) && !canCreateNewAsset(accountingDocument, dataEntryExpected)) {
+                // No allow to create new capital asset
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_UPDATE_ALLOW_ONLY);
                 return false;
             }
             else if (!isNewAssetBlank(capitalAssetInformation) && !isUpdateAssetBlank(capitalAssetInformation)) {
                 // Data exists on both crate new asset and update asset, give error
-                valid = false;
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
                 return false;
             }
@@ -827,24 +840,105 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(org.kuali.kfs.sys.document.AccountingDocument)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getCapitalAssetObjectSubTypeLinesFlag(org.kuali.kfs.sys.document.AccountingDocument)
+     * 
+     * @param accountingDocument
+     * @return getCapitalAssetObjectSubTypeLinesFlag =  "" ==> no assetObjectSubType code
+     *                                          F ==> assetObjectSubType code on source lines
+     *                                          T ==> assetObjectSubType code on target lines
+     *                                          FT ==> assetObjectSubType code on both source and target lines
      */
-    public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument) {
+    public String getCapitalAssetObjectSubTypeLinesFlag(AccountingDocument accountingDocument) {
         List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
-        boolean hasCapitalAssetObjectSubType = false;
+        String getCapitalAssetObjectSubTypeLinesFlag = ""; 
 
-        List<SourceAccountingLine> accountingLines = accountingDocument.getSourceAccountingLines();
-        for (SourceAccountingLine sourceAccountingLine : accountingLines) {
+        // Check if SourceAccountingLine has objectSub type code
+        List<SourceAccountingLine> sAccountingLines = accountingDocument.getSourceAccountingLines();
+         for (SourceAccountingLine sourceAccountingLine : sAccountingLines) {
             String objectSubTypeCode = sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode();
             if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
-                hasCapitalAssetObjectSubType = true;
+                getCapitalAssetObjectSubTypeLinesFlag = KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE;
                 break;
             }
         }
 
+         // Check if TargetAccountingLine has objectSub type code
+        List<TargetAccountingLine> tAccountingLines = accountingDocument.getTargetAccountingLines();        
+        for (TargetAccountingLine targetAccountingLine : tAccountingLines) {
+            String objectSubTypeCode = targetAccountingLine.getObjectCode().getFinancialObjectSubTypeCode();
+            if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
+                getCapitalAssetObjectSubTypeLinesFlag = getCapitalAssetObjectSubTypeLinesFlag.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE)? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE+KFSConstants.TARGET_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
+                break;
+            }
+        }
+
+        return getCapitalAssetObjectSubTypeLinesFlag;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(org.kuali.kfs.sys.document.AccountingDocument)
+     *
+     * @param accountingDocument
+     * @return boolean false if the document has capital asset object sub type code
+     */
+    public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument) {
+        boolean hasCapitalAssetObjectSubType = false; 
+        
+        if (!getCapitalAssetObjectSubTypeLinesFlag(accountingDocument).equals("N"))
+            hasCapitalAssetObjectSubType = true;
+        
         return hasCapitalAssetObjectSubType;
     }
 
+    /**
+     * if the capital asset data is required for this transaction
+     *
+     * @param accountingDocument and dataEntryExpected
+     * @return boolean false then the capital asset information is not required
+     */
+    private boolean isCapitalAssetDataRequired(AccountingDocument accountingDocument, String dataEntryExpected){
+        boolean isCapitalAssetDataRequired = true;
+        String accountingDocumentType = accountingDocument.getGeneralLedgerPendingEntry(0).getFinancialDocumentTypeCode();
+        if (isDocumentTypeRestricted(accountingDocument) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {
+            if ( dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE+KFSConstants.TARGET_ACCT_LINE_TYPE_CODE))
+                isCapitalAssetDataRequired = false;
+        }
+        
+        return isCapitalAssetDataRequired;
+    }
+    
+    /**
+     * if this transaction can create new asset
+     *
+     * @param accountingDocument and dataEntryExpected
+     * @return      
+     */
+    private boolean canCreateNewAsset(AccountingDocument accountingDocument, String dataEntryExpected){
+        boolean canCreateNewAsset = true;
+        if (isDocumentTypeRestricted(accountingDocument) && dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE))
+            canCreateNewAsset = false;
+        return canCreateNewAsset;
+    }
+
+    /**
+     * if this document is restricted
+     *
+     * @param accountingDocument
+     * @return boolean true then this document is restricted
+     */
+    private boolean isDocumentTypeRestricted(AccountingDocument accountingDocument){
+        boolean isDocumentTypeRestricted = false;
+        String accountingDocumentType =    accountingDocument.getGeneralLedgerPendingEntry(0).getFinancialDocumentTypeCode();
+        if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION))
+            isDocumentTypeRestricted = true;
+        if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE))
+            isDocumentTypeRestricted = true;
+        if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING))
+            isDocumentTypeRestricted = true;
+        
+        return isDocumentTypeRestricted;
+    }
+    
     /**
      * To see if capitalAssetInformation is blank
      * 

@@ -536,7 +536,7 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="284"
+						x="285"
 						y="190"
 						width="120"
 						height="16"
@@ -630,7 +630,7 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="284"
+						x="285"
 						y="207"
 						width="120"
 						height="16"

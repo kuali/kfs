@@ -15,15 +15,11 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
-import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kew.exception.WorkflowException;
 
 public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG =
@@ -31,21 +27,11 @@ public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransac
 
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = 
-            super.getDocumentActionFlags(document, user);
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
-        PaymentApplicationDocumentService paymentApplicationDocumentService =
-            SpringContext.getBean(PaymentApplicationDocumentService.class);
-        CashControlDocument cashControlDocument = null;
-        try {
-            cashControlDocument =
-                paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(paymentApplicationDocument);
-        } catch(WorkflowException workflowException) {
-            LOG.error("Couldn't obtain cash control document for payment application document.", workflowException);
-        }
 
         // KULAR-452
-        if(null != cashControlDocument) {
+        if (paymentApplicationDocument.hasCashControlDocument()) {
             flags.setCanCancel(false);
         }
 

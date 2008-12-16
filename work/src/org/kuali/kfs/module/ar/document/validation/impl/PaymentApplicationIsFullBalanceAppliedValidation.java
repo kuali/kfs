@@ -36,16 +36,21 @@ public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericVal
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         PaymentApplicationDocument paymentApplicationDocument = getDocument();
 
-        try {
-            //  dont let PayApp docs started from CashControl docs through if not all funds are applied
-            if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getBalanceToBeApplied())) {
+        //  dont let PayApp docs started from CashControl docs through if not all funds are applied
+        if (paymentApplicationDocument.hasCashControlDocument()) {
+            KualiDecimal balanceToBeApplied;
+            try {
+                balanceToBeApplied = paymentApplicationDocument.getBalanceToBeApplied();
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("WorkflowException thrown when trying to retrieve CashControlDocument.", e);
+            } 
+            if (!KualiDecimal.ZERO.equals(balanceToBeApplied)) {
                 isValid &= false;
                 errorMap.putError(
                     KNSConstants.GLOBAL_ERRORS,
                     ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
             }
-        } catch(WorkflowException w) {
-            LOG.error("Exception encountered while validating PaymentApplicationDocument against business rules during routing", w);
         }
         
         return isValid;

@@ -645,7 +645,7 @@
 						height="14"
 						key="staticText-42"/>
 					<box></box>
-					<textElement>
+					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<text><![CDATA[Date:]]></text>
@@ -658,7 +658,7 @@
 						height="15"
 						key="textField-67"/>
 					<box></box>
-					<textElement textAlignment="Right">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
@@ -671,7 +671,7 @@
 						height="15"
 						key="textField-68"/>
 					<box></box>
-					<textElement>
+					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER} + ""]]></textFieldExpression>
@@ -684,7 +684,7 @@
 						height="14"
 						key="textField-69"/>
 					<box></box>
-					<textElement>
+					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("createDate")]]></textFieldExpression>
@@ -697,7 +697,7 @@
 						height="14"
 						key="textField-70"/>
 					<box></box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("univName")]]></textFieldExpression>
@@ -710,7 +710,7 @@
 						height="14"
 						key="textField-71"/>
 					<box></box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("univAddr")]]></textFieldExpression>
@@ -723,7 +723,7 @@
 						height="14"
 						key="textField-74"/>
 					<box></box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{statement.title}]]></textFieldExpression>
@@ -736,7 +736,7 @@
 						height="14"
 						key="textField-100"/>
 					<box></box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("FEIN")]]></textFieldExpression>
@@ -771,9 +771,6 @@
 					</subreportParameter>
 					<subreportParameter  name="SUBREPORT_DIR">
 						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="details">
-						<subreportParameterExpression><![CDATA[$P{details}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{details})]]></dataSourceExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "StatementDetails.jasper"]]></subreportExpression>

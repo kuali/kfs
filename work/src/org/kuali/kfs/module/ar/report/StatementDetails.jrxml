@@ -49,9 +49,6 @@
 	<field name="documentFinalDate" class="java.sql.Date"/>
 	<field name="documentDescription" class="java.lang.String"/>
 	<field name="financialDocumentTotalAmountCredit" class="org.kuali.rice.kns.util.KualiDecimal"/>
-	<field name="orgName" class="java.lang.String"/>
-	<field name="fein" class="java.lang.String"/>
-	<field name="docType" class="java.lang.String"/>
 	<field name="financialDocumentTotalAmountCharge" class="org.kuali.rice.kns.util.KualiDecimal"/>
 
 
@@ -95,7 +92,7 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.transNumber}]]></textFieldExpression>
@@ -115,7 +112,7 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.transDate}]]></textFieldExpression>
@@ -135,7 +132,7 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement verticalAlignment="Middle">
 						<font pdfFontName="Helvetica" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.description}]]></textFieldExpression>
@@ -155,7 +152,7 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.credit}]]></textFieldExpression>
@@ -175,7 +172,7 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.charge}]]></textFieldExpression>
@@ -189,10 +186,11 @@
 						style="dataCell"
 						mode="Transparent"
 						x="1"
-						y="1"
+						y="2"
 						width="100"
-						height="16"
-						key="textField-7"/>
+						height="20"
+						key="textField-7"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -204,10 +202,11 @@
 						style="dataCell"
 						mode="Transparent"
 						x="101"
-						y="1"
+						y="2"
 						width="67"
-						height="16"
-						key="textField-8"/>
+						height="20"
+						key="textField-8"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -219,10 +218,11 @@
 						style="dataCell"
 						mode="Transparent"
 						x="168"
-						y="1"
+						y="2"
 						width="215"
-						height="16"
-						key="textField-9"/>
+						height="20"
+						key="textField-9"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -234,10 +234,11 @@
 						style="dataCell"
 						mode="Transparent"
 						x="471"
-						y="1"
+						y="2"
 						width="90"
-						height="16"
-						key="textField-17"/>
+						height="20"
+						key="textField-17"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -249,10 +250,11 @@
 						style="dataCell"
 						mode="Transparent"
 						x="381"
-						y="1"
+						y="2"
 						width="90"
-						height="16"
-						key="textField-19"/>
+						height="20"
+						key="textField-19"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -273,10 +275,10 @@
 						backcolor="#EFEFEF"
 						key="staticText-1"/>
 					<box>					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -293,10 +295,10 @@
 						backcolor="#EFEFEF"
 						key="staticText-2"/>
 					<box>					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -313,10 +315,10 @@
 						backcolor="#EFEFEF"
 						key="staticText-3"/>
 					<box>					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -333,10 +335,10 @@
 						backcolor="#EFEFEF"
 						key="staticText-4"/>
 					<box>					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="true"/>
@@ -353,17 +355,17 @@
 						backcolor="#EFEFEF"
 						key="staticText-5"/>
 					<box>					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[OVER 90 DAYS]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="11"
 						y="17"
@@ -371,17 +373,17 @@
 						height="16"
 						key="textField-20"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total0to30")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="121"
 						y="17"
@@ -389,17 +391,17 @@
 						height="16"
 						key="textField-21"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total31to60")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="231"
 						y="17"
@@ -407,17 +409,17 @@
 						height="16"
 						key="textField-22"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total61to90")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="341"
 						y="17"
@@ -425,17 +427,17 @@
 						height="16"
 						key="textField-23"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total90plus")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("total90toSYSPR")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="451"
 						y="17"
@@ -443,10 +445,10 @@
 						height="16"
 						key="textField-24"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25" lineStyle="Solid"/>
-					<leftPen lineWidth="0.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
-					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font isBold="true"/>

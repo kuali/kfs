@@ -41,11 +41,11 @@ public class CustomerStatementDetailReportDataHolder {
     
     public CustomerStatementDetailReportDataHolder(FinancialSystemDocumentHeader docHeader, Organization processingOrg, String docType) {
        documentDescription = docHeader.getDocumentDescription();
-      // financialDocumentTotalAmount = docHeader.getFinancialDocumentTotalAmount();
-       if (docType.equals("Credit Memo"))
+       if (docType.equals("Credit Memo")) {
            financialDocumentTotalAmountCredit = docHeader.getFinancialDocumentTotalAmount();
-       else if (docType.equals("Invoice"))
+       } else if (docType.equals("Invoice")) {
            financialDocumentTotalAmountCharge = docHeader.getFinancialDocumentTotalAmount();
+       }
        documentNumber = docHeader.getDocumentNumber();
        documentFinalDate = docHeader.getDocumentFinalDate();
        this.docType = docType;

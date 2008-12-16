@@ -1177,6 +1177,12 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final class FinancialDocumentTypeCodes {
         public static final String ALL = "ALL";
         public static final String BUDGET_CONSTRUCTION = "BC";
+        public static final String GENERAL_ERROR_CORRECTION = "GEC";
+        public static final String YEAR_END_GENERAL_ERROR_CORRECTION = "YEGE";
+        public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE = "DI";
+        public static final String YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE = "YEDI";
+        public static final String SERVICE_BILLING = "SB";
+        public static final String INTERNAL_BILLING = "BC";
     }
     
     public static final class AccountingLineViewStandardBlockNames {

@@ -15,8 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +38,11 @@ import org.kuali.kfs.module.purap.fixture.PurapAccountingServiceFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderAccountingLineFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.service.ParameterService;
 
-@ConfigureContext(session = kuluser, shouldCommitTransactions=true)
+@ConfigureContext(session = parke, shouldCommitTransactions=true)
 public class PurchasingAccountsPayableDocumentRuleTest extends
 		PurapRuleTestBase {
 	
@@ -70,10 +70,10 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
         assertTrue(rules.processAccountSummaryValidation(doc));
     }
     
-    /*public void testProcessAccountSummaryValidation_NegativeAmount() {
+    public void testProcessAccountSummaryValidation_NegativeAmount() {
         RequisitionDocument doc = RequisitionDocumentFixture.REQ_WITH_NEGATIVE_AMOUNT.createRequisitionDocument();
         assertFalse(rules.processAccountSummaryValidation(doc));
-    }*/   
+    }   
     
     // Tests of validateBelowTheLineValues
     private void validateBelowTheLineValues_TestHelper(String documentType, PurApItem item, String parameterString) {

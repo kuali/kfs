@@ -72,6 +72,12 @@ public class ArConstants {
         public static final String PROCESSING_ORG = "Processing Organization";
         public static final String BILLING_ORG = "Billing Organization";
         public static final String ACCT = "Account";
+        
+        public static final String TOTAL_0_TO_30 = "total0to30";
+        public static final String TOTAL_31_TO_60 = "total31to60";
+        public static final String TOTAL_61_TO_90 = "total61to90";
+        public static final String TOTAL_91_TO_SYSPR = "total90toSYSPR";
+        public static final String TOTAL_SYSPR_PLUS_1_OR_MORE = "totalSYSPRplus1orMore";
     }    
 
     public static class OrganizationAccountingOptionsConstants {

@@ -178,6 +178,12 @@
 		</property>
 	</bean>
 	
+	<bean id="customerAgingReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerAgingReportServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	
 	<!-- Used for DWR call to get Customer Name -->
 	<bean id="customerService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerServiceImpl">
 		<property name="customerDao">
@@ -655,7 +661,11 @@
 		</property>
 	</bean>	
 	
-	<bean id="accountsReceivableReportService" class="org.kuali.kfs.module.ar.report.service.impl.AccountsReceivableReportServiceImpl"/>
+	<bean id="accountsReceivableReportService" class="org.kuali.kfs.module.ar.report.service.impl.AccountsReceivableReportServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>	
 
 
 
@@ -785,8 +795,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-	</bean>
-
+	</bean>	
+	
     <bean id="accountsReceivableProcessingOrganizationRoleTypeService" class="org.kuali.kfs.module.ar.identity.AccountsReceivableProcessingOrganizationRoleTypeServiceImpl"
       p:businessObjectService-ref="businessObjectService" />	
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">

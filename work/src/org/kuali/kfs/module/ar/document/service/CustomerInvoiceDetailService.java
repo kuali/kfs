@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Date;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -103,7 +104,9 @@ public interface CustomerInvoiceDetailService {
      * @return
      */  
     public KualiDecimal getOpenAmount(CustomerInvoiceDetail customerInvoiceDetail);
-    
+
+    public KualiDecimal getOpenAmountByDate(CustomerInvoiceDetail customerInvoiceDetail, Date date);
+
     /**
      * This method is used to recalculate a customer invoice detail based on updated values
      * @param customerInvoiceDetail

@@ -16,12 +16,7 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -311,6 +306,30 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         for (InvoicePaidApplied invoicePaidApplied : results) {
             appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
             if (ObjectUtils.isNotNull(appliedAmount))
+                totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
+        }
+        invoiceItemAmount = customerInvoiceDetail.getAmount();
+        openAmount = invoiceItemAmount.subtract(totalAppliedAmount);
+
+        return openAmount;
+    }
+
+    /**
+     * get open amount snapshot from previous date
+     */
+    public KualiDecimal getOpenAmountByDate(CustomerInvoiceDetail customerInvoiceDetail, Date runDate) {
+        KualiDecimal totalAppliedAmount = KualiDecimal.ZERO;
+        KualiDecimal appliedAmount;
+        KualiDecimal openAmount;
+        KualiDecimal invoiceItemAmount;
+        Date invoicePaidDate;
+
+        Collection<InvoicePaidApplied> results = invoicePaidAppliedService.getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail);
+        for (InvoicePaidApplied invoicePaidApplied : results) {
+            appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
+            invoicePaidDate = invoicePaidApplied.getDocumentHeader().getDocumentFinalDate();
+// get the paid date and use that to limit the adds from below
+            if (ObjectUtils.isNotNull(appliedAmount)&&!invoicePaidDate.after(runDate))
                 totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
         }
         invoiceItemAmount = customerInvoiceDetail.getAmount();

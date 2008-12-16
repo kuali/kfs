@@ -69,6 +69,8 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
         
         Map<String, Object> knownCustomers = new HashMap<String, Object>(details.size());
 
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+
         KualiDecimal totalbalance = new KualiDecimal(0.00);
         CustomerAgingReportDetail custDetail = null;
         String previousCustomerNumber = "";
@@ -84,7 +86,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                 continue;
             }
 
-            if(custInvoice!=null && SpringContext.getBean(CustomerInvoiceDetailService.class).getOpenAmount(cid).isNonZero()) {   
+            if(custInvoice!=null && customerInvoiceDetailService.getOpenAmount(cid).isNonZero()) {
 
                 Customer customerobj = custInvoice.getCustomer();                        
                 String customerNumber = customerobj.getCustomerNumber();    // tested and works
@@ -99,24 +101,24 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                     knownCustomers.put(customerNumber, custDetail);
                 }
                 if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {                                
-                    custDetail.setUnpaidBalance0to30(cid.getOpenAmount().add(custDetail.getUnpaidBalance0to30()));
-                    total0to30 = total0to30.add(cid.getOpenAmount());
+                    custDetail.setUnpaidBalance0to30(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance0to30()));
+                    total0to30 = total0to30.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
                 }
                 if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
-                    custDetail.setUnpaidBalance31to60(cid.getOpenAmount().add(custDetail.getUnpaidBalance31to60()));
-                    total31to60 = total31to60.add(cid.getOpenAmount());
+                    custDetail.setUnpaidBalance31to60(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance31to60()));
+                    total31to60 = total31to60.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
                 }
                 if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
-                    custDetail.setUnpaidBalance61to90(cid.getOpenAmount().add(custDetail.getUnpaidBalance61to90()));
-                    total61to90 = total61to90.add(cid.getOpenAmount());
+                    custDetail.setUnpaidBalance61to90(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance61to90()));
+                    total61to90 = total61to90.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
                 }
                 if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
-                    custDetail.setUnpaidBalance91toSYSPR(cid.getOpenAmount().add(custDetail.getUnpaidBalance91toSYSPR()));
-                    total91toSYSPR = total91toSYSPR.add(cid.getOpenAmount());
+                    custDetail.setUnpaidBalance91toSYSPR(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance91toSYSPR()));
+                    total91toSYSPR = total91toSYSPR.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
                 }
                 if (approvalDate.before(cutoffdate120)) {
-                    custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getOpenAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
-                    totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getOpenAmount());
+                    custDetail.setUnpaidBalanceSYSPRplus1orMore(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                    totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
                 }            
             }        
         } 

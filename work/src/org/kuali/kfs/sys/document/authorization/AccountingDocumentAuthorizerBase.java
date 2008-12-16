@@ -204,7 +204,7 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
         super.populateRoleQualification(document, attributes);
         
         // add the document amount
-        if ( ((AccountingDocument)document).getSourceTotal() != null ) {
+        if ( ((AccountingDocument)document).getSourceTotal() != null && ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount() != null ) {
             attributes.put(KimAttributes.DOCUMENT_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());
         } else {
             attributes.put(KimAttributes.DOCUMENT_AMOUNT, "0" );

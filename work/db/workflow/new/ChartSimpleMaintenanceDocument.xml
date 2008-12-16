@@ -5,7 +5,7 @@
 <name>ChartSimpleMaintenanceDocument</name>
 <parent>FinancialSystemSimpleMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

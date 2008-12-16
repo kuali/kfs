@@ -5,7 +5,7 @@
 <name>AssetPaymentDocument</name>
 <parent>CapitalAssetManagementTransactionalDocument</parent>
 <docHandler>${application.url}/camsAssetPayment.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

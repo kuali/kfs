@@ -5,7 +5,7 @@
 <name>CountryMaintenanceDocument</name>
 <parent>RiceDocument</parent>
 <docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

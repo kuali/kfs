@@ -5,7 +5,7 @@
 <name>CorrectionReceivingDocument</name>
 <parent>ReceivingTransactionalDocument</parent>
 <docHandler>${application.url}/purapCorrectionReceiving.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

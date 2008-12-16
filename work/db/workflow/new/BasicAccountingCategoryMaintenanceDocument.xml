@@ -5,7 +5,7 @@
 <name>BasicAccountingCategoryMaintenanceDocument</name>
 <parent>ChartSimpleMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

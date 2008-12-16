@@ -4,7 +4,7 @@
 <documentType>
 <name>AccountsPayableTransactionalDocument</name>
 <parent>PurchasingAccountsPayableTransactionalDocument</parent>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

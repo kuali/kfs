@@ -4,7 +4,7 @@
 <documentType>
 <name>GeneralLedgerTransactionalDocument</name>
 <parent>FinancialSystemTransactionalDocument</parent>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

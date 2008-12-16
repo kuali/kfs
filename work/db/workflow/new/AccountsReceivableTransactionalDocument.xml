@@ -4,7 +4,6 @@
 <documentType>
 <name>AccountsReceivableTransactionalDocument</name>
 <parent>FinancialSystemTransactionalDocument</parent>
-<routeNodes/>
 </documentType>
 </documentTypes>
 </data>

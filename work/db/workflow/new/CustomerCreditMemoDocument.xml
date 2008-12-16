@@ -5,7 +5,7 @@
 <name>CustomerCreditMemoDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
 <docHandler>${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

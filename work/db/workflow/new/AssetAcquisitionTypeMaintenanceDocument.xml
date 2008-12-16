@@ -5,7 +5,6 @@
 <name>AssetAcquisitionTypeMaintenanceDocument</name>
 <parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
 </documentType>
 </documentTypes>
 </data>

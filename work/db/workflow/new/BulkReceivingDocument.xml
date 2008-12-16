@@ -5,7 +5,7 @@
 <name>BulkReceivingDocument</name>
 <parent>ReceivingDocument</parent>
 <docHandler>${application.url}/purapBulkReceiving.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

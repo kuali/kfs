@@ -5,7 +5,7 @@
 <name>CustomerInvoiceWriteoffDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
 <docHandler>${application.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

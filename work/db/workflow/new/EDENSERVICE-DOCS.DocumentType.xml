@@ -5,7 +5,7 @@
 <name>EDENSERVICE-DOCS.DocumentType</name>
 <parent>EDENSERVICE-DOCS</parent>
 <docHandler>${workflow.url}/DocumentType.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

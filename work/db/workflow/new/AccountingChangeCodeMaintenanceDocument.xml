@@ -5,7 +5,6 @@
 <name>AccountingChangeCodeMaintenanceDocument</name>
 <parent>PreDisbursementProcessorSimpleMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
 </documentType>
 </documentTypes>
 </data>

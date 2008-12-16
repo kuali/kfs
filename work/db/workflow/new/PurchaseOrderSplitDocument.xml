@@ -5,7 +5,7 @@
 <name>PurchaseOrderSplitDocument</name>
 <parent>PurchaseOrderDocument</parent>
 <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
-<routeNodes/>
+
 </documentType>
 </documentTypes>
 </data>

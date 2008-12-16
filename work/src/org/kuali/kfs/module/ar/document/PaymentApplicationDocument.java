@@ -111,6 +111,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return cashControlDocument;
     }
 
+    public boolean hasCashControlDocument() {
+        try {
+            return (null != getCashControlDocument());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("WorkflowException thrown when trying to retrieve CashControlDocument for this PayAppDocument.", e);
+        }
+    }
+    
     /**
      * @return
      * @throws WorkflowException
@@ -132,14 +141,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @throws WorkflowException
      */
     public KualiDecimal getCashControlTotalAmount() throws WorkflowException {
-//        CashControlDocument cashControlDocument = 
-//            getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
-//        CashControlDetail cashControlDetail = 
-//            getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
-//        KualiDecimal amount = KualiDecimal.ZERO;
-//        if(null != cashControlDocument) {
-        return getCashControlDetail().getFinancialDocumentLineAmount();
-//        }
+        return (getCashControlDetail() == null ? KualiDecimal.ZERO : getCashControlDetail().getFinancialDocumentLineAmount());
     }
     
     /**

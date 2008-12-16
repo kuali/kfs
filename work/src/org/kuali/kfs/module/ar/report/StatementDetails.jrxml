@@ -267,12 +267,11 @@
 			<band height="60"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						mode="Opaque"
-						x="11"
-						y="1"
-						width="110"
+						mode="Transparent"
+						x="31"
+						y="5"
+						width="100"
 						height="16"
-						backcolor="#EFEFEF"
 						key="staticText-1"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -281,18 +280,17 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true"/>
+						<font/>
 					</textElement>
 				<text><![CDATA[CURRENT]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Opaque"
+						mode="Transparent"
 						x="231"
-						y="1"
-						width="110"
+						y="5"
+						width="100"
 						height="16"
-						backcolor="#EFEFEF"
 						key="staticText-2"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -301,18 +299,17 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true"/>
+						<font/>
 					</textElement>
 				<text><![CDATA[61-90 DAYS]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Opaque"
-						x="121"
-						y="1"
-						width="110"
+						mode="Transparent"
+						x="131"
+						y="5"
+						width="100"
 						height="16"
-						backcolor="#EFEFEF"
 						key="staticText-3"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -321,18 +318,17 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true"/>
+						<font/>
 					</textElement>
 				<text><![CDATA[31-60 DAYS]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Opaque"
-						x="451"
-						y="1"
-						width="110"
+						mode="Transparent"
+						x="431"
+						y="5"
+						width="100"
 						height="16"
-						backcolor="#EFEFEF"
 						key="staticText-4"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -341,18 +337,17 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="10" isBold="true"/>
+						<font size="10"/>
 					</textElement>
 				<text><![CDATA[ACCOUNT BALANCE]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Opaque"
-						x="341"
-						y="1"
-						width="110"
+						mode="Transparent"
+						x="331"
+						y="5"
+						width="100"
 						height="16"
-						backcolor="#EFEFEF"
 						key="staticText-5"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -361,15 +356,15 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
 </box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true"/>
+						<font/>
 					</textElement>
 				<text><![CDATA[OVER 90 DAYS]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="11"
-						y="17"
-						width="110"
+						x="31"
+						y="21"
+						width="100"
 						height="16"
 						key="textField-20"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
@@ -385,9 +380,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="121"
-						y="17"
-						width="110"
+						x="131"
+						y="21"
+						width="100"
 						height="16"
 						key="textField-21"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
@@ -404,8 +399,8 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="231"
-						y="17"
-						width="110"
+						y="21"
+						width="100"
 						height="16"
 						key="textField-22"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
@@ -421,9 +416,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="341"
-						y="17"
-						width="110"
+						x="331"
+						y="21"
+						width="100"
 						height="16"
 						key="textField-23"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
@@ -439,9 +434,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="451"
-						y="17"
-						width="110"
+						x="431"
+						y="21"
+						width="100"
 						height="16"
 						key="textField-24"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>

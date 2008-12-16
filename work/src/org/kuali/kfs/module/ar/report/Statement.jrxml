@@ -48,7 +48,7 @@
 					<reportElement
 						x="0"
 						y="537"
-						width="551"
+						width="552"
 						height="16"
 						key="staticText-24"/>
 					<box></box>
@@ -304,9 +304,9 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="735"
-						width="478"
-						height="14"
+						y="733"
+						width="480"
+						height="16"
 						key="textField-43"/>
 					<box></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">

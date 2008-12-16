@@ -171,7 +171,7 @@
                     p:template="accountNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="account.accountName"
-                    p:readOnly="true"
+                    p:unconditionallyReadOnly="true"
                     p:template="accountName" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />

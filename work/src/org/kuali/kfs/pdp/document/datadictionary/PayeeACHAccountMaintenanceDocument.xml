@@ -72,7 +72,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="achAccountGeneratedIdentifier"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.NextAchAccountIdentifierFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="payeeIdentifierTypeCode"
@@ -99,7 +99,7 @@
         </bean>
         <bean parent="MaintainableFieldDefinition"
               p:name="bankRouting.bankName"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankAccountNumber" />
           <property name="required" value="true" />

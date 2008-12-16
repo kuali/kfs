@@ -103,14 +103,14 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationManagerUniversalId"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationManagerUniversal.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationManagerUniversal.name"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="responsibilityCenterCode"
               p:required="true" />
@@ -134,11 +134,11 @@
               p:name="organizationLine2Address" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCityName"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationStateCode"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCountryCode"
@@ -208,23 +208,23 @@
               p:name="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.hrmsPersonnelApproverUniversalId"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.hrmsPersonnelApproverUniversal.name"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.fiscalApproverUniversalId"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.fiscalApproverUniversal.principalName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.fiscalApproverUniversal.name"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.hrmsLastUpdateDate"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
       </list>
     </property>
   </bean>

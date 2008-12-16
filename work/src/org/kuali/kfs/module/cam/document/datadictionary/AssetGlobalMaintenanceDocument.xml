@@ -151,7 +151,7 @@
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="separateSourcePaymentSequenceNumber"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="totalCostAmount"
               p:unconditionallyReadOnly="true" />

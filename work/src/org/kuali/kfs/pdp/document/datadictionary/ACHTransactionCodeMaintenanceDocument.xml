@@ -58,7 +58,7 @@
       <list>
        <bean parent="MaintainableFieldDefinition"
               p:name="Code"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="name"
               p:required="true" />

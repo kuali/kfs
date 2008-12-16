@@ -85,14 +85,14 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="accountDelegateSystemId"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="accountDelegate.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="accountDelegate.name"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finDocApprovalFromThisAmt"
               p:defaultValue="0.00" />

@@ -119,11 +119,11 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="accountDelegate.name"
-                    p:readOnly="true"
+                    p:unconditionallyReadOnly="true"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="accountDelegateUniversalId"
-                    p:readOnly="true"
+                    p:unconditionallyReadOnly="true"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="active"

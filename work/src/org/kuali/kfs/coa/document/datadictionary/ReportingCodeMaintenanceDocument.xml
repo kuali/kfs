@@ -88,14 +88,14 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialReportingCodeMgrId"
-              p:readOnly="true"
+              p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="person.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="person.name"
-              p:readOnly="true" />
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialReportsToReportingCode"
               p:required="true" />

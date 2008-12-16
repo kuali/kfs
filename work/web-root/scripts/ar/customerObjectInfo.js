@@ -1,5 +1,5 @@
 function loadCustomerInfo( customerNumberFieldName, customerNameFieldName ) {
-    var customerNumber = DWRUtil.getValue( customerNumberFieldName );
+    var customerNumber = DWRUtil.getValue( customerNumberFieldName ).toUpperCase();
 
 	if (customerNumber=='') {
 		clearRecipients(customerNameFieldName, "");

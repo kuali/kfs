@@ -472,6 +472,7 @@ public class KFSPropertyConstants {
     public static final String DOCUMENT_TITLE = "documentTitle";
     public static final String DOCUMENT_TYPE = "documentType";
     public static final String DOCUMENT_TYPE_CODE = KNSPropertyConstants.DOCUMENT_TYPE_CODE;
+    public static final String DOCUMENT_TYPE_NAME = "documentTypeName";
     public static final String DOMESTIC_CHARGE_AMT = "domesticChargeAmt";
     public static final String DUMMY_BUSINESS_OBJECT = "dummyBusinessObject";
     public static final String DV_ADMIN_USER = "DVAdminUser";

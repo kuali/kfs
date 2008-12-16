@@ -60,8 +60,8 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         String chartOfAccountsCode = qualification.get(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KFSPropertyConstants.ACCOUNT_NUMBER);
-        String fisDocumentTypeCode = qualification.get(KFSPropertyConstants.NAME);
-        String totalDollarAmount = qualification.get(KFSPropertyConstants.TOTAL_DOLLAR_AMOUNT);
+        String fisDocumentTypeCode = qualification.get(KFSPropertyConstants.DOCUMENT_TYPE_NAME);
+        String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         //Default to 0 total amount
         if(StringUtils.isEmpty(totalDollarAmount))
                 totalDollarAmount = "0";
@@ -99,8 +99,8 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         String chartOfAccountsCode = qualification.get(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KFSPropertyConstants.ACCOUNT_NUMBER);
-        String fisDocumentTypeCode = qualification.get(KFSPropertyConstants.NAME);
-        String totalDollarAmount = qualification.get(KFSPropertyConstants.TOTAL_DOLLAR_AMOUNT);
+        String fisDocumentTypeCode = qualification.get(KFSPropertyConstants.DOCUMENT_TYPE_NAME);
+        String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         if(StringUtils.isEmpty(totalDollarAmount)) totalDollarAmount = getDefaultTotalAmount();
         boolean hasApplicationRole = false;
         List<String> principalIds = new ArrayList<String>();

@@ -7,7 +7,7 @@
   <bean id="SubObjectCodeMaintenanceDocument" parent="SubObjectCodeMaintenanceDocument-parentBean" />
 
   <bean id="SubObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCd" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCode" />
     <property name="maintainableClass" value="org.kuali.kfs.coa.document.SubObjCdMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -44,7 +44,7 @@
     <property name="summary" value="Sub Object maintenance document" />
     <property name="description" value="Document used to create or update Sub Objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubObjCd" p:parameterName="SUB_OBJECT_CODE" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubObjectCode" p:parameterName="SUB_OBJECT_CODE" />
     </property>
     <property name="documentTypeName" value="SubObjectCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjCdRule" />

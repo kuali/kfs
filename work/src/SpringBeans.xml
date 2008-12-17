@@ -377,8 +377,23 @@
 		        <value>classpath:org/kuali/rice/kew/bo/datadictionary/RuleAttribute.xml</value>
 		        <value>classpath:org/kuali/rice/kew/bo/datadictionary/RuleTemplate.xml</value>
 
-		        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonImpl.xml</value>
-        		<value>classpath:org/kuali/rice/kim/bo/datadictionary/KimBaseBeans.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonImpl.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimAttributes.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimBaseBeans.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentAffiliation.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentEmploymentInfo.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentCitizenship.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentName.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentAddress.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentPhone.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentEmail.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentGroup.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentRole.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentPrivacy.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimGroupImpl.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimRoleImpl.xml</value>
+                <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimTypeImpl.xml</value>
+                <value>classpath:org/kuali/rice/kim/document/datadictionary/IdentityManagementPersonDocument.xml</value>
 
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AdHocRoutePerson.xml</value>

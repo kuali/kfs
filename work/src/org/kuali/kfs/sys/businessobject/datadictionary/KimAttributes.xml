@@ -4,13 +4,13 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="KimAttributes" parent="KimAttributes-parentBean" />
+  <bean id="KimAttributes" parent="KfsKimAttributes-parentBean" />
 
-  <bean id="KimAttributes-parentBean" abstract="true" parent="BusinessObjectEntry"
+  <bean id="KfsKimAttributes-parentBean" abstract="true" parent="KimAttributes-parentBean"
         p:businessObjectClass="org.kuali.kfs.sys.identity.KimAttributes"
-        p:objectLabel="KFS Core Kim Attributes">
+        p:objectLabel="KFS Core KIM Attributes">
     <property name="attributes">
-      <list>
+      <list merge="true">
         <ref bean="KimAttributes-chartOfAccountsCode" />
         <ref bean="KimAttributes-accountNumber" />
         <ref bean="KimAttributes-organizationCode" />
@@ -38,14 +38,9 @@
     </property>
   </bean>
 
-  <bean id="KimAttributes-chartOfAccountsCode" parent="KimAttributes-chartOfAccountsCode-parentBean" />
-  <bean id="KimAttributes-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
-  
-  <bean id="KimAttributes-accountNumber" parent="KimAttributes-accountNumber-parentBean" />
-  <bean id="KimAttributes-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
-
-  <bean id="KimAttributes-organizationCode" parent="KimAttributes-organizationCode-parentBean" />
-  <bean id="KimAttributes-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode" />
+  <bean id="KimAttributes-chartOfAccountsCode" parent="Chart-chartOfAccountsCode" />
+  <bean id="KimAttributes-accountNumber" parent="Account-accountNumber" />
+  <bean id="KimAttributes-organizationCode" parent="Organization-organizationCode" />
 
   <bean id="KimAttributes-accountingLineOverrideCode" parent="KimAttributes-accountingLineOverrideCode-parentBean" />
   <bean id="KimAttributes-accountingLineOverrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" 
@@ -53,14 +48,9 @@
 	p:label="Accounting Line Override Code"
     p:shortLabel="Override Code" />
 
-  <bean id="KimAttributes-subFundGroupCode" parent="KimAttributes-subFundGroupCode-parentBean" />
-  <bean id="KimAttributes-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode" />
-
-  <bean id="KimAttributes-purchasingCommodityCode" parent="KimAttributes-purchasingCommodityCode-parentBean" />
-  <bean id="KimAttributes-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode" />
-
-  <bean id="KimAttributes-contractManagerCode" parent="KimAttributes-contractManagerCode-parentBean" />
-  <bean id="KimAttributes-contractManagerCode-parentBean" abstract="true" parent="ContractManager-contractManagerCode" />
+  <bean id="KimAttributes-subFundGroupCode" parent="SubFundGroup-subFundGroupCode" />
+  <bean id="KimAttributes-purchasingCommodityCode" parent="CommodityCode-purchasingCommodityCode" />
+  <bean id="KimAttributes-contractManagerCode" parent="ContractManager-contractManagerCode" />
 
   <bean id="KimAttributes-customerProfileId" parent="KimAttributes-customerProfileId-parentBean" />
   <bean id="KimAttributes-customerProfileId-parentBean" abstract="true" parent="CustomerProfile-id"
@@ -69,18 +59,14 @@
     p:shortLabel="Id" />
 
 
-  <bean id="KimAttributes-vendorTypeCode" parent="KimAttributes-vendorTypeCode-parentBean" />
-  <bean id="KimAttributes-vendorTypeCode-parentBean" abstract="true" parent="VendorType-vendorTypeCode" />
-
-  <bean id="KimAttributes-contractsAndGrantsAccountResponsibilityId" parent="KimAttributes-contractsAndGrantsAccountResponsibilityId-parentBean" />
-  <bean id="KimAttributes-contractsAndGrantsAccountResponsibilityId-parentBean" abstract="true" parent="Account-contractsAndGrantsAccountResponsibilityId" />
+  <bean id="KimAttributes-vendorTypeCode" parent="VendorType-vendorTypeCode" />
+  <bean id="KimAttributes-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId" />
 
   <bean id="KimAttributes-disbursementVoucherPaymentMethodCode" parent="KimAttributes-disbursementVoucherPaymentMethodCode-parentBean" />
   <bean id="KimAttributes-disbursementVoucherPaymentMethodCode-parentBean" abstract="true" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode"
   	p:name="disbursementVoucherPaymentMethodCode" />
 
-  <bean id="KimAttributes-subAccountNumber" parent="KimAttributes-subAccountNumber-parentBean" />
-  <bean id="KimAttributes-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber" />
+  <bean id="KimAttributes-subAccountNumber" parent="SubAccount-subAccountNumber" />
 
   <bean id="KimAttributes-fromAmount" parent="KimAttributes-fromAmount-parentBean" />
   <bean id="KimAttributes-fromAmount-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount"
@@ -100,28 +86,13 @@
     p:label="Descends Hierarchy"
     p:shortLabel="Descends Hierarchy" />
 
-  <bean id="KimAttributes-researchRiskTypeCode" parent="KimAttributes-researchRiskTypeCode-parentBean" />
-  <bean id="KimAttributes-researchRiskTypeCode-parentBean" abstract="true" parent="ResearchRiskType-researchRiskTypeCode" />
-
-  <bean id="KimAttributes-QuestionType-questionTypeCode" parent="KimAttributes-QuestionType-questionTypeCode-parentBean" />
-  <bean id="KimAttributes-QuestionType-questionTypeCode-parentBean" abstract="true" parent="QuestionType-questionTypeCode" />
-
-  <bean id="KimAttributes-QuestionType-active" parent="KimAttributes-QuestionType-active-parentBean" />
-  <bean id="KimAttributes-QuestionType-active-parentBean" abstract="true" parent="QuestionType-active" />
-
-  <bean id="KimAttributes-QuestionType-questionTypeDescription" parent="KimAttributes-QuestionType-questionTypeDescription-parentBean" />
-  <bean id="KimAttributes-QuestionType-questionTypeDescription-parentBean" abstract="true" parent="QuestionType-questionTypeDescription" />
-
-  <bean id="KimAttributes-QuestionType-questionTypeSortNumber" parent="KimAttributes-QuestionType-questionTypeSortNumber-parentBean" />
-  <bean id="KimAttributes-QuestionType-questionTypeSortNumber-parentBean" abstract="true" parent="QuestionType-questionTypeSortNumber" />
-
-  <bean id="KimAttributes-QuestionType-questionTypeWorkgroupName" parent="KimAttributes-QuestionType-questionTypeWorkgroupName-parentBean" />
-  <bean id="KimAttributes-QuestionType-questionTypeWorkgroupName-parentBean" abstract="true" parent="QuestionType-questionTypeWorkgroupName" />
-
-  <bean id="KimAttributes-QuestionType-questionTypeNotificationValue" parent="KimAttributes-QuestionType-questionTypeNotificationValue-parentBean" />
-  <bean id="KimAttributes-QuestionType-questionTypeNotificationValue-parentBean" abstract="true" parent="QuestionType-questionTypeNotificationValue" />
-
-  <bean id="KimAttributes-sensitiveDataCode" parent="KimAttributes-sensitiveDataCode-parentBean" />
-  <bean id="KimAttributes-sensitiveDataCode-parentBean" abstract="true" parent="SensitiveData-sensitiveDataCode" />
+  <bean id="KimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode" />
+  <bean id="KimAttributes-QuestionType-questionTypeCode" parent="QuestionType-questionTypeCode" />
+  <bean id="KimAttributes-QuestionType-active" parent="QuestionType-active" />
+  <bean id="KimAttributes-QuestionType-questionTypeDescription" parent="QuestionType-questionTypeDescription" />
+  <bean id="KimAttributes-QuestionType-questionTypeSortNumber" parent="QuestionType-questionTypeSortNumber" />
+  <bean id="KimAttributes-QuestionType-questionTypeWorkgroupName" parent="QuestionType-questionTypeWorkgroupName" />
+  <bean id="KimAttributes-QuestionType-questionTypeNotificationValue" parent="QuestionType-questionTypeNotificationValue" />
+  <bean id="KimAttributes-sensitiveDataCode" parent="SensitiveData-sensitiveDataCode" />
 
 </beans>

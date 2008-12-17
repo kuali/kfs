@@ -291,6 +291,7 @@
 
   <bean id="CustomerInvoiceDocument-billByChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="billByChartOfAccountCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Billing Chart Code" />
     <property name="shortLabel" value="Billing Chart" />
     <property name="control" >
@@ -303,6 +304,7 @@
 
   <bean id="CustomerInvoiceDocument-billedByOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="billedByOrganizationCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Billing Organization Code" />
     <property name="shortLabel" value="Billing Org Code" />
   </bean>

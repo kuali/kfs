@@ -456,7 +456,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // now create a pseudo funding line if the BCAF list is empty so we can pass it to create 2PLG below
         Boolean wasSalarySettingExpansionBCAFEmpty = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding().isEmpty();
-        if (wasSalarySettingExpansionBCAFEmpty){
+        if (wasSalarySettingExpansionBCAFEmpty) {
             appointmentFundings.add(this.createPseudoAppointmentFundingLine(salarySettingExpansion));
         }
 
@@ -492,7 +492,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // now create a pseudo funding line if the BCAF list is empty so we can pass it to create 2PLG below
         Boolean wasSalarySettingExpansionBCAFEmpty = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding().isEmpty();
-        if (wasSalarySettingExpansionBCAFEmpty){
+        if (wasSalarySettingExpansionBCAFEmpty) {
             appointmentFundings.add(this.createPseudoAppointmentFundingLine(salarySettingExpansion));
         }
 
@@ -501,7 +501,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // which in this case would be rows we might not have worked on.
         // Also, don't save PBGL if it is not in DB already and the BCAF set was empty (no doo doo).
         // that is, save if PBGL exists in DB or BCAF was not empty
-        if (salarySettingExpansion.getVersionNumber() != null || !wasSalarySettingExpansionBCAFEmpty){
+        if (salarySettingExpansion.getVersionNumber() != null || !wasSalarySettingExpansionBCAFEmpty) {
 
             budgetDocumentService.updatePendingBudgetGeneralLedger(appointmentFundings.get(0), changes);
         }
@@ -516,11 +516,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#saveSalarySetting(java.util.List)
      */
-    public void saveSalarySetting(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+    public void saveSalarySetting(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, Boolean isSalarySettingByIncumbent) {
 
         // Do the save/delete of BCAF rows from the salary setting detail screen first
         this.saveAppointmentFundings(appointmentFundings);
-        
+
         // TODO need to handle purging last line in the screen for an expansion to release funding lock
         // maybe use BCAF.isPurged somehow to create a list of BCAF rows to unlock
 
@@ -530,8 +530,17 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // ones we just stored as part of this save operation (see above)
         // No one else would be updating these since we have a transaction lock on the account
         Set<SalarySettingExpansion> salarySettingExpansionSet = new HashSet<SalarySettingExpansion>();
+        
+        // these keep track of purged/unpurged used to unlock funding
+        // when the last line for that account is purged
         Set<SalarySettingExpansion> purgedSseSet = new HashSet<SalarySettingExpansion>();
         Set<SalarySettingExpansion> unpurgedSseSet = new HashSet<SalarySettingExpansion>();
+        
+        // these keep track of purged/unpurged used to unlock positions
+        // when the last line for that position is purged
+        Set<BudgetConstructionPosition> purgedBPOSNSet = new HashSet<BudgetConstructionPosition>();
+        Set<BudgetConstructionPosition> unpurgedBPOSNSet = new HashSet<BudgetConstructionPosition>();
+        
         for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
             SalarySettingExpansion salarySettingExpansion = this.retriveSalarySalarySettingExpansion(fundingLine);
 
@@ -569,40 +578,60 @@ public class SalarySettingServiceImpl implements SalarySettingService {
                     salarySettingExpansionSet.add(salarySettingExpansion);
                 }
             }
-            
-            // TODO collect the set of purge/notpurged SalarySettingExpansions here
-            if (fundingLine.isPurged()){
+
+            // collect the set of purge/notpurged SalarySettingExpansions here
+            if (fundingLine.isPurged()) {
                 purgedSseSet.add(salarySettingExpansion);
             }
             else {
                 unpurgedSseSet.add(salarySettingExpansion);
             }
+
+            // if SS by incumbent collect the set of purged/notpurged BudgetConstructionPositions here
+            if (isSalarySettingByIncumbent){
+                BudgetConstructionPosition budgetConstructionPosition = fundingLine.getBudgetConstructionPosition();
+                if (fundingLine.isPurged()){
+                    purgedBPOSNSet.add(budgetConstructionPosition);
+                }
+                else {
+                    unpurgedBPOSNSet.add(budgetConstructionPosition);
+                }
+            }
         }
-        
-        // TODO remove from set of purged SSEs the set of notpurged SSEs
+
+        // remove from set of purged SSEs the set of notpurged SSEs
         // leftover are those SSEs to release funding locks for after successful save
         purgedSseSet.removeAll(unpurgedSseSet);
+
+        // if SS by incumbent, remove from set of purged BPOSNs the set of nonpurged BPOSNs
+        if (isSalarySettingByIncumbent){
+            purgedBPOSNSet.removeAll(unpurgedBPOSNSet);
+        }
 
         // Use the salarySettingExpansionSet to drive the update of PBGL rows (including any 2PLGs)
         for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionSet) {
 
             this.savePBGLSalarySetting(salarySettingExpansion);
         }
-        
-        // TODO iterate leftover purged SSEs and release funding lock for each
+
+        // iterate leftover purged SSEs and release funding lock for each
         for (SalarySettingExpansion salarySettingExpansion : purgedSseSet) {
             String chartOfAccountsCode = salarySettingExpansion.getChartOfAccountsCode();
             String accountNumber = salarySettingExpansion.getAccountNumber();
             String subAccountNumber = salarySettingExpansion.getSubAccountNumber();
             Integer fiscalYear = salarySettingExpansion.getUniversityFiscalYear();
             String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-            
-            // TODO release the associated funding lock
+
+            // release the associated funding lock
             lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, principalId);
-            
+
         }
-        
-        // TODO also need to get the associated positions to unlock if SS by incumbent
+
+        // if SS by incumbent iterate leftover purged BPOSNs and release position lock for each
+        for (BudgetConstructionPosition budgetConstructionPosition : purgedBPOSNSet){
+            Person person = GlobalVariables.getUserSession().getPerson();
+            lockService.unlockPostion(budgetConstructionPosition, person);
+        }
     }
 
     /**
@@ -895,16 +924,15 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * create a pseudo appointment funding for the salary setting expansion
-     * this is used when there are no funding lines for the salary setting expansion
-     * to get a funding line to be used to pass primary key info
+     * create a pseudo appointment funding for the salary setting expansion this is used when there are no funding lines for the
+     * salary setting expansion to get a funding line to be used to pass primary key info
      * 
      * @param salarySettingExpansion
      * @return a pseudo appointment funding
      */
     private PendingBudgetConstructionAppointmentFunding createPseudoAppointmentFundingLine(SalarySettingExpansion salarySettingExpansion) {
         PendingBudgetConstructionAppointmentFunding pseudoAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        
+
         pseudoAppointmentFunding.setUniversityFiscalYear(salarySettingExpansion.getUniversityFiscalYear());
         pseudoAppointmentFunding.setChartOfAccountsCode(salarySettingExpansion.getChartOfAccountsCode());
         pseudoAppointmentFunding.setAccountNumber(salarySettingExpansion.getAccountNumber());
@@ -917,6 +945,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         return pseudoAppointmentFunding;
     }
+
     /**
      * preprocess the funding reason of the given appointment funding before the funding is saved
      * 
@@ -1022,6 +1051,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the lockService attribute value.
+     * 
      * @param lockService The lockService to set.
      */
     public void setLockService(LockService lockService) {

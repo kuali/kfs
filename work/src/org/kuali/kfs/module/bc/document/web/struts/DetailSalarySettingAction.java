@@ -173,7 +173,14 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
-        salarySettingService.saveSalarySetting(savableAppointmentFundings);
+        // test if Form is IncumbentSS and call saveSalarySetting() with a isSalarySettingByIncumbent true
+        // so it knows when to remove purged funding position locks when it is the last line for the position
+        if (form instanceof IncumbentSalarySettingForm) {
+            salarySettingService.saveSalarySetting(savableAppointmentFundings, Boolean.TRUE);
+        }
+        else {
+            salarySettingService.saveSalarySetting(savableAppointmentFundings, Boolean.FALSE);
+        }
 
         // release all transaction locks
         salarySettingForm.releaseTransactionLocks();

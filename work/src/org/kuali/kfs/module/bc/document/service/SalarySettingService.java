@@ -225,9 +225,10 @@ public interface SalarySettingService {
      * save the given appointment fundings and associated salary setting expansion,
      * also known as, pending budget general ledger row
      * 
-     * @param appointmentFunding the given appointment funding
+     * @param appointmentFundings
+     * @param isSalarySettingByIncumbent
      */
-    public void saveSalarySetting(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);
+    public void saveSalarySetting(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, Boolean isSalarySettingByIncumbent);
 
     /**
      * save the given appointment fundings

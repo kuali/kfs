@@ -192,30 +192,9 @@
 	            </div>
 	        </th>
 	        <td align=left valign=middle class="datacell">
-				<c:choose>
-					<c:when test="${KualiForm.document.statusCode == 'INPR'}">
-		        		&nbsp;<input type=radio title="${documentAttributes.statusChange.label} - None" name="document.statusChange" value="INPR" checked />&nbsp;None&nbsp;
-		        	</c:when>
-					<c:otherwise>
-		        		&nbsp;<input type=radio title="${documentAttributes.statusChange.label} - None" name="document.statusChange" value="INPR" />&nbsp;None&nbsp;
-		        	</c:otherwise>
-				</c:choose>
-				<c:choose>
-					<c:when test="${KualiForm.document.statusCode == 'WDPT'}">
-						<input type=radio title="${documentAttributes.statusChange.label} - Department" name="document.statusChange" value="WDPT" checked />&nbsp;Department&nbsp;
-		        	</c:when>
-					<c:otherwise>
-						<input type=radio title="${documentAttributes.statusChange.label} - Department" name="document.statusChange" value="WDPT" />&nbsp;Department&nbsp;
-		        	</c:otherwise>
-				</c:choose>
-				<c:choose>
-					<c:when test="${KualiForm.document.statusCode == 'WVEN'}">
-						<input type=radio title="${documentAttributes.statusChange.label} - Vendor" name="document.statusChange" value="WVEN" checked />&nbsp;Vendor&nbsp;
-		        	</c:when>
-					<c:otherwise>
-						<input type=radio title="${documentAttributes.statusChange.label} - Vendor" name="document.statusChange" value="WVEN" />&nbsp;Vendor&nbsp;
-		        	</c:otherwise>
-				</c:choose>
+		        &nbsp;<html:radio title="${documentAttributes.statusChange.label} - None" property="statusChange" value="INPR" />&nbsp;None&nbsp;
+				<html:radio title="${documentAttributes.statusChange.label} - Department" property="statusChange" value="WDPT" />&nbsp;Department&nbsp;
+				<html:radio title="${documentAttributes.statusChange.label} - Vendor" property="statusChange" value="WVEN" />&nbsp;Vendor&nbsp;
 			</td>
 		</tr>
 	</table>

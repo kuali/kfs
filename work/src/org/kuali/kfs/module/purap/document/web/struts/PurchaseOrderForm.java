@@ -22,8 +22,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -539,6 +541,26 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(resendPoCxmlButton.getExtraButtonProperty(), resendPoCxmlButton);
         
         return result;
+    }
+
+    public String getStatusChange() {
+        if (StringUtils.isNotEmpty(getPurchaseOrderDocument().getStatusChange())){
+            return getPurchaseOrderDocument().getStatusChange();
+        } else {
+            if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurapConstants.PurchaseOrderStatuses.IN_PROCESS)){
+                return PurapConstants.PurchaseOrderStatuses.IN_PROCESS;
+            } else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)){
+                return PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT;
+            }else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR)){
+                return PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR;   
+            }else{
+                return null;
+            }
+        }
+    }
+
+    public void setStatusChange(String statusChange) {
+        getPurchaseOrderDocument().setStatusChange(statusChange);
     }
     
 }

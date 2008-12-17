@@ -103,9 +103,6 @@
         </c:when>
     </c:choose>
 	
-    <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-	    
-	
     <c:if test="${not isPurchaseOrder}">
     	<c:set var="itemActive" value="true"/>
     </c:if>    

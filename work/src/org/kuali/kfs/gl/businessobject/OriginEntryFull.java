@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -50,7 +50,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     private BalanceTyp balanceType;
     private Chart chart;
     private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
     private DocumentType documentType;
@@ -233,11 +233,11 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.financialObject = financialObject;
     }
 
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

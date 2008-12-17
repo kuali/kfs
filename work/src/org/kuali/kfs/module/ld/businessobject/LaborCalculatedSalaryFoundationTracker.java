@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -62,7 +62,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private transient Options universityFiscal;
     private final int PERCENTAGE_SCALE = 2;
 
@@ -571,7 +571,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -580,7 +580,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
      * 
      * @param financialSubObject The financialSubObject to set.
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

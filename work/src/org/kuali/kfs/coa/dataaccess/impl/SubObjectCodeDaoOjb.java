@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.dataaccess.SubObjectCodeDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -39,7 +39,7 @@ public class SubObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements SubO
      * @return SubObjectCode
      * @see SubObjectCodeDao#getByPrimaryId(Integer, String, String, String, String)
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+    public SubObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
@@ -48,6 +48,6 @@ public class SubObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements SubO
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
         criteria.addEqualTo("financialSubObjectCode", financialSubObjectCode);
 
-        return (SubObjCd) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubObjCd.class, criteria));
+        return (SubObjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubObjectCode.class, criteria));
     }
 }

@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -124,7 +124,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getSubObjectCodeLabel()
      */
     public String getSubObjectCodeLabel() {
-        return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubObjCd.class.getName()).getAttributeDefinition(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME).getShortLabel();
+        return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubObjectCode.class.getName()).getAttributeDefinition(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME).getShortLabel();
     }
 
     /**
@@ -351,14 +351,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
-    public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary) {
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary) {
         return isValidSubObjectCode(subObjectCode, dataDictionary, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
         String label = getSubObjectCodeLabel();
 
         // make sure it exists
@@ -409,7 +409,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         // sub object is not required
         if (StringUtils.isNotBlank(accountingLine.getFinancialSubObjectCode())) {
             accountingLine.refreshReferenceObject("subObjectCode");
-            SubObjCd subObjectCode = accountingLine.getSubObjectCode();
+            SubObjectCode subObjectCode = accountingLine.getSubObjectCode();
             valid &= isValidSubObjectCode(subObjectCode, dd);
         }
         // project code is not required

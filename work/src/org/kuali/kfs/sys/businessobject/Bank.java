@@ -21,7 +21,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -52,7 +52,7 @@ public class Bank extends PersistableBusinessObjectBase implements Inactivateabl
     private Account cashOffsetAccount;
     private ObjectCode cashOffsetObject;
     private SubAccount cashOffsetSubAccount;
-    private SubObjCd cashOffsetSubObject;
+    private SubObjectCode cashOffsetSubObject;
     private Bank continuationBank;
 
     /**
@@ -459,7 +459,7 @@ public class Bank extends PersistableBusinessObjectBase implements Inactivateabl
      * 
      * @return Returns the cashOffsetSubObject.
      */
-    public SubObjCd getCashOffsetSubObject() {
+    public SubObjectCode getCashOffsetSubObject() {
         return cashOffsetSubObject;
     }
 
@@ -468,7 +468,7 @@ public class Bank extends PersistableBusinessObjectBase implements Inactivateabl
      * 
      * @param cashOffsetSubObject The cashOffsetSubObject to set.
      */
-    public void setCashOffsetSubObject(SubObjCd cashOffsetSubObject) {
+    public void setCashOffsetSubObject(SubObjectCode cashOffsetSubObject) {
         this.cashOffsetSubObject = cashOffsetSubObject;
     }
 

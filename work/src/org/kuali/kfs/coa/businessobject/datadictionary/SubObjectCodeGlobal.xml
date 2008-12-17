@@ -4,19 +4,19 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubObjCdGlobal" parent="SubObjCdGlobal-parentBean" />
+  <bean id="SubObjectCodeGlobal" parent="SubObjectCodeGlobal-parentBean" />
 
-  <bean id="SubObjCdGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCdGlobal" />
+  <bean id="SubObjectCodeGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal" />
     <property name="objectLabel" value="Sub-Object Code Global" />
     <property name="attributes" >
       <list>
-        <ref bean="SubObjCdGlobal-universityFiscalYear" />
-        <ref bean="SubObjCdGlobal-chartOfAccountsCode" />
-        <ref bean="SubObjCdGlobal-financialSubObjectCode" />
-        <ref bean="SubObjCdGlobal-financialSubObjectCodeName" />
-        <ref bean="SubObjCdGlobal-financialSubObjectCodeShortName" />
-        <ref bean="SubObjCdGlobal-active" />
+        <ref bean="SubObjectCodeGlobal-universityFiscalYear" />
+        <ref bean="SubObjectCodeGlobal-chartOfAccountsCode" />
+        <ref bean="SubObjectCodeGlobal-financialSubObjectCode" />
+        <ref bean="SubObjectCodeGlobal-financialSubObjectCodeName" />
+        <ref bean="SubObjectCodeGlobal-financialSubObjectCodeShortName" />
+        <ref bean="SubObjectCodeGlobal-active" />
       </list>
     </property>
   </bean>
@@ -24,17 +24,17 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SubObjCdGlobal-universityFiscalYear" parent="SubObjCdGlobal-universityFiscalYear-parentBean" />
+  <bean id="SubObjectCodeGlobal-universityFiscalYear" parent="SubObjectCodeGlobal-universityFiscalYear-parentBean" />
 
-  <bean id="SubObjCdGlobal-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+  <bean id="SubObjectCodeGlobal-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
     <property name="required" value="false" />
   </bean>
-  <bean id="SubObjCdGlobal-chartOfAccountsCode" parent="SubObjCdGlobal-chartOfAccountsCode-parentBean" />
+  <bean id="SubObjectCodeGlobal-chartOfAccountsCode" parent="SubObjectCodeGlobal-chartOfAccountsCode-parentBean" />
 
-  <bean id="SubObjCdGlobal-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="SubObjectCodeGlobal-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -42,9 +42,9 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="SubObjCdGlobal-financialSubObjectCode" parent="SubObjCdGlobal-financialSubObjectCode-parentBean" />
+  <bean id="SubObjectCodeGlobal-financialSubObjectCode" parent="SubObjectCodeGlobal-financialSubObjectCode-parentBean" />
 
-  <bean id="SubObjCdGlobal-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCodeGlobal-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code" />
@@ -59,9 +59,9 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="SubObjCdGlobal-financialSubObjectCodeName" parent="SubObjCdGlobal-financialSubObjectCodeName-parentBean" />
+  <bean id="SubObjectCodeGlobal-financialSubObjectCodeName" parent="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean" />
 
-  <bean id="SubObjCdGlobal-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCodeName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code Name" />
@@ -77,9 +77,9 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="SubObjCdGlobal-financialSubObjectCodeShortName" parent="SubObjCdGlobal-financialSubObjectCodeShortName-parentBean" />
+  <bean id="SubObjectCodeGlobal-financialSubObjectCodeShortName" parent="SubObjectCodeGlobal-financialSubObjectCodeShortName-parentBean" />
 
-  <bean id="SubObjCdGlobal-financialSubObjectCodeShortName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCodeGlobal-financialSubObjectCodeShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCodeShortName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub Object Code Short Name" />
@@ -95,9 +95,9 @@
             p:size="12" />
     </property>
   </bean>
-  <bean id="SubObjCdGlobal-active" parent="SubObjCdGlobal-active-parentBean" />
+  <bean id="SubObjectCodeGlobal-active" parent="SubObjectCodeGlobal-active-parentBean" />
 
-  <bean id="SubObjCdGlobal-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="SubObjectCodeGlobal-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 </beans>

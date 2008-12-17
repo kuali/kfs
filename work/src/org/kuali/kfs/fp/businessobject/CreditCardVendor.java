@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCdCurrent;
+import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -55,8 +55,8 @@ public class CreditCardVendor extends PersistableBusinessObjectBase implements I
     private CreditCardType financialDocumentCreditCardType;
     private SubAccount incomeSubAccount;
     private SubAccount expenseSubAccount;
-    private SubObjCdCurrent incomeFinancialSubObject;
-    private SubObjCdCurrent expenseFinancialSubObject;
+    private SubObjectCodeCurrent incomeFinancialSubObject;
+    private SubObjectCodeCurrent expenseFinancialSubObject;
 
 
     /**
@@ -447,7 +447,7 @@ public class CreditCardVendor extends PersistableBusinessObjectBase implements I
      * 
      * @return Returns the expenseFinancialSubObject.
      */
-    public SubObjCdCurrent getExpenseFinancialSubObject() {
+    public SubObjectCodeCurrent getExpenseFinancialSubObject() {
         return expenseFinancialSubObject;
     }
 
@@ -456,7 +456,7 @@ public class CreditCardVendor extends PersistableBusinessObjectBase implements I
      * 
      * @param expenseFinancialSubObject The expenseFinancialSubObject to set.
      */
-    public void setExpenseFinancialSubObject(SubObjCdCurrent expenseFinancialSubObject) {
+    public void setExpenseFinancialSubObject(SubObjectCodeCurrent expenseFinancialSubObject) {
         this.expenseFinancialSubObject = expenseFinancialSubObject;
     }
 
@@ -483,7 +483,7 @@ public class CreditCardVendor extends PersistableBusinessObjectBase implements I
      * 
      * @return Returns the incomeFinancialSubObject.
      */
-    public SubObjCdCurrent getIncomeFinancialSubObject() {
+    public SubObjectCodeCurrent getIncomeFinancialSubObject() {
         return incomeFinancialSubObject;
     }
 
@@ -492,7 +492,7 @@ public class CreditCardVendor extends PersistableBusinessObjectBase implements I
      * 
      * @param incomeFinancialSubObject The incomeFinancialSubObject to set.
      */
-    public void setIncomeFinancialSubObject(SubObjCdCurrent incomeFinancialSubObject) {
+    public void setIncomeFinancialSubObject(SubObjectCodeCurrent incomeFinancialSubObject) {
         this.incomeFinancialSubObject = incomeFinancialSubObject;
     }
 

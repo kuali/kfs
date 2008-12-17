@@ -29,7 +29,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -81,7 +81,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private Account account;
     private SubAccount subAccount;
     private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private BalanceTyp balanceType;
     private ObjectType objectType;
     private A21SubAccount a21SubAccount;
@@ -905,11 +905,11 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         this.subAccount = subAccount;
     }
 
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

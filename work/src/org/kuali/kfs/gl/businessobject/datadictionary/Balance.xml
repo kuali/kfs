@@ -84,7 +84,7 @@
   </bean>
   <bean id="Balance-subObjectCode" parent="Balance-subObjectCode-parentBean" />
 
-  <bean id="Balance-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="Balance-subObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="subObjectCode" />
     <property name="forceUppercase" value="true" />
   </bean>

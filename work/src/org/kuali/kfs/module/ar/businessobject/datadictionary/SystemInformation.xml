@@ -297,7 +297,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="SystemInformation-universityClearingSubObjectCode" parent="SystemInformation-universityClearingSubObjectCode-parentBean" />
 
-  <bean id="SystemInformation-universityClearingSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="SystemInformation-universityClearingSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="universityClearingSubObjectCode" />
     <property name="label" value="Sub Object Code" />
     <property name="shortLabel" value="University Clearing Sub Object Code" />
@@ -346,7 +346,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="SystemInformation-wireSubObjectCode" parent="SystemInformation-wireSubObjectCode-parentBean" />
-  <bean id="SystemInformation-wireSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="SystemInformation-wireSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="wireSubObjectCode" />
     <property name="label" value="Sub Object Code" />
     <property name="shortLabel" value="Wire Sub Object Code" />

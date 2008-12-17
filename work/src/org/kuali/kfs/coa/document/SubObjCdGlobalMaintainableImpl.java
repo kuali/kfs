@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
-import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
-import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal;
+import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
@@ -51,15 +51,15 @@ public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     public List<MaintenanceLock> generateMaintenanceLocks() {
         // create locking rep for each combination of account and object code
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
-        SubObjCdGlobal subObjCdGlobal = (SubObjCdGlobal) getBusinessObject();
+        SubObjectCodeGlobal subObjCdGlobal = (SubObjectCodeGlobal) getBusinessObject();
 
         for (AccountGlobalDetail accountGlobalDetail : subObjCdGlobal.getAccountGlobalDetails()) {
-            for (SubObjCdGlobalDetail subObjCdGlobalDetail : subObjCdGlobal.getSubObjCdGlobalDetails()) {
+            for (SubObjectCodeGlobalDetail subObjCdGlobalDetail : subObjCdGlobal.getSubObjCdGlobalDetails()) {
                 MaintenanceLock maintenanceLock = new MaintenanceLock();
                 maintenanceLock.setDocumentNumber(subObjCdGlobal.getDocumentNumber());
 
                 StringBuffer lockrep = new StringBuffer();
-                lockrep.append(SubObjCd.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+                lockrep.append(SubObjectCode.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
                 lockrep.append("fiscalYear" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
                 lockrep.append(subObjCdGlobalDetail.getUniversityFiscalYear() + KFSConstants.Maintenance.AFTER_VALUE_DELIM);
                 lockrep.append("chartOfAccountsCode" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
@@ -140,7 +140,7 @@ public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     protected Set<RoutingAccount> gatherAccountsToReview() {
        Set<RoutingAccount> accountsToReview = new HashSet<RoutingAccount>();
        
-       final SubObjCdGlobal subObjCdGlobal = (SubObjCdGlobal) getBusinessObject();
+       final SubObjectCodeGlobal subObjCdGlobal = (SubObjectCodeGlobal) getBusinessObject();
 
        for (AccountGlobalDetail accountGlobalDetail : subObjCdGlobal.getAccountGlobalDetails()) {
            final RoutingAccount accountToReview = new RoutingAccount(accountGlobalDetail.getChartOfAccountsCode(), accountGlobalDetail.getAccountNumber());
@@ -157,7 +157,7 @@ public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     protected Set<OrgReviewRoutingData> gatherOrgsToReview() {
         Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
         
-        final SubObjCdGlobal subObjCdGlobal = (SubObjCdGlobal) getBusinessObject();
+        final SubObjectCodeGlobal subObjCdGlobal = (SubObjectCodeGlobal) getBusinessObject();
         
         for (AccountGlobalDetail accountGlobalDetail : subObjCdGlobal.getAccountGlobalDetails()) {
             accountGlobalDetail.refreshReferenceObject("account");
@@ -170,6 +170,6 @@ public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
 
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
-        return SubObjCd.class;
+        return SubObjectCode.class;
     }
 }

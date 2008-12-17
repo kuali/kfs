@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -69,7 +69,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     private Chart chartOfAccounts;
     private SubAccount subAccount;
     private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private ProjectCode project;
     private CustomerInvoiceDocument customerInvoiceDocument;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
@@ -179,11 +179,11 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         this.financialObject = financialObject;
     }
 
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

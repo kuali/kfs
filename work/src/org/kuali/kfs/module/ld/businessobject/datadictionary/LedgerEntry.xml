@@ -105,7 +105,7 @@
   </bean>
   <bean id="LedgerEntry-financialSubObjectCode" parent="LedgerEntry-financialSubObjectCode-parentBean" />
 
-  <bean id="LedgerEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="LedgerEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="LedgerEntry-earnCode" parent="LedgerEntry-earnCode-parentBean" />
 

@@ -31,7 +31,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -82,7 +82,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private Account account;
     private ObjectCode objectCode;
     private SubAccount subAccount;
-    private SubObjCd subObjectCode;
+    private SubObjectCode subObjectCode;
     private ProjectCode project;
     private BalanceTyp balanceTyp;
     private OriginationCode referenceOrigin;
@@ -98,7 +98,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         account = new Account();
         objectCode = new ObjectCode();
         subAccount = new SubAccount();
-        subObjectCode = new SubObjCd();
+        subObjectCode = new SubObjectCode();
         project = new ProjectCode();
         postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         objectCode.setUniversityFiscalYear(postingYear);
@@ -358,7 +358,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the subObjectCode.
      */
-    public SubObjCd getSubObjectCode() {
+    public SubObjectCode getSubObjectCode() {
         return subObjectCode;
     }
 
@@ -366,7 +366,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param subObjectCode The subObjectCode to set.
      * @deprecated
      */
-    public void setSubObjectCode(SubObjCd subObjectCode) {
+    public void setSubObjectCode(SubObjectCode subObjectCode) {
         this.subObjectCode = subObjectCode;
     }
 

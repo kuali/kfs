@@ -21,7 +21,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 
@@ -128,7 +128,7 @@ public interface AccountingLineRuleHelperService {
      * @param dataDictionary
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary);
+    public abstract boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary);
     
     /**
      * This method validates that a sub object code is active.
@@ -138,7 +138,7 @@ public interface AccountingLineRuleHelperService {
      * @param errorPropertyName
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName);
     
     /**
      * This method validates that a project code is active.

@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -26,8 +26,8 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 
     private static final String ACCOUNT_ORG_RULE_KEY = "SubObjectCode.AccountOrgsAllowingClosedAccounts";
 
-    private SubObjCd oldSubObjectCode;
-    private SubObjCd newSubObjectCode;
+    private SubObjectCode oldSubObjectCode;
+    private SubObjectCode newSubObjectCode;
 
     public SubObjCdRule() {
         super();
@@ -101,10 +101,10 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldSubObjectCode = (SubObjCd) super.getOldBo();
+        oldSubObjectCode = (SubObjectCode) super.getOldBo();
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newSubObjectCode = (SubObjCd) super.getNewBo();
+        newSubObjectCode = (SubObjectCode) super.getNewBo();
     }
 
     /**

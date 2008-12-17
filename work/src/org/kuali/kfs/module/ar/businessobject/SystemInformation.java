@@ -7,7 +7,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -48,7 +48,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private String cashControlWorkgroup;
     
 	private ObjectCode creditCardFinancialObject;
-	private SubObjCd universityClearingSubObject;
+	private SubObjectCode universityClearingSubObject;
 	private ObjectCode universityClearingObject;
 	private ObjectCode discountFinancialObject;
 	private Organization processingOrganization;
@@ -62,7 +62,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private Account wireAccount;
     private SubAccount wireSubAccount;
     private ObjectCode wireObject;
-    private SubObjCd wireSubObject;
+    private SubObjectCode wireSubObject;
     private Person financialDocumentInitiator;
     
 	public Person getFinancialDocumentInitiator() {
@@ -583,7 +583,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	 * @return Returns the universityClearingSubObject
 	 * 
 	 */
-	public SubObjCd getUniversityClearingSubObject() { 
+	public SubObjectCode getUniversityClearingSubObject() { 
 		return universityClearingSubObject;
 	}
 
@@ -593,7 +593,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	 * @param universityClearingSubObject The universityClearingSubObject to set.
 	 * @deprecated
 	 */
-	public void setUniversityClearingSubObject(SubObjCd universityClearingSubObject) {
+	public void setUniversityClearingSubObject(SubObjectCode universityClearingSubObject) {
 		this.universityClearingSubObject = universityClearingSubObject;
 	}
 
@@ -824,7 +824,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
      * Gets the wireSubObject attribute. 
      * @return Returns the wireSubObject.
      */
-    public SubObjCd getWireSubObject() {
+    public SubObjectCode getWireSubObject() {
         return wireSubObject;
     }
 
@@ -833,7 +833,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
      * @param wireSubObject The wireSubObject to set.
      * @deprecated
      */
-    public void setWireSubObject(SubObjCd wireSubObject) {
+    public void setWireSubObject(SubObjectCode wireSubObject) {
         this.wireSubObject = wireSubObject;
     }
 

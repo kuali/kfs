@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -50,7 +50,7 @@ public class BudgetConstructionCalculatedSalaryFoundationTracker extends Persist
     private Account account;
     private Chart chartOfAccounts;
     private SubAccount subAccount;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
 
     /**
      * Default constructor.
@@ -368,7 +368,7 @@ public class BudgetConstructionCalculatedSalaryFoundationTracker extends Persist
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -378,7 +378,7 @@ public class BudgetConstructionCalculatedSalaryFoundationTracker extends Persist
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

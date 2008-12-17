@@ -159,7 +159,7 @@
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-financialSubObjectCode" parent="LedgerBalanceForBenefitExpenseTransfer-financialSubObjectCode-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-accountLineAnnualBalanceAmount" parent="LedgerBalanceForBenefitExpenseTransfer-accountLineAnnualBalanceAmount-parentBean" />
 

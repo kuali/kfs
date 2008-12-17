@@ -30,7 +30,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -846,7 +846,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (!KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
-            SubObjCd originEntrySubObject = referenceLookup.get().getFinancialSubObject(originEntry);
+            SubObjectCode originEntrySubObject = referenceLookup.get().getFinancialSubObject(originEntry);
             if (originEntrySubObject != null) {
                 // Exists
                 if (!originEntrySubObject.isActive()) {

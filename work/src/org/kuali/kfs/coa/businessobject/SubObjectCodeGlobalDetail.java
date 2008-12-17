@@ -25,7 +25,7 @@ import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 /**
  * 
  */
-public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
+public class SubObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     private String documentNumber;
     private Integer universityFiscalYear;
@@ -39,7 +39,7 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
     /**
      * Default constructor.
      */
-    public SubObjCdGlobalDetail() {
+    public SubObjectCodeGlobalDetail() {
 
     }
 

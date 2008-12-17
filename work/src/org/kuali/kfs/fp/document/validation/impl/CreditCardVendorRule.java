@@ -21,7 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.CreditCardVendor;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -148,7 +148,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
             if (checkRequiredSubObjectCode("Income")) {
 
                 // check existence of Sub-Object
-                SubObjCd existenceSubObj = checkExistenceSubObj("Income");
+                SubObjectCode existenceSubObj = checkExistenceSubObj("Income");
                 if (existenceSubObj == null) {
                     putFieldError("incomeFinancialSubObjectCode", KFSKeyConstants.ERROR_CCV_INVALIDSUBOBJECT, "Income Sub-Object Code, " + newCreditCardVendor.getIncomeFinancialSubObjectCode());
                 }
@@ -166,7 +166,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
             if (checkRequiredSubObjectCode("Expense")) {
 
                 // check existence of Sub-Object
-                SubObjCd existenceSubObj = checkExistenceSubObj("Expense");
+                SubObjectCode existenceSubObj = checkExistenceSubObj("Expense");
                 if (existenceSubObj == null) {
                     putFieldError("expenseFinancialSubObjectCode", KFSKeyConstants.ERROR_CCV_INVALIDSUBOBJECT, "Expense Sub-Object Code, " + newCreditCardVendor.getExpenseFinancialSubObjectCode());
                 }
@@ -372,9 +372,9 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param string determines whether or not to retrieve a income or expense sub object (valid values include "Income" or "Expense")
      * @return SubAccount Income/Expense SubObjCd object
      */
-    private SubObjCd checkExistenceSubObj(String string) {
+    private SubObjectCode checkExistenceSubObj(String string) {
 
-        SubObjCd subObjCd = null;
+        SubObjectCode subObjCd = null;
 
         if (string.equals("Income")) {
             Map pkMap = new HashMap();
@@ -382,7 +382,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
             pkMap.put("accountNumber", newCreditCardVendor.getIncomeAccountNumber());
             pkMap.put("financialObjectCode", newCreditCardVendor.getIncomeFinancialObjectCode());
             pkMap.put("financialSubObjectCode", newCreditCardVendor.getIncomeFinancialSubObjectCode());
-            subObjCd = (SubObjCd) super.getBoService().findByPrimaryKey(SubObjCd.class, pkMap);
+            subObjCd = (SubObjectCode) super.getBoService().findByPrimaryKey(SubObjectCode.class, pkMap);
         }
 
         if (string.equals("Expense")) {
@@ -391,7 +391,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
             pkMap.put("accountNumber", newCreditCardVendor.getExpenseAccountNumber());
             pkMap.put("financialObjectCode", newCreditCardVendor.getExpenseFinancialObjectCode());
             pkMap.put("financialSubObjectCode", newCreditCardVendor.getExpenseFinancialSubObjectCode());
-            subObjCd = (SubObjCd) super.getBoService().findByPrimaryKey(SubObjCd.class, pkMap);
+            subObjCd = (SubObjectCode) super.getBoService().findByPrimaryKey(SubObjectCode.class, pkMap);
         }
 
         return subObjCd;

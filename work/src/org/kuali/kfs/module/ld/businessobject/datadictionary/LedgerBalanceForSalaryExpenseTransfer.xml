@@ -205,7 +205,7 @@
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-financialSubObjectCode" parent="LedgerBalanceForSalaryExpenseTransfer-financialSubObjectCode-parentBean" />
 
-  <bean id="LedgerBalanceForSalaryExpenseTransfer-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="LedgerBalanceForSalaryExpenseTransfer-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-accountLineAnnualBalanceAmount" parent="LedgerBalanceForSalaryExpenseTransfer-accountLineAnnualBalanceAmount-parentBean" />
 

@@ -82,7 +82,7 @@
   </bean>
   <bean id="Entry-financialSubObjectCode" parent="Entry-financialSubObjectCode-parentBean" />
 
-  <bean id="Entry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="Entry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="Entry-financialObjectTypeCode" parent="Entry-financialObjectTypeCode-parentBean" />

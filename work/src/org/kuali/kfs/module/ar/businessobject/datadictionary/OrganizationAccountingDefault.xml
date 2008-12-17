@@ -93,7 +93,7 @@
   </bean>
   <bean id="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode" parent="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode-parentBean" />
 
-  <bean id="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="defaultInvoiceFinancialSubObjectCode" />
     <property name="shortLabel" value="Invoice Sub-Obj Cd" />
     <property name="required" value="false" />
@@ -187,7 +187,7 @@
   </bean>
   <bean id="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode" parent="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode-parentBean" />
 
-  <bean id="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="defaultPaymentFinancialSubObjectCode" />
     <property name="shortLabel" value="Sub-Object Code" />
     <property name="required" value="false" />
@@ -245,7 +245,7 @@
   </bean>
   <bean id="OrganizationAccountingDefault-writeoffFinancialSubObjectCode" parent="OrganizationAccountingDefault-writeoffFinancialSubObjectCode-parentBean" />
 
-  <bean id="OrganizationAccountingDefault-writeoffFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="OrganizationAccountingDefault-writeoffFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="writeoffFinancialSubObjectCode" />
     <property name="shortLabel" value="Writeoff Sub-Obj Cd" />
     <property name="required" value="false" />

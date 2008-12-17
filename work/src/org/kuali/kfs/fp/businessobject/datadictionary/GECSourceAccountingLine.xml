@@ -229,7 +229,7 @@
   </bean>
   <bean id="GECSourceAccountingLine-financialSubObjectCode" parent="GECSourceAccountingLine-financialSubObjectCode-parentBean" />
 
-  <bean id="GECSourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="GECSourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
   </bean>

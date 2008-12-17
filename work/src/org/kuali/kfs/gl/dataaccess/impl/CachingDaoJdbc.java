@@ -40,7 +40,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
@@ -606,13 +606,13 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         }
         return objectType;
     }
-    public SubObjCd getFinancialSubObject(OriginEntry originEntry) {
-        SubObjCd subObject = null;
+    public SubObjectCode getFinancialSubObject(OriginEntry originEntry) {
+        SubObjectCode subObject = null;
         String key = "CA_SUB_OBJECT_CD_T:" + originEntry.getUniversityFiscalYear().toString() + "/" + originEntry.getChartOfAccountsCode() + "/" + originEntry.getAccountNumber() + "/" + originEntry.getFinancialObjectCode() + "/" + originEntry.getFinancialSubObjectCode();
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                subObject = (SubObjCd) value;
+                subObject = (SubObjectCode) value;
             }
         } else {
             try {
@@ -623,7 +623,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 subObjCdPreparedSelect.setString(5, originEntry.getFinancialSubObjectCode());
                 ResultSet rs = subObjCdPreparedSelect.executeQuery();
                 if (rs.next()) {
-                    subObject = new SubObjCd();
+                    subObject = new SubObjectCode();
                     subObject.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
                     subObject.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
                     subObject.setAccountNumber(originEntry.getAccountNumber());

@@ -19,7 +19,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -223,5 +223,5 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given sub object is valid; otherwise, false
      */
-    public boolean isValidSubObjectCode(SubObjCd subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName);
 }

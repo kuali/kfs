@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -60,7 +60,7 @@ public class BudgetConstructionAppointmentFundingLoad01Move extends PersistableB
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private Chart newChartOfAccounts;
     private Account newAccount;
 
@@ -529,7 +529,7 @@ public class BudgetConstructionAppointmentFundingLoad01Move extends PersistableB
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -539,7 +539,7 @@ public class BudgetConstructionAppointmentFundingLoad01Move extends PersistableB
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

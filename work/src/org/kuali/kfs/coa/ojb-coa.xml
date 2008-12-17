@@ -489,7 +489,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjCd" table="CA_SUB_OBJECT_CD_T">
+<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjectCode" table="CA_SUB_OBJECT_CD_T">
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -523,7 +523,7 @@
 
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjCdCurrent" table="CA_SUB_OBJECT_CD_V">
+<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent" table="CA_SUB_OBJECT_CD_V">
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -1081,7 +1081,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
         </reference-descriptor>
-        <reference-descriptor name="financialSubObject" class-ref="org.kuali.kfs.coa.businessobject.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <reference-descriptor name="financialSubObject" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
@@ -1557,7 +1557,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjCdGlobal" table="CA_SUB_OBJ_CD_CHG_DOC_T">
+<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal" table="CA_SUB_OBJ_CD_CHG_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1584,7 +1584,7 @@
     	<orderby name="accountNumber" sort="ASC" />
     	<inverse-foreignkey field-ref="documentNumber" />
   	</collection-descriptor>
-	<collection-descriptor name="subObjCdGlobalDetails" element-class-ref="org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+	<collection-descriptor name="subObjCdGlobalDetails" element-class-ref="org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     <!-- no real need to sort by fiscal year or chart b/c they're all the same, but is it best to list the full foreign key to object code? -->
     	<orderby name="universityFiscalYear" sort="ASC" />
     	<orderby name="chartOfAccountsCode" sort="ASC" />
@@ -1593,7 +1593,7 @@
   </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail" table="CA_SUB_OBJ_CD_CHG_DTL_T">
+<class-descriptor class="org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail" table="CA_SUB_OBJ_CD_CHG_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

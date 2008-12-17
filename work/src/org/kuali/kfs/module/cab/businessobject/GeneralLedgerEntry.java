@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.sys.KFSConstants;
@@ -69,7 +69,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private Chart chart;
     private ObjectCode financialObject;
     private SubAccount subAccount;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private DocumentType documentType;
 
@@ -650,7 +650,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialSubObject
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -659,7 +659,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      * 
      * @param financialSubObject The financialSubObject to set.
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

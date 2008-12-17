@@ -70,7 +70,7 @@
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-financialSubObjectCode" parent="CalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" />
 
-  <bean id="CalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="CalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfAmount" parent="CalculatedSalaryFoundationTracker-csfAmount-parentBean" />
 

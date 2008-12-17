@@ -35,7 +35,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
@@ -163,7 +163,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @return the related financial sub object record, or null if not found
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getFinancialSubObject(org.kuali.module.gl.bo.OriginEntry)
      */
-    public SubObjCd getFinancialSubObject(OriginEntry entry) {
+    public SubObjectCode getFinancialSubObject(OriginEntry entry) {
         return cachingDao.getFinancialSubObject(entry);
     }
 

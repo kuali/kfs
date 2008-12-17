@@ -121,7 +121,7 @@
   </bean>
   <bean id="AccountBalancePendingEntry-financialSubObjectCode" parent="AccountBalancePendingEntry-financialSubObjectCode-parentBean" />
 
-  <bean id="AccountBalancePendingEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="AccountBalancePendingEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="AccountBalancePendingEntry-financialObjectTypeCode" parent="AccountBalancePendingEntry-financialObjectTypeCode-parentBean" />
 

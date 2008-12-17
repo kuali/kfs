@@ -79,7 +79,7 @@
   
   <bean id="PaymentAccountDetail-finSubObjectCode" parent="PaymentAccountDetail-finSubObjectCode-parentBean" />
 
-  <bean id="PaymentAccountDetail-finSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="PaymentAccountDetail-finSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   <property name="name" value="finSubObjectCode" />
   </bean>
   <bean id="PaymentAccountDetail-orgReferenceId" parent="PaymentAccountDetail-orgReferenceId-parentBean" />

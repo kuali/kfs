@@ -204,7 +204,7 @@
   </bean>
   <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode" parent="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean" />
 
-  <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount" parent="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount-parentBean" />
 

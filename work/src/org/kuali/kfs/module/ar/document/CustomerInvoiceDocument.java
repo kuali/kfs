@@ -16,7 +16,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -124,7 +124,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private Chart paymentChartOfAccounts;
     private SubAccount paymentSubAccount;
     private ObjectCode paymentFinancialObject;
-    private SubObjCd paymentFinancialSubObject;
+    private SubObjectCode paymentFinancialSubObject;
     private ProjectCode paymentProject;
     private PrintInvoiceOptions printInvoiceOption;
     private CustomerAddress customerShipToAddress;
@@ -803,7 +803,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * Gets the paymentFinancialSubObject attribute.
      * @return Returns the paymentFinancialSubObject.
      */
-    public SubObjCd getPaymentFinancialSubObject() {
+    public SubObjectCode getPaymentFinancialSubObject() {
         return paymentFinancialSubObject;
     }
 
@@ -812,7 +812,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @param paymentFinancialSubObject The paymentFinancialSubObject to set.
      * @deprecated
      */
-    public void setPaymentFinancialSubObject(SubObjCd paymentFinancialSubObject) {
+    public void setPaymentFinancialSubObject(SubObjectCode paymentFinancialSubObject) {
         this.paymentFinancialSubObject = paymentFinancialSubObject;
     }
 

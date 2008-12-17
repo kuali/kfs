@@ -30,7 +30,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
@@ -118,7 +118,7 @@ public interface CachingDao {
      * @param entry the origin entry to retrieve the financial sub object of
      * @return the related financial sub object record, or null if not found
      */
-    public SubObjCd getFinancialSubObject(OriginEntry entry);
+    public SubObjectCode getFinancialSubObject(OriginEntry entry);
 
     /**
      * Get document type for given origin entryable

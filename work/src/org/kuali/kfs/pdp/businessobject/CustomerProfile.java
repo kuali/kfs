@@ -32,7 +32,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PostalCode;
@@ -104,7 +104,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private Account defaultAccount;
     private SubAccount defaultSubAccount;
     private ObjectCode defaultObject;
-    private SubObjCd defaultSubObject;
+    private SubObjectCode defaultSubObject;
     private State state;
     private PostalCode postalCode;
     private Country country;
@@ -929,7 +929,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the defaultSubObject.
      */
-    public SubObjCd getDefaultSubObject() {
+    public SubObjectCode getDefaultSubObject() {
         return defaultSubObject;
     }
 
@@ -938,7 +938,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @param defaultSubObject The defaultSubObject to set.
      */
-    public void setDefaultSubObject(SubObjCd defaultSubObject) {
+    public void setDefaultSubObject(SubObjectCode defaultSubObject) {
         this.defaultSubObject = defaultSubObject;
     }
 

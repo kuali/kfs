@@ -38,7 +38,7 @@
           p:blockedBusinessObjectClass="org.kuali.kfs.coa.businessobject.ObjectCode"
           p:inactivationBlockingDetectionServiceBeanName="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"/>
         <bean parent="InactivationBlockingDefinition"
-          p:blockedBusinessObjectClass="org.kuali.kfs.coa.businessobject.SubObjCd"
+          p:blockedBusinessObjectClass="org.kuali.kfs.coa.businessobject.SubObjectCode"
           p:inactivationBlockingDetectionServiceBeanName="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"/>
       </list>
     </property>

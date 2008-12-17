@@ -9,7 +9,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCdCurrent;
+import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -43,7 +43,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
 	private SubAccount defaultInvoiceSubAccount;
 	private Chart defaultInvoiceChartOfAccounts;
     private ObjectCodeCurrent defaultInvoiceFinancialObject;
-    private SubObjCdCurrent defaultInvoiceFinancialSubObject;
+    private SubObjectCodeCurrent defaultInvoiceFinancialSubObject;
 	private ProjectCode defaultInvoiceProject;
 
 	/**
@@ -519,7 +519,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
 	 * @return Returns the defaultInvoiceFinancialSubObject
 	 * 
 	 */
-	public SubObjCdCurrent getDefaultInvoiceFinancialSubObject() { 
+	public SubObjectCodeCurrent getDefaultInvoiceFinancialSubObject() { 
 		return defaultInvoiceFinancialSubObject;
 	}
 
@@ -529,7 +529,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase imple
 	 * @param defaultInvoiceFinancialSubObject The defaultInvoiceFinancialSubObject to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceFinancialSubObject(SubObjCdCurrent defaultInvoiceFinancialSubObject) {
+	public void setDefaultInvoiceFinancialSubObject(SubObjectCodeCurrent defaultInvoiceFinancialSubObject) {
 		this.defaultInvoiceFinancialSubObject = defaultInvoiceFinancialSubObject;
 	}
 

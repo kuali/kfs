@@ -29,7 +29,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.integration.ld.LaborLedgerEntry;
@@ -96,7 +96,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private ObjectType financialObjectType;
     private BalanceTyp balanceType;
     private AccountingPeriod universityFiscalPeriod;
@@ -1107,7 +1107,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -1117,7 +1117,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
      * @param financialSubObject The financialSubObject to set.
      */
     @Deprecated
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

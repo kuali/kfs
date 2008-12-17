@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
@@ -791,7 +791,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject();
+    public SubObjectCode getFinancialSubObject();
 
     /**
      * Sets the financialSubObject
@@ -799,7 +799,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * @param financialSubObject The financialSubObject to set.
      */
     @Deprecated
-    public void setFinancialSubObject(SubObjCd financialSubObject);
+    public void setFinancialSubObject(SubObjectCode financialSubObject);
 
     /**
      * Gets the option

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 
 /**
  * This interface defines methods that a SubObjectCode Service must provide.
@@ -31,7 +31,7 @@ public interface SubObjectCodeService {
      * @param financialSubObjectCode
      * @return SubObjectCode
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
+    public SubObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 
     /**
      * This method returns an financial object code for the current fiscal year.
@@ -40,5 +40,5 @@ public interface SubObjectCodeService {
      * @param financialObjectCode financial object code
      * @return the object code specified
      */
-    public SubObjCd getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
+    public SubObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 }

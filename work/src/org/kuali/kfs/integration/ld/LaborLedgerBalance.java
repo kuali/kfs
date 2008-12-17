@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -248,14 +248,14 @@ public interface LaborLedgerBalance extends PersistableBusinessObject, Externali
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject();
+    public SubObjectCode getFinancialSubObject();
 
     /**
      * Sets the financialSubObject attribute value.
      * 
      * @param financialSubObject The financialSubObject to set.
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject);
+    public void setFinancialSubObject(SubObjectCode financialSubObject);
 
     /**
      * Gets the financialSubObjectCode attribute.

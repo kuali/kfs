@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.service.impl;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -82,7 +82,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
 
 
         String label = getSubObjectCodeLabel();
@@ -94,7 +94,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
         }
         
         Integer universityFiscalYear = getDocument().getPostingYearNextOrCurrent();
-        SubObjCd subObjectCodeForValidation = (SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber(), subObjectCode.getFinancialObjectCode(), subObjectCode.getFinancialSubObjectCode()));
+        SubObjectCode subObjectCodeForValidation = (SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber(), subObjectCode.getFinancialObjectCode(), subObjectCode.getFinancialSubObjectCode()));
 
 
         // check active flag

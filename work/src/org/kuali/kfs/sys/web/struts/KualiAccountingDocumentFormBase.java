@@ -29,7 +29,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -244,7 +244,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         line.getSubAccount().setAccountNumber(line.getAccountNumber());
 
         if (ObjectUtils.isNull(line.getSubObjectCode())) {
-            line.setSubObjectCode(new SubObjCd());
+            line.setSubObjectCode(new SubObjectCode());
         }
         line.getSubObjectCode().setChartOfAccountsCode(line.getChartOfAccountsCode());
         line.getSubObjectCode().setAccountNumber(line.getAccountNumber());

@@ -8,7 +8,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -44,7 +44,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     private String writeoffOrganizationReferenceIdentifier;
    
     private ObjectCode defaultInvoiceFinancialObject;
-	private SubObjCd defaultInvoiceFinancialSubObject;
+	private SubObjectCode defaultInvoiceFinancialSubObject;
 	private ObjectCode organizationLateChargeObject;
 	private Chart chartOfAccounts;
 	private Organization organization;
@@ -58,12 +58,12 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	private ProjectCode defaultPaymentProject;
 	private Options universityFiscal;
     private ObjectCode defaultPaymentFinancialObject;
-    private SubObjCd defaultPaymentFinancialSubObject;
+    private SubObjectCode defaultPaymentFinancialSubObject;
     private Chart writeoffChartOfAccounts;
     private Account writeoffAccount;
     private SubAccount writeoffSubAccount;
     private ObjectCode writeoffFinancialObject;
-    private SubObjCd writeoffFinancialSubObject;
+    private SubObjectCode writeoffFinancialSubObject;
     private ProjectCode writeoffProject;
     
 	/**
@@ -577,7 +577,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	 * @return Returns the defaultInvoiceFinancialSubObject
 	 * 
 	 */
-	public SubObjCd getDefaultInvoiceFinancialSubObject() { 
+	public SubObjectCode getDefaultInvoiceFinancialSubObject() { 
 		return defaultInvoiceFinancialSubObject;
 	}
 
@@ -587,7 +587,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	 * @param defaultInvoiceFinancialSubObject The defaultInvoiceFinancialSubObject to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceFinancialSubObject(SubObjCd defaultInvoiceFinancialSubObject) {
+	public void setDefaultInvoiceFinancialSubObject(SubObjectCode defaultInvoiceFinancialSubObject) {
 		this.defaultInvoiceFinancialSubObject = defaultInvoiceFinancialSubObject;
 	}
 
@@ -832,7 +832,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * Gets the defaultPaymentFinancialSubObject attribute. 
      * @return Returns the defaultPaymentFinancialSubObject.
      */
-    public SubObjCd getDefaultPaymentFinancialSubObject() {
+    public SubObjectCode getDefaultPaymentFinancialSubObject() {
         return defaultPaymentFinancialSubObject;
     }
 
@@ -841,7 +841,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param defaultPaymentFinancialSubObject The defaultPaymentFinancialSubObject to set.
      * @deprecated
      */
-    public void setDefaultPaymentFinancialSubObject(SubObjCd defaultPaymentFinancialSubObject) {
+    public void setDefaultPaymentFinancialSubObject(SubObjectCode defaultPaymentFinancialSubObject) {
         this.defaultPaymentFinancialSubObject = defaultPaymentFinancialSubObject;
     }
 
@@ -900,7 +900,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * Gets the writeoffFinancialSubObject attribute. 
      * @return Returns the writeoffFinancialSubObject.
      */
-    public SubObjCd getWriteoffFinancialSubObject() {
+    public SubObjectCode getWriteoffFinancialSubObject() {
         return writeoffFinancialSubObject;
     }
 
@@ -909,7 +909,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param writeoffFinancialSubObject The writeoffFinancialSubObject to set.
      * @deprecated
      */
-    public void setWriteoffFinancialSubObject(SubObjCd writeoffFinancialSubObject) {
+    public void setWriteoffFinancialSubObject(SubObjectCode writeoffFinancialSubObject) {
         this.writeoffFinancialSubObject = writeoffFinancialSubObject;
     }
 

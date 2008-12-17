@@ -77,7 +77,7 @@
   </bean>
   <bean id="CashBalance-subObjectCode" parent="CashBalance-subObjectCode-parentBean" />
 
-  <bean id="CashBalance-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="CashBalance-subObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="subObjectCode" />
   </bean>
   <bean id="CashBalance-objectTypeCode" parent="CashBalance-objectTypeCode-parentBean" />

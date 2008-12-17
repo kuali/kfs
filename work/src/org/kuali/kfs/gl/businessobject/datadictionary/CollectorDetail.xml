@@ -115,10 +115,10 @@
   </bean>
   <bean id="CollectorDetail-financialSubObjectCode" parent="CollectorDetail-financialSubObjectCode-parentBean" />
 
-  <bean id="CollectorDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="CollectorDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   	<property name="forceUppercase" value="true" />
     <property name="label" value="Sub Object Code" />
-    <property name="shortLabel" value="SubObjCd" />
+    <property name="shortLabel" value="SubObjectCode" />
   </bean>
   <bean id="CollectorDetail-financialBalanceTypeCode" parent="CollectorDetail-financialBalanceTypeCode-parentBean" />
 

@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -170,13 +170,13 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
     /**
      * @return Returns the subObjectCode.
      */
-    public SubObjCd getSubObjectCode();
+    public SubObjectCode getSubObjectCode();
 
     /**
      * @param subObjectCode The subObjectCode to set.
      * @deprecated
      */
-    public void setSubObjectCode(SubObjCd subObjectCode);
+    public void setSubObjectCode(SubObjectCode subObjectCode);
 
     /**
      * @param documentNumber The documentNumber to set.

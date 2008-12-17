@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * etc.
  */
 public class SubObjectPreRules extends MaintenancePreRulesBase {
-    private SubObjCd newSubObjectCode;
+    private SubObjectCode newSubObjectCode;
 
 
     public SubObjectPreRules() {
@@ -77,6 +77,6 @@ public class SubObjectPreRules extends MaintenancePreRulesBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newSubObjectCode = (SubObjCd) document.getNewMaintainableObject().getBusinessObject();
+        newSubObjectCode = (SubObjectCode) document.getNewMaintainableObject().getBusinessObject();
     }
 }

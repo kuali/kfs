@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -55,7 +55,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
     private Account account;
     private SubAccount subAccount;
     private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private A21SubAccount a21SubAccount;
     private TransientBalanceInquiryAttributes dummyBusinessObject;
     private Options option;
@@ -376,7 +376,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
      * 
      * @return
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -385,7 +385,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
      * 
      * @param financialSubObject
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

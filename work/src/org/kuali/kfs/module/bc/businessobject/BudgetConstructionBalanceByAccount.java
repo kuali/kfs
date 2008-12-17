@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -57,7 +57,7 @@ public class BudgetConstructionBalanceByAccount extends PersistableBusinessObjec
     private Account account;
     private Chart chartOfAccounts;
     private SubAccount subAccount;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private ObjLevel financialObjectLevel;
     private ObjectType financialObjectType;
 
@@ -508,7 +508,7 @@ public class BudgetConstructionBalanceByAccount extends PersistableBusinessObjec
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -518,7 +518,7 @@ public class BudgetConstructionBalanceByAccount extends PersistableBusinessObjec
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

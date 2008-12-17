@@ -25,18 +25,18 @@ import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
 /**
  * 
  */
-public class SubObjCd extends PersistableBusinessObjectBase implements Inactivateable {
+public class SubObjectCode extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -5292158248714650271L;
 
     static {
-        PersistenceStructureServiceImpl.referenceConversionMap.put(SubObjCd.class, SubObjCdCurrent.class);
+        PersistenceStructureServiceImpl.referenceConversionMap.put(SubObjectCode.class, SubObjectCodeCurrent.class);
     }
 
     /**
      * Default no-arg constructor.
      */
-    public SubObjCd() {
+    public SubObjectCode() {
 
     }
 
@@ -49,7 +49,7 @@ public class SubObjCd extends PersistableBusinessObjectBase implements Inactivat
      * @param financialObjectCode
      * @param financialSubObjectCode
      */
-    public SubObjCd(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+    public SubObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         this.universityFiscalYear = universityFiscalYear;
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;

@@ -9,7 +9,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -34,7 +34,7 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
     private ObjectCode financialObject;
 	private SubAccount subAccount;
 	private Chart chartOfAccounts;
-	private SubObjCd financialSubObject;
+	private SubObjectCode financialSubObject;
 	private Account account;
 	private ProjectCode project;
 
@@ -361,7 +361,7 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @return Returns the financialSubObject
 	 * 
 	 */
-	public SubObjCd getFinancialSubObject() { 
+	public SubObjectCode getFinancialSubObject() { 
 		return financialSubObject;
 	}
 
@@ -371,7 +371,7 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @param financialSubObject The financialSubObject to set.
 	 * @deprecated
 	 */
-	public void setFinancialSubObject(SubObjCd financialSubObject) {
+	public void setFinancialSubObject(SubObjectCode financialSubObject) {
 		this.financialSubObject = financialSubObject;
 	}
 

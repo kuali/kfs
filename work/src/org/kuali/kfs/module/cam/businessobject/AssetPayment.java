@@ -9,7 +9,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -65,7 +65,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private SubAccount subAccount;
     private ObjectCode financialObject;
     private Account account;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private ProjectCode project;
     private AccountingPeriod financialDocumentPostingPeriod;
     private DocumentType documentType;
@@ -993,7 +993,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * @return Returns the financialSubObject
      * 
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -1003,7 +1003,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

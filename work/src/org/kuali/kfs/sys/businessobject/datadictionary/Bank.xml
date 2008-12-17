@@ -171,7 +171,7 @@
   </bean>
   <bean id="Bank-cashOffsetSubObjectCode" parent="Bank-cashOffsetSubObjectCode-parentBean" />
 
-  <bean id="Bank-cashOffsetSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="Bank-cashOffsetSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="cashOffsetSubObjectCode" />
     <property name="label" value="Cash Offset Sub-Object Code" />
     <property name="shortLabel" value="Cash Off Sub-Obj Cd" />

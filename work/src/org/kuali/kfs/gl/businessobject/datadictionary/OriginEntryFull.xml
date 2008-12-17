@@ -244,9 +244,9 @@
   </bean>
   <bean id="OriginEntryFull-financialSubObjectCode" parent="OriginEntryFull-financialSubObjectCode-parentBean" />
 
-  <bean id="OriginEntryFull-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="OriginEntryFull-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="label" value="Sub Object Code" />
-    <property name="shortLabel" value="SubObjCd" />
+    <property name="shortLabel" value="SubObjectCode" />
   </bean>
   <bean id="OriginEntryFull-transactionDate" parent="OriginEntryFull-transactionDate-parentBean" />
 

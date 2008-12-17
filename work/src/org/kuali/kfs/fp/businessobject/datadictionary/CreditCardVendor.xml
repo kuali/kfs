@@ -122,7 +122,7 @@
   </bean>
   <bean id="CreditCardVendor-incomeFinancialSubObjectCode" parent="CreditCardVendor-incomeFinancialSubObjectCode-parentBean" />
 
-  <bean id="CreditCardVendor-incomeFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="CreditCardVendor-incomeFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="incomeFinancialSubObjectCode" />
     <property name="label" value="Income Sub-Object Code" />
     <property name="shortLabel" value="Inc Sub-Object" />
@@ -164,7 +164,7 @@
   </bean>
   <bean id="CreditCardVendor-expenseFinancialSubObjectCode" parent="CreditCardVendor-expenseFinancialSubObjectCode-parentBean" />
 
-  <bean id="CreditCardVendor-expenseFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="CreditCardVendor-expenseFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="expenseFinancialSubObjectCode" />
     <property name="label" value="Expense Sub-Object Code" />
     <property name="shortLabel" value="Exp Sub-Object" />

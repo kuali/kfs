@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -63,7 +63,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     private SubAccount subAccount;
     private Chart chart;
     private Account account;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private DocumentType documentType;
 
     private ObjectCode financialObject;
@@ -500,7 +500,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -509,7 +509,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
      * 
      * @param financialSubObject The financialSubObject to set.
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 }

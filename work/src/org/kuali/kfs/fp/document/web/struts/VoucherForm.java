@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
@@ -172,7 +172,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
             sourceLine.getObjectCode().setUniversityFiscalYear(postingYear);
 
             if (ObjectUtils.isNull(sourceLine.getSubObjectCode())) {
-                sourceLine.setSubObjectCode(new SubObjCd());
+                sourceLine.setSubObjectCode(new SubObjectCode());
             }
             sourceLine.getSubObjectCode().setUniversityFiscalYear(postingYear);
         }

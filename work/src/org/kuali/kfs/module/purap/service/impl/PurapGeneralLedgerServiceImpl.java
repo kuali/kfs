@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
@@ -182,7 +182,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         }
 
-        SubObjCd subObjectCode = subObjectCodeService.getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getAccountNumber(), explicitEntry.getFinancialObjectCode(), explicitEntry.getFinancialSubObjectCode());
+        SubObjectCode subObjectCode = subObjectCodeService.getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getAccountNumber(), explicitEntry.getFinancialObjectCode(), explicitEntry.getFinancialSubObjectCode());
         if (ObjectUtils.isNotNull(subObjectCode)) {
             explicitEntry.setFinancialSubObjectCode(subObjectCode.getFinancialSubObjectCode());
         }

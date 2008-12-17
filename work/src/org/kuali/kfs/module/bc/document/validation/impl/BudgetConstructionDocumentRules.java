@@ -32,7 +32,7 @@ import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -699,7 +699,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // sub object is not required
         if (StringUtils.isNotBlank(pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode()) && !pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode())) {
-            SubObjCd subObjectCode = pendingBudgetConstructionGeneralLedger.getFinancialSubObject();
+            SubObjectCode subObjectCode = pendingBudgetConstructionGeneralLedger.getFinancialSubObject();
 
             // this code calls a local version (not AccountingLineRuleHelper) of isValidSubObjectCode to add the bad value to the
             // error message
@@ -1042,8 +1042,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param errorPropertyName
      * @return
      */
-    public boolean isValidSubObjectCode(SubObjCd subObjectCode, String value, DataDictionary dataDictionary, String errorPropertyName) {
-        String label = dataDictionary.getBusinessObjectEntry(SubObjCd.class.getName()).getAttributeDefinition(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME).getShortLabel();
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, String value, DataDictionary dataDictionary, String errorPropertyName) {
+        String label = dataDictionary.getBusinessObjectEntry(SubObjectCode.class.getName()).getAttributeDefinition(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME).getShortLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(subObjectCode)) {

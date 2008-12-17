@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -47,7 +47,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
     private Chart selectedOrganizationChartOfAccounts;
     private Organization selectedOrganization;
     private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private Account account;
     private Chart chartOfAccounts;
     private SubAccount subAccount;
@@ -432,11 +432,11 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
         this.subAccount = subAccount;
     }
 
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

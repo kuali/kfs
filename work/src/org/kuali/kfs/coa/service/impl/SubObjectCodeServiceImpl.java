@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.dataaccess.SubObjectCodeDao;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -35,7 +35,7 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
      * @see org.kuali.kfs.coa.service.SubObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+    public SubObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         return subObjectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
     }
 
@@ -43,7 +43,7 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
      * @see org.kuali.kfs.coa.service.SubObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public SubObjCd getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+    public SubObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
     }
 

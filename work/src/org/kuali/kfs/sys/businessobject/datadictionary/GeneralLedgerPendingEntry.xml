@@ -83,7 +83,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-financialSubObjectCode" parent="GeneralLedgerPendingEntry-financialSubObjectCode-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="GeneralLedgerPendingEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="description" value="A code that partitions an Object Code into greater detail. Sub-Object Codes take on most of the attributes of the Object Code to which they report." />
   </bean>
   <bean id="GeneralLedgerPendingEntry-documentNumber" parent="GeneralLedgerPendingEntry-documentNumber-parentBean" />

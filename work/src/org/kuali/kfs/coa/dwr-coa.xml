@@ -61,7 +61,7 @@
 	    	<param name="beanName" value="objectTypeService" />
 	    	<include method="getByPrimaryKey" />
 	    </create>
-	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.SubObjCd">
+	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.SubObjectCode">
 	   		<param name="include" value="universityFiscalYear,chartOfAccountCode,accountNumber,financialObjectCode,financialSubObjectCode,financialSubObjectCodeName,financialSubObjectCdshortNm,active" />
 	   	</convert>
 	    <create creator="spring" javascript="SubObjectCodeService">

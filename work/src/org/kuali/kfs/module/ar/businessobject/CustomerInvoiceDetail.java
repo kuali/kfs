@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
@@ -44,7 +44,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private String invoiceItemUnitOfMeasureCode;
     private UnitOfMeasure unitOfMeasure;
     
-    private SubObjCd accountsReceivableSubObject;
+    private SubObjectCode accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
     
     private CustomerInvoiceDocument customerInvoiceDocument;
@@ -360,7 +360,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return Returns the accountsReceivableSubObject
      * 
      */
-    public SubObjCd getAccountsReceivableSubObject() {
+    public SubObjectCode getAccountsReceivableSubObject() {
         return accountsReceivableSubObject;
     }
 
@@ -370,7 +370,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @param accountsReceivableSubObject The accountsReceivableSubObject to set.
      * @deprecated
      */
-    public void setAccountsReceivableSubObject(SubObjCd accountsReceivableSubObject) {
+    public void setAccountsReceivableSubObject(SubObjectCode accountsReceivableSubObject) {
         this.accountsReceivableSubObject = accountsReceivableSubObject;
     }
 

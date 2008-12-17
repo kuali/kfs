@@ -4,17 +4,17 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubObjCdGlobalDetail" parent="SubObjCdGlobalDetail-parentBean" />
+  <bean id="SubObjectCodeGlobalDetail" parent="SubObjectCodeGlobalDetail-parentBean" />
 
-  <bean id="SubObjCdGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail" />
+  <bean id="SubObjectCodeGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail" />
     <property name="objectLabel" value="Object Code Change Detail" />
     <property name="attributes" >
       <list>
-        <ref bean="SubObjCdGlobalDetail-universityFiscalYear" />
-        <ref bean="SubObjCdGlobalDetail-chartOfAccountsCode" />
-        <ref bean="SubObjCdGlobalDetail-financialObjectCode" />
-        <ref bean="SubObjCdGlobalDetail-newCollectionRecord" />
+        <ref bean="SubObjectCodeGlobalDetail-universityFiscalYear" />
+        <ref bean="SubObjectCodeGlobalDetail-chartOfAccountsCode" />
+        <ref bean="SubObjectCodeGlobalDetail-financialObjectCode" />
+        <ref bean="SubObjectCodeGlobalDetail-newCollectionRecord" />
       </list>
     </property>
   </bean>
@@ -22,18 +22,18 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SubObjCdGlobalDetail-universityFiscalYear" parent="SubObjCdGlobalDetail-universityFiscalYear-parentBean" />
+  <bean id="SubObjectCodeGlobalDetail-universityFiscalYear" parent="SubObjectCodeGlobalDetail-universityFiscalYear-parentBean" />
 
-  <bean id="SubObjCdGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+  <bean id="SubObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
     <property name="required" value="false" />
   </bean>
-  <bean id="SubObjCdGlobalDetail-chartOfAccountsCode" parent="SubObjCdGlobalDetail-chartOfAccountsCode-parentBean" />
+  <bean id="SubObjectCodeGlobalDetail-chartOfAccountsCode" parent="SubObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" />
 
-  <bean id="SubObjCdGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="SubObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="required" value="false" />
     <property name="forceUppercase" value="true" />
     <property name="control" >
@@ -42,9 +42,9 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="SubObjCdGlobalDetail-financialObjectCode" parent="SubObjCdGlobalDetail-financialObjectCode-parentBean" />
+  <bean id="SubObjectCodeGlobalDetail-financialObjectCode" parent="SubObjectCodeGlobalDetail-financialObjectCode-parentBean" />
 
-  <bean id="SubObjCdGlobalDetail-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCodeGlobalDetail-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Object Code" />
@@ -59,8 +59,8 @@
             p:size="4" />
     </property>
   </bean>
-  <bean id="SubObjCdGlobalDetail-newCollectionRecord" parent="SubObjCdGlobalDetail-newCollectionRecord-parentBean" />
+  <bean id="SubObjectCodeGlobalDetail-newCollectionRecord" parent="SubObjectCodeGlobalDetail-newCollectionRecord-parentBean" />
 
-  <bean id="SubObjCdGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  <bean id="SubObjectCodeGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 </beans>

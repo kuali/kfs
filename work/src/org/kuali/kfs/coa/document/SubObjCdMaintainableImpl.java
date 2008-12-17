@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.document;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
@@ -82,7 +82,7 @@ public class SubObjCdMaintainableImpl extends KualiMaintainableImpl implements G
      * @return an OrgReviewRoutingData object populated with the account information that this maintenance document should route to
      */
     protected RoutingAccount gatherAccountToReview() {
-        final SubObjCd subObjectCode = (SubObjCd)getBusinessObject();
+        final SubObjectCode subObjectCode = (SubObjectCode)getBusinessObject();
         return new RoutingAccount(subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber());
     }
     
@@ -105,7 +105,7 @@ public class SubObjCdMaintainableImpl extends KualiMaintainableImpl implements G
      * @return an OrgReviewRoutingData object populated with the organization information that this maintenance document should route to
      */
     protected OrgReviewRoutingData gatherOrgToReview() {
-        final SubObjCd subObjectCode = (SubObjCd)getBusinessObject();
+        final SubObjectCode subObjectCode = (SubObjectCode)getBusinessObject();
         subObjectCode.refreshReferenceObject("account");
         return new OrgReviewRoutingData(subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccount().getOrganizationCode());
     }

@@ -227,7 +227,7 @@
   </bean>
   <bean id="LedgerBalance-financialSubObjectCode" parent="LedgerBalance-financialSubObjectCode-parentBean" />
 
-  <bean id="LedgerBalance-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="LedgerBalance-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>

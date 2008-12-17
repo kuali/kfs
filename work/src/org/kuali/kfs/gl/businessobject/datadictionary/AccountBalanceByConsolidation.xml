@@ -68,7 +68,7 @@
   </bean>
   <bean id="AccountBalanceByConsolidation-subObjectCode" parent="AccountBalanceByConsolidation-subObjectCode-parentBean" />
 
-  <bean id="AccountBalanceByConsolidation-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="AccountBalanceByConsolidation-subObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="subObjectCode" />
   </bean>
   <bean id="AccountBalanceByConsolidation-currentBudgetLineBalanceAmount" parent="AccountBalanceByConsolidation-currentBudgetLineBalanceAmount-parentBean" />

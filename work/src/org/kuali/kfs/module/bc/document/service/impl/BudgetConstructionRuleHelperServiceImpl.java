@@ -20,7 +20,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -149,7 +149,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             return true;
         }
         
-        SubObjCd subObject = appointmentFunding.getFinancialSubObject();
+        SubObjectCode subObject = appointmentFunding.getFinancialSubObject();
 
         return this.isValidSubObjectCode(subObject, subObjectCode, errorMap, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
     }
@@ -341,19 +341,19 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidSubObjectCode(SubObjCd subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName) {
 //        if (KFSConstants.getDashFinancialSubObjectCode().equals(currentValue)) {
 //            return true;
 //        }
 
         if (ObjectUtils.isNull(subObjectCode)) {
-            String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
+            String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjectCode.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
             return false;
         }
 
         if (!subObjectCode.isActive()) {
-            String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
+            String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjectCode.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
             return false;
         }

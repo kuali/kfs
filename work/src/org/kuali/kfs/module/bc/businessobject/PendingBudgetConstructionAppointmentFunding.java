@@ -29,7 +29,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -74,7 +74,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private BudgetConstructionPosition budgetConstructionPosition;
     private BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
@@ -628,7 +628,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -638,7 +638,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

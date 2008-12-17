@@ -50,7 +50,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
@@ -471,14 +471,14 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
              * return criteriaID; } };
              */
             public void copyMethod(Integer baseYear, boolean replaceMode) {
-                MakersMethods<SubObjCd> makersMethod = new MakersMethods<SubObjCd>();
-                makersMethod.makeMethod(SubObjCd.class, baseYear, replaceMode);
+                MakersMethods<SubObjectCode> makersMethod = new MakersMethods<SubObjectCode>();
+                makersMethod.makeMethod(SubObjectCode.class, baseYear, replaceMode);
                 /*
                  * not for phase II replaceMode, filterSubObjectCode);
                  */
             }
         };
-        addCopyAction(SubObjCd.class, copyActionSubObjCd);
+        addCopyAction(SubObjectCode.class, copyActionSubObjCd);
 
         /***************************************************************************************************************************
          * SystemInformation *
@@ -2343,11 +2343,11 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             LOG.warn(String.format("\nObjectCode key in parents? %b", objCodeChk.childRowSatisfiesRI(rowReturned)));
         }
         // now we're going to do the sub object code
-        ParentKeyChecker<SubObjCd> subObjCdChk = new ParentKeyChecker<SubObjCd>(SubObjCd.class, requestYear);
-        queryID = new QueryByCriteria(SubObjCd.class, yearCriteria);
-        Iterator<SubObjCd> subObjsReturned = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        ParentKeyChecker<SubObjectCode> subObjCdChk = new ParentKeyChecker<SubObjectCode>(SubObjectCode.class, requestYear);
+        queryID = new QueryByCriteria(SubObjectCode.class, yearCriteria);
+        Iterator<SubObjectCode> subObjsReturned = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (subObjsReturned.hasNext()) {
-            SubObjCd rowReturned = subObjsReturned.next();
+            SubObjectCode rowReturned = subObjsReturned.next();
             PropertyUtils.setSimpleProperty(rowReturned, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear);
             LOG.warn(String.format("\nsub object code key in parents? %b", subObjCdChk.childRowSatisfiesRI(rowReturned)));
         }

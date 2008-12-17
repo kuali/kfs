@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 
 
 /**
@@ -33,5 +33,5 @@ public interface SubObjectCodeDao {
      * @param financialSubObjectCode - part of composite key
      * @return a {@link SubObjectCode} based on primary keys
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
+    public SubObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 }

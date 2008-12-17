@@ -121,7 +121,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-financialSubObjectCode" parent="LaborLedgerPendingEntry-financialSubObjectCode-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="LaborLedgerPendingEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="LaborLedgerPendingEntry-financialSystemOriginationCode" parent="LaborLedgerPendingEntry-financialSystemOriginationCode-parentBean" />
 

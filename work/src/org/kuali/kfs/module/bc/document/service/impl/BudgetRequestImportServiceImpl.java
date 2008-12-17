@@ -28,7 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -227,7 +227,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 retrievedHeaders.put(accountKey, budgetConstructionHeader);
             }
             
-            SubObjCd subObjectCode = getSubObjectCode(record, budgetYear);
+            SubObjectCode subObjectCode = getSubObjectCode(record, budgetYear);
             String code = record.getFinancialObjectTypeCode();
             LaborLedgerObject laborObject = this.laborModuleService.retrieveLaborLedgerObject(budgetYear, record.getChartOfAccountsCode(), record.getFinancialObjectCode());
             ObjectCode objectCode = getObjectCode(record, budgetYear);
@@ -591,7 +591,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return null;
     }
 
-    private SubObjCd getSubObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
+    private SubObjectCode getSubObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
@@ -600,7 +600,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, record.getAccountNumber());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, record.getFinancialSubObjectCode());
 
-        List<SubObjCd> objectList = new ArrayList<SubObjCd> (this.businessObjectService.findMatching(SubObjCd.class, searchCriteria));
+        List<SubObjectCode> objectList = new ArrayList<SubObjectCode> (this.businessObjectService.findMatching(SubObjectCode.class, searchCriteria));
 
         if (objectList.size() == 1)
             return objectList.get(0);

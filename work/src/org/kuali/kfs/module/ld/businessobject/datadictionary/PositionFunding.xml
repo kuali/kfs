@@ -88,7 +88,7 @@
   </bean>
   <bean id="PositionFunding-financialSubObjectCode" parent="PositionFunding-financialSubObjectCode-parentBean" />
 
-  <bean id="PositionFunding-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="PositionFunding-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
   <bean id="PositionFunding-csfCreateTimestamp" parent="PositionFunding-csfCreateTimestamp-parentBean" />
 

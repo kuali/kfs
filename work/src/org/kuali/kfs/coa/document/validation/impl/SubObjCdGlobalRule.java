@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
-import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
-import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
+import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal;
+import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This class implements the business rules specific to the {@link SubObjCdGlobal} Maintenance Document.
  */
 public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
-    private SubObjCdGlobal subObjCdGlobal;
+    private SubObjectCodeGlobal subObjCdGlobal;
 
     /**
      * This method sets the convenience objects like subObjCdGlobal and all the detail objects, so you have short and easy handles to the new and
@@ -48,10 +48,10 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
 
         // setup subObjCdGlobal convenience objects,
         // make sure all possible sub-objects are populated
-        subObjCdGlobal = (SubObjCdGlobal) super.getNewBo();
+        subObjCdGlobal = (SubObjectCodeGlobal) super.getNewBo();
 
         // forces refreshes on all the sub-objects in the lists
-        for (SubObjCdGlobalDetail objectCodeGlobalDetail : subObjCdGlobal.getSubObjCdGlobalDetails()) {
+        for (SubObjectCodeGlobalDetail objectCodeGlobalDetail : subObjCdGlobal.getSubObjCdGlobalDetails()) {
             objectCodeGlobalDetail.refreshNonUpdateableReferences();
         }
         for (AccountGlobalDetail accountGlobalDetail : subObjCdGlobal.getAccountGlobalDetails()) {
@@ -140,8 +140,8 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
             }
             success &= checkAccountDetails(detail);
         }
-        else if (bo instanceof SubObjCdGlobalDetail) {
-            SubObjCdGlobalDetail detail = (SubObjCdGlobalDetail) bo;
+        else if (bo instanceof SubObjectCodeGlobalDetail) {
+            SubObjectCodeGlobalDetail detail = (SubObjectCodeGlobalDetail) bo;
             if (!checkEmptyValue(detail.getChartOfAccountsCode())) {
                 // put an error about accountnumber
                 GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
@@ -221,7 +221,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * @param dtl - the SubObjCdGlobalDetail we are checking
      * @return false if any of the fields are found to be invalid
      */
-    public boolean checkSubObjectCodeDetails(SubObjCdGlobalDetail dtl) {
+    public boolean checkSubObjectCodeDetails(SubObjectCodeGlobalDetail dtl) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
@@ -271,7 +271,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * @param subObjCdGlobalDetails
      * @return false if the list is null or empty
      */
-    protected boolean checkForSubObjCdGlobalDetails(List<SubObjCdGlobalDetail> subObjCdGlobalDetails) {
+    protected boolean checkForSubObjCdGlobalDetails(List<SubObjectCodeGlobalDetail> subObjCdGlobalDetails) {
         if (subObjCdGlobalDetails == null || subObjCdGlobalDetails.size() == 0) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.SUB_OBJ_CODE_CHANGE_DETAILS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_NO_OBJECT_CODE);
             return false;
@@ -299,10 +299,10 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * @param socChangeDocument
      * @return false if the fiscal year is not the same on the doc and any of the SubObjCdGlobalDetails
      */
-    protected boolean checkFiscalYearAllLines(SubObjCdGlobal socChangeDocument) {
+    protected boolean checkFiscalYearAllLines(SubObjectCodeGlobal socChangeDocument) {
         boolean success = true;
         int i = 0;
-        for (SubObjCdGlobalDetail subObjCdGlobal : socChangeDocument.getSubObjCdGlobalDetails()) {
+        for (SubObjectCodeGlobalDetail subObjCdGlobal : socChangeDocument.getSubObjCdGlobalDetails()) {
 
             // check fiscal year first
             success &= checkFiscalYear(socChangeDocument, subObjCdGlobal, i, false);
@@ -320,10 +320,10 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * @param socChangeDocument
      * @return false if the chart is missing or not the same on the doc, or the detail lists
      */
-    protected boolean checkChartAllLines(SubObjCdGlobal socChangeDocument) {
+    protected boolean checkChartAllLines(SubObjectCodeGlobal socChangeDocument) {
         boolean success = true;
         int i = 0;
-        for (SubObjCdGlobalDetail subObjCdGlobal : socChangeDocument.getSubObjCdGlobalDetails()) {
+        for (SubObjectCodeGlobalDetail subObjCdGlobal : socChangeDocument.getSubObjCdGlobalDetails()) {
 
             // check chart
             success &= checkChartOnSubObjCodeDetails(socChangeDocument, subObjCdGlobal, i, false);
@@ -351,7 +351,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * @param socChangeDocument
      * @return false if the fiscal year is missing or is not the same between the doc and the detail
      */
-    protected boolean checkFiscalYear(SubObjCdGlobal socChangeDocument, SubObjCdGlobalDetail socChangeDetail, int lineNum, boolean add) {
+    protected boolean checkFiscalYear(SubObjectCodeGlobal socChangeDocument, SubObjectCodeGlobalDetail socChangeDetail, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
         // first must have an actual fiscal year
@@ -395,7 +395,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * @param add
      * @return false if the chart is missing or is not the same between the doc and the detail
      */
-    protected boolean checkChartOnSubObjCodeDetails(SubObjCdGlobal socChangeDocument, SubObjCdGlobalDetail socChangeDetail, int lineNum, boolean add) {
+    protected boolean checkChartOnSubObjCodeDetails(SubObjectCodeGlobal socChangeDocument, SubObjectCodeGlobalDetail socChangeDetail, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
         // first must have an actual fiscal year
@@ -439,7 +439,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * @param add
      * @return false if the chart is missing or is not the same between the doc and the detail
      */
-    protected boolean checkChartOnAccountDetails(SubObjCdGlobal socChangeDocument, AccountGlobalDetail acctDetail, int lineNum, boolean add) {
+    protected boolean checkChartOnAccountDetails(SubObjectCodeGlobal socChangeDocument, AccountGlobalDetail acctDetail, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
         // first must have an actual fiscal year

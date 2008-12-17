@@ -4,28 +4,28 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubObjCdCurrent" parent="SubObjCdCurrent-parentBean" />
+  <bean id="SubObjectCode" parent="SubObjectCode-parentBean" />
 
-  <bean id="SubObjCdCurrent-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCdCurrent" />
+  <bean id="SubObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCode" />
     <property name="inquiryDefinition" >
-      <ref bean="SubObjCdCurrent-inquiryDefinition" />
+      <ref bean="SubObjectCode-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="SubObjCdCurrent-lookupDefinition" />
+      <ref bean="SubObjectCode-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="financialSubObjectCode" />
-    <property name="objectLabel" value="Sub-Object Code Current" />
+    <property name="objectLabel" value="Sub-Object Code" />
     <property name="attributes" >
       <list>
-        <ref bean="SubObjCdCurrent-universityFiscalYear" />
-        <ref bean="SubObjCdCurrent-chartOfAccountsCode" />
-        <ref bean="SubObjCdCurrent-financialObjectCode" />
-        <ref bean="SubObjCdCurrent-accountNumber" />
-        <ref bean="SubObjCdCurrent-financialSubObjectCode" />
-        <ref bean="SubObjCdCurrent-financialSubObjectCodeName" />
-        <ref bean="SubObjCdCurrent-financialSubObjectCdshortNm" />
-        <ref bean="SubObjCdCurrent-active" />
+        <ref bean="SubObjectCode-universityFiscalYear" />
+        <ref bean="SubObjectCode-chartOfAccountsCode" />
+        <ref bean="SubObjectCode-financialObjectCode" />
+        <ref bean="SubObjectCode-accountNumber" />
+        <ref bean="SubObjectCode-financialSubObjectCode" />
+        <ref bean="SubObjectCode-financialSubObjectCodeName" />
+        <ref bean="SubObjectCode-financialSubObjectCdshortNm" />
+        <ref bean="SubObjectCode-active" />
       </list>
     </property>
   </bean>
@@ -33,36 +33,31 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SubObjCdCurrent-universityFiscalYear" parent="SubObjCdCurrent-universityFiscalYear-parentBean" />
+  <bean id="SubObjectCode-universityFiscalYear" parent="SubObjectCode-universityFiscalYear-parentBean" />
 
-  <bean id="SubObjCdCurrent-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+  <bean id="SubObjectCode-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
     <property name="forceUppercase" value="true" />
   </bean>
-  <bean id="SubObjCdCurrent-chartOfAccountsCode" parent="SubObjCdCurrent-chartOfAccountsCode-parentBean" />
+  <bean id="SubObjectCode-chartOfAccountsCode" parent="SubObjectCode-chartOfAccountsCode-parentBean" />
 
-  <bean id="SubObjCdCurrent-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="forceUppercase" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-  <bean id="SubObjCdCurrent-financialObjectCode" parent="SubObjCdCurrent-financialObjectCode-parentBean" />
-
-  <bean id="SubObjCdCurrent-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  <bean id="SubObjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   	<property name="forceUppercase" value="true" />
   </bean>
-  <bean id="SubObjCdCurrent-accountNumber" parent="SubObjCdCurrent-accountNumber-parentBean" />
+  <bean id="SubObjectCode-financialObjectCode" parent="SubObjectCode-financialObjectCode-parentBean" />
 
-  <bean id="SubObjCdCurrent-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  <bean id="SubObjectCode-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   	<property name="forceUppercase" value="true" />
   </bean>
-  <bean id="SubObjCdCurrent-financialSubObjectCode" parent="SubObjCdCurrent-financialSubObjectCode-parentBean" />
+  <bean id="SubObjectCode-accountNumber" parent="SubObjectCode-accountNumber-parentBean" />
 
-  <bean id="SubObjCdCurrent-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCode-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
+  </bean>
+  <bean id="SubObjectCode-financialSubObjectCode" parent="SubObjectCode-financialSubObjectCode-parentBean" />
+
+  <bean id="SubObjectCode-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code" />
@@ -78,9 +73,9 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="SubObjCdCurrent-financialSubObjectCodeName" parent="SubObjCdCurrent-financialSubObjectCodeName-parentBean" />
+  <bean id="SubObjectCode-financialSubObjectCodeName" parent="SubObjectCode-financialSubObjectCodeName-parentBean" />
 
-  <bean id="SubObjCdCurrent-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCode-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCodeName" />
     <property name="label" value="Sub-Object Code Name" />
     <property name="shortLabel" value="SubObjCodeName" />
@@ -95,9 +90,9 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="SubObjCdCurrent-financialSubObjectCdshortNm" parent="SubObjCdCurrent-financialSubObjectCdshortNm-parentBean" />
+  <bean id="SubObjectCode-financialSubObjectCdshortNm" parent="SubObjectCode-financialSubObjectCdshortNm-parentBean" />
 
-  <bean id="SubObjCdCurrent-financialSubObjectCdshortNm-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCode-financialSubObjectCdshortNm-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCdshortNm" />
     <property name="label" value="Sub-Object Code Short Name" />
     <property name="shortLabel" value="SubObjCodeShortName" />
@@ -112,18 +107,18 @@
             p:size="12" />
     </property>
   </bean>
-  <bean id="SubObjCdCurrent-active" parent="SubObjCdCurrent-active-parentBean" />
+  <bean id="SubObjectCode-active" parent="SubObjectCode-active-parentBean" />
 
-  <bean id="SubObjCdCurrent-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="SubObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="SubObjCdCurrent-inquiryDefinition" parent="SubObjCdCurrent-inquiryDefinition-parentBean" />
+  <bean id="SubObjectCode-inquiryDefinition" parent="SubObjectCode-inquiryDefinition-parentBean" />
 
-  <bean id="SubObjCdCurrent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="SubObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Sub-Object Code Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -158,10 +153,11 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="SubObjCdCurrent-lookupDefinition" parent="SubObjCdCurrent-lookupDefinition-parentBean" />
+  <bean id="SubObjectCode-lookupDefinition" parent="SubObjectCode-lookupDefinition-parentBean" />
 
-  <bean id="SubObjCdCurrent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="SubObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Sub-Object Code Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal&quot;&gt;&lt;img src=&quot;${kr.externalizable.images.url}tinybutton-createnewglobal.gif&quot; alt=&quot;create new global&quot; width=&quot;98&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;" />
     <property name="instructions" value="Lookup a Sub-Object Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

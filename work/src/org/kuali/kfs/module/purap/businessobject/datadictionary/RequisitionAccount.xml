@@ -218,7 +218,7 @@
   </bean>
   <bean id="RequisitionAccount-financialSubObjectCode" parent="RequisitionAccount-financialSubObjectCode-parentBean" />
 
-  <bean id="RequisitionAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="RequisitionAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="required" value="false" />
   </bean>
   <bean id="RequisitionAccount-documentNumber" parent="RequisitionAccount-documentNumber-parentBean" />

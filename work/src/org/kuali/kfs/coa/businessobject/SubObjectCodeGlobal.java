@@ -37,9 +37,9 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * 
  */
-public class SubObjCdGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject, Inactivateable {
+public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject, Inactivateable {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjCdGlobal.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjectCodeGlobal.class);
 
     private String documentNumber;
     private Integer universityFiscalYear;
@@ -53,16 +53,16 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     private Options universityFiscal;
     private Chart chartOfAccounts;
 
-    private List<SubObjCdGlobalDetail> subObjCdGlobalDetails;
+    private List<SubObjectCodeGlobalDetail> subObjCdGlobalDetails;
     private List<AccountGlobalDetail> accountGlobalDetails;
 
     /**
      * Default constructor.
      */
-    public SubObjCdGlobal() {
+    public SubObjectCodeGlobal() {
 
 
-        subObjCdGlobalDetails = new TypedArrayList(SubObjCdGlobalDetail.class);
+        subObjCdGlobalDetails = new TypedArrayList(SubObjectCodeGlobalDetail.class);
         accountGlobalDetails = new TypedArrayList(AccountGlobalDetail.class);
 
     }
@@ -267,11 +267,11 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
         return m;
     }
 
-    public List<SubObjCdGlobalDetail> getSubObjCdGlobalDetails() {
+    public List<SubObjectCodeGlobalDetail> getSubObjCdGlobalDetails() {
         return subObjCdGlobalDetails;
     }
 
-    public void setSubObjCdGlobalDetails(List<SubObjCdGlobalDetail> subObjCdGlobalDetails) {
+    public void setSubObjCdGlobalDetails(List<SubObjectCodeGlobalDetail> subObjCdGlobalDetails) {
         this.subObjCdGlobalDetails = subObjCdGlobalDetails;
     }
 
@@ -301,7 +301,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
 
         // Iterate through Account/Object Code combinations; create new or update as necessary
 
-        for (SubObjCdGlobalDetail subObjCdGlobalDetail : subObjCdGlobalDetails) {
+        for (SubObjectCodeGlobalDetail subObjCdGlobalDetail : subObjCdGlobalDetails) {
 
             String financialObjectCode = subObjCdGlobalDetail.getFinancialObjectCode();
 
@@ -320,9 +320,9 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
                         pk.put("FIN_OBJECT_CD", financialObjectCode);
                         pk.put("FIN_SUB_OBJ_CD", this.financialSubObjectCode);
 
-                        SubObjCd subObjCd = (SubObjCd) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjCd.class, pk);
+                        SubObjectCode subObjCd = (SubObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjectCode.class, pk);
                         if (subObjCd == null) {
-                            subObjCd = new SubObjCd(this.universityFiscalYear, this.chartOfAccountsCode, accountNumber, financialObjectCode, this.financialSubObjectCode);
+                            subObjCd = new SubObjectCode(this.universityFiscalYear, this.chartOfAccountsCode, accountNumber, financialObjectCode, this.financialSubObjectCode);
                         }
                         populate(subObjCd, accountGlobalDetail, subObjCdGlobalDetail);
                         result.add(subObjCd);
@@ -334,7 +334,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
         return result;
     }
 
-    public void populate(SubObjCd old, AccountGlobalDetail accountGlobalDetail, SubObjCdGlobalDetail subObjCdGlobalDetail) {
+    public void populate(SubObjectCode old, AccountGlobalDetail accountGlobalDetail, SubObjectCodeGlobalDetail subObjCdGlobalDetail) {
         old.setFinancialSubObjectCodeName(update(old.getFinancialSubObjectCodeName(), financialSubObjectCodeName));
         old.setFinancialSubObjectCdshortNm(update(old.getFinancialSubObjectCdshortNm(), financialSubObjectCodeShortName));
         old.setActive(update(old.isActive(), active));

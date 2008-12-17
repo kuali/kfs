@@ -257,7 +257,7 @@
   </bean>
   
   <bean id="AssetPaymentDetail-financialSubObjectCode" parent="AssetPaymentDetail-financialSubObjectCode-parentBean" />
-  <bean id="AssetPaymentDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="AssetPaymentDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="label" value="Sub-Object" />    
   </bean>

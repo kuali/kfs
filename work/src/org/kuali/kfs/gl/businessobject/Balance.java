@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
@@ -70,7 +70,7 @@ public class Balance extends PersistableBusinessObjectBase {
     private Account account;
     private PriorYearAccount priorYearAccount;
     private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
+    private SubObjectCode financialSubObject;
     private SubAccount subAccount;
     private BalanceTyp balanceType;
     private ObjectType objectType;
@@ -713,7 +713,7 @@ public class Balance extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialSubObject.
      */
-    public SubObjCd getFinancialSubObject() {
+    public SubObjectCode getFinancialSubObject() {
         return financialSubObject;
     }
 
@@ -722,7 +722,7 @@ public class Balance extends PersistableBusinessObjectBase {
      * 
      * @param financialSubObject The financialSubObject to set.
      */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
 

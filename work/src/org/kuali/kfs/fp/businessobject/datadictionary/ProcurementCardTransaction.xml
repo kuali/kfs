@@ -138,7 +138,7 @@
   </bean>
   <bean id="ProcurementCardTransaction-financialSubObjectCode" parent="ProcurementCardTransaction-financialSubObjectCode-parentBean" />
 
-  <bean id="ProcurementCardTransaction-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <bean id="ProcurementCardTransaction-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="required" value="false" />
   </bean>
   <bean id="ProcurementCardTransaction-projectCode" parent="ProcurementCardTransaction-projectCode-parentBean" />

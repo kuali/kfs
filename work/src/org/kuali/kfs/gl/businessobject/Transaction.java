@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -103,7 +103,7 @@ public interface Transaction {
 
     public SubAccount getSubAccount();
 
-    public SubObjCd getFinancialSubObject();
+    public SubObjectCode getFinancialSubObject();
 
     public DocumentType getDocumentType();
 }

@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -58,21 +58,21 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
     protected DocumentHeaderService documentHeaderService;
     
     public List<MaintenanceLock> generateTrickleDownMaintenanceLocks(Account inactivatedAccount, String documentNumber) {
-        Collection<SubObjCd> subObjects = getAssociatedSubObjects(inactivatedAccount);
+        Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedAccount);
         List<MaintenanceLock> maintenanceLocks = generateTrickleDownMaintenanceLocks(subObjects, documentNumber);
         return maintenanceLocks;
     }
 
     public List<MaintenanceLock> generateTrickleDownMaintenanceLocks(ObjectCode inactivatedObjectCode, String documentNumber) {
-        Collection<SubObjCd> subObjects = getAssociatedSubObjects(inactivatedObjectCode);
+        Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedObjectCode);
         List<MaintenanceLock> maintenanceLocks = generateTrickleDownMaintenanceLocks(subObjects, documentNumber);
         return maintenanceLocks;
     }
 
-    public List<MaintenanceLock> generateTrickleDownMaintenanceLocks(Collection<SubObjCd> subObjects, String documentNumber) {
+    public List<MaintenanceLock> generateTrickleDownMaintenanceLocks(Collection<SubObjectCode> subObjects, String documentNumber) {
         Maintainable subObjectMaintainable = getSubObjectMaintainable(documentNumber);
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-        for (SubObjCd subObjCd : subObjects) {
+        for (SubObjectCode subObjCd : subObjects) {
             subObjectMaintainable.setBusinessObject(subObjCd);
             maintenanceLocks.addAll(subObjectMaintainable.generateMaintenanceLocks());
         }
@@ -80,36 +80,36 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
     }
     
     protected class TrickleDownInactivationStatus {
-        public List<SubObjCd> inactivatedSubObjCds;
-        public Map<SubObjCd, String> alreadyLockedSubObjCds;
-        public List<SubObjCd> errorPersistingSubObjCds;
+        public List<SubObjectCode> inactivatedSubObjCds;
+        public Map<SubObjectCode, String> alreadyLockedSubObjCds;
+        public List<SubObjectCode> errorPersistingSubObjCds;
         
         public TrickleDownInactivationStatus() {
-            inactivatedSubObjCds = new ArrayList<SubObjCd>();
-            alreadyLockedSubObjCds = new HashMap<SubObjCd, String>();
-            errorPersistingSubObjCds = new ArrayList<SubObjCd>();
+            inactivatedSubObjCds = new ArrayList<SubObjectCode>();
+            alreadyLockedSubObjCds = new HashMap<SubObjectCode, String>();
+            errorPersistingSubObjCds = new ArrayList<SubObjectCode>();
         }
     }
     
     public void trickleDownInactivateSubObjects(Account inactivatedAccount, String documentNumber) {
-        Collection<SubObjCd> subObjects = getAssociatedSubObjects(inactivatedAccount);
+        Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedAccount);
         TrickleDownInactivationStatus trickleDownInactivationStatus = trickleDownInactivate(subObjects, documentNumber);
         addNotesToDocument(trickleDownInactivationStatus, documentNumber);
     }
 
     public void trickleDownInactivateSubObjects(ObjectCode inactivatedObject, String documentNumber) {
-        Collection<SubObjCd> subObjects = getAssociatedSubObjects(inactivatedObject);
+        Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedObject);
         TrickleDownInactivationStatus trickleDownInactivationStatus = trickleDownInactivate(subObjects, documentNumber);
         addNotesToDocument(trickleDownInactivationStatus, documentNumber);
     }
 
-    protected TrickleDownInactivationStatus trickleDownInactivate(Collection<SubObjCd> subObjects, String documentNumber) {
+    protected TrickleDownInactivationStatus trickleDownInactivate(Collection<SubObjectCode> subObjects, String documentNumber) {
         TrickleDownInactivationStatus trickleDownInactivationStatus = new TrickleDownInactivationStatus();
         
         if (subObjects != null && !subObjects.isEmpty()) {
             Maintainable subObjectMaintainable = getSubObjectMaintainable(documentNumber);
-            for (Iterator<SubObjCd> i = subObjects.iterator(); i.hasNext(); ) {
-                SubObjCd subObjCd = i.next();
+            for (Iterator<SubObjectCode> i = subObjects.iterator(); i.hasNext(); ) {
+                SubObjectCode subObjCd = i.next();
                 if (subObjCd.isActive()) {
                     subObjectMaintainable.setBusinessObject(subObjCd);
                     List<MaintenanceLock> subAccountLocks = subObjectMaintainable.generateMaintenanceLocks();
@@ -165,8 +165,8 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
     protected Maintainable getSubObjectMaintainable(String documentNumber) {
         Maintainable subObjectMaintainable;
         try {
-            subObjectMaintainable = (Maintainable) maintenanceDocumentDictionaryService.getMaintainableClass(SubObjCd.class.getName()).newInstance();
-            subObjectMaintainable.setBoClass(SubObjCd.class);
+            subObjectMaintainable = (Maintainable) maintenanceDocumentDictionaryService.getMaintainableClass(SubObjectCode.class.getName()).newInstance();
+            subObjectMaintainable.setBoClass(SubObjectCode.class);
             subObjectMaintainable.setDocumentNumber(documentNumber);
         }
         catch (Exception e) {
@@ -176,23 +176,23 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         return subObjectMaintainable;
     }
     
-    protected Collection<SubObjCd> getAssociatedSubObjects(Account account) {
+    protected Collection<SubObjectCode> getAssociatedSubObjects(Account account) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
-        return businessObjectService.findMatching(SubObjCd.class, fieldValues);
+        return businessObjectService.findMatching(SubObjectCode.class, fieldValues);
     }
     
-    protected Collection<SubObjCd> getAssociatedSubObjects(ObjectCode objectCode) {
+    protected Collection<SubObjectCode> getAssociatedSubObjects(ObjectCode objectCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, objectCode.getUniversityFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
-        return businessObjectService.findMatching(SubObjCd.class, fieldValues);
+        return businessObjectService.findMatching(SubObjectCode.class, fieldValues);
     }
 
-    protected void addNotes(String documentNumber, List<SubObjCd> listOfSubObjects, String messageKey, PersistableBusinessObject noteParent, Note noteTemplate) {
+    protected void addNotes(String documentNumber, List<SubObjectCode> listOfSubObjects, String messageKey, PersistableBusinessObject noteParent, Note noteTemplate) {
         for (int i = 0; i < listOfSubObjects.size(); i += getNumSubObjectsPerNote()) {
             try {
                 String subAccountString = createSubObjectChunk(listOfSubObjects, i, i + getNumSubObjectsPerNote());
@@ -211,10 +211,10 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         }
     }
     
-    protected void addMaintenanceLockedNotes(String documentNumber, Map<SubObjCd, String> lockedSubObjects, String messageKey, PersistableBusinessObject noteParent, Note noteTemplate) {
-        for (Map.Entry<SubObjCd, String> entry : lockedSubObjects.entrySet()) {
+    protected void addMaintenanceLockedNotes(String documentNumber, Map<SubObjectCode, String> lockedSubObjects, String messageKey, PersistableBusinessObject noteParent, Note noteTemplate) {
+        for (Map.Entry<SubObjectCode, String> entry : lockedSubObjects.entrySet()) {
             try {
-                SubObjCd subObjCd = entry.getKey();
+                SubObjectCode subObjCd = entry.getKey();
                 String subObjectString = subObjCd.getUniversityFiscalYear() + " - " + subObjCd.getChartOfAccountsCode() + " - " + subObjCd.getAccountNumber() + " - " + subObjCd.getFinancialObjectCode() + " - " + subObjCd.getFinancialSubObjectCode();
                 if (StringUtils.isNotBlank(subObjectString)) {
                     String noteTextTemplate = kualiConfigurationService.getPropertyString(messageKey);
@@ -231,10 +231,10 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         }
     }
     
-    protected String createSubObjectChunk(List<SubObjCd> listOfSubObjects, int startIndex, int endIndex) {
+    protected String createSubObjectChunk(List<SubObjectCode> listOfSubObjects, int startIndex, int endIndex) {
         StringBuilder buf = new StringBuilder(); 
         for (int i = startIndex; i < endIndex && i < listOfSubObjects.size(); i++) {
-            SubObjCd subObjCd = listOfSubObjects.get(i);
+            SubObjectCode subObjCd = listOfSubObjects.get(i);
             buf.append(subObjCd.getUniversityFiscalYear()).append(" - ").append(subObjCd.getChartOfAccountsCode()).append(" - ")
                     .append(subObjCd.getAccountNumber()).append(" - ").append(subObjCd.getFinancialObjectCode())
                     .append(" - ").append(subObjCd.getFinancialSubObjectCode());

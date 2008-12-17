@@ -903,4 +903,22 @@
       <property name="retryAttempts" value="0" />
     </bean>
   	
+  	<!-- TODO : temporarily set up to resolve Empty DD entry from Rice DD -->
+  	<bean id="groupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.GroupLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+  	
+  	
+  	<bean id="kimPersonLookupable" class="org.kuali.rice.kim.lookup.PersonLookupableImpl" parent="kualiLookupable">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.PersonLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+  	
 </beans>

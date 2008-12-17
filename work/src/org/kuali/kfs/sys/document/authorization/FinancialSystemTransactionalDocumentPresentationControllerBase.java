@@ -20,6 +20,6 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentati
 /**
  * Base class for all FinancialSystemDocumentPresentationControllers.
  */
-public class FinancialSystemDocumentPresentationControllerBase extends TransactionalDocumentPresentationControllerBase {
+public class FinancialSystemTransactionalDocumentPresentationControllerBase extends TransactionalDocumentPresentationControllerBase {
 
 }

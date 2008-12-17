@@ -190,7 +190,7 @@ public class PaymentApplicationDocumentRuleUtil {
                 isValid = false;
                 errorMap.putError(
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
-                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
+                    ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_CANNOT_BE_ZERO);
             }
             //  check that we're not trying to apply more funds to the invoice than the invoice has balance (ie, over-applying)
             else if (KualiDecimal.ZERO.isGreaterThan(cashControlBalanceToBeApplied.subtract(nonArLineAmount))) {

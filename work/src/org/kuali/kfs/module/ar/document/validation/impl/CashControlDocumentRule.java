@@ -441,7 +441,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
                 GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-                GlobalVariables.getErrorMap().put(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
                 GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
                 GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 

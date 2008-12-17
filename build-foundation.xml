@@ -198,7 +198,7 @@ are intended for use only by Kuali Foundation developers.
     	<delete>
       		<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
     	</delete>
-    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.web.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**,${ksb.application}/**/**" excludes="**/CVS" />
+    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.web.directory}" excludes="*.*,META-INF/**/**,WEB-INF/jsp/**/**,**/CVS" />
 	</target>
   
 	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-licenses" />

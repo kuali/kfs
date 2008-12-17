@@ -147,7 +147,6 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(cashControlDocument.getDocumentNumber());
 
-
         // apply rules for the new cash control detail
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, cashControlDocument, newCashControlDetail));
 
@@ -156,7 +155,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
             CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
-            // add cash control detail
+            // add cash control detail. implicitly saves the cash control document
             cashControlDocumentService.addNewCashControlDetail(kualiConfiguration.getPropertyString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDocument, newCashControlDetail);
 
             // set a new blank cash control detail

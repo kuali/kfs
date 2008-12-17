@@ -631,11 +631,16 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         NonAppliedHolding nonAppliedHolding = applicationDocument.getNonAppliedHolding();
         if (PaymentApplicationDocumentRuleUtil.validateUnapplied(applicationDocument)) {
             if (ObjectUtils.isNotNull(nonAppliedHolding)) {
+                // Associate the non applied holding with the payment application document.
                 if (ObjectUtils.isNull(nonAppliedHolding.getReferenceFinancialDocumentNumber())) {
                     nonAppliedHolding.setReferenceFinancialDocumentNumber(applicationDocument.getDocumentNumber());
                 }
+                // Force the customer number to upper case to the foreign key constraint passes.
+                if(ObjectUtils.isNotNull(nonAppliedHolding.getCustomerNumber())) {
+                    nonAppliedHolding.setCustomerNumber(nonAppliedHolding.getCustomerNumber().toUpperCase());
+                }
+                businessObjectService.save(nonAppliedHolding);
             }
-            businessObjectService.save(nonAppliedHolding);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

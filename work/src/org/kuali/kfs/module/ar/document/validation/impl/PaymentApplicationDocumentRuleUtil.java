@@ -275,8 +275,8 @@ public class PaymentApplicationDocumentRuleUtil {
             GlobalVariables.getErrorMap().putError(propertyName, errorKey);
         }
         // The amount of the unapplied can't exceed the remaining balance to be applied 
-        KualiDecimal totalBalaceToBeApplied = applicationDocument.getBalanceToBeApplied();
-        isValid = totalBalaceToBeApplied.isGreaterEqual(totalUnapplied);
+        KualiDecimal totalBalanceToBeApplied = applicationDocument.getBalanceToBeApplied();
+        isValid = KualiDecimal.ZERO.isLessEqual(totalBalanceToBeApplied);
         if(!isValid) {
             String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
             String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED;

@@ -112,6 +112,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         cashControlDetail.setReferenceFinancialDocument(doc);
         cashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
         // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
+        
+        // Save the cash control document
+        documentService.saveDocument(cashControlDocument);
 
     }
 

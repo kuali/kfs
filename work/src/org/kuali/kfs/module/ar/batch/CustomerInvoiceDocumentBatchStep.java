@@ -17,15 +17,13 @@ package org.kuali.kfs.module.ar.batch;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.Lockbox;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
@@ -48,6 +46,8 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     BusinessObjectService businessObjectService;
     DocumentService documentService;
     DateTimeService dateTimeService;
+    Collection<String> createdInvoices = new ArrayList<String>();
+
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
 
@@ -79,7 +79,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             customernames = Arrays.asList(jobName);
         }
         else {
-            customernames = Arrays.asList("ABB2","3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272"); 
+            customernames = Arrays.asList("ABB2","3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
         }
 
         // create non-random data
@@ -87,12 +87,20 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
 
             billingDate = DateUtils.addDays(billingDate, -30);
 
-            createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $10 entries
-            createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(2), "1111111", "BA");  // $20 entries
-            createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 2, new KualiDecimal(5), new BigDecimal(3), "1111111", "BA");  // $30 entries
+            createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $10 entries
+            createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $20 entries
+            createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $30 entries
 
-            Thread.sleep(5000);
+            Thread.sleep(500);
 
+        }
+
+        // create lockboxes for the non-random invoices
+        int seqNbr = 2000;
+        for (String createdInvoice : createdInvoices){
+          createLockboxesForFunctionalTesting(createdInvoice, String.valueOf(seqNbr));
+          Thread.sleep(500);
+          seqNbr++;
         }
 
         // create random data
@@ -105,7 +113,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
                 billingDate = DateUtils.addDays(billingDate, -30);
                   
                 createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
-                Thread.sleep(5000);
+                Thread.sleep(500);
     
             }
         }
@@ -163,7 +171,29 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
        }
        return (pkMapForParameter);
     }
-    
+
+    public void createLockboxesForFunctionalTesting(String invoiceNumber, String seqNbr){
+        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceNumber);
+
+        Lockbox newLockbox = new Lockbox();
+
+        newLockbox.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+        newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+        newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+        newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber));
+        newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+        newLockbox.setCustomerPaymentMediumCode("CK");
+        newLockbox.setBankCode("1003");
+        newLockbox.setBatchSequenceNumber(8004);
+        newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+        newLockbox.setLockboxNumber("66248");
+
+        businessObjectService.save(newLockbox);
+        LOG.info("Created customer LOCKBOX for invoice " + invoiceNumber);
+  
+        
+    }
+
     public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         
@@ -225,6 +255,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
         try {
             documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
+            createdInvoices.add(customerInvoiceDocument.getDocumentNumber());
             LOG.info("Submitted customer invoice document " + customerInvoiceDocument.getDocumentNumber()+" for "+customerNumber+" - "+sdf.format(billingDate)+"\n\n");
         } catch (WorkflowException e){
             throw new RuntimeException("Customer Invoice Document routing failed.");

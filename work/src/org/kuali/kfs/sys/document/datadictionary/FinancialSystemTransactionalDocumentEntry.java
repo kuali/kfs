@@ -30,6 +30,7 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     private Map<String, AccountingLineGroupDefinition> accountingLineGroups;
     private Class<? extends AccountingLineParser> importedLineParserClass;
     private Integer maxDictionaryValidationDepth;
+    protected boolean allowsErrorCorrection = false;
 
     /**
      * Gets the validationMap attribute. 
@@ -95,4 +96,19 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
         this.maxDictionaryValidationDepth = maxDictionaryValidationDepth;
     }
     
+    /**
+        This field contains a value of true or false.
+        If true, then error correction is allowed for the document.
+     */
+    public void setAllowsErrorCorrection(boolean allowsErrorCorrection) {
+        this.allowsErrorCorrection = allowsErrorCorrection;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry#getAllowsErrorCorrection()
+     */
+    public boolean getAllowsErrorCorrection() {
+        return allowsErrorCorrection;
+    }
 }

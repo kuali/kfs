@@ -144,7 +144,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * Correctable. Furthermore, a document cannot be error corrected twice.
      */
     public boolean getAllowsErrorCorrection() {
-        boolean allowErrorCorrection = KNSServiceLocator.getTransactionalDocumentDictionaryService().getAllowsErrorCorrection(this).booleanValue() && this instanceof Correctable;
+        boolean allowErrorCorrection = ((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(getClass().getName())).getAllowsErrorCorrection() && this instanceof Correctable;
         allowErrorCorrection = allowErrorCorrection && getDocumentHeader().getCorrectedByDocumentId() == null;
 
         return allowErrorCorrection;

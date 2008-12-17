@@ -31,6 +31,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
@@ -109,7 +111,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
 
     public static void testConvertIntoErrorCorrection_documentAlreadyCorrected(AccountingDocument document, TransactionalDocumentDictionaryService dictionaryService) throws Exception {
 
-        if (dictionaryService.getAllowsErrorCorrection(document).booleanValue()) {
+        if (((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) {
             document.getDocumentHeader().setCorrectedByDocumentId("1");
 
             boolean failedAsExpected = false;
@@ -128,9 +130,9 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // change the dataDictionary to disallow errorCorrection
         DataDictionary d = dataDictionaryService.getDataDictionary();
         Class documentClass = document.getClass();
-        boolean originalValue = ((TransactionalDocumentEntry) d.getDocumentEntry(documentClass.getName())).getAllowsErrorCorrection();
+        boolean originalValue = ((FinancialSystemTransactionalDocumentEntry) d.getDocumentEntry(documentClass.getName())).getAllowsErrorCorrection();
         try {
-            ((TransactionalDocumentEntry) d.getDocumentEntry(documentClass.getName())).setAllowsErrorCorrection(false);
+            ((FinancialSystemTransactionalDocumentEntry) d.getDocumentEntry(documentClass.getName())).setAllowsErrorCorrection(false);
 
             boolean failedAsExpected = false;
             try {
@@ -143,12 +145,12 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             assertTrue(failedAsExpected);
         }
         finally {
-            ((TransactionalDocumentEntry) d.getDocumentEntry(documentClass.getName())).setAllowsErrorCorrection(originalValue);
+            ((FinancialSystemTransactionalDocumentEntry) d.getDocumentEntry(documentClass.getName())).setAllowsErrorCorrection(originalValue);
         }
     }
 
     public static void testConvertIntoErrorCorrection_invalidYear(AccountingDocument document, TransactionalDocumentDictionaryService dictionaryService, AccountingPeriodService accountingPeriodService) throws Exception {
-        if (dictionaryService.getAllowsErrorCorrection(document).booleanValue()) {
+        if (((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) {
             // change to non-current posting year
             Integer postingYear = document.getPostingYear();
             AccountingPeriod accountingPeriod = accountingPeriodService.getByPeriod(document.getAccountingPeriod().getUniversityFiscalPeriodCode(), postingYear - 5);
@@ -189,7 +191,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
      */
 
     public static void testConvertIntoErrorCorrection(AccountingDocument document, int expectedPrePECount, DocumentService documentService, TransactionalDocumentDictionaryService dictionaryService) throws Exception {
-        if (dictionaryService.getAllowsErrorCorrection(document).booleanValue()) {
+        if (((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) {
             String documentHeaderId = document.getDocumentNumber();
             LOG.debug("documentHeaderId = " + documentHeaderId);
             // route the original doc, wait for status change

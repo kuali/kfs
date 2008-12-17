@@ -27,10 +27,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.role.dto.KimDelegationMemberInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
-public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimDelegationTypeService {
 
     public AccountService accountService;
     protected List<String> requiredAttributes = new ArrayList<String>();
@@ -183,4 +185,24 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         this.accountService = accountService;
     }
     
+    public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier){
+        return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
+    }
+    
+    public List<KimDelegationMemberInfo> doDelegationQualifiersMatchQualification(
+            AttributeSet qualification, List<KimDelegationMemberInfo> delegationMemberList){
+        AttributeSet translatedQualification = translateInputAttributeSet(qualification);
+        List<KimDelegationMemberInfo> matchingMemberships = new ArrayList<KimDelegationMemberInfo>();
+        for ( KimDelegationMemberInfo dmi : delegationMemberList ) {
+            if ( performMatch( translatedQualification, dmi.getQualifier() ) ) {
+                matchingMemberships.add( dmi );
+            }
+        }
+        return matchingMemberships;
+    }
+
+    public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes){
+        return qualificationAttributes;
+    }
+
 }

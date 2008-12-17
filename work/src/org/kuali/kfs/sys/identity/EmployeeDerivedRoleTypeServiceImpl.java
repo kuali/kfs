@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.entity.EntityAffiliation;
 import org.kuali.rice.kim.bo.entity.EntityEmploymentInformation;
 import org.kuali.rice.kim.bo.entity.KimEntity;
+import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -58,8 +59,13 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         
         String principalId = qualification.get(KimConstants.KIM_ATTRIB_PRINCIPAL_ID);
-        KimEntity kimEntity = getIdentityManagementService().getEntityByPrincipalName(
-                getIdentityManagementService().getPrincipal(principalId).getPrincipalName());
+        KimPrincipal principal = getIdentityManagementService().getPrincipal(principalId);
+        if(principal==null)
+            throw new RuntimeException("Principal not found for principal Id: "+principalId);
+        KimEntity kimEntity = getIdentityManagementService().getEntityByPrincipalName(principal.getPrincipalName());
+        if(kimEntity==null)
+            throw new RuntimeException("Kim entity not found for principal Id: "+principalId);
+
         List<String> principalIds = new ArrayList<String>();
         if(KFSConstants.SysKimConstants.ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME.equals(roleName)){
             for(EntityEmploymentInformation entityEmployeeInformation: kimEntity.getEmploymentInformation()){

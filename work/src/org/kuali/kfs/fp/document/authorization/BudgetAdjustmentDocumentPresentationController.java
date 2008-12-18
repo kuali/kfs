@@ -13,50 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.document.authorization;
+package org.kuali.kfs.fp.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * Base class for all FinancialSystemDocumentPresentationControllers.
+ * Presentation Controller for Budget Adjustment documents
  */
-public class FinancialSystemTransactionalDocumentPresentationControllerBase extends TransactionalDocumentPresentationControllerBase implements FinancialSystemTransactionalDocumentPresentationController {
+public class BudgetAdjustmentDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
 
     /**
-     * Makes sure that the given document implements error correction, that error correction is turned on for the
-     * document in the data dictionary, and that the document is in a workflow state that allows error correction.
-     * 
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
+     * @see org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
      */
+    @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        
+           
         if (!(document instanceof Correctable)) return false;
         if (!((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(getClass().getName())).getAllowsErrorCorrection()) return false;
         if (document.getDocumentHeader().getCorrectedByDocumentId() != null) return false;
         return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    public Set<String> getDocumentActions(Document document) {
-        Set<String> documentActions = super.getDocumentActions(document);
-        if (canErrorCorrect((FinancialSystemTransactionalDocument)document)) {
-            documentActions.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
-        }
-        return documentActions;
-    }
-    
 }

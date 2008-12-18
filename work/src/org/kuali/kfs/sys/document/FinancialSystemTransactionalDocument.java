@@ -25,11 +25,4 @@ public interface FinancialSystemTransactionalDocument extends TransactionalDocum
      */
     public FinancialSystemDocumentHeader getDocumentHeader();
 
-    /**
-     * This method returns whether or not this document is allowed to be corrected.
-     * 
-     * @return True if it can be corrected, false otherwise.
-     */
-    public boolean getAllowsErrorCorrection();
-
 }

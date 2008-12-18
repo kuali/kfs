@@ -495,16 +495,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * The base checks that the posting year is the current year, not a requirement for the ba document.
-     * 
-     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#getAllowsErrorCorrection()
-     */
-    @Override
-    public boolean getAllowsErrorCorrection() {
-        return true;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLinesSectionTitle()
      */
     @Override

@@ -17,13 +17,23 @@ package org.kuali.kfs.sys.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -87,6 +97,66 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
             setDocInfo(newDocInfo);
             setNumColumns(3);
         }
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        List<ExtraButton> buttons = super.getExtraButtons();
+        final FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(getDocument().getClass()));
+        final Set<String> documentActionsFromPresentationController = createPresentationControllerInstance(documentEntry).getDocumentActions(getDocument());
+        final Set<String> documentActionsFromAuthorizer = createAuthorizerInstance(documentEntry).getDocumentActions(getDocument(), GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
+        if (documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
+            buttons.add(generateErrorCorrectionButton());
+        }
+        return buttons;
     }    
 
+    /**
+     * Creates a new instance of the presentation controller which fits this document
+     * @param documentEntry the data dictionary entry for this document
+     * @return a new instance of the presentation controller
+     */
+    protected FinancialSystemTransactionalDocumentPresentationController createPresentationControllerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
+        try {
+            return (FinancialSystemTransactionalDocumentPresentationController)documentEntry.getDocumentPresentationControllerClass().newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),iae);
+        }
+    }
+    
+    /**
+     * Creates a new instance of the authorizer which fits this document
+     * @param documentEntry the data dictionary entry for this document
+     * @return a new instance of the authorizer
+     */
+    protected DocumentAuthorizer createAuthorizerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
+        try {
+            return (DocumentAuthorizer)documentEntry.getDocumentAuthorizerClass().newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),iae);
+        }
+    }
+    
+    /**
+     * Generates an ExtraButton which represents the error correction button
+     * @return an ExtraButton representing an ErrorCorrection button
+     */
+    protected ExtraButton generateErrorCorrectionButton() {
+        ExtraButton button = new ExtraButton();
+        button.setExtraButtonAltText("Create error correction document from current document");
+        button.setExtraButtonProperty("methodToCall.correct");
+        button.setExtraButtonSource(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url")+"buttonsmall_errcorr.gif");
+        return button;
+    }
 }

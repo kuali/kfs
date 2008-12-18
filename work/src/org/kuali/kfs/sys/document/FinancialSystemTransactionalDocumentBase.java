@@ -15,29 +15,28 @@
  */
 package org.kuali.kfs.sys.document;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.workflow.FinancialSystemPropertySerializabilityEvaluator;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.datadictionary.WorkflowProperties;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.documentserializer.AlwaysFalsePropertySerializabilityEvaluator;
 import org.kuali.rice.kns.util.documentserializer.AlwaysTruePropertySerializibilityEvaluator;
 import org.kuali.rice.kns.util.documentserializer.PropertySerializabilityEvaluator;
@@ -139,22 +138,13 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     /**
-     * @see org.kuali.rice.kns.document.FinancialSystemTransactionDocument#getAllowsErrorCorrection()
-     * Checks if error correction is set to true in data dictionary and the document instance implements
-     * Correctable. Furthermore, a document cannot be error corrected twice.
-     */
-    public boolean getAllowsErrorCorrection() {
-        boolean allowErrorCorrection = ((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(getClass().getName())).getAllowsErrorCorrection() && this instanceof Correctable;
-        allowErrorCorrection = allowErrorCorrection && getDocumentHeader().getCorrectedByDocumentId() == null;
-
-        return allowErrorCorrection;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
     public void toErrorCorrection() throws WorkflowException, IllegalStateException {
-        if (!this.getAllowsErrorCorrection()) {
+        final FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(this.getClass()));
+        final Set<String> documentActionsFromPresentationController = createPresentationControllerInstance(documentEntry).getDocumentActions(this);
+        final Set<String> documentActionsFromAuthorizer = createAuthorizerInstance(documentEntry).getDocumentActions(this, GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
+        if (!documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
             throw new IllegalStateException(this.getClass().getName() + " does not support document-level error correction");
         }
 
@@ -162,6 +152,40 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         setNewDocumentHeader();
         getDocumentHeader().setFinancialDocumentInErrorNumber(sourceDocumentHeaderId);
         addCopyErrorDocumentNote("error-correction for document " + sourceDocumentHeaderId);
+    }
+
+    /**
+     * Creates a new instance of the presentation controller which fits this document
+     * @param documentEntry the data dictionary entry for this document
+     * @return a new instance of the presentation controller
+     */
+    protected FinancialSystemTransactionalDocumentPresentationController createPresentationControllerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
+        try {
+            return (FinancialSystemTransactionalDocumentPresentationController)documentEntry.getDocumentPresentationControllerClass().newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),iae);
+        }
+    }
+    
+    /**
+     * Creates a new instance of the authorizer which fits this document
+     * @param documentEntry the data dictionary entry for this document
+     * @return a new instance of the authorizer
+     */
+    protected DocumentAuthorizer createAuthorizerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
+        try {
+            return (DocumentAuthorizer)documentEntry.getDocumentAuthorizerClass().newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),iae);
+        }
     }
 
     /**

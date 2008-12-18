@@ -15,13 +15,22 @@
  */
 package org.kuali.kfs.sys.document;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class...
  */
 public class FinancialSystemMaintainable extends KualiMaintainableImpl {
 
+    /**
+     * 
+     * @param nodeName
+     * @return
+     * @throws UnsupportedOperationException
+     */
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("FinancialSystemMaintainable does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName);
         

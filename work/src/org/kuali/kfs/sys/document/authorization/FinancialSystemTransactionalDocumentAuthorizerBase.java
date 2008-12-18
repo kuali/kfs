@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.authorization;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,6 +40,7 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -48,6 +50,9 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     private static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentAuthorizerBase.class);
 
     private static RoleService roleService;
+    
+    private final static String ERROR_CORRECT_DOCUMENT_PERMISSION_NAMESPACE = "KFS-SYS";
+    private final static String ERROR_CORRECT_DOCUMENT_PERMISSION_TEMPLATE = "Error Correct Document";
 
     /**
      * Adds settings for KFS transactional-document-specific flags.
@@ -65,17 +70,10 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
         FinancialSystemTransactionalDocument transactionalDocument = (FinancialSystemTransactionalDocument) document;
         KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
 
-        if (canCopy(workflowDocument.getDocumentType(), user)) {
-            flags.setCanErrorCorrect(transactionalDocument.getAllowsErrorCorrection() && (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal()));
-        }
+        flags.setCanErrorCorrect(canErrorCorrect(document, user));
 
         // if document implements AmountTotaling interface, then we should display the total
-        if (document instanceof AmountTotaling) {
-            flags.setHasAmountTotal(true);
-        }
-        else {
-            flags.setHasAmountTotal(false);
-        }
+        flags.setHasAmountTotal(document instanceof AmountTotaling);
 
         // check bank specification is enabled and the code should be viewable for this document type. set flag accordingly
         boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
@@ -99,6 +97,29 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
         }
 
         return flags;
+    }
+    
+    /**
+     * Overridden to check if document error correction can be allowed here.
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
+        Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
+        if (documentActionsFromPresentationController.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT) && canErrorCorrect(document, user)) {
+            documentActionsToReturn.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
+        }
+        return documentActionsToReturn;
+    }
+
+    /**
+     * Determines if the KIM permission is available to error correct the given document
+     * @param document the document to correct
+     * @param user the user to check error correction for
+     * @return true if the user can error correct, false otherwise
+     */
+    public boolean canErrorCorrect(Document document, Person user){
+         return isAuthorizedByTemplate(document, FinancialSystemTransactionalDocumentAuthorizerBase.ERROR_CORRECT_DOCUMENT_PERMISSION_NAMESPACE, FinancialSystemTransactionalDocumentAuthorizerBase.ERROR_CORRECT_DOCUMENT_PERMISSION_TEMPLATE, user.getPrincipalId());
     }
 
     @Override

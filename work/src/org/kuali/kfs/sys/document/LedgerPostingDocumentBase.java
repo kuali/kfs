@@ -147,23 +147,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
             }
         }
     }
-
-    /**
-     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#getAllowsErrorCorrection() Checks the condition the posting year of
-     *      the original document is current fiscal year.
-     */
-    @Override
-    public boolean getAllowsErrorCorrection() {
-        boolean allowsCorrection = super.getAllowsErrorCorrection();
-
-        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        if (!NumberUtils.equals(fiscalYear, getPostingYear())) {
-            allowsCorrection = false;
-        }
-
-        return allowsCorrection;
-    }
-
+    
     /**
      * If we've copied, we need to update the posting period and year
      * @see org.kuali.rice.kns.document.DocumentBase#toCopy()

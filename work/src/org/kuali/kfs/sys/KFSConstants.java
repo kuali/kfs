@@ -1291,5 +1291,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME = "Claim Electronic Payment";
     }
 
+    public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";
 }
 

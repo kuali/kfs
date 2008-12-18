@@ -3,8 +3,6 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>KualiDocument</name>
-<parent/>
-<docHandler/>
 <routePaths>
 				<routePath>
 					<start name="AdHoc"/>

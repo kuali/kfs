@@ -10,10 +10,37 @@
           <start name="Adhoc Routing" nextNode="ContractManagement"/>
           <requests name="ContractManagement" nextNode="Commodity"/>
           <requests name="Commodity" nextNode="Award"/>
-          <requests name="Award" nextNode="Budget"/>
-          <requests name="Budget" nextNode="Tax"/>
-          <requests name="Tax" nextNode="PrintTransmission"/>
-          <requests name="PrintTransmission"/>
+          <requests name="Award" nextNode="RequiresBudgetReview"/>
+          <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
+						<branch name="True">
+							<requests name="Budget" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+					<split name="VendorIsEmployeeOrNonResidentAlien" nextNode="TransmissionMethodIsPrint">
+						<branch name="True">
+							<requests name="Tax" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+					<split name="TransmissionMethodIsPrint" nextNode="NoOp">
+						<branch name="True">
+							<requests name="PrintTransmission" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+					<simple name="NoOp"/>
+					
+          
         </routePath>
       </routePaths>
 <routeNodes>
@@ -42,6 +69,20 @@
 <!--<ruleTemplate>KualiPurchaseOrderTransmissionTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
+<split name="RequiresBudgetReview">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<split name="TransmissionMethodIsPrint">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<split name="VendorIsEmployeeOrNonResidentAlien">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOp">
+<type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+</simple>
+<join name="Join"/>
+
 </routeNodes>
 </documentType>
 </documentTypes>

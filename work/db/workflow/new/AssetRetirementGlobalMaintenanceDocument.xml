@@ -5,7 +5,35 @@
 <name>AssetRetirementGlobalMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RetiredAssetTransferredExternally"/>
+					<split name="RetiredAssetTransferredExternally" nextNode="NoOp">
+						<branch name="True">
+							<requests name="Account" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+					<simple name="NoOp"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="Account">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<split name="RetiredAssetTransferredExternally">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOp">
+<type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+</simple>
+<join name="Join"/>
+</routeNodes>
 </documentType>
 </documentTypes>
 </data>
+

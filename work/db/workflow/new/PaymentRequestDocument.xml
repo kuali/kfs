@@ -8,12 +8,31 @@
 <routePaths>
         <routePath>
           <start name="Adhoc Routing" nextNode="InvoiceAttachment"/>
-          <requests name="InvoiceAttachment" nextNode="Receiving"/>
-          <requests name="Receiving" nextNode="SubAccount"/>
+          <requests name="InvoiceAttachment" nextNode="PurchaseWasReceived"/>
+          <split name="PurchaseWasReceived" nextNode="SubAccount">
+						<branch name="True">
+							<requests name="Receiving" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
           <requests name="SubAccount" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy" nextNode="Tax"/>
-          <requests name="Tax"/>
+          <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="NoOp">
+						<branch name="True">
+							<requests name="Tax" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+          
+          
+          <simple name="NoOp"/>
         </routePath>
       </routePaths>
 <routeNodes>
@@ -43,6 +62,17 @@
 <ruleTemplate>KualiVendorTaxReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
+
+<split name="PurchaseWasReceived">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<split name="VendorIsEmployeeOrNonResidentAlien">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOp">
+<type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+</simple>
+<join name="Join"/>
 </routeNodes>
 </documentType>
 </documentTypes>

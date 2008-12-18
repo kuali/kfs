@@ -29,7 +29,7 @@
             
 			<tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.chartOfAccountsCode}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.chartOfAccountsCode}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
 					<kul:htmlControlAttribute attributeEntry="${orgAttributes.chartOfAccountsCode}" property="chartCode"  />	
@@ -39,7 +39,7 @@
             </tr>
             <tr>
 				<th align=right valign=middle class="grid">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.organizationCode}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.organizationCode}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid">
                     <kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationCode}" property="orgCode"  />
@@ -67,7 +67,7 @@
             </tr>
             <tr>
            		<th align=right valign=middle class="grid">
-                    <div align="right">*Org Type:</div>
+                    <div align="right">Org Type:</div>
                 </th>
             	<td align=left valign=middle class="grid">
                     <html-el:radio property="orgType" value="P"/>Processing

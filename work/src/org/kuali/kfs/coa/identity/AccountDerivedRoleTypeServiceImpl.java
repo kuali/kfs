@@ -39,7 +39,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     {
         requiredAttributes.add(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE);
         requiredAttributes.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        requiredAttributes.add(KFSPropertyConstants.NAME);
+        requiredAttributes.add(KFSPropertyConstants.DOCUMENT_TYPE_NAME);
     }
     
     /**

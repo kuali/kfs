@@ -34,7 +34,12 @@ public class CampusRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         validateRequiredAttributesAgainstReceived(requiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
-
+        
+        // if either qualification is null, just pass
+        if ( qualification == null || roleQualifier == null ) {
+            return true;
+        }
+        
         return StringUtils.equals(
                 qualification.get(KimAttributes.CAMPUS_CODE), roleQualifier.get(KimAttributes.CAMPUS_CODE));
     }

@@ -146,7 +146,10 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(cashControlDocument.getDocumentNumber());
-
+        
+        //  force customer numbers to upper case, since its a primary key
+        newCashControlDetail.setCustomerNumber(newCashControlDetail.getCustomerNumber().toUpperCase());
+        
         // apply rules for the new cash control detail
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, cashControlDocument, newCashControlDetail));
 

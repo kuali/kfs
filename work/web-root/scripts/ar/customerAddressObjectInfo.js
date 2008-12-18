@@ -5,6 +5,9 @@ function loadCustomerAddressInfo( customerNumberFieldName ) {
 		clearAddressFields();
 		return;
 	}
+	else {
+		customerNumber = customerNumber.toUpperCase();
+	}
 	
 	var dwrReply = {
 		callback:function(data) {

@@ -232,7 +232,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         String universityFiscalPeriodCode = applicationDocument.getAccountingPeriod().getUniversityFiscalPeriodCode();
 
         // get the list of invoices that were selected for quick invoice
-        Object applyToInvoices = request.getParameter("quickApply");
+        Object applyToInvoices = request.getParameterValues("quickApply");
 
         List<String> invoiceNumbers = new ArrayList<String>();
         if (applyToInvoices != null) {

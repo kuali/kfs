@@ -66,6 +66,7 @@
 
   <bean id="Threshold-thresholdIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="thresholdIdentifier" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Threshold Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />

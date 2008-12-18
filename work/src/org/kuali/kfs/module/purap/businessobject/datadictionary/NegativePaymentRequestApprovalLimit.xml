@@ -35,7 +35,7 @@
 
   <bean id="NegativePaymentRequestApprovalLimit-negativePaymentRequestApprovalLimitAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negativePaymentRequestApprovalLimitAmount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Negative Payment Request Approval Limit Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />

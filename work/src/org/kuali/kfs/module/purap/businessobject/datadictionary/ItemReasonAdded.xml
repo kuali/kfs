@@ -30,9 +30,8 @@
 
   <bean id="ItemReasonAdded-active" parent="ItemReasonAdded-active-parentBean" />
 
-  <bean id="ItemReasonAdded-active-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ItemReasonAdded-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Active" />
     <property name="shortLabel" value="Active" />
     <property name="maxLength" value="1" />

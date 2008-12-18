@@ -47,6 +47,11 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
         BudgetConstructionIntendedIncumbent bcIncumbent = new BudgetConstructionIntendedIncumbent();
         bcIncumbent.setEmplid(incumbent.getEmplid());
         bcIncumbent.setName(incumbent.getName());
+        bcIncumbent.setIuClassificationLevel("TL");
+        bcIncumbent.setSetidSalary("XXXXX");
+        bcIncumbent.setSalaryAdministrationPlan("XXX");
+        bcIncumbent.setGrade("YYY");
+
         bcIncumbent.setActive(Boolean.TRUE);
 
         // check if incumbent already exists in budget incumbent table, if not add incumbent
@@ -73,6 +78,10 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
         // update budget record
         BudgetConstructionIntendedIncumbent retrievedIncumbent = getByPrimaryId(emplid);
         bcIncumbent.setVersionNumber(retrievedIncumbent.getVersionNumber());
+        bcIncumbent.setIuClassificationLevel("TL");
+        bcIncumbent.setSetidSalary("XXXXX");
+        bcIncumbent.setSalaryAdministrationPlan("XXX");
+        bcIncumbent.setGrade("YYY");
         bcIncumbent.setActive(retrievedIncumbent.isActive());
 
         businessObjectService.save(bcIncumbent);

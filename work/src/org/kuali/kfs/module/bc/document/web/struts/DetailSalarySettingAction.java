@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -221,6 +222,16 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+
+        // set remaining flags
+        boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, workingAppointmentFunding);
+        workingAppointmentFunding.setVacatable(vacatable);
+
+        Integer fiscalYear = workingAppointmentFunding.getUniversityFiscalYear();
+        String chartCode = workingAppointmentFunding.getChartOfAccountsCode();
+        String objectCode = workingAppointmentFunding.getFinancialObjectCode();
+        boolean hourlyPaid = salarySettingService.isHourlyPaidObject(fiscalYear, chartCode, objectCode);
+        workingAppointmentFunding.setHourlyPaid(hourlyPaid);
 
         // update the access flags of the current funding line
         boolean accessModeUpdated = salarySettingForm.updateAccessMode(workingAppointmentFunding, errorMap);

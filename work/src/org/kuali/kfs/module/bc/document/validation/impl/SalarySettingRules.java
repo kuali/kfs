@@ -139,6 +139,8 @@ public class SalarySettingRules implements SalarySettingRule {
         boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, KFSPropertyConstants.ACCOUNT_NUMBER);
         if (!isAssociatedWithBudgetableDocument) {
             return isAssociatedWithBudgetableDocument;
+        } else {
+            appointmentFunding.setBudgetable(Boolean.TRUE);
         }
 
         boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);

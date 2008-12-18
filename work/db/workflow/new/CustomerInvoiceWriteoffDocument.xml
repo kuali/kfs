@@ -5,7 +5,34 @@
 <name>CustomerInvoiceWriteoffDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
 <docHandler>${application.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler</docHandler>
-
+<routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="RequiresApproval"/>
+          <split name="RequiresApproval" nextNode="Do Nothing">
+            <branch name="True">
+            	<requests name="Account" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="Do Nothing" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+          <simple name="Do Nothing"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="Account">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<split name="RequiresApproval">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="Do Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="Join"/>
+</routeNodes>
 </documentType>
 </documentTypes>
 </data>

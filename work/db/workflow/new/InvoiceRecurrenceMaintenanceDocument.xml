@@ -5,7 +5,22 @@
 <name>InvoiceRecurrenceMaintenanceDocument</name>
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-
+<routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Account"/>
+          <requests name="Account" nextNode="Manager"/>
+          <requests name="Manager"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="Account">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Manager">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
 </documentType>
 </documentTypes>
 </data>

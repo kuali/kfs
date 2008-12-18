@@ -20,33 +20,43 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 
 public class HelpDefinition extends org.kuali.rice.kns.datadictionary.HelpDefinition {
-    private String parameterClass;
+    private Class parameterClass;
     private transient ParameterService parameterService;
     /**
      * Gets the parameterClass attribute. 
      * @return Returns the parameterClass.
      */
-    public String getParameterClass() {
+    public Class getParameterClass() {
         return parameterClass;
     }
     /**
      * Sets the parameterClass attribute value.
      * @param parameterClass The parameterClass to set.
      */
-    public void setParameterClass(String parameterClass) {
-        parameterService = getParameterService();
-        try{
-            this.setParameterNamespace(parameterService.getNamespace(Class.forName(parameterClass)));
-            this.setParameterDetailType(parameterService.getDetailType(Class.forName(parameterClass)));
-        }catch (ClassNotFoundException e) {
-            throw new RuntimeException("Invalid class name: " + parameterClass);
-        }
-
+    public void setParameterClass(Class parameterClass) {
+        this.parameterClass = parameterClass;
     }
+    
+    @Override
+    public String getParameterNamespace() {
+        if ( parameterNamespace == null ) {
+            parameterNamespace  = getParameterService().getNamespace(parameterClass);
+        }
+        return parameterNamespace;
+    }
+
+    @Override
+    public String getParameterDetailType() {
+        if ( parameterDetailType == null ) {
+            parameterDetailType  = getParameterService().getDetailType(parameterClass);
+        }
+        return parameterDetailType;
+    }
+    
     /**
      * @return Returns the parameterService.
      */
-    private ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         if (parameterService == null) {
             parameterService = SpringContext.getBean(ParameterService.class);
         }

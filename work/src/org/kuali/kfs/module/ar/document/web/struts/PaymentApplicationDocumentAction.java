@@ -34,7 +34,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -87,6 +86,26 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
     }
 
+    /**
+     * This is overridden in order to recalculate the invoice totals before doing the submit.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        //  force the invoice section to re-calculate totals, so that they display correctly 
+        // after hitting submit, without needing to then do a Reload to get the right totals.
+        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
+        CustomerInvoiceDocument invoice = pform.getSelectedInvoiceDocument();
+        if (null != invoice) {
+            updateInvoiceInfo(pform, invoice);
+        }
+        
+        //  finish the route with the super
+        return super.route(mapping, form, request, response);
+    }
+    
     /**
      * This method applies detail amounts.
      * 
@@ -182,6 +201,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                         }
                 }
             }
+        }
+
+        // recalc totals after the Apply button is hit
+        if (null != applicationDocumentForm.getSelectedInvoiceDocument()) {
+            updateInvoiceInfo(applicationDocumentForm, applicationDocumentForm.getSelectedInvoiceDocument());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

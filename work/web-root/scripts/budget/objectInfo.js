@@ -147,6 +147,7 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
  * retrieve the intended incumbent and administrative post according to the given information
  */
 BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionNumberFieldName, iuClassificationLevelFieldName, administrativePostFieldName, emplidFieldName, personNameFieldName) {	
+
 	var emplid = getElementValue( emplidFieldName );
 
 	if (emplid == emptyString) {
@@ -184,9 +185,9 @@ BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionN
 BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYearFieldName, emplidFieldName, 
 	iuNormalWorkMonthsFieldName, iuPayMonthsFieldName, positionFullTimeEquivalencyFieldName, administrativePostFieldName, 
 	positionNumberFieldName, positionDescriptionFieldName) {
-	
-	var universityFiscalYear = DWRUtil.getValue( universityFiscalYearFieldName ).trim();
-	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
+
+	var emplid = getElementValue( emplidFieldName );
+	var universityFiscalYear = getElementValue( universityFiscalYearFieldName );
 	var positionNumber = getElementValue( positionNumberFieldName );
 
 	if (positionNumber == emptyString || universityFiscalYear == emptyString) {
@@ -223,10 +224,10 @@ BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYe
  * retrieve the administrative post according to the given emplid and position number
  */
 BudgetObjectInfoUpdator.prototype.loadAdministrativePostInfo = function(emplidFieldName, positionNumberFieldName, administrativePostFieldName) {
-	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
-	var positionNumber = DWRUtil.getValue( positionNumberFieldName ).trim();
-
-	if (positionNumber == emptyString || emplid == emptyString) {
+	var emplid = getElementValue( emplidFieldName );
+	var positionNumber = getElementValue( positionNumberFieldName );
+	
+	if (positionNumber == emptyString || emplid == emptyString || emplid == 'VACANT') {
 		setRecipientValue(administrativePostFieldName, emptyString);
 	} else {
 		var dwrReply = {

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
+<c:set var="orgAttributes" value="${DataDictionary.Organization.attributes}" />
 
 <kul:page lookup="true" showDocumentInfo="false"
 	htmlFormAction="arCustomerAgingReportLookup"

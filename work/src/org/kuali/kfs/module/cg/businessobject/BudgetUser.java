@@ -76,8 +76,6 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      */
     public BudgetUser() {
         super();
-        budgetPersonnelService = SpringContext.getBean(BudgetPersonnelService.class);
-        personService = SpringContext.getBean(PersonService.class);
     }
 
     public BudgetUser(String documentNumber, Integer budgetUserSequenceNumber) {
@@ -115,7 +113,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     }
 
     public void createUserAppointmentTasks(BudgetDocument budgetDocument) {
-        budgetPersonnelService.createPersonnelDetail(this, budgetDocument);
+        getBudgetPersonnelService().createPersonnelDetail(this, budgetDocument);
     }
 
     /**
@@ -254,8 +252,15 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      * @return Returns the user.
      */
     public Person getUser() {
-        user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, user);
+        user = getPersonService().updatePersonIfNecessary(principalId, user);
         return user;
+    }
+    
+    public PersonService getPersonService() {
+        if ( personService == null ) {
+            personService = SpringContext.getBean(PersonService.class);
+        }
+        return personService;
     }
 
 
@@ -506,6 +511,9 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      * @return Returns the budgetPersonnelService.
      */
     public BudgetPersonnelService getBudgetPersonnelService() {
+        if ( budgetPersonnelService == null ) {
+            budgetPersonnelService = SpringContext.getBean(BudgetPersonnelService.class);
+        }
         return budgetPersonnelService;
     }
 

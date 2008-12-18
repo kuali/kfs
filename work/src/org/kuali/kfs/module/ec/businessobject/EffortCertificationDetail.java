@@ -87,13 +87,17 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public EffortCertificationDetail() {
         super();
 
-        subAccountNumber = KFSConstants.getDashSubAccountNumber();
+        try {
+            subAccountNumber = KFSConstants.getDashSubAccountNumber();
+        } catch ( RuntimeException ex ) {
+            // skip errors caused by calling this prior to spring startup
+        }
 
-        effortCertificationPayrollAmount = new KualiDecimal(0);
-        effortCertificationOriginalPayrollAmount = new KualiDecimal(0);
+        effortCertificationPayrollAmount = KualiDecimal.ZERO;
+        effortCertificationOriginalPayrollAmount = KualiDecimal.ZERO;
         effortCertificationCalculatedOverallPercent = new Integer(0);
         effortCertificationUpdatedOverallPercent = new Integer(0);
-        originalFringeBenefitAmount = new KualiDecimal(0);
+        originalFringeBenefitAmount = KualiDecimal.ZERO;
     }
 
     public EffortCertificationDetail(EffortCertificationDetail effortCertificationDetail) {

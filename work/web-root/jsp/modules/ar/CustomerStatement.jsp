@@ -27,7 +27,7 @@
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Billing Statement">
 			<tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.chartOfAccountsCode}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.chartOfAccountsCode}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
 					<kul:htmlControlAttribute attributeEntry="${orgAttributes.chartOfAccountsCode}" property="chartCode"  />	
@@ -37,7 +37,7 @@
             </tr>
             <tr>
 				<th align=right valign=middle class="grid">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.organizationCode}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.organizationCode}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid">
                     <kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationCode}" property="orgCode"  />
@@ -47,7 +47,7 @@
             </tr>
              <tr>
 				<th align=right valign=middle class="grid">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerNumber}"/></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerNumber}" readOnly="true"/></div>
                 </th>
                 <td align=left valign=middle class="grid">
                 	<kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="customerNumber"  />
@@ -57,7 +57,7 @@
             </tr>
               <tr>
 				<th align=right valign=middle class="grid">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${accountAttributes.accountNumber}"/></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${accountAttributes.accountNumber}" readOnly="true"/></div>
                 </th>
                 <td align=left valign=middle class="grid">
                 	<kul:htmlControlAttribute attributeEntry="${accountAttributes.accountNumber}" property="accountNumber"  />

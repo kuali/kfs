@@ -26,8 +26,6 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.taglib.html.FileTag;
-import org.apache.struts.taglib.html.ImageTag;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -37,6 +35,8 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.taglib.html.KNSFileTag;
+import org.kuali.rice.kns.web.taglib.html.KNSImageTag;
 
 /**
  * Renders the standard group header/import line
@@ -48,10 +48,10 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
     private AccountingDocument accountingDocument;
     private Map editModes;
     private String lineCollectionProperty;
-    private FileTag scriptFileTag = new FileTag();
-    private FileTag noscriptFileTag = new FileTag();
-    private ImageTag uploadButtonTag = new ImageTag();
-    private ImageTag cancelButtonTag = new ImageTag();
+    private KNSFileTag scriptFileTag = new KNSFileTag();
+    private KNSFileTag noscriptFileTag = new KNSFileTag();
+    private KNSImageTag uploadButtonTag = new KNSImageTag();
+    private KNSImageTag cancelButtonTag = new KNSImageTag();
     private boolean shouldUpload = true;
 
     private boolean groupActionsRenderred = false;

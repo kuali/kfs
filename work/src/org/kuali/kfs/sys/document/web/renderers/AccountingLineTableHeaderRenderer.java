@@ -24,9 +24,9 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
-import org.apache.struts.taglib.html.ImageTag;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.taglib.html.KNSImageTag;
 
 /**
  * Renders the header of an accounting line table
@@ -35,7 +35,7 @@ public class AccountingLineTableHeaderRenderer implements Renderer {
     private int cellCount;
     private boolean hideDetails;
     private String accountingLineImportInstructionsUrl;
-    private ImageTag showHideTag = new ImageTag();
+    private KNSImageTag showHideTag = new KNSImageTag();
     private HiddenTag hideStateTag = new HiddenTag();
     
     /**

@@ -264,14 +264,15 @@
 			</band>
 		</detail>
 		<columnFooter>
-			<band height="60"  isSplitAllowed="true" >
+			<band height="45"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						mode="Transparent"
-						x="31"
+						mode="Opaque"
+						x="26"
 						y="5"
-						width="100"
-						height="16"
+						width="105"
+						height="14"
+						backcolor="#EFEFEF"
 						key="staticText-1"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -286,11 +287,12 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Transparent"
+						mode="Opaque"
 						x="231"
 						y="5"
 						width="100"
-						height="16"
+						height="14"
+						backcolor="#EFEFEF"
 						key="staticText-2"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -305,11 +307,12 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Transparent"
+						mode="Opaque"
 						x="131"
 						y="5"
 						width="100"
-						height="16"
+						height="14"
+						backcolor="#EFEFEF"
 						key="staticText-3"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -324,11 +327,12 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Transparent"
+						mode="Opaque"
 						x="431"
 						y="5"
-						width="100"
-						height="16"
+						width="105"
+						height="14"
+						backcolor="#EFEFEF"
 						key="staticText-4"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -343,11 +347,12 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						mode="Transparent"
+						mode="Opaque"
 						x="331"
 						y="5"
 						width="100"
-						height="16"
+						height="14"
+						backcolor="#EFEFEF"
 						key="staticText-5"/>
 					<box>					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -362,10 +367,10 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="31"
-						y="21"
-						width="100"
-						height="16"
+						x="26"
+						y="19"
+						width="105"
+						height="14"
 						key="textField-20"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -381,9 +386,9 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="131"
-						y="21"
+						y="19"
 						width="100"
-						height="16"
+						height="14"
 						key="textField-21"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -399,9 +404,9 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="231"
-						y="21"
+						y="19"
 						width="100"
-						height="16"
+						height="14"
 						key="textField-22"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -417,9 +422,9 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="331"
-						y="21"
+						y="19"
 						width="100"
-						height="16"
+						height="14"
 						key="textField-23"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>
@@ -435,9 +440,9 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="431"
-						y="21"
-						width="100"
-						height="16"
+						y="19"
+						width="105"
+						height="14"
 						key="textField-24"/>
 					<box rightPadding="5">					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#999999"/>

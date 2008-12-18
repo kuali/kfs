@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import java.text.MessageFormat;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -249,9 +251,30 @@ public class PaymentApplicationDocumentRuleUtil {
         // Can't apply more than the total amount outstanding on the cash control document.
         if(ObjectUtils.isNotNull(document.getCashControlDocument()) && document.getBalanceToBeApplied().doubleValue() < amountWeWouldApply) {
             isValid = false;
-            errorMap.putError(
-                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
-                ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED);
+            KualiDecimal amountToBeApplied;
+            Integer lineNumber;
+            String actualPropertyName = null;
+            
+            //  decide which line to light
+            for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
+                amountToBeApplied = customerInvoiceDetail.getAmountToBeApplied();
+                if (amountToBeApplied != null) {
+                    if (amountToBeApplied.isGreaterThan(KualiDecimal.ZERO)) {
+                        lineNumber = customerInvoiceDetail.getSequenceNumber().intValue() - 1;
+                        //  make sure the correct line number is lit
+                        actualPropertyName = MessageFormat.format(
+                                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N, 
+                                lineNumber.toString());
+                    }
+                }
+            }
+            
+            //  only light one amount field, but make sure its a non-zero one, and the last one
+            if (StringUtils.isNotBlank(actualPropertyName)) {
+                errorMap.putError(
+                        actualPropertyName,
+                        ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED);
+            }
         }
         return isValid;
     }

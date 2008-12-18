@@ -244,14 +244,26 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
         }
 
+        //  make sure none of the invoices selected have zero open amounts, complain if so
+        CustomerInvoiceDocument invoice = null;
+        for (String invoiceNumber : invoiceNumbers) {
+            invoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceNumber);
+            if (invoice.getOpenAmount().isZero()) {
+                addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_QUICK_APPLY_ON_INVOICE_WITH_ZERO_OPEN_AMOUNT);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+        
         // Check to be sure that we have enough to fully-apply the amount of each selected invoice
         KualiDecimal totalNeeded = new KualiDecimal(0);
+        
         // go over the selected invoices and apply full amount to each of their details
         for (String invoiceNbr : invoiceNumbers) {
+            
             // get the customer invoice details for the current invoice number
             Collection<CustomerInvoiceDetail> customerInvoiceDetails = getCustomerInvoiceDetailsForInvoice(applicationDocumentForm, invoiceNbr);
             for (CustomerInvoiceDetail invoiceDetail : customerInvoiceDetails) {
-                totalNeeded = totalNeeded.add(invoiceDetail.getAmount());
+                totalNeeded = totalNeeded.add(invoiceDetail.getOpenAmount());
             }
         }
         
@@ -260,9 +272,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         
         // If we don't have enough in the cash control document to cover fully-applying to all of the selected
         // invoices, throw an error and return.
-        if(null != cashControlTotalAmount && totalNeeded.isGreaterThan(cashControlTotalAmount)) {
+        if (null != cashControlTotalAmount && totalNeeded.isGreaterThan(cashControlTotalAmount)) {
             availableBalanceExceeded();
-        } else {
+        }
+        else {
             // go over the selected invoices and apply full amount to each of their details
             for (String invoiceNbr : invoiceNumbers) {
                 // get the customer invoice details for the current invoice number
@@ -398,8 +411,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             customerNumber = customer.getCustomerNumber();
             applicationDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         }
-        // get current customer invoices
-        applicationDocumentForm.setInvoices(new ArrayList(customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber)));
+        
+        // get open invoices for the current customer
+        Collection<CustomerInvoiceDocument> openInvoicesForCustomer = 
+            customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        applicationDocumentForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
 
         // if no invoice number entered than get the first invoice
         if ((customerNumber != null && !customerNumber.equals("")) && (currentInvoiceNumber == null || "".equalsIgnoreCase(currentInvoiceNumber))) {

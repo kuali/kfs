@@ -291,6 +291,12 @@ public class PaymentApplicationDocumentRuleUtil {
         CashControlDetail cashControlDetail = applicationDocument.getCashControlDetail();
         KualiDecimal cashControlTotalAmount = cashControlDetail.getFinancialDocumentLineAmount();
         KualiDecimal totalUnapplied = applicationDocument.getTotalUnapplied();
+        
+        //  if there is no value in Unapplied, then we have nothing to do here
+        if (totalUnapplied == null || totalUnapplied.isZero()) {
+            return true;
+        }
+        
         boolean isValid = cashControlTotalAmount.isGreaterEqual(totalUnapplied);
         if(!isValid) {
             String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;

@@ -136,7 +136,22 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public Collection<CustomerInvoiceDocument> getInvoices() {
         return invoices;
     }
-
+    
+    /**
+     * 
+     * Returns the list of Open Invoices available for this document.
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> getOpenInvoices() {
+        Collection<CustomerInvoiceDocument> openInvoices = new ArrayList<CustomerInvoiceDocument>();
+        for (CustomerInvoiceDocument invoice : invoices) {
+            if (invoice.isOpenInvoiceIndicator()) {
+                openInvoices.add(invoice);
+            }
+        }
+        return openInvoices;
+    }
+    
     public CustomerInvoiceDocument getSelectedInvoiceDocument() {
         return selectedInvoiceDocument;
     }

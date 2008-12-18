@@ -206,6 +206,7 @@ public class CamsKeyConstants {
         public static final String ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE = "error.university.not.defined.for.date";
         public static final String ERROR_SEPARATE_ASSET_TOTAL_COST_NOT_MATCH_PAYMENT_TOTAL_COST = "error.separate.asset.total.cost.not.match.payment.total.cost";
         public static final String ERROR_SEPARATE_ASSET_ALREADY_SEPARATED = "error.separate.asset.already.separated";
+        public static final String ERROR_INVALID_ACQUISITION_INCOME_OBJECT_CODE = "error.invalid.acquisition.income.object.code";
     }
 
     public static class AssetSeparate {

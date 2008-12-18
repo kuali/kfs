@@ -24,17 +24,20 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetAcquisitionTypeService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
@@ -109,9 +112,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         // Validate Financial Posted date
         if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
             valid &= validatePostedDate(assetPaymentDetail);
-            
+
         }
-        
+
         if (valid) {
             // Check for ObjectCode
             if (StringUtils.isNotBlank(assetPaymentDetail.getFinancialObjectCode())) {
@@ -122,7 +125,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        
+
         if (StringUtils.isBlank(assetGlobal.getAcquisitionTypeCode()) || ObjectUtils.isNull(assetGlobal.getAcquisitionType())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_REQUIRED);
             valid &= false;
@@ -169,15 +172,16 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingCode())) {
             assetGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetGlobalDetail.BUILDING);
             // if (ObjectUtils.isNull(assetGlobalDetail.getBuilding())) || !assetGlobalDetail.getBuilding().isActive()) {
-            if (ObjectUtils.isNull(assetGlobalDetail.getBuilding()))  {
+            if (ObjectUtils.isNull(assetGlobalDetail.getBuilding())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
         }
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingRoomNumber())) {
             assetGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM);
-//            if (ObjectUtils.isNull(assetGlobalDetail.getBuildingRoom())) { // || !assetGlobalDetail.getBuildingRoom().isActive()) {
-            if (ObjectUtils.isNull(assetGlobalDetail.getBuildingRoom())) { 
+            // if (ObjectUtils.isNull(assetGlobalDetail.getBuildingRoom())) { // || !assetGlobalDetail.getBuildingRoom().isActive())
+            // {
+            if (ObjectUtils.isNull(assetGlobalDetail.getBuildingRoom())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
@@ -215,7 +219,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         else if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equals(collectionName)) {
             AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
-            
+
             if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
             }
@@ -246,7 +250,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         return success;
-    }  
+    }
 
     private boolean validateTagDuplication(List<AssetGlobalDetail> assetSharedDetails, String campusTagNumber) {
         boolean success = true;
@@ -424,7 +428,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
 
     private boolean isAccountInvalid(Account account) {
-        //return ObjectUtils.isNull(account) || !account.isActive() || account.isExpired();
+        // return ObjectUtils.isNull(account) || !account.isActive() || account.isExpired();
         return ObjectUtils.isNull(account) || account.isExpired();
     }
 
@@ -476,10 +480,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
 
             if (getAssetPaymentService().getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
-                /* @TODO KULCAP-828
-                putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_ASSET_SPLIT_MAX_LIMIT);
-                success &= false;
-                */
+                /*
+                 * @TODO KULCAP-828 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS,
+                 * CamsKeyConstants.AssetSeparate.ERROR_ASSET_SPLIT_MAX_LIMIT); success &= false;
+                 */
             }
 
             // new source payments must be greater than the capital asset cost amount
@@ -517,7 +521,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateTotalCostAmount(assetGlobal);
 
             success &= validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
-            
+
             if (getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
                 AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
             }
@@ -580,7 +584,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean isCapitalAsset = isCapitalStatus(assetGlobal);
         int index = 0;
         for (AssetGlobalDetail assetLocationDetail : assetSharedDetails) {
-            String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS+"["+index+"]";
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + index + "]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
             success &= SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetLocationDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
             GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
@@ -623,22 +627,42 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode is for
         // capital assets
-        if ((success & super.processCustomSaveDocumentBusinessRules(document)) && getAssetAcquisitionTypeService().hasIncomeAssetObjectCode(acquisitionTypeCode) && this.isCapitalStatus(assetGlobal)) {
+        if ((success && super.processCustomSaveDocumentBusinessRules(document)) && getAssetAcquisitionTypeService().hasIncomeAssetObjectCode(acquisitionTypeCode) && this.isCapitalStatus(assetGlobal)) {
+            success &= validateAcquisitionIncomeObjectCode(assetGlobal);
+            if (success) {
+                // create poster
+                AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
+                // create postables
+                getAssetGlobalService().createGLPostables(assetGlobal, assetGlobalGlPoster);
 
-            // create poster
-            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
-            // create postables
-            getAssetGlobalService().createGLPostables(assetGlobal, assetGlobalGlPoster);
-
-            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
-                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
-            }
-            else {
-                assetGlobalGlPoster.getPendingEntries().clear();
+                if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+                    assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
+                }
+                else {
+                    assetGlobalGlPoster.getPendingEntries().clear();
+                }
             }
         }
 
         return success;
+    }
+
+    /**
+     * Validate offset object code
+     * 
+     * @param assetGlobal
+     * @return
+     */
+    private boolean validateAcquisitionIncomeObjectCode(AssetGlobal assetGlobal) {
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            // check offset object code existence
+            ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(assetPaymentDetail.getPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetGlobal.getAcquisitionType().getIncomeAssetObjectCode());
+            if (ObjectUtils.isNull(objectCode)) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVALID_ACQUISITION_INCOME_OBJECT_CODE, new String[] { assetGlobal.getAcquisitionType().getIncomeAssetObjectCode(), assetPaymentDetail.getPostingYear().toString(), assetPaymentDetail.getChartOfAccountsCode() });
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean validatePaymentCollection(AssetGlobal assetGlobal) {
@@ -672,9 +696,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         AssetGlobal assetGlobal = (AssetGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-//        GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
-//        boolean valid = getDictionaryValidationService().validateDefaultExistenceChecks(assetGlobal);
-//        GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
+        // GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
+        // boolean valid = getDictionaryValidationService().validateDefaultExistenceChecks(assetGlobal);
+        // GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
 
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         int index = 0;
@@ -692,8 +716,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
         Account organizationOwnerAccount = assetGlobal.getOrganizationOwnerAccount();
-        //if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
-        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || organizationOwnerAccount.isExpired())) {        
+        // if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null ||
+        // !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
+        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || organizationOwnerAccount.isExpired())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
             success &= false;
         }
@@ -769,16 +794,16 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetService assetService = SpringContext.getBean(AssetService.class);
 
         List<String> documentNumbers = assetService.getDocumentNumbersThatSeparatedThisAsset(separateSourceCapitalAssetNumber);
-        
+
         if (!documentNumbers.isEmpty()) {
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_ALREADY_SEPARATED, new String[] {documentNumbers.toString()});
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_ALREADY_SEPARATED, new String[] { documentNumbers.toString() });
 
             return false;
         }
 
         return true;
     }
-    
+
     private ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }

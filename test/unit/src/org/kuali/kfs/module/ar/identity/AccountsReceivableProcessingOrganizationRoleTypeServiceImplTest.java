@@ -26,6 +26,8 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 @ConfigureContext
 public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest extends KualiTestBase {
@@ -48,7 +50,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     protected static final String AR_DOC_PROCESSING_CHART_2 = "IN";
     protected static final String AR_DOC_PROCESSING_ORG_2 = "ACCT";
 
-    private RoleService roleService;
+    private static RoleService roleService;
     private String arUserPrincipalId;
     private String arUserPrincipalId2;
     
@@ -147,10 +149,15 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         assertTrue( "principalHasRole test for processor role should have passed - user has processing org on KFS-SYS User role", result );
 
     }
-    
-    public RoleService getRoleService() {
-        return KIMServiceLocator.getRoleService();
-    }
 
+    /**
+     * @return the roleService
+     */
+    public RoleService getRoleService() {
+        if (roleService == null ) {
+            roleService = KIMServiceLocator.getRoleService();
+        }
+        return roleService;
+    }
     
 }

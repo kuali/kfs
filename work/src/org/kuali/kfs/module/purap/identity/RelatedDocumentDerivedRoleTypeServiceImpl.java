@@ -19,15 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
+    private static DocumentService documentService;
+    
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KimAttributes.DOCUMENT_NUMBER);
@@ -85,12 +87,21 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 
     protected PurchasingAccountsPayableDocument getPurchasingAccountsPayableDocument(String documentNumber){
         try{
-            return (PurchasingAccountsPayableDocument) 
-                    SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            return (PurchasingAccountsPayableDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
         } catch (WorkflowException e) {
             String errorMessage = "Workflow problem while trying to get document using doc id '" + documentNumber + "'";
             throw new RuntimeException(errorMessage, e);
         }
     }
     
+    /**
+     * @return the documentService
+     */
+     protected static DocumentService getDocumentService(){
+        if (documentService == null ) {
+            documentService = KNSServiceLocator.getDocumentService();
+        }
+        return documentService;
+    }
+
 }

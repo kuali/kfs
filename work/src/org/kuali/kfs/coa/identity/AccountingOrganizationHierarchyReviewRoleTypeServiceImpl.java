@@ -15,12 +15,18 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.rice.kim.bo.role.dto.KimDelegationMemberInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 
-public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl {
+public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl 
+        extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
 
     {
         qualificationRequiredAttributes.add(KFSPropertyConstants.OVERRIDE_CODE);
@@ -78,6 +84,27 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
             isValidTotalAmount = false;
         }
         return isValidTotalAmount;
+    }
+
+    
+    public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier){
+        return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
+    }
+    
+    public List<KimDelegationMemberInfo> doDelegationQualifiersMatchQualification(
+            AttributeSet qualification, List<KimDelegationMemberInfo> delegationMemberList){
+        AttributeSet translatedQualification = translateInputAttributeSet(qualification);
+        List<KimDelegationMemberInfo> matchingMemberships = new ArrayList<KimDelegationMemberInfo>();
+        for ( KimDelegationMemberInfo dmi : delegationMemberList ) {
+            if ( performMatch( translatedQualification, dmi.getQualifier() ) ) {
+                matchingMemberships.add( dmi );
+            }
+        }
+        return matchingMemberships;
+    }
+
+    public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes){
+        return qualificationAttributes;
     }
 
 }

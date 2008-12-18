@@ -86,9 +86,12 @@ public class Budget extends PersistableBusinessObjectBase {
 
     public Budget() {
         super();
-
-        budgetPersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.DEFAULT_PERSONNEL_INFLATION_RATE));
-        budgetNonpersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.DEFAULT_NONPERSONNEL_INFLATION_RATE));
+        try {
+            budgetPersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.DEFAULT_PERSONNEL_INFLATION_RATE));
+            budgetNonpersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.DEFAULT_NONPERSONNEL_INFLATION_RATE));
+        } catch ( RuntimeException ex ) {
+            // do nothing - this prevents blow-ups during spring initialization
+        }
 
         tasks = new ArrayList();
         periods = new ArrayList();

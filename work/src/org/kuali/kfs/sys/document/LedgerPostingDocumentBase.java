@@ -35,6 +35,11 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     private Integer tmpPostingYear;
     private String tmpPostingPeriodCode;
 
+    static private transient DateTimeService dateTimeService;
+    static private transient AccountingPeriodService accountingPeriodService;
+    static private transient DocumentTypeService documentTypeService;
+    
+    
     protected AccountingPeriod accountingPeriod;
     protected Integer postingYear;
     protected String postingPeriodCode;
@@ -66,8 +71,13 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @return the current accounting period
      */
     private AccountingPeriod retrieveCurrentAccountingPeriod() {
-        Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        return SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
+        try {
+            Date date = getDateTimeService().getCurrentSqlDate();
+            return getAccountingPeriodService().getByDate(date);
+        } catch ( RuntimeException ex ) {
+            // catch and ignore - prevent blowup when called before services initialized
+            return null;
+        }
     }
 
     /**
@@ -134,7 +144,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
         String code = this.tmpPostingPeriodCode;
 
         if (year != null && StringUtils.isNotBlank(code)) {
-            AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod(code, year);
+            AccountingPeriod accountingPeriod = getAccountingPeriodService().getByPeriod(code, year);
             if (ObjectUtils.isNotNull(accountingPeriod)) {
                 //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
                 //AccountingPeriod does not have any updatable references
@@ -163,6 +173,27 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @return the financial document type code for the given document
      */
     public String getFinancialDocumentTypeCode() {
-        return SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(this.getClass());
+        return getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass());
+    }
+    
+    public static DocumentTypeService getDocumentTypeService() {
+        if ( documentTypeService == null ) {
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        }
+        return documentTypeService;
+    }
+
+    public static DateTimeService getDateTimeService() {
+        if ( dateTimeService == null ) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+
+    public static AccountingPeriodService getAccountingPeriodService() {
+        if ( accountingPeriodService == null ) {
+            accountingPeriodService = SpringContext.getBean(AccountingPeriodService.class);
+        }
+        return accountingPeriodService;
     }
 }

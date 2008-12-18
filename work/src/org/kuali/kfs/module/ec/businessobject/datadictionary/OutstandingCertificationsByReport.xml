@@ -52,7 +52,7 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="chart.chartOfAccountsCode"
+                    p:sourceName="chartOfAccountsCode"
                     p:targetName="chartOfAccountsCode" />
             </list>
           </property>
@@ -62,10 +62,10 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organization.organizationCode"
+                    p:sourceName="organizationCode"
                     p:targetName="organizationCode" />
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organization.chartOfAccountsCode"
+                    p:sourceName="chartOfAccountsCode"
                     p:targetName="chartOfAccountsCode" />
             </list>
           </property>

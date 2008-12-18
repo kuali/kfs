@@ -567,7 +567,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
 
             // calculate source asset remaining amount
             if (customAction != null && (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON.equals(customAction[0]))) {
-                // Don't do anything because we are anyway 
+                // Don't do anything because we are anyway recalculating always below
             }
             
             // Do recalculate every time even if button (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON) wasn't pressed. We

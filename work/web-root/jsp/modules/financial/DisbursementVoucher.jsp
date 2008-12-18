@@ -42,7 +42,7 @@
 	<c:if test="${!empty KualiForm.editingMode['payeeEntry']}">
 		<c:set var="payeeEntryMode" value="true" scope="request" />
 	</c:if>
-	<kfs:hiddenDocumentFields />
+	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.disbVchrBankCode" 
 	  bankObjectProperty="document.bank"

@@ -18,6 +18,8 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.LabelValueBean;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
@@ -64,18 +66,22 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
         super();
         setFormatterType(CAN_PRINT_COVERSHEET_SIG_STR, SimpleBooleanFormatter.class);
         setDocument(new CashReceiptDocument());
-
         setNewCheck(getCashReceiptDocument().createNewCheck());
 
         checkEntryModes = new ArrayList();
         checkEntryModes.add(new LabelValueBean("Individual Checks/Batches", CashReceiptDocument.CHECK_ENTRY_DETAIL));
         checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
-
-        setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
-
+        
         baselineChecks = new ArrayList();
         
         this.setCapitalAssetInformation(new CapitalAssetInformation());
+    }
+    
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+
+        setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
     }
 
     /**

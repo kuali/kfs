@@ -20,6 +20,7 @@ import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYP
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +33,6 @@ import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRule;
 import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.Document;
@@ -217,5 +217,24 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             return result;
         }
     }
-
+    
+    public List<String> getAccountingPeriodCompositeValueList() {
+        List<String> accountingPeriodCompositeValueList = new ArrayList<String>();
+        for (int i = 0; i < this.getAccountingPeriods().size(); i++) {
+            AccountingPeriod temp = (AccountingPeriod) this.getAccountingPeriods().get(i);
+            accountingPeriodCompositeValueList.add(temp.getUniversityFiscalPeriodCode() + temp.getUniversityFiscalYear());
+        }
+        
+        return accountingPeriodCompositeValueList;
+    }
+    
+    public List<String> getAccountingPeriodLabelList() {
+        List<String> accountingPeriodLabelList = new ArrayList<String>();
+        for (int i = 0; i < this.getAccountingPeriods().size(); i++) {
+            AccountingPeriod temp = (AccountingPeriod) this.getAccountingPeriods().get(i);
+            accountingPeriodLabelList.add(temp.getUniversityFiscalPeriodName());
+        }
+        
+        return accountingPeriodLabelList;
+    }
 }

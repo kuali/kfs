@@ -27,7 +27,6 @@
 	documentTypeName="CashReceiptDocument" renderMultipart="true"
 	showTabButtons="true">
 	<cr:printCoverSheet />
-	<kfs:hiddenDocumentFields />
 	<c:set var="docStatusMessage"
 		value="${KualiForm.financialDocumentStatusMessage}" />
 	<c:if test="${!empty docStatusMessage}">

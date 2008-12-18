@@ -27,8 +27,7 @@
 		//-->
 	    </SCRIPT>
 
-		<kfs:hiddenDocumentFields />
-
+		
         <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
 		<!-- AUXILIARY VOUCHER SPECIFIC FIELDS -->
 		<kul:tab tabTitle="Auxiliary Voucher Details" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_AUXILIARY_VOUCHER_ERRORS}" >
@@ -44,28 +43,9 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
-					<c:choose>
-						<c:when test="${!readOnly}">
-							<!-- REGISTERING EDITABLE FIELD -->
-							${kfunc:registerEditableProperty(KualiForm, selectedAccountingPeriod)}
-							<select id="selectedAccountingPeriod" name="selectedAccountingPeriod">
-								<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
-									<c:set var="accountingPeriodCompositeValue" value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
-									<c:choose>
-										<c:when test="${KualiForm.selectedAccountingPeriod==accountingPeriodCompositeValue}" >
-											<option value='<c:out value="${accountingPeriodCompositeValue}"/>' selected="selected"><c:out value="${accountingPeriod.universityFiscalPeriodName}" /></option>
-										</c:when>
-										<c:otherwise>
-											<option value='<c:out value="${accountingPeriodCompositeValue}" />'><c:out value="${accountingPeriod.universityFiscalPeriodName}" /></option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>
-						</c:when>
-						<c:otherwise>
-							<c:out value="${KualiForm.accountingPeriod.universityFiscalPeriodName}" />
-						</c:otherwise>
-					</c:choose>
+					 <html:select property="selectedAccountingPeriod" >
+					 	<html:options property="accountingPeriodCompositeValueList" labelProperty="accountingPeriodLabelList"/>
+                	 </html:select>
                 </td>
               </tr>
               <tr>

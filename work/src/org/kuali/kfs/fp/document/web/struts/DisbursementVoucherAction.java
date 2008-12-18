@@ -562,7 +562,8 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         props.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(dvForm));
         props.put(KNSConstants.DOC_NUM, dvForm.getDocument().getDocumentNumber());
-
+        
+        //TODO: how should this forward be handled
         String url = UrlFactory.parameterizeUrl(getBasePath(request) + "/kr/" + KNSConstants.LOOKUP_ACTION, props);
 
         return new ActionForward(url, true);

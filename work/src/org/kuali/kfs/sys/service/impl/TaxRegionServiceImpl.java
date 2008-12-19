@@ -21,14 +21,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionCounty;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
-import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.kfs.sys.service.TaxRegionService;
+import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -45,9 +46,11 @@ public class TaxRegionServiceImpl implements TaxRegionService {
         List<TaxRegion> salesTaxRegions = new ArrayList<TaxRegion>();
 
         PostalCode postalCodeObj = postalCodeService.getByPrimaryId(postalCode);
-        salesTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), false));
-        salesTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), false));
-        salesTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), false));
+        if(ObjectUtils.isNotNull(postalCodeObj)) {
+            salesTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), false));
+            salesTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), false));
+            salesTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), false));
+        }
 
         return salesTaxRegions;
     }

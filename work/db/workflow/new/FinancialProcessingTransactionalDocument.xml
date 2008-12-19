@@ -4,13 +4,12 @@
 <documentType>
 <name>FinancialProcessingTransactionalDocument</name>
 <parent>FinancialSystemDocument</parent>
-<docHandler/>
 <routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="Account"/>
 					<requests name="Account" nextNode="OrganizationHierarchy"/>
 					<requests name="OrganizationHierarchy" nextNode="SubFund"/>
-					<requests name="Subfund" nextNode="Award"/>
+					<requests name="SubFund" nextNode="Award"/>
 					<requests name="Award"/>
 				</routePath>
 			</routePaths>

@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -42,20 +43,19 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import uk.ltd.getahead.dwr.create.SpringCreator;
 
 public class SpringContext {
-    private static final Logger LOG = Logger.getLogger(SpringContext.class);
-    private static final String APPLICATION_CONTEXT_DEFINITION = "SpringBeans.xml";
-    private static final String STANDALONE_RICE_DATASOURCE_CONTEXT_DEFINITION = "SpringStandaloneRiceDataSourceBeans.xml";
-    private static final String DATASOURCE_CONTEXT_DEFINITION = "SpringDataSourceBeans.xml";
-    protected static final String SPRING_SOURCE_FILES_KEY = "spring.source.files";
-    private static final String SPRING_TEST_FILES_KEY = "spring.test.files";
-    private static final String SPRING_PLUGIN_FILES_KEY = "spring.plugin.files";
-    private static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
-    private static ConfigurableApplicationContext applicationContext;
-    private static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
-    private static Set<String> SINGLETON_NAMES = new HashSet<String>();
-    private static Map<Class, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class, Object>();
-    private static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String, Object>();
-    private static Map<Class, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class, Map>();
+    protected static final Logger LOG = Logger.getLogger(SpringContext.class);
+    protected static final String APPLICATION_CONTEXT_DEFINITION = "spring-rice-startup.xml";
+    protected static final String BATCH_CONTEXT_DEFINITION = "spring-rice-startup-batch.xml";
+    protected static final String TEST_CONTEXT_DEFINITION = "spring-rice-startup-test.xml";
+    protected static final String STANDALONE_RICE_DATASOURCE_CONTEXT_DEFINITION = "spring-rice-startup-standalone-rice.xml";
+    protected static final String PLUGIN_CONTEXT_DEFINITION = "spring-rice-startup-standalone-rice.xml";
+    protected static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
+    protected static ConfigurableApplicationContext applicationContext;
+    protected static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
+    protected static Set<String> SINGLETON_NAMES = new HashSet<String>();
+    protected static Map<Class, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class, Object>();
+    protected static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String, Object>();
+    protected static Map<Class, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class, Map>();
 
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
@@ -210,19 +210,19 @@ public class SpringContext {
     }
 
     protected static void initializeApplicationContext() {
-        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY }), true, true);
+        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
     }
 
     protected static void initializeBatchApplicationContext() {
-        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY }), true, false);
+        initializeApplicationContext(BATCH_CONTEXT_DEFINITION, true);
     }
 
     protected static void initializeTestApplicationContext() {
-        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_TEST_FILES_KEY }), false, false);
+        initializeApplicationContext(TEST_CONTEXT_DEFINITION, false);
     }
 
     protected static void initializePluginApplicationContext() {
-        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_PLUGIN_FILES_KEY }), false, false);
+        initializeApplicationContext(PLUGIN_CONTEXT_DEFINITION, false);
     }
 
     protected static void close() {
@@ -235,35 +235,13 @@ public class SpringContext {
         }
     }
 
-    protected static String[] getSpringConfigurationFiles(String[] propertyNames) {
-        List<String> springConfigurationFiles = new ArrayList<String>();
-        springConfigurationFiles.add(APPLICATION_CONTEXT_DEFINITION);
-        if (Boolean.valueOf(PropertyLoadingFactoryBean.getBaseProperty(KFSConstants.USE_STANDALONE_WORKFLOW))) {
-            LOG.info("Initializing Spring Context to point to a Standalone Rice installation.");
-            springConfigurationFiles.add(STANDALONE_RICE_DATASOURCE_CONTEXT_DEFINITION);
-        } else {
-            springConfigurationFiles.add(DATASOURCE_CONTEXT_DEFINITION);
-        }
-        for (int i = 0; i < propertyNames.length; i++) {
-            springConfigurationFiles.addAll(PropertyLoadingFactoryBean.getBaseListProperty(propertyNames[i]));
-        }
-        for (Iterator iterator = springConfigurationFiles.iterator(); iterator.hasNext();) {
-            String fileName = (String) iterator.next();
-            if (StringUtils.isEmpty(fileName)) {
-                iterator.remove();
-            }
-        }
-        return springConfigurationFiles.toArray(new String[] {});
-    }
-
-    private static void initializeApplicationContext(String[] springFiles, boolean initializeSchedule, boolean allowLazyDDValidation) {
+    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
         LOG.info( "Starting Spring context initialization" );
-        applicationContext = new ClassPathXmlApplicationContext(springFiles);
+        // use the base config file to bootstrap the real application context started by Rice
+        new ClassPathXmlApplicationContext(riceInitializationSpringFile);
+        // pull the Rice application context into here for further use and efficiency
+        applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
         LOG.info( "Completed Spring context initialization" );
-        
-        LOG.info( "Starting Data Dictionary Initialization" );
-        getBean(DataDictionaryService.class).getDataDictionary().parseDataDictionaryConfigurationFiles( allowLazyDDValidation );
-        LOG.info( "Completed Data Dictionary Initialization" );
         
         SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
         

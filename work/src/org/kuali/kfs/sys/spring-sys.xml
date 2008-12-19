@@ -85,16 +85,9 @@
 		</property>
 	</bean>
 	
-    <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${datasource.driver.class}"/>
-        <property name="url" value="${datasource.url}"/>
-        <property name="username" value="${datasource.username}" />
-        <property name="password" value="${datasource.password}" />
-        <property name="maxActive" value="${datasource.pool.size}"/>
-        <property name="validationQuery" value="${datasource.validating.query}"/>
-        <property name="accessToUnderlyingConnectionAllowed" value="true"/>
-        <property name="initialSize" value="2"/>
-        <property name="minIdle" value="2"/>
+	<bean id="kfsService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
+      <property name="serviceNameSpaceURI" value="" />
+      <property name="retryAttempts" value="0" />
     </bean>
     
 	<bean id="schedulerService" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
@@ -558,11 +551,6 @@
     <bean id="workflowAttributesPropertyResolutionService" class="org.kuali.kfs.sys.document.service.impl.WorkflowAttributePropertyResolutionServiceImpl" />
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
-
-    <bean id="kfsService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
-      <property name="serviceNameSpaceURI" value="" />
-      <property name="retryAttempts" value="0" />
-    </bean>
 
     <bean id="employeeDerivedRoleTypeService" class="org.kuali.kfs.sys.identity.EmployeeDerivedRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

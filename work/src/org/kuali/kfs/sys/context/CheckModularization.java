@@ -18,9 +18,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.resourceloader.ContextClassLoaderBinder;
+import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.w3c.dom.Document;
@@ -57,14 +60,15 @@ public class CheckModularization {
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-SYS", "sys");
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-VND", "vnd");
     }
-    private String[] allContextFiles;
+//    private String[] allContextFiles;
     private KualiModuleService kualiModuleService;
     
     private void setUp() {
-        allContextFiles = SpringContext.getSpringConfigurationFiles(new String[] { SpringContext.SPRING_SOURCE_FILES_KEY });
-        ClassPathXmlApplicationContext context = null;
+        ConfigurableApplicationContext context = null;
         try {
-            context = new ClassPathXmlApplicationContext(allContextFiles);
+            new ClassPathXmlApplicationContext(SpringContext.TEST_CONTEXT_DEFINITION);
+            // pull the Rice application context into here for further use and efficiency
+            context = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
             kualiModuleService = (KualiModuleService)context.getBean("kualiModuleService");
         }
         catch (Exception e) {
@@ -420,7 +424,7 @@ public class CheckModularization {
         return moduleGroup;
     }
     
-    private void stopSpring(ClassPathXmlApplicationContext context) {
+    private void stopSpring(ConfigurableApplicationContext context) {
         try {
             if (context != null) {
                 context.close();

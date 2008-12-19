@@ -45,12 +45,12 @@
     <ul class="chan">
     	<li>
 			<portal:portalLink displayTitle="true" title="Labor Journal Voucher"
-				url="laborJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=KualiLaborJournalVoucherDocument" />
+				url="laborJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=LaborJournalVoucherDocument" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Labor Ledger Correction Process"
-				url="laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=KualiLaborLedgerErrorCorrectionDocument" />
+				url="laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=LaborLedgerCorrectionProcessDocument" />
 		</li>
     </ul>
 	<strong>System</strong>

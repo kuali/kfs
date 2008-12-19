@@ -56,8 +56,8 @@
 
 	<strong>Pre-Award</strong><br />
 	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title="Research Budget" url="researchBudgetParameters.do?methodToCall=docHandler&command=initiate&docTypeName=KualiBudgetDocument" /></li>
-	        <li><portal:portalLink displayTitle="true" title="Routing Form" url="researchRoutingFormMainPage.do?methodToCall=docHandler&command=initiate&docTypeName=KualiRoutingFormDocument" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Research Budget" url="researchBudgetParameters.do?methodToCall=docHandler&command=initiate&docTypeName=BudgetDocument" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Routing Form" url="researchRoutingFormMainPage.do?methodToCall=docHandler&command=initiate&docTypeName=RoutingFormDocument" /></li>
 		</ul>
 
 	<strong>Purchasing/Accounts Payable</strong><br />

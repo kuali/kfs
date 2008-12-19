@@ -61,7 +61,7 @@
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Post-Award Close"
-				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CloseDocument" />
+				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CFDACloseDocument" />
 		</li>		
 		<li>
 			<portal:portalLink displayTitle="true" title="Project Director"

@@ -43,6 +43,7 @@
         <ref bean="CashReceiptDocument-totalCoinAmount" />
         <ref bean="CashReceiptDocument-totalDollarAmount" />
         <ref bean="CashReceiptDocument-documentNumber" />
+        <ref bean="CashReceiptDocument-checkEntryMode" />
       </list>
     </property>
     <property name="validationMap" ref="CashReceiptDocument-validations" />
@@ -68,8 +69,23 @@
     <property name="shortLabel" value="Total Check Amount" />
     <property name="description" value="The total dollar amount of the check(s) involved. If adjoining pulldown is set to &quot;Individual Checks/Batches&quot;, then the Check Detail tab is displayed below this tab." />
   </bean>
-  <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean" />
 
+  <bean id="CashReceiptDocument-checkEntryMode" parent="CashReceiptDocument-checkEntryMode-parentBean" />
+  <bean id="CashReceiptDocument-checkEntryMode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checkEntryMode" />
+    <property name="label" value="Check Entry Mode" />
+    <property name="shortLabel" value="Check Entry Mode" />
+    <property name="maxLength" value="200" />
+    <property name="description" value="The check Entry Mode." />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CashReceiptCheckEntryModeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Check Entry Mode" />
+  </bean>
+    
+  <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean" />
   <bean id="CashReceiptDocument-totalCashAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCashAmount" />
     <property name="label" value="Total Currency Amount" />

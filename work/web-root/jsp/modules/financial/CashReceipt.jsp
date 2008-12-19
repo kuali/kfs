@@ -70,11 +70,9 @@
 						</c:if> 
 					</c:if>
 					<c:if test="${!readOnly}">
-
-						<html:select title="change check entry mode" property="checkEntryMode" onchange="submitForm()">
-							<html:optionsCollection property="checkEntryModes" label="label"
-								value="value" />
-						</html:select>
+						<kul:htmlControlAttribute property="checkEntryMode"
+								attributeEntry="${cashReceiptAttributes.checkEntryMode}" />
+						
 						<noscript><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif"
 							styleClass="tinybutton" alt="change check entry mode" title="change check entry mode" /></noscript>
 						</td>

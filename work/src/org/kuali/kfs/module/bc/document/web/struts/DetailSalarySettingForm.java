@@ -141,11 +141,22 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             // acquire position lock for the current funding line
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getPerson());
-            if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
-                this.releasePositionAndFundingLocks();
-                return false;
+            String positionNumber = position.getPositionNumber();
+            Integer universityFiscalYear = position.getUniversityFiscalYear();
+            String principalId = this.getPerson().getPrincipalId(); 
+            Boolean positionWasAlreadyLocked = lockService.isPositionLockedByUser(positionNumber, universityFiscalYear, principalId);
+            if (!positionWasAlreadyLocked){
+                BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getPerson());
+                if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
+                    errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
+
+                    // gwp - added if test, unlock all others only when initially loading the screen
+                    // not during the add line action
+                    if (!appointmentFunding.isNewLineIndicator()){
+                        this.releasePositionAndFundingLocks();
+                    }
+                    return false;
+                }
             }
 
             // acquire funding lock for the current funding line
@@ -156,7 +167,19 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
                 errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.getAppointmentFundingString());
-                this.releasePositionAndFundingLocks();
+                
+                // gwp - added if test, unlock all others only when initially loading the screen
+                // not during the add line action
+                if (!appointmentFunding.isNewLineIndicator()){
+                    this.releasePositionAndFundingLocks();
+                }
+                else {
+                    // adding a new line, just release the earlier position lock
+                    // if we just issued it above, not from other line
+                    if (!positionWasAlreadyLocked) {
+                        lockService.unlockPosition(positionNumber, universityFiscalYear, principalId);
+                    }
+                }
                 return false;
             }
         }

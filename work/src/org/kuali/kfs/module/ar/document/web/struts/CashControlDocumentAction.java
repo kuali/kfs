@@ -33,7 +33,6 @@ import org.kuali.kfs.module.ar.document.validation.event.AddCashControlDetailEve
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,6 +42,7 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -120,7 +120,6 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocument document = form.getCashControlDocument();
 
         // set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
-        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
@@ -150,8 +149,15 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         //  force customer numbers to upper case, since its a primary key
         newCashControlDetail.setCustomerNumber(newCashControlDetail.getCustomerNumber().toUpperCase());
         
+        //  save the document, which will run business rules and make sure the doc is ready for lines
+        KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
+        boolean rulePassed = true;
+        
+        // apply save rules for the doc
+        rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, cashControlDocument));
+        
         // apply rules for the new cash control detail
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, cashControlDocument, newCashControlDetail));
+        rulePassed &= ruleService.applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, cashControlDocument, newCashControlDetail));
 
         // add the new detail if rules passed
         if (rulePassed) {

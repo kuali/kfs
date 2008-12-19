@@ -15,18 +15,16 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.butt;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.butt;
-
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
@@ -34,8 +32,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class tests the rules in CashControlDocumentRule
@@ -46,6 +46,8 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     private CashControlDocumentRule rule;
     private CashControlDocument document;
     private DocumentService documentService;
+    private CashControlDocumentService cashControlDocumentService;
+    private AccountsReceivableDocumentHeaderService arDocHeaderService;
     private PaymentApplicationDocument appDoc;
 
     private static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
@@ -60,8 +62,10 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         rule = new CashControlDocumentRule();
-        document = new CashControlDocument();
         documentService = SpringContext.getBean(DocumentService.class);
+        cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+        arDocHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+        document = createCashControlDocument();
     }
 
     @Override
@@ -69,9 +73,22 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         rule = null;
         document = null;
         documentService = null;
+        cashControlDocumentService = null;
         super.tearDown();
     }
 
+    private CashControlDocument createCashControlDocument() throws WorkflowException {
+        
+        CashControlDocument doc = (CashControlDocument) documentService.getNewDocument(CashControlDocument.class);
+        doc.getDocumentHeader().setDocumentDescription("This is a test document.");
+
+        AccountsReceivableDocumentHeader arDocHeader = arDocHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+        arDocHeader.setDocumentNumber(doc.getDocumentNumber());
+        doc.setAccountsReceivableDocumentHeader(arDocHeader);
+
+        return doc;
+    }
+    
     /**
      * This method tests if validateCashControlDetails rule returns true when passed a valid line amount
      */
@@ -117,7 +134,6 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         CashControlDetail detail1 = new CashControlDetail();
         detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
 
-        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
         cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
         // get the first application document from the details as it is the only one we have added
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) document.getCashControlDetail(0).getReferenceFinancialDocument();

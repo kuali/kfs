@@ -114,7 +114,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
         
         // Save the cash control document, but do NOT do a full workflow-save, just persist the state
-        documentService.updateDocument(cashControlDocument);
+        documentService.saveDocument(cashControlDocument);
 
     }
 

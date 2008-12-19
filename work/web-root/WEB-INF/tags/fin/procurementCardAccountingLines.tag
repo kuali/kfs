@@ -101,7 +101,7 @@
                keyValues="documentNumber=${currentTransaction.documentNumber}" 
                render="true">
 	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
-	             readOnly="true" encryptValue="${!empty KualiForm.editingMode['viewOnly']}" displayMask="****************" />
+	             readOnly="true" encryptValue="${!empty KualiForm.editingMode['viewOnly']}" displayMaskValue="****************" />
 	          </kul:inquiry>
 	        </td>
 	      </tr>

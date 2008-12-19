@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import org.kuali.kfs.module.purap.PurapKeyConstants;

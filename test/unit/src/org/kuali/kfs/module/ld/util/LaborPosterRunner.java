@@ -17,15 +17,15 @@ package org.kuali.kfs.module.ld.util;
 
 import java.util.Date;
 
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.service.DateTimeService;
 
-@ConfigureContext(session = UserNameFixture.kuluser)
+@ConfigureContext(session = UserNameFixture.kfs)
 public class LaborPosterRunner extends KualiTestBase {
     private LaborPosterService laborPosterService;
 

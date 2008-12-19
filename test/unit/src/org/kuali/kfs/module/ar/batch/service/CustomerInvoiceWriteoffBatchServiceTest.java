@@ -20,6 +20,7 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -29,8 +30,6 @@ import org.kuali.rice.kns.service.DateTimeService;
 @ConfigureContext
 public class CustomerInvoiceWriteoffBatchServiceTest extends KualiTestBase {
 
-    private static final String PERSON_USERID = "kuluser";
-    
     private DateTimeService dateTimeService;
     private PersonService personService;
     private CustomerInvoiceWriteoffBatchService batchService;
@@ -43,7 +42,7 @@ public class CustomerInvoiceWriteoffBatchServiceTest extends KualiTestBase {
     }
     
     public void testFilesDropCorrectly() {
-        Person person = personService.getPersonByPrincipalName(PERSON_USERID); 
+        Person person = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER); 
         CustomerInvoiceWriteoffBatchVO batchVO = createBatchVO(person);
         
         batchVO.setSubmittedOn(dateTimeService.getCurrentTimestamp().toString());

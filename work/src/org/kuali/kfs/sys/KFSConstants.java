@@ -65,7 +65,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     // special user used in the post-processor
-    public static final String SYSTEM_USER = "kuluser";
+    public static final String SYSTEM_USER = "kfs";
 
     public static final String ENVIRONMENT_KEY = "environment";
     public static final String VERSION_KEY = "version";

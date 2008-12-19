@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -35,6 +35,7 @@ import org.kuali.kfs.module.purap.fixture.ElectronicInvoiceHelperServiceFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
@@ -67,7 +68,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
     }
 
     @RelatesTo(JiraIssue.KULPURAP3047)
-    @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
+    @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void testRejectDocumentCreationInvalidData()
     throws Exception{
         
@@ -97,7 +98,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
     }
     
     @RelatesTo(JiraIssue.KULPURAP3047)
-    @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
+    @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void testRejectDocumentCreationCorruptXML()
     throws Exception{
         
@@ -128,7 +129,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
     }
 
     @RelatesTo(JiraIssue.KULPURAP3047)
-    @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
+    @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void testPaymentRequestDocumentCreation()
     throws Exception{
         
@@ -139,7 +140,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         AccountingDocumentTestUtils.testRouteDocument(reqDoc, SpringContext.getBean(DocumentService.class));
         Integer reqId = reqDoc.getPurapDocumentIdentifier();
 
-        changeCurrentUser(kuluser);
+        changeCurrentUser(kfs);
         PurchaseOrderDocument poDocument = createPODoc(reqId);
        
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();

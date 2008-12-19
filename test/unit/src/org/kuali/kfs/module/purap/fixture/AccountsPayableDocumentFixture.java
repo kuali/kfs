@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.sys.KFSConstants;
 
 
 public enum AccountsPayableDocumentFixture {
@@ -42,7 +43,7 @@ public enum AccountsPayableDocumentFixture {
             ),
      PREQ_FOR_PO_CLOSE_DOC(null,  // accountsPayableApprovalDate
             null,  // lastActionPerformedByPersonId
-            "kuluser",    // accountsPayableProcessorIdentifier
+            KFSConstants.SYSTEM_USER,    // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier

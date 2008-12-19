@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.batch;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -27,7 +27,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 /**
  * This class tests the class {@link PurgeDocumentContentsStep}
  */
-@ConfigureContext(session = kuluser)
+@ConfigureContext(session = kfs)
 public class PurgeDocumentContentsStepTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeDocumentContentsStepTest.class);
 

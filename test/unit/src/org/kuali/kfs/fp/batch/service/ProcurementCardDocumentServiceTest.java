@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.batch.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * This class tests the services used to create ProcurementCard documents.
  */
-@ConfigureContext(session = kuluser)
+@ConfigureContext(session = kfs)
 public class ProcurementCardDocumentServiceTest extends KualiTestBase {
 
     public void testCreatePCardDocuments() throws Exception {

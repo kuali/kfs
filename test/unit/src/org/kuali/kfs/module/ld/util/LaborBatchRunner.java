@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ld.util;
 
 import java.util.Date;
 
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.JobDescriptor;
@@ -25,8 +24,9 @@ import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.service.DateTimeService;
 
-@ConfigureContext(session = UserNameFixture.kuluser)
+@ConfigureContext(session = UserNameFixture.kfs)
 public class LaborBatchRunner extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBatchRunner.class);
 

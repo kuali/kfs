@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
-@ConfigureContext(session = UserNameFixture.kuluser, initializeBatchSchedule = true)
+@ConfigureContext(session = UserNameFixture.kfs, initializeBatchSchedule = true)
 public class SchedulerServiceImplTest extends KualiTestBase {
 
     // tests added to make sure that the scheduler was available during the tests

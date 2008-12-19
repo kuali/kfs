@@ -644,7 +644,8 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
         // The existence of the editing mode means it is true, so the extra test is not really needed.
         if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-            viewOnly = Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+//            viewOnly = Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+            viewOnly = Boolean.TRUE;
         }
         return viewOnly;
 //

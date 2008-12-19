@@ -164,11 +164,12 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
         // Again, the existence of the editing mode means it is true, meaning edit access
         if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-            viewOnly = !Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
+//            viewOnly = !Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
+            viewOnly = Boolean.FALSE;
         }
         else {
             // no system view and no edit access, must be view only
-            viewOnly = true;
+            viewOnly = Boolean.TRUE;
         }
         return viewOnly;
 

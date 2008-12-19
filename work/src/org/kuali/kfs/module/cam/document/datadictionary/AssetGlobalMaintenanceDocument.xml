@@ -43,14 +43,6 @@
               p:attributeName="agency"
               p:attributeToHighlightOnFail="agencyNumber" />
         <bean parent="ReferenceDefinition"
-              p:attributeName="building"
-              p:collection="assetSharedDetails"
-              p:attributeToHighlightOnFail="buildingCode" />              
-        <bean parent="ReferenceDefinition"
-              p:attributeName="buildingRoom"
-              p:collection="assetSharedDetails"
-              p:attributeToHighlightOnFail="buildingRoomNumber" />
-        <bean parent="ReferenceDefinition"
               p:attributeName="chart"
               p:collection="assetPaymentDetails"
               p:attributeToHighlightOnFail="chartOfAccountsCode" />

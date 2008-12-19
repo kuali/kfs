@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
@@ -52,7 +53,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
-
     protected static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
         LOCATION_FIELD_MAP.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE);
@@ -70,6 +70,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     private UniversityDateService universityDateService;
     private AssetPaymentService assetPaymentService;
     private AssetService assetService;
+    private ObjectCodeService objectCodeService;
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -169,6 +170,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 valid &= false;
             }
         }
+        
+        valid &= validatePaymentObjectCodes(assetTransferDocument);
+        
         return valid;
     }
 
@@ -304,7 +308,33 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         return valid;
     }
+    
+    /**
+     * 
+     * checks that all the asset payments to be transfer has a valid object code in the new Chart of account code and
+     * current fiscal year
+     * 
+     * @param assetTransferDocument
+     * @return
+     */
+    protected boolean validatePaymentObjectCodes(AssetTransferDocument assetTransferDocument) {
+        boolean valid = true;
+        List<AssetPayment> assetPayments = assetTransferDocument.getAsset().getAssetPayments();
 
+        String chartOfAccountsCode = assetTransferDocument.getOrganizationOwnerChartOfAccountsCode();
+        Integer fiscalYear  = getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear();
+        
+        for (AssetPayment assetPayment : assetPayments) {
+            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {                
+                if (this.getObjectCodeService().getByPrimaryId(fiscalYear, chartOfAccountsCode , assetPayment.getFinancialObjectCode()) == null) {
+                    putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, CamsKeyConstants.Transfer.ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND,new String[]{assetPayment.getFinancialObjectCode(),fiscalYear.toString()});        
+                    valid=false;
+                }
+            }
+        }
+        return valid;
+    }
+    
     /**
      * Convenience method to append the path prefix
      */
@@ -319,11 +349,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         return universityDateService;
     }
 
-
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-
 
     public AssetPaymentService getAssetPaymentService() {
         if (this.assetPaymentService == null) {
@@ -332,7 +360,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         return assetPaymentService;
     }
-
 
     public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
         this.assetPaymentService = assetPaymentService;
@@ -347,5 +374,16 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
+    }
+
+    public ObjectCodeService getObjectCodeService() {
+        if (this.objectCodeService== null) {
+            this.objectCodeService= SpringContext.getBean(ObjectCodeService.class);
+        }
+        return objectCodeService;
+    }
+
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
     }
 }

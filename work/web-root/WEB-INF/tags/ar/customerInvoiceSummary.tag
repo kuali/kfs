@@ -23,8 +23,10 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="customerAddressAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
+
+<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
               
-<kul:tab tabTitle="Customer Invoice Summary" defaultOpen="true">
+<kul:tab tabTitle="Customer Invoice Summary" defaultOpen="true" tabErrorKey="document.customerNote">
     <div class="tab-container" align=center>	
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Customer Invoice Information">
             <tr>
@@ -92,7 +94,16 @@
                 <td align=left valign=middle class="datacell" style="width: 25%;">
                 	<kul:htmlControlAttribute attributeEntry="${customerAddressAttributes.customerZipCode}" property="document.customerInvoiceDocument.primaryAddressForCustomerNumber.customerZipCode" readOnly="true"/>
                 </td>           
-            </tr>            
+            </tr>
+            <tr>
+            	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerNote}" /></div>
+				</th>
+				<td align=left valign=middle class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${documentAttributes.customerNote}" property="document.customerNote" readOnly="${readOnly}" forceRequired="true"/>
+				</td>
+				<td colspan="2"/>
+            </tr>         
         </table>
     </div>
 </kul:tab>

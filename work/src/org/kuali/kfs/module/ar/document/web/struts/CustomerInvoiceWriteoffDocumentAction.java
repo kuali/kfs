@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerInvoiceWriteoffDocumentEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -33,6 +34,61 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class CustomerInvoiceWriteoffDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
     
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+
+        CustomerInvoiceWriteoffDocumentForm form = (CustomerInvoiceWriteoffDocumentForm) kualiDocumentFormBase;
+        CustomerInvoiceWriteoffDocument document = (CustomerInvoiceWriteoffDocument) form.getDocument();
+        document.populateCustomerNote();
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.blanketApprove(mapping, form, request, response);
+        saveCustomerNote(form);
+        return actionForward;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.route(mapping, form, request, response);
+        saveCustomerNote(form);
+        return actionForward;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.save(mapping, form, request, response);
+        saveCustomerNote(form);
+        return actionForward;
+    }
+    
+    
+    protected void saveCustomerNote(ActionForm form) {
+        CustomerService customerService = SpringContext.getBean(CustomerService.class);
+        
+        CustomerInvoiceWriteoffDocumentForm customerInvoiceWriteoffDocumentForm = (CustomerInvoiceWriteoffDocumentForm) form;
+        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) customerInvoiceWriteoffDocumentForm.getDocument();
+        
+        String customerNumber = customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getCustomer().getCustomerNumber();
+        String customerNote = customerInvoiceWriteoffDocument.getCustomerNote();
+        
+        customerService.createCustomerNote(customerNumber, customerNote);
+    }
+
     /**
      * Do initialization for a new customer invoice writeoff document
      * 

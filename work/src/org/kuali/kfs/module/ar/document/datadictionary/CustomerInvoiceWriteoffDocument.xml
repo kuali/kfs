@@ -32,6 +32,7 @@
         <ref bean="CustomerInvoiceWriteoffDocument-versionNumber" />
         <ref bean="CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" />
         <ref bean="CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" />
+         <ref bean="CustomerInvoiceWriteoffDocument-customerNote" />
       </list>
     </property>
   </bean>
@@ -74,6 +75,10 @@
   <bean id="CustomerInvoiceWriteoffDocument-versionNumber" parent="CustomerInvoiceWriteoffDocument-versionNumber-parentBean" />
 
   <bean id="CustomerInvoiceWriteoffDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>  
+  </bean> 
+  
+  <bean id="CustomerInvoiceWriteoffDocument-customerNote" parent="CustomerInvoiceWriteoffDocument-customerNote-parentBean" />
+
+  <bean id="CustomerInvoiceWriteoffDocument-customerNote-parentBean" abstract="true" parent="CustomerInvoiceWriteoffLookupResult-customerNote" />
 
 </beans>

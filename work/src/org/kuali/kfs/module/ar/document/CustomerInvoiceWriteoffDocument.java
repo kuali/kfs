@@ -46,9 +46,9 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.TaxService;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -64,6 +64,8 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     private String organizationReferenceIdentifier;
     private String financialDocumentReferenceInvoiceNumber;
     private String statusCode;
+    
+    private String customerNote;
 
     private Account account;
     private Chart chartOfAccounts;
@@ -438,4 +440,39 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public KualiDecimal getTotalDollarAmount() {
         return getInvoiceWriteoffAmount();
     }
+    
+    /**
+     * Gets the customerNote attribute. 
+     * @return Returns the customerNote.
+     */
+    public String getCustomerNote() {
+        /*
+        ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getBoNotes();
+
+        if (boNotes.size() > 0)
+            customerNote = boNotes.toString();
+        else
+            customerNote = "";
+            */
+        return customerNote;
+    }
+
+    /**
+     * Sets the customerNote attribute value.
+     * @param customerNote The customerNote to set.
+     */
+    public void setCustomerNote(String customerNote) {
+        this.customerNote = customerNote;
+    }
+    
+    public void populateCustomerNote() {
+        customerNote = "";
+        ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getBoNotes();
+        if (boNotes.size() > 0) {
+            for (int i=0; i < boNotes.size(); i++)
+                customerNote += ( (Note)boNotes.get(i)).getNoteText() + " ";
+            customerNote.trim();
+        }
+    }
+    
 }

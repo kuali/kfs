@@ -54,6 +54,9 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
      * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+        qualification.put(KimAttributes.DESCEND_HIERARCHY, DESCEND_HIERARCHY_TRUE_VALUE);
+        roleQualifier.put(KimAttributes.DESCEND_HIERARCHY, DESCEND_HIERARCHY_TRUE_VALUE);
+        
         boolean orgHierarchyDocTypeMatch = super.performMatch(qualification, roleQualifier);
 
         return orgHierarchyDocTypeMatch 

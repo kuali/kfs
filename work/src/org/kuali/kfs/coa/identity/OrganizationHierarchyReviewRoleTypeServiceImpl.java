@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.util.KimConstants;
@@ -41,6 +42,9 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
      * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+        qualification.put(KimAttributes.DESCEND_HIERARCHY, DESCEND_HIERARCHY_TRUE_VALUE);
+        roleQualifier.put(KimAttributes.DESCEND_HIERARCHY, DESCEND_HIERARCHY_TRUE_VALUE);
+        
         boolean orgHierarchyMatch = super.performMatch(qualification, roleQualifier);
 
         if(orgHierarchyMatch && 

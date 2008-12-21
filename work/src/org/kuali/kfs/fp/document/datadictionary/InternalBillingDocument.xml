@@ -135,7 +135,7 @@
     		<map>
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
     			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly" />
     		</map>
     	</property>
 	</bean>	

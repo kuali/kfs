@@ -164,6 +164,12 @@
     </bean>
     <bean id="SearchingAttribute-subFundGroupCode" parent="WorkflowAttributeMetaData-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
     <bean id="RoutingAttribute-subFundGroupCode" parent="WorkflowAttributeMetaData-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
+    <bean id="WorkflowAttributeMetaData-contractsAndGrantsAccountResponsibilityId" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
+    	<property name="attributeName" value="contractsAndGrantsAccountResponsibilityId" />
+    </bean>
+    <bean id="SearchingAttribute-contractsAndGrantsAccountResponsibilityId" parent="WorkflowAttributeMetaData-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
+    <bean id="RoutingAttribute-contractsAndGrantsAccountResponsibilityId" parent="WorkflowAttributeMetaData-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
 	
 	<bean id="SearchingType-AccountingDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
@@ -210,7 +216,6 @@
 	   		</list>
    		</property>
    	</bean>
-    
     <bean id="DocumentValuePathGroup-AccountingDocument-Account-sourceAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
@@ -218,7 +223,6 @@
     		</bean>
     	</property>
     </bean>
-
     <bean id="DocumentValuePathGroup-AccountingDocument-Account-targetAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
@@ -226,7 +230,6 @@
     		</bean>
     	</property>
     </bean>
-
     <bean id="RoutingType-AccountingDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -252,7 +255,6 @@
 	   		</list>
    		</property>
    	</bean>
-
     <bean id="DocumentValuePathGroup-AccountingDocument-OrganizationHierarchy-sourceAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-chartOrganizationAndOverrideCode">
@@ -260,7 +262,6 @@
     		</bean>
     	</property>
     </bean>
-
     <bean id="DocumentValuePathGroup-AccountingDocument-OrganizationHierarchy-targetAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-chartOrganizationAndOverrideCode">
@@ -268,7 +269,6 @@
     		</bean>
     	</property>
     </bean>
-
     <bean id="RoutingType-AccountingDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -285,7 +285,28 @@
     		</list>
     	</property>
     </bean>
-    
+
+   	<bean id="DocumentCollectionPath-AccountingLine-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   		<property name="documentValues">
+	   		<list>
+	   			<value>account.subFundGroupCode</value>
+	   		</list>
+   		</property>
+   	</bean>    
+    <bean id="DocumentValuePathGroup-AccountingDocument-SubFund-sourceAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-subFundGroupCode">
+    			<property name="collectionPath" value="sourceAccountingLines" />
+    		</bean>
+    	</property>
+    </bean>
+    <bean id="DocumentValuePathGroup-AccountingDocument-SubFund-targetAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-subFundGroupCode">
+    			<property name="collectionPath" value="targetAccountingLines" />
+    		</bean>
+    	</property>
+    </bean>
     <bean id="RoutingType-AccountingDocument-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -294,19 +315,56 @@
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-	    		<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-	    			<property name="documentCollectionPath">
-		    			<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
-		    				<property name="collectionPath" value="targetAccountingLines" />
-							<property name="documentValues">
-								<list>
-					    			<value>account.subFundGroupCode</value>
-								</list>
-							</property>    				
-		    			</bean>
-	    			</property>
-	    		</bean>
-	    		</list>
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-SubFund-sourceAccountingLines" />
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-SubFund-targetAccountingLines" />
+    		</list>
+    	</property>
+    </bean>
+    <bean id="RoutingType-AccountingDocument-SubFund-targetOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-subFundGroupCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-SubFund-targetAccountingLines" />
+    		</list>
+    	</property>
+    </bean>
+
+   	<bean id="DocumentCollectionPath-AccountingLine-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   		<property name="documentValues">
+	   		<list>
+	   			<value>account.contractsAndGrantsAccountResponsibilityId</value>
+	   		</list>
+   		</property>
+   	</bean>    
+    <bean id="DocumentValuePathGroup-AccountingDocument-Award-sourceAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-contractsAndGrantsAccountResponsibilityId">
+    			<property name="collectionPath" value="sourceAccountingLines" />
+    		</bean>
+    	</property>
+    </bean>
+    <bean id="DocumentValuePathGroup-AccountingDocument-Award-targetAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-contractsAndGrantsAccountResponsibilityId">
+    			<property name="collectionPath" value="targetAccountingLines" />
+    		</bean>
+    	</property>
+    </bean>
+    <bean id="RoutingType-AccountingDocument-Award" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-contractsAndGrantsAccountResponsibilityId" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-Award-sourceAccountingLines" />
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-Award-targetAccountingLines" />
+    		</list>
     	</property>
     </bean>
 </beans>

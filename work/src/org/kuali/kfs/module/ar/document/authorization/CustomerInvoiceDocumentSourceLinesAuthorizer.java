@@ -43,7 +43,7 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
      */
     @Override
     protected Map<String, AccountingLineViewAction> getActionMap(AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
-        Map<String, AccountingLineViewAction> actionMap = new HashMap<String, AccountingLineViewAction>();
+        Map<String, AccountingLineViewAction> actionMap = super.getActionMap(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
 
         CustomerInvoiceDetail invoiceLine = (CustomerInvoiceDetail) accountingLine;
 

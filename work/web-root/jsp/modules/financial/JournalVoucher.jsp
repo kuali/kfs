@@ -52,8 +52,7 @@
 						    }
 						//-->
 						</SCRIPT>
-						<select id="selectedAccountingPeriod" name="selectedAccountingPeriod"
-							onchange="submitForChangedAccountingPeriod()">
+						<html:select property="selectedAccountingPeriod" onchange="submitForChangedAccountingPeriod()">
 							<c:forEach items="${KualiForm.accountingPeriods}"
 								var="accountingPeriod">
 								<c:set var="accountingPeriodCompositeValue"
@@ -61,19 +60,19 @@
 								<c:choose>
 									<c:when
 										test="${KualiForm.selectedAccountingPeriod==accountingPeriodCompositeValue}">
-										<option
-											value='<c:out value="${accountingPeriodCompositeValue}"/>'
-											selected="selected"><c:out
-											value="${accountingPeriod.universityFiscalPeriodName}" /></option>
+										<html:option
+											value="${accountingPeriodCompositeValue}"><c:out
+											value="${accountingPeriod.universityFiscalPeriodName}" /></html:option>
 									</c:when>
 									<c:otherwise>
-										<option
-											value='<c:out value="${accountingPeriodCompositeValue}" />'><c:out
-											value="${accountingPeriod.universityFiscalPeriodName}" /></option>
+										<html:option
+											value="${accountingPeriodCompositeValue}" ><c:out
+											value="${accountingPeriod.universityFiscalPeriodName}" /></html:option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-						</select>
+						</html:select>
+						
 						<NOSCRIPT><html:submit value="refresh"
 							title="press this button to refresh the page after changing the accounting period" alt="press this button to refresh the page after changing the accounting period" />
 						</NOSCRIPT>
@@ -96,24 +95,22 @@
 						    }
 						//-->
 						</SCRIPT>
-						<select id="selectedBalanceType.code" name="selectedBalanceType.code"
-							onchange="submitForChangedBalanceType()">
-							<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
+						<html:select property="selectedBalanceType.code" onchange="submitForChangedBalanceType()">
+						<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
 								<c:choose>
 									<c:when
 										test="${KualiForm.selectedBalanceType.code==balanceType.code}">
-										<option value='<c:out value="${balanceType.code}"/>'
-											selected="selected"><c:out value="${balanceType.code}" /> -
-										<c:out value="${balanceType.name}" /></option>
+										<html:option value="${balanceType.code}"><c:out value="${balanceType.code}" /> -
+										<c:out value="${balanceType.name}" /></html:option>
 									</c:when>
 									<c:otherwise>
-										<option value='<c:out value="${balanceType.code}" />'><c:out
+										<html:option value="${balanceType.code}" ><c:out
 											value="${balanceType.code}" /> - <c:out
-											value="${balanceType.name}" /></option>
+											value="${balanceType.name}" /></html:option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-						</select>
+						</html:select>
 						<NOSCRIPT><html:submit value="refresh"
 							title="press this button to refresh the page after changing the balance type" alt="press this button to refresh the page after changing the balance type" />
 						</NOSCRIPT>

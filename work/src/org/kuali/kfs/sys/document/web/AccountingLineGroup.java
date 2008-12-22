@@ -140,9 +140,9 @@ public class AccountingLineGroup {
             groupTitleLineRenderer.setLineCollectionProperty(collectionPropertyName);
             groupTitleLineRenderer.setAccountingDocument(accountingDocument);
 
-            boolean isReadOnly = groupDefinition.getAccountingLineAuthorizer().isGroupReadOnly(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getPerson(), editModes);            
-            groupTitleLineRenderer.overrideCanUpload(groupDefinition.isImportingAllowed() && !isReadOnly);
-            groupTitleLineRenderer.setGroupActionsRenderred(!isReadOnly);
+            boolean isGroupEditable = groupDefinition.getAccountingLineAuthorizer().isGroupEditable(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getPerson());            
+            groupTitleLineRenderer.overrideCanUpload(groupDefinition.isImportingAllowed() && isGroupEditable);
+            groupTitleLineRenderer.setGroupActionsRenderred(isGroupEditable);
 
             groupTitleLineRenderer.render(pageContext, parentTag);
             groupTitleLineRenderer.clear();

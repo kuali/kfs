@@ -119,4 +119,11 @@ public interface AccountingLineRenderingContext {
      * @return the property name of the object that contains the accounting lines
      */
     public abstract String getAccountingLineContainingObjectPropertyName();
+    
+    /**
+     * Determines whether a field is modifyable or not
+     * @param field the field to test
+     * @return true if the field can be modified, false if the field can only be read
+     */
+    public abstract boolean isFieldModifyable(AccountingLineViewField field);
 }

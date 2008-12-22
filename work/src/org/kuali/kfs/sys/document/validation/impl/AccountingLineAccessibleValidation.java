@@ -59,8 +59,13 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
 
         // report errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLineForValidation.getAccountNumber(), GlobalVariables.getUserSession().getPerson().getPrincipalName() };
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, convertEventToMessage(event), errorParams);
+            String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
+            
+            String[] chartErrorParams = new String[] { accountingLineForValidation.getChartOfAccountsCode(),  principalName};
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, convertEventToMessage(event), chartErrorParams);
+            
+            String[] accountErrorParams = new String[] { accountingLineForValidation.getAccountNumber(), principalName };
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, convertEventToMessage(event), accountErrorParams);
         }
 
         return isAccessible;

@@ -39,7 +39,7 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getEditableBlocksInReadOnlyLine(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.bo.Person)
      */
-    @Override
+    /*@Override
     public Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {
         Set<String> editableFields = super.getEditableBlocksInReadOnlyLine(accountingDocument, accountingLine, currentUser);
 
@@ -70,6 +70,6 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
         }
 
         return editableFields;
-    }
+    } */
 }
 

@@ -189,6 +189,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         String accountingLineProperty = renderingContext.getAccountingLinePropertyPath();
         List<String> fieldNames = renderingContext.getFieldNamesForAccountingLine();
         List errors = renderingContext.getErrors();
+        
+        if (!renderingContext.isFieldModifyable(this)) {
+            this.getField().setReadOnly(true);
+        }
 
         FieldRenderer renderer = SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getField(), accountingLine);
         if (renderer != null) {

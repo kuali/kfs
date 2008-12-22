@@ -28,7 +28,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -50,6 +52,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     private String groupLabel;
     private Integer lineCount;
     private List errors;
+    private AccountingLineAuthorizer accountingLineAuthorizer;
+    private Map<String, String> documentEditModes;
     
     /**
      * Constructs a RenderableAccountingLineContainer
@@ -60,8 +64,11 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * @param actions the actions associated with this accounting line
      * @param newLine whether this is a new accounting line or not
      * @param groupLabel the label for the group this accounting line is being rendered part of
+     * @param errors the set of errors currently on the document
+     * @param accountingLineAuthorizer the accounting line authorizer for the document
+     * @param documentEditModes the editModes currently on the document
      */
-    public RenderableAccountingLineContainer(KualiAccountingDocumentFormBase form, AccountingLine accountingLine, String accountingLineProperty, List<AccountingLineTableRow> rows, List<AccountingLineViewAction> actions, Integer lineCount, String groupLabel, List errors) {
+    public RenderableAccountingLineContainer(KualiAccountingDocumentFormBase form, AccountingLine accountingLine, String accountingLineProperty, List<AccountingLineTableRow> rows, List<AccountingLineViewAction> actions, Integer lineCount, String groupLabel, List errors, AccountingLineAuthorizer accountingLineAuthorizer, Map<String, String> documentEditModes) {
         this.form = form;
         this.accountingLine = accountingLine;
         this.accountingLineProperty = accountingLineProperty;
@@ -70,6 +77,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
         this.lineCount = lineCount;
         this.groupLabel = groupLabel;
         this.errors = errors;
+        this.accountingLineAuthorizer = accountingLineAuthorizer;
+        this.documentEditModes = documentEditModes;
     }
     
     /**
@@ -343,6 +352,22 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public String getAccountingLineContainingObjectPropertyName() {
         return StringUtils.substringBeforeLast(this.getAccountingLinePropertyPath(), String.valueOf(PropertyUtils.NESTED_DELIM));
-    }   
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#isFieldModifyable(org.kuali.kfs.sys.document.web.AccountingLineViewField)
+     */
+    public boolean isFieldModifyable(AccountingLineViewField field) {
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        return accountingLineAuthorizer.isFieldEditable(getAccountingDocument(), accountingLine, field, currentUser) || isLineInError();
+    }
+    
+    /**
+     * Determines whether the given line is in error
+     * @return true if the accounting line has errors associated with it, false otherwise
+     */
+    protected boolean isLineInError() {
+        return GlobalVariables.getErrorMap().containsKeyMatchingPattern(accountingLineProperty+"*");
+    }
 }
 

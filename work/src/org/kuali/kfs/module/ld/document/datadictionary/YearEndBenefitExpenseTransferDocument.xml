@@ -97,30 +97,9 @@
     </property>
   </bean>  
 
-      <!-- accounting line groups -->
-    <bean id="YearEndBenefitExpenseTransferDocument-sourceAccountingLineGroup" parent="BenefitExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />
-    
-    <bean id="YearEndBenefitExpenseTransferDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-		<property name="accountingLineView" ref="labor-BenefitExpenseTransferDocument-accountingLineView" />
-   	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
-    	<property name="groupLabel" value="From" />
-    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.BenefitExpenseTransferAccountingLineAuthorizer" />
-    	<property name="importedLinePropertyPrefix" value="source" />
-    	<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-    	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
-    </bean>
-
-    <bean id="YearEndBenefitExpenseTransferDocument-targetAccountingLineGroup" parent="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
-    
-    <bean id="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-		<property name="accountingLineView" ref="labor-BenefitExpenseTransferDocument-accountingLineView" />
-   	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
-    	<property name="groupLabel" value="To" />
-    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.BenefitExpenseTransferAccountingLineAuthorizer" />
-    	<property name="importedLinePropertyPrefix" value="target" />
-    	<property name="totals" ref="AccountingDocument-targetGroupTotals" />
-    	<property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
-    </bean> 
+  <!-- accounting line groups -->
+  <bean id="YearEndBenefitExpenseTransferDocument-sourceAccountingLineGroup" parent="BenefitExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />
+  <bean id="YearEndBenefitExpenseTransferDocument-targetAccountingLineGroup" parent="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
   
 </beans>
 

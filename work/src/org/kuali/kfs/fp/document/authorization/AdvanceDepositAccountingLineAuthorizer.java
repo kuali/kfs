@@ -24,18 +24,4 @@ import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
  * The default implementation of AccountingLineAuthorizer
  */
 public class AdvanceDepositAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
-
-    /**
-     * Determines if the accounting line can be edited at account review level. The AD document can never be, so return false.
-     * 
-     * @param document the accounting document the accounting line to check lives on
-     * @param accountingLine the accounting line to check
-     * @param currentUser the user who is viewing this accounting line
-     * @return true if the line is editable, false otherwise
-     */
-    @Override
-    protected boolean isAccountingLineEditableOnAccountReview(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
-        return false;
-    }
 }
-

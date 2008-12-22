@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
@@ -31,23 +32,15 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
 
     /**
      * This method determines if the current accounting line is editable based upon if electronic claims
-     * exists on the DI document.  This method returns a boolean value.
-          * 
-     * @param document
-     *
-     * Note: the following parameters are not required in the method but are here for the interface.
-     *
-     * @param accountingLine
-     * @param currentUser
-     * @return true if the line is editable, false otherwise 
+     * exists on the DI document.
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineFieldModifyability(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
      */
     @Override
-    protected boolean isAccountingLineEditable(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
-        boolean isEditable = super.isAccountingLineEditable(document, accountingLine, currentUser);
-
-        if (isEditable) {
-            DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) document;
-    
+    protected boolean determineFieldEditability(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field) {
+        final boolean canModify = super.determineFieldEditability(accountingDocument, accountingLine, field);
+        if (canModify && accountingLine.isSourceAccountingLine()) {
+            DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) accountingDocument;
+            
             List<ElectronicPaymentClaim> epcs = diDoc.getElectronicPaymentClaims();
     
             if (epcs == null) {
@@ -56,11 +49,11 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
             }
     
             if (epcs != null && epcs.size() > 0) {
-                return false;
+                return false; // we can't modify no matter what...
             }
         }
-
-        return isEditable;
+        return canModify;
     }
+    
 }
 

@@ -15,17 +15,14 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
@@ -39,51 +36,51 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
     private static final String REFRESH_METHOD_NAME = "refreshNewSourceLine";
     private static final String REFRESH_LABEL = "Refresh New Source Line";
     private static final String REFRESH_BUTTON_IMAGE = "tinybutton-refresh.gif";
-    
-    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, Person currentUser, Map editModesForDocument, String groupTitle) {
-        List<AccountingLineViewAction> actions = super.getActions(accountingDocument, line, accountingLineProperty, accountingLineIndex, currentUser, editModesForDocument, groupTitle);
 
-        String editMode = super.getEditModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument);        
-        if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(editMode)) {
-            
-            CustomerInvoiceDetail invoiceLine = (CustomerInvoiceDetail) line;
-            
-            //  get the images base directory
-            String kfsImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url");
-            
-            //  show the Refresh button on the New Line Actions
-            if (isNewLine(accountingLineIndex)) {
-                actions.add(new AccountingLineViewAction(REFRESH_METHOD_NAME, REFRESH_LABEL, kfsImagesPath + REFRESH_BUTTON_IMAGE));
-            }
-            
-            else {
-                //  always add the Recalculate button if its in edit mode
-                String groupName = super.getActionInfixForExtantAccountingLine(line, accountingLineProperty);
-                String methodName = methodName(line, accountingLineProperty, accountingLineIndex, RECALCULATE_METHOD_NAME);
-                actions.add(new AccountingLineViewAction(methodName, RECALCULATE_LABEL, kfsImagesPath + RECALCULATE_BUTTON_IMAGE));
-                
-                //  only add the Discount button if its not a Discount Line or a Discount Line Parent
-                if (showDiscountButton(invoiceLine)) {
-                    methodName = methodName(line, accountingLineProperty, accountingLineIndex, DISCOUNT_METHOD_NAME);
-                    actions.add(new AccountingLineViewAction(methodName, DISCOUNT_LABEL, kfsImagesPath + DISCOUNT_BUTTON_IMAGE));
-                }
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getActionMap(org.kuali.kfs.sys.businessobject.AccountingLine,
+     *      java.lang.String, java.lang.Integer, java.lang.String)
+     */
+    @Override
+    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
+        Map<String, AccountingLineViewAction> actionMap = new HashMap<String, AccountingLineViewAction>();
+
+        CustomerInvoiceDetail invoiceLine = (CustomerInvoiceDetail) accountingLine;
+
+        // get the images base directory
+        String kfsImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url");
+
+        // show the Refresh button on the New Line Actions
+        if (isNewLine(accountingLineIndex)) {
+            actionMap.put(REFRESH_METHOD_NAME, new AccountingLineViewAction(REFRESH_METHOD_NAME, REFRESH_LABEL, kfsImagesPath + REFRESH_BUTTON_IMAGE));
+        }
+        else {
+            // always add the Recalculate button if its in edit mode
+            String groupName = super.getActionInfixForExtantAccountingLine(accountingLine, accountingLinePropertyName);
+            String methodName = methodName(accountingLine, accountingLinePropertyName, accountingLineIndex, RECALCULATE_METHOD_NAME);
+            actionMap.put(methodName, new AccountingLineViewAction(methodName, RECALCULATE_LABEL, kfsImagesPath + RECALCULATE_BUTTON_IMAGE));
+
+            // only add the Discount button if its not a Discount Line or a Discount Line Parent
+            if (showDiscountButton(invoiceLine)) {
+                methodName = methodName(accountingLine, accountingLinePropertyName, accountingLineIndex, DISCOUNT_METHOD_NAME);
+                actionMap.put(methodName, new AccountingLineViewAction(methodName, DISCOUNT_LABEL, kfsImagesPath + DISCOUNT_BUTTON_IMAGE));
             }
         }
-        
-        return actions;
+
+        return actionMap;
     }
-    
+
     private boolean showDiscountButton(CustomerInvoiceDetail invoiceLine) {
         return (!invoiceLine.isDiscountLine() && !invoiceLine.isDiscountLineParent());
     }
-    
+
     private String methodName(AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, String methodName) {
         String infix = super.getActionInfixForExtantAccountingLine(line, accountingLineProperty);
         return methodName + ".line" + accountingLineIndex.toString() + ".anchoraccounting" + infix + "Anchor";
     }
-    
+
     private boolean isNewLine(Integer accountingLineIndex) {
         return (accountingLineIndex == null || accountingLineIndex.intValue() < 0);
     }
-    
+
 }

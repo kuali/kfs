@@ -264,7 +264,7 @@ public class AccountingLineGroupTag extends TagSupport {
         boolean addedTopLine = false;
         
         // add the new line
-        if (!StringUtils.isBlank(newLinePropertyName) && !getGroupDefinition().getAccountingLineAuthorizer().isGroupReadOnly(document, collectionPropertyName, currentUser, getEditModes()) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser)) {
+        if (StringUtils.isNotBlank(newLinePropertyName) && getGroupDefinition().getAccountingLineAuthorizer().isGroupEditable(document, collectionPropertyName, currentUser) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser)) {
             containers.add(buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
             addedTopLine = true;
         }
@@ -292,9 +292,9 @@ public class AccountingLineGroupTag extends TagSupport {
         String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
         boolean newLine = (count == null);
         List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine, accountingLinePropertyName);
-        List<AccountingLineViewAction> actions = groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (newLine ? -1 : count.intValue()), currentUser, getEditModes(), groupDefinition.getGroupLabel());
+        List<AccountingLineViewAction> actions = groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (newLine ? -1 : count.intValue()), currentUser, groupDefinition.getGroupLabel());
 
-        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, count, groupDefinition.getGroupLabel(), getErrors());
+        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, count, groupDefinition.getGroupLabel(), getErrors(), groupDefinition.getAccountingLineAuthorizer(), getEditModes());
     }
 
     /**

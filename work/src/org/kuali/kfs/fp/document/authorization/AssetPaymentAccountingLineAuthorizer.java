@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cam.document.authorization;
+package org.kuali.kfs.fp.document.authorization;
+
 
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;

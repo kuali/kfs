@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.batch;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
@@ -35,17 +36,24 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PurapMassRequisitionStep extends AbstractStep {
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapMassRequisitionStep.class);
+    
     private DocumentService documentService;
     private final int NUM_DOCS_TO_CREATE = 25; // number of each document type to create
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
+        LOG.info("Starting execution of PurapMassRequisitionStep");
         for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-            // create document
-            RequisitionDocument reqDoc = populateQuantityDocument();
-            
-            // route it
+                        
             try {
+                LOG.info("Setting user session for routing of quantity document.");
                 GlobalVariables.setUserSession(new UserSession("khuntley"));
+                // create document
+                RequisitionDocument reqDoc = populateQuantityDocument();
+                
+                LOG.info("Blanket approving quantity requisition document.");
+                // route it
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
             }
             catch (WorkflowException e) {
@@ -55,11 +63,14 @@ public class PurapMassRequisitionStep extends AbstractStep {
         }
 
         for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-            // create document
-            RequisitionDocument reqDoc = populateNonQuantityDocument();
-            // route it
+           
             try {
+                LOG.info("Setting user session for routing of non-quantity document.");
                 GlobalVariables.setUserSession(new UserSession("khuntley"));
+                // create document
+                RequisitionDocument reqDoc = populateNonQuantityDocument();
+                LOG.info("Blanket approving non-quantity requisition document.");
+                // route it
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
             }
             catch (WorkflowException e) {
@@ -73,10 +84,11 @@ public class PurapMassRequisitionStep extends AbstractStep {
     }
 
     private RequisitionDocument populateQuantityDocument() {
+        LOG.info("Creating a new requisition.");
         RequisitionDocument reqDoc = null;
         try {
             reqDoc = (RequisitionDocument) documentService.getNewDocument(RequisitionDocument.class);
-
+            LOG.info("Populating a new requisition.");
             // RequisitionDocument reqDoc = new RequisitionDocument();
             // set doc attributes
             reqDoc.getDocumentHeader().setExplanation("batch created quantity document");

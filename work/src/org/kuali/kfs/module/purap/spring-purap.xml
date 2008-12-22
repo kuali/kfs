@@ -66,6 +66,7 @@
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
 				<value>electronicInvoiceExtractJobTrigger</value>
 				<value>faxPendingDocumentTrigger</value>
+				<value>purapMassRequisitionJobTrigger</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
@@ -544,6 +545,12 @@
         </property>
     </bean>
     
+    <bean id="purapMassRequisitionStep" class="org.kuali.kfs.module.purap.batch.PurapMassRequisitionStep" parent="step">
+	    <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+    </bean>
+    
     <bean id="faxPendingDocumentJob" parent="scheduledJobDescriptor">
         <property name="steps">
             <list>
@@ -596,6 +603,11 @@
 	
 	<bean id="faxPendingDocumentTrigger" parent="cronTrigger">
 		<property name="jobName" value="faxPendingDocumentJob" />
+		<property name="cronExpression" value="00 00 11,15 ? * *" />
+	</bean>
+	
+	<bean id="purapMassRequisitionJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="purapMassRequisitionJob" />
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
 	</bean>
 	

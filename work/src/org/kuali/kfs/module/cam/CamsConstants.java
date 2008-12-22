@@ -88,7 +88,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String RETIRED_STATUS_CODES = "RETIRED_STATUS_CODES";
         public static final String MERGE_SEPARATE_VIEWABLE_FIELDS = "MERGE_SEPARATE_VIEWABLE_FIELDS";
         public static final String MERGE_SEPARATE_EDITABLE_FIELDS = "MERGE_SEPARATE_EDITABLE_FIELDS";
-        public static final String EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR  = "EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR";
+        public static final String EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR = "EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR";
         public static final String DEPARTMENT_EDITABLE_FIELDS = "DEPARTMENT_EDITABLE_FIELDS";
         public static final String OBJECT_SUB_TYPE_GROUPS = "OBJECT_SUB_TYPE_GROUPS";
         public static final String INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE = "INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE";
@@ -307,7 +307,14 @@ public class CamsConstants extends JSTLConstants {
     public static final int ASSET_DESC_DISPLAY_LENGTH = 39;
 
     public static final Currency CURRENCY_USD = Currency.getInstance("USD");
-    
+
     public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
     public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
+
+    public static class GLPosting {
+        public static final String CAPITALIZATION = "CAPITALIZATION";
+        public static final String ACCUMMULATE_DEPRECIATION = "ACCUMMULATE_DEPRECIATION";
+        public static final String OFFSET_AMOUNT = "OFFSET_AMOUNT";
+
+    }
 }

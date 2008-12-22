@@ -88,6 +88,7 @@ public class CamsKeyConstants {
         public static final String ASSET_LOAN_NOTE = "note.asset.loan.active";
         public static final String ERROR_INVALID_USER_AUTH_ID = "error.representative.user.invalid";
         public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";
+        public static final String ERROR_ASSET_OBJECT_CODE_INACTIVE = "error.asset.object.code.inactive";
         public static final String ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND ="error.transfer.document.payment.objectcode.doesnt.exists";        
     }
 
@@ -118,7 +119,7 @@ public class CamsKeyConstants {
 
     public static class Retirement {
         public static final String ERROR_RETIREMENT_DETAIL_INFO_NULL = "error.retirement.detail.info.null";
-        public static final String ERROR_INVALID_RETIREMENT_DETAIL_INFO = "error.involid.retirement.detail.info";
+        public static final String ERROR_INVALID_RETIREMENT_DETAIL_INFO = "error.invalid.retirement.detail.info";
         public static final String ERROR_INVALID_MERGED_TARGET_ASSET_NUMBER = "error.invalid.merged.target.asset.number";
         public static final String ERROR_NON_CAPITAL_ASSET_RETIREMENT = "error.non.capital.asset.retirment";
         public static final String ERROR_NON_ACTIVE_ASSET_RETIREMENT = "error.non.active.asset.retirment";
@@ -134,8 +135,10 @@ public class CamsKeyConstants {
         public static final String ERROR_DISALLOWED_RAZE_REASON_CODE = "error.disallowed.raze.reason.code";
 
         public static final String ERROR_MULTIPLE_ASSET_RETIRED = "error.multiple.asset.retired";
-        public static final String ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE = "error.invalid.asset.object.code";
-        public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";
+        //public static final String ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE = "error.invalid.asset.object.code";
+        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND = "error.object.code.from.asset.object.code.not.found";
+        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE = "error.object.code.from.asset.object.code.inactive";
+        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID = "error.object.code.from.asset.object.code.invalid";
     }
 
     public static class AssetLocationGlobal {

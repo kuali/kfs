@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -29,6 +30,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -36,6 +39,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -89,20 +93,147 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         setupConvenienceObjects();
         valid &= assetRetirementValidation(assetRetirementGlobal);
 
-        if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && validateAssetObjectCodeExistence(assetRetirementGlobal)) {
-            // create poster
-            AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
-            // create postables
-            if (!(valid = getAssetRetirementService().createGLPostables(assetRetirementGlobal, assetRetirementGlPoster))) {
-                putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
-                return valid;
+        if ((valid && super.processCustomSaveDocumentBusinessRules(document)) && !getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && !allPaymentsFederalOwned(assetRetirementGlobal)) {
+            // Check if Asset Object Code and Object code exists and active.
+            if (valid &= validateObjectCodesEligibleForGLPosting(assetRetirementGlobal)) {
+                // create poster
+                AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
+                // create postables
+                getAssetRetirementService().createGLPostables(assetRetirementGlobal, assetRetirementGlPoster);
+
+                if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetRetirementGlPoster)) {
+                    assetRetirementGlobal.setGeneralLedgerPendingEntries(assetRetirementGlPoster.getPendingEntries());
+                }
+                else {
+                    assetRetirementGlPoster.getPendingEntries().clear();
+                }
             }
-            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetRetirementGlPoster)) {
-                assetRetirementGlobal.setGeneralLedgerPendingEntries(assetRetirementGlPoster.getPendingEntries());
+        }
+
+        return valid;
+    }
+
+    /**
+     * Check if all asset payments are federal owned.
+     * 
+     * @param assetRetirementGlobal
+     * @return
+     */
+    private boolean allPaymentsFederalOwned(AssetRetirementGlobal assetRetirementGlobal) {
+        List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
+        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
+            for (AssetPayment assetPayment : assetRetirementGlobalDetail.getAsset().getAssetPayments()) {
+                if (!getAssetPaymentService().isPaymentFederalOwned(assetPayment)) {
+                    return false;
+                }
             }
-            else {
-                assetRetirementGlPoster.getPendingEntries().clear();
+        }
+        return true;
+    }
+
+    /**
+     * Validate Asset Object Codes and Fin Object Codes eligible for GL Posting.
+     * 
+     * @param assetRetirementGlobal
+     * @return
+     */
+    private boolean validateObjectCodesEligibleForGLPosting(AssetRetirementGlobal assetRetirementGlobal) {
+        boolean valid = true;
+        List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
+        Asset asset = null;
+        List<AssetPayment> assetPayments = null;
+
+        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
+            asset = assetRetirementGlobalDetail.getAsset();
+            assetPayments = asset.getAssetPayments();
+            for (AssetPayment assetPayment : assetPayments) {
+                if (!getAssetPaymentService().isPaymentFederalOwned(assetPayment)) {
+                    // validate Asset Object Code and Financial Object Codes respectively
+                    if (valid &= validateAssetObjectCode(asset, assetPayment)) {
+                        valid &= validateFinancialObjectCodes(asset, assetPayment);
+                    }
+                }
             }
+        }
+
+        return valid;
+    }
+
+    /**
+     * Check Financial Object Code for GLPE.
+     * 
+     * @param asset
+     * @param assetPayment
+     * @return
+     */
+    private boolean validateFinancialObjectCodes(Asset asset, AssetPayment assetPayment) {
+        AssetPaymentService assetPaymentService = getAssetPaymentService();
+        boolean valid = true;
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        if (assetPaymentService.isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
+            // check for capitalization financial object code existing.
+            assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.CAPITALIZATION_FINANCIAL_OBJECT);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getCapitalizationFinancialObjectCode(), assetObjectCode.getCapitalizationFinancialObject(), CamsConstants.GLPosting.CAPITALIZATION);
+        }
+        if (assetPaymentService.isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
+            // check for accumulate depreciation financial Object Code existing
+            assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getAccumulatedDepreciationFinancialObjectCode(), assetObjectCode.getAccumulatedDepreciationFinancialObject(), CamsConstants.GLPosting.ACCUMMULATE_DEPRECIATION);
+        }
+        if (assetPaymentService.isPaymentEligibleForOffsetGLPosting(assetPayment)) {
+            // check for offset financial object code existing.
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE), getAssetRetirementService().getOffsetFinancialObject(asset.getOrganizationOwnerChartOfAccountsCode()), CamsConstants.GLPosting.OFFSET_AMOUNT);
+        }
+        return valid;
+    }
+
+    /**
+     * check existence and active status for given financial Object Code BO.
+     * 
+     * @param chartCode
+     * @param finObjectCode
+     * @param finObject
+     * @return
+     */
+    private boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPosting) {
+        boolean valid = true;
+        if (StringUtils.isBlank(finObjectCode)) {
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { glPosting, chartOfAccountsCode });
+            valid = false;
+        }
+        // check Object Code existing
+        else if (ObjectUtils.isNull(finObject)) {
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { finObjectCode, chartOfAccountsCode });
+            valid = false;
+        }
+        // check Object Code active
+        else if (!finObject.isActive()) {
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { finObjectCode, chartOfAccountsCode });
+            valid = false;
+        }
+        return valid;
+    }
+
+    /**
+     * Asset Object Code must exist as an active status.
+     * 
+     * @param asset
+     * @param assetPayment
+     * @return
+     */
+    private boolean validateAssetObjectCode(Asset asset, AssetPayment assetPayment) {
+        boolean valid = true;
+
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        // check Asset Object Code existing.
+        if (ObjectUtils.isNull(assetObjectCode)) {
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
+            valid = false;
+        }
+        // check Asset Object Code active
+        else if (!assetObjectCode.isActive()) {
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_INACTIVE, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
+            valid = false;
         }
 
         return valid;
@@ -114,24 +245,24 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobal
      * @return boolean
      */
-    private boolean validateAssetObjectCodeExistence(AssetRetirementGlobal assetRetirementGlobal) {
-        boolean valid = true;
-
-        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-            Asset asset = assetRetirementGlobalDetail.getAsset();
-            for (AssetPayment assetPayment : asset.getAssetPayments()) {
-                AssetObjectCode assetObjectCode = getAssetRetirementService().getAssetObjectCode(asset, assetPayment);
-                if (ObjectUtils.isNull(assetObjectCode)) {
-                    putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
-                    valid = false;
-                    break;
-                }
-            }
-        }
-        return valid;
-    }
-
-
+    // private boolean validateAssetObjectCodeExistence(AssetRetirementGlobal assetRetirementGlobal) {
+    // boolean valid = true;
+    //
+    // for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+    // Asset asset = assetRetirementGlobalDetail.getAsset();
+    // for (AssetPayment assetPayment : asset.getAssetPayments()) {
+    // AssetObjectCode assetObjectCode = getAssetRetirementService().getAssetObjectCode(asset, assetPayment);
+    // if (ObjectUtils.isNull(assetObjectCode)) {
+    // putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_ASSET_OBJECT_CODE_NOT_FOUND,
+    // new String[] { asset.getOrganizationOwnerChartOfAccountsCode(),
+    // assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
+    // valid = false;
+    // break;
+    // }
+    // }
+    // }
+    // return valid;
+    // }
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
@@ -420,5 +551,13 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     private AssetRetirementService getAssetRetirementService() {
         return SpringContext.getBean(AssetRetirementService.class);
+    }
+
+    private AssetPaymentService getAssetPaymentService() {
+        return SpringContext.getBean(AssetPaymentService.class);
+    }
+
+    private AssetObjectCodeService getAssetObjectCodeService() {
+        return SpringContext.getBean(AssetObjectCodeService.class);
     }
 }

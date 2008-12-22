@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
@@ -30,7 +31,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
  */
 public interface AssetRetirementService {
     boolean isAssetRetiredBySold(AssetRetirementGlobal assetRetirementGlobal);
-    
+
     boolean isAssetRetiredByAuction(AssetRetirementGlobal assetRetirementGlobal);
 
     boolean isAssetRetiredByExternalTransferOrGift(AssetRetirementGlobal assetRetirementGlobal);
@@ -42,7 +43,6 @@ public interface AssetRetirementService {
     String getAssetRetirementReasonName(AssetRetirementGlobal assetRetirementGlobal);
 
     /**
-     * 
      * This method generates offset payments for each sourceAsset.
      * 
      * @param sourceAsset
@@ -52,7 +52,6 @@ public interface AssetRetirementService {
     void generateOffsetPaymentsForEachSource(Asset sourceAsset, List<PersistableBusinessObject> persistables, String documentNumber);
 
     /**
-     * 
      * This method generates new payments from sourceAsset for targetAsset.
      * 
      * @param targetAsset
@@ -65,7 +64,6 @@ public interface AssetRetirementService {
     Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String documentNumber);
 
     /**
-     * 
      * Check if reasonCode is in reasonCodeGroup
      * 
      * @param reasonCodeGroup
@@ -75,7 +73,6 @@ public interface AssetRetirementService {
     boolean isRetirementReasonCodeInGroup(String reasonCodeGroup, String reasonCode);
 
     /**
-     * 
      * Check if the retirement reason code allows to retire multiple assets
      * 
      * @param retirementReasonCode
@@ -87,14 +84,13 @@ public interface AssetRetirementService {
     /**
      * Creates GL Postables
      */
-    boolean createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster);
-    
+    void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster);
+
     /**
-     * Get Asset Object Code
+     * Get the offset Object Code
      * 
      * @param asset
-     * @param assetPayment
      * @return
      */
-    public AssetObjectCode getAssetObjectCode(Asset asset, AssetPayment assetPayment);
+    ObjectCode getOffsetFinancialObject(String chartOfAccountsCode);
 }

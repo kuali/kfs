@@ -61,7 +61,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private AssetPaymentDao assetPaymentDao;    
+    private AssetPaymentDao assetPaymentDao;
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
     private ObjectCodeService objectCodeService;
@@ -85,6 +85,32 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         }
         return false;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentEligibleForAccumDeprGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPayment)
+     */
+    public boolean isPaymentEligibleForAccumDeprGLPosting(AssetPayment assetPayment) {
+        KualiDecimal accumlatedDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
+        return accumlatedDepreciationAmount == null ? false : !accumlatedDepreciationAmount.isZero();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentEligibleForCapitalizationGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPayment)
+     */
+    public boolean isPaymentEligibleForCapitalizationGLPosting(AssetPayment assetPayment) {
+        KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
+        return accountChargeAmount == null ? false : !accountChargeAmount.isZero();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentEligibleForOffsetGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPayment)
+     */
+    public boolean isPaymentEligibleForOffsetGLPosting(AssetPayment assetPayment) {
+        KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
+        KualiDecimal accumlatedDepreciationAmount = (assetPayment.getAccumulatedPrimaryDepreciationAmount() == null ? new KualiDecimal(0) : assetPayment.getAccumulatedPrimaryDepreciationAmount());
+        return accountChargeAmount == null ? false : !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero();
     }
 
     /**
@@ -129,16 +155,17 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
                 maxSequenceNo = getMaxSequenceNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
 
-                //Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total previous cost of the assets.
+                // Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total
+                // previous cost of the assets.
                 Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
-                
+
                 Double percentage = new Double(0);
-                if (totalHistoricalCost.compareTo(new Double(0)) != 0) 
+                if (totalHistoricalCost.compareTo(new Double(0)) != 0)
                     percentage = (previousTotalCostAmount / totalHistoricalCost);
                 else
                     percentage = (1 / (new Double(assetPaymentAssetDetails.size())));
-                      
-                KualiDecimal totalAmount = KualiDecimal.ZERO;  
+
+                KualiDecimal totalAmount = KualiDecimal.ZERO;
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
                     Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
                     KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
@@ -281,29 +308,29 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         }
         return assetPaymentDetailQuantity;
     }
-    
-        
+
+
     /**
-     * 
-     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#validateAssets(java.lang.String, org.kuali.kfs.module.cam.businessobject.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#validateAssets(java.lang.String,
+     *      org.kuali.kfs.module.cam.businessobject.Asset)
      */
-    public boolean validateAssets(String errorPath,Asset asset) {
+    public boolean validateAssets(String errorPath, Asset asset) {
         boolean valid = true;
 
-        //Validating the asset is a capital asset
+        // Validating the asset is a capital asset
         if (!this.getAssetService().isCapitalAsset(asset)) {
             GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_NON_CAPITAL_ASSET, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
-        
-        //Validating the asset hasn't been retired
+
+        // Validating the asset hasn't been retired
         if (this.getAssetService().isAssetRetired(asset)) {
             GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
         return valid;
     }
-    
+
 
     /**
      * This method determines whether or not an asset has different object sub type codes in its documents.
@@ -312,9 +339,9 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      */
     public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document) {
         // This method will only execute if the document is being submitted.
-//        if (!document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-//            return false;
-//        }
+        // if (!document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+        // return false;
+        // }
 
         List<String> subTypes = new ArrayList<String>();
         subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
@@ -376,7 +403,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         // If none object sub types are different...
         return false;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -434,5 +461,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
-    }    
+    }
+
 }

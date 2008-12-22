@@ -80,10 +80,10 @@ public interface AssetPaymentService {
      * @return true if elgible for GL posting
      */
     public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment);
-    
-    
+
+
     /**
-     * Checks if object sub type is non depreciable federally owned 
+     * Checks if object sub type is non depreciable federally owned
      * 
      * @param string objectSubType
      * @return true if is NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
@@ -91,39 +91,62 @@ public interface AssetPaymentService {
     public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType);
 
     /**
-     * 
-     * sets in an assetPaymentDetail BO the posting year and posting period that is retrived from the university date table
-     * using the asset payment posted date as a key.
+     * sets in an assetPaymentDetail BO the posting year and posting period that is retrived from the university date table using
+     * the asset payment posted date as a key.
      * 
      * @param assetPaymentDetail
      * @return boolean
-     */    
+     */
     public boolean extractPostedDatePeriod(AssetPaymentDetail assetPaymentDetail);
-    
+
     /**
-     * TODO is this needed? 
-     * Returns asset payment details quantity
+     * TODO is this needed? Returns asset payment details quantity
      * 
      * @param assetGlobal
      * @return Integer
      */
     public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal);
-    
-    
+
+
     /**
-     * 
      * Validates the assets inputed in the asset payment document
      * 
      * @param errorPath
      * @param asset
      * @return
      */
-    public boolean validateAssets(String errorPath,Asset asset);
-    
+    public boolean validateAssets(String errorPath, Asset asset);
+
     /**
      * This method determines whether or not an asset has different object sub type codes in its documents.
      * 
      * @return true when the asset has payments with object codes that point to different object sub type codes
      */
     public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document);
+
+    /**
+     * Check if payment is eligible for CAPITALIZATION GL posting.
+     * 
+     * @param assetPayment
+     * @return
+     */
+    public boolean isPaymentEligibleForCapitalizationGLPosting(AssetPayment assetPayment);
+
+    /**
+     * Check if payment is eligible for ACCUMMULATE_DEPRECIATION GL posting.
+     * 
+     * @param assetPayment
+     * @return
+     */
+    public boolean isPaymentEligibleForAccumDeprGLPosting(AssetPayment assetPayment);
+
+
+    /**
+     * Check if payment is eligible for OFFSET_AMOUNT GL posting.
+     * 
+     * @param assetPayment
+     * @return
+     */
+    public boolean isPaymentEligibleForOffsetGLPosting(AssetPayment assetPayment);
+
 }

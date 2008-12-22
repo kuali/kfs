@@ -948,7 +948,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
         Person fiscalOfficer = getKfsUserService().getPerson(fiscalOfficerUserId);
-        if (fiscalOfficer == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(fiscalOfficer) ) {
+        if (fiscalOfficer == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(fiscalOfficer) ) {
             result = false;
             if ( fiscalOfficer != null ) {
                 putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);

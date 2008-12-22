@@ -37,7 +37,7 @@ public class OrganizationAccountingDefaultValueFinderBase {
     @SuppressWarnings("unchecked")
     public OrganizationAccountingDefaultValueFinderBase(){        
         Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        ChartOrgHolder chartUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder chartUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
 
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", currentUniversityFiscalYear);

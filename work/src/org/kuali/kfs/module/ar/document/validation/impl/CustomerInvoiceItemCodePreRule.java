@@ -38,7 +38,7 @@ public class CustomerInvoiceItemCodePreRule extends PreRulesContinuationBase {
         CustomerInvoiceItemCode invoiceItemCode = (CustomerInvoiceItemCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
     
         Person user = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId("ar");
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId("ar");
         
         invoiceItemCode.setChartOfAccountsCode( chartOrg.getChartOfAccountsCode() );
         invoiceItemCode.setOrganizationCode( chartOrg.getOrganizationCode() );

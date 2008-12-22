@@ -18,10 +18,13 @@ package org.kuali.kfs.sys.service;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.rice.kim.bo.Person;
 
-public interface KNSAuthorizationService {
-    boolean isActive( Person p );
+public interface FinancialSystemUserService {
+    boolean isActiveFinancialSystemUser( Person person );
+    @Deprecated
     ChartOrgHolder getPrimaryChartOrganization( Person p );
+    @Deprecated
     ChartOrgHolder getOrganizationByModuleId( String moduleId );
-    ChartOrgHolder getOrganizationByModuleId( Person p, String moduleId );
+    ChartOrgHolder getOrganizationByNamespaceCode( Person person, String namespaceCode );
+    @Deprecated
     boolean isResponsibleForAccount(String id, String chartCode, String accountNumber);
 }

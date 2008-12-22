@@ -58,10 +58,10 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
 
         Person finSysUser = GlobalVariables.getUserSession().getPerson();
         
-        newOptions.setProcessingChartOfAccountCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode());
-        newOptions.setProcessingOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
+        newOptions.setProcessingChartOfAccountCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode());
+        newOptions.setProcessingOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
         
-        updateRemitToAddress(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode(), SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
+        updateRemitToAddress(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode(), SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
     }
     
     /**

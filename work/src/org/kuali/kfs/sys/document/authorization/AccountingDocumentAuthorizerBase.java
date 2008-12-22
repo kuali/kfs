@@ -133,7 +133,7 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
             String chartCode = accountingLine.getChartOfAccountsCode();
             String accountNumber = accountingLine.getAccountNumber();
 
-            if (org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber)) {
+            if (org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber)) {
                 return true;
             }
         }

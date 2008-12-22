@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.KNSAuthorizationService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 
@@ -93,7 +93,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if (user == null) {
             return "";
         }
-        org = SpringContext.getBean(KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART).getOrganizationCode();
+        org = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART).getOrganizationCode();
         return org;
     }
 

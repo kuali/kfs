@@ -55,7 +55,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.XMLParseException;
-import org.kuali.kfs.sys.service.KNSAuthorizationService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -99,7 +99,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private SystemInformationService sysInfoService;
     private BusinessObjectService boService;
     private DateTimeService dateTimeService;
-    private KNSAuthorizationService knsAuthorizationService;
+    private FinancialSystemUserService knsAuthorizationService;
     
     private BatchInputFileType batchInputFileType;
     private CustomerDigesterAdapter adapter;
@@ -843,11 +843,11 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return ARUtil.isUserInArBillingOrg(fsUser);
     }
 
-    public KNSAuthorizationService getKnsAuthorizationService() {
+    public FinancialSystemUserService getKnsAuthorizationService() {
         return knsAuthorizationService;
     }
 
-    public void setKnsAuthorizationService(KNSAuthorizationService knsAuthorizationService) {
+    public void setKnsAuthorizationService(FinancialSystemUserService knsAuthorizationService) {
         this.knsAuthorizationService = knsAuthorizationService;
     }
 

@@ -229,7 +229,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         arDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
         
         // Set the processing chart and org
-        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         arDocumentHeader.setProcessingChartOfAccountCode(currentUser.getChartOfAccountsCode());
         arDocumentHeader.setProcessingOrganizationCode(currentUser.getOrganizationCode());
         

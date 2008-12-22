@@ -26,7 +26,7 @@ import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.KNSAuthorizationService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -399,7 +399,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
             String chart = "";
             String org = "";
-            ChartOrgHolder chartOrg = SpringContext.getBean(KNSAuthorizationService.class).getOrganizationByModuleId(this.user,"chart");
+            ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(this.user,"chart");
             if ( chartOrg != null ) {
                 chart = chartOrg.getChartOfAccountsCode();
                 org = chartOrg.getOrganizationCode();

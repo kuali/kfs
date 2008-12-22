@@ -26,7 +26,7 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.service.AccountsReceivableAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.service.KNSAuthorizationService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -36,7 +36,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
     private static final String KULUSER_CHART_CD = "UA";
     private static final String KULUSER_ORG_CD = "AR";
     
-    private KNSAuthorizationService knsAuthzService;
+    private FinancialSystemUserService knsAuthzService;
     private BusinessObjectService boService;
     private OrganizationService orgService;
     
@@ -69,7 +69,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
             throw new IllegalArgumentException("A null or invalid person object was passed in.");
         }
         
-        ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByModuleId(person, KFSConstants.Modules.CHART);
+        ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByNamespaceCode(person, KFSConstants.Modules.CHART);
         
         // *************************************************************
         // SPECIAL CASE HANDLING WHILE KIM AUTH IS IN PROGRESS
@@ -108,7 +108,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         return (organizationOptions != null);
     }
     
-    public void setKnsAuthzService(KNSAuthorizationService knsAuthzService) {
+    public void setKnsAuthzService(FinancialSystemUserService knsAuthzService) {
         this.knsAuthzService = knsAuthzService;
     }
 

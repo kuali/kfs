@@ -83,7 +83,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (isUsingOrgAcctDefaultWriteoffFAU) {
 
             Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
-            ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+            ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
 
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put("universityFiscalYear", currentUniversityFiscalYear);

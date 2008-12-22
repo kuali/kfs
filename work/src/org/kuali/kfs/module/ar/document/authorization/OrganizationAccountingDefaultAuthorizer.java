@@ -37,7 +37,7 @@ public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMain
         Map editModes = new HashMap();
      //   try {
         OrganizationAccountingDefault orgAcctDefault = (OrganizationAccountingDefault)document.getDocumentBusinessObject();
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         Organization userOrg = chartOrg.getOrganization();
         Organization docOrg = orgAcctDefault.getOrganization();
         

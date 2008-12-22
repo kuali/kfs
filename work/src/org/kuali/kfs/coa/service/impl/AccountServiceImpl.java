@@ -149,7 +149,7 @@ public class AccountServiceImpl implements AccountService {
                 String accountNumber = accountingLine.getAccountNumber();
 
                 // if a document is enroute, user can only refer to for accounts for which they are responsible
-                isAccessible = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber);
+                isAccessible = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber);
             }
             else {
                 if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {

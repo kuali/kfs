@@ -502,7 +502,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @param document
      */
     private void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
-        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         if (currentUser != null) {
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());

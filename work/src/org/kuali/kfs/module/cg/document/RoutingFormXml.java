@@ -194,7 +194,7 @@ public class RoutingFormXml {
                 projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
 
                 Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
-                ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART);
+                ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(projectDirector.getUser(),KFSConstants.Modules.CHART);
                 String chart = userChartOrg.getChartOfAccountsCode();
                 String org = userChartOrg.getOrganizationCode();
 
@@ -668,7 +668,7 @@ public class RoutingFormXml {
             LOG.error("Lookup for emplId=" + workflowUser.getEmplId() + " failed. Skipping putting person in XML.");
             return;
         }
-        ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(kualiUser,KFSConstants.Modules.CHART);
+        ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(kualiUser,KFSConstants.Modules.CHART);
         approverElement.setAttribute("TITLE", ObjectUtils.toString(nodeName));
         approverElement.setAttribute("CHART", ObjectUtils.toString(userChartOrg.getChartOfAccountsCode()));
         approverElement.setAttribute("ORG", ObjectUtils.toString(userChartOrg.getOrganizationCode()));

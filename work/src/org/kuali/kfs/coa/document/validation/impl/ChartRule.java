@@ -65,7 +65,7 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
             putFieldError("finCoaManagerUniversal.principalName", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
         }
 
-        if (chartManager != null && !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(chartManager)) {
+        if (chartManager != null && !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(chartManager)) {
             result = false;
             putFieldError("finCoaManagerUniversal.principalName", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
         }

@@ -221,7 +221,7 @@
 	
 	<!-- end core batch jobs -->
 	
-	<bean id="knsAuthorizationService" class="org.kuali.kfs.sys.service.impl.KNSAuthorizationServiceImpl" />
+	<bean id="financialSystemUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
 	
 	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.ParameterServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />

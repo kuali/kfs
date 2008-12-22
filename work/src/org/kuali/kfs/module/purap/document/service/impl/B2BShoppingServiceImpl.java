@@ -163,8 +163,8 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
-            req.setChartOfAccountsCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(user).getChartOfAccountsCode());
-            req.setOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(user).getOrganizationCode());
+            req.setChartOfAccountsCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(user).getChartOfAccountsCode());
+            req.setOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(user).getOrganizationCode());
              req.setRequestorPersonName(user.getName());
             req.setRequestorPersonEmailAddress(user.getEmailAddress());
             req.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(user.getPhoneNumber()));

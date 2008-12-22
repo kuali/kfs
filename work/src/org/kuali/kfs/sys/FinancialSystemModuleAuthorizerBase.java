@@ -46,13 +46,13 @@ public class FinancialSystemModuleAuthorizerBase extends KualiModuleAuthorizerBa
     
     /** Check whether the user can access the module at all.  Default implementation just checks the user's active status on KFSUser */
     public boolean canAccessModule( Person user ) {
-        return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(user);
+        return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(user);
     }
     
     @Override
     public boolean isAuthorized(Person user, AuthorizationType authorizationType) {
         if (authorizingForAdHocApproveRequest(authorizationType) || authorizingForDocumentInitiation(authorizationType)) {
-            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(user);
+            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(user);
         }
         return super.isAuthorized(user, authorizationType);
     }

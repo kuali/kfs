@@ -476,7 +476,7 @@
 			<value>${reports.directory}</value>
 		</property>
 		<property name="knsAuthorizationService">
-			<ref bean="knsAuthorizationService" />
+			<ref bean="financialSystemUserService" />
 		</property>
 	</bean>
 	
@@ -818,7 +818,7 @@
   
 	<bean id="accountsReceivableAuthorizationService" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableAuthorizationServiceImpl">
 		<property name="knsAuthzService">
-			<ref bean="knsAuthorizationService" />
+			<ref bean="financialSystemUserService" />
 		</property>
 		<property name="boService">
 			<ref bean="businessObjectService" />

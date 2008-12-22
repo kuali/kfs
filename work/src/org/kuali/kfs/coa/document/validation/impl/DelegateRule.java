@@ -319,7 +319,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         Person user = newDelegate.getAccountDelegate();
 
         // user must be an active kuali user
-        if (user == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(user)) {
+        if (user == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
             success = false;
             putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
         } else {

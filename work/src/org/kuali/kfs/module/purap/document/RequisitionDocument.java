@@ -139,7 +139,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
             
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder purapChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId("purap");
+        ChartOrgHolder purapChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId("purap");
         this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
         this.setOrganizationCode(purapChartOrg.getOrganizationCode());
         this.setDeliveryCampusCode(currentUser.getCampusCode());
@@ -213,7 +213,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         super.toCopy();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder purapChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId("purap");
+        ChartOrgHolder purapChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId("purap");
         this.setPurapDocumentIdentifier(null);
 
         // Set req status to INPR.

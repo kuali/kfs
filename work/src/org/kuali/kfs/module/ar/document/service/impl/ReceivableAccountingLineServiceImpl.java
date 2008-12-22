@@ -40,7 +40,7 @@ public class ReceivableAccountingLineServiceImpl implements ReceivableAccounting
     public void setReceivableAccountingLineForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
 
         Integer currentUniverisityFiscalYear = universityDateService.getCurrentFiscalYear();
-        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", currentUniverisityFiscalYear);

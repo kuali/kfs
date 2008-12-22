@@ -33,7 +33,7 @@ public class BudgetModuleAuthorizer extends FinancialSystemModuleAuthorizerBase 
     public boolean isAuthorized(Person user, AuthorizationType authorizationType) {
 
         if (OrganizationSelectionTreeAction.class.equals(authorizationType.getTargetObjectClass())) {
-            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(user);
+            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(user);
         }
         return super.isAuthorized(user, authorizationType);
     }

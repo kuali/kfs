@@ -31,7 +31,7 @@ public class CurrentUserOrgValueFinder implements ValueFinder {
     public String getValue() {
         Person currentUser = ValueFinderUtil.getCurrentPerson();
         if (currentUser != null) {
-            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(currentUser).getOrganizationCode();
+            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(currentUser).getOrganizationCode();
         }
         else {
             return "";

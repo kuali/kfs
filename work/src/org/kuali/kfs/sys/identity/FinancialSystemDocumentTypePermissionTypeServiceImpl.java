@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.role.KimPermission;
+import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
+import org.kuali.rice.kim.bo.role.impl.KimPermissionImpl;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleService;
@@ -42,20 +44,28 @@ public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends Docume
 	 * 
 	 * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.role.KimPermission)
 	 */
-	@Override
+    @Deprecated // remove this after the rice update
 	protected boolean performPermissionMatch(AttributeSet requestedDetails, KimPermission permission) {
-	    if(KFSConstants.SysKimConstants.CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME.equals(permission.getTemplate().getName())){
-	        String documentTypeName = requestedDetails.get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
-	        String qualifierDocumentTypeName = permission.getDetails().get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
-	        if(documentTypeName==null && qualifierDocumentTypeName==null || 
-	                (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 
-	                        && documentTypeName.equals(qualifierDocumentTypeName))){
-	            return true;
-	        }
-	    } 
-	    return super.performPermissionMatch(requestedDetails, permission);
+        if ( permission instanceof KimPermissionInfo ) {
+            return performPermissionMatch(requestedDetails, (KimPermissionInfo)permission );
+        } else {
+            return performPermissionMatch(requestedDetails, ((KimPermissionImpl)permission).toSimpleInfo() );
+        }
 	}
 
+    protected boolean performPermissionMatch(AttributeSet requestedDetails, KimPermissionInfo permission) {
+        if(KFSConstants.SysKimConstants.CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME.equals(permission.getTemplate().getName())){
+            String documentTypeName = requestedDetails.get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
+            String qualifierDocumentTypeName = permission.getDetails().get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
+            if(documentTypeName==null && qualifierDocumentTypeName==null || 
+                    (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 
+                            && documentTypeName.equals(qualifierDocumentTypeName))){
+                return true;
+            }
+        } 
+        return super.performPermissionMatch(requestedDetails, permission);
+    }
+	
     /**
      * @return the RoleService
      */

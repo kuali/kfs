@@ -26,11 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements ChartOrgHolder {
-
-    protected String principalId;
-    protected String moduleId;
-    protected boolean active = true;
+public class ChartOrgHolderImpl implements ChartOrgHolder {
 
     protected String chartOfAccountsCode;
     protected String organizationCode;
@@ -41,30 +37,6 @@ public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements
     protected static transient OrganizationService organizationService;
     protected static transient ChartService chartService;
 
-    protected List<ChartOrgHolderModuleImpl> primaryOrganizations = new TypedArrayList(ChartOrgHolderModuleImpl.class);
-
-    public ChartOrgHolderImpl() {}
-    
-    public List<ChartOrgHolderModuleImpl> getPrimaryOrganizations() {
-        return primaryOrganizations;
-    }
-
-    public void setPrimaryOrganizations(List<ChartOrgHolderModuleImpl> primaryOrganizations) {
-        this.primaryOrganizations = primaryOrganizations;
-    }
-    
-    public ChartOrgHolder getPrimaryOrganizationByModuleId( String moduleId ) {
-        if ( moduleId == null ) {
-            return null;
-        }
-        for ( ChartOrgHolderModuleImpl org : getPrimaryOrganizations() ) {
-            if ( org.getModuleId().equals(moduleId)) {
-                return org;
-            }
-        }
-        return null;
-    }
-       
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
@@ -101,39 +73,4 @@ public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements
         }
         return chartService;
     }
-    
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-    
-    public String getPrincipalId() {
-        return principalId;
-    }
-
-    public void setPrincipalId(String principalId) {
-        this.principalId = principalId;
-    }
-
-    public String getModuleId() {
-        return moduleId;
-    }
-
-    public void setModuleId(String moduleId) {
-        this.moduleId = moduleId;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("principalId", principalId);
-        hashMap.put("chartOfAccountsCode", chartOfAccountsCode);
-        hashMap.put("organizationCode", organizationCode);
-        return hashMap;
-    }
-        
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,24 +23,33 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.kfs.sys.service.KNSAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class KNSAuthorizationServiceImpl implements KNSAuthorizationService {
 
-    protected BusinessObjectService businessObjectService;
-    protected IdentityManagementService identityManagementService;
+    private BusinessObjectService businessObjectService;
+    private IdentityManagementService identityManagementService;
+    private RoleManagementService roleManagementService;
+    private String userRoleId;
+    private List<String> userRoleIdList = new ArrayList<String>( 1 );
 
     public BusinessObjectService getBusinessObjectService() {
         if ( businessObjectService == null ) {
@@ -50,10 +60,43 @@ public class KNSAuthorizationServiceImpl implements KNSAuthorizationService {
     
     public IdentityManagementService getIdentityManagementService() {
         if (identityManagementService == null) {
-            identityManagementService = KIMServiceLocator.getIdentityManagementService();
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         }
         return identityManagementService;
     }        
+    
+    public RoleManagementService getRoleManagementService() {
+        if (roleManagementService == null) {
+            roleManagementService = SpringContext.getBean(RoleManagementService.class);
+        }
+        return roleManagementService;
+    }
+    
+    protected String getUserRoleId() {
+        if ( userRoleId == null ) {
+            userRoleId = getRoleManagementService().getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KimConstants.KIM_ROLE_NAME_USER);
+        }
+        return userRoleId;
+    }
+    
+    protected List<String> getUserRoleIdAsList() {
+        if ( userRoleIdList.isEmpty() ) {
+            userRoleIdList.add(getUserRoleId());
+        }
+        return userRoleIdList;
+    }
+    
+    protected ChartOrgHolder getChartOrgForNamespace( String principalId, String namespaceCode ) {
+        AttributeSet qualification = new AttributeSet( 1 );
+        qualification.put(KimAttributes.NAMESPACE_CODE, namespaceCode);
+        List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, KimConstants.KIM_ROLE_NAME_USER, qualification);
+        ChartOrgHolderImpl result = new ChartOrgHolderImpl();
+        if ( !roleQualifiers.isEmpty() ) {
+            result.setChartOfAccountsCode( roleQualifiers.get(0).get(KimAttributes.CHART_OF_ACCOUNTS_CODE));
+            result.setOrganizationCode( roleQualifiers.get(0).get(KimAttributes.ORGANIZATION_CODE));
+        }
+        return result;
+    }
     
     public ChartOrgHolder getPrimaryChartOrganization( Person p ) {
         HashMap<String,Object> pk = new HashMap<String, Object>(1);
@@ -63,19 +106,15 @@ public class KNSAuthorizationServiceImpl implements KNSAuthorizationService {
     }
 
     public boolean isActive( Person p ) {
-        return getIdentityManagementService().getPrincipal(p.getPrincipalId()).isActive();
+        return getRoleManagementService().principalHasRole(p.getPrincipalId(), getUserRoleIdAsList(), null);
     }
      
     public ChartOrgHolder getOrganizationByModuleId( String moduleId ) {
         return getOrganizationByModuleId(GlobalVariables.getUserSession().getPerson(), moduleId);    
     }
 
-    public ChartOrgHolder getOrganizationByModuleId( Person p, String moduleId ) {
-        //HashMap<String,Object> pk = new HashMap<String, Object>(1);
-        //pk.put(KNSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, p.getPrincipalId());
-        //ChartOrgHolderImpl chartOrg = (ChartOrgHolderImpl) getBusinessObjectService().findByPrimaryKey(ChartOrgHolderImpl.class, pk);
-        //return chartOrg.getPrimaryOrganizationByModuleId(moduleId);
-        return getPrimaryChartOrganization(p);
+    public ChartOrgHolder getOrganizationByModuleId( Person p, String namespaceCode ) {
+        return getChartOrgForNamespace( p.getPrincipalId(), namespaceCode );
     }
     
     @Deprecated
@@ -114,6 +153,38 @@ public class KNSAuthorizationServiceImpl implements KNSAuthorizationService {
         }
         return accountMap;
     }
-    
+
+    public class ChartOrgHolderImpl implements ChartOrgHolder {
+        private String chartOfAccountsCode;
+        private String organizationCode;
+        
+        public Chart getChartOfAccounts() {
+            Map<String,String> pk = new HashMap<String, String>( 2 );
+            pk.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+            return (Chart)getBusinessObjectService().findByPrimaryKey(Chart.class, pk);
+        }
+
+        public Organization getOrganization() {
+            Map<String,String> pk = new HashMap<String, String>( 2 );
+            pk.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+            pk.put(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
+            return (Organization)getBusinessObjectService().findByPrimaryKey(Organization.class, pk);
+        }
+        
+        public String getChartOfAccountsCode() {
+            return chartOfAccountsCode;
+        }
+        public void setChartOfAccountsCode(String chartOfAccountsCode) {
+            this.chartOfAccountsCode = chartOfAccountsCode;
+        }
+        public String getOrganizationCode() {
+            return organizationCode;
+        }
+        public void setOrganizationCode(String organizationCode) {
+            this.organizationCode = organizationCode;
+        }
+        
+        
+    }
 }
 

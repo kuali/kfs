@@ -40,13 +40,20 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     @Deprecated
     public static final String KFS_GROUP_NAMESPACE = "KFS";
     
+    @Deprecated
     public static class Modules {
-        public static final String KFS = "kfs";
-        public static final String CHART = "chart";
-        public static final String FINANCIAL = "financial";
-        public static final String GL = "gl";
-        public static final String VENDOR = "vendor";
-        public static final String PDP = "pdp";
+        @Deprecated
+        public static final String KFS = "KFS-SYS";
+        @Deprecated
+        public static final String CHART = "KFS-COA";
+        @Deprecated
+        public static final String FINANCIAL = "KFS-FP";
+        @Deprecated
+        public static final String GL = "KFS-GL";
+        @Deprecated
+        public static final String VENDOR = "KFS-VND";
+        @Deprecated
+        public static final String PDP = "KFS-PDP";
     }
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";

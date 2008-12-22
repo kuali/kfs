@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -30,25 +31,29 @@ import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEv
 import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * Validates that an accounting line does not have a capital object object code 
+ * Validates that an accounting line does not have a capital object object code
  */
 public class ServiceBillingAccountingLineAccessibilityValidation extends GenericValidation {
     private AccountingLine accountingLineForValidation;
 
     /**
-     * Validates that an accounting line does not have a capital object object code
-     * <strong>Expects an accounting line as the first a parameter</strong>
+     * Validates that an accounting line does not have a capital object object code <strong>Expects an accounting line as the first
+     * a parameter</strong>
+     * 
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        AccountingDocument financialDocument = (AccountingDocument)event.getDocument();
+        AccountingDocument financialDocument = (AccountingDocument) event.getDocument();
         AccountingLine accountingLine = getAccountingLineForValidation();
         // Duplicate code from accountIsAccessible() to avoid unnecessary calls to SB control and Workgroup services.
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
@@ -56,7 +61,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, event, GlobalVariables.getUserSession().getPerson());
         }
-       
+
         return true;
     }
 
@@ -68,14 +73,18 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @param user The user for whom to check accessibility.
      * @return Whether the given user is authorized to use the given account in the service billing income section.
      */
-    protected boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine,AttributedDocumentEvent event, Person user) {
+    protected boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AttributedDocumentEvent event, Person user) {
+        // TODO: verify this usage with James
         assertThat(accountingLine.isSourceAccountingLine(), accountingLine);
+
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
+
+        // Ignore empty key because hasAccessibleAccountingLines() may not validate beforehand.
         if (StringUtils.isEmpty(chartOfAccountsCode) || StringUtils.isEmpty(accountNumber)) {
-            // Ignore empty key because hasAccessibleAccountingLines() may not validate beforehand.
             return false;
         }
+
         ServiceBillingControl control = SpringContext.getBean(ServiceBillingControlService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
         if (ObjectUtils.isNull(control)) {
             if (event != null) {
@@ -83,7 +92,6 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
             }
             return false;
         }
-
         if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, control.getWorkgroupName())) {
             return true;
         }
@@ -93,51 +101,85 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
             }
             return false;
         }
+        
+        // return this.isAccountAccessible(accountingLine.getAccount(), user);
     }
-    
+
     /**
-     * This method determines what error key to use when posting the associated error.  The error key is determined 
-     * based on the constants passed in, which are values defined in the AccountingDocumentRuleBase.AccountingLineAction.
+     * determine whether the current user can access the given account
+     * 
+     * @param account the given account
+     * @param user the current user
+     * @return true if the current user can access the given account; otherwise, false
+     */
+    private boolean isAccountAccessible(Account account, Person user) {
+        String chartOfAccountsCode = account.getChartOfAccountsCode();
+        String accountNumber = account.getAccountNumber();
+
+        IdentityManagementService identityManagementService = KIMServiceLocator.getIdentityManagementService();
+        String principalId = user.getPrincipalId();
+        String namespaceCode = "KFS-SYS";
+        String responsibilityTemplateName = ""; // TODO:
+
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        qualification.put(KimAttributes.ACCOUNT_NUMBER, accountNumber);
+
+        AttributeSet responsibilityDetails = new AttributeSet();
+        responsibilityDetails.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        responsibilityDetails.put(KimAttributes.ACCOUNT_NUMBER, accountNumber);
+
+        return identityManagementService.hasResponsibilityByTemplateName(principalId, namespaceCode, responsibilityTemplateName, qualification, responsibilityDetails);
+    }
+
+    /**
+     * This method determines what error key to use when posting the associated error. The error key is determined based on the
+     * constants passed in, which are values defined in the AccountingDocumentRuleBase.AccountingLineAction.
      * 
      * @param action The constant used to identify which error key to return.
      * @return The error key for not having a service billing control.
-     * 
      * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     protected static String noServiceBillingControlErrorKey(AttributedDocumentEvent event) {
         if (event instanceof AttributedAddAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NO_SB_CTRL;
-        } else  if (event instanceof AttributedUpdateAccountingLineEvent) {
+        }
+        else if (event instanceof AttributedUpdateAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NO_SB_CTRL;
-        } else  if (event instanceof AttributedDeleteAccountingLineEvent) {
+        }
+        else if (event instanceof AttributedDeleteAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NO_SB_CTRL;
-        } else
+        }
+        else
             throw new AssertionError(event);
     }
 
     /**
-     * This method determines what error key to use when posting the associated error.  The error key is determined 
-     * based on the constants passed in, which are values defined in the AccountingDocumentRuleBase.AccountingLineAction.
+     * This method determines what error key to use when posting the associated error. The error key is determined based on the
+     * constants passed in, which are values defined in the AccountingDocumentRuleBase.AccountingLineAction.
      * 
      * @param action The constant used to identify which error key to return.
      * @return The error key for not being a member of the workgroup of the necessary service billing control.
-     * 
      * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     protected static String notControlGroupMemberErrorKey(AttributedDocumentEvent event) {
         if (event instanceof AttributedAddAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NOT_IN_SB_CTRL_GRP;
-        } else  if (event instanceof AttributedUpdateAccountingLineEvent) {
+        }
+        else if (event instanceof AttributedUpdateAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NOT_IN_SB_CTRL_GRP;
-        } else  if (event instanceof AttributedDeleteAccountingLineEvent) {
+        }
+        else if (event instanceof AttributedDeleteAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NOT_IN_SB_CTRL_GRP;
-        } else
+        }
+        else
             throw new AssertionError(event);
-        
+
     }
-    
+
     /**
-     * Gets the accountingLineForValidation attribute. 
+     * Gets the accountingLineForValidation attribute.
+     * 
      * @return Returns the accountingLineForValidation.
      */
     public AccountingLine getAccountingLineForValidation() {
@@ -146,10 +188,10 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
 
     /**
      * Sets the accountingLineForValidation attribute value.
+     * 
      * @param accountingLineForValidation The accountingLineForValidation to set.
      */
     public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
     }
 }
-

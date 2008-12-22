@@ -18,7 +18,7 @@
 <c:set var="documentAttributes" value="${DataDictionary.BudgetConstructionDocument.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 <c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
-<c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
+<c:set var="orgAttributes" value="${DataDictionary.Organization.attributes}" />
 <c:set var="orgVals" value="${KualiForm.document.account.organization}" />
 <c:set var="orgPropString" value="document.account.organization" />
 

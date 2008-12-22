@@ -26,7 +26,7 @@
 <c:set var="bcHeaderAttributes" value="${DataDictionary.BudgetConstructionHeader.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 <c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
-<c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
+<c:set var="orgAttributes" value="${DataDictionary.Organization.attributes}" />
 <c:set var="orgPropString" value="budgetConstructionHeader.account.organization" />
 
 <c:if test="${KualiForm.accountReportsExist}">

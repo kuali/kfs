@@ -19,7 +19,7 @@
 
 <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 <c:set var="pullupOrgAttributes" value="${DataDictionary.BudgetConstructionPullup.attributes}" />
-<c:set var="organizationAttributes" value="${DataDictionary.Org.attributes}" />
+<c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetOrganizationSelectionTree" renderMultipart="true"

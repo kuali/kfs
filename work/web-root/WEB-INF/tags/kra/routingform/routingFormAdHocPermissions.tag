@@ -53,7 +53,7 @@
                  hideRequiredAsterisk="true"
                 />
                 <kul:htmlAttributeHeaderCell
-                 attributeEntry="${DataDictionary.Org.attributes.organizationCode}"
+                 attributeEntry="${DataDictionary.Organization.attributes.organizationCode}"
                  scope="col"
                  hideRequiredAsterisk="true"
                 />

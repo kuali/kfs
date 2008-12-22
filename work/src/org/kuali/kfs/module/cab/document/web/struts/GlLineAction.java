@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -100,7 +99,7 @@ public class GlLineAction extends KualiAction {
      * @return URL that handles the document
      */
     protected String prepareDocHandlerUrl(Document maintDoc, String docTypeName) {
-        DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         DocumentType documentType = documentTypeService.findByName(docTypeName);
         String docHandler = documentType.getDocHandlerUrl();
         if (docHandler.indexOf("?") == -1) {
@@ -200,7 +199,7 @@ public class GlLineAction extends KualiAction {
      */
     public ActionForward viewDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String documentId = request.getParameter("documentNumber");
-        DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         DocumentType documentType = documentTypeService.findByDocumentId(Long.valueOf(documentId));
         String docHandler = documentType.getDocHandlerUrl();
         if (docHandler.indexOf("?") == -1) {

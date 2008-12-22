@@ -43,7 +43,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -722,7 +721,7 @@ public class PurApLineAction extends KualiAction {
      * @return
      */
     private String getDocHandlerForwardLink(String docTypeName, String documentNumber) {
-        DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         DocumentType documentType = documentTypeService.findByName(docTypeName);
         String docHandlerUrl = documentType.getDocHandlerUrl();
 

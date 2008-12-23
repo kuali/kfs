@@ -44,6 +44,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class PurapConstants extends JSTLConstants {
 
+    public static final String PURAP_NAMESPACE = "KFS-PURAP";
+    
     // special user used in the special ap cancel action
     public static final String SYSTEM_AP_USER = KFSConstants.SYSTEM_USER;
 

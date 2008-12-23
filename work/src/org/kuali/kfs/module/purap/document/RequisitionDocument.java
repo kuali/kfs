@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -139,7 +140,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
             
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder purapChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId("purap");
+        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, KFSConstants.ParameterNamespaces.CHART);
         this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
         this.setOrganizationCode(purapChartOrg.getOrganizationCode());
         this.setDeliveryCampusCode(currentUser.getCampusCode());
@@ -213,7 +214,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         super.toCopy();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder purapChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId("purap");
+        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, KFSConstants.ParameterNamespaces.CHART);
         this.setPurapDocumentIdentifier(null);
 
         // Set req status to INPR.

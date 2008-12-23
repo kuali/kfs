@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.kfs.fp.document.validation.impl.CapitalAssetInformationValidation;
 import org.kuali.kfs.sys.KFSConstants;
@@ -55,18 +56,22 @@ public class DebitsAndCreditsBalanceValidation extends GenericValidation {
         // now loop through all of the GLPEs and calculate buckets for debits and credits
         KualiDecimal creditAmount = KualiDecimal.ZERO;
         KualiDecimal debitAmount = KualiDecimal.ZERO;
-        Iterator i = accountingDocumentForValidation.getGeneralLedgerPendingEntries().iterator();
-        while (i.hasNext()) {
-            GeneralLedgerPendingEntry glpe = (GeneralLedgerPendingEntry) i.next();
-            if (!glpe.isTransactionEntryOffsetIndicator()) { // make sure we are looking at only the explicit entries
-                if (KFSConstants.GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
-                    creditAmount = creditAmount.add(glpe.getTransactionLedgerEntryAmount());
-                }
-                else { // DEBIT
-                    debitAmount = debitAmount.add(glpe.getTransactionLedgerEntryAmount());
-                }
+        
+        List<GeneralLedgerPendingEntry> pendingEntries = accountingDocumentForValidation.getGeneralLedgerPendingEntries();
+        for(GeneralLedgerPendingEntry entry : pendingEntries) {
+            if(entry.isTransactionEntryOffsetIndicator()) {
+                continue;
             }
+            
+            if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
+                creditAmount = creditAmount.add(entry.getTransactionLedgerEntryAmount());
+            }
+            else {
+                debitAmount = debitAmount.add(entry.getTransactionLedgerEntryAmount());
+            }           
         }
+        
+        LOG.info("debitCredit Amount:" + creditAmount + ":" + debitAmount + ";");
         boolean isValid = debitAmount.compareTo(creditAmount) == 0;
 
         if (!isValid) {

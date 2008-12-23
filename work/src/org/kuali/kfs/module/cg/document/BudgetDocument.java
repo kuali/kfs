@@ -444,7 +444,7 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
             }
             xml.append(openRoutingInfoXml());
             if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
-                xml.append(buildRoutingDataXmlForOrg(projectDirector.getFiscalCampusCode(), (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode()) ? org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode() : projectDirector.getPrimaryDepartmentCode())));
+                xml.append(buildRoutingDataXmlForOrg(projectDirector.getFiscalCampusCode(), (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode()) ? org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(projectDirector.getUser(),KFSConstants.ParameterNamespaces.CHART).getOrganizationCode() : projectDirector.getPrimaryDepartmentCode())));
             }
         }
         xml.append(closeRoutingInfoXml());
@@ -522,7 +522,7 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
                 String chartOfAccountsCode = person.getFiscalCampusCode();
                 String organizationCode;
                 if (StringUtils.isBlank(person.getPrimaryDepartmentCode())) {
-                    organizationCode = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(person.getUser(),KFSConstants.Modules.CHART).getOrganizationCode();
+                    organizationCode = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(person.getUser(),KFSConstants.ParameterNamespaces.CHART).getOrganizationCode();
                 }
                 else {
                     organizationCode = person.getPrimaryDepartmentCode();

@@ -47,7 +47,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
 
-    public static final String KFS_PERMISSION_NAMESPACE = "KFS-SYS";
     public static final String MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME = "Modify Accounting Lines";
 
     public enum PermissionAttributeValue {
@@ -266,11 +265,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     private boolean hasEditPermission(AccountingDocument accountingDocument, Person currentUser, AttributeSet permissionDetails, AttributeSet roleQualifiers) {
         String pricipalId = currentUser.getPrincipalId();
-
         AccountingDocumentAuthorizer accountingDocumentAuthorizer = this.getAccountingDocumentAuthorizer(accountingDocument);
-        boolean isAuthorized = accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFS_PERMISSION_NAMESPACE, MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME, pricipalId, permissionDetails, roleQualifiers);
-
-        return isAuthorized;
+        
+        return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME, pricipalId, permissionDetails, roleQualifiers);
     }
 
     /**

@@ -54,6 +54,7 @@ import java.util.ListIterator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -385,11 +386,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         }
         else {
             if (workflowDocument.stateIsEnroute()) {
-                String chartCode = accountingLine.getChartOfAccountsCode();
-                String accountNumber = accountingLine.getAccountNumber();
-
                 // if a document is enroute, user can only refer to for accounts for which they are responsible
-                isAccessible = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isResponsibleForAccount(currentUser.getPrincipalId(), chartCode, accountNumber);
+                isAccessible = SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(currentUser, accountingLine.getAccount());
             }
             else {
                 if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {

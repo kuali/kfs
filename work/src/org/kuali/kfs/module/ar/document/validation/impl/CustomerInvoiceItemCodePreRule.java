@@ -17,9 +17,11 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -38,7 +40,7 @@ public class CustomerInvoiceItemCodePreRule extends PreRulesContinuationBase {
         CustomerInvoiceItemCode invoiceItemCode = (CustomerInvoiceItemCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
     
         Person user = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId("ar");
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, KFSConstants.ParameterNamespaces.CHART);
         
         invoiceItemCode.setChartOfAccountsCode( chartOrg.getChartOfAccountsCode() );
         invoiceItemCode.setOrganizationCode( chartOrg.getOrganizationCode() );

@@ -69,7 +69,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
             throw new IllegalArgumentException("A null or invalid person object was passed in.");
         }
         
-        ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByNamespaceCode(person, KFSConstants.Modules.CHART);
+        ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByNamespaceCode(person, KFSConstants.ParameterNamespaces.CHART);
         
         // *************************************************************
         // SPECIAL CASE HANDLING WHILE KIM AUTH IS IN PROGRESS

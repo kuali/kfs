@@ -42,6 +42,7 @@ import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -163,9 +164,14 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
-            req.setChartOfAccountsCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(user).getChartOfAccountsCode());
-            req.setOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(user).getOrganizationCode());
-             req.setRequestorPersonName(user.getName());
+            
+            String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, KFSConstants.ParameterNamespaces.CHART).getChartOfAccountsCode();
+            req.setChartOfAccountsCode(chartAccountsCode);
+            
+            String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, KFSConstants.ParameterNamespaces.CHART).getOrganizationCode();
+            req.setOrganizationCode(organizationCode);
+            
+            req.setRequestorPersonName(user.getName());
             req.setRequestorPersonEmailAddress(user.getEmailAddress());
             req.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(user.getPhoneNumber()));
             req.setUseTaxIndicator(purchasingService.getDefaultUseTaxIndicatorValue(req));

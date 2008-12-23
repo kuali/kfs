@@ -25,6 +25,7 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -59,10 +60,13 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
 
         Person finSysUser = GlobalVariables.getUserSession().getPerson();
         
-        newOptions.setProcessingChartOfAccountCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode());
-        newOptions.setProcessingOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
+        String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, KFSConstants.ParameterNamespaces.CHART).getChartOfAccountsCode();
+        newOptions.setProcessingChartOfAccountCode(chartAccountsCode);
         
-        updateRemitToAddress(SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode(), SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
+        String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, KFSConstants.ParameterNamespaces.CHART).getOrganizationCode();
+        newOptions.setProcessingOrganizationCode(organizationCode);
+        
+        updateRemitToAddress(chartAccountsCode, organizationCode);
     }
     
     /**

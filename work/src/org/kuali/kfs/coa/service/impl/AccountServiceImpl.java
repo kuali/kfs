@@ -25,10 +25,14 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.spring.Cached;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -98,10 +102,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate, java.lang.String)
+     * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
+     *      java.lang.String)
      */
-     
+
     public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
         return accountDao.getPrimaryDelegationByExample(delegateExample, totalDollarAmount);
     }
@@ -131,7 +135,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#accountIsAccessible(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.module.chart.bo.ChartUser)
+     * @see org.kuali.kfs.coa.service.AccountService#accountIsAccessible(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.module.chart.bo.ChartUser)
      */
     public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, Person user) {
         LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");
@@ -145,18 +150,15 @@ public class AccountServiceImpl implements AccountService {
         }
         else {
             if (workflowDocument.stateIsEnroute()) {
-                String chartCode = accountingLine.getChartOfAccountsCode();
-                String accountNumber = accountingLine.getAccountNumber();
-
                 // if a document is enroute, user can only refer to for accounts for which they are responsible
-                isAccessible = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber);
+                isAccessible = this.hasResponsibilityOnAccount(user, accountingLine.getAccount());
             }
             else {
                 if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {
                     isAccessible = false;
                 }
                 else {
-                    if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
+                    if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, KNSServiceLocator.getKualiConfigurationService().getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                         isAccessible = true;
                     }
                 }
@@ -175,4 +177,3 @@ public class AccountServiceImpl implements AccountService {
     }
 
 }
-

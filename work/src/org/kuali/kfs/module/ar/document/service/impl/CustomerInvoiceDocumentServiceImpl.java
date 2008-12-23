@@ -47,6 +47,7 @@ import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.DocumentDao;
@@ -54,6 +55,7 @@ import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -502,7 +504,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @param document
      */
     private void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
-        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), KFSConstants.ParameterNamespaces.CHART);
         if (currentUser != null) {
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());

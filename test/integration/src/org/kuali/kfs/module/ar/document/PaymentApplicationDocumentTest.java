@@ -39,6 +39,7 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -229,9 +230,9 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         arDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
         
         // Set the processing chart and org
-        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
-        arDocumentHeader.setProcessingChartOfAccountCode(currentUser.getChartOfAccountsCode());
-        arDocumentHeader.setProcessingOrganizationCode(currentUser.getOrganizationCode());
+        ChartOrgHolder organization = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(userSession.getPerson(), KFSConstants.ParameterNamespaces.CHART);
+        arDocumentHeader.setProcessingChartOfAccountCode(organization.getChartOfAccountsCode());
+        arDocumentHeader.setProcessingOrganizationCode(organization.getOrganizationCode());
         
         ErrorMap e = GlobalVariables.getErrorMap();
         int errorCount = e.size();

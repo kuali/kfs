@@ -15,16 +15,26 @@
  */
 package org.kuali.kfs.sys.service;
 
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.rice.kim.bo.Person;
 
 public interface FinancialSystemUserService {
-    boolean isActiveFinancialSystemUser( Person person );
-    @Deprecated
-    ChartOrgHolder getPrimaryChartOrganization( Person p );
-    @Deprecated
-    ChartOrgHolder getOrganizationByModuleId( String moduleId );
-    ChartOrgHolder getOrganizationByNamespaceCode( Person person, String namespaceCode );
-    @Deprecated
-    boolean isResponsibleForAccount(String id, String chartCode, String accountNumber);
+
+    /**
+     * determine whether the given person is active in financial system
+     * 
+     * @param person the given person
+     * @return true if the given person is active in financial system; otherwsie, false
+     */
+    boolean isActiveFinancialSystemUser(Person person);
+
+    /**
+     * get the chart and organization within the specified namespace that the given person belongs to
+     * 
+     * @param person the given person
+     * @param namespaceCode the specified namespace
+     * @return the chart and organization within the specified namespace that the given person belongs to
+     */
+    ChartOrgHolder getOrganizationByNamespaceCode(Person person, String namespaceCode);
 }

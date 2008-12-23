@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.document.authorization;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,15 +28,12 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.identity.KimAttributes;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -127,13 +123,9 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * @param user
      * @return true if the given user is responsible for any accounting line of the given transactionalDocument
      */
-    protected boolean userOwnsAnyAccountingLine(Person user, List accountingLines) {
-        for (Iterator i = accountingLines.iterator(); i.hasNext();) {
-            AccountingLine accountingLine = (AccountingLine) i.next();
-            String chartCode = accountingLine.getChartOfAccountsCode();
-            String accountNumber = accountingLine.getAccountNumber();
-
-            if (org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber)) {
+    protected boolean userOwnsAnyAccountingLine(Person user, List<AccountingLine> accountingLines) {
+        for (AccountingLine accountingLine : accountingLines) {
+            if (SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(user, accountingLine.getAccount())) {
                 return true;
             }
         }

@@ -1113,7 +1113,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         setDisbVchrContactPersonName(currentUser.getName());
         setDisbVchrContactPhoneNumber(currentUser.getPhoneNumber());
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, KFSConstants.Modules.CHART);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, KFSConstants.ParameterNamespaces.CHART);
         if (chartOrg != null && chartOrg.getOrganization() != null) {
             setCampusCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
         }

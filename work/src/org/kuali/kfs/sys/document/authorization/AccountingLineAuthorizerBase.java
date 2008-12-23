@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -63,7 +62,6 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     }
 
     private KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-    private DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     private DocumentAuthorizationService documentAuthorizationService = SpringContext.getBean(DocumentAuthorizationService.class);
 
     /**
@@ -226,7 +224,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    protected boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {       
+    protected boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {
         // the fields in a new line should be always editable
         if (this.isNewLine(accountingDocument, accountingLine)) {
             return true;

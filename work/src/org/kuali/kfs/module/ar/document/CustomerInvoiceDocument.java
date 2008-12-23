@@ -683,12 +683,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 *
 	 */
 	public Chart getBillByChartOfAccount() {
-        if(billByChartOfAccount==null) {
-            if(StringUtils.isNotBlank(getBillByChartOfAccountCode())) {
-                billByChartOfAccount = SpringContext.getBean(ChartService.class).getByPrimaryId(getBillByChartOfAccountCode());
-            }
-        }
-        
 		return billByChartOfAccount;
 	}
 
@@ -709,12 +703,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 *
 	 */
 	public Organization getBilledByOrganization() {
-	    if(billedByOrganization==null) {
-	        if(StringUtils.isNotBlank(getBilledByOrganizationCode()) && StringUtils.isNotBlank(getBillByChartOfAccountCode())) {
-	            billedByOrganization = SpringContext.getBean(OrganizationService.class).getByPrimaryId(getBillByChartOfAccountCode(), getBilledByOrganizationCode());
-	        }
-	    }
-	    
 		return billedByOrganization;
 	}
 

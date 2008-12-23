@@ -527,7 +527,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
         List<File> reports = new ArrayList<File>();
-        CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
         for (CustomerInvoiceDocument invoice : invoices) {
             if (invoice.isOpenInvoiceIndicator()) {
                 Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
@@ -540,11 +539,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 details.add(detail);
 
             }
-            if (invoice.compareTo(ctrlDoc) != 0) {  
-                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
-                details.clear();
-            }
-            ctrlDoc = invoice;
+            reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
+            details.clear();
         }
         return reports;
     }
@@ -562,7 +558,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-        CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
         List<File> reports = new ArrayList<File>();
 
         for (CustomerInvoiceDocument invoice : invoiceList) {
@@ -577,11 +572,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 details.add(detail);
 
             }
-            if (invoice.compareTo(ctrlDoc) != 0) {  
-                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
-                details.clear();
-            }
-            ctrlDoc = invoice;
+            reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
+            details.clear();
 
         }
         return reports;
@@ -600,7 +592,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-        CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
 
         List<File> reports = new ArrayList<File>();
         for (CustomerInvoiceDocument invoice : invoiceList) {
@@ -614,11 +605,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
                 details.add(detail);
             }
-            if (invoice.compareTo(ctrlDoc) != 0) {  
-                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
-                details.clear();
-            }
-            ctrlDoc = invoice;
+            reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
+            details.clear();
         }
         return reports;
     }

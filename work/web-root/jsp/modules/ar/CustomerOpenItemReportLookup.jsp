@@ -79,7 +79,7 @@
 				                   pagesize="100"
 				                   defaultsort="4"
 				                   defaultorder="descending"
-				                   requestURI="arCustomerOpenItemReportLookupable.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
+				                   requestURI="arCustomerOpenItemReportLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 
 					<c:forEach items="${row.columns}" var="column">
 						<c:choose>

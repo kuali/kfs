@@ -38,7 +38,7 @@ function toggle(id) {
        <c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
-<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="paymentApplicationDocumentAttributes" value="${DataDictionary['PaymentApplicationDocument'].attributes}" />
 <c:set var="invoiceAttributes" value="${DataDictionary['CustomerInvoiceDocument'].attributes}" />
 <c:set var="invoicePaidAppliedAttributes"

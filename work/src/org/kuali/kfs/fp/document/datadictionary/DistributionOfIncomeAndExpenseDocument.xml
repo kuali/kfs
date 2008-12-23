@@ -122,7 +122,7 @@
 	<bean id="DistributionOfIncomeAndExpenseDocument-workflowAttributes" parent="DistributionOfIncomeAndExpenseDocument-workflowAttributes-parentBean" />
 
 	<bean id="DistributionOfIncomeAndExpenseDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="searchingAttributeDefinitions">
+    	<property name="searchingTypeDefinitions">
     		<list>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber" />

@@ -26,21 +26,21 @@ import org.kuali.rice.kim.bo.entity.KimEntity;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
     private static IdentityManagementService identityManagementService;
-    private static IdentityService identityService;
     private static BusinessObjectService businessObjectService;
     
     protected static final String A_EMPLOYEE_STATUS_CODE = "A";
     protected static final String STAFF_AFFILIATION_TYPE_CODE = "STAFF";
     protected static final String FCLTY_AFFILIATION_TYPE_CODE = "FCLTY";
+    protected static final String P_EMPLOYEE_TYPE_CODE = "P";
     
     /**
      *  Requirements:
@@ -56,23 +56,14 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     @Override
     public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         List<String> principalIds = new ArrayList<String>();
-        
+
         String principalId = qualification.get(KimConstants.KIM_ATTRIB_PRINCIPAL_ID);
 
-        if(hasApplicationRole(principalId, null, namespaceCode, roleName, qualification)){
+        if(hasApplicationRole(principalId, null, namespaceCode, roleName, qualification))
             principalIds.add( principalId );
-        } else{
-            if(KFSConstants.SysKimConstants.ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME.equals(roleName)){
-                Map<String,String> criteria = new HashMap<String,String>(1);
-                criteria.put("employmentInformation.employeeStatusCode", "A");
-                criteria.put("employmentInformation.affiliation.affiliationTypeCode", "STAFF|FCLTY");
-                principalIds = getPrincipalIds(getIdentityService().lookupEntitys(criteria));
-            } else if(KFSConstants.SysKimConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME.equals(roleName)){
-                Map<String,String> criteria = new HashMap<String,String>(1);
-                criteria.put("employmentInformation.employeeStatusCode", "A|P");
-                principalIds = getPrincipalIds(getIdentityService().lookupEntitys(criteria));
-            }
-        }
+        else
+            principalIds = getPrincipalIds(getIdentityManagementService().lookupEntitys(buildCriteria(roleName, null)));
+        
         return principalIds;
     }
 
@@ -86,7 +77,6 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     
     protected List<String> getPrincipalIds(KimEntity kimEntity){
         List<String> principalIds = new ArrayList<String>();
-        //TODO: ask if this can be moved to kimEntity
         for(KimPrincipal kimPrincipal: kimEntity.getPrincipals())
             principalIds.add(kimPrincipal.getPrincipalId());
         return principalIds;
@@ -98,27 +88,41 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     @Override
     public boolean hasApplicationRole(
             String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
-        
+
         if(StringUtils.isEmpty(principalId))
             return false;
-        
-        KimEntity kimEntity = getIdentityManagementService().getEntity(getIdentityService().getEntityIdByPrincipalId(principalId));
-        Map<String,String> criteria = new HashMap<String,String>(2);
-        
-        if(KFSConstants.SysKimConstants.ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME.equals(roleName))
-            criteria.put("employmentInformation.employeeStatusCode", "A");
-        else if(KFSConstants.SysKimConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME.equals(roleName))
-            criteria.put("employmentInformation.employeeStatusCode", "A|P");
-        
-        criteria.put("principals.principalId", principalId);
-        List<KimEntity> kimEntities = getIdentityService().lookupEntitys(criteria);
+
+        List<KimEntity> kimEntities = getIdentityManagementService().lookupEntitys(buildCriteria(roleName, principalId));
         return kimEntities!=null && kimEntities.size()>0;
     }
-    
+
+    protected Map<String, String> buildCriteria(String roleName, String principalId){
+        Map<String,String> criteria = new HashMap<String,String>();
+        criteria.put("active", KFSConstants.ACTIVE_INDICATOR);
+        
+        criteria.put("employmentInformation.active", KFSConstants.ACTIVE_INDICATOR);
+        criteria.put("employmentInformation.employeeStatusCode", A_EMPLOYEE_STATUS_CODE);
+        
+        if(KFSConstants.SysKimConstants.ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME.equals(roleName)){
+            criteria.put("employmentInformation.affiliation.active", KFSConstants.ACTIVE_INDICATOR);
+            criteria.put("employmentInformation.affiliation.affiliationTypeCode", 
+                    STAFF_AFFILIATION_TYPE_CODE+"|"+FCLTY_AFFILIATION_TYPE_CODE);
+
+        } else if(KFSConstants.SysKimConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME.equals(roleName)){
+            criteria.put("employmentInformation.employeeTypeCode", P_EMPLOYEE_TYPE_CODE);
+
+        }
+        if(StringUtils.isNotEmpty(principalId)){
+            criteria.put("principals.active", KFSConstants.ACTIVE_INDICATOR);
+            criteria.put("principals.principalId", principalId);
+        }
+        return criteria;
+    }
+
     /**
      * @return the IdentityManagementService
      */
-     protected static IdentityManagementService getIdentityManagementService(){
+    protected IdentityManagementService getIdentityManagementService(){
         if (identityManagementService == null ) {
             identityManagementService = KIMServiceLocator.getIdentityManagementService();
         }
@@ -129,27 +133,11 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
      * Gets the businessObjectService attribute. 
      * @return Returns the businessObjectService.
      */
-    public static BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public static void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        EmployeeDerivedRoleTypeServiceImpl.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the identityService attribute. 
-     * @return Returns the identityService.
-     */
-    public static IdentityService getIdentityService() {
-        if (identityService == null ) {
-            identityService = KIMServiceLocator.getIdentityService();
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null ) {
+            businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
-        return identityService;
+        return businessObjectService;
 
     }
 

@@ -125,7 +125,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
         FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) lockedDocument.getDocumentHeader();
 
         // get the user-id. if no user-id, then we can't do this test, so exit
-        String userId = GlobalVariables.getUserSession().getPrincipalName();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         if (StringUtils.isBlank(userId)) {
             return false; // dont bypass locking
         }

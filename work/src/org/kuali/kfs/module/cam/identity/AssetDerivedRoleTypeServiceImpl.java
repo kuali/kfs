@@ -60,19 +60,6 @@ public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
         return principalIds;
     }
 
-    /***
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
-     */
-    @Override
-    public boolean hasApplicationRole(
-            String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
-        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-
-        String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
-        EquipmentLoanOrReturnDocument document = getEquipmentLoanOrReturnDocument(documentNumber);
-        return principalId.equals(document.getBorrowerUniversalIdentifier());
-    }
-
     /**
      * @param documentNumber
      * @return

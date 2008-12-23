@@ -23,7 +23,7 @@ import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
 public class ChartDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
-    public OrganizationService organizationService;
+    private OrganizationService organizationService;
 
     /**
      * This service takes the following attributes:

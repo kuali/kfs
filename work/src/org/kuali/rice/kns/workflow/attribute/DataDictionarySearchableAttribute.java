@@ -111,7 +111,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
     protected List<Row> createFieldRowsForWorkflowAttributes(WorkflowAttributes attrs) {
         List<Row> searchFields = new ArrayList<Row>();
         
-      List<SearchingTypeDefinition> searchingTypeDefinitions = attrs.getSearchingAttributeDefinitions();
+      List<SearchingTypeDefinition> searchingTypeDefinitions = attrs.getSearchingTypeDefinitions();
       for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
           SearchingAttribute attr = definition.getSearchingAttribute();
           String attributeName = attr.getAttributeName();

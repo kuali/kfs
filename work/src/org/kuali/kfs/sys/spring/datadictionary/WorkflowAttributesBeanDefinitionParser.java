@@ -51,7 +51,7 @@ public class WorkflowAttributesBeanDefinitionParser extends KualiBeanDefinitionP
     protected void parseChildElements(Element workflowAttributeElement, BeanDefinitionBuilder bean) {
         NodeList children = workflowAttributeElement.getChildNodes();
         List<SearchingTypeDefinition> searchingAttributesMap = parseSearchableAttributes(children);
-        bean.addPropertyValue("searchingAttributeDefinitions", searchingAttributesMap);
+        bean.addPropertyValue("searchingTypeDefinitions", searchingAttributesMap);
         
         Map<String, RoutingTypeDefinition> routingTypesMap = parseRoutingTypes(children);
         bean.addPropertyValue("routingTypeDefinitions", routingTypesMap);

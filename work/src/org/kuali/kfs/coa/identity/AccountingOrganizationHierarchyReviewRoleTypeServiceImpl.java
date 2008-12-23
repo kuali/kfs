@@ -54,9 +54,6 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
      * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        qualification.put(KimAttributes.DESCEND_HIERARCHY, DESCEND_HIERARCHY_TRUE_VALUE);
-        roleQualifier.put(KimAttributes.DESCEND_HIERARCHY, DESCEND_HIERARCHY_TRUE_VALUE);
-        
         boolean orgHierarchyDocTypeMatch = super.performMatch(qualification, roleQualifier);
 
         return orgHierarchyDocTypeMatch 
@@ -76,7 +73,6 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
         boolean isValidTotalAmount = false;
         try{
             int totalAmount = new Integer(qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT)).intValue();
-            //TODO: change to KimConstants after compilation errors of KualiWorkflowDocument are resolved
             String toAmountStr = roleQualifier.get(KimAttributes.TO_AMOUNT);
             String fromAmountStr = roleQualifier.get(KimAttributes.FROM_AMOUNT);
             if((StringUtils.isEmpty(toAmountStr) || new Integer(toAmountStr).intValue()>totalAmount) &&

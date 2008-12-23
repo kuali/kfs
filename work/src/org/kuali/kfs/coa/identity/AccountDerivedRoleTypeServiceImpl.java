@@ -34,7 +34,7 @@ import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
 public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimDelegationTypeService {
 
-    public AccountService accountService;
+    private AccountService accountService;
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE);
@@ -66,7 +66,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         //Default to 0 total amount
         if(StringUtils.isEmpty(totalDollarAmount))
-                totalDollarAmount = "0";
+                totalDollarAmount = getDefaultTotalAmount();
         List<String> principalIds = new ArrayList<String>();
         
         if(KFSConstants.SysKimConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)){
@@ -89,50 +89,6 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         }
         
         return principalIds;
-    }
-
-    /***
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
-     */
-    @Override
-    public boolean hasApplicationRole(
-            String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
-        //validate received attributes
-        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        String chartOfAccountsCode = qualification.get(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE);
-        String accountNumber = qualification.get(KFSPropertyConstants.ACCOUNT_NUMBER);
-        String fisDocumentTypeCode = qualification.get(KFSPropertyConstants.DOCUMENT_TYPE_NAME);
-        String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
-        if(StringUtils.isEmpty(totalDollarAmount)) totalDollarAmount = getDefaultTotalAmount();
-        boolean hasApplicationRole = false;
-        List<String> principalIds = new ArrayList<String>();
-        
-        if(KFSConstants.SysKimConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)){
-            Account account = getAccount(chartOfAccountsCode, accountNumber);
-            if(account!=null) hasApplicationRole = principalId.equals(account.getAccountsSupervisorySystemsIdentifier());
-        } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)){
-            Account account = getAccount(chartOfAccountsCode, accountNumber);
-            if(account!=null) hasApplicationRole = principalId.equals(account.getAccountFiscalOfficerSystemIdentifier());
-        } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
-            AccountDelegate primaryDelegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, fisDocumentTypeCode, totalDollarAmount);
-            if(primaryDelegate!=null)
-                hasApplicationRole = principalId.equals(primaryDelegate.getAccountDelegateSystemId());
-        } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
-            List<AccountDelegate> secondaryDelegates = 
-                getSecondaryDelegates(chartOfAccountsCode, accountNumber, fisDocumentTypeCode, totalDollarAmount);
-            for(AccountDelegate secondaryDelegate: secondaryDelegates){
-                if(principalId.equals(secondaryDelegate.getAccountDelegateSystemId())){
-                    hasApplicationRole = true;
-                    break;
-                }
-            }
-        } else if(KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
-            Person person = getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
-            if(person!=null)
-                hasApplicationRole = principalId.equals(person.getPrincipalId());
-        }
-        
-        return hasApplicationRole;
     }
 
     protected Account getAccount(String chartOfAccountsCode, String accountNumber){

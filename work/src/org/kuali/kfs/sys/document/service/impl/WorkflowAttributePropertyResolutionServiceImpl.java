@@ -180,7 +180,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      */
     public List<SearchableAttributeValue> resolveSearchableAttributeValues(Document document, WorkflowAttributes workflowAttributes) {
         List<SearchableAttributeValue> valuesToIndex = new ArrayList<SearchableAttributeValue>();
-        for (SearchingTypeDefinition definition : workflowAttributes.getSearchingAttributeDefinitions()) {
+        for (SearchingTypeDefinition definition : workflowAttributes.getSearchingTypeDefinitions()) {
             valuesToIndex.addAll(aardvarkValuesForSearchingTypeDefinition(document, definition));
         }
         return valuesToIndex;

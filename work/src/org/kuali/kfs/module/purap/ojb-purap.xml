@@ -3963,7 +3963,7 @@
     </reference-descriptor> 
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.Threshold" table="PUR_THRSHLD_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingThreshold" table="PUR_THRSHLD_T">
 	<field-descriptor name="thresholdIdentifier" column="PUR_THRSHLD_ID"  jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PUR_THRSHLD_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

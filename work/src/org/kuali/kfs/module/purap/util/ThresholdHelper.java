@@ -27,7 +27,7 @@ import org.apache.commons.lang.enums.Enum;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.ThresholdService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -261,7 +261,7 @@ public class ThresholdHelper {
                 }
                 
                 if (collection != null){
-                    for (Threshold threshold :(List<Threshold>) collection){
+                    for (ReceivingThreshold threshold :(List<ReceivingThreshold>) collection){
                         if (threshold.getThresholdAmount() == null ||
                             threshold.getThresholdAmount().isLessThan(thresholdSummary.getTotalAmount())){
                             return true;

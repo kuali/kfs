@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.service;
 
-import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 
 /**
  * Intended to be initiated periodically via a batch process. The default implementation of this service finds all unclosed Awards
@@ -34,7 +34,7 @@ public interface CloseService {
      * 
      * @return the close with the greatest close date.
      */
-    public Close getMostRecentClose();
+    public CFDAClose getMostRecentClose();
 
     /**
      * @param noteText the given text of a note add a note into document after it is closed

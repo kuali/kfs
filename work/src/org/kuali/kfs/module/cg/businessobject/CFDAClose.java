@@ -28,7 +28,7 @@ import org.kuali.rice.kim.service.PersonService;
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.
  */
-public class Close extends FinancialSystemTransactionalDocumentBase {
+public class CFDAClose extends FinancialSystemTransactionalDocumentBase {
 
     private Date closeOnOrBeforeDate;
     private Date userInitiatedCloseDate;
@@ -41,7 +41,7 @@ public class Close extends FinancialSystemTransactionalDocumentBase {
     /**
      * Default constructor.
      */
-    public Close() {
+    public CFDAClose() {
     }
 
     /**

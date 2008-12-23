@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 
 public enum SensitiveDataFixture {
 

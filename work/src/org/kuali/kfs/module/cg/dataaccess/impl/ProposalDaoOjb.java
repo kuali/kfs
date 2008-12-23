@@ -19,7 +19,7 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -32,7 +32,7 @@ public class ProposalDaoOjb extends PlatformAwareDaoBaseOjb implements ProposalD
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.ProposalDao#getProposalsToClose(org.kuali.kfs.module.cg.businessobject.Close)
      */
-    public Collection<Proposal> getProposalsToClose(Close close) {
+    public Collection<Proposal> getProposalsToClose(CFDAClose close) {
 
         Criteria criteria = new Criteria();
         criteria.addIsNull("proposalClosingDate");

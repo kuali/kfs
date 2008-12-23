@@ -17,23 +17,23 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 
 public interface ThresholdDao {
 
-    public Collection<Threshold> findByChart(String chartCode);
+    public Collection<ReceivingThreshold> findByChart(String chartCode);
     
-    public Collection<Threshold> findByChartAndFund(String chartCode,String fund);
+    public Collection<ReceivingThreshold> findByChartAndFund(String chartCode,String fund);
     
-    public Collection<Threshold> findByChartAndSubFund(String chartCode,String subFund);
+    public Collection<ReceivingThreshold> findByChartAndSubFund(String chartCode,String subFund);
     
-    public Collection<Threshold> findByChartAndCommodity(String chartCode,String commodity);
+    public Collection<ReceivingThreshold> findByChartAndCommodity(String chartCode,String commodity);
     
-    public Collection<Threshold> findByChartAndObjectCode(String chartCode,String objectCode);
+    public Collection<ReceivingThreshold> findByChartAndObjectCode(String chartCode,String objectCode);
     
-    public Collection<Threshold> findByChartAndOrg(String chartCode,String org);
+    public Collection<ReceivingThreshold> findByChartAndOrg(String chartCode,String org);
     
-    public Collection<Threshold> findByChartAndVendor(String chartCode, 
+    public Collection<ReceivingThreshold> findByChartAndVendor(String chartCode, 
                                                       String vendorHeaderGeneratedIdentifier,
                                                       String vendorDetailAssignedIdentifier);
     

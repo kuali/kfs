@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class PersonRole extends PersistableBusinessObjectBase implements Inactivateable {
+public class ContractsAndGrantsRoleCode extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String personRoleCode;
     private boolean active;
@@ -30,7 +30,7 @@ public class PersonRole extends PersistableBusinessObjectBase implements Inactiv
     /**
      * Default constructor.
      */
-    public PersonRole() {
+    public ContractsAndGrantsRoleCode() {
 
     }
 

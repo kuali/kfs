@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 
 /**
@@ -31,7 +31,7 @@ public interface ProposalDao {
      * @param c the {@link Close} instance which is used to determine which Proposals should be returned.
      * @return a {@link Collection} of appropriate {@link Proposals}.
      */
-    public Collection<Proposal> getProposalsToClose(Close c);
+    public Collection<Proposal> getProposalsToClose(CFDAClose c);
 
     /**
      * Persist a {@link Proposal}.

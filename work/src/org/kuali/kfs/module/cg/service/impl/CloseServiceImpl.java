@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.dataaccess.AwardDao;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
@@ -60,7 +60,7 @@ public class CloseServiceImpl implements CloseService {
      */
     public void close() {
 
-        Close max = closeDao.getMaxApprovedClose();
+        CFDAClose max = closeDao.getMaxApprovedClose();
         Date today = dateTimeService.getCurrentSqlDateMidnight();
 
         if (null == max) { // no closes at all. Gotta wait until we get an approved one.
@@ -100,7 +100,7 @@ public class CloseServiceImpl implements CloseService {
         note.setNoteText(noteText);
         note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
-        Close mostRecentCloseDocument = this.getMostRecentClose();
+        CFDAClose mostRecentCloseDocument = this.getMostRecentClose();
         mostRecentCloseDocument.addNote(note);      
         
         closeDao.save(mostRecentCloseDocument);
@@ -109,7 +109,7 @@ public class CloseServiceImpl implements CloseService {
     /**
      * @see org.kuali.kfs.module.cg.service.CloseService#getMostRecentClose()
      */
-    public Close getMostRecentClose() {
+    public CFDAClose getMostRecentClose() {
         return closeDao.getMaxApprovedClose();
     }
 

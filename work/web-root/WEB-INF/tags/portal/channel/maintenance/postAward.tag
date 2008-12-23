@@ -60,13 +60,10 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Post-Award Close"
+				title="CFDA Close"
 				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CFDACloseDocument" />
 		</li>		
-		<li>
-			<portal:portalLink displayTitle="true" title="Project Director"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ProjectDirector&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
+		
 		<li>
 			<portal:portalLink displayTitle="true" title="Proposal Purpose"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ProposalPurpose&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

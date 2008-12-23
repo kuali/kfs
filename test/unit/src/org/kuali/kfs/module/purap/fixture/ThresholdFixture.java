@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 
 public enum ThresholdFixture {
 
@@ -173,8 +173,8 @@ public enum ThresholdFixture {
         this.thresholdAmount = thresholdAmount;
     }
 
-    public Threshold getThresholdBO() {
-        Threshold threshold = new Threshold();
+    public ReceivingThreshold getThresholdBO() {
+        ReceivingThreshold threshold = new ReceivingThreshold();
         threshold.setChartOfAccountsCode(chartOfAccount);
         threshold.setAccountTypeCode(accountType);
         threshold.setSubFundGroupCode(subAccountType);

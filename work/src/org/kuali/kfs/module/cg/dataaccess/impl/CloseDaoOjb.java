@@ -20,7 +20,7 @@ import java.util.Iterator;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -35,16 +35,16 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMaxApprovedClose()
      */
-    public Close getMaxApprovedClose() {
+    public CFDAClose getMaxApprovedClose() {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        QueryByCriteria query = QueryFactory.newQuery(Close.class, criteria);
+        QueryByCriteria query = QueryFactory.newQuery(CFDAClose.class, criteria);
         query.addOrderByDescending("documentNumber");
         PersistenceBrokerTemplate template = getPersistenceBrokerTemplate();
         Iterator i = template.getIteratorByQuery(query);
         if (null != i) {
             if (i.hasNext()) {
-                Close close = (Close) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(i);
+                CFDAClose close = (CFDAClose) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(i);
                 if (null == close.getAwardClosedCount()) {
                     close.setAwardClosedCount(0L);
                 }
@@ -60,7 +60,7 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#save(org.kuali.kfs.module.cg.businessobject.Close)
      */
-    public void save(Close close) {
+    public void save(CFDAClose close) {
         getPersistenceBrokerTemplate().store(close);
     }
 

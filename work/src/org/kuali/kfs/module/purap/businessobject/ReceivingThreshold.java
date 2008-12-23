@@ -27,7 +27,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class Threshold extends PersistableBusinessObjectBase {
+public class ReceivingThreshold extends PersistableBusinessObjectBase {
 
     private Integer thresholdIdentifier;
     private String chartOfAccountsCode;
@@ -52,7 +52,7 @@ public class Threshold extends PersistableBusinessObjectBase {
     private CommodityCode commodityCode;
     private VendorDetail tempVendorDetail;
     
-    public Threshold(){
+    public ReceivingThreshold(){
     }
     
     @Override

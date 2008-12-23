@@ -4,32 +4,32 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Threshold" parent="Threshold-parentBean" />
+  <bean id="ReceivingThreshold" parent="ReceivingThreshold-parentBean" />
 
-  <bean id="Threshold-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.Threshold" />
+  <bean id="ReceivingThreshold-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ReceivingThreshold" />
     <property name="inquiryDefinition" >
-      <ref bean="Threshold-inquiryDefinition" />
+      <ref bean="ReceivingThreshold-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="Threshold-lookupDefinition" />
+      <ref bean="ReceivingThreshold-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="thresholdAmount" />
-    <property name="objectLabel" value="Threshold" />
+    <property name="objectLabel" value="ReceivingThreshold" />
     <property name="attributes" >
       <list>
-        <ref bean="Threshold-thresholdIdentifier" />
-        <ref bean="Threshold-chartOfAccountsCode" />
-        <ref bean="Threshold-accountTypeCode" />
-        <ref bean="Threshold-subFundGroupCode" />
-        <ref bean="Threshold-purchasingCommodityCode" />
-		<ref bean="Threshold-financialObjectCode" />
-        <ref bean="Threshold-organizationCode" />
-        <ref bean="Threshold-vendorHeaderGeneratedIdentifier" />        
-	    <ref bean="Threshold-vendorDetailAssignedIdentifier" />        
-  	    <ref bean="Threshold-vendorNumber" />  
-	    <ref bean="Threshold-thresholdAmount" />    
-        <ref bean="Threshold-active" />                                
+        <ref bean="ReceivingThreshold-thresholdIdentifier" />
+        <ref bean="ReceivingThreshold-chartOfAccountsCode" />
+        <ref bean="ReceivingThreshold-accountTypeCode" />
+        <ref bean="ReceivingThreshold-subFundGroupCode" />
+        <ref bean="ReceivingThreshold-purchasingCommodityCode" />
+		<ref bean="ReceivingThreshold-financialObjectCode" />
+        <ref bean="ReceivingThreshold-organizationCode" />
+        <ref bean="ReceivingThreshold-vendorHeaderGeneratedIdentifier" />        
+	    <ref bean="ReceivingThreshold-vendorDetailAssignedIdentifier" />        
+  	    <ref bean="ReceivingThreshold-vendorNumber" />  
+	    <ref bean="ReceivingThreshold-thresholdAmount" />    
+        <ref bean="ReceivingThreshold-active" />                                
       </list>
     </property>
     
@@ -62,9 +62,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Threshold-thresholdIdentifier" parent="Threshold-thresholdIdentifier-parentBean" />
+  <bean id="ReceivingThreshold-thresholdIdentifier" parent="ReceivingThreshold-thresholdIdentifier-parentBean" />
 
-  <bean id="Threshold-thresholdIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ReceivingThreshold-thresholdIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="thresholdIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Threshold Identifier" />
@@ -78,17 +78,17 @@
     </property>
   </bean>
   
-  <bean id="Threshold-thresholdAmount" parent="Threshold-thresholdAmount-parentBean" />
+  <bean id="ReceivingThreshold-thresholdAmount" parent="ReceivingThreshold-thresholdAmount-parentBean" />
 
-  <bean id="Threshold-thresholdAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
+  <bean id="ReceivingThreshold-thresholdAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="thresholdAmount" />
     <property name="label" value="Threshold Amount" />
     <property name="shortLabel" value="Amount" />
   </bean>
   
-  <bean id="Threshold-accountTypeCode" parent="Threshold-accountTypeCode-parentBean" />
+  <bean id="ReceivingThreshold-accountTypeCode" parent="ReceivingThreshold-accountTypeCode-parentBean" />
 
-  <bean id="Threshold-accountTypeCode-parentBean" abstract="true" parent="AcctType-accountTypeCode">
+  <bean id="ReceivingThreshold-accountTypeCode-parentBean" abstract="true" parent="AcctType-accountTypeCode">
 	  <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder"
@@ -96,65 +96,65 @@
 	  </property>
   </bean>
 
-  <bean id="Threshold-chartOfAccountsCode" parent="Threshold-chartOfAccountsCode-parentBean" />
+  <bean id="ReceivingThreshold-chartOfAccountsCode" parent="ReceivingThreshold-chartOfAccountsCode-parentBean" />
 
-  <bean id="Threshold-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="ReceivingThreshold-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
 
-  <bean id="Threshold-financialObjectCode" parent="Threshold-financialObjectCode-parentBean" />
+  <bean id="ReceivingThreshold-financialObjectCode" parent="ReceivingThreshold-financialObjectCode-parentBean" />
 
-  <bean id="Threshold-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  <bean id="ReceivingThreshold-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
   
-  <bean id="Threshold-organizationCode" parent="Threshold-organizationCode-parentBean" />
+  <bean id="ReceivingThreshold-organizationCode" parent="ReceivingThreshold-organizationCode-parentBean" />
 
-  <bean id="Threshold-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+  <bean id="ReceivingThreshold-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
 	
-  <bean id="Threshold-purchasingCommodityCode" parent="Threshold-purchasingCommodityCode-parentBean" />
+  <bean id="ReceivingThreshold-purchasingCommodityCode" parent="ReceivingThreshold-purchasingCommodityCode-parentBean" />
 
-  <bean id="Threshold-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode">
+  <bean id="ReceivingThreshold-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode">
   </bean>
 	
-  <bean id="Threshold-subFundGroupCode" parent="Threshold-subFundGroupCode-parentBean" />
+  <bean id="ReceivingThreshold-subFundGroupCode" parent="ReceivingThreshold-subFundGroupCode-parentBean" />
   
-  <bean id="Threshold-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode">
+  <bean id="ReceivingThreshold-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode">
   </bean>	
 	
-  <bean id="Threshold-vendorHeaderGeneratedIdentifier" parent="Threshold-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="ReceivingThreshold-vendorHeaderGeneratedIdentifier" parent="ReceivingThreshold-vendorHeaderGeneratedIdentifier-parentBean" />
   
-  <bean id="Threshold-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  <bean id="ReceivingThreshold-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
     <property name="control" >
       <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>	
 	
-  <bean id="Threshold-vendorDetailAssignedIdentifier" parent="Threshold-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="ReceivingThreshold-vendorDetailAssignedIdentifier" parent="ReceivingThreshold-vendorDetailAssignedIdentifier-parentBean" />
   
-  <bean id="Threshold-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  <bean id="ReceivingThreshold-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
     <property name="control" >
       <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>	
 	
-  <bean id="Threshold-active" parent="Threshold-active-parentBean" />
+  <bean id="ReceivingThreshold-active" parent="ReceivingThreshold-active-parentBean" />
   
-  <bean id="Threshold-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="ReceivingThreshold-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 	  <property name="name" value="active" />
   </bean>
 	
 	
-  <bean id="Threshold-vendorNumber" parent="Threshold-vendorNumber-parentBean" />
+  <bean id="ReceivingThreshold-vendorNumber" parent="ReceivingThreshold-vendorNumber-parentBean" />
   
-  <bean id="Threshold-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+  <bean id="ReceivingThreshold-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
     <property name="required" value="false" />
   </bean>	
 	
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="Threshold-inquiryDefinition" parent="Threshold-inquiryDefinition-parentBean" />
+  <bean id="ReceivingThreshold-inquiryDefinition" parent="ReceivingThreshold-inquiryDefinition-parentBean" />
 
-  <bean id="Threshold-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="ReceivingThreshold-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Purchase Order Status Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -193,9 +193,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Threshold-lookupDefinition" parent="Threshold-lookupDefinition-parentBean" />
+  <bean id="ReceivingThreshold-lookupDefinition" parent="ReceivingThreshold-lookupDefinition-parentBean" />
 
-  <bean id="Threshold-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="ReceivingThreshold-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Threshold Lookup" />
     <property name="instructions" value="Lookup a Threshold" />
     <property name="lookupableID" value="thresholdLookupable" />

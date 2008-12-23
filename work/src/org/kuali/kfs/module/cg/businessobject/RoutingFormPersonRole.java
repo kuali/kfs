@@ -24,7 +24,7 @@ public class RoutingFormPersonRole extends PersistableBusinessObjectBase {
     private String documentNumber;
     private String personRoleCode;
 
-    private PersonRole personRole;
+    private ContractsAndGrantsRoleCode personRole;
 
     /**
      * Default constructor.
@@ -39,7 +39,7 @@ public class RoutingFormPersonRole extends PersistableBusinessObjectBase {
      * @param documentNumber
      * @param purpose
      */
-    public RoutingFormPersonRole(String documentNumber, PersonRole personRole) {
+    public RoutingFormPersonRole(String documentNumber, ContractsAndGrantsRoleCode personRole) {
         this();
         this.documentNumber = documentNumber;
         this.personRoleCode = personRole.getPersonRoleCode();
@@ -88,7 +88,7 @@ public class RoutingFormPersonRole extends PersistableBusinessObjectBase {
      * 
      * @return Returns the personRole
      */
-    public PersonRole getPersonRole() {
+    public ContractsAndGrantsRoleCode getPersonRole() {
         return personRole;
     }
 
@@ -97,7 +97,7 @@ public class RoutingFormPersonRole extends PersistableBusinessObjectBase {
      * 
      * @param personRole The personRole to set.
      */
-    public void setPersonRole(PersonRole personRole) {
+    public void setPersonRole(ContractsAndGrantsRoleCode personRole) {
         this.personRole = personRole;
     }
 

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 import org.kuali.kfs.module.purap.document.dataaccess.ThresholdDao;
 import org.kuali.kfs.module.purap.document.service.ThresholdService;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,31 +34,31 @@ public class ThresholdServiceImpl implements ThresholdService{
         this.dao = dao;
     }
     
-    public Collection<Threshold> findByChart(String chartCode) {
+    public Collection<ReceivingThreshold> findByChart(String chartCode) {
         return dao.findByChart(chartCode);
     }
 
-    public Collection<Threshold> findByChartAndFund(String chartCode, String fund) {
+    public Collection<ReceivingThreshold> findByChartAndFund(String chartCode, String fund) {
         return dao.findByChartAndFund(chartCode,fund);
     }
 
-    public Collection<Threshold> findByChartAndSubFund(String chartCode, String subFund) {
+    public Collection<ReceivingThreshold> findByChartAndSubFund(String chartCode, String subFund) {
         return dao.findByChartAndSubFund(chartCode,subFund);
     }
 
-    public Collection<Threshold> findByChartAndCommodity(String chartCode, String commodity) {
+    public Collection<ReceivingThreshold> findByChartAndCommodity(String chartCode, String commodity) {
         return dao.findByChartAndCommodity(chartCode,commodity);
     }
 
-    public Collection<Threshold> findByChartAndObjectCode(String chartCode, String objectCode) {
+    public Collection<ReceivingThreshold> findByChartAndObjectCode(String chartCode, String objectCode) {
         return dao.findByChartAndObjectCode(chartCode,objectCode);
     }
 
-    public Collection<Threshold> findByChartAndOrg(String chartCode, String org) {
+    public Collection<ReceivingThreshold> findByChartAndOrg(String chartCode, String org) {
         return dao.findByChartAndOrg(chartCode,org);
     }
 
-    public Collection<Threshold> findByChartAndVendor(String chartCode, 
+    public Collection<ReceivingThreshold> findByChartAndVendor(String chartCode, 
                                                       String vendorHeaderGeneratedIdentifier,
                                                       String vendorDetailAssignedIdentifier){
         return dao.findByChartAndVendor(chartCode,vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier);

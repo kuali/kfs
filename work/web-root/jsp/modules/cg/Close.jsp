@@ -16,19 +16,19 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="closeAttributes"
-	value="${DataDictionary['CloseDocument'].attributes}" />
+	value="${DataDictionary['CFDACloseDocument'].attributes}" />
 		
 <kul:page showDocumentInfo="true"
 	htmlFormAction="cgClose"
     renderMultipart="true"
-	docTitle="Post-Award Close"
+	docTitle="CFDA Close"
     transactionalDocument="false">
 
     <kfs:hiddenDocumentFields isFinancialDocument="false" />
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:tab tabTitle="Close" defaultOpen="true"
              tabErrorKey="document.userInitiatedCloseDate,document.closeOnOrBeforeDate">
-        <c:set var="closeAttributes" value="${DataDictionary.Close.attributes}" />
+        <c:set var="closeAttributes" value="${DataDictionary.CFDAClose.attributes}" />
 
          <div class="tab-container" align="center">
 

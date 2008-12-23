@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 import org.kuali.kfs.module.purap.util.ThresholdField;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
@@ -40,8 +40,8 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ThresholdRule.class);
     private ChartService chartService;
     private AccountService accountService;
-    private Threshold newThreshold;
-    private Threshold oldThreshold;
+    private ReceivingThreshold newThreshold;
+    private ReceivingThreshold oldThreshold;
     
     public ThresholdRule(){
         chartService = SpringContext.getBean(ChartService.class);
@@ -51,8 +51,8 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument document) {
         if (document.isNew() || document.isEdit() || document.isNewWithExisting()) {
-            newThreshold = (Threshold) document.getNewMaintainableObject().getBusinessObject();            
-            oldThreshold = document.getOldMaintainableObject() != null ? (Threshold)document.getOldMaintainableObject().getBusinessObject() : null;
+            newThreshold = (ReceivingThreshold) document.getNewMaintainableObject().getBusinessObject();            
+            oldThreshold = document.getOldMaintainableObject() != null ? (ReceivingThreshold)document.getOldMaintainableObject().getBusinessObject() : null;
 
             //boolean checkDuplicate = newThreshold.isActive(); // we only need to check duplicate if newThreshold is active
             // compare oldThreshold and newThreshold, check if there's any update on the various code fields
@@ -70,7 +70,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return  true;
     }
     
-    private boolean isValidDocument(Threshold newThreshold, boolean checkDuplicate){
+    private boolean isValidDocument(ReceivingThreshold newThreshold, boolean checkDuplicate){
         
         boolean valid = isValidThresholdCriteria(newThreshold);
         if (!valid){
@@ -94,7 +94,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
     
-    private void constructFieldError(Threshold threshold){
+    private void constructFieldError(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getAccountTypeCode())){
             putFieldError(ThresholdField.ACCOUNT_TYPE_CODE.getName(), PurapKeyConstants.INVALID_THRESHOLD_CRITERIA);
@@ -117,7 +117,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         
     }
     
-    private boolean isValidChartCode(Threshold threshold){
+    private boolean isValidChartCode(ReceivingThreshold threshold){
         if (StringUtils.isNotBlank(threshold.getChartOfAccountsCode())){
             Map pkMap = new HashMap();
             pkMap.put(ThresholdField.CHART_OF_ACCOUNTS_CODE.getName(), newThreshold.getChartOfAccountsCode());
@@ -133,7 +133,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return false;
     }
     
-    private boolean isValidSubFund(Threshold threshold){
+    private boolean isValidSubFund(ReceivingThreshold threshold){
     
         if (StringUtils.isNotBlank(threshold.getSubFundGroupCode())){
             Map pkMap = new HashMap();
@@ -147,7 +147,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidCommodityCode(Threshold threshold){
+    private boolean isValidCommodityCode(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getPurchasingCommodityCode())){
             Map pkMap = new HashMap();
@@ -162,7 +162,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    private boolean isValidObjectCode(Threshold threshold){
+    private boolean isValidObjectCode(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getFinancialObjectCode())){
             Map pkMap = new HashMap();
@@ -177,7 +177,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidOrgCode(Threshold threshold){
+    private boolean isValidOrgCode(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getOrganizationCode())){
             Map pkMap = new HashMap();
@@ -192,7 +192,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidVendorNumber(Threshold threshold){
+    private boolean isValidVendorNumber(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getVendorNumber())){
             Map keys = new HashMap();
@@ -208,7 +208,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidThresholdCriteria(Threshold threshold){
+    private boolean isValidThresholdCriteria(ReceivingThreshold threshold){
         
         if (StringUtils.isBlank(threshold.getAccountTypeCode()) &&
             StringUtils.isBlank(threshold.getSubFundGroupCode()) &&
@@ -263,7 +263,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return false;
     }
     
-    private boolean isDuplicateEntry(Threshold newThreshold){
+    private boolean isDuplicateEntry(ReceivingThreshold newThreshold){
         
         Map fieldValues = new HashMap();
         fieldValues.put(ThresholdField.CHART_OF_ACCOUNTS_CODE.getName(), newThreshold.getChartOfAccountsCode());
@@ -282,7 +282,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
             fieldValues.put(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID.getName(), newThreshold.getVendorDetailAssignedIdentifier());
         }
         
-        Collection<Threshold> result = (Collection<Threshold>)getBoService().findMatching(Threshold.class, fieldValues);
+        Collection<ReceivingThreshold> result = (Collection<ReceivingThreshold>)getBoService().findMatching(ReceivingThreshold.class, fieldValues);
         if (result != null && result.size() > 0) {
             putGlobalError(PurapKeyConstants.PURAP_GENERAL_POTENTIAL_DUPLICATE);
             return true;

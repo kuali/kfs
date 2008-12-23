@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGKeyConstants;
-import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -103,7 +103,7 @@ public class CloseBatchStep extends AbstractStep {
         }
 
         // retrieve the pricipal ids of the ad hoc route route person of the current document
-        Close closeDocument = closeService.getMostRecentClose();
+        CFDAClose closeDocument = closeService.getMostRecentClose();
         List<AdHocRouteRecipient> adHocRoutePersons = closeDocument.getAdHocRoutePersons();
         for (AdHocRouteRecipient adHocRoutePerson : adHocRoutePersons) {
             recipientIds.add(adHocRoutePerson.getId());

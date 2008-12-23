@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.document.service;
 import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.DueDateType;
-import org.kuali.kfs.module.cg.businessobject.PersonRole;
+import org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode;
 import org.kuali.kfs.module.cg.businessobject.ProjectType;
 import org.kuali.kfs.module.cg.businessobject.ResearchTypeCode;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
@@ -55,7 +55,7 @@ public interface RoutingFormMainPageService {
      * 
      * @return typed list of person roles
      */
-    public List<PersonRole> getPersonRoles();
+    public List<ContractsAndGrantsRoleCode> getPersonRoles();
 
     /**
      * Returns the complete list of DueDateTypes except for the inactive ones.

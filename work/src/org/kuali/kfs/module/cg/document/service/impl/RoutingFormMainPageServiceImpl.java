@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.DueDateType;
-import org.kuali.kfs.module.cg.businessobject.PersonRole;
+import org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode;
 import org.kuali.kfs.module.cg.businessobject.ProjectType;
 import org.kuali.kfs.module.cg.businessobject.Purpose;
 import org.kuali.kfs.module.cg.businessobject.ResearchTypeCode;
@@ -74,11 +74,11 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     /**
      * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#getPersonRoles()
      */
-    public List<PersonRole> getPersonRoles() {
+    public List<ContractsAndGrantsRoleCode> getPersonRoles() {
         Map fieldValues = new HashMap();
         fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
-        Collection col = businessObjectService.findMatchingOrderBy(PersonRole.class, fieldValues, KFSPropertyConstants.PERSON_ROLE_SORT_NUMBER, true);
+        Collection col = businessObjectService.findMatchingOrderBy(ContractsAndGrantsRoleCode.class, fieldValues, KFSPropertyConstants.PERSON_ROLE_SORT_NUMBER, true);
 
         return new ArrayList(col);
     }
@@ -199,9 +199,9 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      * @param routingFormDocument
      */
     private void setupRoutingFormPersonRoles(RoutingFormDocument routingFormDocument) {
-        List<PersonRole> personRoles = getPersonRoles();
+        List<ContractsAndGrantsRoleCode> personRoles = getPersonRoles();
         List<RoutingFormPersonRole> routingFormPersonRoles = new ArrayList<RoutingFormPersonRole>();
-        for (PersonRole personRole : personRoles) {
+        for (ContractsAndGrantsRoleCode personRole : personRoles) {
             routingFormPersonRoles.add(new RoutingFormPersonRole(routingFormDocument.getDocumentNumber(), personRole));
         }
 

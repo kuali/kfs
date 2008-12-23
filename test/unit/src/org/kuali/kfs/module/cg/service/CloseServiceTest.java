@@ -22,7 +22,7 @@ import java.text.DateFormat;
 import java.util.Vector;
 
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -81,7 +81,7 @@ public class CloseServiceTest extends KualiTestBase {
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
 
-        Close close = createClose(closeCloseOnOrBeforeDate);
+        CFDAClose close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
         // SpringContext.getBean(CloseService.class).save(close);
 
@@ -124,7 +124,7 @@ public class CloseServiceTest extends KualiTestBase {
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
 
-        Close close = createClose(closeCloseOnOrBeforeDate);
+        CFDAClose close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
         // SpringContext.getBean(CloseService.class).save(close);
 
@@ -167,7 +167,7 @@ public class CloseServiceTest extends KualiTestBase {
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
 
-        Close close = createClose(closeCloseOnOrBeforeDate);
+        CFDAClose close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
         // SpringContext.getBean(CloseService.class).save(close);
 
@@ -210,7 +210,7 @@ public class CloseServiceTest extends KualiTestBase {
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, INVALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
 
-        Close close = createClose(closeCloseOnOrBeforeDate);
+        CFDAClose close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
         // SpringContext.getBean(CloseService.class).save(close);
 
@@ -253,7 +253,7 @@ public class CloseServiceTest extends KualiTestBase {
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
 
-        Close close = createClose(closeCloseOnOrBeforeDate);
+        CFDAClose close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
         // SpringContext.getBean(CloseService.class).save(close);
 
@@ -296,7 +296,7 @@ public class CloseServiceTest extends KualiTestBase {
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
 
-        Close close = createClose(closeCloseOnOrBeforeDate);
+        CFDAClose close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
         // SpringContext.getBean(CloseService.class).save(close);
 
@@ -338,7 +338,7 @@ public class CloseServiceTest extends KualiTestBase {
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
 
-        Close close = createClose(closeCloseOnOrBeforeDate);
+        CFDAClose close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
         // SpringContext.getBean(CloseService.class).save(close);
 
@@ -359,11 +359,11 @@ public class CloseServiceTest extends KualiTestBase {
         assertEquals("Proposals were not closed properly.", zero, close.getProposalClosedCount());
     }
 
-    private void verifyAwardWillBeIncludedInClose(Award award, Close close) {
+    private void verifyAwardWillBeIncludedInClose(Award award, CFDAClose close) {
         verifyAwardWillBeIncludedInClose(award, close, true, true, true);
     }
 
-    private void verifyAwardWillBeIncludedInClose(Award award, Close close, boolean verifyAwardClosingDate, boolean verifyAwardStatusCode, boolean verifyAwardEntryDate) {
+    private void verifyAwardWillBeIncludedInClose(Award award, CFDAClose close, boolean verifyAwardClosingDate, boolean verifyAwardStatusCode, boolean verifyAwardEntryDate) {
         if (verifyAwardClosingDate) {
             assertNull("Award closing date must be null to be included in closing.", award.getAwardClosingDate());
         }
@@ -375,11 +375,11 @@ public class CloseServiceTest extends KualiTestBase {
         }
     }
 
-    private void verifyProposalWillBeIncludedInClose(Proposal proposal, Close close) {
+    private void verifyProposalWillBeIncludedInClose(Proposal proposal, CFDAClose close) {
         verifyProposalWillBeIncludedInClose(proposal, close, true, true);
     }
 
-    private void verifyProposalWillBeIncludedInClose(Proposal proposal, Close close, boolean verifyProposalClosingDate, boolean verifyProposalSubmissionDate) {
+    private void verifyProposalWillBeIncludedInClose(Proposal proposal, CFDAClose close, boolean verifyProposalClosingDate, boolean verifyProposalSubmissionDate) {
         if (verifyProposalClosingDate) {
             assertNull("Proposal closing date must be null to be included in closing.", proposal.getProposalClosingDate());
         }
@@ -416,15 +416,15 @@ public class CloseServiceTest extends KualiTestBase {
         return award;
     }
 
-    private Close createClose(Date closeCloseOnOrBeforeDate) throws WorkflowException {
-        Document document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), Close.class);
-        Close close = (Close) document;// SpringContext.getBean(DocumentService.class).getNewDocument(Close.class);
+    private CFDAClose createClose(Date closeCloseOnOrBeforeDate) throws WorkflowException {
+        Document document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CFDAClose.class);
+        CFDAClose close = (CFDAClose) document;// SpringContext.getBean(DocumentService.class).getNewDocument(Close.class);
         close.setUserInitiatedCloseDate(today);
         close.setCloseOnOrBeforeDate(closeCloseOnOrBeforeDate);
         return close;
     }
 
-    private void saveAndRoute(Close close) throws Exception {
+    private void saveAndRoute(CFDAClose close) throws Exception {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         saveDocument(close, documentService);
         routeDocument(close, documentService);

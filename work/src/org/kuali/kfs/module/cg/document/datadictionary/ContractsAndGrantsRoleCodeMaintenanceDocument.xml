@@ -10,7 +10,7 @@
   <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-parentBean" />
 
   <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.PersonRole" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -27,7 +27,7 @@
     <property name="summary" value="Person Role maintenance document" />
     <property name="description" value="Document used to create or update Person Role objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.PersonRole" p:parameterName="PERSON_ROLE" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" p:parameterName="PERSON_ROLE" />
     </property>
     <property name="documentTypeName" value="ContractsAndGrantsRoleCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
@@ -55,8 +55,8 @@
   <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole-parentBean" />
 
   <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Person Role" />
-    <property name="title" value="Edit Person Role" />
+    <property name="id" value="Edit Contracts And Grants Role Code" />
+    <property name="title" value="Edit Contracts And Grants Role Code" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"

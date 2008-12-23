@@ -68,7 +68,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     private State personState;
     private PostalCode personZip;
     private Country personCountry;
-    private PersonRole personRole;
+    private ContractsAndGrantsRoleCode personRole;
     // private RoutingFormDocument routingFormDocument;
     private Person user;
 
@@ -641,7 +641,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * 
      * @return Returns the personRole.
      */
-    public PersonRole getPersonRole() {
+    public ContractsAndGrantsRoleCode getPersonRole() {
         return personRole;
     }
 
@@ -651,7 +651,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @param personRole The personRole to set.
      * @deprecated
      */
-    public void setPersonRole(PersonRole personRole) {
+    public void setPersonRole(ContractsAndGrantsRoleCode personRole) {
         this.personRole = personRole;
     }
 

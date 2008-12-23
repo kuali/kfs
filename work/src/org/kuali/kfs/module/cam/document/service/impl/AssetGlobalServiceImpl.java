@@ -432,7 +432,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         for (AssetPayment offsetAssetPayment : offsetAssetPayments.values()) {
             offsetAssetPayment.setPaymentSequenceNumber(paymentSequenceNumber++);
             offsetAssetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
-
+            offsetAssetPayment.setDocumentNumber(assetGlobal.getDocumentNumber());
             // Don't need to re-add original items because the payments list isn't deletion aware
             separateSourceCapitalAsset.getAssetPayments().add(offsetAssetPayment);
         }
@@ -549,7 +549,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         assetPayment.setPaymentSequenceNumber(assetPaymentDetail.getSequenceNumber());
 
         assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
-
+        assetPayment.setDocumentNumber(assetPaymentDetail.getDocumentNumber());
         AssetPayment sourceAssetPayment = null;
         // Need the sourceAssetPayment for split of misc. fields that we don't track on the document. Finding the correct source
         // asset payment isn't very efficient particularly if we are doing this (repeatedly) for several target assets. HashMap?

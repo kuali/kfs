@@ -95,7 +95,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if ((valid && super.processCustomSaveDocumentBusinessRules(document)) && !getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && !allPaymentsFederalOwned(assetRetirementGlobal)) {
             // Check if Asset Object Code and Object code exists and active.
-            if (valid &= validateObjectCodesEligibleForGLPosting(assetRetirementGlobal)) {
+            if (valid &= validateObjectCodesForGLPosting(assetRetirementGlobal)) {
                 // create poster
                 AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
                 // create postables
@@ -137,7 +137,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobal
      * @return
      */
-    private boolean validateObjectCodesEligibleForGLPosting(AssetRetirementGlobal assetRetirementGlobal) {
+    private boolean validateObjectCodesForGLPosting(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
         Asset asset = null;
@@ -173,16 +173,16 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         if (assetPaymentService.isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
             // check for capitalization financial object code existing.
             assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.CAPITALIZATION_FINANCIAL_OBJECT);
-            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getCapitalizationFinancialObjectCode(), assetObjectCode.getCapitalizationFinancialObject(), CamsConstants.GLPosting.CAPITALIZATION);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getCapitalizationFinancialObjectCode(), assetObjectCode.getCapitalizationFinancialObject(), CamsConstants.GLPostingObjectCodeType.CAPITALIZATION);
         }
         if (assetPaymentService.isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
             // check for accumulate depreciation financial Object Code existing
             assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT);
-            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getAccumulatedDepreciationFinancialObjectCode(), assetObjectCode.getAccumulatedDepreciationFinancialObject(), CamsConstants.GLPosting.ACCUMMULATE_DEPRECIATION);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getAccumulatedDepreciationFinancialObjectCode(), assetObjectCode.getAccumulatedDepreciationFinancialObject(), CamsConstants.GLPostingObjectCodeType.ACCUMMULATE_DEPRECIATION);
         }
         if (assetPaymentService.isPaymentEligibleForOffsetGLPosting(assetPayment)) {
             // check for offset financial object code existing.
-            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE), getAssetRetirementService().getOffsetFinancialObject(asset.getOrganizationOwnerChartOfAccountsCode()), CamsConstants.GLPosting.OFFSET_AMOUNT);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE), getAssetRetirementService().getOffsetFinancialObject(asset.getOrganizationOwnerChartOfAccountsCode()), CamsConstants.GLPostingObjectCodeType.OFFSET_AMOUNT);
         }
         return valid;
     }
@@ -195,21 +195,21 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param finObject
      * @return
      */
-    private boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPosting) {
+    private boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPostingType) {
         boolean valid = true;
-        // no define of object code in Asset Object Code table
+        // not defined in Asset Object Code table
         if (StringUtils.isBlank(finObjectCode)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { glPosting, chartOfAccountsCode });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { glPostingType, chartOfAccountsCode });
             valid = false;
         }
         // check Object Code existing
         else if (ObjectUtils.isNull(finObject)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { finObjectCode, chartOfAccountsCode });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { glPostingType, finObjectCode, chartOfAccountsCode });
             valid = false;
         }
         // check Object Code active
         else if (!finObject.isActive()) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { finObjectCode, chartOfAccountsCode });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { glPostingType, finObjectCode, chartOfAccountsCode });
             valid = false;
         }
         return valid;

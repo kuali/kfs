@@ -311,10 +311,10 @@ public class CamsConstants extends JSTLConstants {
     public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
     public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
 
-    public static class GLPosting {
-        public static final String CAPITALIZATION = "CAPITALIZATION";
-        public static final String ACCUMMULATE_DEPRECIATION = "ACCUMMULATE_DEPRECIATION";
-        public static final String OFFSET_AMOUNT = "OFFSET_AMOUNT";
-
+    public static class GLPostingObjectCodeType {
+        public static final String CAPITALIZATION = "Capitalization";
+        public static final String ACCUMMULATE_DEPRECIATION = "Accummulate Depreciation";
+        public static final String OFFSET_AMOUNT = "Offset Amount";
+        public static final String INCOME = "Income";
     }
 }

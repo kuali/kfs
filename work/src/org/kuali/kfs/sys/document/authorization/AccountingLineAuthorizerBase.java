@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -63,7 +62,6 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
     }
 
-    private IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
     private KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     private DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     private DocumentAuthorizationService documentAuthorizationService = SpringContext.getBean(DocumentAuthorizationService.class);

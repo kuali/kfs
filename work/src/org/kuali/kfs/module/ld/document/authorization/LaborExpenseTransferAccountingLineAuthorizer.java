@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.document.authorization;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSConstants;
@@ -39,18 +38,12 @@ public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLine
      */
     @Override
     protected Map<String, AccountingLineViewAction> getActionMap(AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
-        Map<String, AccountingLineViewAction> actionMap = new HashMap<String, AccountingLineViewAction>();
+        Map<String, AccountingLineViewAction> actionMap = super.getActionMap(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
 
         if (accountingLine.isSourceAccountingLine()) {
             AccountingLineViewAction copyAction = this.getCopyAction(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
             actionMap.put(KFSConstants.COPY_METHOD, copyAction);
         }
-
-        AccountingLineViewAction deleteAction = this.getDeleteAction(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
-        actionMap.put(KNSConstants.DELETE_METHOD, deleteAction);
-
-        AccountingLineViewAction balanceInquiryAction = this.getBalanceInquiryAction(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
-        actionMap.put(KFSConstants.PERFORMANCE_BALANCE_INQUIRY_FOR_METHOD, balanceInquiryAction);
 
         return actionMap;
     }

@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.identity.KimAttributes;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
@@ -197,23 +196,19 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
     protected boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
-        boolean hasEditPermissionOnAccountingLine = this.hasEditPermissionOnAccountingLine(accountingDocument, accountingLine, currentUser);
-        if (hasEditPermissionOnAccountingLine) {
+        // the fields in a new line should be always editable
+        if (this.isNewLine(accountingDocument, accountingLine)) {
             return true;
         }
 
         // examine whether the whole line can be editable
-        AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
-        List<AttributeSet> fieldPermissionDetailSet = this.getAllPermissionDetails(accountingDocument, fieldName);
-        for (AttributeSet permissionDetails : fieldPermissionDetailSet) {
-            boolean hasEditPermission = this.hasEditPermission(accountingDocument, currentUser, permissionDetails, roleQualifiers);
+        String lineFieldName = accountingLine.isSourceAccountingLine() ? PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
+        boolean hasEditPermissionOnField = this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
 
-            if (hasEditPermission) {
-                return true;
-            }
-        }
+        // examine whether the given field can be editable
+        hasEditPermissionOnField |= this.determineEditPermissionByFieldName(accountingDocument, accountingLine, fieldName, currentUser);
 
-        return false;
+        return hasEditPermissionOnField;
     }
 
     /**
@@ -224,7 +219,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    protected boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {
+    protected boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {        
         // the fields in a new line should be always editable
         if (this.isNewLine(accountingDocument, accountingLine)) {
             return true;
@@ -238,19 +233,26 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
 
         // examine whether the whole line can be editable
-        AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
-
         String lineFieldName = accountingLine.isSourceAccountingLine() ? PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
-        List<AttributeSet> linePermissionDetailSet = this.getAllPermissionDetails(accountingDocument, lineFieldName);
-        for (AttributeSet permissionDetails : linePermissionDetailSet) {
-            boolean hasEditLinePermission = this.hasEditPermission(accountingDocument, currentUser, permissionDetails, roleQualifiers);
+        return this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
+    }
 
-            if (hasEditLinePermission) {
-                return true;
-            }
-        }
+    /**
+     * determine whether the current user has permission to edit the given field in the given accounting line
+     * 
+     * @param accountingDocument the given accounting document
+     * @param accountingLine the given accounting line in the document
+     * @param fieldName the name of a field in the given accounting line
+     * @param currentUser the current user
+     * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
+     */
+    private boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
+        AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
+        
+        String documentTypeName = accountingDocument.getClass().getSimpleName();
+        AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
 
-        return false;
+        return this.hasEditPermission(accountingDocument, currentUser, permissionDetail, roleQualifiers);       
     }
 
     /**
@@ -292,41 +294,14 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         return true;
     }
 
-
-    /**
-     * Gathers together all of the the permission details for the KIM permission call
-     * 
-     * @param accountingDocument the accounting document to test
-     * @param fieldName the name of the field that is being tested
-     * @return all of the the permission details for the KIM permission call
-     */
-    protected List<AttributeSet> getAllPermissionDetails(AccountingDocument accountingDocument, String fieldName) {
-        try {
-            List<AttributeSet> permissionDetailAttributes = new ArrayList<AttributeSet>();
-            String documentTypeName = accountingDocument.getClass().getSimpleName();
-
-            String[] routeNodeNames = accountingDocument.getDocumentHeader().getWorkflowDocument().getNodeNames();
-            for (String routeNodeName : routeNodeNames) {
-                AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName, routeNodeName);
-                permissionDetailAttributes.add(permissionDetail);
-            }
-
-            return permissionDetailAttributes;
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("WorkflowException while getting node names of document to test KIM Permissions in AccountingLineAuthorizerBase", we);
-        }
-    }
-
     /**
      * Gathers together all the information for a permission detail attribute set
      * 
      * @param documentTypeName the document
      * @param fieldName the given field name
-     * @param routeNodeName the given route node name
      * @return all the information for a permission detail attribute set
      */
-    private AttributeSet getPermissionDetails(String documentTypeName, String fieldName, String routeNodeName) {
+    private AttributeSet getPermissionDetails(String documentTypeName, String fieldName) {
         AttributeSet permissionDetails = new AttributeSet();
 
         if (StringUtils.isNotBlank(documentTypeName)) {
@@ -335,10 +310,6 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
 
         if (StringUtils.isNotBlank(fieldName)) {
             permissionDetails.put(KimAttributes.PROPERTY_NAME, fieldName);
-        }
-
-        if (StringUtils.isNotBlank(routeNodeName)) {
-            permissionDetails.put(KimAttributes.ROUTE_NODE_NAME, routeNodeName);
         }
 
         return permissionDetails;

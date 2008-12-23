@@ -35,4 +35,6 @@ public interface SystemInformationDao {
     public SystemInformation getByFiscalYear(Integer fiscalYear);
     
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear);
+    
+    public SystemInformation getByProcessingChartOrgFiscalYearAndSubObjectCode(String chartCode, String orgCode, Integer fiscalYear, String subObjectCode);
 }

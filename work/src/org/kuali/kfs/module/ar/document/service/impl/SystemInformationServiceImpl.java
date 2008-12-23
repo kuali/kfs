@@ -53,9 +53,12 @@ public class SystemInformationServiceImpl implements SystemInformationService {
         this.systemInformationDao = systemInformationDao;
     }
     
-    public SystemInformation getByProcessingChartAndOrg(String chartCode, String orgCode) {
-        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        return getSystemInformationDao().getByProcessingChartOrgAndFiscalYear(chartCode, orgCode, currentFiscalYear);
+    public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear) {
+        return getSystemInformationDao().getByProcessingChartOrgAndFiscalYear(chartCode, orgCode, fiscalYear);
+    }
+    
+    public SystemInformation getByProcessingChartOrgFiscalYearAndSubObjectCode(String chartCode, String orgCode, Integer fiscalYear, String subObjectCode) {
+        return getSystemInformationDao().getByProcessingChartOrgFiscalYearAndSubObjectCode(chartCode, orgCode, fiscalYear, subObjectCode);
     }
 
     public void setUniversityDateService(UniversityDateService universityDateService) {

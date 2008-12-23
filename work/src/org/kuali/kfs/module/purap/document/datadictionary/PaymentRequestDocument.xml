@@ -14,6 +14,7 @@
     </property>
     <property name="documentTypeName" value="PaymentRequestDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    <!-- property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" /-->
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
@@ -938,5 +939,62 @@
 			  </list>
 		  </property>
     </bean> 
+
+	<bean id="PaymentRequestDocument-validations" parent="PaymentRequestDocument-validations-parentBean" />
+ 
+	<bean id="PaymentRequestDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+ 		<property name="sourceMap">
+		<map>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>PaymentRequest-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>PaymentRequest-approveDocumentValidation</value>
+			</entry>		
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>PaymentRequest-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>PaymentRequest-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>PaymentRequest-updateAccountingLineValidation</value>
+			</entry>	
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>PaymentRequest-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent</value></key>
+				<value>PaymentRequest-continuePurapValidation</value>				
+			</entry>				
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent</value></key>
+				<value>PaymentRequest-calculateAccountsPayableValidation</value>				
+			</entry>				
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCancelAccountsPayableEvent</value></key>
+				<value>PaymentRequest-cancelAccountsPayableValidation</value>				
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+				<value>PaymentRequest-addPurchasingAccountsPayableItemValidation</value>				
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+				<value>PaymentRequest-importPurchasingAccountsPayableItemValidation</value>				
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>PaymentRequest-saveDocumentValidation</value>				
+			</entry>																												
+	   	</map>
+		</property>
+	</bean>  
     
 </beans>

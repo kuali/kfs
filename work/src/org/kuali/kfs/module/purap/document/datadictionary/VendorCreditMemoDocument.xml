@@ -573,5 +573,58 @@
 			</list>
 		</property>
     </bean>
+
+	<bean id="VendorCreditMemoDocument-validations" parent="VendorCreditMemoDocument-validations-parentBean" />
+ 
+	<bean id="VendorCreditMemoDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+ 		<property name="sourceMap">
+		<map>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>VendorCreditMemo-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>VendorCreditMemo-approveDocumentValidation</value>
+			</entry>		
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>VendorCreditMemo-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>VendorCreditMemo-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>VendorCreditMemo-updateAccountingLineValidation</value>
+			</entry>	
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>VendorCreditMemo-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent</value></key>
+				<value>VendorCreditMemo-continuePurapValidation</value>				
+			</entry>				
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent</value></key>
+				<value>VendorCreditMemo-calculateAccountsPayableValidation</value>				
+			</entry>				
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCancelAccountsPayableEvent</value></key>
+				<value>VendorCreditMemo-cancelAccountsPayableValidation</value>				
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+				<value>VendorCreditMemo-addPurchasingAccountsPayableItemValidation</value>				
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+				<value>VendorCreditMemo-importPurchasingAccountsPayableItemValidation</value>				
+			</entry>																									
+	   	</map>
+		</property>
+	</bean>  
       
 </beans>

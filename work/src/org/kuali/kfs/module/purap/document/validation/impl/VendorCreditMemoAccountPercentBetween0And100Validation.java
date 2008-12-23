@@ -1,0 +1,73 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.purap.document.validation.impl;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+
+public class VendorCreditMemoAccountPercentBetween0And100Validation extends GenericValidation {
+
+    public boolean validate(AttributedDocumentEvent event) {
+        boolean isValid = true;        
+        PurApAccountingLine account = (PurApAccountingLine)((AttributedAddAccountingLineEvent)event).getAccountingLine();
+        
+        if (validateRequiredField(account, PurapPropertyConstants.ACCOUNT_LINE_PERCENT)) {
+            double pct = account.getAccountLinePercent().doubleValue();
+            if (pct <= 0 || pct > 100) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNT_LINE_PERCENT, PurapKeyConstants.ERROR_CREDIT_MEMO_LINE_PERCENT);
+                isValid = false;
+            }
+        }
+        else {
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Helper method to perform required field checks add error messages if the validation fails. Adds an error required to
+     * GlobalVariables.errorMap using the given fieldName as the error key and retrieving the error label from the data dictionary
+     * for the error required message param.
+     * 
+     * @param businessObject - Business object to check for value
+     * @param fieldName - Name of the property in the business object
+     */
+    private boolean validateRequiredField(BusinessObject businessObject, String fieldName) {
+        boolean valid = true;
+
+        Object fieldValue = ObjectUtils.getPropertyValue(businessObject, fieldName);
+        if (fieldValue == null || (fieldValue instanceof String && StringUtils.isBlank(fieldName))) {
+            String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(businessObject.getClass(), fieldName);
+            GlobalVariables.getErrorMap().putError(fieldName, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
+
+        return valid;
+    }
+
+}

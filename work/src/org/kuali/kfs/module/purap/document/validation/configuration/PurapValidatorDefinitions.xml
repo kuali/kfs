@@ -20,41 +20,72 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+<!-- PURAP Definitions -->
 	<bean id="PurchasingAccountsPayable-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableNewProcessItemValidation" abstract="true">
 		<property name="purapService" ref="purapService" />
 	</bean>
 
-	<bean id="Purchasing-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewProcessItemValidation" abstract="true">
-		<property name="purapService" ref="purapService" />
-	</bean>
-	
-    <bean id="Requisition-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewProcessItemValidation" abstract="true">
-		<property name="requisitionService" ref="requisitionService" />
-		<property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
-	</bean>
-
-	<bean id="PurchaseOrderAmendment-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentNewProcessItemValidation" abstract="true">
-		<property name="purapService" ref="purapService" />
-		<property name="purchaseOrderService" ref="purchaseOrderService" />
-	</bean>
-	
 	<bean id="PurchasingAccountsPayable-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableNewIndividualItemValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
-	
+
+	<bean id="PurchasingAccountsPayable-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessVendorValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountingLineAccessibleValidation" abstract="true">
+        <property name="accountService" ref="accountService" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-processAccountSummaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessAccountSummaryValidation" abstract="true">
+        <property name="purapAccountingService" ref="purapAccountingService" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableExtendedPriceNonZeroBranchingValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableLineItemIndicatorBranchingValidation" abstract="true"/>
+
+	<bean id="PurchasingAccountsPayable-processAccountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessAccountValidation" abstract="true"/>
+
+	<bean id="PurchasingAccountsPayable-addItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAddItemValidation" abstract="true">
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
+	</bean>
+
+	<bean id="PurchasingAccountsPayable-importItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableImportItemValidation" abstract="true">
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
+	</bean>
+
+<!-- Purchasing Definitions -->
+	<bean id="Purchasing-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewProcessItemValidation" abstract="true">
+		<property name="purapService" ref="purapService" />
+	</bean>
+
 	<bean id="Purchasing-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewIndividualItemValidation" abstract="true">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
-	
+
+	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true"/>
+
+<!-- Requisition Definitions -->	
+    <bean id="Requisition-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewProcessItemValidation" abstract="true">
+		<property name="requisitionService" ref="requisitionService" />
+		<property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
+	</bean>
+
 	<bean id="Requisition-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
-	
+
+	<bean id="Requisition-processAdditionalValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
+
+	<bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
+	    <property name="accountService" ref="accountService" />
+	</bean>
+
+<!-- Purchase Order Definitions -->
 	<bean id="PurchaseOrder-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderNewIndividualItemValidation" abstract="true">
 	    <property name="parameterService" ref="parameterService" />
 	    <property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -62,37 +93,11 @@
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
 
-	<bean id="PurchaseOrderAmendment-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentNewIndividualItemValidation" abstract="true">
-	    <property name="parameterService" ref="parameterService" />
-	    <property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
-	</bean>
-	
-	<bean id="Requisition-processAdditionalValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
-
-	<bean id="PurchasingAccountsPayable-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessVendorValidation" abstract="true"/>
-
-	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true"/>
-
     <bean id="PurchaseOrder-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderProcessVendorValidation" abstract="true">
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
 
-    <bean id="PurchasingAccountsPayable-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountingLineAccessibleValidation" abstract="true">
-        <property name="accountService" ref="accountService" />
-    </bean>
-
-	<bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
-	    <property name="accountService" ref="accountService" />
-	</bean>
-	
-    <bean id="PurchaseOrderAmendment-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountingLineAccessibleValidation" abstract="true">
-	    <property name="accountService" ref="accountService" />
-	    <property name="purapService" ref="purapService" />
-	</bean>
-	
 	<bean id="PurchaseOrder-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAccountingLineAccessibleValidation" abstract="true">
 	    <property name="accountService" ref="accountService" />
 	</bean>
@@ -108,7 +113,77 @@
 	</bean>
 	
 	<bean id="PurchaseOrder-assignSensitiveDataValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAssignSensitiveDataValidation" abstract="true" />
+<!-- Purchase Order Amendment Definitions -->
+	<bean id="PurchaseOrderAmendment-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentNewProcessItemValidation" abstract="true">
+		<property name="purapService" ref="purapService" />
+		<property name="purchaseOrderService" ref="purchaseOrderService" />
+	</bean>
+	
+	<bean id="PurchaseOrderAmendment-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentNewIndividualItemValidation" abstract="true">
+	    <property name="parameterService" ref="parameterService" />
+	    <property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>
+		
+    <bean id="PurchaseOrderAmendment-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountingLineAccessibleValidation" abstract="true">
+	    <property name="accountService" ref="accountService" />
+	    <property name="purapService" ref="purapService" />
+	</bean>
 
     <bean id="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation" abstract="true" />
+
+<!-- Accounts Payable Definitions  -->
+    <bean id="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation" abstract="true"/>        
+	
+	<bean id="AccountsPayable-validateAccountsPayableItemsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableValidateAccountsPayableItemsValidation" abstract="true">
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>
+	
+<!-- Credit Memo Definitions -->
+	<bean id="VendorCreditMemo-totalOverZeroValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoTotalOverZeroValidation" abstract="true"/>
+
+	<bean id="VendorCreditMemo-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoNewIndividualItemValidation" abstract="true"/>
+
+	<bean id="VendorCreditMemo-accountPercentBetween0And100Validation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoAccountPercentBetween0And100Validation" abstract="true"/>
+
+	<bean id="VendorCreditMemo-objectCodeValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoObjectCodeValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
+	<bean id="VendorCreditMemo-continuePurapValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoContinuePurapValidation" abstract="true"/>		
+
+	<bean id="VendorCreditMemo-calculateValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoCalculateValidation" abstract="true"/>
+
+	<bean id="VendorCreditMemo-cancelValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoCancelValidation" abstract="true">
+		<property name="creditMemoService" ref="creditMemoService" />
+	</bean>
+	
+<!-- Payment Request Definitions -->
+	<bean id="PaymentRequest-accountingLineAccessibleBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestAccountingLineAccessibleBranchingValidation" abstract="true"/>
+
+	<bean id="PaymentRequest-purchaseOrderIdValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestPurchaseOrderIdValidation" abstract="true"/>
+
+	<bean id="PaymentRequest-invoiceValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestInvoiceValidation" abstract="true"/>
+
+	<bean id="PaymentRequest-dateForContinueValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDateForContinueValidation" abstract="true"/>
+
+	<bean id="PaymentRequest-totalsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestTotalsValidation" abstract="true"/>
+
+	<bean id="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestPayDateNotOverThresholdDaysAwayValidation" abstract="true">
+		<property name="purapService" ref="purapService" />
+	</bean>
+
+	<bean id="PaymentRequest-grandTotalOverZeroValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestGrandTotalOverZeroValidation" abstract="true"/>
+
+	<bean id="PaymentRequest-payDateNotPastValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestPayDateNotPastValidation" abstract="true">
+		<property name="purapService" ref="purapService" />
+		<property name="persistenceService" ref="persistenceService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="PaymentRequest-cancelValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestCancelValidation" abstract="true"/>
+	
+	<bean id="PaymentRequest-vendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestVendorValidation" abstract="true"/>
 
 </beans>

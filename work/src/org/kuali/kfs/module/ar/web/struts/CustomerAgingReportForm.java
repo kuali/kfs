@@ -23,10 +23,6 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestImport;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
@@ -34,11 +30,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.ui.Row;
 
 
@@ -60,7 +53,7 @@ public class CustomerAgingReportForm extends LookupForm {
     private Lookupable lookupable;
     private Lookupable pendingEntryLookupable;
     private boolean hideReturnLink = false;
-    
+
     private String total0to30;
     private String total31to60;
     private String total61to90;
@@ -76,7 +69,7 @@ public class CustomerAgingReportForm extends LookupForm {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        try {            
+        try {
             if (StringUtils.isBlank(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
 
                 // get the business object class for the lookup
@@ -121,7 +114,7 @@ public class CustomerAgingReportForm extends LookupForm {
             if (request.getParameter(KFSConstants.CONVERSION_FIELDS_PARAMETER) != null) {
                 setConversionFields(request.getParameter(KFSConstants.CONVERSION_FIELDS_PARAMETER));
             }
-            
+
 
             // init lookupable with bo class
             getLookupable().setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));
@@ -166,7 +159,7 @@ public class CustomerAgingReportForm extends LookupForm {
                         if (formFields != null && formFields.containsKey(field.getPropertyName())) {
                             field.setPropertyValue(formFields.get(field.getPropertyName()));
                             LOG.info("\n\n\n\n");
-                            LOG.info("field " + field.toString() + " = "+ field.getPropertyValue()+" ***\n\n");
+                            LOG.info("field " + field.toString() + " = " + field.getPropertyValue() + " ***\n\n");
                         }
 
                         // override values with request
@@ -356,7 +349,8 @@ public class CustomerAgingReportForm extends LookupForm {
     }
 
     /**
-     * Gets the total0to30 attribute. 
+     * Gets the total0to30 attribute.
+     * 
      * @return Returns the total0to30.
      */
     public String getTotal0to30() {
@@ -365,6 +359,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total0to30 attribute value.
+     * 
      * @param total0to30 The total0to30 to set.
      */
     public void setTotal0to30(String total0to30) {
@@ -372,7 +367,8 @@ public class CustomerAgingReportForm extends LookupForm {
     }
 
     /**
-     * Gets the total31to60 attribute. 
+     * Gets the total31to60 attribute.
+     * 
      * @return Returns the total31to60.
      */
     public String getTotal31to60() {
@@ -381,6 +377,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total31to60 attribute value.
+     * 
      * @param total31to60 The total31to60 to set.
      */
     public void setTotal31to60(String total31to60) {
@@ -388,7 +385,8 @@ public class CustomerAgingReportForm extends LookupForm {
     }
 
     /**
-     * Gets the total61to90 attribute. 
+     * Gets the total61to90 attribute.
+     * 
      * @return Returns the total61to90.
      */
     public String getTotal61to90() {
@@ -397,6 +395,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total61to90 attribute value.
+     * 
      * @param total61to90 The total61to90 to set.
      */
     public void setTotal61to90(String total61to90) {
@@ -404,7 +403,8 @@ public class CustomerAgingReportForm extends LookupForm {
     }
 
     /**
-     * Gets the total91toSYSPR attribute. 
+     * Gets the total91toSYSPR attribute.
+     * 
      * @return Returns the total91toSYSPR.
      */
     public String getTotal91toSYSPR() {
@@ -413,6 +413,7 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the total91toSYSPR attribute value.
+     * 
      * @param total91toSYSPR The total91toSYSPR to set.
      */
     public void setTotal91toSYSPR(String total91toSYSPR) {
@@ -420,7 +421,8 @@ public class CustomerAgingReportForm extends LookupForm {
     }
 
     /**
-     * Gets the totalSYSPRplus1orMore attribute. 
+     * Gets the totalSYSPRplus1orMore attribute.
+     * 
      * @return Returns the totalSYSPRplus1orMore.
      */
     public String getTotalSYSPRplus1orMore() {
@@ -429,15 +431,12 @@ public class CustomerAgingReportForm extends LookupForm {
 
     /**
      * Sets the totalSYSPRplus1orMore attribute value.
+     * 
      * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
      */
     public void setTotalSYSPRplus1orMore(String totalSYSPRplus1orMore) {
         this.totalSYSPRplus1orMore = totalSYSPRplus1orMore;
     }
-
-
-
-
 
 
 }

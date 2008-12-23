@@ -24,7 +24,6 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -67,7 +66,6 @@ public class CustomerTypeRule extends MaintenanceDocumentRuleBase {
         List<CustomerType> dataToValidateList = new ArrayList<CustomerType>(businessObjectService.findAll(CustomerType.class));
         List<String> errorMessages = new ArrayList<String>();
 
-        Map<String, BudgetConstructionHeader> retrievedHeaders = new HashMap<String, BudgetConstructionHeader>();
         Map<String, Account> retrievedAccounts = new HashMap<String, Account>();
 
         for (CustomerType record : dataToValidateList) {

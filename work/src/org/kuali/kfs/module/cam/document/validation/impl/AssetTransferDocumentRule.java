@@ -21,13 +21,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants.Transfer;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
@@ -100,17 +102,17 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             List<AssetPayment> assetPayments = asset.getAssetPayments();
             for (AssetPayment assetPayment : assetPayments) {
                 if (SpringContext.getBean(AssetPaymentService.class).isPaymentEligibleForGLPosting(assetPayment) && !assetPayment.getAccountChargeAmount().isZero()) {
-                    // validate if asset object code
+                    // validate for transfer source
                     AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                    if (ObjectUtils.isNull(originAssetObjectCode)) {
-                        putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                        valid &= false;
+                    if (valid &= validateAssetObjectCode(originAssetObjectCode, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+                        // validate object codes used to generate Capitalization/Accumulated Depreciation/Offset GL Postings.
+                        valid &= validateFinancialObjectCodes(asset, assetPayment, originAssetObjectCode);
                     }
-
+                    // validate for transfer target
                     AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                    if (ObjectUtils.isNull(targetAssetObjectCode)) {
-                        putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                        valid &= false;
+                    if (valid &= validateAssetObjectCode(targetAssetObjectCode, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+                        // validate object codes used to generate Capitalization/Accumulated Depreciation/Offset GL Postings.
+                        valid &= validateFinancialObjectCodes(asset, assetPayment, targetAssetObjectCode);
                     }
                 }
             }
@@ -120,6 +122,84 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             return true;
         }
 
+    }
+    
+    /**
+     * Asset Object Code must exist as an active status.
+     * 
+     * @param asset
+     * @param assetPayment
+     * @return
+     */
+    private boolean validateAssetObjectCode(AssetObjectCode assetObjectCode, String chartOfAccountsCode, String finObjectSubTypeCode) {
+        boolean valid = true;
+        if (ObjectUtils.isNull(assetObjectCode)) {
+            putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { chartOfAccountsCode, finObjectSubTypeCode });
+            valid &= false;
+        }// check Asset Object Code active
+        else if (!assetObjectCode.isActive()) {
+            putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_INACTIVE, new String[] { chartOfAccountsCode, finObjectSubTypeCode });
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    /**
+     * Check Financial Object Code for GLPE.
+     * 
+     * @param asset
+     * @param assetPayment
+     * @return
+     */
+    private boolean validateFinancialObjectCodes(Asset asset, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
+        AssetPaymentService assetPaymentService = getAssetPaymentService();
+        boolean valid = true;
+
+        if (assetPaymentService.isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
+            // check for capitalization financial object code existing.
+            assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.CAPITALIZATION_FINANCIAL_OBJECT);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getCapitalizationFinancialObjectCode(), assetObjectCode.getCapitalizationFinancialObject(), CamsConstants.GLPosting.CAPITALIZATION);
+        }
+        if (assetPaymentService.isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
+            // check for accumulate depreciation financial Object Code existing
+            assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), assetObjectCode.getAccumulatedDepreciationFinancialObjectCode(), assetObjectCode.getAccumulatedDepreciationFinancialObject(), CamsConstants.GLPosting.ACCUMMULATE_DEPRECIATION);
+        }
+        if (assetPaymentService.isPaymentEligibleForOffsetGLPosting(assetPayment)) {
+            // check for offset financial object code existing.
+            OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetObjectCode.getChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), offsetDefinition.getFinancialObjectCode(), offsetDefinition.getFinancialObject(), CamsConstants.GLPosting.OFFSET_AMOUNT);
+        }
+        return valid;
+    }
+
+    /**
+     * check existence and active status for given financial Object Code BO.
+     * 
+     * @param chartCode
+     * @param finObjectCode
+     * @param finObject
+     * @return
+     */
+    private boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPosting) {
+        boolean valid = true;
+        // no define of object code in Asset Object Code table
+        if (StringUtils.isBlank(finObjectCode)) {
+            putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { glPosting, chartOfAccountsCode });
+            valid = false;
+        }
+        // check Object Code existing
+        else if (ObjectUtils.isNull(finObject)) {
+            putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { finObjectCode, chartOfAccountsCode });
+            valid = false;
+        }
+        // check Object Code active
+        else if (!finObject.isActive()) {
+            putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { finObjectCode, chartOfAccountsCode });
+            valid = false;
+        }
+        return valid;
     }
 
     /**
@@ -169,9 +249,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 valid &= false;
             }
         }
-        
+
         valid &= validatePaymentObjectCodes(assetTransferDocument);
-        
+
         return valid;
     }
 
@@ -260,7 +340,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 assetTransferDocument.setRepresentativeUniversalIdentifier(person.getPrincipalId());
             }
             else {
-                putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, Transfer.ERROR_INVALID_USER_AUTH_ID, assetTransferDocument.getAssetRepresentative().getPrincipalName());
+                putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_AUTH_ID, assetTransferDocument.getAssetRepresentative().getPrincipalName());
                 valid &= false;
             }
         }
@@ -307,11 +387,10 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         return valid;
     }
-    
+
     /**
-     * 
-     * checks that all the asset payments to be transfer has a valid object code in the new Chart of account code and
-     * current fiscal year
+     * checks that all the asset payments to be transfer has a valid object code in the new Chart of account code and current fiscal
+     * year
      * 
      * @param assetTransferDocument
      * @return
@@ -321,19 +400,19 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         List<AssetPayment> assetPayments = assetTransferDocument.getAsset().getAssetPayments();
 
         String chartOfAccountsCode = assetTransferDocument.getOrganizationOwnerChartOfAccountsCode();
-        Integer fiscalYear  = getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear();
-        
+        Integer fiscalYear = getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear();
+
         for (AssetPayment assetPayment : assetPayments) {
-            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {                
-                if (this.getObjectCodeService().getByPrimaryId(fiscalYear, chartOfAccountsCode , assetPayment.getFinancialObjectCode()) == null) {
-                    putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, CamsKeyConstants.Transfer.ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND,new String[]{assetPayment.getFinancialObjectCode(),fiscalYear.toString()});        
-                    valid=false;
+            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
+                if (this.getObjectCodeService().getByPrimaryId(fiscalYear, chartOfAccountsCode, assetPayment.getFinancialObjectCode()) == null) {
+                    putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, CamsKeyConstants.Transfer.ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND, new String[] { assetPayment.getFinancialObjectCode(), fiscalYear.toString() });
+                    valid = false;
                 }
             }
         }
         return valid;
     }
-    
+
     /**
      * Convenience method to append the path prefix
      */
@@ -376,8 +455,8 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     }
 
     public ObjectCodeService getObjectCodeService() {
-        if (this.objectCodeService== null) {
-            this.objectCodeService= SpringContext.getBean(ObjectCodeService.class);
+        if (this.objectCodeService == null) {
+            this.objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         }
         return objectCodeService;
     }

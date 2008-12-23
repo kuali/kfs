@@ -197,18 +197,19 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPosting) {
         boolean valid = true;
+        // no define of object code in Asset Object Code table
         if (StringUtils.isBlank(finObjectCode)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { glPosting, chartOfAccountsCode });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { glPosting, chartOfAccountsCode });
             valid = false;
         }
         // check Object Code existing
         else if (ObjectUtils.isNull(finObject)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { finObjectCode, chartOfAccountsCode });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { finObjectCode, chartOfAccountsCode });
             valid = false;
         }
         // check Object Code active
         else if (!finObject.isActive()) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { finObjectCode, chartOfAccountsCode });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { finObjectCode, chartOfAccountsCode });
             valid = false;
         }
         return valid;
@@ -227,42 +228,18 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         // check Asset Object Code existing.
         if (ObjectUtils.isNull(assetObjectCode)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
             valid = false;
         }
         // check Asset Object Code active
         else if (!assetObjectCode.isActive()) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_INACTIVE, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
+            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_INACTIVE, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
             valid = false;
         }
 
         return valid;
     }
 
-    /**
-     * Validates object code
-     * 
-     * @param assetRetirementGlobal
-     * @return boolean
-     */
-    // private boolean validateAssetObjectCodeExistence(AssetRetirementGlobal assetRetirementGlobal) {
-    // boolean valid = true;
-    //
-    // for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-    // Asset asset = assetRetirementGlobalDetail.getAsset();
-    // for (AssetPayment assetPayment : asset.getAssetPayments()) {
-    // AssetObjectCode assetObjectCode = getAssetRetirementService().getAssetObjectCode(asset, assetPayment);
-    // if (ObjectUtils.isNull(assetObjectCode)) {
-    // putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_ASSET_OBJECT_CODE_NOT_FOUND,
-    // new String[] { asset.getOrganizationOwnerChartOfAccountsCode(),
-    // assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
-    // valid = false;
-    // break;
-    // }
-    // }
-    // }
-    // return valid;
-    // }
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)

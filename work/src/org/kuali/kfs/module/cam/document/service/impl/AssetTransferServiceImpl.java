@@ -259,21 +259,14 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
                 assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
                 if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-                    KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-                    if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
+                    if (getAssetPaymentService().isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
                     }
-                    KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
-                    if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.isZero()) {
+                    if (getAssetPaymentService().isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.ACCUM_DEPRECIATION));
                     }
-                    if (accPrimaryDepreciationAmount == null) {
-                        accPrimaryDepreciationAmount = KualiDecimal.ZERO;
-                        assetPayment.setAccumulatedPrimaryDepreciationAmount(KualiDecimal.ZERO);
-                    }
-                    if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && !accountChargeAmount.subtract(accPrimaryDepreciationAmount).isZero()) {
+                    if (getAssetPaymentService().isPaymentEligibleForOffsetGLPosting(assetPayment)) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
-
                     }
                 }
             }
@@ -298,19 +291,13 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         }
         for (AssetPayment assetPayment : assetPayments) {
             if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
-                KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-                if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
+                if (getAssetPaymentService().isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.CAPITALIZATION));
                 }
-                KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
-                if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.isZero()) {
+                if (getAssetPaymentService().isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.ACCUM_DEPRECIATION));
                 }
-                if (accPrimaryDepreciationAmount == null) {
-                    accPrimaryDepreciationAmount = KualiDecimal.ZERO;
-                    assetPayment.setAccumulatedPrimaryDepreciationAmount(KualiDecimal.ZERO);
-                }
-                if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && !accountChargeAmount.subtract(accPrimaryDepreciationAmount).isZero()) {
+                if (getAssetPaymentService().isPaymentEligibleForOffsetGLPosting(assetPayment)) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.OFFSET_AMOUNT));
                 }
             }

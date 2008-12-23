@@ -109,7 +109,10 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      */
     public boolean isPaymentEligibleForOffsetGLPosting(AssetPayment assetPayment) {
         KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-        KualiDecimal accumlatedDepreciationAmount = (assetPayment.getAccumulatedPrimaryDepreciationAmount() == null ? new KualiDecimal(0) : assetPayment.getAccumulatedPrimaryDepreciationAmount());
+        if (assetPayment.getAccumulatedPrimaryDepreciationAmount() == null) {
+            assetPayment.setAccumulatedPrimaryDepreciationAmount(KualiDecimal.ZERO);
+        }
+        KualiDecimal accumlatedDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
         return accountChargeAmount == null ? false : !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero();
     }
 

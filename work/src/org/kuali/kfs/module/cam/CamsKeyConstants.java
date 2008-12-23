@@ -87,11 +87,17 @@ public class CamsKeyConstants {
         public static final String ERROR_TRFR_LOANED = "error.transfer.asset.loaned";
         public static final String ASSET_LOAN_NOTE = "note.asset.loan.active";
         public static final String ERROR_INVALID_USER_AUTH_ID = "error.representative.user.invalid";
-        public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";
-        public static final String ERROR_ASSET_OBJECT_CODE_INACTIVE = "error.asset.object.code.inactive";
         public static final String ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND ="error.transfer.document.payment.objectcode.doesnt.exists";        
     }
 
+    public static class GLPosting {
+        public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";
+        public static final String ERROR_ASSET_OBJECT_CODE_INACTIVE = "error.asset.object.code.inactive";
+        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND = "error.object.code.from.asset.object.code.not.found";
+        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE = "error.object.code.from.asset.object.code.inactive";
+        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID = "error.object.code.from.asset.object.code.invalid";
+    }
+    
     public static class AssetLocation {
         public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
         public static final String ERROR_INVALID_CAMPUS_CODE = "error.invalid.campus.code";
@@ -130,15 +136,9 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_RETIREMENT_GLOBAL_NO_ASSET = "error.asset.retirement.global.no.asset";
         public static final String ERROR_DISALLOWED_MERGE_RETIREMENT_REASON_CODE = "error.disallowed.merge.retirement.reason.code";
         public static final String ERROR_DISALLOWED_RETIREMENT_REASON_CODE = "error.disallowed.retirement.reason.code";
-
         public static final String ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE = "error.disallowed.merge.separate.reason.code";
         public static final String ERROR_DISALLOWED_RAZE_REASON_CODE = "error.disallowed.raze.reason.code";
-
         public static final String ERROR_MULTIPLE_ASSET_RETIRED = "error.multiple.asset.retired";
-        //public static final String ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE = "error.invalid.asset.object.code";
-        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND = "error.object.code.from.asset.object.code.not.found";
-        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE = "error.object.code.from.asset.object.code.inactive";
-        public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID = "error.object.code.from.asset.object.code.invalid";
     }
 
     public static class AssetLocationGlobal {

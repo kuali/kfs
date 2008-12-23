@@ -25,6 +25,7 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
@@ -102,7 +103,8 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
      * @param orgCode
      */
     private void updateRemitToAddress(String chartCode, String orgCode) {
-        SystemInformation sysInfo = SpringContext.getBean(SystemInformationService.class).getByProcessingChartAndOrg(chartCode, orgCode);
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        SystemInformation sysInfo = SpringContext.getBean(SystemInformationService.class).getByProcessingChartOrgAndFiscalYear(chartCode, orgCode, universityDateService.getCurrentFiscalYear());
         
         if(sysInfo != null) {
             newOptions.setOrganizationRemitToAddressName(sysInfo.getOrganizationRemitToAddressName());

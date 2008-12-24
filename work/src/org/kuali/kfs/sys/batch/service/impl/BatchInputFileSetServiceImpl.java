@@ -398,6 +398,10 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#isFileUserIdentifierProperlyFormatted(java.lang.String)
      */
     public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier) {
+        if (fileUserIdentifier == null) {
+            return false;
+        }
+        
         for (int i = 0; i < fileUserIdentifier.length(); i++) {
             char c = fileUserIdentifier.charAt(i);
             if (!(Character.isLetterOrDigit(c))) {

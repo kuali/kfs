@@ -105,7 +105,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizationService.getDocumentAuthorizer(accountingDocument);
 
         String principalId = user.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.KFS;
+        String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;
         String permissionTemplateName = KFSConstants.SysKimConstants.MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME;
 
         AttributeSet permissionDetails = new AttributeSet();

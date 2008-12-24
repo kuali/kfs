@@ -64,7 +64,29 @@
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
 
-	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true"/>
+	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true">
+		<property name="vendorService" ref="vendorService" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
+	<bean id="Purchasing-capitalAssetValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetValidation" abstract="true">
+		<property name="purchasingService" ref="purchasingService" />
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>
+
+	<bean id="Purchasing-paymentInfoValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingPaymentInfoValidation" abstract="true">
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="universityDateTimeService" ref="universityDateTimeService" />
+	</bean>
+
+	<bean id="Purchasing-updateCamsViewValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingUpdateCamsViewValidation" abstract="true">
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>
+
+	<bean id="Purchasing-deliveryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingDeliveryValidation" abstract="true">
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
 <!-- Requisition Definitions -->	
     <bean id="Requisition-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewProcessItemValidation" abstract="true">

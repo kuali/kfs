@@ -15,15 +15,95 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingProcessVendorValidation extends PurchasingAccountsPayableProcessVendorValidation {
     
+    VendorService vendorService;
+    ParameterService parameterService;
+    
     public boolean validate(AttributedDocumentEvent event) {
-        return super.validate(event);
+        boolean valid = false;
+        PurchasingDocument purDocument = (PurchasingDocument) event.getDocument();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        valid &= super.validate(event);        
+        
+        if (!purDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
+            
+            //If there is a vendor and the transmission method is FAX and the fax number is blank, display
+            //error that the fax number is required.
+            if (purDocument.getVendorHeaderGeneratedIdentifier() != null && purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX) && StringUtils.isBlank(purDocument.getVendorFaxNumber())) {
+                valid &= false;
+                String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                getDataDictionary().getBusinessObjectEntry(VendorAddress.class.getName()).
+                getAttributeDefinition(VendorPropertyConstants.VENDOR_FAX_NUMBER).getLabel();
+                errorMap.putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, KFSKeyConstants.ERROR_REQUIRED, attributeLabel);
+            }
+            if (StringUtils.isNotBlank(purDocument.getVendorFaxNumber())) {
+                PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
+                if (!phonePattern.matches(purDocument.getVendorFaxNumber())) {
+                    valid &= false;
+                    errorMap.putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
+                }
+            }
+        }
+
+        VendorDetail vendorDetail = vendorService.getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
+        if (ObjectUtils.isNull(vendorDetail))
+            return valid;
+        VendorHeader vendorHeader = vendorDetail.getVendorHeader();
+
+        // make sure that the vendor is not debarred
+        if (vendorDetail.isVendorDebarred()) {
+            valid &= false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_DEBARRED_VENDOR);
+        }
+
+        // make sure that the vendor is of allowed type
+        String allowedVendorType = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
+        if (ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(vendorHeader.getVendorTypeCode()) && !vendorHeader.getVendorTypeCode().equals(allowedVendorType)) {
+            valid &= false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE);
+        }
+
+        // make sure that the vendor is active
+        if (!vendorDetail.isActiveIndicator()) {
+            valid &= false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
+        }
+
+        return valid;
+
+    }
+
+    public VendorService getVendorService() {
+        return vendorService;
+    }
+
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;
     }
         
 }

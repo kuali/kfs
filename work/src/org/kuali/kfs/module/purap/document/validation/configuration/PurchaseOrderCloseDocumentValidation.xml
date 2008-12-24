@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    
+    <!-- Route Document Event -->
+	<bean id="PurchaseOrder-routeDocumentValidation" parent="PurchaseOrder-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PurchaseOrder-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>  				
+  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+  					<property name="parameterProperties">
+  						<list>
+  							<bean parent="validationFieldConversion">
+  								<property name="sourceEventProperty" value="iterationSubject" />
+  								<property name="targetValidationProperty" value="businessObjectForValidation" />
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>
+
+			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.items" />
+  					<property name="validations">
+  						<list>
+  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="businessObjectForValidation" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  							<bean parent="Purchasing-newIndividualItemValidation" scope="prototype">
+  							    <property name="parameterProperties">
+  							      	<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="itemForValidation" />
+  										</bean>
+  									</list>
+  							    </property>
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>												
+
+  				<bean parent="Purchasing-newProcessItemValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+
+				<bean parent="Purchasing-processVendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-paymentInfoValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+  			</list>
+  		</property>
+  	</bean>
+
+  	<bean id="PurchaseOrder-approveDocumentValidation" parent="PurchaseOrder-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PurchaseOrder-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
+  		</property>
+  	</bean>
+
+    <!-- Add Accounting Line Event -->
+	<bean id="PurchaseOrder-addAccountingLineValidation" parent="PurchaseOrder-addAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrder-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+  					<property name="validations">
+  						<list>
+  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</property>
+								<property name="quitOnFail" value="false" />
+							</bean>
+							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="targetValidationProperty" value="accountingLineForValidation" />
+										</bean>
+									</list>
+								</property>
+								<property name="quitOnFail" value="false" />
+							</bean>
+							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+								<property name="accountingDocumentParameterPropertyName" value="document" />
+								<property name="accountingLineParameterPropertyName" value="accountingLine" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+	            <bean parent="PurchaseOrder-accountingLineAccessibleValidation" scope="prototype">
+			        <property name="parameterProperties">
+					    <list>
+					        <bean parent="validationFieldConversion">
+						        <property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+					        </bean>
+						</list>
+			        </property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+
+	<!-- Update Accounting Line Event -->
+    <bean id="PurchaseOrder-updateAccountingLineValidation" parent="PurchaseOrder-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrder-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+  					<property name="validations">
+  						<list>
+  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</property>
+								<property name="quitOnFail" value="false" />
+							</bean>
+							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="targetValidationProperty" value="accountingLineForValidation" />
+										</bean>
+									</list>
+								</property>
+								<property name="quitOnFail" value="false" />
+							</bean>			
+							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+								<property name="accountingDocumentParameterPropertyName" value="document" />
+								<property name="accountingLineParameterPropertyName" value="accountingLine" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="PurchaseOrder-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+
+	<bean id="PurchaseOrderCloseDocument-reviewAccountingLineValidation" parent="PurchaseOrderCloseDocument-reviewAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderCloseDocument-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+			</list>
+		</property>
+	</bean>												
+	
+	<bean id="PurchaseOrderCloseDocument-addPurchasingAccountsPayableItemValidation" parent="PurchaseOrderCloseDocument-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderCloseDocument-addPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PurchaseOrderCloseDocument-importPurchasingAccountsPayableItemValidation" parent="PurchaseOrderCloseDocument-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderCloseDocument-importPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PaymentRequest-saveDocumentValidation" parent="PaymentRequest-saveDocumentValidation-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+			</list>
+		</property>
+	</bean>
+		
+</beans>
+		    

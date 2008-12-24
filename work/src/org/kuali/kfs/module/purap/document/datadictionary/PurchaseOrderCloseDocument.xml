@@ -75,4 +75,46 @@
       </list>
     </property>
   </bean>
+  
+	<bean id="PurchaseOrderCloseDocument-validations" parent="PurchaseOrderCloseDocument-validations-parentBean" />
+  
+    <bean id="PurchaseOrderCloseDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+    	<property name="sourceMap">
+	    	<map>			
+				<entry>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+					<value>PurchaseOrderCloseDocument-routeDocumentValidation</value>
+				</entry>
+				<entry>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+					<value>PurchaseOrderCloseDocument-approveDocumentValidation</value>
+				</entry>		
+				<entry>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+					<value>PurchaseOrderCloseDocument-addAccountingLineValidation</value>
+				</entry>
+				<entry>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+					<value>PurchaseOrderCloseDocument-updateAccountingLineValidation</value>
+				</entry>	
+				<entry>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+					<value>PurchaseOrderCloseDocument-reviewAccountingLineValidation</value>
+				</entry>
+				<entry>
+					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+					<value>PurchaseOrderCloseDocument-addPurchasingAccountsPayableItemValidation</value>				
+				</entry>
+				<entry>
+					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+					<value>PurchaseOrderCloseDocument-importPurchasingAccountsPayableItemValidation</value>				
+				</entry>																									
+				<entry>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+					<value>PaymentRequest-saveDocumentValidation</value>				
+				</entry>												
+		    </map>
+	    </property>	  
+    </bean>
+  
 </beans>

@@ -15,24 +15,41 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PurchasingNewProcessItemValidation extends PurchasingAccountsPayableNewProcessItemValidation {
 
     private PurapService purapService;
     
-    public boolean validate(AttributedDocumentEvent event) {
-        return super.validate(event);
+    public boolean validate(AttributedDocumentEvent event) {        
+        boolean valid = false;
+        
+        valid &= super.validate(event);
+        
+        valid &= validateTotalCost((PurchasingDocument) event.getDocument());
+        valid &= validateContainsAtLeastOneItem((PurchasingDocument) event.getDocument());
+        valid &= validateTradeIn((PurchasingAccountsPayableDocument)event.getDocument());
+
+        return valid;
     }
         
     /**
@@ -71,7 +88,69 @@ public class PurchasingNewProcessItemValidation extends PurchasingAccountsPayabl
 
         return true;
     }
-    
+
+    /**
+     * Validates that the total cost must be greater or equal to zero.
+     * 
+     * @param purDocument the purchasing document to be validated
+     * @return boolean false if the total cost is less than zero.
+     */
+    private boolean validateTotalCost(PurchasingDocument purDocument) {
+        boolean valid = true;
+        if (purDocument.getTotalDollarAmount().isLessThan(new KualiDecimal(BigDecimal.ZERO))) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
+        }
+
+        return valid;
+    }
+
+    /**
+     * Validates that the document contains at least one item.
+     * 
+     * @param purDocument the purchasing document to be validated
+     * @return boolean false if the document does not contain at least one item.
+     */
+    public boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
+        boolean valid = false;
+        for (PurApItem item : purDocument.getItems()) {
+            if (!((PurchasingItemBase) item).isEmpty() && item.getItemType().isLineItemIndicator()) {
+
+                return true;
+            }
+        }
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+
+        if (!valid) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
+        }
+
+        return valid;
+    }
+
+    private boolean validateTradeIn(PurchasingAccountsPayableDocument purapDocument) {
+        boolean isAssignedToTradeInItemFound = false;
+        for (PurApItem item : purapDocument.getItems()) {
+            // Refresh the item type for validation.
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+
+            if (item.getItemType().isLineItemIndicator()) {
+                if (item.getItemAssignedToTradeInIndicator()) {
+                    isAssignedToTradeInItemFound = true;
+                    break;
+                }           
+            }
+        }
+        if (!isAssignedToTradeInItemFound) {
+            PurApItem tradeInItem = purapDocument.getTradeInItem();
+            if (tradeInItem != null && tradeInItem.getItemUnitPrice() != null) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED);
+                return false;
+            }
+        }
+        return true;
+    }
+
     public PurapService getPurapService() {
         return purapService;
     }

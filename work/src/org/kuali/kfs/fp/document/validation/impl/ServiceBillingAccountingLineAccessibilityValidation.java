@@ -19,13 +19,13 @@ import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
-import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
@@ -34,10 +34,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLin
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -74,7 +72,6 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @return Whether the given user is authorized to use the given account in the service billing income section.
      */
     protected boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AttributedDocumentEvent event, Person user) {
-        // TODO: verify this usage with James
         assertThat(accountingLine.isSourceAccountingLine(), accountingLine);
 
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
@@ -84,52 +81,42 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         if (StringUtils.isEmpty(chartOfAccountsCode) || StringUtils.isEmpty(accountNumber)) {
             return false;
         }
-
-        ServiceBillingControl control = SpringContext.getBean(ServiceBillingControlService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
-        if (ObjectUtils.isNull(control)) {
-            if (event != null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(event), accountingLine.getAccountNumber());
-            }
-            return false;
-        }
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, control.getWorkgroupName())) {
-            return true;
-        }
-        else {
-            if (event != null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(event), accountingLine.getAccountNumber(), user.getPrincipalName(), control.getWorkgroupName());
-            }
-            return false;
-        }
         
-        // return this.isAccountAccessible(accountingLine.getAccount(), user);
+        AccountingDocument accountingDocument = (AccountingDocument) event.getDocument();
+        boolean isAccountAccessible = this.isSourceLineAccountAccessible(accountingDocument, accountingLine.getAccount(), user);        
+        if(!isAccountAccessible) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, noServiceBillingControlErrorKey(event), chartOfAccountsCode);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(event), accountNumber);
+            return false;
+        }
+
+        return true;
     }
 
     /**
-     * determine whether the current user can access the given account
+     * determine whether the current user can access the given account on source accounting line
      * 
      * @param account the given account
      * @param user the current user
-     * @return true if the current user can access the given account; otherwise, false
+     * @return true if the current user can access the given account on source accounting line; otherwise, false
      */
-    private boolean isAccountAccessible(Account account, Person user) {
-        String chartOfAccountsCode = account.getChartOfAccountsCode();
-        String accountNumber = account.getAccountNumber();
+    private boolean isSourceLineAccountAccessible(AccountingDocument accountingDocument, Account account, Person user) {
+        DocumentAuthorizationService documentAuthorizationService = SpringContext.getBean(DocumentAuthorizationService.class);
+        AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizationService.getDocumentAuthorizer(accountingDocument);
 
-        IdentityManagementService identityManagementService = KIMServiceLocator.getIdentityManagementService();
         String principalId = user.getPrincipalId();
-        String namespaceCode = "KFS-SYS";
-        String responsibilityTemplateName = ""; // TODO:
+        String namespaceCode = KFSConstants.ParameterNamespaces.KFS;
+        String permissionTemplateName = KFSConstants.SysKimConstants.MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME;
 
-        AttributeSet qualification = new AttributeSet();
-        qualification.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        qualification.put(KimAttributes.ACCOUNT_NUMBER, accountNumber);
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(KimAttributes.DOCUMENT_TYPE_NAME, accountingDocument.getClass().getSimpleName());
+        permissionDetails.put(KimAttributes.PROPERTY_NAME, KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value);
 
-        AttributeSet responsibilityDetails = new AttributeSet();
-        responsibilityDetails.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        responsibilityDetails.put(KimAttributes.ACCOUNT_NUMBER, accountNumber);
+        AttributeSet roleQualifiers = new AttributeSet();
+        roleQualifiers.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
+        roleQualifiers.put(KimAttributes.ACCOUNT_NUMBER, account.getAccountNumber());
 
-        return identityManagementService.hasResponsibilityByTemplateName(principalId, namespaceCode, responsibilityTemplateName, qualification, responsibilityDetails);
+        return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, permissionTemplateName, principalId, permissionDetails, roleQualifiers);
     }
 
     /**

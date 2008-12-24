@@ -47,18 +47,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
 
-    public static final String MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME = "Modify Accounting Lines";
-
-    public enum PermissionAttributeValue {
-        SOURCE_ACCOUNTING_LINES("sourceAccountingLines"), TARGET_ACCOUNTING_LINES("targetAccountingLines");
-
-        public final String value;
-
-        private PermissionAttributeValue(String value) {
-            this.value = value;
-        }
-    }
-
     private KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     private DocumentAuthorizationService documentAuthorizationService = SpringContext.getBean(DocumentAuthorizationService.class);
 
@@ -201,7 +189,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
 
         // examine whether the whole line can be editable
-        String lineFieldName = accountingLine.isSourceAccountingLine() ? PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
+        String lineFieldName = accountingLine.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
         boolean hasEditPermissionOnField = this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
 
         // examine whether the given field can be editable
@@ -232,7 +220,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
 
         // examine whether the whole line can be editable
-        String lineFieldName = accountingLine.isSourceAccountingLine() ? PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
+        String lineFieldName = accountingLine.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
         return this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
     }
 
@@ -267,7 +255,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         String pricipalId = currentUser.getPrincipalId();
         AccountingDocumentAuthorizer accountingDocumentAuthorizer = this.getAccountingDocumentAuthorizer(accountingDocument);
         
-        return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME, pricipalId, permissionDetails, roleQualifiers);
+        return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME, pricipalId, permissionDetails, roleQualifiers);
     }
 
     /**

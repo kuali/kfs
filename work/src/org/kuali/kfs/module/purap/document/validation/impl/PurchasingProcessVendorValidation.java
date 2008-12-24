@@ -40,8 +40,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingProcessVendorValidation extends PurchasingAccountsPayableProcessVendorValidation {
     
-    VendorService vendorService;
-    ParameterService parameterService;
+    private VendorService vendorService;
+    private ParameterService parameterService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = false;
@@ -98,12 +98,19 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
 
     }
 
-    public VendorService getVendorService() {
-        return vendorService;
-    }
-
+    /**
+     * Sets the vendorService attribute value.
+     * @param vendorService The vendorService to set.
+     */
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
     }
-        
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }       
 }

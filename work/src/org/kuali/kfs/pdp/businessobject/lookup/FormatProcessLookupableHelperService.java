@@ -29,12 +29,10 @@ import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -60,7 +58,6 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         if (businessObject instanceof FormatProcess) {
-            Person person = GlobalVariables.getUserSession().getPerson();
             FormatProcess formatProcess = (FormatProcess) businessObject;
             int processId = formatProcess.getPaymentProcIdentifier();
 

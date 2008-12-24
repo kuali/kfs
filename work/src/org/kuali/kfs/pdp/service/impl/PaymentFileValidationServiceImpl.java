@@ -112,13 +112,13 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param errorMap map in which errors will be added to
      */
     protected void processHeaderValidation(PaymentFileLoad paymentFile, ErrorMap errorMap) {
-        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
         if (customer == null) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_CUSTOMER, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_CUSTOMER, paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
         }
         else {
             if (!customer.isActive()) {
-                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER, paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
             }
             else {
                 paymentFile.setCustomer(customer);
@@ -257,7 +257,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     public List<String> doSoftEdits(PaymentFileLoad paymentFile) {
         List<String> warnings = new ArrayList<String>();
 
-        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
 
         // check payment amount does not exceed the configured threshold amount of this customer
         if (paymentFile.getPaymentTotalAmount().compareTo(customer.getFileThresholdAmount()) > 0) {

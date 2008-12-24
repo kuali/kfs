@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class PaymentFileLoad extends TransientBusinessObjectBase {
     // header fields
     private String chart;
-    private String org;
+    private String unit;
     private String subUnit;
     private Date creationDate;
 
@@ -118,21 +118,21 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the org attribute.
+     * Gets the unit attribute.
      * 
-     * @return Returns the org.
+     * @return Returns the unit.
      */
-    public String getOrg() {
-        return org;
+    public String getUnit() {
+        return unit;
     }
 
     /**
-     * Sets the org attribute value.
+     * Sets the unit attribute value.
      * 
-     * @param org The org to set.
+     * @param unit The unit to set.
      */
-    public void setOrg(String org) {
-        this.org = org;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     /**
@@ -392,7 +392,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.CHART, this.chart);
-        m.put(KFSPropertyConstants.ORG, this.org);
+        m.put(PdpPropertyConstants.UNIT, this.unit);
         m.put(PdpPropertyConstants.SUB_UNIT, this.subUnit);
         m.put(PdpPropertyConstants.CREATION_DATE, this.creationDate);
 

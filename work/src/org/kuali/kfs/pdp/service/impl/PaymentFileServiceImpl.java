@@ -144,7 +144,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      */
     public void loadPayments(PaymentFileLoad paymentFile, LoadPaymentStatus status, String incomingFileName) {
         status.setChart(paymentFile.getChart());
-        status.setOrg(paymentFile.getOrg());
+        status.setUnit(paymentFile.getUnit());
         status.setSubUnit(paymentFile.getSubUnit());
         status.setCreationDate(paymentFile.getCreationDate());
         status.setDetailCount(paymentFile.getActualPaymentCount());
@@ -302,7 +302,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
         Batch batch = new Batch();
 
-        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
         batch.setCustomerProfile(customer);
         batch.setCustomerFileCreateTimestamp(new Timestamp(paymentFile.getCreationDate().getTime()));
         batch.setFileProcessTimestamp(now);

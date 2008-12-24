@@ -24,7 +24,7 @@
      
         <pattern value="header">
             <call-method-rule pattern="chart" methodname="setChart" paramcount="0" />
-            <call-method-rule pattern="organization" methodname="setOrg" paramcount="0" />
+            <call-method-rule pattern="unit" methodname="setUnit" paramcount="0" />
             <call-method-rule pattern="sub_unit" methodname="setSubUnit" paramcount="0" />
             <call-method-rule pattern="creation_date" methodname="setCreationDate" paramcount="0" />
         </pattern>

@@ -39,6 +39,7 @@ public class PdpPropertyConstants {
     public static final String PAYMENT_TOTAL_AMOUNT = "paymentTotalAmount";
     public static final String CREATION_DATE = "creationDate";
     public static final String LAST_ASSIGNED_DISBURSEMENT_NUMBER = "lastAssignedDisbNbr";
+    public static final String UNIT = "unit";
     public static final String SUB_UNIT = "subUnit";
     public static final String DISBURSEMENT_NUMBER_RANGE_START_DATE = "disbNbrRangeStartDt";    
     

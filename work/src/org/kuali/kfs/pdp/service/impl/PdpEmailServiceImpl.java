@@ -97,7 +97,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_BAD_FILE_PARSE) + "\n\n");
         }
         else {
-            CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+            CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
             if (customer == null) {
                 LOG.error("sendErrorEmail() Invalid Customer.  Sending email to CC addresses");
 
@@ -121,7 +121,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         if (paymentFile != null) {
             body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_FILE_NOT_LOADED) + "\n\n");
-            addPaymentFieldsToBody(body, null, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
+            addPaymentFieldsToBody(body, null, paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
         }
 
         body.append("\n" + getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_ERROR_MESSAGES) + "\n");
@@ -160,7 +160,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
-        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
         String toAddresses = StringUtils.deleteWhitespace(customer.getProcessingEmailAddr());
         List<String> toAddressList = Arrays.asList(toAddresses.split(","));
 
@@ -168,7 +168,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         StringBuffer body = new StringBuffer();
         body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_FILE_LOADED) + "\n\n");
-        addPaymentFieldsToBody(body, paymentFile.getBatchId().intValue(), paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
+        addPaymentFieldsToBody(body, paymentFile.getBatchId().intValue(), paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
 
         body.append("\n" + getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_WARNING_MESSAGES) + "\n");
         for (String warning : warnings) {
@@ -209,7 +209,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         StringBuffer body = new StringBuffer();
 
         body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_FILE_LOADED) + "\n\n");
-        addPaymentFieldsToBody(body, paymentFile.getBatchId().intValue(), paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
+        addPaymentFieldsToBody(body, paymentFile.getBatchId().intValue(), paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
 
         if (fileThreshold) {
             String toAddresses = StringUtils.deleteWhitespace(customer.getFileThresholdEmailAddress());
@@ -264,7 +264,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         }
 
         body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_FILE_TAX_LOADED) + "\n\n");
-        addPaymentFieldsToBody(body, paymentFile.getBatchId().intValue(), paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
+        addPaymentFieldsToBody(body, paymentFile.getBatchId().intValue(), paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
 
         body.append("\n" + getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_GO_TO_PDP) + "\n");
 
@@ -663,15 +663,15 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      * 
      * @param body <code>StringBuffer</code>
      */
-    protected void addPaymentFieldsToBody(StringBuffer body, Integer batchId, String chart, String org, String subUnit, Date createDate, int paymentCount, KualiDecimal paymentTotal) {
+    protected void addPaymentFieldsToBody(StringBuffer body, Integer batchId, String chart, String unit, String subUnit, Date createDate, int paymentCount, KualiDecimal paymentTotal) {
         String batchIdLabel = dataDictionaryService.getAttributeLabel(PaymentFileLoad.class, PdpPropertyConstants.BATCH_ID);
         body.append(batchIdLabel + ": " + batchId + "\n");
 
         String chartLabel = dataDictionaryService.getAttributeLabel(PaymentFileLoad.class, KFSPropertyConstants.CHART);
         body.append(chartLabel + ": " + chart + "\n");
 
-        String orgLabel = dataDictionaryService.getAttributeLabel(PaymentFileLoad.class, KFSPropertyConstants.ORG);
-        body.append(orgLabel + ": " + org + "\n");
+        String orgLabel = dataDictionaryService.getAttributeLabel(PaymentFileLoad.class, PdpPropertyConstants.UNIT);
+        body.append(orgLabel + ": " + unit + "\n");
 
         String subUnitLabel = dataDictionaryService.getAttributeLabel(PaymentFileLoad.class, PdpPropertyConstants.SUB_UNIT);
         body.append(subUnitLabel + ": " + subUnit + "\n");

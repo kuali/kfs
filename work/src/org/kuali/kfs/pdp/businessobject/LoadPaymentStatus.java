@@ -42,7 +42,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
     private int detailCount;
     private KualiDecimal detailTotal;
     private String chart;
-    private String org;
+    private String unit;
     private String subUnit;
     private Date creationDate;
     private KualiInteger batchId;
@@ -188,21 +188,21 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the org attribute.
+     * Gets the unit attribute.
      * 
-     * @return Returns the org.
+     * @return Returns the unit.
      */
-    public String getOrg() {
-        return org;
+    public String getUnit() {
+        return unit;
     }
 
     /**
-     * Sets the org attribute value.
+     * Sets the unit attribute value.
      * 
-     * @param org The org to set.
+     * @param unit The unit to set.
      */
-    public void setOrg(String org) {
-        this.org = org;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     /**

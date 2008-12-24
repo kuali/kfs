@@ -26,6 +26,6 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 
 public interface CustomerProfileService {
 
-    public CustomerProfile get(String chartCode, String orgCode, String subUnitCode);
+    public CustomerProfile get(String chartCode, String unitCode, String subUnitCode);
 
 }

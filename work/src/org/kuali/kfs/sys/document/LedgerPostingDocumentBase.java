@@ -129,7 +129,9 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
         }
         this.tmpPostingPeriodCode = postingPeriodCode;
         this.tmpPostingYear = postingYear;
-        handleAccountingPeriodChange();
+        
+        // KFSMI-2057: removed in order to fix the posting year updating
+        // handleAccountingPeriodChange(); 
     }
 
     /**

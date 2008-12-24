@@ -501,6 +501,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
         
+        // Collection of all generated entries
+        List<GeneralLedgerPendingEntry> generatedEntries = new ArrayList<GeneralLedgerPendingEntry>();
+        
         // Get handles to the services we need
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
@@ -522,19 +525,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         String cashControlDocumentProcessingChartCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String cashControlDocumentProcessingOrganizationCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
 
-        // TODO get the unapplied sub object code from system parameters
-        String unappliedSubObjectCode = null;
-        //parameterService.get
-        
         // Get the university clearing account
         SystemInformation unappliedSystemInformation = 
-            systemInformationService.getByProcessingChartOrgFiscalYearAndSubObjectCode(
-                    cashControlDocumentProcessingChartCode, cashControlDocumentProcessingOrganizationCode, currentFiscalYear, unappliedSubObjectCode);
+            systemInformationService.getByProcessingChartOrgAndFiscalYear(
+                    cashControlDocumentProcessingChartCode, cashControlDocumentProcessingOrganizationCode, currentFiscalYear);
+        
+        // Get the university clearing account
         unappliedSystemInformation.refreshReferenceObject("universityClearingAccount");
         Account universityClearingAccount = unappliedSystemInformation.getUniversityClearingAccount();
         
-        // Collection of all generated entries
-        List<GeneralLedgerPendingEntry> generatedEntries = new ArrayList<GeneralLedgerPendingEntry>();
+        // Get the university clearing sub-object code
+        String unappliedSubObjectCode = unappliedSystemInformation.getUniversityClearingSubObjectCode();
         
         // Get the object code for the university clearing account.
         SystemInformation universityClearingAccountSystemInformation = 
@@ -550,6 +551,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualCreditUnapplied.setFinancialObjectCode(unappliedSystemInformation.getUniversityClearingObjectCode());
             actualCreditUnapplied.setTransactionLedgerEntryAmount(getNonAppliedHolding().getFinancialDocumentLineAmount());
+            actualCreditUnapplied.setFinancialSubObjectCode(unappliedSubObjectCode);
             generatedEntries.add(actualCreditUnapplied);
             
             GeneralLedgerPendingEntry actualDebitUnapplied = new GeneralLedgerPendingEntry();

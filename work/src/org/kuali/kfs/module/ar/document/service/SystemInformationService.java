@@ -22,5 +22,4 @@ public interface SystemInformationService {
     public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear);
     public SystemInformation getByCurrentUniversityFiscalYear();
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear);
-    public SystemInformation getByProcessingChartOrgFiscalYearAndSubObjectCode(String chartCode, String orgCode, Integer fiscalYear, String subObjectCode);
 }

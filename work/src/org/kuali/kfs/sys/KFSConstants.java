@@ -1281,6 +1281,18 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME = "Active Professional Employee";
         
         public static final String CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME = "Claim Electronic Payment";
+        
+        public static final String MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME = "Modify Accounting Lines";
+    } 
+
+    public enum PermissionAttributeValue {
+        SOURCE_ACCOUNTING_LINES("sourceAccountingLines"), TARGET_ACCOUNTING_LINES("targetAccountingLines");
+
+        public final String value;
+
+        private PermissionAttributeValue(String value) {
+            this.value = value;
+        }
     }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";

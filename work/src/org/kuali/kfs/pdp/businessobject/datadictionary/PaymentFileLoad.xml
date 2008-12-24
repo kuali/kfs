@@ -12,7 +12,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PaymentFileLoad-chart" />
-        <ref bean="PaymentFileLoad-org" />
+        <ref bean="PaymentFileLoad-unit" />
         <ref bean="PaymentFileLoad-subUnit" />
         <ref bean="PaymentFileLoad-creationDate" />
         <ref bean="PaymentFileLoad-paymentCount" />
@@ -29,10 +29,10 @@
       <property name="name" value="chart" />
   </bean>   
   
-  <bean id="PaymentFileLoad-org" parent="PaymentFileLoad-org-parentBean" />
+  <bean id="PaymentFileLoad-unit" parent="PaymentFileLoad-unit-parentBean" />
 
-  <bean id="PaymentFileLoad-org-parentBean" abstract="true" parent="Organization-organizationCode">
-      <property name="name" value="org" />
+  <bean id="PaymentFileLoad-unit-parentBean" abstract="true" parent="Organization-organizationCode">
+      <property name="name" value="unit" />
   </bean>     
 
   <bean id="PaymentFileLoad-subUnit" parent="PaymentFileLoad-subUnit-parentBean" />

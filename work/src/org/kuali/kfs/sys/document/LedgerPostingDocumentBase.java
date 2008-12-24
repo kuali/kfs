@@ -17,29 +17,22 @@ package org.kuali.kfs.sys.document;
 
 import java.sql.Date;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.util.NumberUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Base implementation for a ledger posting document.
  */
 public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocumentBase implements LedgerPostingDocument {
-    private Integer tmpPostingYear;
-    private String tmpPostingPeriodCode;
-
     static private transient DateTimeService dateTimeService;
     static private transient AccountingPeriodService accountingPeriodService;
     static private transient DocumentTypeService documentTypeService;
-    
-    
+       
     protected AccountingPeriod accountingPeriod;
     protected Integer postingYear;
     protected String postingPeriodCode;
@@ -91,8 +84,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @see org.kuali.kfs.sys.document.LedgerPostingDocument#setPostingYear(java.lang.Integer)
      */
     public void setPostingYear(Integer postingYear) {
-        this.tmpPostingYear = postingYear;
-        handleAccountingPeriodChange();
+        this.postingYear = postingYear;
     }
 
     /**
@@ -106,14 +98,15 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @see org.kuali.kfs.sys.document.LedgerPostingDocument#setPostingPeriodCode(java.lang.String)
      */
     public void setPostingPeriodCode(String postingPeriodCode) {
-        this.tmpPostingPeriodCode = postingPeriodCode;
-        handleAccountingPeriodChange();
+        this.postingPeriodCode = postingPeriodCode;
     }
 
     /**
      * @see org.kuali.kfs.sys.document.LedgerPostingDocument#getAccountingPeriod()
      */
     public AccountingPeriod getAccountingPeriod() {
+        accountingPeriod = getAccountingPeriodService().getByPeriod(postingPeriodCode, postingYear);
+
         return accountingPeriod;
     }
 
@@ -121,42 +114,11 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @see org.kuali.kfs.sys.document.LedgerPostingDocument#setAccountingPeriod(AccountingPeriod)
      */
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
-        Integer postingYear = null;
-        String postingPeriodCode = null;
-        if (accountingPeriod != null) {
-            postingYear = accountingPeriod.getUniversityFiscalYear();
-            postingPeriodCode = accountingPeriod.getUniversityFiscalPeriodCode();
-        }
-        this.tmpPostingPeriodCode = postingPeriodCode;
-        this.tmpPostingYear = postingYear;
+        this.accountingPeriod = accountingPeriod;
         
-        // KFSMI-2057: removed in order to fix the posting year updating
-        // handleAccountingPeriodChange(); 
-    }
-
-    /**
-     * Uses <code>{@link AccountingPeriod}</code> key to set new key values at once. <br/>
-     * <p>
-     * This is called whenever <code>postingYear</code> or <code>postingPeriodCode</code> is changed. If neither value in the
-     * key is null, then a change has occured and the values are handled at once.
-     * </p>
-     */
-    private void handleAccountingPeriodChange() {
-        Integer year = this.tmpPostingYear;
-        String code = this.tmpPostingPeriodCode;
-
-        if (year != null && StringUtils.isNotBlank(code)) {
-            AccountingPeriod accountingPeriod = getAccountingPeriodService().getByPeriod(code, year);
-            if (ObjectUtils.isNotNull(accountingPeriod)) {
-                //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
-                //AccountingPeriod does not have any updatable references
-                accountingPeriod.refreshNonUpdateableReferences();
-                this.accountingPeriod = accountingPeriod;
-                this.postingPeriodCode = code;
-                this.postingYear = year;
-                this.tmpPostingPeriodCode = null;
-                this.tmpPostingYear = null;
-            }
+        if(ObjectUtils.isNotNull(accountingPeriod)) {
+            this.setPostingYear(accountingPeriod.getUniversityFiscalYear());
+            this.setPostingPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
         }
     }
     

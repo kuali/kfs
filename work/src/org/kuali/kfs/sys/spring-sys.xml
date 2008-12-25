@@ -180,18 +180,11 @@
 	<bean id="purgeJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="purgeDocumentContentsStep" />
 				<ref bean="purgePendingAttachmentsStep" />
 				<ref bean="purgeOldLookupResultsStep" />
 				<ref bean="purgeTempFilesStep" />
 				<ref bean="purgeSessionDocumentsStep" />
 			</list>
-		</property>
-	</bean>
-
-	<bean id="purgeDocumentContentsStep" class="org.kuali.kfs.sys.batch.PurgeDocumentContentsStep" parent="step">
-		<property name="documentService">
-			<ref bean="documentService" />
 		</property>
 	</bean>
 

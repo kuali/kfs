@@ -20,6 +20,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndSalaryExpenseTransferDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="YEST" />
+    <property name="sessionDocument" value="true" />    
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
       <ref bean="YearEndSalaryExpenseTransferDocument-workflowProperties" />

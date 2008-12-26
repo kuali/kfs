@@ -173,6 +173,10 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
         ExpenseTransferDocumentFormBase expenseTransferDocumentForm = (ExpenseTransferDocumentFormBase) form;
 
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        expenseTransferDocumentForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        expenseTransferDocumentForm.registerNextMethodToCallIsRefresh(true);
+        
         Collection<PersistableBusinessObject> rawValues = null;
         Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
 

@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.validation.event.LoadDetailLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * To define Actions for Effort Recreate document.
@@ -36,6 +37,11 @@ public class CertificationRecreateAction extends EffortCertificationAction {
      */
     public ActionForward loadDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationRecreateForm recreateForm = (CertificationRecreateForm) form;
+
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        recreateForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        recreateForm.registerNextMethodToCallIsRefresh(true);
+        
         EffortCertificationDocument effortCertificationDocument = recreateForm.getEffortCertificationDocument();
         effortCertificationDocument.getEffortCertificationDetailLines().clear();
 

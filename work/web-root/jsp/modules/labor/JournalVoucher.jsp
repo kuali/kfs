@@ -16,14 +16,13 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="journalVoucherAttributes" value="${DataDictionary.LaborJournalVoucherDocument.attributes}" />	
-<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+<c:set var="readOnly" value="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiLaborJournalVoucherDocument"
+	documentTypeName="LaborJournalVoucherDocument"
 	htmlFormAction="laborJournalVoucher" renderMultipart="true"
 	showTabButtons="true">
 
-	<kfs:hiddenDocumentFields />	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<!-- LABOR JOURNAL VOUCHER SPECIFIC FIELDS -->
@@ -43,7 +42,6 @@
 					</th>
 					<td class="datacell-nowrap"><c:if test="${readOnly}">
                         ${KualiForm.accountingPeriod.universityFiscalPeriodName}
-                        <html:hidden property="selectedAccountingPeriod" />
 					</c:if> <c:if test="${!readOnly}">
 						<SCRIPT type="text/javascript">
 						<!--
@@ -85,14 +83,9 @@
 						labelFor="selectedBalanceType.code" attributeEntry="${journalVoucherAttributes.balanceTypeCode}"
 						useShortLabel="false" /></div>
 					</th>
-					<td class="datacell-nowrap"><html:hidden
-						property="originalBalanceType"
-						value="${KualiForm.selectedBalanceType.code}" /> <html:hidden
-						property="selectedBalanceType.financialOffsetGenerationIndicator" />
+					<td class="datacell-nowrap">
 					<c:if test="${readOnly}">
                         ${KualiForm.selectedBalanceType.financialBalanceTypeName}
-						<html:hidden property="selectedBalanceType.code" />
-						<html:hidden property="selectedBalanceType.name" />
 					</c:if> <c:if test="${!readOnly}">
 						<SCRIPT type="text/javascript">
 						<!--

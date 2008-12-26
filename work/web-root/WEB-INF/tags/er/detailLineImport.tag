@@ -21,6 +21,10 @@
 			  description="The DataDictionary entry containing attributes for the line fields."%>
 <%@ attribute name="readOnly" required="false"
 			  description="determine whether the widgets in the tag are read-only or not"%> 			  	
+<%@ attribute name="image" required ="false" 
+			  description="name of the image file" %>
+
+<c:set var="imageName" value="${empty image ? 'tinybutton-load.gif' : image}"/>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Effort Detail Importing">
 	
@@ -95,9 +99,11 @@
 	<tr>
 		<td height="30" class="infoline">&nbsp;</td>
         <td height="30" class="infoline">
-			<input type="image" tabindex="${tabindex}" name="methodToCall.loadDetailLine"
-			   src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif" 
-			   alt="Import Detail Lines" title="Import Detail Lines" border="0" class="tinybutton" valign="middle"/>
+		<c:set var="loadDetailLineButtonName" value="methodToCall.loadDetailLine" />
+		  	   ${kfunc:registerEditableProperty(KualiForm, loadDetailLineButtonName)}
+			<input type="image" tabindex="${tabindex}" name="${loadDetailLineButtonName}"
+   				   src="${ConfigProperties.externalizable.images.url}${imageName}" 
+			   	   alt="Import Detail Lines" title="Import Detail Lines" border="0" class="tinybutton" valign="middle"/>
         </td>
 	</tr>
 	</c:if>	

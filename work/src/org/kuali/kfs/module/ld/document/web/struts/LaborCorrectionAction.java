@@ -914,6 +914,11 @@ public class LaborCorrectionAction extends CorrectionAction {
      */
     public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LaborCorrectionForm correctionForm = (LaborCorrectionForm) form;
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        correctionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        correctionForm.registerNextMethodToCallIsRefresh(true);
+        
         int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
 
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();

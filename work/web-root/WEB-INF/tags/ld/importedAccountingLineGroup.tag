@@ -153,7 +153,6 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         </td>
     </tr>    
 </kul:displayIfErrors>
-
 <c:choose>
     <c:when test="${empty importRowOverride}">
         <fin:accountingLineImportRow
@@ -184,11 +183,9 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.organizationReferenceId}" rowspan="2"/>
     
-    <c:if test="${not isOptionalFieldsInNewRow}">
-	    <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-	        <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
-	    </c:forTokens>
-    </c:if>
+	<c:forTokens items="${optionalFields}" delims=" ," var="currentField">
+	   <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
+	</c:forTokens>
     
     <c:set var="delimitedhideFields" value=",${hideFields}," />
 	<%-- this is hard coded here but could be done in a more general purpose way --%>
@@ -260,38 +257,6 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <c:if test="${empty newAccountPrefix}"> 
 		<c:set var="baselineLine" value="${baselineSourceOrTarget}AccountingLine[${ctr}]" />
 	</c:if>
-
-    <fin:accountingLineRow
-        accountingLine="${accountPrefix}${sourceOrTarget}AccountingLine[${ctr}]"
-        baselineAccountingLine="${baselineLine}"
-        accountingLineIndex="${ctr}"
-        accountingLineAttributes="${accountingLineAttributes}"
-        dataCellCssClass="datacell"
-        rowHeader="${ctr+1}"
-        actionGroup="existingLine"
-        actionInfix="${capitalSourceOrTarget}"
-        optionalFields="${optionalFields}"
-        isOptionalFieldsInNewRow="${isOptionalFieldsInNewRow}"
-        extraRowFields="${extraRowFields}"
-        extraRowLabelFontWeight="normal"
-        readOnly="${!accountIsEditable}"
-        editableFields="${editableFields}"
-        debitCreditAmount="${debitCreditAmount}"
-        currentBaseAmount="${currentBaseAmount}"
-        hiddenFields="postingYear,overrideCode,sequenceNumber,versionNumber,documentNumber${extraHiddenFields}"
-        columnCountUntilAmount="${columnCountUntilAmount}"
-        debitCellProperty="voucherLineHelper[${ctr}].debit"
-        creditCellProperty="voucherLineHelper[${ctr}].credit"
-        currentCellProperty="document.${sourceOrTarget}AccountingLine[${ctr}].currentBudgetAdjustmentAmount"
-        baseCellProperty="document.${sourceOrTarget}AccountingLine[${ctr}].baseBudgetAdjustmentAmount"
-        includeObjectTypeCode="false"
-        displayHidden="${displayHidden}"
-        decorator="${sourceOrTarget}LineDecorator[${ctr}]"
-        accountingLineValuesMap="${currentLine.valuesMap}"
-        forcedReadOnlyFields="${forcedReadOnlyFields}"
-        hideFields="${hideFields}"
-        customActions="${customActions}"
-        />
 
 </logic:iterate>
 

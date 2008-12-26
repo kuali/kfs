@@ -31,29 +31,10 @@
 	documentTypeName="${documentTypeName}" renderMultipart="true"
 	showTabButtons="true">
 	
-	<!-- TODO: remove those hidden fields below after hiddenDocumentFields is fixed -->	
-	<c:forEach items="${KualiForm.editingMode}" var="mode">
-      <html:hidden property="editingMode(${mode.key})"/>
-    </c:forEach>
-    <!-- TODO: remove those hidden fields above after hiddenDocumentFields is fixed -->
-    
-	<html:hidden property="document.effortCertificationReportNumber" />
-    <html:hidden property="document.effortCertificationDocumentCode" />
-    <html:hidden property="document.universityFiscalYear" />
-    <html:hidden property="document.emplid" />
-    <html:hidden property="sortOrder" />
-		 		
-	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
-		
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 	<er:reportInformation />
 	
-    <c:set var="hiddenFieldNames" value="effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
-	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
-		<input type="hidden" name="document.${fieldName}" id="document.${fieldName}" value="${KualiForm.document[fieldName]}"/>		  
-	</c:forTokens>
-
  	<c:if test="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.PROJECT_ENTRY]}">
 		<er:summaryTab/>	
 	</c:if>

@@ -20,7 +20,7 @@
 	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
 	
 <c:set var="readOnly"
-	value="${empty KualiForm.editingMode['fullEntry']}" />
+	value="${empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <c:set var="documentTypeName" value="SalaryExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborSalaryExpenseTransfer"/>
@@ -37,11 +37,6 @@
 
     <html:hidden property="financialBalanceTypeCode" />
     
-    <c:forEach items="${KualiForm.document.approvalObjectCodeBalances}" var="objCodeBal">
-      <html:hidden property="document.approvalObjectCodeBalances(${objCodeBal.key})"/>
-    </c:forEach>
-    
-    <kfs:hiddenDocumentFields />
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
  
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"

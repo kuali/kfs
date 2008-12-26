@@ -16,6 +16,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer" />
     <property name="documentTypeCode" value="A21" />
+    <property name="sessionDocument" value="true" />    
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

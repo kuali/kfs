@@ -20,7 +20,7 @@
 	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
 
 <c:set var="readOnly"
-	value="${empty KualiForm.editingMode['fullEntry']}" />
+	value="${empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	
 <c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
 	<c:set var="disabled" value="true"/>
@@ -43,7 +43,6 @@
     htmlFormAction="${htmlFormAction}" renderMultipart="true"
     showTabButtons="true">
 
-	<kfs:hiddenDocumentFields />
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 	<c:if test="${!readOnly}">
@@ -79,7 +78,7 @@
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
 					property="chartOfAccountsCode" forceRequired="true" readOnly="${disabled}" />
-										<c:if test="${!disabled}">
+					<c:if test="${!disabled}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" />
@@ -96,7 +95,7 @@
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.accountNumber}"
 					property="accountNumber" forceRequired="true" readOnly="${disabled}" />
-										<c:if test="${!disabled}">
+					<c:if test="${!disabled}">
 						 <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" />
@@ -139,8 +138,6 @@
 	</kul:tab>
 	</c:if>
 		
-	<kfs:hiddenDocumentFields />
-
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true">
 
 	<sys:accountingLines>

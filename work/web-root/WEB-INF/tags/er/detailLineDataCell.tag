@@ -132,9 +132,6 @@
    		<div id="${divName}" name="${divName}" class="fineprint">${fieldInfo}</div>
    	</span>
    	
-   	<c:if test="${withHiddenForm}">
-   		<html:hidden write="false" property="${fieldFormName}"/>
-   	</c:if>		
 </kul:htmlControlAttribute>  
 
 <c:if test="${!readOnly && not empty relationshipMetadata}">
@@ -162,9 +159,6 @@
 		<bean:write name="KualiForm" property="${infoFieldFormName}"/>
 	</div>
 	
-	<c:if test="${not empty relationshipMetadata}">
-		<html:hidden write="false" property="${infoFieldFormName}"/>
-	</c:if>
 </c:if>
 
        

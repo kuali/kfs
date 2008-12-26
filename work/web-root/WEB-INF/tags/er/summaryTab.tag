@@ -25,7 +25,6 @@
 	
 	<div class="tab-container" align=center>
 		<h3>Add New Detail Line</h3>
-		<c:set var="newLineHiddenFieldNames" value="universityFiscalYear,sourceChartOfAccountsCode,sourceAccountNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent,costShareSourceSubAccountNumber,fringeBenefitAmount,financialObjectCode,versionNumber"/>
 		<c:set var="newLineDetailFieldNames" value="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"/>
 		
 		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">		
@@ -38,7 +37,6 @@
 				
 				<er:detailLine detailLine="${newDetailLine}" detailLineFormName="newDetailLine" attributes="${detailAttributes}"
 					detailFieldNames="${newLineDetailFieldNames}"
-					hiddenFieldNames="${newLineHiddenFieldNames}"
 					editableFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"
 					onchangeForEditableFieldNames="loadChartInfo,effortAmountUpdator.loadAccountInfo,loadSubAccountInfo"
 					onchangeableInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName"
@@ -54,8 +52,6 @@
 			detailLineFormName="document.summarizedDetailLines" 
 			attributes="${detailAttributes}"
 			detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount"
-			detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount"				
-			hiddenFieldNames="documentNumber,universityFiscalYear,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,costShareSourceSubAccountNumber,originalFringeBenefitAmount,fringeBenefitAmount,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,persistedEffortPercent,groupId,versionNumber"
 			inquirableUrl="${KualiForm.summarizedDetailLineFieldInquiryUrl}"
 			fieldInfo="${KualiForm.summarizedDetailLineFieldInfo}"
 			sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"

@@ -44,16 +44,6 @@ public class LaborCorrectionForm extends CorrectionForm {
     private String laborEntryTransactionTotalHours;
     private String laborEntryPayrollEndDateFiscalYear;
     private String laborEntryEmployeeRecord;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     /**
      * Constructs a LaborCorrectionForm instance.

@@ -16,6 +16,9 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="laborOriginEntries" required="true" type="java.util.List" description="The list of LaborOriginEntries that we'll iterate to display." %>
+<%@ attribute name="image" required="false"%>
+
+<c:set var="imageName" value="${empty image ? 'sort.gif' : image}"/>
 
 <c:if test="${empty laborOriginEntries}">
     No Origin Entries found.
@@ -26,9 +29,6 @@
             firstDisplayedRow="${KualiForm.originEntrySearchResultTableMetadata.firstRowIndex}" lastDisplayedRow="${KualiForm.originEntrySearchResultTableMetadata.lastRowIndex}"
             resultsActualSize="${KualiForm.originEntrySearchResultTableMetadata.resultsActualSize}" resultsLimitedSize="${KualiForm.originEntrySearchResultTableMetadata.resultsLimitedSize}"
             buttonExtraParams=".anchor${currentTabIndex}"/>
-    <input type="hidden" name="originEntrySearchResultTableMetadata.${Constants.TableRenderConstants.PREVIOUSLY_SORTED_COLUMN_INDEX_PARAM}" value="${KualiForm.originEntrySearchResultTableMetadata.columnToSortIndex}"/>
-    <input type="hidden" name="originEntrySearchResultTableMetadata.sortDescending" value="${KualiForm.originEntrySearchResultTableMetadata.sortDescending}"/>
-    <input type="hidden" name="originEntrySearchResultTableMetadata.viewedPageNumber" value="${KualiForm.originEntrySearchResultTableMetadata.viewedPageNumber}"/>
     <table class="datatable-100" id="laborOriginEntry" cellpadding="0" cellspacing="0">
         <thead>
             <tr>
@@ -48,7 +48,11 @@
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
                     <td class="sortable" style="text-align: center;">
                         <c:if test="${column.sortable}">
-                            <input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.anchor${currentTabIndex}.x" type="image" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">
+							<c:set var="sortButtonName" value="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.anchor${currentTabIndex}.x" />
+								   ${kfunc:registerEditableProperty(KualiForm, sortButtonName)}
+								   <input type="image" tabindex="${tabindex}" name="${sortButtonName}"
+										  src="${ConfigProperties.kr.externalizable.images.url}${imageName}" alt="Sort column ${column.columnTitle}" 
+										  title="Sort column ${column.columnTitle}" border="0" valign="middle"/>
                         </c:if>
                         <c:if test="${!column.sortable}">
                             &nbsp;

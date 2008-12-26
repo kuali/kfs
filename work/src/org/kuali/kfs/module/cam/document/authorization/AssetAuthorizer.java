@@ -15,27 +15,23 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
-import static org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
-
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -63,15 +59,6 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
         }
         else {
-            // Asset edit: work group authorization
-            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-                makeReadOnlyFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.MERGE_SEPARATE_EDITABLE_FIELDS));
-            }
-            else if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
-                // If departmental user
-                hideFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
-                makeReadOnlyFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_EDITABLE_FIELDS));
-            }
             // acquisition type code is read-only during edit
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
             // fabrication fields are read-only
@@ -155,11 +142,28 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
 //        return actionFlags;
 //    }
 
+    
     private ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
 
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#populateRoleQualification(org.kuali.rice.kns.document.Document, java.util.Map)
+     */
+    @Override
+    protected void populateRoleQualification(Document document, Map<String, String> attributes) {
+        super.populateRoleQualification(document, attributes);
+        
+        Asset asset = (Asset) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
+        
+        String chart = asset.getOrganizationOwnerChartOfAccountsCode();
+        String org = asset.getOrganizationOwnerAccount().getOrganizationCode();
+        
+        attributes.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
+        attributes.put(KimAttributes.ORGANIZATION_CODE, org);        
     }
 }

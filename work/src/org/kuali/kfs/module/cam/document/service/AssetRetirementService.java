@@ -24,6 +24,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 
 /**
@@ -79,7 +80,7 @@ public interface AssetRetirementService {
      * @param assetDetails
      * @return
      */
-    boolean isAllowedRetireMultipleAssets(String retirementReasonCode);
+    boolean isAllowedRetireMultipleAssets(String retirementReasonCode, MaintenanceDocument maintenanceDocument);
 
     /**
      * Creates GL Postables

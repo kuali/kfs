@@ -34,6 +34,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
+import org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
@@ -49,6 +50,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -123,7 +125,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
 
     }
-
+    
     /**
      * Asset Object Code must exist as an active status.
      * 
@@ -356,9 +358,26 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      */
     protected boolean validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
+
+        Asset asset = assetTransferDocument.getAsset();
+        String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
+        if (finObjectSubTypeCode == null) {
+            AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
+            firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+            finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+        }
+        boolean assetMovable = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
+        
+        AssetTransferDocumentAuthorizer documentAuthorizer = (AssetTransferDocumentAuthorizer) KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(assetTransferDocument);
+        boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, 
+                CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        if(!assetMovable && !isAuthorizedTransferMovable) {
+            putError(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
+            valid &= false;
+        }
+        
         // check if account is active
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
-        Asset asset = assetTransferDocument.getAsset();
         if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired() || !organizationOwnerAccount.isActive())) {
             // show error if account is not active
             putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetTransferDocument.getOrganizationOwnerAccountNumber());
@@ -369,13 +388,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             Organization ownerOrg = organizationOwnerAccount.getOrganization();
             Account campusPlantAccount = ownerOrg.getCampusPlantAccount();
             Account organizationPlantAccount = ownerOrg.getOrganizationPlantAccount();
-            String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
-            if (finObjectSubTypeCode == null) {
-                AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
-                firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-                finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
-            }
-            boolean assetMovable = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
+            
             if (assetMovable && ObjectUtils.isNull(organizationPlantAccount)) {
                 putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_ORG_PLANT_FUND_UNKNOWN);
                 valid &= false;

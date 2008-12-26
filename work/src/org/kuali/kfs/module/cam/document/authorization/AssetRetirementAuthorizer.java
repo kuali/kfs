@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -81,8 +82,6 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
     }
 
     /**
-     * Checks whether the BA document is active for the year end posting year.
-     * 
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
@@ -91,17 +90,14 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
         super.canInitiate(documentTypeName, user);
         String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
         String reasonCode = StringUtils.substringAfter(refreshCaller, "::");
+        
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(CamsPropertyConstants.AssetRetirementReason.RETIREMENT_REASON_CODE, reasonCode);
-
         AssetRetirementReason assetRetirementReason = (AssetRetirementReason) getBusinessObjectService().findByPrimaryKey(AssetRetirementReason.class, pkMap);
+        
         if (assetRetirementReason != null && assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }
-        // else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class,
-        // CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) &&
-        // !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(),
-        // org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
         else if (Arrays.asList(getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
             throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE, new String[] { reasonCode, "AssetRetirementGlobal" });
         }

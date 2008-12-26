@@ -195,7 +195,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
 
         if (KFSConstants.MULTIPLE_VALUE.equalsIgnoreCase(refreshCaller)) {
-            if (!getAssetRetirementService().isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode()) && assetRetirementGlobalDetails.size() > new Integer(1)) {
+            if (!getAssetRetirementService().isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), document) && assetRetirementGlobalDetails.size() > new Integer(1)) {
                 String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);

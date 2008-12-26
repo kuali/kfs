@@ -88,6 +88,7 @@ public class CamsKeyConstants {
         public static final String ASSET_LOAN_NOTE = "note.asset.loan.active";
         public static final String ERROR_INVALID_USER_AUTH_ID = "error.representative.user.invalid";
         public static final String ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND ="error.transfer.document.payment.objectcode.doesnt.exists";        
+        public static final String ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET = "error.invalid.user.group.for.transfer.nonmoveable.asset";
     }
 
     public static class GLPosting {

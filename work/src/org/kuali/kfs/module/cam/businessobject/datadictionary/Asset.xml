@@ -385,6 +385,11 @@
     <property name="name" value="capitalAssetInServiceDate" />
     <property name="label" value="In-Service Date" />
     <property name="shortLabel" value="In Service Date" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="readOnly" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-estimatedFabricationCompletionDate" parent="Asset-estimatedFabricationCompletionDate-parentBean" />
@@ -416,6 +421,11 @@
     <property name="label" value="Estimated Sale Price" />
     <property name="shortLabel" value="Est. Sales Price" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="hide" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-expectedReturnDate" parent="Asset-expectedReturnDate-parentBean" />
@@ -580,6 +590,12 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="readOnly" value="true" />
+            <property name="hide" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-organizationInventoryName" parent="Asset-organizationInventoryName-parentBean" />
@@ -625,6 +641,11 @@
     <property name="label" value="Replacement Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="hide" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-retirementAccountNumber" parent="Asset-retirementAccountNumber-parentBean" />
@@ -775,12 +796,22 @@
   <bean id="Asset-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="organizationOwnerAccountNumber" />
     <property name="label" value="Organization Owner Account Number" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="readOnly" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-organizationOwnerChartOfAccountsCode" parent="Asset-organizationOwnerChartOfAccountsCode-parentBean" />
   <bean id="Asset-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
     <property name="name" value="organizationOwnerChartOfAccountsCode" />
     <property name="label" value="Organization Owner Chart Of Accounts Code" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="readOnly" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-capitalAssetTypeCode" parent="Asset-capitalAssetTypeCode-parentBean" />
@@ -827,6 +858,11 @@
     	<bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetConditionValuesFinder" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="hide" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-landCountyName" parent="Asset-landCountyName-parentBean" />
@@ -843,6 +879,11 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="22" />
+    </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="hide" value="true" />
+        </bean>
     </property>
   </bean>
   
@@ -861,6 +902,11 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="hide" value="true" />
+        </bean>
+    </property>
   </bean>
   
   <bean id="Asset-landParcelNumber" parent="Asset-landParcelNumber-parentBean" />
@@ -877,6 +923,11 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="32" />
+    </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="hide" value="true" />
+        </bean>
     </property>
   </bean>
 

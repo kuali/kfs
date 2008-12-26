@@ -29,6 +29,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
+import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
@@ -40,13 +41,12 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -91,7 +91,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         setupConvenienceObjects();
-        valid &= assetRetirementValidation(assetRetirementGlobal);
+        valid &= assetRetirementValidation(assetRetirementGlobal, document);
 
         if ((valid && super.processCustomSaveDocumentBusinessRules(document)) && !getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && !allPaymentsFederalOwned(assetRetirementGlobal)) {
             // Check if Asset Object Code and Object code exists and active.
@@ -255,8 +255,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             success = false;
         }
         else {
-            success &= checkRetirementDetailOneLine(assetRetirementGlobalDetail, assetRetirementGlobal);
-            success &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(0));
+            success &= checkRetirementDetailOneLine(assetRetirementGlobalDetail, assetRetirementGlobal, document);
+            success &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(0), document);
         }
 
         // Calculate summary fields in order to show the values even though add new line fails.
@@ -272,12 +272,13 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param retirementReasonCode
      * @param assetRetirementDetails
      * @param maxNumber
+     * @param maintenanceDocument
      * @return
      */
-    private boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber) {
+    private boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        if (assetRetirementDetails.size() > maxNumber && !getAssetRetirementService().isAllowedRetireMultipleAssets(retirementReasonCode)) {
+        if (assetRetirementDetails.size() > maxNumber && !getAssetRetirementService().isAllowedRetireMultipleAssets(retirementReasonCode, maintenanceDocument)) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
             success = false;
         }
@@ -289,9 +290,10 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * This method validates each asset to be retired.
      * 
      * @param assetRetirementGlobalDetails
+     * @param maintenanceDocument
      * @return
      */
-    private boolean validateRetirementDetails(AssetRetirementGlobal assetRetirementGlobal) {
+    private boolean validateRetirementDetails(AssetRetirementGlobal assetRetirementGlobal, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
@@ -307,7 +309,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "[" + index++ + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
 
-                success &= checkRetirementDetailOneLine(detail, assetRetirementGlobal);
+                success &= checkRetirementDetailOneLine(detail, assetRetirementGlobal, maintenanceDocument);
 
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             }
@@ -319,10 +321,12 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     /**
      * This method validates one asset is a valid asset and no duplicate with target asset when merge.
      * 
-     * @param detail
+     * @param assetRetirementGlobalDetail
+     * @param assetRetirementGlobal
+     * @param maintenanceDocument
      * @return
      */
-    private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail assetRetirementGlobalDetail, AssetRetirementGlobal assetRetirementGlobal) {
+    private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail assetRetirementGlobalDetail, AssetRetirementGlobal assetRetirementGlobal, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
         assetRetirementGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET);
@@ -335,7 +339,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         }
         else {
             success &= validateActiveCapitalAsset(asset);
-            success &= validateNonMoveableAsset(asset);
+            success &= validateNonMoveableAsset(asset, maintenanceDocument);
 
             if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
                 success &= validateDuplicateAssetNumber(assetRetirementGlobal.getMergedTargetCapitalAssetNumber(), assetRetirementGlobalDetail.getCapitalAssetNumber());
@@ -369,13 +373,18 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     /**
      * User must be in work group CM_SUPER_USERS to retire a non-moveable asset.
      * 
+     * @param asset
+     * @param maintenanceDocument
      * @return
      */
-    private boolean validateNonMoveableAsset(Asset asset) {
+    private boolean validateNonMoveableAsset(Asset asset, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-        if (!getAssetService().isAssetMovable(asset) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(maintenanceDocument);
+        boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
+                CamsConstants.PermissionNames.RETIRE_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
+        if (!getAssetService().isAssetMovable(asset) && !isAuthorized) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_USER_GROUP_FOR_NON_MOVEABLE_ASSET, asset.getCapitalAssetNumber().toString());
             success = false;
         }
@@ -388,17 +397,18 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * Validate Asset Retirement Global and Details.
      * 
      * @param assetRetirementGlobal
+     * @param maintenanceDocument
      * @return
      */
-    protected boolean assetRetirementValidation(AssetRetirementGlobal assetRetirementGlobal) {
+    protected boolean assetRetirementValidation(AssetRetirementGlobal assetRetirementGlobal, MaintenanceDocument maintenanceDocument) {
         boolean valid = true;
 
         valid &= validateRequiredGlobalFields(assetRetirementGlobal);
         if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             valid &= validateMergeTargetAsset(assetRetirementGlobal);
         }
-        valid &= validateRetirementDetails(assetRetirementGlobal);
-        valid &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1));
+        valid &= validateRetirementDetails(assetRetirementGlobal, maintenanceDocument);
+        valid &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1), maintenanceDocument);
 
         return valid;
     }

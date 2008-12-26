@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -30,8 +31,10 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
@@ -244,5 +247,26 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
 
     private BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#populateRoleQualification(org.kuali.rice.kns.document.Document, java.util.Map)
+     */
+    @Override
+    protected void populateRoleQualification(Document document, Map<String, String> attributes) {
+        super.populateRoleQualification(document, attributes);
+
+        AssetGlobal assetGlobal = (AssetGlobal) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
+        AssetGlobalService assetGlobalService = getAssetGlobalService();
+        
+        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)){
+            Asset spearateAsset = assetGlobal.getSeparateSourceCapitalAsset();
+            
+            String chart = spearateAsset.getOrganizationOwnerChartOfAccountsCode();
+            String org = spearateAsset.getOrganizationOwnerAccount().getOrganizationCode();
+            
+            attributes.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
+            attributes.put(KimAttributes.ORGANIZATION_CODE, org);
+        }
     }
 }

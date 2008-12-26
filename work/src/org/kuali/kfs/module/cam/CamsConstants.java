@@ -27,7 +27,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
  * Global constants for CAMS.
  */
 public class CamsConstants extends JSTLConstants {
-    // public static final String SYSTEM_NAME = "Capital Assets Management System";
+    public static final String CAM_MODULE_CODE = "KFS-CAM";
     public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
     public static final int ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY = 10;
 
@@ -37,6 +37,15 @@ public class CamsConstants extends JSTLConstants {
     public static final String TRANSFER_PAYMENT_CODE_Y = "Y";
     public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
 
+    public static class PermissionNames {
+        public static final String ADD_NEGATIVE_PAYMENTS = "Add Negative Payments";
+        public static final String RETIRE_MULTIPLE = "Retire Multiple";
+        public static final String OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT = "Override CAPITALIZATION_LIMIT_AMOUNT";
+        public static final String RETIRE_NON_MOVABLE_ASSETS = "Retire Non-Movable Assets";
+        public static final String TRANSFER_NON_MOVABLE_ASSETS = "Transfer Non-Movable Assets";
+        public static final String USE_ACQUISITION_TYPE_NEW = "Use Acquisition Type \"New\"";
+    }
+    
     public static class AssetActions {
         public static final String LOAN = "loan";
         public static final String LOAN_RETURN = "return";
@@ -79,17 +88,13 @@ public class CamsConstants extends JSTLConstants {
         public static final String DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES = "DEPRECIATION_ORGANIZATON_PLANT_FUND_OBJECT_SUB_TYPE";
         public static final String NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES = "NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES";
         public static final String NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES = "NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES";
-        public static final String DEPARTMENT_VIEWABLE_FIELDS = "DEPARTMENT_VIEWABLE_FIELDS";
         public static final String FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES = "FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES";
         public static final String FEDERAL_OWNED_OBJECT_SUB_TYPES = "FEDERAL_OWNED_OBJECT_SUB_TYPES";
         public static final String VALID_INVENTROY_STATUS_CODE_CHANGE = "VALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE";
         public static final String INVALID_INVENTROY_STATUS_CODE_CHANGE = "INVALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE";
         public static final String CAPITAL_ASSET_STATUS_CODES = "CAPITAL_ASSET_STATUS_CODES";
         public static final String RETIRED_STATUS_CODES = "RETIRED_STATUS_CODES";
-        public static final String MERGE_SEPARATE_VIEWABLE_FIELDS = "MERGE_SEPARATE_VIEWABLE_FIELDS";
-        public static final String MERGE_SEPARATE_EDITABLE_FIELDS = "MERGE_SEPARATE_EDITABLE_FIELDS";
         public static final String EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR = "EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR";
-        public static final String DEPARTMENT_EDITABLE_FIELDS = "DEPARTMENT_EDITABLE_FIELDS";
         public static final String OBJECT_SUB_TYPE_GROUPS = "OBJECT_SUB_TYPE_GROUPS";
         public static final String INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE = "INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE";
         public static final String VALID_ASSET_STATUSES_BY_ACQUISITION_TYPE = "VALID_ASSET_STATUSES_BY_ACQUISITION_TYPE";
@@ -127,13 +132,6 @@ public class CamsConstants extends JSTLConstants {
 
     public static final String[] MONTHS = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
-
-    public static class Dispositon {
-        public static final String ASSET_MERGE_CODE = "M";
-        public static final String ASSET_SEPARATE_CODE = "S";
-    }
-
-
     public static class BarcodeInventoryError {
         public static final String DETAIL_ERRORS = "document.inventoryUploadErrorDetail*";
 
@@ -168,8 +166,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String WORKGROUP_CM_SUPER_USERS = "CM_SUPER_USERS";
         public static final String WORKGROUP_CM_BARCODE_USERS = "CM_BARCODE_USERS";
         public static final String WORKGROUP_CM_CAPITAL_ASSET_BUILDER_ADMINISTRATORS = "CM_CAPITAL_ASSET_BUILDER_ADMINISTRATORS";
-        public static final String WORKGROUP_MULTIPLE_ASSET_RETIREMENT_WORKGROUP = "MULTIPLE_ASSET_RETIREMENT_WORKGROUP";
-        public static final String WORKGROUP_MERGE_SEPARATE_WORKGROUP = "MERGE_SEPARATE_WORKGROUP";
         public static final String WORKGROUP_RAZE_WORKGROUP = "RAZE_WORKGROUP";
     }
 

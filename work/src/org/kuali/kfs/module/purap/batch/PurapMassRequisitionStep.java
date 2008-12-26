@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.batch;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;

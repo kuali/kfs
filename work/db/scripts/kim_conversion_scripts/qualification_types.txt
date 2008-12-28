@@ -1,5 +1,0 @@
-KFS-SYS Account Number Type
-	- Chart Code
-	- Account Number
-KFS-SYS Campus Type
-	- Campus Code

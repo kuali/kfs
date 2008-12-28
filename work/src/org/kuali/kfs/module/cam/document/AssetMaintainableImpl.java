@@ -108,7 +108,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         Asset asset = (Asset) getBusinessObject();
         if (isAssetFabrication()) {
             // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
-            // that are to be hidden for asset edit, see AssetAuthorizer.getFieldAuthorizations
+            // that are to be hidden for asset edit, see AssetAuthorizer.addMaintenanceDocumentRestrictions
             for (Section section : sections) {
                 String sectionId = section.getSectionId();
                 if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(sectionId) || CamsConstants.Asset.SECTION_ID_MERGE_HISTORY.equals(sectionId)) {

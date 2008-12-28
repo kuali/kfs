@@ -50,12 +50,11 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
     /**
      * Hide or set specific fields as non-editable.
      * 
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument,
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument,
      *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         // "Asset Separate" document functionality
@@ -92,9 +91,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
                     setAssetGlobalPaymentsHiddenFields(assetGlobal, auths);
                 }
             }
-
         }
-        return auths;
     }
 
     /**

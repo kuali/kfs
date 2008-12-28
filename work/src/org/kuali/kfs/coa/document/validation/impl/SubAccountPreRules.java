@@ -20,10 +20,12 @@ import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
+import org.kuali.rice.kns.service.MaintenanceDocumentAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -107,11 +109,8 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
     private void copyICRFromAccount(MaintenanceDocument document) {
         Person user = GlobalVariables.getUserSession().getPerson();
 
-        // get the correct documentAuthorizer for this document
-        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) getDocumentAuthorizationService().getDocumentAuthorizer(document);
-
         // get a new instance of MaintenanceDocumentAuthorizations for this context
-        MaintenanceDocumentAuthorizations auths = documentAuthorizer.getFieldAuthorizations(document, user);
+        MaintenanceDocumentAuthorizations auths = SpringContext.getBean(MaintenanceDocumentAuthorizationService.class).generateMaintenanceDocumentAuthorizations(document, user);
 
         // don't need to copy if the user does not have the authority to edit the fields
         if (!auths.getAuthFieldAuthorization("a21SubAccount.financialIcrSeriesIdentifier").isReadOnly()) {
@@ -139,4 +138,3 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
         }
     }
 }
-

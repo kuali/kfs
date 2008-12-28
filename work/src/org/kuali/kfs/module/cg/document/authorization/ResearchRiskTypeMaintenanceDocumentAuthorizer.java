@@ -31,9 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ResearchRiskTypeMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
-
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
         ResearchRiskType researchRisk = (ResearchRiskType) document.getNewMaintainableObject().getBusinessObject();
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         ResearchRiskType persistedResearchRisk = (ResearchRiskType) service.retrieve(researchRisk);
@@ -43,8 +41,6 @@ public class ResearchRiskTypeMaintenanceDocumentAuthorizer extends FinancialSyst
             auths.addReadonlyAuthField(CGPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
             auths.addReadonlyAuthField(CGPropertyConstants.CONTROL_ATTRIBUTE_TYPE_CODE);
         }
-
-        return auths;
     }
 }
 

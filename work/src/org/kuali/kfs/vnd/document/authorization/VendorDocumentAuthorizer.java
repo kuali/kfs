@@ -55,12 +55,11 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      * vendor header and vendor type is not null and if the vendor type's changed allowed is set to N in the vendor type maintenance
      * table, then we have to set the vendor type as readOnly field.
      * 
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument,
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument,
      *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
         VendorDetail vendor = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
         VendorDetail oldVendor = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
         VendorHeader vendorHeader = vendor.getVendorHeader();
@@ -108,8 +107,6 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
         setVendorContractFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
 
         setVendorCommodityCodeFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
-        
-        return auths;
     }
 
     /**

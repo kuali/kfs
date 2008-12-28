@@ -28,12 +28,11 @@ public class FunctionalFieldDescriptionMaintenanceDocumentAuthorizer extends Fin
     private static Log LOG = LogFactory.getLog(FinancialSystemMaintenanceDocumentAuthorizerBase.class);
 
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
-        MaintenanceDocumentAuthorizations maintenanceDocumentAuthorizations = super.getFieldAuthorizations(document, user);
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+        super.addMaintenanceDocumentRestrictions(auths, document, user);
         if (document.isEdit()) {
-            maintenanceDocumentAuthorizations.addReadonlyAuthField("businessObjectProperty.propertyLabel");
+            auths.addReadonlyAuthField("businessObjectProperty.propertyLabel");
         }
-        return maintenanceDocumentAuthorizations;
     }
 }
 

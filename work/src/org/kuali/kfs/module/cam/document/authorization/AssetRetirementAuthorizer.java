@@ -54,9 +54,10 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
      * @param user
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
-
-        MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
+    @Override
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+        super.addMaintenanceDocumentRestrictions(auths, document, user);
+        
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         if (!getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
@@ -64,7 +65,6 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC);
         }
 
-        return auths;
     }
 
 

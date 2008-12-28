@@ -68,6 +68,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.MaintenanceDocumentAuthorizationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -161,7 +162,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentAuthorizationService.getDocumentAuthorizer(document);
 
         // get a new instance of MaintenanceDocumentAuthorizations for this context
-        MaintenanceDocumentAuthorizations auths = documentAuthorizer.getFieldAuthorizations(document, user);
+        MaintenanceDocumentAuthorizations auths = SpringContext.getBean(MaintenanceDocumentAuthorizationService.class).generateMaintenanceDocumentAuthorizations(document, user);
 
         // load a temp copy of the document from the DB to compare to for changes
         MaintenanceDocument savedDoc = null;

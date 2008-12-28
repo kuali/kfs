@@ -45,8 +45,9 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
      * @param user
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
-        MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
+    @Override
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+        super.addMaintenanceDocumentRestrictions(auths, document, user);
         Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         if (document.isNew()) {
@@ -73,7 +74,6 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
 
         setConditionalReadOnlyFields(auths, newAsset, user);
         // read-only acquisition code
-        return auths;
     }
 
     /**
@@ -142,7 +142,6 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
 //        return actionFlags;
 //    }
 
-    
     private ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }

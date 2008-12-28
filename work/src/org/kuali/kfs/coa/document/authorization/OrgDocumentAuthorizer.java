@@ -47,14 +47,13 @@ public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAut
      * @param user
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields read-only if necessary
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
-
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
-
+    @Override
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+        auths.clearAllRestrictions();
         // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
         if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE,  org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
-            return auths;
+            return;
         }
 
         String groupName = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
@@ -67,7 +66,6 @@ public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAut
             auths.addReadonlyAuthField("campusPlantChartCode");
             auths.addReadonlyAuthField("campusPlantAccountNumber");
         }
-        return auths;
     }
 }
 

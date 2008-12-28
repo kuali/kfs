@@ -49,12 +49,13 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
      * @return a new set of {@link MaintenanceDocumentAuthorizations} with certain fields marked read-only if necessary
      */
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
 
         // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
         if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
-            return new MaintenanceDocumentAuthorizations();
+            auths.clearAllRestrictions();
+            return;
         }
 
         String groupName = SpringContext.getBean(ParameterService.class).getParameterValue(SubAccount.class, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
@@ -68,7 +69,6 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
 
         // if the user is NOT a member of the special group, then mark all the
         // ICR & CS fields read-only.
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId())) {
             auths.addReadonlyAuthField("a21SubAccount.subAccountTypeCode");
             auths.addReadonlyAuthField("a21SubAccount.costShareChartOfAccountCode");
@@ -80,8 +80,6 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
             auths.addReadonlyAuthField("a21SubAccount.indirectCostRecoveryTypeCode");
             auths.addReadonlyAuthField("a21SubAccount.offCampusCode");
         }
-
-        return auths;
     }
 
     /**

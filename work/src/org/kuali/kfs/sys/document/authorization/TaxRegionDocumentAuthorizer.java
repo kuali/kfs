@@ -34,11 +34,12 @@ public class TaxRegionDocumentAuthorizer extends MaintenanceDocumentAuthorizerBa
     /**
      * If a effective date for a tax rate is not in future, make it read only.
      *   
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kim.bo.Person)
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(
+    @Override
+    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths,
             MaintenanceDocument document, Person user) {
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
+        auths.clearAllRestrictions();
         TaxRegion taxRegion = (TaxRegion)document.getNewMaintainableObject().getBusinessObject();
         if(taxRegion!=null)
         {
@@ -53,7 +54,6 @@ public class TaxRegionDocumentAuthorizer extends MaintenanceDocumentAuthorizerBa
                 index++;
             }
         }
-        return auths;
     }
 
 }

@@ -19,8 +19,6 @@
 	documentTypeName="NonCheckDisbursementDocument"
 	htmlFormAction="financialNonCheckDisbursement" renderMultipart="true"
 	showTabButtons="true">
-
-	<kfs:hiddenDocumentFields />
 	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.financialDocumentBankCode" 

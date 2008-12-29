@@ -24,6 +24,8 @@ import org.kuali.rice.kns.util.KualiInteger;
  * Constants specific to the Contracts and Grants module.
  */
 public class CGConstants extends JSTLConstants {
+    
+    public static final String CG_NAMESPACE_CODE = "KFS-CG";
 
     /**
      * The key for the document error map to grab errors for the close document.

@@ -164,10 +164,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
             
-            String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, KFSConstants.ParameterNamespaces.CHART).getChartOfAccountsCode();
+            String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, PurapConstants.PURAP_NAMESPACE).getChartOfAccountsCode();
             req.setChartOfAccountsCode(chartAccountsCode);
             
-            String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, KFSConstants.ParameterNamespaces.CHART).getOrganizationCode();
+            String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, PurapConstants.PURAP_NAMESPACE).getOrganizationCode();
             req.setOrganizationCode(organizationCode);
             
             req.setRequestorPersonName(user.getName());

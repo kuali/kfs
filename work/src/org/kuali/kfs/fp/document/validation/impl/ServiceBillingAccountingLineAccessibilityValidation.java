@@ -81,10 +81,10 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         if (StringUtils.isEmpty(chartOfAccountsCode) || StringUtils.isEmpty(accountNumber)) {
             return false;
         }
-        
+
         AccountingDocument accountingDocument = (AccountingDocument) event.getDocument();
-        boolean isAccountAccessible = this.isSourceLineAccountAccessible(accountingDocument, accountingLine.getAccount(), user);        
-        if(!isAccountAccessible) {
+        boolean isAccountAccessible = this.isSourceLineAccountAccessible(accountingDocument, accountingLine.getAccount(), user);
+        if (!isAccountAccessible) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, noServiceBillingControlErrorKey(event), chartOfAccountsCode);
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(event), accountNumber);
             return false;

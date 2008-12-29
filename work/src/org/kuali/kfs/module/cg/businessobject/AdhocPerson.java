@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -95,7 +96,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if (user == null) {
             return "";
         }
-        org = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, KFSConstants.ParameterNamespaces.CHART).getOrganizationCode();
+        org = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, CGConstants.CG_NAMESPACE_CODE).getOrganizationCode();
         return org;
     }
 

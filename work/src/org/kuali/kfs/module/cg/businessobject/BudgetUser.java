@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -400,7 +401,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
             String chart = "";
             String org = "";
-            ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(this.user, KFSConstants.ParameterNamespaces.CHART);
+            ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(this.user, CGConstants.CG_NAMESPACE_CODE);
             if ( chartOrg != null ) {
                 chart = chartOrg.getChartOfAccountsCode();
                 org = chartOrg.getOrganizationCode();

@@ -22,9 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.service.AccountsReceivableAuthorizationService;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
@@ -69,7 +70,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
             throw new IllegalArgumentException("A null or invalid person object was passed in.");
         }
         
-        ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByNamespaceCode(person, KFSConstants.ParameterNamespaces.CHART);
+        ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByNamespaceCode(person, CGConstants.CG_NAMESPACE_CODE);
         
         // *************************************************************
         // SPECIAL CASE HANDLING WHILE KIM AUTH IS IN PROGRESS

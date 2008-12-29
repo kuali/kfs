@@ -504,7 +504,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @param document
      */
     private void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), KFSConstants.ParameterNamespaces.CHART);
+        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         if (currentUser != null) {
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());

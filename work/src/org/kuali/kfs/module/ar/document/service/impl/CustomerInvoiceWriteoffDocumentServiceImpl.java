@@ -85,7 +85,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (isUsingOrgAcctDefaultWriteoffFAU) {
 
             Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
-            ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), KFSConstants.ParameterNamespaces.CHART);
+            ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
 
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put("universityFiscalYear", currentUniversityFiscalYear);

@@ -803,7 +803,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_INDICATOR_CHECKED_PARM_NM, documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
         }
         
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(getInitiator(document),KFSConstants.ParameterNamespaces.CHART);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(getInitiator(document),KFSConstants.ParameterNamespaces.FINANCIAL);
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null)?null:chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
         
         // initiator campus code restrictions

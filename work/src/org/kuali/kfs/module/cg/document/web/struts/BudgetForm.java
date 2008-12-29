@@ -389,7 +389,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public String getInitiatorOrgCode() {
         if (this.getInitiator() != null) {
-            ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(this.getInitiator(),KFSConstants.ParameterNamespaces.CHART);
+            ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(this.getInitiator(),CGConstants.CG_NAMESPACE_CODE);
             if ( chartOrg != null ) {
                 return chartOrg.getOrganizationCode();
             }

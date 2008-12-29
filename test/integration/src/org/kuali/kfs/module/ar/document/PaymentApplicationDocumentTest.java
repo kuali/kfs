@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -230,8 +231,8 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         arDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
         
         // Set the processing chart and org
-        UserSession _userSession = GlobalVariables.getUserSession();
-        ChartOrgHolder organization = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(_userSession.getPerson(), KFSConstants.ParameterNamespaces.CHART);
+        UserSession userSession = GlobalVariables.getUserSession();
+        ChartOrgHolder organization = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(userSession.getPerson(), ArConstants.AR_NAMESPACE_CODE);
         arDocumentHeader.setProcessingChartOfAccountCode(organization.getChartOfAccountsCode());
         arDocumentHeader.setProcessingOrganizationCode(organization.getOrganizationCode());
         

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -60,10 +61,10 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
 
         Person finSysUser = GlobalVariables.getUserSession().getPerson();
         
-        String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, KFSConstants.ParameterNamespaces.CHART).getChartOfAccountsCode();
+        String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, ArConstants.AR_NAMESPACE_CODE).getChartOfAccountsCode();
         newOptions.setProcessingChartOfAccountCode(chartAccountsCode);
         
-        String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, KFSConstants.ParameterNamespaces.CHART).getOrganizationCode();
+        String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, ArConstants.AR_NAMESPACE_CODE).getOrganizationCode();
         newOptions.setProcessingOrganizationCode(organizationCode);
         
         updateRemitToAddress(chartAccountsCode, organizationCode);

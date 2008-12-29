@@ -19,9 +19,7 @@
 	documentTypeName="YearEndGeneralErrorCorrectionDocument"
 	htmlFormAction="financialYearEndGeneralErrorCorrection"
 	renderMultipart="true" showTabButtons="true">
-
-	<kfs:hiddenDocumentFields />
-
+	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">

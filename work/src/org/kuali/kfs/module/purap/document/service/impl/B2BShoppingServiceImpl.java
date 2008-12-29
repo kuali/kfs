@@ -34,10 +34,9 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
-import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.exception.B2BShoppingException;
-import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
 import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
+import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
 import org.kuali.kfs.sys.KFSConstants;
@@ -69,7 +68,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
     private DocumentService documentService;
-    private RequisitionService requisitionService;
     private ParameterService parameterService;
     private PersistenceService persistenceService;
     private PhoneNumberService phoneNumberService;
@@ -86,6 +84,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PurapConstants.B2B_PUNCHBACK_METHOD_TO_CALL);
         String punchbackUrl = UrlFactory.parameterizeUrl(basePath + "/b2b.do", parameters);
 
+        //FIXME hjs (Sciquest)
 //        b2b.setPunchoutURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHOUT_URL));
 //        b2b.setPunchbackURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHBACK_URL));
 //        b2b.setEnvironment(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.ENVIRONMENT));
@@ -304,10 +303,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
-    }
-
-    public void setRequisitionService(RequisitionService requisitionService) {
-        this.requisitionService = requisitionService;
     }
 
     public void setParameterService(ParameterService parameterService) {

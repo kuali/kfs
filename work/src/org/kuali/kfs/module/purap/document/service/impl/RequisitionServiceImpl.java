@@ -16,14 +16,18 @@
 package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
@@ -35,7 +39,7 @@ import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
@@ -68,6 +72,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private KualiRuleService ruleService;
     private KualiConfigurationService kualiConfigurationService;
     private ParameterService parameterService;
+    private org.kuali.rice.kim.service.PersonService personService;
     private PurapService purapService;
     private RequisitionDao requisitionDao;
     private UniversityDateService universityDateService;
@@ -191,13 +196,10 @@ public class RequisitionServiceImpl implements RequisitionService {
             }
             requisition.setVendorDetail(vendorDetail);
 
-            if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
-              //FIXME after KIM is done, fix this to retrieve the REQ initiator's campus for the lookup
-//                          Person initiator = null;
-//                          try {
-//                              initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
-//                          }
-//                          VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, initiator.getCampusCode());
+            if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && ObjectUtils.isNull(requisition.getVendorContractGeneratedIdentifier())) {
+                //FIXME after KIM is done, fix this to retrieve the REQ initiator's campus for the lookup
+ //               Person initiator = personService.getPerson(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+//                VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, initiator.getCampusCode());
                 VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, requisition.getDeliveryCampusCode());
                 if (b2bContract != null) {
                     return "Standard requisition with no contract selected but a B2B contract exists for the selected vendor.";
@@ -318,6 +320,29 @@ public class RequisitionServiceImpl implements RequisitionService {
         return "";
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getRequisitionsAwaitingContractManagerAssignment()
+     */
+    public List<RequisitionDocument> getRequisitionsAwaitingContractManagerAssignment() {
+        Map fieldValues = new HashMap();
+        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
+        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
+        return unassignedRequisitions;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getCountOfRequisitionsAwaitingContractManagerAssignment()
+     */
+    public int getCountOfRequisitionsAwaitingContractManagerAssignment() {
+        List<RequisitionDocument> unassignedRequisitions = getRequisitionsAwaitingContractManagerAssignment();
+        if (ObjectUtils.isNotNull(unassignedRequisitions)) {
+            return unassignedRequisitions.size();
+        }
+        else {
+            return 0;
+        }
+    }
+    
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
@@ -360,6 +385,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
 }

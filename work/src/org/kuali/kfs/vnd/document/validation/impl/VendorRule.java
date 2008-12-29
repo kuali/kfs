@@ -250,11 +250,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                     }
                     
                     // if anything has changed, complain
-                    if (changed) {
-                        String humanReadableFieldName = ddService.getAttributeLabel(document.getNewMaintainableObject().getBoClass(), fieldName);
-                        putFieldError(fieldName, KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED, humanReadableFieldName);
-                        success &= false;
-                    }
+//FIXME this isn't working; it is preventing any vendor changes (KULPURAP-3190)
+//if (changed) {
+//                        String humanReadableFieldName = ddService.getAttributeLabel(document.getNewMaintainableObject().getBoClass(), fieldName);
+//                        putFieldError(fieldName, KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED, humanReadableFieldName);
+//                        success &= false;
+//                    }
                 }
             }
         }

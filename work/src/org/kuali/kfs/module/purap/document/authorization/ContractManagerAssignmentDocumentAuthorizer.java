@@ -15,23 +15,13 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the Assign Contract Manager document.
@@ -39,23 +29,13 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
+     * Overriding this method to prevent users from saving Contract Manager Assignment documents.
+     * 
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            // do not allow this document to be saved; once initiated, it must be routed or canceled
-            flags.setCanSave(false);
-        }
-
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-
-        return flags;
+    protected boolean canSave(Document document, Person user) {
+        return false;
     }
 
     /**
@@ -68,13 +48,11 @@ public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystem
     @Override
     public void canInitiate(String documentTypeName, Person user) {
         super.canInitiate(documentTypeName, user);
-        Map fieldValues = new HashMap();
-        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
-        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
-        if (unassignedRequisitions.size()==0) 
-            //throw new DocumentInitiationAuthorizationException(new String[] {"somegroup",documentTypeName});
-            throw new DocumentInitiationAuthorizationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[]{documentTypeName});
-            //throw new DocumentInitiationAuthorizationException("error.authorization.workgroupInitiation", new String[]{documentTypeName});
+
+        int numberOfRequisitions = SpringContext.getBean(RequisitionService.class).getCountOfRequisitionsAwaitingContractManagerAssignment();
+        if (numberOfRequisitions == 0) {
+            throw new DocumentInitiationAuthorizationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName });
+        }
     }
     
 }

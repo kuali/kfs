@@ -133,6 +133,7 @@
 		<property name="requisitionDao" ref="requisitionDao"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="parameterService" ref="parameterService"/>
+        <property name="personService" ref="personService"/>
     	<property name="purapService" ref="purapService"/>
     	<property name="ruleService" ref="kualiRuleService"/>
         <property name="universityDateService" ref="universityDateService"/>
@@ -382,7 +383,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="documentService" ref="documentService"/>
-        <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="persistenceService" ref="persistenceService"/>
         <property name="phoneNumberService" ref="phoneNumberService"/>

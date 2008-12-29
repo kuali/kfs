@@ -49,8 +49,6 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     private B2BDao b2bDao;
     private RequisitionService requisitionService;
     private ParameterService parameterService;
-
-    // FIXME do we really need this?
     private org.kuali.rice.kim.service.PersonService personService;
 
 
@@ -74,6 +72,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
+//FIXME hjs (sciquest)        
 //        String password = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
 //        String punchoutUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
         String password = "p01mport";
@@ -179,24 +178,30 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalDollarAmount()).append("</Money>\n");
         cxml.append("        </Total>\n");
         cxml.append("        <ShipTo>\n");
-        cxml.append("          <Address>\n");
+        cxml.append("          <Address addressID=\"").append(purchaseOrder.getDeliveryCampusCode()).append(purchaseOrder.getOrganizationCode()).append("\">\n");
         cxml.append("            <Name xml:lang=\"en\">Kuali</Name>\n");
         cxml.append("            <PostalAddress name=\"defaul\">\n");
         cxml.append("              <DeliverTo>").append(purchaseOrder.getDeliveryToName().trim()).append("</DeliverTo>\n");
-        if (ObjectUtils.isNull(purchaseOrder.getInstitutionContactEmailAddress())) {
-            cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getDeliveryToEmailAddress()).append("]]></DeliverTo>\n");
-        }
-        else {
+        if (StringUtils.isNotEmpty(purchaseOrder.getInstitutionContactEmailAddress())) {
             cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getInstitutionContactEmailAddress()).append("]]></DeliverTo>\n");
         }
-        if (ObjectUtils.isNotNull(purchaseOrder.getDeliveryBuildingCode())) {
-            cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getDeliveryBuildingCode()).append("]]></DeliverTo>\n");
+        else {
+            cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getRequestorPersonEmailAddress()).append("]]></DeliverTo>\n");
+        }
+        if (StringUtils.isNotEmpty(purchaseOrder.getInstitutionContactPhoneNumber())) {
+            cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getInstitutionContactPhoneNumber()).append("]]></DeliverTo>\n");
+        }
+        else {
+            cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getRequestorPersonPhoneNumber()).append("]]></DeliverTo>\n");
+        }
+        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingName())) {
+            cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getDeliveryBuildingName()).append("]]></DeliverTo>\n");
         }
         cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></Street>\n");
-        if (!StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingLine2Address())) {
+        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingLine2Address())) {
             cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine2Address().trim()).append("]]></Street>\n");
         }
-        if (!StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingRoomNumber())) {
+        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingRoomNumber())) {
             cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></Street>\n");
         }
         cxml.append("              <City><![CDATA[").append(purchaseOrder.getDeliveryCityName().trim()).append("]]></City>\n");
@@ -207,11 +212,11 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("          </Address>\n");
         cxml.append("        </ShipTo>\n");
         cxml.append("        <BillTo>\n");
-        cxml.append("          <Address>\n");
+        cxml.append("          <Address addressID=\"").append(purchaseOrder.getDeliveryCampusCode()).append("\">\n");
         cxml.append("            <Name xml:lang=\"en\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></Name>\n");
         cxml.append("            <PostalAddress name=\"defaul\">\n");
         cxml.append("              <Street><![CDATA[").append(purchaseOrder.getBillingLine1Address().trim()).append("]]></Street>\n");
-        if (!StringUtils.isEmpty(purchaseOrder.getBillingLine2Address())) {
+        if (StringUtils.isNotEmpty(purchaseOrder.getBillingLine2Address())) {
             cxml.append("              <Street><![CDATA[").append(purchaseOrder.getBillingLine2Address().trim()).append("]]></Street>\n");
         }
         cxml.append("              <City><![CDATA[").append(purchaseOrder.getBillingCityName().trim()).append("]]></City>\n");
@@ -225,11 +230,13 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalTaxAmount()).append("</Money>\n");
         cxml.append("          <Description xml:lang=\"en\">").append("tax description").append("</Description>\n");
         cxml.append("        </Tax>\n");
+        cxml.append("        <Extrinsic name=\"username\">").append(requisitionInitiatorId.toUpperCase()).append("</Extrinsic>\n");
+        cxml.append("        <Extrinsic name=\"BuyerPhone\">").append(contractManager.getContractManagerPhoneNumber()).append("</Extrinsic>\n");
+        cxml.append("        <Extrinsic name=\"SupplierNumber\">").append(purchaseOrder.getVendorNumber()).append("</Extrinsic>\n");
         cxml.append("      </OrderRequestHeader>\n");
         
         for (Object tmpPoi : purchaseOrder.getItems()) {
             PurchaseOrderItem poi = (PurchaseOrderItem) tmpPoi;
-
             cxml.append("      <ItemOut quantity=\"").append(poi.getItemQuantity()).append("\" lineNumber=\"").append(poi.getItemLineNumber()).append("\">\n");
             cxml.append("        <ItemID>\n");
             cxml.append("          <SupplierPartID><![CDATA[").append(poi.getItemCatalogNumber()).append("]]></SupplierPartID>\n");
@@ -350,10 +357,6 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             LOG.error("verifyCxmlPOData()  The Requesting Person Phone Number is required for the cXML PO but is missing.");
             errors.append("Missing Data: Requesting Person Phone Number\n");
         }
-        if (StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingCode())) {
-            LOG.error("verifyCxmlPOData()  The Delivery Building Code is required for the cXML PO but is missing.");
-            errors.append("Missing Data: Delivery Building Code\n");
-        }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingLine1Address())) {
             LOG.error("verifyCxmlPOData()  The Delivery Line 1 Address is required for the cXML PO but is missing.");
             errors.append("Missing Data: Delivery Line 1 Address\n");
@@ -374,11 +377,6 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             LOG.error("verifyCxmlPOData()  The Delivery Postal Code is required for the cXML PO but is missing.");
             errors.append("Missing Data: Delivery Postal Code\n");
         }
-        // FIXME (hjs) Commented out because this is being hard-coded as US.
-        // if (StringUtils.isEmpty(purchaseOrder.getDeliveryCountryCode())) {
-        // LOG.error("verifyCxmlPOData() The Delivery Country is required for the cXML PO but is missing.");
-        // errors.append("Missing Data: Delivery Country\n");
-        // }
 
         // verify item data
         List detailList = purchaseOrder.getItems();
@@ -400,10 +398,6 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
                 if (StringUtils.isEmpty(poi.getItemUnitOfMeasureCode())) {
                     LOG.error("verifyCxmlPOData()  The Unit Of Measure Code for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
                     errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - Unit Of Measure\n");
-                }
-                if (StringUtils.isEmpty(poi.getExternalOrganizationB2bProductReferenceNumber())) {
-                    LOG.error("verifyCxmlPOData()  The External Org B2B Product Reference Number for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - External Org B2B Product Reference Number\n");
                 }
                 if (StringUtils.isEmpty(poi.getExternalOrganizationB2bProductTypeName())) {
                     LOG.error("verifyCxmlPOData()  The External Org B2B Product Type Name for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
@@ -428,12 +422,12 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      */
     private String getContractManagerEmail(ContractManager cm) {
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
-        if (contractManager == null) {
-            LOG.error("getContractManagerEmail(): returning null.");
-            return null;
-        } else {
+        if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager.getEmailAddress();
         }
+        //FIXME hjs returning fake email until KIM changes are complete
+        return "test@email.com";
+//        return "";
     }
 
     public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {

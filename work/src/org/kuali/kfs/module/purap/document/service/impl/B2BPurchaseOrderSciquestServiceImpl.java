@@ -47,8 +47,6 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     private B2BDao b2bDao;
     private RequisitionService requisitionService;
     private ParameterService parameterService;
-
-    // FIXME do we really need this?
     private org.kuali.rice.kim.service.PersonService personService;
 
 
@@ -72,6 +70,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
+      //FIXME hjs (sciquest)        
 //        String password = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
 //        String punchoutUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
         String password = "p01mport";
@@ -222,20 +221,20 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("          <AddressCode>").append(purchaseOrder.getDeliveryCampusCode()).append(purchaseOrder.getOrganizationCode()).append("</AddressCode>\n");
         cxml.append("          <Contact label=\"Name\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryToName().trim()).append("]]></Contact>\n");
         cxml.append("          <Contact label=\"PurchasingEmail\" linenumber=\"2\"><![CDATA[").append(contractManagerEmail).append("]]></Contact>\n");
-        if (ObjectUtils.isNull(purchaseOrder.getInstitutionContactEmailAddress())) {
-            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getDeliveryToEmailAddress()).append("]]></Contact>\n");
-        }
-        else {
+        if (ObjectUtils.isNotNull(purchaseOrder.getInstitutionContactEmailAddress())) {
             cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getInstitutionContactEmailAddress()).append("]]></Contact>\n");
         }
-        if (ObjectUtils.isNull(purchaseOrder.getInstitutionContactPhoneNumber())) {
-            cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getDeliveryToPhoneNumber()).append("]]></Contact>\n");
-        }
         else {
+            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getRequestorPersonEmailAddress()).append("]]></Contact>\n");
+        }
+        if (ObjectUtils.isNotNull(purchaseOrder.getInstitutionContactPhoneNumber())) {
             cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getInstitutionContactPhoneNumber().trim()).append("]]></Contact>\n");
         }
-        if (ObjectUtils.isNotNull(purchaseOrder.getDeliveryBuildingCode())) {
-            cxml.append("          <Contact label=\"Building\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingCode()).append("]]></Contact>\n");
+        else {
+            cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getRequestorPersonPhoneNumber()).append("]]></Contact>\n");
+        }
+        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingName())) {
+            cxml.append("          <Contact label=\"Building\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingName()).append("]]></Contact>\n");
         }
         cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></AddressLine>\n");
         cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[Room #").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></AddressLine>\n");
@@ -279,8 +278,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
                 // ProductType - Describes the type of the product or service. Valid values: Catalog, Form, Punchout. Mandatory.
                 cxml.append("        <ProductType>").append(poi.getExternalOrganizationB2bProductTypeName()).append("</ProductType>\n");
                 cxml.append("      </Item>\n");
-                // Quantity - always integers in our system so they can't be decimals.
-                cxml.append("      <Quantity>").append(poi.getItemQuantity().intValue()).append("</Quantity>\n");
+                cxml.append("      <Quantity>").append(poi.getItemQuantity()).append("</Quantity>\n");
                 // LineCharges - All the monetary charges for this line, including the price, tax, shipping, and handling.
                 // Required.
                 cxml.append("      <LineCharges>\n");
@@ -386,10 +384,6 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             LOG.error("verifyCxmlPOData()  The Requesting Person Phone Number is required for the cXML PO but is missing.");
             errors.append("Missing Data: Requesting Person Phone Number\n");
         }
-//        if (StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingCode())) {
-//            LOG.error("verifyCxmlPOData()  The Delivery Building Code is required for the cXML PO but is missing.");
-//            errors.append("Missing Data: Delivery Building Code\n");
-//        }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingLine1Address())) {
             LOG.error("verifyCxmlPOData()  The Delivery Line 1 Address is required for the cXML PO but is missing.");
             errors.append("Missing Data: Delivery Line 1 Address\n");
@@ -410,11 +404,6 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             LOG.error("verifyCxmlPOData()  The Delivery Postal Code is required for the cXML PO but is missing.");
             errors.append("Missing Data: Delivery Postal Code\n");
         }
-        // FIXME (hjs) Commented out because this is being hard-coded as US.
-        // if (StringUtils.isEmpty(purchaseOrder.getDeliveryCountryCode())) {
-        // LOG.error("verifyCxmlPOData() The Delivery Country is required for the cXML PO but is missing.");
-        // errors.append("Missing Data: Delivery Country\n");
-        // }
 
         // verify item data
         List detailList = purchaseOrder.getItems();
@@ -437,11 +426,6 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
                     LOG.error("verifyCxmlPOData()  The Unit Of Measure Code for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
                     errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - Unit Of Measure\n");
                 }
-//FIXME (hjs) not getting this fields right now
-//                if (StringUtils.isEmpty(poi.getExternalOrganizationB2bProductReferenceNumber())) {
-//                    LOG.error("verifyCxmlPOData()  The External Org B2B Product Reference Number for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-//                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - External Org B2B Product Reference Number\n");
-//                }
                 if (StringUtils.isEmpty(poi.getExternalOrganizationB2bProductTypeName())) {
                     LOG.error("verifyCxmlPOData()  The External Org B2B Product Type Name for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
                     errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - External Org B2B Product Type Name\n");
@@ -465,13 +449,12 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
      */
     private String getContractManagerEmail(ContractManager cm) {
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
-        if (contractManager == null) {
-            LOG.error("getContractManagerEmail(): returning null.");
-            //FIXME (hjs) fix me when KIM is back (this isn't workign right now)
-            return "test@email.com";
-        } else {
+        if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager.getEmailAddress();
         }
+        //FIXME hjs returning fake email until KIM changes are complete
+        return "test@email.com";
+//        return "";
     }
 
     public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {

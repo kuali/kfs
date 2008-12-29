@@ -27,6 +27,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -77,9 +78,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
     public void populateDocumentWithRequisitions() {
         LOG.debug("populateDocumentWithRequisitions() Entering method.");
         
-        Map fieldValues = new HashMap();
-        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
-        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
+        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(RequisitionService.class).getRequisitionsAwaitingContractManagerAssignment());
         List<String>documentHeaderIds = new ArrayList();
         for (RequisitionDocument req : unassignedRequisitions) {
             documentHeaderIds.add(req.getDocumentNumber());

@@ -17,24 +17,13 @@
     <!-- property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" /-->
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentPreRules" />
     <property name="documentTypeCode" value="REQS" />
     <property name="allowsCopy" value="true" />
      <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="RequisitionDocument-workflowProperties" />
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
 
     <property name="accountingLineGroups">

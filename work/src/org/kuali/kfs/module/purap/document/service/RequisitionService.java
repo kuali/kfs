@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
+import java.util.List;
+
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 /**
@@ -37,4 +39,19 @@ public interface RequisitionService extends PurchasingDocumentSpecificService {
      * @return boolean true if the requisition is eligible to become APO.
      */
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition);
+    
+    /**
+     * Returns the list of Requisitions that are awaiting contract manager assignment
+     *
+     * @return List<RequisitionDocument>
+     */
+    public List<RequisitionDocument> getRequisitionsAwaitingContractManagerAssignment();
+    
+    /**
+     * Returns the count of how many Requisitions are awaiting contract manager assignment
+     *
+     * @return int
+     */
+    public int getCountOfRequisitionsAwaitingContractManagerAssignment();
+
 }

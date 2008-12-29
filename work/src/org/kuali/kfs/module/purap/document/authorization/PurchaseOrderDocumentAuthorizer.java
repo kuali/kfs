@@ -49,19 +49,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public boolean hasInitiateAuthorization(Document document, Person user) {
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
-        if (group == null) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
-        }
-        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
-    }
 
     /**
      * This is essentially the same getEditMode as in DocumentAuthorizerBase.java. In AccountingDocumentAuthorizerBase.java, which
@@ -76,107 +63,13 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kim.bo.Person)
      */
-    @Override
-    public Map getEditMode(Document d, Person user) {
-        Map editModeMap = new HashMap();
-        String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
+//    @Override
+//    public Map getEditMode(Document d, Person user) {
+//        Map editModeMap = new HashMap();
+//        return editModeMap;
+//    }
 
-        KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();        
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) d;
-        
-        if (PurapConstants.RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
-            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_B2B_ENTRY, "TRUE");
-        }
-
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
-            //users cannot edit vendor name if the vendor has been selected from the database
-            if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
-                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_VENDOR_ENTRY, "TRUE");
-            }
-
-            //if not B2B, users can edit the posting year if within a given amount of time set in a parameter
-            if (!PurapConstants.RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
-                if (SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
-                        (PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) ||
-                        PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) ||
-                        PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) ||
-                        PurapConstants.PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) ||
-                        PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()))) {
-                    editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
-                }
-            }
-            
-        }        
-        
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (hasInitiateAuthorization(d, user)) {
-                editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-            }
-            
-            String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
-                // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
-                // for ex, contract manager, manual status change, and quote etc
-                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE, "TRUE");
-            }
-        }
-        else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-
-            /**
-             * INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the
-             * CHART/ORG.
-             */
-            if (((PurchaseOrderDocument) d).isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
-                // FULL_ENTRY allowed; also set internal purchasing lock
-                editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY, "TRUE");
-            }
-
-            /**
-             * CONTRACTS & GRANTS ROUTE LEVEL, BUDGET OFFICE ROUTE LEVEL, VENDOR TAX ROUTE LEVEL, DOCUMENT TRANSMISSION ROUTE LEVEL,
-             * and Adhoc - Approvers in these route levels cannot edit any detail on PO.
-             */
-            else {
-                // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
-                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-            }
-        }
-        editModeMap.put(editMode, "TRUE");
-        
-        if (!poDocument.isUseTaxIndicator() &&
-                (poDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS) || 
-                 poDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW)||
-                 poDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW))){
-            editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES,"TRUE");
-        }
-        
-        // Set display modes for Receiving Address according to its parameter value. 
-        String paramName = PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND;
-        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", paramName);
-        editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS;
-        if (paramValue.equals("Y")) 
-            editModeMap.put(editMode, "TRUE");
-        
-        // Set display mode for Split PO.
-        if(poDocument.isPendingSplit()) {
-            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION, "TRUE");
-        }
-         
-        //if full entry, and not use tax, allow editing
-        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && poDocument.isUseTaxIndicator() == false){
-            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
-        }
-
-        //See if purap tax is enabled
-        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
-        if(salesTaxInd){
-            editModeMap.put(PurapAuthorizationConstants.PURAP_TAX_ENABLED, "TRUE");
-        }
-
-        return editModeMap;
-    }
-
+    //FIXME hjs do we still need this code??
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);

@@ -1,0 +1,231 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="labor-BenefitExpenseTransfer-Source-Readonly-Fields"
+	parent="labor-BenefitExpenseTransfer-Source-Readonly-Fields-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-BenefitExpenseTransfer-Source-Readonly-Fields-parent" abstract="true">
+		<property name="elementName" value="accountingInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="postingYear" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="overrideCode" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="sequenceNumber" p:useShortLabel="true" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="versionNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="documentNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="chartOfAccountsCode" p:useShortLabel="true"	p:required="true" p:unconditionallyReadOnly="true"
+					p:webUILeaveFieldFunction="loadChartInfo"
+					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="accountNumber" p:required="true" p:unconditionallyReadOnly="true"
+					p:webUILeaveFieldFunction="loadAccountInfo"
+					p:dynamicLabelProperty="account.accountName">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="accountExpiredOverride" p:unconditionallyReadOnly="true" />
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="nonFringeAccountOverride" p:unconditionallyReadOnly="true" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="subAccountNumber" p:useShortLabel="true" p:unconditionallyReadOnly="true"
+					p:webUILeaveFieldFunction="loadSubAccountInfo"
+					p:dynamicLabelProperty="subAccount.subAccountName" />
+				<bean parent="AccountingLineView-field"
+					p:name="financialObjectCode" p:useShortLabel="true"	p:required="true" p:unconditionallyReadOnly="true"
+					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="objectBudgetOverride" p:unconditionallyReadOnly="true"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="labor-BenefitExpenseTransfer-Target-Editable-Fields"
+	parent="labor-BenefitExpenseTransfer-Target-Editable-Fields-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-BenefitExpenseTransfer-Target-Editable-Fields-parent" abstract="true">
+		<property name="elementName" value="accountingInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="postingYear" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="overrideCode" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="sequenceNumber" p:useShortLabel="true" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="versionNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="documentNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="chartOfAccountsCode" p:useShortLabel="true"	p:required="true" p:unconditionallyReadOnly="false"
+					p:webUILeaveFieldFunction="loadChartInfo"
+					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="accountNumber" p:required="true" p:unconditionallyReadOnly="false"
+					p:webUILeaveFieldFunction="loadAccountInfo"
+					p:dynamicLabelProperty="account.accountName">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="accountExpiredOverride" p:unconditionallyReadOnly="false" />
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="nonFringeAccountOverride" p:unconditionallyReadOnly="false" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="subAccountNumber" p:useShortLabel="true" p:unconditionallyReadOnly="false"
+					p:webUILeaveFieldFunction="loadSubAccountInfo"
+					p:dynamicLabelProperty="subAccount.subAccountName" />
+				<bean parent="AccountingLineView-field"
+					p:name="financialObjectCode" p:useShortLabel="true"	p:required="true" p:unconditionallyReadOnly="false"
+					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="objectBudgetOverride" p:unconditionallyReadOnly="false"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+				
+	<bean id="labor-BenefitExpenseTransfer-accountingInformation"
+		parent="labor-BenefitExpenseTransfer-accountingInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-BenefitExpenseTransfer-accountingInformation-parent" abstract="true">
+		<property name="elementName" value="accountingInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="financialSubObjectCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" 
+					p:webUILeaveFieldFunction="loadSubObjectInfo"
+					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+				<bean parent="AccountingLineView-field"
+					p:name="projectCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" 
+					p:webUILeaveFieldFunction="loadProjectInfo"
+					p:dynamicLabelProperty="project.projectDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="organizationReferenceId" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="positionNumber" p:hidden="true" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payrollEndDateFiscalYear" p:required="true" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payrollEndDateFiscalPeriodCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="labor-BenefitExpenseTransferDocument-Source-accountingLineView"
+		parent="labor-BenefitExpenseTransferDocument-Source-accountingLineView-parent" />
+
+	<bean id="labor-BenefitExpenseTransferDocument-Source-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber"/>
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-BenefitExpenseTransfer-Source-Readonly-Fields" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-BenefitExpenseTransfer-accountingInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />	
+			</list>
+		</property>
+	</bean>
+	
+		<bean id="labor-BenefitExpenseTransferDocument-Target-accountingLineView"
+		parent="labor-BenefitExpenseTransferDocument-Target-accountingLineView-parent" />
+
+	<bean id="labor-BenefitExpenseTransferDocument-Target-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-BenefitExpenseTransfer-Target-Editable-Fields" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-BenefitExpenseTransfer-accountingInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />				
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="labor-AccountingDocument-sourceGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedSourceTotal" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="labor-AccountingDocument-targetGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedTargetTotal" />
+			</list>
+		</property>
+	</bean>
+    	    	
+    <bean id="labor-BenefitExpenseTransferDocument-AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">
+		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.BenefitExpenseTransferAccountingLineAuthorizer" />
+    </bean>
+    
+</beans>

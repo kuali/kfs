@@ -40,16 +40,16 @@
     	<map>
     		<entry>
     			<key><value>source</value></key>
-    			<ref bean="BenefitExpenseTransferDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+    			<ref bean="BenefitExpenseTransferDocument-sourceAccountingLineGroup" />
     		</entry>
     		<entry>
     			<key><value>target</value></key>
-    			<ref bean="BenefitExpenseTransferDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+    			<ref bean="BenefitExpenseTransferDocument-targetAccountingLineGroup" />
     		</entry>    		
     	</map>
     </property>  
-       
-        
+
+
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -102,27 +102,29 @@
   
       <!-- accounting line groups -->
     <bean id="BenefitExpenseTransferDocument-sourceAccountingLineGroup" parent="BenefitExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />    
+
     <bean id="BenefitExpenseTransferDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-		<property name="accountingLineView" ref="labor-BenefitExpenseTransferDocument-accountingLineView" />
-   	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
+		<property name="accountingLineView" ref="labor-BenefitExpenseTransferDocument-Source-accountingLineView" />
+   	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
     	<property name="groupLabel" value="From" />
     	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseTransferAccountingLineAuthorizer" />
     	<property name="importedLinePropertyPrefix" value="source" />
     	<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
     	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
-    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-sourceGroupActions"/>
+    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-sourceGroupActions"/> 
     </bean>
 
     <bean id="BenefitExpenseTransferDocument-targetAccountingLineGroup" parent="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
+
     <bean id="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-		<property name="accountingLineView" ref="labor-BenefitExpenseTransferDocument-accountingLineView" />
-   	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
+		<property name="accountingLineView" ref="labor-BenefitExpenseTransferDocument-Target-accountingLineView" />
+   	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
     	<property name="groupLabel" value="To" />
     	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseTransferAccountingLineAuthorizer" />
     	<property name="importedLinePropertyPrefix" value="target" />
     	<property name="totals" ref="AccountingDocument-targetGroupTotals" />
     	<property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
-    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-targetGroupActions"/>
+    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-targetGroupActions"/> 
     </bean>    
   
 </beans>

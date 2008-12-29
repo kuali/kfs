@@ -15,6 +15,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />
     <property name="documentTypeCode" value="PCDO" />
     <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >

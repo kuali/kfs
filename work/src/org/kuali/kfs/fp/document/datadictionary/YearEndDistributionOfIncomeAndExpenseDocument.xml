@@ -19,6 +19,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndDistributionOfIncomeAndExpenseDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />
     <property name="documentTypeCode" value="YEDI" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />

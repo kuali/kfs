@@ -20,6 +20,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
 
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules" />
     <property name="documentTypeCode" value="DV" />
     <property name="sessionDocument" value="true" />

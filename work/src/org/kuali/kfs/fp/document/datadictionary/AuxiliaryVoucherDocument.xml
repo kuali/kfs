@@ -18,6 +18,7 @@
     <property name="documentTypeName" value="AuxiliaryVoucherDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="AV" />
     <property name="sessionDocument" value="true" />

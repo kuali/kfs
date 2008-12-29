@@ -22,6 +22,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.BudgetAdjustmentDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentPresentationController" />    
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules" />
     <property name="documentTypeCode" value="BA" />
     <property name="sessionDocument" value="true" />

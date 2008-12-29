@@ -17,6 +17,7 @@
     <property name="documentTypeName" value="CashReceiptDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CR" />
     <property name="sessionDocument" value="true" />

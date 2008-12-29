@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -38,12 +39,23 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
      * 
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
      */
-    public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
-        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+    public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {       
+        if (!(document instanceof Correctable)) {
+            return false;
+        }
         
-        if (!(document instanceof Correctable)) return false;
-        if (!((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(getClass().getName())).getAllowsErrorCorrection()) return false;
-        if (document.getDocumentHeader().getCorrectedByDocumentId() != null) return false;
+        DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
+        FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry)(dataDictionary.getDocumentEntry(document.getClass().getName()));
+        
+        if (documentEntry.getAllowsErrorCorrection()) {
+            return false;
+        }
+        
+        if (document.getDocumentHeader().getCorrectedByDocumentId() != null) {
+            return false;
+        }
+        
+        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
     }
 

@@ -22,7 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
@@ -67,7 +70,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
         appliedPaymentsPerCustomerInvoiceDetail = new HashMap<String, Collection>();
     }
-    
+
     public Integer getNextNonInvoicedLineNumber() {
         return nextNonInvoicedLineNumber;
     }
@@ -81,9 +84,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      */
     public KualiDecimal getNonArTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
-        if(null != getPaymentApplicationDocument()) {
+        if (null != getPaymentApplicationDocument()) {
             Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoiceds();
-            for(NonInvoiced item : items) {
+            for (NonInvoiced item : items) {
                 total = total.add(item.getFinancialDocumentLineAmount());
             }
         }
@@ -132,14 +135,14 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public List<CustomerInvoiceDetail> getCustomerInvoiceDetails() {
         return customerInvoiceDetails;
     }
-    
+
     public Collection<CustomerInvoiceDocument> getInvoices() {
         return invoices;
     }
-    
+
     /**
-     * 
      * Returns the list of Open Invoices available for this document.
+     * 
      * @return
      */
     public Collection<CustomerInvoiceDocument> getOpenInvoices() {
@@ -151,7 +154,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return openInvoices;
     }
-    
+
     public CustomerInvoiceDocument getSelectedInvoiceDocument() {
         return selectedInvoiceDocument;
     }
@@ -311,14 +314,16 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the Cash Control document for the payment application document
+     * 
      * @return the cash control document
      */
     public CashControlDocument getCashControlDocument() {
         PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
-        CashControlDocument cashControlDocument = null; 
+        CashControlDocument cashControlDocument = null;
         try {
             cashControlDocument = paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument) getDocument());
-        } catch(WorkflowException we) {
+        }
+        catch (WorkflowException we) {
             LOG.error("Failed to load CashControlDocument", we);
         }
         return cashControlDocument;
@@ -331,19 +336,34 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public void setNonInvoicedAddLine(NonInvoiced nonInvoicedAddLine) {
         this.nonInvoicedAddLine = nonInvoicedAddLine;
     }
-    
+
     public Integer getNonInvoicedAddLineItemNumber() {
         Integer number = new Integer(0);
-        if(null != getPaymentApplicationDocument()) {
+        if (null != getPaymentApplicationDocument()) {
             Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoiceds();
-            for(NonInvoiced item : items) {
+            for (NonInvoiced item : items) {
                 Integer i = item.getFinancialDocumentLineNumber();
-                if(i > number) {
+                if (i > number) {
                     number = i;
                 }
             }
         }
-        return number+1;
+        return number + 1;
     }
 
+    @Override
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        super.reset(mapping, request);
+        // do check box resets here
+        if (this.customerInvoiceDetails != null) {
+            for (CustomerInvoiceDetail customerInvoiceDetail : this.customerInvoiceDetails) {
+                customerInvoiceDetail.setFullApply(false);
+            }
+        }
+        if (this.invoices != null) {
+            for (CustomerInvoiceDocument invoice : this.invoices) {
+                invoice.setQuickApply(false);
+            }
+        }
+    }
 }

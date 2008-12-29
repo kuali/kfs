@@ -42,8 +42,12 @@
 							<c:set var="objectId" value="${row.objectId}" />
 							<c:set var="checked" value="${empty KualiForm.compositeObjectIdMap[objectId] ? '' : 'checked=checked'}" />
 							<c:set var="disabled" value="${true ? '' : 'disabled=disabled'}" />							
-							<input type="checkbox" title="${column.columnTitle}" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${objectId}" value="checked" ${disabled} ${checked}/>
-							<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${objectId}" value="onscreen"/>
+							<c:set var="checkBoxName" value="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${objectId}" />
+							<c:set var="hiddenFieldName" value="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${objectId}" />
+							<input type="checkbox" title="${column.columnTitle}" name="${checkBoxName}" value="checked" ${disabled} ${checked}/>
+							${kfunc:registerEditableProperty(KualiForm, checkBoxName)}
+							<input type="hidden" name="${hiddenFieldName}" value="onscreen"/>
+							${kfunc:registerEditableProperty(KualiForm, hiddenFieldName)}
 						</td>
 						<c:forEach items="${row.columns}" var="column" begin="0" end="${fn:length(row.columns)}">
 							<td class="infocell" title="${column.propertyValue}">

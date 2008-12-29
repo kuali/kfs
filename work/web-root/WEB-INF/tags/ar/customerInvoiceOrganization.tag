@@ -57,7 +57,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.billedByOrganizationCode}" property="document.billedByOrganizationCode" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="organizationCode:document.billedByOrganizationCode" lookupParameters="document.billedByOrganizationCode:organizationCode,document.billByChartOfAccountCode:chartOfAccountsCode"/>
+	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.billedByOrganizationCode" lookupParameters="document.billedByOrganizationCode:organizationCode,document.billByChartOfAccountCode:chartOfAccountsCode"/>
                     </c:if>
                 </td>                 
             </tr>

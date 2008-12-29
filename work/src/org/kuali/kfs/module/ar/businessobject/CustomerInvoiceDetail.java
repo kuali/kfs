@@ -40,34 +40,37 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private boolean taxableIndicator;
     private boolean isDebit;
     private Integer invoiceItemDiscountLineNumber;
-    
+
     private String invoiceItemUnitOfMeasureCode;
     private UnitOfMeasure unitOfMeasure;
-    
+
     private SubObjectCode accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
-    
+
     private CustomerInvoiceDocument customerInvoiceDocument;
     private CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail;
     private CustomerInvoiceDetail discountCustomerInvoiceDetail;
     private Collection<InvoicePaidApplied> invoicePaidApplieds;
-    
-    //fields used for PaymentApplicationdocument
+
+    // fields used for PaymentApplicationdocument
     private KualiDecimal amountToBeApplied;
     private KualiDecimal appliedAmount;
     private KualiDecimal balance;
     private KualiDecimal openAmount;
-    
-    //fields used for CustomerInvoiceWriteoffDocument
+
+    // fields used for CustomerInvoiceWriteoffDocument
     private KualiDecimal writeoffAmount;
     private String customerInvoiceWriteoffDocumentNumber;
+
+    // field for check box control
+    private boolean fullApply;
 
     /**
      * Default constructor.
      */
     public CustomerInvoiceDetail() {
         super();
-        invoicePaidApplieds =  new ArrayList<InvoicePaidApplied>();
+        invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
     }
 
     public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
@@ -75,7 +78,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         customerInvoiceDocument = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
         return customerInvoiceDocument;
     }
-    
+
     public KualiDecimal getBalance() {
         return getOpenAmount().subtract(getAppliedAmount());
     }
@@ -85,23 +88,25 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
 
     /**
-     * This method returns an open amount for a specific detail.  If a customer invoice detail is a
-     * discount line, return null, because discount lines should NEVER have an open amount.
+     * This method returns an open amount for a specific detail. If a customer invoice detail is a discount line, return null,
+     * because discount lines should NEVER have an open amount.
+     * 
      * @return
      */
     public KualiDecimal getOpenAmount() {
-        if( isDiscountLine() ){
+        if (isDiscountLine()) {
             return null;
-        } else {
+        }
+        else {
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            return customerInvoiceDetailService.getOpenAmount(this);            
+            return customerInvoiceDetailService.getOpenAmount(this);
         }
     }
 
     public void setOpenAmount(KualiDecimal openAmount) {
         this.openAmount = openAmount;
     }
-    
+
     public KualiDecimal getAppliedAmount() {
         KualiDecimal total = new KualiDecimal(0);
 
@@ -111,7 +116,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
         return total;
     }
-    
+
     public void setAppliedAmount(KualiDecimal appliedAmount) {
         this.appliedAmount = appliedAmount;
     }
@@ -129,7 +134,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the accountsReceivableObjectCode attribute.
      * 
      * @return Returns the accountsReceivableObjectCode
-     * 
      */
     public String getAccountsReceivableObjectCode() {
         return accountsReceivableObjectCode;
@@ -139,7 +143,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Sets the accountsReceivableObjectCode attribute.
      * 
      * @param accountsReceivableObjectCode The accountsReceivableObjectCode to set.
-     * 
      */
     public void setAccountsReceivableObjectCode(String accountsReceivableObjectCode) {
         this.accountsReceivableObjectCode = accountsReceivableObjectCode;
@@ -150,7 +153,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the accountsReceivableSubObjectCode attribute.
      * 
      * @return Returns the accountsReceivableSubObjectCode
-     * 
      */
     public String getAccountsReceivableSubObjectCode() {
         return accountsReceivableSubObjectCode;
@@ -160,7 +162,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Sets the accountsReceivableSubObjectCode attribute.
      * 
      * @param accountsReceivableSubObjectCode The accountsReceivableSubObjectCode to set.
-     * 
      */
     public void setAccountsReceivableSubObjectCode(String accountsReceivableSubObjectCode) {
         this.accountsReceivableSubObjectCode = accountsReceivableSubObjectCode;
@@ -171,7 +172,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the invoiceItemQuantity attribute.
      * 
      * @return Returns the invoiceItemQuantity
-     * 
      */
     public BigDecimal getInvoiceItemQuantity() {
         return invoiceItemQuantity;
@@ -181,7 +181,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Sets the invoiceItemQuantity attribute.
      * 
      * @param invoiceItemQuantity The invoiceItemQuantity to set.
-     * 
      */
     public void setInvoiceItemQuantity(BigDecimal invoiceItemQuantity) {
         this.invoiceItemQuantity = invoiceItemQuantity;
@@ -192,7 +191,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the invoiceItemUnitOfMeasureCode attribute.
      * 
      * @return Returns the invoiceItemUnitOfMeasureCode
-     * 
      */
     public String getInvoiceItemUnitOfMeasureCode() {
         return invoiceItemUnitOfMeasureCode;
@@ -202,7 +200,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Sets the invoiceItemUnitOfMeasureCode attribute.
      * 
      * @param invoiceItemUnitOfMeasureCode The invoiceItemUnitOfMeasureCode to set.
-     * 
      */
     public void setInvoiceItemUnitOfMeasureCode(String invoiceItemUnitOfMeasureCode) {
         this.invoiceItemUnitOfMeasureCode = invoiceItemUnitOfMeasureCode;
@@ -213,31 +210,29 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the invoiceItemUnitPrice attribute.
      * 
      * @return Returns the invoiceItemUnitPrice
-     * 
      */
     public BigDecimal getInvoiceItemUnitPrice() {
         return invoiceItemUnitPrice;
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param invoiceItemUnitPrice
      */
     public void setInvoiceItemUnitPrice(KualiDecimal invoiceItemUnitPrice) {
-        if(ObjectUtils.isNotNull(invoiceItemUnitPrice)) {
+        if (ObjectUtils.isNotNull(invoiceItemUnitPrice)) {
             this.invoiceItemUnitPrice = invoiceItemUnitPrice.bigDecimalValue();
         }
         else {
             this.invoiceItemUnitPrice = BigDecimal.ZERO;
         }
     }
-    
+
     /**
      * Sets the invoiceItemUnitPrice attribute.
      * 
      * @param invoiceItemUnitPrice The invoiceItemUnitPrice to set.
-     * 
      */
     public void setInvoiceItemUnitPrice(BigDecimal invoiceItemUnitPrice) {
         this.invoiceItemUnitPrice = invoiceItemUnitPrice;
@@ -248,7 +243,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the invoiceItemServiceDate attribute.
      * 
      * @return Returns the invoiceItemServiceDate
-     * 
      */
     public Date getInvoiceItemServiceDate() {
         return invoiceItemServiceDate;
@@ -258,7 +252,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Sets the invoiceItemServiceDate attribute.
      * 
      * @param invoiceItemServiceDate The invoiceItemServiceDate to set.
-     * 
      */
     public void setInvoiceItemServiceDate(Date invoiceItemServiceDate) {
         this.invoiceItemServiceDate = invoiceItemServiceDate;
@@ -269,7 +262,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the invoiceItemCode attribute.
      * 
      * @return Returns the invoiceItemCode
-     * 
      */
     public String getInvoiceItemCode() {
         return invoiceItemCode;
@@ -279,7 +271,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Sets the invoiceItemCode attribute.
      * 
      * @param invoiceItemCode The invoiceItemCode to set.
-     * 
      */
     public void setInvoiceItemCode(String invoiceItemCode) {
         this.invoiceItemCode = invoiceItemCode;
@@ -290,7 +281,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the invoiceItemDescription attribute.
      * 
      * @return Returns the invoiceItemDescription
-     * 
      */
     public String getInvoiceItemDescription() {
         return invoiceItemDescription;
@@ -300,28 +290,28 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Sets the invoiceItemDescription attribute.
      * 
      * @param invoiceItemDescription The invoiceItemDescription to set.
-     * 
      */
     public void setInvoiceItemDescription(String invoiceItemDescription) {
         this.invoiceItemDescription = invoiceItemDescription;
     }
-    
+
     /**
      * This method returns the invoice pre tax amount
+     * 
      * @return
      */
-    public KualiDecimal getInvoiceItemPreTaxAmount(){
-        if( ObjectUtils.isNotNull(invoiceItemUnitPrice) && ObjectUtils.isNotNull(invoiceItemQuantity)){
+    public KualiDecimal getInvoiceItemPreTaxAmount() {
+        if (ObjectUtils.isNotNull(invoiceItemUnitPrice) && ObjectUtils.isNotNull(invoiceItemQuantity)) {
             return new KualiDecimal(invoiceItemUnitPrice.multiply(invoiceItemQuantity));
-        } else {
+        }
+        else {
             return KualiDecimal.ZERO;
         }
-        
+
     }
 
     /**
-     * Gets the invoiceItemTaxAmount attribute.
-     * TODO Use tax service to get invoice item tax amount
+     * Gets the invoiceItemTaxAmount attribute. TODO Use tax service to get invoice item tax amount
      * 
      * @return Returns the invoiceItemTaxAmount.
      */
@@ -339,7 +329,8 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
 
     /**
-     * Gets the invoiceItemDiscountLineNumber attribute. 
+     * Gets the invoiceItemDiscountLineNumber attribute.
+     * 
      * @return Returns the invoiceItemDiscountLineNumber.
      */
     public Integer getInvoiceItemDiscountLineNumber() {
@@ -348,6 +339,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemDiscountLineNumber attribute value.
+     * 
      * @param invoiceItemDiscountLineNumber The invoiceItemDiscountLineNumber to set.
      */
     public void setInvoiceItemDiscountLineNumber(Integer invoiceItemDiscountLineNumber) {
@@ -358,7 +350,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the accountsReceivableSubObject attribute.
      * 
      * @return Returns the accountsReceivableSubObject
-     * 
      */
     public SubObjectCode getAccountsReceivableSubObject() {
         return accountsReceivableSubObject;
@@ -378,7 +369,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Gets the accountsReceivableObject attribute.
      * 
      * @return Returns the accountsReceivableObject
-     * 
      */
     public ObjectCode getAccountsReceivableObject() {
         return accountsReceivableObject;
@@ -393,7 +383,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public void setAccountsReceivableObject(ObjectCode accountsReceivableObject) {
         this.accountsReceivableObject = accountsReceivableObject;
     }
-    
+
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -420,12 +410,12 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return taxableIndicator;
     }
 
-    //  yes this is redundant, its required for the JSP on the accounting 
+    // yes this is redundant, its required for the JSP on the accounting
     // line checkbox field
-    public boolean getTaxableIndicator() { 
+    public boolean getTaxableIndicator() {
         return taxableIndicator;
     }
-    
+
     public void setTaxableIndicator(boolean taxableIndicator) {
         this.taxableIndicator = taxableIndicator;
     }
@@ -439,32 +429,34 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public void setDebit(boolean isDebit) {
         this.isDebit = isDebit;
     }
-    
+
     /**
      * This method returns true if customer invoice detail has a corresponding discount line
+     * 
      * @return
      */
-    public boolean isDiscountLineParent(){
-        return ObjectUtils.isNotNull(getInvoiceItemDiscountLineNumber() );
+    public boolean isDiscountLineParent() {
+        return ObjectUtils.isNotNull(getInvoiceItemDiscountLineNumber());
     }
-    
+
     /**
-     * This method should only be used to determine if detail is discount line in JSP. If you want to determine if
-     * invoice detail is a detail line use CustomerInvoiceDocument.isDiscountLineBasedOnSequenceNumber() instead.  
+     * This method should only be used to determine if detail is discount line in JSP. If you want to determine if invoice detail is
+     * a detail line use CustomerInvoiceDocument.isDiscountLineBasedOnSequenceNumber() instead.
      * 
      * @return
      */
     public boolean isDiscountLine() {
         return ObjectUtils.isNotNull(parentDiscountCustomerInvoiceDetail);
-    }    
-    
+    }
+
     /**
      * This method sets the amount to negative if it isn't already negative
+     * 
      * @return
      */
-    public void setInvoiceItemUnitPriceToNegative(){
+    public void setInvoiceItemUnitPriceToNegative() {
         // if unit price is positive
-        if( invoiceItemUnitPrice.compareTo(BigDecimal.ZERO) == 1 ){
+        if (invoiceItemUnitPrice.compareTo(BigDecimal.ZERO) == 1) {
             invoiceItemUnitPrice = invoiceItemUnitPrice.negate();
         }
     }
@@ -488,8 +480,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
 
     public KualiDecimal getAmountToBeApplied() {
-        if(amountToBeApplied == null)
-        {
+        if (amountToBeApplied == null) {
             amountToBeApplied = KualiDecimal.ZERO;
         }
         return amountToBeApplied;
@@ -499,65 +490,71 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public void setAmountToBeApplied(KualiDecimal amountToBeApplied) {
         this.amountToBeApplied = amountToBeApplied;
     }
-    
+
     /**
-     * If the detail is a discount return the amount negated.  Otherwise, return the remaining balance (i.e. for writeoffs)  
-     *
+     * If the detail is a discount return the amount negated. Otherwise, return the remaining balance (i.e. for writeoffs)
+     * 
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
      */
     public KualiDecimal getAmountToApply() {
-        if (isDiscountLine()){
+        if (isDiscountLine()) {
             return getAmount().negated();
-        } else {
+        }
+        else {
             return getOpenAmount();
         }
     }
-    
+
     /**
      * If the detail is a discount customer invoice detail, return the parent customer invoice detail's sequence number instead
      * 
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceItemNumber()
      */
     public Integer getInvoiceItemNumber() {
-        if (isDiscountLine()){
+        if (isDiscountLine()) {
             return parentDiscountCustomerInvoiceDetail.getSequenceNumber();
-        } else {
+        }
+        else {
             return this.getSequenceNumber();
         }
     }
 
     /**
-     * If detail is part of an invoice that is a reversal, return the invoice that is being corrected. Else return the customer details document number.
+     * If detail is part of an invoice that is a reversal, return the invoice that is being corrected. Else return the customer
+     * details document number.
      * 
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceReferenceNumber()
      */
     public String getInvoiceReferenceNumber() {
         try {
-            if(getCustomerInvoiceDocument().isInvoiceReversal()){
-                return getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentInErrorNumber(); 
-            } else {
+            if (getCustomerInvoiceDocument().isInvoiceReversal()) {
+                return getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentInErrorNumber();
+            }
+            else {
                 return getDocumentNumber();
             }
-        } catch(WorkflowException we) {
+        }
+        catch (WorkflowException we) {
             we.printStackTrace();
             return "";
         }
     }
-    
+
     /**
-     * This method returns the writeoff amount.  If writeoff document hasn't been approved yet, display the open amount. Else display the amount
-     *  applied from the specific approved writeoff document.
-     *  
+     * This method returns the writeoff amount. If writeoff document hasn't been approved yet, display the open amount. Else display
+     * the amount applied from the specific approved writeoff document.
+     * 
      * @param customerInvoiceWriteoffDocumentNumber
      * @return
      */
     public KualiDecimal getWriteoffAmount() {
-        if (SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).isCustomerInvoiceWriteoffDocumentApproved(customerInvoiceWriteoffDocumentNumber)){
+        if (SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).isCustomerInvoiceWriteoffDocumentApproved(customerInvoiceWriteoffDocumentNumber)) {
             return super.getAmount(); // using the accounting line amount ... see comments at top of class
-        } else {
+        }
+        else {
             return getOpenAmount();
         }
-        
+
     }
 
     public String getCustomerInvoiceWriteoffDocumentNumber() {
@@ -580,4 +577,21 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         this.unitOfMeasure = unitOfMeasure;
     }
 
+    /**
+     * Gets the fullApply attribute.
+     * 
+     * @return Returns the fullApply.
+     */
+    public boolean isFullApply() {
+        return fullApply;
+    }
+
+    /**
+     * Sets the fullApply attribute value.
+     * 
+     * @param fullApply The fullApply to set.
+     */
+    public void setFullApply(boolean fullApply) {
+        this.fullApply = fullApply;
+    }
 }

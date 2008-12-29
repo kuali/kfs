@@ -277,8 +277,8 @@
 																		</td>
 																		<td>
 																			<center>
-																				<input type='checkbox' title="Apply Full Amount" name="fullApply"
-																					value="${customerInvoiceDetail.sequenceNumber}">
+																				<!-- <input type='checkbox' title="Apply Full Amount" name="fullApply" value="${customerInvoiceDetail.sequenceNumber}">  -->
+																				<html:checkbox title="Apply Full Amount" property="customerInvoiceDetail[${ctr}].fullApply" value="true" />
 																			</center>
 																		</td>
 																	</tr>

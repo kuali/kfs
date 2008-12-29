@@ -20,23 +20,9 @@
 	renderMultipart="true" showTabButtons="true">
   <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-  <kfs:hiddenDocumentFields isTransactionalDocument="false" />
   <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
 
-  <html:hidden property="document.correctionChangeGroupNextLineNumber"/>
-  <html:hidden property="dataLoadedFlag"/>
-  <html:hidden property="editableFlag"/>
-  <html:hidden property="manualEditFlag"/>
-  <html:hidden property="deleteFileFlag"/>
-  <html:hidden property="showOutputFlag"/>
-  <html:hidden property="inputFileName"/>
-  <html:hidden property="showSummaryOutputFlag"/>
-  <html:hidden property="glcpSearchResultsSequenceNumber"/>
-  <html:hidden property="restrictedFunctionalityMode"/>
-  <html:hidden property="inputGroupIdFromLastDocumentLoad"/>
-  <html:hidden property="inputGroupIdFromLastDocumentLoadIsMissing"/>
-  <html:hidden property="persistedOriginEntriesMissing"/>
-
+  
   <c:if test="${debug == true}">
     <kul:tab tabTitle="Debug" defaultOpen="true" tabErrorKey="debug">
       <div class="tab-container" align="center"> 
@@ -66,9 +52,7 @@
   </c:if>
   <kul:tab tabTitle="Summary" defaultOpen="true" tabErrorKey="summary">
     <c:if test="${KualiForm.document.correctionTypeCode ne 'R' and (not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or not empty KualiForm.editingMode['viewOnly'])}" >
-      <html:hidden property="document.correctionDebitTotalAmount"/>
-      <html:hidden property="document.correctionCreditTotalAmount"/>
-      <html:hidden property="document.correctionRowCount"/>
+      
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
           <tr>
@@ -154,11 +138,11 @@
                 <html:select property="chooseSystem" styleId="chooseSystem" title="Select System">
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
                 </html:select>
-                <html:hidden property="previousChooseSystem"/>
+                
                 <html:select property="editMethod" styleId="editMethod" title="Edit Method">
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionEditMethodValuesFinder" label="label" value="key"/>
                 </html:select>
-                <html:hidden property="previousEditMethod"/>
+                <!--html:hidden property="previousEditMethod"/-->
                 <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
               </center>
             </td>
@@ -211,7 +195,6 @@
                     
                   </html:select>
                   
-                  <html:hidden property="previousInputGroupId"/>
                   <br/><br/>
                   <c:if test="${KualiForm.editMethod eq 'R'}">
                     <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="Remove Group From Processing" title="Remove Group From Processing" />
@@ -234,7 +217,7 @@
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
               <td class="bord-l-b" style="padding: 4px;">
-                <html:hidden property="document.correctionInputGroupId"/>
+              	
                 <html:file size="30" property="sourceFile" styleId="sourceFile" title="File Upload" />
                 <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loaddoc.gif" styleClass="tinybutton" alt="upload file" title="upload file"/>
               </td>
@@ -332,9 +315,7 @@
         	                  </c:when>
             	              <c:otherwise>
                 	            <td>
-                    	          <html:hidden property="laborEntryForManualEdit.versionNumber"/>
-                        	      <html:hidden property="laborEntryForManualEdit.entryId"/>
-                            	  <html:hidden property="laborEntryForManualEdit.entryGroupId"/>
+                	              
                               	<html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" title="edit"/>
                             	</td>
                          	 </c:otherwise>
@@ -392,9 +373,7 @@
         	                  </c:when>
             	              <c:otherwise>
                 	            <td>
-                    	          <html:hidden property="entryForManualEdit.versionNumber"/>
-                        	      <html:hidden property="entryForManualEdit.entryId"/>
-                            	  <html:hidden property="entryForManualEdit.entryGroupId"/>
+                	              
                               	<html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" title="edit"/>
                             	</td>
                          	 </c:otherwise>
@@ -447,7 +426,7 @@
     <kul:tab tabTitle="Edit Options and Action" defaultOpen="true" tabErrorKey="Edit Options and Action">
       <c:if test="${KualiForm.deleteFileFlag == true or (KualiForm.dataLoadedFlag == false && !KualiForm.restrictedFunctionalityMode) or ((KualiForm.editMethod != 'C') and (KualiForm.editMethod != 'M' or KualiForm.editableFlag == false))}">
         <%-- this is the negation of the next if statement, since the form defaults to true for processInBatch, we need to pass along the real value for this attribute --%>
-        <html:hidden property="processInBatch"/>
+        
       </c:if>
       <c:if test="${KualiForm.deleteFileFlag == false and (KualiForm.dataLoadedFlag == true || KualiForm.restrictedFunctionalityMode) and ((KualiForm.editMethod == 'C') or (KualiForm.editMethod == 'M' and KualiForm.editableFlag == true))}">
         <div class="tab-container" align="center">
@@ -460,7 +439,6 @@
                 <td>
                   <center>
                     <html:checkbox styleId="processInBatch" property="processInBatch" /> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
-                    <input type="hidden" name="processInBatch${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="checkboxOnScreen"/>
                     <html:checkbox styleId="matchCriteriaOnly" property="matchCriteriaOnly" /> <STRONG> <label for="matchCriteriaOnly">Output only records which match criteria?</label> </STRONG>
                   </center>
                 </td>
@@ -490,7 +468,6 @@
                 <td>
                   <center>
                     <html:checkbox styleId="processInBatch" property="processInBatch" /> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG>
-                    <input type="hidden" name="processInBatch${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="checkboxOnScreen"/>
                   </center>
                 </td>
               </tr>
@@ -510,11 +487,6 @@
             <c:forEach var="group" items="${KualiForm.document.correctionChangeGroup}"> 
               <tr>
                 <td colspan="2" align="left" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].versionNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeGroupLineNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].documentNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaNextLineNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeNextLineNumber"/>
                   <strong>Group:</strong>
                   <html:image property="methodToCall.removeCorrectionGroup.group${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete correction group" title="delete correction group" />
                 </td>
@@ -542,9 +514,6 @@
                   <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" title="Add Search Criteria" /><br>
                   <c:forEach items="${group.correctionCriteria}" var="criteria" varStatus="cc">
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">Field</label>:
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].versionNumber"/>
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].documentNumber"/>
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionChangeGroupLineNumber"/>
                     <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" title="field">
                       
                       <c:choose>
@@ -586,9 +555,6 @@
                   <html:image property="methodToCall.addCorrectionChange.change${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add replacement specification" title="add replacement specification" styleClass="tinybutton" /> <br>
                   <c:forEach items="${group.correctionChange}" var="change">
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName">Field</label>:
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].versionNumber"/>
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].documentNumber"/>
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionChangeGroupLineNumber"/>
                     <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" title="Field">
 				      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
@@ -630,16 +596,8 @@
             <tr style="border-bottom: 1px solid #333;"> 
               <td class="bord-l-b" style="padding: 4px; vertical-align: top;">
                 <c:forEach var="group" items="${KualiForm.document.correctionChangeGroup}"> 
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].versionNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeGroupLineNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].documentNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaNextLineNumber"/>
-                  <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeNextLineNumber"/>
                   <c:forEach items="${group.correctionCriteria}" var="criteria" varStatus="cc">
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">Field</label>:
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].versionNumber"/>
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].documentNumber"/>
-                    <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionChangeGroupLineNumber"/>
                     <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" title="Field">
                      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
@@ -706,32 +664,12 @@
 <%-- ------------------------------------------------------------ This is read only mode --------------------------------------------------- --%>
 
   <c:if test="${readOnly == true}">
-    <html:hidden property="correctionDocument.correctionTypeCode"/>
-    <html:hidden property="correctionDocument.correctionSelection" />
-    <html:hidden property="correctionDocument.correctionFileDelete"/>
-    <html:hidden property="correctionDocument.correctionInputFileName"/>
-    <html:hidden property="correctionDocument.correctionInputGroupId"/>
-    <html:hidden property="correctionDocument.correctionOutputGroupId"/>
     <c:forEach var="group" items="${KualiForm.document.correctionChangeGroup}"> 
-      <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].versionNumber"/>
-      <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeGroupLineNumber"/>
-      <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].documentNumber"/>
-      <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaNextLineNumber"/>
-      <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeNextLineNumber"/>
       <c:forEach items="${group.correctionCriteria}" var="criteria" varStatus="cc">
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].versionNumber"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].documentNumber"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionChangeGroupLineNumber"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue"/>
+        
       </c:forEach>
       <c:forEach items="${group.correctionChange}" var="change">
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].versionNumber"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].documentNumber"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionChangeGroupLineNumber"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName"/>
-        <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue"/>
+       
       </c:forEach>
     </c:forEach>
     <div class="tab-container" align="center" >
@@ -832,7 +770,7 @@
               <html:checkbox styleId="processInBatch" property="processInBatch" disabled="true"/> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
               <c:if test="${KualiForm.document.correctionTypeCode == 'C'}" >
                 <html:checkbox styleId="matchCriteriaOnly" property="matchCriteriaOnly" disabled="true"/> <STRONG> <label for="matchCriteriaOnly">Output only records which match criteria?</label> </STRONG>
-                <html:hidden property="matchCriteriaOnly"/><%--disabled checkbox above is not submitted, so we create a hidden input --%>
+                <%--disabled checkbox above is not submitted, so we create a hidden input --%>
               </c:if>
             </center>
           </td>

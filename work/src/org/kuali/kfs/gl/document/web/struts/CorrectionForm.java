@@ -121,20 +121,12 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
         setDocument(new GeneralLedgerCorrectionProcessDocument());
 
-        // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
-        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
-
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();
 
-        // Sync up the groups
-        syncGroups();
-
         entryForManualEdit = new OriginEntryFull();
         entryForManualEdit.setEntryId(0);
-
-        originEntrySearchResultTableMetadata = new KualiTableRenderFormMetadata();
-
+        
         setDocType();
     }
 
@@ -144,6 +136,14 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+
+        // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
+        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
+
+        // Sync up the groups
+        syncGroups();
+
+        originEntrySearchResultTableMetadata = new KualiTableRenderFormMetadata();
 
         if (KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall())) {
             // look for the page number to switch to

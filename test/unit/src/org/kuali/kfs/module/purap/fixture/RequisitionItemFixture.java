@@ -151,6 +151,10 @@ public enum RequisitionItemFixture {
                 RequisitionAccountingLineFixture.APO_ACCOUNT_VALID_CAPITAL_ASSET_OBJECT_CODE_50_PERCENT,
                 RequisitionAccountingLineFixture.APO_ACCOUNT_VALID_EXPENSE_OBJECT_CODE_50_PERCENT } // requisitionAccountMultiFixtures
     ),   
+    REQ_QTY_B2B_ITEM_1(false, // itemRestrictedIndicator
+            PurApItemFixture.BASIC_B2B_QTY_ITEM_1, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 } // requisitionAccountMultiFixtures
+    ),    
     ;
 
     private boolean itemRestrictedIndicator;

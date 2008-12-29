@@ -44,7 +44,7 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
     private ParameterService parameterService;
     
     public boolean validate(AttributedDocumentEvent event) {
-        boolean valid = false;
+        boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument) event.getDocument();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
@@ -98,19 +98,20 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
 
     }
 
-    /**
-     * Sets the vendorService attribute value.
-     * @param vendorService The vendorService to set.
-     */
+    public VendorService getVendorService() {
+        return vendorService;
+    }
+
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
     }
 
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }       
+    }
+        
 }

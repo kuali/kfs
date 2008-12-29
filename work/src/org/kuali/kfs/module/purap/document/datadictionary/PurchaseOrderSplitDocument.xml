@@ -18,7 +18,8 @@
     <property name="documentTypeName" value="PurchaseOrderSplitDocument" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" />
+    <!-- property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" /-->
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderSplitDocumentAuthorizer" />
     <property name="documentTypeCode" value="POSP" />
     <property name="workflowProperties" >
@@ -167,6 +168,7 @@
         <ref bean="PurchaseOrderDocument-capitalAssetSystemStateCode"/>
       </list>
   	</property>
+  	<property name="validationMap" ref="PurchaseOrderDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->

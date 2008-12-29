@@ -398,7 +398,7 @@ public enum RequisitionDocumentFixture {
             null, // organizationAutomaticPurchaseOrderLimit
             PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
             PurchasingDocumentFixture.REQ_B2B_VENDOR_NO_TOTAL_LIMIT, // purchasingDocumentFixture
-            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 } // requisitionItemMultiFixtures
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_B2B_ITEM_1 } // requisitionItemMultiFixtures
     ),
     
     REQ_INVALID_VENDOR_FAX_NUMBER_CONTAINS_LETTER(null, // requisitionOrganizationReference1Text

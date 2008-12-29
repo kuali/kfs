@@ -812,6 +812,20 @@ public enum PurApItemFixture {
             new KualiDecimal(1), // extendedPrice
             new KualiDecimal(1) // itemQuantity
     ), 
+    BASIC_B2B_QTY_ITEM_1(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            "PCS", // itemUnitOfMeasureCode
+            "777", // itemCatalogNumber
+            "description1", // itemDescription
+            new BigDecimal(1), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "ProductSource", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            new KualiDecimal(1) // itemQuantity
+    ),
     ;
 
     private Integer itemIdentifier;

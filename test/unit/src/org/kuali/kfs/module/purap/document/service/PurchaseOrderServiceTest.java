@@ -543,6 +543,11 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertNotNull(purchaseOrderDocument.getPurchaseOrderInitialOpenTimestamp());
     }
     
+
+    /**
+     * This is not quite ready yet. Got some XML parsing error.
+     */
+//    @ConfigureContext(session = parke, shouldCommitTransactions = true)
 //    public void testRetransmitB2BPurchaseOrder() throws Exception {
 //        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
 //        final String docId = requisitionDocument.getDocumentNumber();
@@ -557,6 +562,5 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 //        poService.retransmitB2BPurchaseOrder(purchaseOrderDocument);
 //        assertTrue(GlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
 //    }
-//    
 }
 

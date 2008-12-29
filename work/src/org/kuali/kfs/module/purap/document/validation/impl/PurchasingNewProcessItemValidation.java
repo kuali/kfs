@@ -41,7 +41,7 @@ public class PurchasingNewProcessItemValidation extends PurchasingAccountsPayabl
     private PurapService purapService;
     
     public boolean validate(AttributedDocumentEvent event) {        
-        boolean valid = false;
+        boolean valid = true;
         
         valid &= super.validate(event);
         

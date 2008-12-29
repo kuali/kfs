@@ -118,6 +118,7 @@
     <bean id="PurchaseOrder-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderProcessVendorValidation" abstract="true">
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="parameterService" ref="parameterService" />
     </bean>
 
 	<bean id="PurchaseOrder-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAccountingLineAccessibleValidation" abstract="true">

@@ -25,6 +25,7 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorConstants.VendorTypes;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -37,7 +38,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendorValidation {
 
-    private VendorService vendorService;
     private DataDictionaryService dataDictionaryService;
     
     /**
@@ -87,7 +87,7 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
         Integer alternateVendorHdrGeneratedId = poDocument.getAlternateVendorHeaderGeneratedIdentifier();
         Integer alternateVendorHdrDetailAssignedId = poDocument.getAlternateVendorDetailAssignedIdentifier();
         
-        VendorDetail alternateVendor = vendorService.getVendorDetail(alternateVendorHdrGeneratedId,alternateVendorHdrDetailAssignedId);
+        VendorDetail alternateVendor = super.getVendorService().getVendorDetail(alternateVendorHdrGeneratedId,alternateVendorHdrDetailAssignedId);
         
         if (alternateVendor != null) {
             if (alternateVendor.isVendorDebarred()) {
@@ -107,14 +107,6 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
         return valid;
     }
 
-    public VendorService getVendorService() {
-        return vendorService;
-    }
-
-    public void setVendorService(VendorService vendorService) {
-        this.vendorService = vendorService;
-    }
-
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
@@ -122,5 +114,5 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-
+    
 }

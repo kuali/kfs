@@ -323,7 +323,7 @@ public enum PurchasingDocumentFixture {
             null, // vendorRestrictedIndicator
             null, // vendorPhoneNumber
             null, // vendorFaxNumber
-            null, // vendorContractGeneratedIdentifier
+            new Integer(1021), // vendorContractGeneratedIdentifier
             null, // vendorNoteText
             "RENFROW,ROBERTA G", // requestorPersonName
             "test@email.com", // requestorPersonEmailAddress
@@ -353,7 +353,7 @@ public enum PurchasingDocumentFixture {
             null, // institutionContactEmailAddress
             "THE UNIVERSITY", // billingName
             "ACCOUNTS PAYABLE", // billingLine1Address
-            null, // billingLine2Address
+            "111 Hagadorn Rd", // billingLine2Address
             "BUTTER NUT", // billingCityName
             "SC", // billingStateCode
             "47402", // billingPostalCode

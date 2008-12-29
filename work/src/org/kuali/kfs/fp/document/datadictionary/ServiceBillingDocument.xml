@@ -1,0 +1,162 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ServiceBillingDocument" parent="ServiceBillingDocument-parentBean" />
+
+  <bean id="ServiceBillingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="allowsErrorCorrection" value="true" />
+    <property name="label" value="Service Billing" />
+    <property name="shortLabel" value="Service Billing" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Service Billing (SB) document is used for the billing of goods or services provided by a university department to another university department, reflecting income to the provider and expense to the customer. However, Service Billing differs from Internal Billing document in that it does not route for fiscal officer approval. Approval is by a formal pre-agreement between the service provider and the department being billed, and is based on a service provider&apos;s ability to provide documentation for all transactions. This pre-agreement ensures that only authorized organizations can create a billing without approval routing." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.ServiceBillingDocument" p:parameterName="SERVICE_BILLING" />
+    </property>
+    <property name="documentTypeName" value="ServiceBillingDocument" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
+    <property name="documentTypeCode" value="SB" />
+    <property name="sessionDocument" value="true" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="ServiceBillingDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="validationMap" ref="ServiceBillingDocument-validations" />
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="ServiceBillingDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="ServiceBillingDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property> 
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />       
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ServiceBillingDocument-workflowProperties" parent="ServiceBillingDocument-workflowProperties-parentBean" />
+
+  <bean id="ServiceBillingDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="ServiceBillingDocument-validations" parent="ServiceBillingDocument-validations-parentBean" />
+  
+  <bean id="ServiceBillingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>ServiceBilling-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>ServiceBilling-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>ServiceBilling-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>ServiceBilling-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>ServiceBilling-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>ServiceBilling-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>ServiceBilling-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+
+  <!-- accounting line groups -->
+  <bean id="ServiceBillingDocument-sourceAccountingLineGroup" parent="ServiceBillingDocument-sourceAccountingLineGroup-parentBean" /> 
+  <bean id="ServiceBillingDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="ServiceBillingDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="From" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+  </bean>
+	
+  <bean id="ServiceBillingDocument-targetAccountingLineGroup" parent="ServiceBillingDocument-targetAccountingLineGroup-parentBean" />	
+  <bean id="ServiceBillingDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="ServiceBillingDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
+	  <property name="groupLabel" value="To" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="target" />
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+  </bean>
+	
+  <bean id="ServiceBillingDocument-accountingLineView" parent="ServiceBillingDocument-accountingLineView-parent" />
+  <bean id="ServiceBillingDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	  <property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation" />
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="lineDescription" />
+							<property name="fields">
+								<list>
+									<bean parent="AccountingLineView-field"	p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
+			<bean parent="AccountingLineView-actions" />
+		</list>
+	</property>
+  </bean>  
+</beans>

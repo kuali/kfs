@@ -39,7 +39,7 @@
 		<li><portal:portalLink displayTitle="true" title="General Ledger Correction Process" url="generalLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=GeneralLedgerCorrectionProcessDocument" /></li>									
 		<li><portal:portalLink displayTitle="true" title="Journal Voucher" url="financialJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=JournalVoucherDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Non-Check Disbursement" url="financialNonCheckDisbursement.do?methodToCall=docHandler&command=initiate&docTypeName=NonCheckDisbursementDocument" /></li>
-		
+		<li><portal:portalLink displayTitle="true" title="Service Billing" url="financialServiceBilling.do?methodToCall=docHandler&command=initiate&docTypeName=ServiceBillingDocument" /></li>
     </ul>
     <strong>Labor Distribution</strong><br />
     <ul class="chan">

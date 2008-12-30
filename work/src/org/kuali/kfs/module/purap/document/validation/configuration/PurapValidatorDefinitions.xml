@@ -53,6 +53,8 @@
 		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
 	</bean>
 
+    <bean id="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableItemConsideredEnteredBranchingValidation" abstract="true" />
+
 <!-- Purchasing Definitions -->
 	<bean id="Purchasing-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewProcessItemValidation" abstract="true">
 		<property name="purapService" ref="purapService" />
@@ -89,10 +91,13 @@
 	</bean>
 
 <!-- Requisition Definitions -->	
+
+<!-- Temporarily commenting these out because we want to try changing this to a composite validation
     <bean id="Requisition-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewProcessItemValidation" abstract="true">
 		<property name="requisitionService" ref="requisitionService" />
 		<property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
 	</bean>
+-->
 
 	<bean id="Requisition-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />

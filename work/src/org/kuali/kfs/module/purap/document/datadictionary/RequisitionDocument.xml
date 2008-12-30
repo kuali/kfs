@@ -14,8 +14,8 @@
     </property>
     <property name="documentTypeName" value="RequisitionDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
-    <!-- property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" /-->
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <!-- property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentRule" /-->
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentPreRules" />

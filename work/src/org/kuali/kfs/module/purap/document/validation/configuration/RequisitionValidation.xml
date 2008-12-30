@@ -36,10 +36,10 @@
   						</list>
   					</property>
   				</bean>
-  				
-  				<bean parent="Requisition-newProcessItemValidation" scope="prototype">								
-					<property name="quitOnFail" value="false" />
-				</bean>  												
+
+                <!-- new process item validation should go here -->									
+				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
+			
 				
 				<bean parent="Purchasing-processVendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -48,34 +48,7 @@
 				<bean parent="Requisition-processAdditionalValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  
-				
-			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.items" />
-  					<property name="validations">
-  						<list>
-  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-  								<property name="parameterProperties">
-  									<list>
-  										<bean parent="validationFieldConversion">
-  											<property name="sourceEventProperty" value="iterationSubject" />
-  											<property name="targetValidationProperty" value="businessObjectForValidation" />
-  										</bean>
-  									</list>
-  								</property>
-  							</bean>
-  							<bean parent="Requisition-newIndividualItemValidation" scope="prototype">
-  							    <property name="parameterProperties">
-  							      	<list>
-  										<bean parent="validationFieldConversion">
-  											<property name="sourceEventProperty" value="iterationSubject" />
-  											<property name="targetValidationProperty" value="itemForValidation" />
-  										</bean>
-  									</list>
-  							    </property>
-  							</bean>
-  						</list>
-  					</property>
-  				</bean>												
+															
   			</list>
   		</property>
   	</bean>
@@ -251,5 +224,63 @@
   		</property>
 	</bean>
 
-
+    <bean id="Requisition-newProcessItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <!-- These are the validations from within the loop of items in newProcessItemValidation in
+                     PurchasingAccountsPayableDocumentRuleBase -->
+                <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+                    <property name="collectionProperty" value="document.items" />
+                    <property name="validations">
+                        <list>
+                            <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                                <property name="parameterProperties">
+                                    <list>
+                                        <bean parent="validationFieldConversion">
+                                            <property name="sourceEventProperty" value="iterationSubject" />
+                                            <property name="targetValidationProperty" value="businessObjectForValidation" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            
+                            <!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
+                                 we need to call the newIndividualItemValidation (not needed if item is not 
+                                 considered entered -->
+                            <bean parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+					            <property name="branchMap">
+						            <map>
+							            <entry>
+								            <key><value>needsIndividualItemValidation</value></key>
+                                            <bean parent="Requisition-newIndividualItemValidation" scope="prototype">
+                                                <property name="parameterProperties">
+                                                    <list>
+                                                        <bean parent="validationFieldConversion">
+                                                            <property name="sourceEventProperty" value="iterationSubject" />
+                                                            <property name="targetValidationProperty" value="itemForValidation" />
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+							            </entry>
+						            </map>
+					            </property>
+					            <property name="parameterProperties">
+						            <list>
+							            <bean parent="validationFieldConversion">
+								            <property name="sourceEventProperty" value="iterationSubject" />
+								            <property name="targetValidationProperty" value="itemForValidation" />
+							            </bean>
+						            </list>
+					            </property>
+				            </bean>
+				            <!-- End of branching -->
+				            
+                        </list>
+                    </property>
+                </bean>	  									    
+            </list>
+        </property>					
+    </bean>  
 </beans>

@@ -68,7 +68,6 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
             // No accounts can be entered on below-the-line items that have no unit cost.
             valid &= validateBelowTheLineItemNoUnitCost(getItemForValidation()); 
         }
-        
         return valid;
     }
 

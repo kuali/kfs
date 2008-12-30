@@ -94,8 +94,8 @@ public class GlLineForm extends KualiForm {
      * @return value
      */
     public GeneralLedgerEntry getRelatedGlEntry(int index) {
-        while (getRelatedGlEntries().size() <= index) {
-            getRelatedGlEntries().add(new GeneralLedgerEntry());
+        while (getRelatedGlEntries().size() <= index || getRelatedGlEntries().get(index) == null) {
+            getRelatedGlEntries().add(index, new GeneralLedgerEntry());
         }
         return (GeneralLedgerEntry) getRelatedGlEntries().get(index);
     }

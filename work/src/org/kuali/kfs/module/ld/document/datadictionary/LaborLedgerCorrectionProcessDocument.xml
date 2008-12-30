@@ -25,18 +25,6 @@
     <property name="workflowProperties" >
       <ref bean="LaborLedgerCorrectionProcessDocument-workflowProperties" />
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>FP_GENERAL_LEDGER_CORRECTION_PROCESS_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
 
 <!-- Exported Workflow Properties -->

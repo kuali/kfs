@@ -28,18 +28,6 @@
     <property name="workflowProperties" >
       <ref bean="LaborJournalVoucherDocument-workflowProperties" />
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>LD_LABOR_JOURNAL_VOUCHER_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="attributes" >
       <list>
         <ref bean="LaborJournalVoucherDocument-accountingPeriod" />

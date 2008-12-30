@@ -16,19 +16,8 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer" />
     <property name="documentTypeCode" value="A21" />
+    <property name="allowsCopy" value="true" />    
     <property name="sessionDocument" value="true" />    
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>LD_EFFORT_ADMINISTRATORS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="attributes" >
       <list>
         <ref bean="EffortCertificationDocument-effortCertificationDocumentCode" />

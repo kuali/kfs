@@ -68,18 +68,6 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionMaintenanceDocumentPreRules" />
     <property name="documentTypeCode" value="ARPT" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="workflowAttributes">
     	<ref bean="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes" />
     </property>

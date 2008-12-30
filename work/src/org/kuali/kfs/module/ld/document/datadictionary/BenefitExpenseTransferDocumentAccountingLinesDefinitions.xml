@@ -225,7 +225,7 @@
 	</bean>
     	    	
     <bean id="labor-BenefitExpenseTransferDocument-AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">
-		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.BenefitExpenseTransferAccountingLineAuthorizer" />
+		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseTransferAccountingLineAuthorizer" />
     </bean>
     
 </beans>

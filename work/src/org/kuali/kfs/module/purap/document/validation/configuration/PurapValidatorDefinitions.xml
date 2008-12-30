@@ -90,14 +90,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
-<!-- Requisition Definitions -->	
+    <bean id="Purchasing-processAccountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessAccountValidation" abstract="true"/>
 
-<!-- Temporarily commenting these out because we want to try changing this to a composite validation
-    <bean id="Requisition-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewProcessItemValidation" abstract="true">
-		<property name="requisitionService" ref="requisitionService" />
-		<property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
-	</bean>
--->
+<!-- Requisition Definitions -->	
 
 	<bean id="Requisition-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />
@@ -111,6 +106,10 @@
 	<bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
 	    <property name="accountService" ref="accountService" />
 	</bean>
+
+    <bean id="Requisition-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionRequiresAccountValidationBranchingValidation" abstract="true" >
+        <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
+    </bean>
 
 <!-- Purchase Order Definitions -->
 	<bean id="PurchaseOrder-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderNewIndividualItemValidation" abstract="true">

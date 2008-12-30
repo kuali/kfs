@@ -140,6 +140,13 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return invoices;
     }
 
+    public CustomerInvoiceDocument getInvoice(int index) {
+        if (this.invoices.size() <= index || this.invoices.get(index) == null) {
+            this.invoices.add(index, new CustomerInvoiceDocument());
+        }
+        return this.invoices.get(index);
+    }
+
     /**
      * Returns the list of Open Invoices available for this document.
      * 

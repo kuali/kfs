@@ -56,7 +56,6 @@
                     <!--  these three lines are necessary for the customer-number dwr lookup to show the label onBlur -->
 					<br/>
 				    <div id="document.accountsReceivableDocumentHeader.customer.customerName.div" class="fineprint"></div>
-					<!-- <input type="hidden" name="document.accountsReceivableDocumentHeader.customer.customerName" value="">  -->
 					<html:hidden property="document.accountsReceivableDocumentHeader.customer.customerName" value="" />
                     
                 </td>			

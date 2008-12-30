@@ -52,7 +52,6 @@
                                 </td>
                                 <td>
                                 	<center>
-	                                    <!-- <input type="checkbox" name="quickApply" value="${updatedBalanceInvoice.invoice.documentNumber}" />  -->
 	                                    <html:checkbox property="invoice[${current.index}].quickApply" value="true" />
 	                                </center>
                                 </td>

@@ -24,12 +24,16 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Parameter;
@@ -71,11 +75,11 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         List<String> customernames;
         
         if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
-            setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class)); 
+            setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class));
             setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
             setDocumentService(SpringContext.getBean(DocumentService.class));
             setDateTimeService(SpringContext.getBean(DateTimeService.class));
-            
+
             customernames = Arrays.asList(jobName);
         }
         else {
@@ -97,24 +101,27 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
 
         // create lockboxes for the non-random invoices
         int seqNbr = 2000;
+        int scenarioNbr =1;
         for (String createdInvoice : createdInvoices){
-          createLockboxesForFunctionalTesting(createdInvoice, String.valueOf(seqNbr));
+          createLockboxesForFunctionalTesting(createdInvoice, String.valueOf(seqNbr), scenarioNbr);
           Thread.sleep(500);
           seqNbr++;
+          if (scenarioNbr<=6) scenarioNbr++;
+            else scenarioNbr = 1;
         }
 
         // create random data
         for (String customername : customernames) {
-            
+
             billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-            
-            for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){    
-                  
+
+            for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
+
                 billingDate = DateUtils.addDays(billingDate, -30);
-                  
+
                 createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
                 Thread.sleep(500);
-    
+
             }
         }
 
@@ -172,27 +179,184 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
        return (pkMapForParameter);
     }
 
-    public void createLockboxesForFunctionalTesting(String invoiceNumber, String seqNbr){
+    public void createLockboxesForFunctionalTesting(String invoiceNumber, String seqNbr, int testtype) throws InterruptedException {
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceNumber);
 
         Lockbox newLockbox = new Lockbox();
 
-        newLockbox.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
-        newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
-        newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
-        newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber));
-        newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
-        newLockbox.setCustomerPaymentMediumCode("CK");
-        newLockbox.setBankCode("1003");
-        newLockbox.setBatchSequenceNumber(8004);
-        newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-        newLockbox.setLockboxNumber("66248");
+        // 1) Payment matches customer (CUST_NBR), invoice number (FDOC_REF_INV_NBR), and amount (AR_INV_PD_APLD_AMT). These should auto-approve, the remaining scenarios should not.
+        if (testtype == 1) {
+            newLockbox.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+            newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+            newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+            newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber));
+            newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+            newLockbox.setCustomerPaymentMediumCode("CK");
+            newLockbox.setBankCode("1003");
+            newLockbox.setBatchSequenceNumber(8004);
+            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setLockboxNumber("66248");
+        }
+
+        // 2) Payment matches customer and invoice, but the invoice has no outstanding balance (due to a previous payment, a credit memo, or a write-off)
+        if (testtype == 2) {
+            newLockbox.setFinancialDocumentReferenceInvoiceNumber(createPaidOffCustomerInvoice());
+            newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+            newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+            newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber));
+            newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+            newLockbox.setCustomerPaymentMediumCode("CK");
+            newLockbox.setBankCode("1003");
+            newLockbox.setBatchSequenceNumber(8004);
+            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setLockboxNumber("66248");
+        }
+
+        // 3) Payment matches customer and invoice, but the amount of the payment exceeds the outstanding balance on the invoice.
+        if (testtype == 3) {
+            newLockbox.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+            newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+            newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+            newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocument.getTotalDollarAmount().add(new KualiDecimal(100)));
+            newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+            newLockbox.setCustomerPaymentMediumCode("CK");
+            newLockbox.setBankCode("1003");
+            newLockbox.setBatchSequenceNumber(8004);
+            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setLockboxNumber("66248");
+        }
+
+        // 4) The payment matches customer and invoice, but the amount is short-paid (less than the invoice outstanding balance)
+        if (testtype == 4) {
+            newLockbox.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+            newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+            newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+            newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber).subtract(new KualiDecimal(1)));
+            newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+            newLockbox.setCustomerPaymentMediumCode("CK");
+            newLockbox.setBankCode("1003");
+            newLockbox.setBatchSequenceNumber(8004);
+            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setLockboxNumber("66248");
+        }
+
+        // 5) The payment matches a customer number, but the invoice number is missing
+        if (testtype == 5) {
+          //  newLockbox.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+            newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+            newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+            newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber));
+            newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+            newLockbox.setCustomerPaymentMediumCode("CK");
+            newLockbox.setBankCode("1003");
+            newLockbox.setBatchSequenceNumber(8004);
+            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setLockboxNumber("66248");
+        }
+
+        // 6) The payment matches a customer number, but the invoice number is invalid
+        if (testtype == 6) {
+            newLockbox.setFinancialDocumentReferenceInvoiceNumber("999999");
+            newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+            newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+            newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber));
+            newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+            newLockbox.setCustomerPaymentMediumCode("CK");
+            newLockbox.setBankCode("1003");
+            newLockbox.setBatchSequenceNumber(8004);
+            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setLockboxNumber("66248");
+        }
+
+        // 7) The payment matches nothing (not even the customer number)
+        if (testtype == 7) {
+            newLockbox.setFinancialDocumentReferenceInvoiceNumber("999999");
+            newLockbox.setCustomerNumber("KEY17536");
+            newLockbox.setInvoiceTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+            newLockbox.setInvoicePaidOrAppliedAmount(customerInvoiceDocumentService.getPaidAppliedTotalForInvoice(invoiceNumber));
+            newLockbox.setBillingDate(customerInvoiceDocument.getBillingDate());
+            newLockbox.setCustomerPaymentMediumCode("CK");
+            newLockbox.setBankCode("1003");
+            newLockbox.setBatchSequenceNumber(8004);
+            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setLockboxNumber("66248");
+        }
+
 
         businessObjectService.save(newLockbox);
         LOG.info("Created customer LOCKBOX for invoice " + invoiceNumber);
   
         
     }
+
+    public String createPaidOffCustomerInvoice() throws InterruptedException {
+        CustomerCreditMemoDetailService customerCreditMemoDetailService = SpringContext.getBean(CustomerCreditMemoDetailService.class);
+        CustomerCreditMemoDocument customerCreditMemoDocument;
+//        CustomerCreditMemoDetail customerCreditMemoDetail = new CustomerCreditMemoDetail();
+        CustomerInvoiceDocument customerInvoiceDocument;
+
+        try {
+            customerInvoiceDocument = (CustomerInvoiceDocument) documentService.getNewDocument(CustomerInvoiceDocument.class);
+            LOG.info("\nCreated customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Customer Invoice Document creation failed.");
+        }
+
+        customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
+        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST paid off CUSTOMER INVOICE DOCUMENT");
+        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber("KAT17282");
+        customerInvoiceDocument.setBillingDate(new java.sql.Date(new Date().getTime()));
+
+        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress("KAT17282");
+
+        customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+        customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
+        customerInvoiceDocument.setBillingAddressTypeCode("P");
+        customerInvoiceDocument.setBillingAddressName(customerBillToAddress.getCustomerAddressName());
+        customerInvoiceDocument.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
+        customerInvoiceDocument.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
+        customerInvoiceDocument.setBillingCityName(customerBillToAddress.getCustomerCityName());
+        customerInvoiceDocument.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
+        customerInvoiceDocument.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
+        customerInvoiceDocument.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
+        customerInvoiceDocument.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
+        customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
+        customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
+        customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, new KualiDecimal(1), new BigDecimal(100), "1111111", "BA"));
+
+//        customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(100));
+//        customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount();
+        try {
+            // the document header is created and set here
+            customerCreditMemoDocument = (CustomerCreditMemoDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerCreditMemoDocument.class);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Document customerCreditMemoDocument creation failed.");
+        }
+        customerCreditMemoDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
+        customerCreditMemoDocument.setInvoice(customerInvoiceDocument);
+        customerCreditMemoDocument.populateCustomerCreditMemoDetails();
+
+        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
+        for (CustomerCreditMemoDetail customerCreditMemoDetail : customerCreditMemoDetails) {
+            customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(1));
+            customerCreditMemoDetail.setCreditMemoItemTotalAmount(new KualiDecimal(100));
+            customerCreditMemoDetail.setCreditMemoLineTotalAmount(new KualiDecimal(100));
+        }
+
+        try {
+            documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
+            Thread.sleep(5000);
+            documentService.blanketApproveDocument(customerCreditMemoDocument, null, null);
+            LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Customer Invoice Document routing failed.");
+        }
+        LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
+
+       return customerInvoiceDocument.getDocumentNumber();
+    }
+
 
     public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -212,7 +376,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
 
         CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
-        CustomerAddress customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
+//        CustomerAddress customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
 
         customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
         customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);

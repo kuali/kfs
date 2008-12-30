@@ -25,25 +25,25 @@ import org.kuali.rice.kns.document.Document;
 
 
 public class PayeeAchAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
-
-    /**
-     * If the current user is a member of KUALI_PDP_VIEWALL then add entry to the editMode Map and set it true.
-     * 
-     * @see org.kuali.rice.kns.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        Map editMode = super.getEditMode(document, user);
-        // String viewAllWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PayeeAchAccount.class,
-        // PdpConstants.Groups.VIEWALL_GROUP);
-        String viewAllWorkgroup = "PD_VIEW_ACH";
-
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, viewAllWorkgroup)) {
-            editMode.put(PdpConstants.PDPEditMode.ENTRY, "TRUE");
-        }
-
-        return editMode;
-    }
+// TODO fix for kim
+//    /**
+//     * If the current user is a member of KUALI_PDP_VIEWALL then add entry to the editMode Map and set it true.
+//     * 
+//     * @see org.kuali.rice.kns.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public Map getEditMode(Document document, Person user) {
+//        Map editMode = super.getEditMode(document, user);
+//        // String viewAllWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PayeeAchAccount.class,
+//        // PdpConstants.Groups.VIEWALL_GROUP);
+//        String viewAllWorkgroup = "PD_VIEW_ACH";
+//
+//        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, viewAllWorkgroup)) {
+//            editMode.put(PdpConstants.PDPEditMode.ENTRY, "TRUE");
+//        }
+//
+//        return editMode;
+//    }
 }
 

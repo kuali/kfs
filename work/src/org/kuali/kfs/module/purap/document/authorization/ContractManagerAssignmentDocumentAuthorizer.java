@@ -33,27 +33,28 @@ public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystem
      * 
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
-    @Override
-    protected boolean canSave(Document document, Person user) {
-        return false;
-    }
+    // TODO this needs to be done in the presentation controller
+//    protected boolean canSave(Document document, Person user) {
+//        return false;
+//    }
 
-    /**
-     * Override this method to add extra validation, so that when there's no requistion to
-     * assign contract manager, an error mesage will be displayed, instead of creating an
-     * ContractManagerAssignmentDocument.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, Person user)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) {
-        super.canInitiate(documentTypeName, user);
-
-        int numberOfRequisitions = SpringContext.getBean(RequisitionService.class).getCountOfRequisitionsAwaitingContractManagerAssignment();
-        if (numberOfRequisitions == 0) {
-            throw new DocumentInitiationAuthorizationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName });
-        }
-    }
+    // TODO this needs to be done in the presentation controller, since it is not user-related
+//    /**
+//     * Override this method to add extra validation, so that when there's no requistion to
+//     * assign contract manager, an error mesage will be displayed, instead of creating an
+//     * ContractManagerAssignmentDocument.
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, Person user)
+//     */
+//    @Override
+//    public void canInitiate(String documentTypeName, Person user) {
+//        super.canInitiate(documentTypeName, user);
+//
+//        int numberOfRequisitions = SpringContext.getBean(RequisitionService.class).getCountOfRequisitionsAwaitingContractManagerAssignment();
+//        if (numberOfRequisitions == 0) {
+//            throw new DocumentInitiationAuthorizationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName });
+//        }
+//    }
     
 }
 

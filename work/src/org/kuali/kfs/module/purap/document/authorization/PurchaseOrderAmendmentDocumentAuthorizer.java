@@ -45,8 +45,8 @@ public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocum
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
-        if (((PurchasingAccountsPayableDocument) d).getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())
-             && super.hasInitiateAuthorization(d, u))  {
+        if (((PurchasingAccountsPayableDocument) d).getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()))  {
+            // TODO fix for kim - removed call to super has initiate auth
             editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.AMENDMENT_ENTRY;
         }
         editModeMap.put(editMode, "TRUE");

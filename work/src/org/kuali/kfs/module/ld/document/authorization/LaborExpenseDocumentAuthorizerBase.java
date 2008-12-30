@@ -24,20 +24,21 @@ import org.kuali.rice.kns.document.Document;
  * Labor Docuemnt Implements special document authorization for the labor expense documents.
  */
 public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthorizerBase {
+    // TODO fix for kim
 
-    /**
-     * Override to disallow copy and error correction.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        flags.setCanCopy(false);
-        flags.setCanErrorCorrect(false);
-
-        return flags;
-    }
+//    /**
+//     * Override to disallow copy and error correction.
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        flags.setCanCopy(false);
+//        flags.setCanErrorCorrect(false);
+//
+//        return flags;
+//    }
 }
 

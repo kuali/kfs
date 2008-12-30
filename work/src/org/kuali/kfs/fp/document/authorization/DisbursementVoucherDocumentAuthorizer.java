@@ -47,22 +47,23 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
     private static String frnGroupName;
     private static String adminGroupName;
 
-    /**
-     * Overrides to call super and then blanketly set the canBlanketApprove flag to false, since this is never allowed on a DV.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
-
-        flags.setCanBlanketApprove(false); // this is never allowed on a DV document
-
-        flags.setCanErrorCorrect(false); // CR, DV, and PCDO don't allow error correction
-
-        return flags;
-    }
+// TODO fix for kim
+    //    /**
+//     * Overrides to call super and then blanketly set the canBlanketApprove flag to false, since this is never allowed on a DV.
+//     * 
+//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
+//
+//        flags.setCanBlanketApprove(false); // this is never allowed on a DV document
+//
+//        flags.setCanErrorCorrect(false); // CR, DV, and PCDO don't allow error correction
+//
+//        return flags;
+//    }
 
     /**
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,

@@ -33,20 +33,20 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Document Authorizer for the PREQ document.
  */
 public class CorrectionReceivingDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public boolean hasInitiateAuthorization(Document document, Person user) {
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
-        if (group == null) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
-        }
-        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
-    }
+// TODO replaced by kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public boolean hasInitiateAuthorization(Document document, Person user) {
+//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+//        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
+//        if (group == null) {
+//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
+//        }
+//        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
+//    }
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
@@ -60,9 +60,10 @@ public class CorrectionReceivingDocumentAuthorizer extends FinancialSystemTransa
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (hasInitiateAuthorization(document, user)) {
+// TODO fix for kim
+            //            if (hasInitiateAuthorization(document, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-            }
+//            }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             // only allow full entry if status allows it

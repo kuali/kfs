@@ -51,6 +51,7 @@ import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
@@ -61,7 +62,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -101,10 +101,13 @@ public class DepositWizardAction extends KualiAction {
             String depositTypeCode = request.getParameter("depositTypeCode");
 
             CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cmDocId);
-            DocumentActionFlags documentActionFlags = cmDocAuthorizer.getDocumentActionFlags(cmDoc, GlobalVariables.getUserSession().getPerson());
+            
+         // TODO fix for kim
+//            DocumentActionFlags documentActionFlags = cmDocAuthorizer.getDocumentActionFlags(cmDoc, GlobalVariables.getUserSession().getPerson());
 
             try {
-                initializeForm(dwForm, cmDoc, depositTypeCode, documentActionFlags);
+// TODO fix for kim
+                initializeForm(dwForm, cmDoc, depositTypeCode, new FinancialSystemTransactionalDocumentActionFlags());
             }
             catch (CashDrawerStateException cdse) {
                 dest = new ActionForward(UrlFactory.parameterizeUrl(CASH_MANAGEMENT_STATUS_PAGE, cdse.toProperties()), true);

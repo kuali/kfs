@@ -48,15 +48,16 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kim.bo.Person)
      */
-    @Override
-    public boolean hasInitiateAuthorization(Document document, Person user) {
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
-        if (group == null) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
-        }
-        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
-    }
+    // TODO fix for kim
+//    @Override
+//    public boolean hasInitiateAuthorization(Document document, Person user) {
+//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+//        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
+//        if (group == null) {
+//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
+//        }
+//        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
+//    }
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
@@ -69,9 +70,10 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (hasInitiateAuthorization(document, user)) {
+            // TODO fix for kim
+//            if (hasInitiateAuthorization(document, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-            }
+//            }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((VendorCreditMemoDocument) document)) {
@@ -126,47 +128,48 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
 
         return editModeMap;
     }
+    // TODO fix for kim
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-
-        VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) document;
-        if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
-            flags.setCanSave(false);
-            flags.setCanClose(true);
-            flags.setCanCancel(false);
-        }
-        else {
-            String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-            if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup)) {
-                flags.setCanSave(true);
-            }
-            else {
-                flags.setCanSave(false);
-            }
-            if (SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getPerson())) {
-                flags.setCanCancel(true);
-            }
-            else {
-                flags.setCanCancel(false);
-            }
-        }
-
-        //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
-        if (!creditMemoDocument.isExtracted()) {
-            flags.setCanEditBank(true);
-        }
-        
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-
-        return flags;
-    }
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//
+//        VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) document;
+//        if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
+//            flags.setCanSave(false);
+//            flags.setCanClose(true);
+//            flags.setCanCancel(false);
+//        }
+//        else {
+//            String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+//            if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup)) {
+//                flags.setCanSave(true);
+//            }
+//            else {
+//                flags.setCanSave(false);
+//            }
+//            if (SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getPerson())) {
+//                flags.setCanCancel(true);
+//            }
+//            else {
+//                flags.setCanCancel(false);
+//            }
+//        }
+//
+//        //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
+//        if (!creditMemoDocument.isExtracted()) {
+//            flags.setCanEditBank(true);
+//        }
+//        
+//        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+//        this.setAnnotateFlag(flags);
+//
+//        return flags;
+//    }
 
 }
 

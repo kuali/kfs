@@ -24,26 +24,27 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Document Authorizer for the PO document.
  */
 public class PurchaseOrderVoidDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
+    // TODO fix for kim
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            // do not allow this document to be saved; once initiated, it must be routed or canceled
-            flags.setCanSave(false);
-        }
-
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-
-        return flags;
-    }
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+//
+//        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+//            // do not allow this document to be saved; once initiated, it must be routed or canceled
+//            flags.setCanSave(false);
+//        }
+//
+//        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+//        this.setAnnotateFlag(flags);
+//
+//        return flags;
+//    }
 
 }
 

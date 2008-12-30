@@ -38,7 +38,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 //public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class CustomerCreditMemoDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
-    @Override
+        @Override
     @SuppressWarnings("unchecked")
     public Map getEditMode(Document document, Person user) {
         
@@ -67,35 +67,38 @@ public class CustomerCreditMemoDocumentAuthorizer extends FinancialSystemTransac
         
         return editModeMap;
     }
+
+    // TODO fix for kim - looks like presentationl controller logic not authorization
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-
-        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
-        if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE)) {
-            flags.setCanSave(false);
-            flags.setCanClose(true);
-            flags.setCanCancel(false);
-        }
-        return flags;
-    }
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//
+//        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
+//        if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE)) {
+//            flags.setCanSave(false);
+//            flags.setCanClose(true);
+//            flags.setCanCancel(false);
+//        }
+//        return flags;
+//    }
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
-        super.canInitiate(documentTypeName, user);
-
-        if (!ARUtil.isUserInArBillingOrg(user)) {
-            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
-                    new String[] { "(Users in an AR Billing Org)", "Customer Credit Memo" });
-
-        }
-    } 
+    // TODO remove - replaced by kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
+//        super.canInitiate(documentTypeName, user);
+//
+//        if (!ARUtil.isUserInArBillingOrg(user)) {
+//            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
+//                    new String[] { "(Users in an AR Billing Org)", "Customer Credit Memo" });
+//
+//        }
+//    } 
 }
 

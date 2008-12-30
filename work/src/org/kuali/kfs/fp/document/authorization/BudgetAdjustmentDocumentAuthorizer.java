@@ -35,18 +35,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     /**
-     * Overrides to call super and then blanketly reset the actions not allowed on the procurment card document.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
-
-        return flags;
-    }
-
-    /**
      * Check if base amount can be edited for the posting year, if so export base amount entry mode.
      * 
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
@@ -60,23 +48,6 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
         }
 
         return editModeMap;
-    }
-
-    /**
-     * Checks whether the BA document is active and allowed for any fiscal years.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) {
-        List allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
-
-        // if no allowed years found, BA document is not allowed to be initiated
-        if (allowedYears == null || allowedYears.isEmpty()) {
-            throw new InactiveDocumentTypeAuthorizationException("initiate", "BudgetAdjustmentDocument");
-        }
-
-        super.canInitiate(documentTypeName, user);
     }
 }
 

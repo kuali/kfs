@@ -32,25 +32,25 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public Map getEditMode(Document document, Person user) {
-        Map editModes = new HashMap();
-     //   try {
-        OrganizationAccountingDefault orgAcctDefault = (OrganizationAccountingDefault)document.getDocumentBusinessObject();
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
-        Organization userOrg = chartOrg.getOrganization();
-        Organization docOrg = orgAcctDefault.getOrganization();
-        
-        if (ObjectUtils.equals(userOrg, docOrg) || isUserInArSupervisorGroup(user) ){
-            editModes.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-        } 
-        
-        //} catch ()
-        return editModes;
-    }
-
+// replaced by kim
+//    @Override
+//    @SuppressWarnings("unchecked")
+//    public Map getEditMode(Document document, Person user) {
+//        Map editModes = new HashMap();
+//     //   try {
+//        OrganizationAccountingDefault orgAcctDefault = (OrganizationAccountingDefault)document.getDocumentBusinessObject();
+//        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+//        Organization userOrg = chartOrg.getOrganization();
+//        Organization docOrg = orgAcctDefault.getOrganization();
+//        
+//        if (ObjectUtils.equals(userOrg, docOrg) || isUserInArSupervisorGroup(user) ){
+//            editModes.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
+//        } 
+//        
+//        //} catch ()
+//        return editModes;
+//    }
+//
    /**
     * Checks if the current user is a member of the ar supervisor workgroup.
     * 

@@ -54,50 +54,51 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     private final static String ERROR_CORRECT_DOCUMENT_PERMISSION_NAMESPACE = "KFS-SYS";
     private final static String ERROR_CORRECT_DOCUMENT_PERMISSION_TEMPLATE = "Error Correct Document";
 
-    /**
-     * Adds settings for KFS transactional-document-specific flags.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(Document,
-     *      Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug("calling FinancialSystemTransactionalDocumentAuthorizerBase.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
-        }
-        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
-
-        FinancialSystemTransactionalDocument transactionalDocument = (FinancialSystemTransactionalDocument) document;
-        KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
-
-        flags.setCanErrorCorrect(canErrorCorrect(document, user));
-
-        // if document implements AmountTotaling interface, then we should display the total
-        flags.setHasAmountTotal(document instanceof AmountTotaling);
-
-        // check bank specification is enabled and the code should be viewable for this document type. set flag accordingly
-        boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
-        if (bankSpecificationEnabled) {
-            String documentTypeCode = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(document.getClass());
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
-
-            flags.setCanViewBank(evaluator.evaluationSucceeds());
-        }
-
-        // check user can edit bank and set flag accordingly
-        if (flags.getCanViewBank()) {
-            String editBankGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.BANK_EDITABLE_GROUP);
-            KimGroup editBankGroup = getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, editBankGroupName);
-            if (editBankGroup != null) {
-                flags.setCanEditBank(getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), editBankGroup.getGroupId()));
-            } else {
-                LOG.error("Group given for parameter" + KFSParameterKeyConstants.BANK_EDITABLE_GROUP + " is not valid: " + editBankGroupName);
-                throw new RuntimeException("Group given for parameter" + KFSParameterKeyConstants.BANK_EDITABLE_GROUP + " is not valid: " + editBankGroupName);
-            }
-        }
-
-        return flags;
-    }
+    // TODO fix for kim
+//    /**
+//     * Adds settings for KFS transactional-document-specific flags.
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(Document,
+//     *      Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        if ( LOG.isDebugEnabled() ) {
+//            LOG.debug("calling FinancialSystemTransactionalDocumentAuthorizerBase.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
+//        }
+//        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
+//
+//        FinancialSystemTransactionalDocument transactionalDocument = (FinancialSystemTransactionalDocument) document;
+//        KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
+//
+//        flags.setCanErrorCorrect(canErrorCorrect(document, user));
+//
+//        // if document implements AmountTotaling interface, then we should display the total
+//        flags.setHasAmountTotal(document instanceof AmountTotaling);
+//
+//        // check bank specification is enabled and the code should be viewable for this document type. set flag accordingly
+//        boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
+//        if (bankSpecificationEnabled) {
+//            String documentTypeCode = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(document.getClass());
+//            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
+//
+//            flags.setCanViewBank(evaluator.evaluationSucceeds());
+//        }
+//
+//        // check user can edit bank and set flag accordingly
+//        if (flags.getCanViewBank()) {
+//            String editBankGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.BANK_EDITABLE_GROUP);
+//            KimGroup editBankGroup = getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, editBankGroupName);
+//            if (editBankGroup != null) {
+//                flags.setCanEditBank(getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), editBankGroup.getGroupId()));
+//            } else {
+//                LOG.error("Group given for parameter" + KFSParameterKeyConstants.BANK_EDITABLE_GROUP + " is not valid: " + editBankGroupName);
+//                throw new RuntimeException("Group given for parameter" + KFSParameterKeyConstants.BANK_EDITABLE_GROUP + " is not valid: " + editBankGroupName);
+//            }
+//        }
+//
+//        return flags;
+//    }
     
     /**
      * Overridden to check if document error correction can be allowed here.

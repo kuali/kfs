@@ -35,28 +35,29 @@ public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDo
         super();
     }
 
-    /**
-     * Adds hasAmountTotal flag.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        LOG.debug("calling DocumentActionFlags.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
-        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
+ // TODO fix for kim
+//    /**
+//     * Adds hasAmountTotal flag.
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        LOG.debug("calling DocumentActionFlags.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
+//        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
+//
+//        // if document implements AmountTotaling interface, then we should display the total
+//        if (document instanceof AmountTotaling) {
+//            flags.setHasAmountTotal(true);
+//        }
+//        else {
+//            flags.setHasAmountTotal(false);
+//        }
+//
+//        return flags;
+//    }
 
-        // if document implements AmountTotaling interface, then we should display the total
-        if (document instanceof AmountTotaling) {
-            flags.setHasAmountTotal(true);
-        }
-        else {
-            flags.setHasAmountTotal(false);
-        }
-
-        return flags;
-    }
-
-    @Override
+        @Override
     public Map getEditMode(Document document, Person user) {
         LOG.debug("getEditMode() started");
 

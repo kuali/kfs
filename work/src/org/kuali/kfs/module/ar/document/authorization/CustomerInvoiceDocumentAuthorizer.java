@@ -63,40 +63,42 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
         return editModeMap;
     }    
     
-    /**
-     * Overrides document action flags to ensure error correction invoices cannot be copied or corrected.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        
-        //Error correction invoices cannot be copied or error corrected
-        if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
-            flags.setCanCopy(false);
-            flags.setCanErrorCorrect(false);
-        } else {
-            //a normal invoice can only be error corrected if document is in a final state and no amounts have been applied (excluding discounts)
-            flags.setCanErrorCorrect(document.getDocumentHeader().getWorkflowDocument().stateIsFinal() && !SpringContext.getBean(InvoicePaidAppliedService.class).doesInvoiceHaveAppliedAmounts((CustomerInvoiceDocument)document));
-        }
-        
-        return flags;
-    }    
-    
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
-        super.canInitiate(documentTypeName, user);
+ // TODO fix for kim
+//    /**
+//     * Overrides document action flags to ensure error correction invoices cannot be copied or corrected.
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        
+//        //Error correction invoices cannot be copied or error corrected
+//        if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
+//            flags.setCanCopy(false);
+//            flags.setCanErrorCorrect(false);
+//        } else {
+//            //a normal invoice can only be error corrected if document is in a final state and no amounts have been applied (excluding discounts)
+//            flags.setCanErrorCorrect(document.getDocumentHeader().getWorkflowDocument().stateIsFinal() && !SpringContext.getBean(InvoicePaidAppliedService.class).doesInvoiceHaveAppliedAmounts((CustomerInvoiceDocument)document));
+//        }
+//        
+//        return flags;
+//    }    
 
-        if (!ARUtil.isUserInArBillingOrg(user)) {
-            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
-                    new String[] { "(Users in an AR Billing Org)", "Customer Invoice" });
-
-        }
-    }    
+    // TODO remove - replaced by kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
+//        super.canInitiate(documentTypeName, user);
+//
+//        if (!ARUtil.isUserInArBillingOrg(user)) {
+//            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
+//                    new String[] { "(Users in an AR Billing Org)", "Customer Invoice" });
+//
+//        }
+//    }    
 
 }
 

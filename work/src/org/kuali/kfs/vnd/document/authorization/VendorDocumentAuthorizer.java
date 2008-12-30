@@ -48,104 +48,107 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Authorizer class for Vendor maintenance document
  */
 public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+    // TODO fix for kim
 
-    /**
-     * By default, there are no restrictions for the fields in the superclass. This method is overridden here to makes all the
-     * fields in Vendor Header readOnly if the vendor is not a parent. If the vendor is not a new vendor, if it is a parent, if
-     * vendor header and vendor type is not null and if the vendor type's changed allowed is set to N in the vendor type maintenance
-     * table, then we have to set the vendor type as readOnly field.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-        VendorDetail vendor = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
-        VendorDetail oldVendor = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
-        VendorHeader vendorHeader = vendor.getVendorHeader();
-        VendorHeader oldVendorHeader = oldVendor.getVendorHeader();
+//    /**
+//     * By default, there are no restrictions for the fields in the superclass. This method is overridden here to makes all the
+//     * fields in Vendor Header readOnly if the vendor is not a parent. If the vendor is not a new vendor, if it is a parent, if
+//     * vendor header and vendor type is not null and if the vendor type's changed allowed is set to N in the vendor type maintenance
+//     * table, then we have to set the vendor type as readOnly field.
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+//        VendorDetail vendor = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
+//        VendorDetail oldVendor = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
+//        VendorHeader vendorHeader = vendor.getVendorHeader();
+//        VendorHeader oldVendorHeader = oldVendor.getVendorHeader();
+//
+//        if (vendor.isVendorParentIndicator()) {
+//            //Vendor Parent Indicator should be readOnly if the vendor is a parent.
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_PARENT_INDICATOR);
+//        }
+//        // If the vendor is not a parent, there are certain fields that should be readOnly
+//        if (!vendor.isVendorParentIndicator()) {
+//            // All the fields in VendorHeader should be readOnly if the vendor is not a parent.
+//
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TAX_NUMBER);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TAX_TYPE_CODE);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_OWNERSHIP_CODE);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_OWNERSHIP_CATEGORY_CODE);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_END_DATE);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_W9_RECEIVED_INDICATOR);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_W8_BEN_RECEIVED_INDICATOR);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_DEBARRED_INDICATOR);
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_FOREIGN_INDICATOR);
+//            
+//            // Supplier Diversities drop down menu is readOnly if the vendor is not a parent.
+//            List<VendorSupplierDiversity> supplierDivs = vendor.getVendorHeader().getVendorSupplierDiversities();
+//            if (ObjectUtils.isNotNull(supplierDivs)) {
+//                for (int div = 0; div < supplierDivs.size(); div++) {
+//                    VendorSupplierDiversity vsd = supplierDivs.get(div);
+//                    auths.addReadonlyAuthField(VendorUtils.assembleWithPosition(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_CODE, VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES, div));
+//                    auths.addReadonlyAuthField(VendorUtils.assembleWithPosition(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_ACTIVE, VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES, div));
+//                }
+//            }
+//        }
+//        // Else if the vendor is not a new vendor, if it is a parent, if vendor header and vendor type is not null
+//        // and if the vendor type's changed allowed is set to
+//        // N in the vendor type maintenance table, then we have to set the vendor type as readOnly field.
+//        else if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) && ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(oldVendorHeader.getVendorType()) && !oldVendorHeader.getVendorType().isVendorTypeChangeAllowedIndicator()) {
+//            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
+//        }
+//
+//        String purchasingWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, VendorConstants.Workgroups.WORKGROUP_PURCHASING);
+//        
+//        setVendorContractFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
+//
+//        setVendorCommodityCodeFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
+//    }
 
-        if (vendor.isVendorParentIndicator()) {
-            //Vendor Parent Indicator should be readOnly if the vendor is a parent.
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_PARENT_INDICATOR);
-        }
-        // If the vendor is not a parent, there are certain fields that should be readOnly
-        if (!vendor.isVendorParentIndicator()) {
-            // All the fields in VendorHeader should be readOnly if the vendor is not a parent.
+    // TODO fix for kim
+//    /**
+//     * If the current user is a member of TAXNBR_ACCESSIBLE_GROUP then user is allowed to edit tax number.
+//     * 
+//     * @see org.kuali.rice.kns.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public Map getEditMode(Document document, Person user) {
+//        Map editMode = new HashMap();
+//        if (!document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
+//            editMode = super.getEditMode(document, user);
+//        }
+//        else {
+//            editMode.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
+//        }
+//        VendorDetail vendor = (VendorDetail) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
+//        String taxNbrAccessibleWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE);
+//
+//        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, taxNbrAccessibleWorkgroup)) {
+//            editMode.put(VendorAuthorizationConstants.VendorEditMode.TAX_ENTRY, "TRUE");
+//        }
+//
+//        return editMode;
+//    }
+    // TODO fix for kim
 
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TAX_NUMBER);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TAX_TYPE_CODE);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_OWNERSHIP_CODE);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_OWNERSHIP_CATEGORY_CODE);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_END_DATE);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_W9_RECEIVED_INDICATOR);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_W8_BEN_RECEIVED_INDICATOR);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_DEBARRED_INDICATOR);
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_FOREIGN_INDICATOR);
-            
-            // Supplier Diversities drop down menu is readOnly if the vendor is not a parent.
-            List<VendorSupplierDiversity> supplierDivs = vendor.getVendorHeader().getVendorSupplierDiversities();
-            if (ObjectUtils.isNotNull(supplierDivs)) {
-                for (int div = 0; div < supplierDivs.size(); div++) {
-                    VendorSupplierDiversity vsd = supplierDivs.get(div);
-                    auths.addReadonlyAuthField(VendorUtils.assembleWithPosition(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_CODE, VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES, div));
-                    auths.addReadonlyAuthField(VendorUtils.assembleWithPosition(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_ACTIVE, VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES, div));
-                }
-            }
-        }
-        // Else if the vendor is not a new vendor, if it is a parent, if vendor header and vendor type is not null
-        // and if the vendor type's changed allowed is set to
-        // N in the vendor type maintenance table, then we have to set the vendor type as readOnly field.
-        else if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) && ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(oldVendorHeader.getVendorType()) && !oldVendorHeader.getVendorType().isVendorTypeChangeAllowedIndicator()) {
-            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
-        }
-
-        String purchasingWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, VendorConstants.Workgroups.WORKGROUP_PURCHASING);
-        
-        setVendorContractFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
-
-        setVendorCommodityCodeFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
-    }
-
-    /**
-     * If the current user is a member of TAXNBR_ACCESSIBLE_GROUP then user is allowed to edit tax number.
-     * 
-     * @see org.kuali.rice.kns.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        Map editMode = new HashMap();
-        if (!document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
-            editMode = super.getEditMode(document, user);
-        }
-        else {
-            editMode.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
-        }
-        VendorDetail vendor = (VendorDetail) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
-        String taxNbrAccessibleWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE);
-
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, taxNbrAccessibleWorkgroup)) {
-            editMode.put(VendorAuthorizationConstants.VendorEditMode.TAX_ENTRY, "TRUE");
-        }
-
-        return editMode;
-    }
-
-    /**
-     * Disables blanket approve for Vendor maintenance document
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemDocumentActionFlags docActionFlags = super.getDocumentActionFlags(document, user);
-        docActionFlags.setCanBlanketApprove(false);
-        return docActionFlags;
-    }
+//    /**
+//     * Disables blanket approve for Vendor maintenance document
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemDocumentActionFlags docActionFlags = super.getDocumentActionFlags(document, user);
+//        docActionFlags.setCanBlanketApprove(false);
+//        return docActionFlags;
+//    }
 
     /**
      * Sets the vendor contract and vendor contract organization fields to be read only if the current user is not a member of

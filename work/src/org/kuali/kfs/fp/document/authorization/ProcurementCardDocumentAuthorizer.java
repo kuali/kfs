@@ -36,26 +36,27 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
-    /**
-     * Overrides to call super and then blanketly reset the actions not allowed on the procurment card document.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
-
-        flags.setCanErrorCorrect(false); // PCDO doesn't allow error correction
-
-        flags.setCanCancel(false); // PCDO cannot be cancelled
-
-        flags.setCanDisapprove(false); // PCDO cannot be disapproved
-
-        flags.setCanCopy(false); // PCDO cannot be copied
-
-        return flags;
-    }
+ // TODO fix for kim
+//    /**
+//     * Overrides to call super and then blanketly reset the actions not allowed on the procurment card document.
+//     * 
+//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
+//
+//        flags.setCanErrorCorrect(false); // PCDO doesn't allow error correction
+//
+//        flags.setCanCancel(false); // PCDO cannot be cancelled
+//
+//        flags.setCanDisapprove(false); // PCDO cannot be disapproved
+//
+//        flags.setCanCopy(false); // PCDO cannot be copied
+//
+//        return flags;
+//    }
 
     /**
      * Override to set the editMode to fullEntry if the routing is at the first account review node (PCDO has 2), second account
@@ -81,18 +82,5 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
 
         return editModeMap;
     }
-
-    /**
-     * Override to only allow the SYSTEM user to initiate a PCDO document
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) {
-        if (!KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
-            throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
-        }
-    }
-
 }
 

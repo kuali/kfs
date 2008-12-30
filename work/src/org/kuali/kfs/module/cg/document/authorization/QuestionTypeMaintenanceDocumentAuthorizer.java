@@ -26,18 +26,20 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class QuestionTypeMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+    
+    // TODO move to presentation controller
 
-    @Override
-    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-
-        QuestionType question = (QuestionType) document.getNewMaintainableObject().getBusinessObject();
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        QuestionType persistedQuestion = (QuestionType) service.retrieve(question);
-
-        // If the question exists in db, set read-only fields
-        if (ObjectUtils.isNotNull(persistedQuestion)) {
-            auths.addReadonlyAuthField(CGPropertyConstants.QUESTION_TYPE_DESCRIPTION);
-        }
-    }
+//    @Override
+//    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+//
+//        QuestionType question = (QuestionType) document.getNewMaintainableObject().getBusinessObject();
+//        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
+//        QuestionType persistedQuestion = (QuestionType) service.retrieve(question);
+//
+//        // If the question exists in db, set read-only fields
+//        if (ObjectUtils.isNotNull(persistedQuestion)) {
+//            auths.addReadonlyAuthField(CGPropertyConstants.QUESTION_TYPE_DESCRIPTION);
+//        }
+//    }
 }
 

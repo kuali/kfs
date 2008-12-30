@@ -160,28 +160,25 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         return editModeMap;
 
     }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        // TODO this needs to call service methods that implements the BC security model
-        // TODO instead the form should call the verson of this method that passes in the editmode map, actions are based on that
-        // return super.getDocumentActionFlags(document, user);
-        LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
-
-        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(); // all flags default to false
-
-        flags.setCanClose(true);
-        flags.setCanSave(true);
-
-        // TODO is this needed for BC??
-        setAnnotateFlag(flags);
-
-        return flags;
-    }
+// TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        // TODO this needs to call service methods that implements the BC security model
+//        // TODO instead the form should call the verson of this method that passes in the editmode map, actions are based on that
+//        // return super.getDocumentActionFlags(document, user);
+//        LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
+//
+//        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(); // all flags default to false
+//
+//        flags.setCanClose(true);
+//        flags.setCanSave(true);
+//
+//        return flags;
+//    }
 
     /**
      * This version uses editModeMap to set the action flags
@@ -201,9 +198,6 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         if (editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
             flags.setCanSave(true);
         }
-
-        // TODO is this needed for BC??
-        setAnnotateFlag(flags);
 
         return flags;
     }

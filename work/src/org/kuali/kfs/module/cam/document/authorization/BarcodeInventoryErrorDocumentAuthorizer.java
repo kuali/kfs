@@ -24,24 +24,25 @@ import org.kuali.rice.kns.document.Document;
  * Authorizer for BCIE document
  */
 public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-
-        flags.setCanSave(false);
-        flags.setCanReload(false);
-
-        /*
-         * if the document has all rows processed and the person that loaded the bcie is the one opening the page, then allow this
-         * user approve the page with the approve button.
-         */
-        /*
-         * if
-         * (((BarcodeInventoryErrorDocument)document).getUploaderUniversalIdentifier().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())) {
-         * flags.setCanApprove(true); flags.setCanBlanketApprove(true); flags.setCanRoute(true); }
-         */
-        return flags;
-    }
+    // TODO fix for kim
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//
+//        flags.setCanSave(false);
+//        flags.setCanReload(false);
+//
+//        /*
+//         * if the document has all rows processed and the person that loaded the bcie is the one opening the page, then allow this
+//         * user approve the page with the approve button.
+//         */
+//        /*
+//         * if
+//         * (((BarcodeInventoryErrorDocument)document).getUploaderUniversalIdentifier().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())) {
+//         * flags.setCanApprove(true); flags.setCanBlanketApprove(true); flags.setCanRoute(true); }
+//         */
+//        return flags;
+//    }
 
 }
 

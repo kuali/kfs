@@ -69,50 +69,52 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
 //        return editModeMap;
 //    }
 
+    // TODO fix for kim
     //FIXME hjs do we still need this code??
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        PurchaseOrderDocument po = (PurchaseOrderDocument) document;
-        String statusCode = po.getStatusCode();
-
-        if ((StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) || (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR)) || StringUtils.equals(statusCode, PurchaseOrderStatuses.QUOTE)) {
-            flags.setCanRoute(false);
-        }
-        else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
-            if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson())) {
-                /*
-                 * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
-                 * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
-                 * allow a workflow action to be performed
-                 */
-                if (ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons())) {
-                    /*
-                     * if document is in pending transmission status and current user has document transmission action request then
-                     * assume that the transmit button/action whatever it might be will take associated workflow action for user
-                     * automatically
-                     */
-                    flags.setCanApprove(false);
-                    flags.setCanDisapprove(false);
-                    flags.setCanAcknowledge(false);
-                    flags.setCanFYI(false);
-                }
-            }
-        }
-        if (po.isPendingSplit()) {
-            flags.setCanRoute(false);
-            flags.setCanSave(false);
-            flags.setCanReload(false);
-            flags.setCanClose(false);
-            flags.setCanCancel(false);
-        }
-        if (po.isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
-            flags.setCanSave(true);
-            // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-            this.setAnnotateFlag(flags);
-        }
-
-        return flags;
-    }
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        PurchaseOrderDocument po = (PurchaseOrderDocument) document;
+//        String statusCode = po.getStatusCode();
+//
+//        if ((StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) || (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR)) || StringUtils.equals(statusCode, PurchaseOrderStatuses.QUOTE)) {
+//            flags.setCanRoute(false);
+//        }
+//        else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
+//            if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson())) {
+//                /*
+//                 * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
+//                 * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
+//                 * allow a workflow action to be performed
+//                 */
+//                if (ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons())) {
+//                    /*
+//                     * if document is in pending transmission status and current user has document transmission action request then
+//                     * assume that the transmit button/action whatever it might be will take associated workflow action for user
+//                     * automatically
+//                     */
+//                    flags.setCanApprove(false);
+//                    flags.setCanDisapprove(false);
+//                    flags.setCanAcknowledge(false);
+//                    flags.setCanFYI(false);
+//                }
+//            }
+//        }
+//        if (po.isPendingSplit()) {
+//            flags.setCanRoute(false);
+//            flags.setCanSave(false);
+//            flags.setCanReload(false);
+//            flags.setCanClose(false);
+//            flags.setCanCancel(false);
+//        }
+//        if (po.isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
+//            flags.setCanSave(true);
+//            // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+//            // TODO review for kim
+////            this.setAnnotateFlag(flags);
+//        }
+//
+//        return flags;
+//    }
 }
 

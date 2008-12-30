@@ -56,7 +56,7 @@
     </property>
     <property name="documentTypeName" value="OrganizationMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.authorization.OrgDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules" />
     <property name="documentTypeCode" value="ORGN" />
     <property name="webScriptFiles" >

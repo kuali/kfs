@@ -154,6 +154,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         }
     }
 
+    // TODO fix for kim
     /**
      * Refactored out actually calling the documentAuthorizer methods, since FinancialDocuments call a differently-parameterized
      * version of getEditMode
@@ -169,7 +170,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
         setEditingMode(financialDocumentAuthorizer.getEditMode(financialDocument, kualiUser));
 
-        setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
+//        setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
 
         setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), kualiUser));
     }

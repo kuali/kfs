@@ -28,12 +28,12 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BulkReceivingDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase  {
-
-    @Override
-    public boolean hasInitiateAuthorization(Document document, Person user) {
-        //Any user can create this document.
-        return true;
-    }
+// TODO remove - replaced by kim
+//    @Override
+//    public boolean hasInitiateAuthorization(Document document, Person user) {
+//        //Any user can create this document.
+//        return true;
+//    }
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
@@ -53,9 +53,10 @@ public class BulkReceivingDocumentAuthorizer extends FinancialSystemTransactiona
         
         if (workflowDocument.stateIsInitiated() || 
             workflowDocument.stateIsSaved()) {
-            if (hasInitiateAuthorization(document, user)) {
+            // TODO fix for kim
+//            if (hasInitiateAuthorization(document, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-            }
+//            }
         }
         
         editModeMap.put(editMode, "TRUE");
@@ -78,28 +79,28 @@ public class BulkReceivingDocumentAuthorizer extends FinancialSystemTransactiona
         
         return editModeMap;
     }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.stateIsInitiated()) {
-            flags.setCanSave(false);
-            flags.setCanClose(true);
-            flags.setCanCancel(false);
-            flags.setCanDisapprove(false);
-        }        
-
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-
-        return flags;
-    }
+// TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+//
+//        if (workflowDocument.stateIsInitiated()) {
+//            flags.setCanSave(false);
+//            flags.setCanClose(true);
+//            flags.setCanCancel(false);
+//            flags.setCanDisapprove(false);
+//        }        
+//// TODO review for kim
+////        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+////        this.setAnnotateFlag(flags);
+//
+//        return flags;
+//    }
 
 }
 

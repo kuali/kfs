@@ -85,53 +85,54 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
         return editModeMap;
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-
-        CashManagementDocument cmDoc = (CashManagementDocument) document;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        ValidActionsDTO validActions = workflowDocument.getRouteHeader().getValidActions();
-
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            // CM document can only be saved (via the save button) if the CashDrawer is not closed
-            if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
-                flags.setCanSave(false);
-            }
-            else {
-                flags.setCanSave(validActions.contains(KEWConstants.ACTION_TAKEN_SAVED_CD));
-            }
-
-            // CM document can only be routed if it contains a Final Deposit
-            if (!cmDoc.hasFinalDeposit() || !SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc)) {
-                flags.setCanRoute(false);
-                flags.setCanBlanketApprove(false);
-            }
-            else {
-                flags.setCanRoute(validActions.contains(KEWConstants.ACTION_TAKEN_ROUTED_CD));
-                flags.setCanBlanketApprove(validActions.contains(KEWConstants.ACTION_TAKEN_BLANKET_APPROVE_CD));
-            }
-
-            if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
-                flags.setCanCancel(false);
-            }
-            else {
-                flags.setCanCancel(validActions.contains(KEWConstants.ACTION_TAKEN_CANCELED_CD));
-            }
-        }
-
-        if (workflowDocument.stateIsEnroute()) {
-            flags.setCanApprove(validActions.contains(KEWConstants.ACTION_TAKEN_APPROVED_CD));
-            flags.setCanDisapprove(validActions.contains(KEWConstants.ACTION_TAKEN_DENIED_CD));
-            flags.setCanFYI(validActions.contains(KEWConstants.ACTION_TAKEN_FYI_CD));
-        }
-
-        return flags;
-    }
+ // TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//
+//        CashManagementDocument cmDoc = (CashManagementDocument) document;
+//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+//        ValidActionsDTO validActions = workflowDocument.getRouteHeader().getValidActions();
+//
+//        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+//            // CM document can only be saved (via the save button) if the CashDrawer is not closed
+//            if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
+//                flags.setCanSave(false);
+//            }
+//            else {
+//                flags.setCanSave(validActions.contains(KEWConstants.ACTION_TAKEN_SAVED_CD));
+//            }
+//
+//            // CM document can only be routed if it contains a Final Deposit
+//            if (!cmDoc.hasFinalDeposit() || !SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc)) {
+//                flags.setCanRoute(false);
+//                flags.setCanBlanketApprove(false);
+//            }
+//            else {
+//                flags.setCanRoute(validActions.contains(KEWConstants.ACTION_TAKEN_ROUTED_CD));
+//                flags.setCanBlanketApprove(validActions.contains(KEWConstants.ACTION_TAKEN_BLANKET_APPROVE_CD));
+//            }
+//
+//            if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
+//                flags.setCanCancel(false);
+//            }
+//            else {
+//                flags.setCanCancel(validActions.contains(KEWConstants.ACTION_TAKEN_CANCELED_CD));
+//            }
+//        }
+//
+//        if (workflowDocument.stateIsEnroute()) {
+//            flags.setCanApprove(validActions.contains(KEWConstants.ACTION_TAKEN_APPROVED_CD));
+//            flags.setCanDisapprove(validActions.contains(KEWConstants.ACTION_TAKEN_DENIED_CD));
+//            flags.setCanFYI(validActions.contains(KEWConstants.ACTION_TAKEN_FYI_CD));
+//        }
+//
+//        return flags;
+//    }
 
     /**
      * This method checks that all verified cash receipts are deposited
@@ -150,24 +151,6 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
             }
         }
         return theyAre;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
-        try {
-            super.canInitiate(documentTypeName, user);
-            // to initiate, you have to be a member of the bursar's group for your campus
-            String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
-            if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, unitName)) {
-                throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
-            }
-        }
-        catch (DocumentInitiationAuthorizationException e) {
-            throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "add deposits to", documentTypeName);
-        }
     }
 }
 

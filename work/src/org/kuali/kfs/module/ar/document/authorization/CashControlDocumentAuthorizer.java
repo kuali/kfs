@@ -34,40 +34,42 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
-    /**
-     * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+ // TODO fix for kim - looks like presentationl controller logic not authorization
 
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        CashControlDocument cashControlDocument = (CashControlDocument) document;
-
-        // Blanket Approval is not used for CashControlDocument
-        flags.setCanBlanketApprove(false);
-
-        // if at least one application document has been approved the Cash Control Document cannot be disapproved
-        if (hasAtLeastOneAppDocApproved(cashControlDocument)) {
-            flags.setCanDisapprove(false);
-        }
-
-        // if not all application documents have been approved the CashControlDocument cannot be approved
-        if (!hasAllAppDocsApproved(cashControlDocument)) {
-            flags.setCanApprove(false);
-        }
-        
-        //  if the document is in their action list, then they can approve it only if there are GLPEs generated 
-        // on the doc.  In reality, the 'approve' button never shows up, but the approval is done 
-        // programmatically when the GLPE's are generated.  See KULAR-465
-        //KualiWorkflowDocument workflowDocument = cashControlDocument.getDocumentHeader().getWorkflowDocument();
-        //if (workflowDocument.isApprovalRequested()) {
-        //    flags.setCanApprove(containsGLPEs(cashControlDocument));
-        //}
-        
-        return flags;
-
-    }
+//    /**
+//     * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        CashControlDocument cashControlDocument = (CashControlDocument) document;
+//
+//        // Blanket Approval is not used for CashControlDocument
+//        flags.setCanBlanketApprove(false);
+//
+//        // if at least one application document has been approved the Cash Control Document cannot be disapproved
+//        if (hasAtLeastOneAppDocApproved(cashControlDocument)) {
+//            flags.setCanDisapprove(false);
+//        }
+//
+//        // if not all application documents have been approved the CashControlDocument cannot be approved
+//        if (!hasAllAppDocsApproved(cashControlDocument)) {
+//            flags.setCanApprove(false);
+//        }
+//        
+//        //  if the document is in their action list, then they can approve it only if there are GLPEs generated 
+//        // on the doc.  In reality, the 'approve' button never shows up, but the approval is done 
+//        // programmatically when the GLPE's are generated.  See KULAR-465
+//        //KualiWorkflowDocument workflowDocument = cashControlDocument.getDocumentHeader().getWorkflowDocument();
+//        //if (workflowDocument.isApprovalRequested()) {
+//        //    flags.setCanApprove(containsGLPEs(cashControlDocument));
+//        //}
+//        
+//        return flags;
+//
+//    }
 
     private boolean containsGLPEs(CashControlDocument document) {
         return !document.getGeneralLedgerPendingEntries().isEmpty();
@@ -115,21 +117,21 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
         }
         return result;
     }
+    // TODO remove - replaced by kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
+//        super.canInitiate(documentTypeName, user);
+//
+//        if (!ARUtil.isUserInArBillingOrg(user)) {
+//            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
+//                    new String[] { "(Users in an AR Billing Org)", "Cash Control" });
+//        }
+//    }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
-        super.canInitiate(documentTypeName, user);
-
-        if (!ARUtil.isUserInArBillingOrg(user)) {
-            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
-                    new String[] { "(Users in an AR Billing Org)", "Cash Control" });
-        }
-    }
-
-    @Override
+        @Override
     @SuppressWarnings("unchecked")
     public Map getEditMode(Document d, Person u) {
         Map editMode = super.getEditMode(d, u);

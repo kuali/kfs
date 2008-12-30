@@ -31,78 +31,81 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
-    @Override
-    public void canInitiate(String documentTypeName, Person user) {
+    // TODO remove - replaced by kim
+//    @Override
+//    public void canInitiate(String documentTypeName, Person user) {
+//
+//        super.canInitiate(documentTypeName, user);
+//        
+//        // if organization doesn't exist
+//        if (!ARUtil.isUserInArBillingOrg(user)) {
+//            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
+//                    new String[] { "(Users in an AR Billing Org)", "Customer Maintenance" });
+//
+//        }
+//    }
 
-        super.canInitiate(documentTypeName, user);
-        
-        // if organization doesn't exist
-        if (!ARUtil.isUserInArBillingOrg(user)) {
-            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
-                    new String[] { "(Users in an AR Billing Org)", "Customer Maintenance" });
-
-        }
-    }
-
+// TODO remove - replaced by kim create / maintain template
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kim.bo.Person)
      */
-    @Override
-    @SuppressWarnings("unchecked")
-    public Map getEditMode(Document document, Person user) {
-        Map editModes = super.getEditMode(document, user);
+//    @Override
+//    @SuppressWarnings("unchecked")
+//    public Map getEditMode(Document document, Person user) {
+//        Map editModes = super.getEditMode(document, user);
+//
+//        MaintenanceDocument maintDocument = (MaintenanceDocument) document;
+//        String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
+//        if (maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) || maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) {
+//            if (!ARUtil.isUserInArSupervisorGroup(user)) {
+//                editModes.clear();
+//                editModes.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
+//            }
+//        }
+//
+//        return editModes;
+//    }
 
-        MaintenanceDocument maintDocument = (MaintenanceDocument) document;
-        String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
-        if (maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) || maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) {
-            if (!ARUtil.isUserInArSupervisorGroup(user)) {
-                editModes.clear();
-                editModes.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
-            }
-        }
 
-        return editModes;
-    }
-
-
-     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-
-        MaintenanceDocument maintDocument = (MaintenanceDocument) document;
-        String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
-
-        //  this is used for batch processing of customer records
-        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
-           actionFlags.setCanApprove(true);
-           actionFlags.setCanBlanketApprove(true);
-           actionFlags.setCanAdHocRoute(true);
-           actionFlags.setCanRoute(true);
-           return actionFlags;
-        }
-        
-        // if user is not AR SUPERVISOR he cannot approve the customer creation document
-        if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(maintenanceAction) && !ARUtil.isUserInArSupervisorGroup(user)) {
-
-            actionFlags.setCanApprove(false);
-            actionFlags.setCanBlanketApprove(false);
-
-        }
-
-        // if ((maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) ||
-        // maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) && !isUserInArSupervisorGroup(user)) {
-        //
-        // actionFlags.setCanRoute(false);
-        // actionFlags.setCanSave(false);
-        // actionFlags.setCanCancel(false);
-        //
-        //        }
-        return actionFlags;
-    }
+ // TODO fix for kim - and let's let permissions take care of what the system user can do
+//     /**
+//     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+//
+//        MaintenanceDocument maintDocument = (MaintenanceDocument) document;
+//        String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
+//
+//        //  this is used for batch processing of customer records
+//        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
+//           actionFlags.setCanApprove(true);
+//           actionFlags.setCanBlanketApprove(true);
+//           actionFlags.setCanAdHocRoute(true);
+//           actionFlags.setCanRoute(true);
+//           return actionFlags;
+//        }
+//        
+//        // if user is not AR SUPERVISOR he cannot approve the customer creation document
+//        if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(maintenanceAction) && !ARUtil.isUserInArSupervisorGroup(user)) {
+//
+//            actionFlags.setCanApprove(false);
+//            actionFlags.setCanBlanketApprove(false);
+//
+//        }
+//
+//        // if ((maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) ||
+//        // maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) && !isUserInArSupervisorGroup(user)) {
+//        //
+//        // actionFlags.setCanRoute(false);
+//        // actionFlags.setCanSave(false);
+//        // actionFlags.setCanCancel(false);
+//        //
+//        //        }
+//        return actionFlags;
+//    }
 
 }
 

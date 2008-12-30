@@ -32,34 +32,34 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags documentActionFlags = super.getDocumentActionFlags(document, user);
-
-        boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
-        if (initiated) {
-            // if the status code is initiated, then the document should be a recreate document that has not been submitted
-            documentActionFlags.setCanBlanketApprove(false);
-        }
-        else {
-            // diallowed actions for enroute
-            documentActionFlags.setCanDisapprove(false);
-        }
-        documentActionFlags.setHasAmountTotal(true);
-
-        // disallowed actions for all status(s)
-        documentActionFlags.setCanCancel(false);
-        documentActionFlags.setCanSave(false);
-        documentActionFlags.setCanCopy(false);
-        documentActionFlags.setCanErrorCorrect(false);
-
-        return documentActionFlags;
-    }
+// TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags documentActionFlags = super.getDocumentActionFlags(document, user);
+//
+//        boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+//        if (initiated) {
+//            // if the status code is initiated, then the document should be a recreate document that has not been submitted
+//            documentActionFlags.setCanBlanketApprove(false);
+//        }
+//        else {
+//            // diallowed actions for enroute
+//            documentActionFlags.setCanDisapprove(false);
+//        }
+//        documentActionFlags.setHasAmountTotal(true);
+//
+//        // disallowed actions for all status(s)
+//        documentActionFlags.setCanCancel(false);
+//        documentActionFlags.setCanSave(false);
+//        documentActionFlags.setCanCopy(false);
+//        documentActionFlags.setCanErrorCorrect(false);
+//
+//        return documentActionFlags;
+//    }
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
@@ -72,9 +72,10 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (hasInitiateAuthorization(document, person)) {
+            // TODO fix for kim
+//            if (hasInitiateAuthorization(document, person)) {
                 editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.TRUE.toString());
-            }
+//            }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             String routeLevel = workflowDocument.getCurrentRouteNodeNames();

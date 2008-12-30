@@ -31,16 +31,17 @@ public class AchBankDocumentAuthorizer extends FinancialSystemMaintenanceDocumen
      * @see org.kuali.rice.kns.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        Map editMode = super.getEditMode(document, user);
-        String viewAllWorkgroup = "PD_VIEW_ACH";
-
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, viewAllWorkgroup)) {
-            editMode.put(PdpConstants.PDPEditMode.ENTRY, "TRUE");
-        }
-
-        return editMode;
-    }
+    // TODO replaced by kim
+//    @Override
+//    public Map getEditMode(Document document, Person user) {
+//        Map editMode = super.getEditMode(document, user);
+//        String viewAllWorkgroup = "PD_VIEW_ACH";
+//
+//        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, viewAllWorkgroup)) {
+//            editMode.put(PdpConstants.PDPEditMode.ENTRY, "TRUE");
+//        }
+//
+//        return editMode;
+//    }
 }
 

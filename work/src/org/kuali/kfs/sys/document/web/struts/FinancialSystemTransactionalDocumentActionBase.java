@@ -51,30 +51,15 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
         KualiTransactionalDocumentFormBase tmpForm = (KualiTransactionalDocumentFormBase) form;
 
         Document document = tmpForm.getDocument();
-        FinancialSystemTransactionalDocumentActionFlags flags = getDocumentActionFlags(document);
-        if (!flags.getCanErrorCorrect()) {
-            throw buildAuthorizationException("error correct", document);
-        }
+        // TODO fix for kim
+//        FinancialSystemTransactionalDocumentActionFlags flags = getDocumentActionFlags(document);
+//        if (!flags.getCanErrorCorrect()) {
+//            throw buildAuthorizationException("error correct", document);
+//        }
 
         ((Correctable) tmpForm.getTransactionalDocument()).toErrorCorrection();
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
-    
-    /**
-     * Convenience method for retrieving current DocumentActionFlags
-     *
-     * @param document
-     */
-    @Override
-    protected FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document) {
-        Person kualiUser = GlobalVariables.getUserSession().getPerson();
-
-        DocumentAuthorizationService documentAuthorizationService = KNSServiceLocator.getDocumentAuthorizationService();
-        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(documentAuthorizationService.getDocumentAuthorizer(document).getDocumentActionFlags(document, kualiUser));
-
-        return flags;
-    }
-
 }
 

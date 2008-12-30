@@ -64,15 +64,16 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-
-        FinancialSystemTransactionalDocumentActionFlags tflags = flags;
-        tflags.setCanErrorCorrect(false); // CCR, AD, CR, DV, andd PCDO don't allow error correction
-
-        return flags;
-    }
+    // TODO fix for kim
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//
+//        FinancialSystemTransactionalDocumentActionFlags tflags = flags;
+//        tflags.setCanErrorCorrect(false); // CCR, AD, CR, DV, andd PCDO don't allow error correction
+//
+//        return flags;
+//    }
 
     /**
      * Overrides to always return false because there is never FO routing or FO approval for AD docs.

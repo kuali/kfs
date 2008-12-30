@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import java.util.List;
+
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
@@ -27,7 +30,17 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Presentation Controller for Budget Adjustment documents
  */
 public class BudgetAdjustmentDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
+    @Override
+    public boolean canInitiate(String documentTypeName) {
+        List allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
+        // if no allowed years found, BA document is not allowed to be initiated
+        if (allowedYears == null || allowedYears.isEmpty()) {
+            return false;
+        }
+        return super.canInitiate(documentTypeName);
+    }
 
+    // TODO is there really anything specific to the BA in this logic?
     /**
      * @see org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
      */

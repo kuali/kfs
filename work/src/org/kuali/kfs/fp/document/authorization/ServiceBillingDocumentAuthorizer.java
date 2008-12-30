@@ -72,51 +72,31 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
         return new HashMap();
     }
 
-    /**
-     * SB docs use FP_SB_CTRL_T to limit income account users by workgroup. Thus a user who is not in any of the workgroups in that
-     * table will not be able to add any income accounting lines. This method uses those groups directly for initiation authority,
-     * instead of another group, so the administrator does not need to add users to multiple SB groups.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    public void canInitiate(String documentTypeName, Person user) {
-        boolean canInitiate = false;
-        ServiceBillingControl[] controls = SpringContext.getBean(ServiceBillingControlService.class).getAll();
-        for (int i = 0; i < controls.length; i++) {
-            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, controls[i].getWorkgroupName())) {
-                canInitiate = true;
-            }
-        }
-        if (!canInitiate) {
-            // TODO: Give better message listing the required control workgroup names using DocumentInitiationAuthorizationException
-            throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
-        }
-    }
-
-    /**
-     * Overrides the error-correct flag for SB income account control. Unlike a copy, an SB error correction's income accounts
-     * cannot be changed, so if this user isn't authorized for all those income accounts then he won't be able to save or submit the
-     * error correction. We avoid this frustration by hiding that button in the first place.
-     * 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        boolean canUseAllIncomeSectionAccountsBool = false;
-        if (flags.getCanErrorCorrect() || flags.getCanCopy()) {
-            // canUseAllIncomeSectionAccounts may be an expensive operation, so we only invoke it exactly once only if it's
-            // absolutely necessary
-            // (i.e. can error correct or copy flags are true)
-            // if any of these flags are false, we rely on short circuiting to ignore the value of this variable when
-            // any of the flags are false
-            canUseAllIncomeSectionAccountsBool = canUseAllIncomeSectionAccounts((ServiceBillingDocument) document, user);
-        }
-        flags.setCanErrorCorrect(flags.getCanErrorCorrect() && canUseAllIncomeSectionAccountsBool);
-        flags.setCanCopy(flags.getCanCopy() && canUseAllIncomeSectionAccountsBool);
-        return flags;
-    }
+ // TODO fix for kim
+//    /**
+//     * Overrides the error-correct flag for SB income account control. Unlike a copy, an SB error correction's income accounts
+//     * cannot be changed, so if this user isn't authorized for all those income accounts then he won't be able to save or submit the
+//     * error correction. We avoid this frustration by hiding that button in the first place.
+//     * 
+//     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        boolean canUseAllIncomeSectionAccountsBool = false;
+//        if (flags.getCanErrorCorrect() || flags.getCanCopy()) {
+//            // canUseAllIncomeSectionAccounts may be an expensive operation, so we only invoke it exactly once only if it's
+//            // absolutely necessary
+//            // (i.e. can error correct or copy flags are true)
+//            // if any of these flags are false, we rely on short circuiting to ignore the value of this variable when
+//            // any of the flags are false
+//            canUseAllIncomeSectionAccountsBool = canUseAllIncomeSectionAccounts((ServiceBillingDocument) document, user);
+//        }
+//        flags.setCanErrorCorrect(flags.getCanErrorCorrect() && canUseAllIncomeSectionAccountsBool);
+//        flags.setCanCopy(flags.getCanCopy() && canUseAllIncomeSectionAccountsBool);
+//        return flags;
+//    }
 
     /**
      * @param serviceBillingDocument

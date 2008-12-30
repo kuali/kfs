@@ -36,11 +36,11 @@ public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDoc
      * 
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kim.bo.Person)
      */
-    @Override
-    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-        super.addMaintenanceDocumentRestrictions(auths, document, user);
-        setFieldsReadOnlyAccessMode(document, auths);
-    }
+    // TODO move to presentation controller since none of this is user logic
+//    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+//        super.addMaintenanceDocumentRestrictions(auths, document, user);
+//        setFieldsReadOnlyAccessMode(document, auths);
+//    }
     
     /**
      * 

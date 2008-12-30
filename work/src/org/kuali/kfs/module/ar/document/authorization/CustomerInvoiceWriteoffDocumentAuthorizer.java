@@ -46,60 +46,62 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
         return editModeMap;
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+    // TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//
+//        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
+//        if (StringUtils.equals(customerInvoiceWriteoffDocument.getStatusCode(), ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE)) {
+//            flags.setCanSave(false);
+//            flags.setCanClose(true);
+//            flags.setCanCancel(false);
+//        }
+//        return flags;
+//    }
 
-        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
-        if (StringUtils.equals(customerInvoiceWriteoffDocument.getStatusCode(), ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE)) {
-            flags.setCanSave(false);
-            flags.setCanClose(true);
-            flags.setCanCancel(false);
-        }
-        return flags;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
-        super.canInitiate(documentTypeName, user);
-        
-        if (!ARUtil.isUserInArBillingOrg(user)) {
-            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
-                    new String[] { "(Users in an AR Billing Org)", "Customer Invoice WriteOff" });
-        }
-
-        // if writeoff option is set up for to use organization accounting default FAU, those values must exist before a writeoff
-        // document can be initiated
-        /*
-        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
-        boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption);
-        if (isUsingOrgAcctDefaultWriteoffFAU) {
-
-            Integer currentUniversityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-
-            criteria = new HashMap<String, Object>();
-            criteria.put("universityFiscalYear", currentUniversityFiscalYear);
-            criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
-            criteria.put("organizationCode", chartUser.getOrganizationCode());
-            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
-
-            // check if org. acct. default exists
-            if (ObjectUtils.isNull(organizationAccountingDefault)) {
-                throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORG_ACCT_DEFAULT_FOR_USER_MUST_EXIST, new String[] {});
-            }
-            //check if org acct. default writeoff chart, object, or account number are empty
-            else if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
-                throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST, new String[] {});
-            }
-        }*/
-    }
+    // TODO remove - replaced by kim
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
+//        super.canInitiate(documentTypeName, user);
+//        
+//        if (!ARUtil.isUserInArBillingOrg(user)) {
+//            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
+//                    new String[] { "(Users in an AR Billing Org)", "Customer Invoice WriteOff" });
+//        }
+//
+//        // if writeoff option is set up for to use organization accounting default FAU, those values must exist before a writeoff
+//        // document can be initiated
+//        /*
+//        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+//        boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption);
+//        if (isUsingOrgAcctDefaultWriteoffFAU) {
+//
+//            Integer currentUniversityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+//
+//            criteria = new HashMap<String, Object>();
+//            criteria.put("universityFiscalYear", currentUniversityFiscalYear);
+//            criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
+//            criteria.put("organizationCode", chartUser.getOrganizationCode());
+//            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+//
+//            // check if org. acct. default exists
+//            if (ObjectUtils.isNull(organizationAccountingDefault)) {
+//                throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORG_ACCT_DEFAULT_FOR_USER_MUST_EXIST, new String[] {});
+//            }
+//            //check if org acct. default writeoff chart, object, or account number are empty
+//            else if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
+//                throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST, new String[] {});
+//            }
+//        }*/
+//    }
 
 }
 

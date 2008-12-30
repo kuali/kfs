@@ -121,26 +121,26 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         return editModes;
     }
 
-
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        RoutingFormDocument routingFormDocument = (RoutingFormDocument) document;
-
-        flags.setCanAcknowledge(false);
-
-        if (!flags.getCanRoute() && routingFormDocument.isUserProjectDirector(user.getPrincipalId()) && routingFormDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
-            flags.setCanRoute(true);
-        }
-        // flags.setCanApprove(false);
-        flags.setCanBlanketApprove(false);
-        flags.setCanCancel(false);
-        // flags.setCanDisapprove(false);
-        flags.setCanFYI(false);
-        flags.setCanClose(false);
-        flags.setCanSave(true);
-
-        return flags;
-    }
+// TODO fix for kim
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        RoutingFormDocument routingFormDocument = (RoutingFormDocument) document;
+//
+//        flags.setCanAcknowledge(false);
+//
+//        if (!flags.getCanRoute() && routingFormDocument.isUserProjectDirector(user.getPrincipalId()) && routingFormDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+//            flags.setCanRoute(true);
+//        }
+//        // flags.setCanApprove(false);
+//        flags.setCanBlanketApprove(false);
+//        flags.setCanCancel(false);
+//        // flags.setCanDisapprove(false);
+//        flags.setCanFYI(false);
+//        flags.setCanClose(false);
+//        flags.setCanSave(true);
+//
+//        return flags;
+//    }
 }
 

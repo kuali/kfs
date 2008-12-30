@@ -47,52 +47,53 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
 
-    /**
-     * Hide or set specific fields as non-editable.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-        AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-
-        // "Asset Separate" document functionality
-        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
-            setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
-            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, false);
-            
-            // Show payment sequence number field only if a separate by payment was selected
-            if(!getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
-                auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
-            }
-        }
-        else {
-            setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
-            // If asset global document is created from CAB, disallow add payment to collection.
-            boolean allowAddPaymentToCollection = true;
-            if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
-                allowAddPaymentToCollection = false;
-            }
-            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, allowAddPaymentToCollection);
-
-            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
-            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);
-
-            if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
-                // Fields in the add section
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);
-                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
-
-                // Hiding some fields when the status of the document is not final.
-                if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                    setAssetGlobalPaymentsHiddenFields(assetGlobal, auths);
-                }
-            }
-        }
-    }
+// TODO move to presentation controller
+    //    /**
+//     * Hide or set specific fields as non-editable.
+//     * 
+//     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+//        AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
+//
+//        // "Asset Separate" document functionality
+//        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+//            setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
+//            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, false);
+//            
+//            // Show payment sequence number field only if a separate by payment was selected
+//            if(!getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+//                auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
+//            }
+//        }
+//        else {
+//            setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
+//            // If asset global document is created from CAB, disallow add payment to collection.
+//            boolean allowAddPaymentToCollection = true;
+//            if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
+//                allowAddPaymentToCollection = false;
+//            }
+//            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, allowAddPaymentToCollection);
+//
+//            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
+//            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);
+//
+//            if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
+//                // Fields in the add section
+//                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
+//                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);
+//                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);
+//                auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
+//
+//                // Hiding some fields when the status of the document is not final.
+//                if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+//                    setAssetGlobalPaymentsHiddenFields(assetGlobal, auths);
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Sets Asset Global Details fields to read only
@@ -218,25 +219,26 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         }
     }
 
-    /**
-     * Checks whether the BA document is active for the year end posting year.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public void canInitiate(String documentTypeName, Person user) {
-        super.canInitiate(documentTypeName, user);
-        KualiForm kualiForm = GlobalVariables.getKualiForm();
-        String refreshCaller = kualiForm != null ? kualiForm.getRefreshCaller() : "";
-        String acquisitonTypeCode = refreshCaller != null ? StringUtils.substringAfter(refreshCaller, "::") : "";
-        Map<String, Object> pkMap = new HashMap<String, Object>();
-        pkMap.put(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, acquisitonTypeCode);
-
-        AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) getBusinessObjectService().findByPrimaryKey(AssetAcquisitionType.class, pkMap);
-        if (ObjectUtils.isNotNull(assetAcquisitionType) && !assetAcquisitionType.isActive()) {
-            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });
-        }
-    }
+    // TODO this needs to move to the presentation controller, since it has nothing to do with the user
+//    /**
+//     * Checks whether the BA document is active for the year end posting year.
+//     * 
+//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public void canInitiate(String documentTypeName, Person user) {
+//        super.canInitiate(documentTypeName, user);
+//        KualiForm kualiForm = GlobalVariables.getKualiForm();
+//        String refreshCaller = kualiForm != null ? kualiForm.getRefreshCaller() : "";
+//        String acquisitonTypeCode = refreshCaller != null ? StringUtils.substringAfter(refreshCaller, "::") : "";
+//        Map<String, Object> pkMap = new HashMap<String, Object>();
+//        pkMap.put(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, acquisitonTypeCode);
+//
+//        AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) getBusinessObjectService().findByPrimaryKey(AssetAcquisitionType.class, pkMap);
+//        if (ObjectUtils.isNotNull(assetAcquisitionType) && !assetAcquisitionType.isActive()) {
+//            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.AssetGlobal.ERROR_INACTIVE_ACQUISITION_TYPE_CODE, new String[] { acquisitonTypeCode, "AssetGlobal" });
+//        }
+//    }
 
     private AssetGlobalService getAssetGlobalService() {
         return SpringContext.getBean(AssetGlobalService.class);

@@ -50,20 +50,21 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Document Authorizer for the PREQ document.
  */
 public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+    // TODO fix for kim
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public boolean hasInitiateAuthorization(Document document, Person user) {
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
-        if (group == null) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
-        }
-        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());    
-    }
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public boolean hasInitiateAuthorization(Document document, Person user) {
+//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+//        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
+//        if (group == null) {
+//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
+//        }
+//        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());    
+//    }
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
@@ -82,9 +83,10 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (hasInitiateAuthorization(document, user)) {
+            // TODO fix for kim
+//            if (hasInitiateAuthorization(document, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-            }
+//            }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
@@ -195,50 +197,51 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         
         return editModeMap;
     }
+    // TODO fix for kim
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
-            flags.setCanBlanketApprove(true);
-        }
-
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
-            flags.setCanSave(false);
-            flags.setCanClose(true);
-            flags.setCanCancel(false);
-            flags.setCanDisapprove(false);
-        }
-        else {
-            if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName()) ||
-                 StringUtils.equals(paymentRequestDocument.getStatusCode(),PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW)) {
-                flags.setCanDisapprove(false);
-            }
-
-            PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
-
-            flags.setCanApprove(preqDocAuth.canApprove());
-            flags.setCanCancel(preqDocAuth.canCancel());
-            flags.setCanSave(preqDocAuth.canSave());
-            
-            //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
-            if (!paymentRequestDocument.isExtracted()) {
-                flags.setCanEditBank(true);
-            }
-        }
-
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-
-        return flags;
-    }
+//    /**
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+//     *      org.kuali.rice.kim.bo.Person)
+//     */
+//    @Override
+//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+//
+//        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
+//            flags.setCanBlanketApprove(true);
+//        }
+//
+//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+//        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
+//            flags.setCanSave(false);
+//            flags.setCanClose(true);
+//            flags.setCanCancel(false);
+//            flags.setCanDisapprove(false);
+//        }
+//        else {
+//            if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName()) ||
+//                 StringUtils.equals(paymentRequestDocument.getStatusCode(),PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW)) {
+//                flags.setCanDisapprove(false);
+//            }
+//
+//            PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
+//
+//            flags.setCanApprove(preqDocAuth.canApprove());
+//            flags.setCanCancel(preqDocAuth.canCancel());
+//            flags.setCanSave(preqDocAuth.canSave());
+//            
+//            //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
+//            if (!paymentRequestDocument.isExtracted()) {
+//                flags.setCanEditBank(true);
+//            }
+//        }
+//
+//        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+//        this.setAnnotateFlag(flags);
+//
+//        return flags;
+//    }
 
 }
 

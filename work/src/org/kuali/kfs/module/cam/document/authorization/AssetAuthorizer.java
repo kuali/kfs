@@ -45,36 +45,37 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
      * @param user
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
-    @Override
-    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-        super.addMaintenanceDocumentRestrictions(auths, document, user);
-        Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
-        Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
-        if (document.isNew()) {
-            // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
-            // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
-            hideFields(auths, CamsConstants.Asset.EDIT_DETAIL_INFORMATION_FIELDS);
-            hideFields(auths, CamsConstants.Asset.EDIT_ORGANIZATION_INFORMATION_FIELDS);
-            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
-            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.VENDOR_NAME);
-            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
-        }
-        else {
-            // acquisition type code is read-only during edit
-            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
-            // fabrication fields are read-only
-            makeReadOnlyFields(auths, Arrays.asList(CamsConstants.Asset.FABRICATION_INFORMATION_FIELDS));
-        }
-
-        hidePaymentSequence(auths, newAsset);
-        if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(newAsset.getRetirementReasonCode())) {
-            // hide merge target capital asset number
-            auths.addHiddenAuthField(CamsPropertyConstants.Asset.RETIREMENT_INFO_MERGED_TARGET);
-        }
-
-        setConditionalReadOnlyFields(auths, newAsset, user);
-        // read-only acquisition code
-    }
+// TODO move to presentation controller
+    //    @Override
+//    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
+//        super.addMaintenanceDocumentRestrictions(auths, document, user);
+//        Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+//        Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
+//        if (document.isNew()) {
+//            // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
+//            // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
+//            hideFields(auths, CamsConstants.Asset.EDIT_DETAIL_INFORMATION_FIELDS);
+//            hideFields(auths, CamsConstants.Asset.EDIT_ORGANIZATION_INFORMATION_FIELDS);
+//            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+//            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.VENDOR_NAME);
+//            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
+//        }
+//        else {
+//            // acquisition type code is read-only during edit
+//            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
+//            // fabrication fields are read-only
+//            makeReadOnlyFields(auths, Arrays.asList(CamsConstants.Asset.FABRICATION_INFORMATION_FIELDS));
+//        }
+//
+//        hidePaymentSequence(auths, newAsset);
+//        if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(newAsset.getRetirementReasonCode())) {
+//            // hide merge target capital asset number
+//            auths.addHiddenAuthField(CamsPropertyConstants.Asset.RETIREMENT_INFO_MERGED_TARGET);
+//        }
+//
+//        setConditionalReadOnlyFields(auths, newAsset, user);
+//        // read-only acquisition code
+//    }
 
     /**
      * Check and set view only for campusTagNumber,assetTypeCode and assetDescription

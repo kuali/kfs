@@ -15,24 +15,26 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 
 /**
  * This class is the custom KFS maintenance document authorizer base class
  */
-public class FunctionalFieldDescriptionMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+public class FunctionalFieldDescriptionMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
     private static Log LOG = LogFactory.getLog(FinancialSystemMaintenanceDocumentAuthorizerBase.class);
 
     @Override
-    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-        super.addMaintenanceDocumentRestrictions(auths, document, user);
-        if (document.isEdit()) {
-            auths.addReadonlyAuthField("businessObjectProperty.propertyLabel");
-        }
+    protected Set<String> getConditionallyReadOnlyPropertyNames(Document document) {
+        Set<String> conditionallyReadOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
+        conditionallyReadOnlyPropertyNames.add("businessObjectProperty.propertyLabel");
+        return conditionallyReadOnlyPropertyNames;
     }
 }
 

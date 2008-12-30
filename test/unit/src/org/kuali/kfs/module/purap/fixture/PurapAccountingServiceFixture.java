@@ -84,9 +84,18 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
-    REQ_SUMMARY_ONE_ITEM( new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 },
+    REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT( new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 },
             new AccountingLineFixture[] { AccountingLineFixture.PURAP_LINE1 },
-            new Integer[] {0} ),;
+            new Integer[] {0} ),
+    REQ_SUMMARY_ONE_ITEM_TWO_ACCOUNTS( new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 },
+            new AccountingLineFixture[] { AccountingLineFixture.PURAP_LINE1,
+                                          AccountingLineFixture.PURAP_LINE2},
+            new Integer[] {0,0} ),
+    REQ_SUMMARY_TWO_ITEMS_ONE_ACCOUNT( new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1,
+                                                                      RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_2 },
+            new AccountingLineFixture[] { AccountingLineFixture.PURAP_LINE1 },
+            new Integer[] {0,1} ),
+            ;
     
     KualiDecimal totalAmount;
     Integer percentScale;

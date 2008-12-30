@@ -24,17 +24,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.PurapAccountingServiceFixture;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = kfs, shouldCommitTransactions=true)
@@ -42,6 +47,8 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceTest.class);
 
     private PurapAccountingService purapAccountingService;
+    private ParameterService parameterService;
+    private KualiConfigurationService kualiConfigurationService;
     
     @Override
     protected void setUp() throws Exception {
@@ -49,11 +56,19 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         if(purapAccountingService == null) {
             purapAccountingService = SpringContext.getBean(PurapAccountingService.class);
         }
+        if(parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        if(kualiConfigurationService == null) {
+            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        }
     }
     
     @Override
     protected void tearDown() throws Exception {
         purapAccountingService = null;
+        parameterService = null;
+        kualiConfigurationService = null;
         super.tearDown();
     }
         
@@ -269,16 +284,57 @@ public class PurapAccountingServiceTest extends KualiTestBase {
      * Tests of generateSummary(List<PurApItem> items)
      */
     
+    /**
+     * Asserts that, for each original source account, there is exactly one source account in the summary, regardless
+     * of whether there is more than one instance of this account in the original.
+     * 
+     * @param sourceLines               The List<SourceAccountingLine> from after the summary
+     * @param originalSourceAccounts    The original List<SourceAccountingLine>
+     */
+    private void checkAccountConsolidation(List<SourceAccountingLine> sourceLines, List<SourceAccountingLine> originalSourceAccounts) {
+        for(int i = 0; i < sourceLines.size(); i++) {
+            SourceAccountingLine originalSourceAccount = originalSourceAccounts.get(i);
+            boolean containsOneAccount = false;
+            for( SourceAccountingLine sourceAccount : sourceLines ) {
+                if ( StringUtils.equals(sourceAccount.getAccountNumber(), originalSourceAccount.getAccountNumber())) {
+                    if (containsOneAccount == false) { 
+                        containsOneAccount = true;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+            assertTrue(containsOneAccount);
+        }
+    }
+    
     public void testGenerateSummary_OneItem_OneAccount() {
-        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM;
+        //parameterService.setParameterForTesting(RequisitionDocument.class,PurapParameterConstants.ENABLE_SALES_TAX_IND,"Y");
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT;
         List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
         List<PurApItem> items = fixture.getItems();
         List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummary(items);
         assertEquals(sourceLines.size(),originalSourceAccounts.size());
-        for(int i = 0; i < originalSourceAccounts.size(); i++) {
-            SourceAccountingLine sourceAccount = sourceLines.get(i);
-            compareSourceAccounts(sourceAccount, originalSourceAccounts.get(i));
-        }
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }
+    
+    public void testGenerateSummary_OneItem_TwoAccounts() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_TWO_ACCOUNTS;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummary(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }
+    
+    public void testGenerateSummary_TwoItems_OneAccount() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_TWO_ITEMS_ONE_ACCOUNT;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummary(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
     }
     
     /*

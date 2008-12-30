@@ -38,7 +38,7 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.document.validation.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -264,7 +264,11 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition contains additional suggested vendor names.";
         }
         
-        if (!ruleService.applyRules(new ValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition))) {
+        //This is temporary so that unit test won't fail.
+        //TODO:  Decide where to put the processCapitalAssetsForAutomaticPurchaseOrderRule after
+        //rule refactoring is done.
+        PurchasingDocumentRuleBase ruleClass = new PurchasingDocumentRuleBase();
+        if (!ruleClass.processCapitalAssetsForAutomaticPurchaseOrderRule(requisition)) {
             return "Requisition has failed Capital Asset rules.";
         }
         

@@ -268,13 +268,14 @@
 					            </property>
 				            </bean>
 				            <!-- End of itemConsideredEnteredBranchingValidation -->	
-			                <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase goes here -->
-			                <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />
-			                <bean parent="Purchasing-processContainsAtLeastOneItemValidation" scope="prototype" />
-			                <bean parent="Purchasing-processTradeInValidation" scope="prototype" />
                         </list>
                     </property>
-                </bean>	  									    
+                </bean>	  		
+                <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase -->			                
+                <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase -->
+			    <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />
+			    <bean parent="Purchasing-processContainsAtLeastOneItemValidation" scope="prototype" />
+			    <bean parent="Purchasing-processTradeInValidation" scope="prototype" />							    
             </list>
         </property>					
     </bean>  

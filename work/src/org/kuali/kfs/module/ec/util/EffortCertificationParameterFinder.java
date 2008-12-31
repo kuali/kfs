@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 
 /**
- * A convenient utility that can delegate the calling client to retrieve system parameters of effor certification module.
+ * A convenient utility that can delegate the calling client to retrieve system parameters of effort certification module.
  */
 public class EffortCertificationParameterFinder {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);

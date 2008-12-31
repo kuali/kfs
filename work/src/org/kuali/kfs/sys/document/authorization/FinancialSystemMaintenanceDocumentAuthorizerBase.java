@@ -21,13 +21,13 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 
@@ -63,8 +63,9 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
 //    }
 
     @Override
-    protected void populateRoleQualification(Document document, Map<String,String> attributes) {
-        super.populateRoleQualification(document, attributes);
+    protected void addRoleQualification(BusinessObject businessObject, Map<String,String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+        Document document = (Document)businessObject;
         
         // get the KFS-SYS User qualifiers
         // get the namespace from the current qualifier set (set by the superclass)

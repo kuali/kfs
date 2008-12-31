@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -192,9 +193,9 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     }
     
     @Override
-    protected void populateRoleQualification(Document document, Map<String,String> attributes) {
-        super.populateRoleQualification(document, attributes);
-        
+    protected void addRoleQualification(BusinessObject businessObject, Map<String,String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+        Document document = (Document)businessObject;
         // add the document amount
         if ( ((AccountingDocument)document).getSourceTotal() != null && ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount() != null ) {
             attributes.put(KimAttributes.DOCUMENT_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());

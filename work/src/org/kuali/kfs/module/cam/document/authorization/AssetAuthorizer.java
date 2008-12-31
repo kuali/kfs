@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 
@@ -155,10 +154,9 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#populateRoleQualification(org.kuali.rice.kns.document.Document, java.util.Map)
      */
     @Override
-    protected void populateRoleQualification(Document document, Map<String, String> attributes) {
-        super.populateRoleQualification(document, attributes);
-        
-        Asset asset = (Asset) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+        Asset asset = (Asset) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
         
         String chart = asset.getOrganizationOwnerChartOfAccountsCode();
         String org = asset.getOrganizationOwnerAccount().getOrganizationCode();

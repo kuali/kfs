@@ -15,15 +15,10 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -33,16 +28,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
@@ -252,10 +243,10 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#populateRoleQualification(org.kuali.rice.kns.document.Document, java.util.Map)
      */
     @Override
-    protected void populateRoleQualification(Document document, Map<String, String> attributes) {
-        super.populateRoleQualification(document, attributes);
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
 
-        AssetGlobal assetGlobal = (AssetGlobal) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
+        AssetGlobal assetGlobal = (AssetGlobal) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
         AssetGlobalService assetGlobalService = getAssetGlobalService();
         
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)){

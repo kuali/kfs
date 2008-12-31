@@ -22,26 +22,15 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.identity.KimAttributes;
-import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class...
@@ -124,9 +113,9 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     }
 
     @Override
-    protected void populateRoleQualification(Document document, Map<String,String> attributes) {
-        super.populateRoleQualification(document, attributes);
-        
+    protected void addRoleQualification(BusinessObject businessObject, Map<String,String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+        Document document = (Document)businessObject;
         // get the KFS-SYS User qualifiers
         // get the namespace from the current qualifier set (set by the superclass)
         String namespaceCode = attributes.get(KimAttributes.NAMESPACE_CODE);

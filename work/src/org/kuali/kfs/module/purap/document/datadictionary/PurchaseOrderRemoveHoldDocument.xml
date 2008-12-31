@@ -19,7 +19,8 @@
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRemoveHoldDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentPresentationController" />
     <property name="documentTypeCode" value="PORH" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderRemoveHoldDocument-workflowProperties" />
@@ -31,18 +32,6 @@
 	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
 	    	</entry>
     	</map>
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>PA_PURCHASE_ORDER_REMOVE_HOLD_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
   </bean>
 

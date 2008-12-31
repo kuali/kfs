@@ -17,6 +17,9 @@ package org.kuali.kfs.module.purap.document.authorization;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -44,6 +47,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
     private boolean canRequestCancel;
     private boolean fullEntryCompleted;
     private boolean adHocRequested;
+    private boolean initiateStatus;
     
     private boolean apUser;
     private boolean apSupervisor;
@@ -102,6 +106,10 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
             this.fiscalOfficerDelegateUser = true;
         }
         
+        if (StringUtils.equals(preq.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
+            this.initiateStatus = true;
+        }
+
     }
 
     private String getDocStatus() {
@@ -319,6 +327,14 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
 
     public void setAdHocRequested(boolean adHocRequested) {
         this.adHocRequested = adHocRequested;
+    }
+
+    public boolean isInitiateStatus() {
+        return initiateStatus;
+    }
+
+    public void setInitiateStatus(boolean initiateStatus) {
+        this.initiateStatus = initiateStatus;
     }
     
 }

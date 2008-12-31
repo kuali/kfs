@@ -15,56 +15,25 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the PREQ document.
  */
 public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-    // TODO fix for kim
 
-//    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kim.bo.Person)
-//     */
-//    @Override
-//    public boolean hasInitiateAuthorization(Document document, Person user) {
-//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-//        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
-//        if (group == null) {
-//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
-//        }
-//        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());    
-//    }
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
@@ -74,108 +43,17 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
     public Map getEditMode(Document document, Person user) {
         Map editModeMap = super.getEditMode(document, user);
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
-
         PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preq);
 
-        String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
-
-        boolean fullDocumentEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument) document);
-
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            // TODO fix for kim
-//            if (hasInitiateAuthorization(document, user)) {
-                editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-//            }
-        }
-        else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-            // only allow full entry if status allows it
-
-            if (!fullDocumentEntryCompleted) {
-                editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-            }
-
-            if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
-                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-                
-                // expense_entry was already added in super
-                // add amount edit mode
-                editMode = PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY;
-
-                //only do line item check if the hold/cancel indicator is false, otherwise
-                // document editing should be turned off.
-                if (preq.isHoldIndicator() == false && preq.isPaymentRequestedCancelIndicator() == false){
-                    List lineList = new ArrayList();
-                    for (Iterator iter = preq.getItems().iterator(); iter.hasNext();) {
-                        PaymentRequestItem item = (PaymentRequestItem) iter.next();
-                        lineList.addAll(item.getSourceAccountingLines());
-                        // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
-                        if (item.getItemType().isLineItemIndicator() && item.getSourceAccountingLines().size() == 0) {
-                            editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
-                            editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY, "TRUE");
-                        }
-                    }
-                }else{
-                    editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
-                }
-            }
-            else if( preq.isPaymentRequestedCancelIndicator() ) {
-                editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
-            }
-            //This is for ad hoc approval
-            if (preqDocAuth.isAdHocRequested()) {
-                editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
-            }
-        }
-
-        editModeMap.put(editMode, "TRUE");
-
-        
-        // always show amount after full entry
-        if (fullDocumentEntryCompleted) {
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY, "TRUE");
-        }
-
-        // make sure ap user can edit certain fields
-        if (preqDocAuth.canEditPreExtractFields() && ! preqDocAuth.isAdHocRequested() && ! preq.isPaymentRequestedCancelIndicator()) {
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
-        }
-
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");
-        }
-        else {
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");
-        }
-        if (ObjectUtils.isNotNull(paymentRequestDocument.getVendorHeaderGeneratedIdentifier())) {
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.LOCK_VENDOR_ENTRY, "TRUE");
-        }
-        
+        //FIXME hjs- still some KIM cleanup needed here (the rest has user authorization)
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
-        if (!paymentRequestDocument.isUseTaxIndicator() &&
-            !fullDocumentEntryCompleted && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) ) {
+        if (!preq.isUseTaxIndicator() &&
+            !preqDocAuth.isFullEntryCompleted() && 
+            KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) ) {
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES, "TRUE");
         }
         
-        //Use tax indicator editing is enabled
-        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)){
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.USE_TAX_INDICATOR_CHANGEABLE, "TRUE");
-        }
-        
-        //if full entry, and not use tax, allow editing
-        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && paymentRequestDocument.isUseTaxIndicator() == false){
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
-        }
-
-        //See if purap tax is enabled
-        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
-        if(salesTaxInd){
-            editModeMap.put(PurapAuthorizationConstants.PURAP_TAX_ENABLED, "TRUE");
-        }
-
         // during Awaiting Tax Approval status, the tax tab is editable to authorized workgroups
         //TODO fix the workgroups once KIM is done
         String taxGroup1 = apGroup; //SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, PurapParameterConstants.Workgroups.PA_NONRESIDENT_ALIEN_TAX_REVIEWERS);
@@ -190,19 +68,15 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AREA_EDITABLE, "TRUE");
         }
         
-        // after tax is approved, the tax tab is viewable to everyone
-        if (preq.getStatusCode().equalsIgnoreCase("DPTA")) {
-            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_INFO_VIEWABLE, "TRUE");
-        }
-        
+
         return editModeMap;
     }
-    // TODO fix for kim
 
-//    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kim.bo.Person)
-//     */
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kim.bo.Person)
+     */
+//FIXME hjs: starting without the override and see what's not displaying correctly
 //    @Override
 //    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
 //        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);

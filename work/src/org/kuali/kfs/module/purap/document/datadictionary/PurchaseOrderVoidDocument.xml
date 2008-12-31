@@ -19,7 +19,8 @@
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderVoidDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderVoidDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderVoidDocumentPresentationController" />
     <property name="documentTypeCode" value="POV" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderVoidDocument-workflowProperties" />
@@ -32,18 +33,6 @@
 	    	</entry>
     	</map>
     </property>    
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>PA_PUR_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
 
 <!-- Exported Workflow Properties -->

@@ -17,25 +17,13 @@
     <!-- property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" /-->
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
     <property name="documentTypeCode" value="PREQ" />
     <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="PaymentRequestDocument-workflowProperties" />
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>PA_AP_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
-    
     
     <property name="accountingLineGroups">
     	<map>

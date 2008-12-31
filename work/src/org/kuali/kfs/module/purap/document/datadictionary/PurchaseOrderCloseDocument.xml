@@ -19,22 +19,11 @@
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderCloseDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderCloseDocumentPresentationController" />
     <property name="documentTypeCode" value="POC" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderCloseDocument-workflowProperties" />
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
     <property name="accountingLineGroups">
     	<map>

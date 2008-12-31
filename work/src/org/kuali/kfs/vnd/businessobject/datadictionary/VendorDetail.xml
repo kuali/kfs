@@ -180,7 +180,6 @@
 
   <bean id="VendorDetail-vendorNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Number" />
     <property name="shortLabel" value="Vendor #" />
     <property name="maxLength" value="20" />
@@ -196,7 +195,6 @@
 
   <bean id="VendorDetail-vendorDunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorDunsNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="DUNS Number" />
     <property name="shortLabel" value="DUNS Num." />
     <property name="maxLength" value="9" />
@@ -298,7 +296,6 @@
 
   <bean id="VendorDetail-vendorSoldToNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorSoldToNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Sold To Vendor Number" />
     <property name="shortLabel" value="Sold To Vendor Num." />
     <property name="maxLength" value="20" />

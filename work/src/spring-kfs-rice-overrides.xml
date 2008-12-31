@@ -94,9 +94,6 @@
     <property name="documentHeaderService">
       <ref bean="documentHeaderService" />
     </property>
-    <property name="documentAuthorizationService">
-      <ref bean="documentAuthorizationService" />
-    </property>
     <property name="businessObjectService">
       <ref bean="businessObjectService" />
     </property>
@@ -229,16 +226,4 @@
 	<bean id="methodLoggingPointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
 		<constructor-arg value="org.kuali.rice.kns.util.spring.Logged" />
 	</bean>
-
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
 </beans>

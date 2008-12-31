@@ -20,12 +20,12 @@ import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthor
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -55,7 +55,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         // but only if the document is enroute
         KualiWorkflowDocument workflowDocument = accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument();
         if (!isAccessible && workflowDocument.stateIsEnroute()) {
-            DocumentAuthorizationService documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class);
+            DocumentTypeService documentAuthorizer = SpringContext.getBean(DocumentTypeService.class);
             DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) documentAuthorizer.getDocumentAuthorizer(accountingDocumentForValidation);
 
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing

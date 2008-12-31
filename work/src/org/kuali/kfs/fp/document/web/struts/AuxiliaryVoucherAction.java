@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
 
 
 /**
@@ -53,11 +52,12 @@ public class AuxiliaryVoucherAction extends VoucherAction {
         ActionForward returnForward;
         if (StringUtils.isNotBlank(avForm.getOriginalVoucherType()) && !avForm.getAuxiliaryVoucherDocument().getTypeCode().equals(avForm.getOriginalVoucherType())) {
             returnForward = super.dispatchMethod(mapping, form, request, response, KFSConstants.AuxiliaryVoucher.CHANGE_VOUCHER_TYPE);
-            // must call this here, because execute in the super method will never have control for this particular action
-            // this is called in the parent by super.execute()
-            Document document = avForm.getDocument();
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(document);
-            avForm.populateAuthorizationFields(documentAuthorizer);
+            // TODO fix for kim
+//            // must call this here, because execute in the super method will never have control for this particular action
+//            // this is called in the parent by super.execute()
+//            Document document = avForm.getDocument();
+//            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
+//            avForm.populateAuthorizationFields(documentAuthorizer);
         }
         else { // otherwise call the super
             returnForward = super.execute(mapping, avForm, request, response);

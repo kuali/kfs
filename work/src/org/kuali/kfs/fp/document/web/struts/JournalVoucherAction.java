@@ -42,7 +42,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -87,8 +87,9 @@ public class JournalVoucherAction extends VoucherAction {
             // must call this here, because execute in the super method will never have control for this particular action
             // this is called in the parent by super.execute()
             Document document = journalVoucherForm.getDocument();
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(document);
-            journalVoucherForm.populateAuthorizationFields(documentAuthorizer);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
+// TODO that method on the form is gone.  fix for kim
+            //            journalVoucherForm.populateAuthorizationFields(documentAuthorizer);
         }
         else { // otherwise call the super
             returnForward = super.execute(mapping, journalVoucherForm, request, response);

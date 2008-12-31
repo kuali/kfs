@@ -76,8 +76,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1141,8 +1141,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // we only need to set the editing mode to displayRetransmitTab if it's not yet
         // in the editingMode.
         if (!kualiDocumentFormBase.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(po);
-            kualiDocumentFormBase.populateAuthorizationFields(documentAuthorizer);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(po);
+         // TODO this method is gone, fix for kim
+//            kualiDocumentFormBase.populateAuthorizationFields(documentAuthorizer);
         }
 
         return returnToPreviousPage(mapping, kualiDocumentFormBase);

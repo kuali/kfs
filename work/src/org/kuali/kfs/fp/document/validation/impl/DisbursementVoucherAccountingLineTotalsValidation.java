@@ -20,11 +20,11 @@ import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthor
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
@@ -43,7 +43,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
         
-        DocumentAuthorizationService documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class);
+        DocumentTypeService documentAuthorizer = SpringContext.getBean(DocumentTypeService.class);
         DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) documentAuthorizer.getDocumentAuthorizer(dvDocument);
         
         // amounts can only decrease

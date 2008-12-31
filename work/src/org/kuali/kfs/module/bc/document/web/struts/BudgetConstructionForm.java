@@ -337,51 +337,52 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     }
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
-     *      Additionally checks for BC specific exceptions throwing BudgetConstructionDocumentAuthorizationException appropos
-     */
-    @Override
-    public void populateAuthorizationFields(DocumentAuthorizer documentAuthorizer) {
-
-        super.populateAuthorizationFields(documentAuthorizer);
-        if (isFormDocumentInitialized()) {
-
-            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
-            // correct DocumentAuthorizer
-            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
-            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
-            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)",
-            // this.isPickListMode());
-            // }
-            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
-            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
-            // }
-            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
-            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
-            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)",
-            // this.isPickListMode());
-            // }
-        }
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#useDocumentAuthorizer(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
-     *      Uses BudgetConstructionDocumentAuthorizer to get the editMode and set the action flags This uses the BC security model
-     *      to setup the authorization state
-     */
-    @Override
-    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-        BudgetConstructionDocumentAuthorizer bcDocumentAuthorizer = (BudgetConstructionDocumentAuthorizer) documentAuthorizer;
-        Person kualiUser = GlobalVariables.getUserSession().getPerson();
-
-        // setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
-        setEditingMode(bcDocumentAuthorizer.getEditModeFromSession());
-
-        // use BudgetConstructionDocumentAuthorizer method version using editingMode to set action flags
-        setDocumentActionFlags(bcDocumentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser, getEditingMode()));
-    }
+    // TODO these methods are gone.  fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
+//     *      Additionally checks for BC specific exceptions throwing BudgetConstructionDocumentAuthorizationException appropos
+//     */
+//    @Override
+//    public void populateAuthorizationFields(DocumentAuthorizer documentAuthorizer) {
+//
+//        super.populateAuthorizationFields(documentAuthorizer);
+//        if (isFormDocumentInitialized()) {
+//
+//            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
+//            // correct DocumentAuthorizer
+//            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
+//            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
+//            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)",
+//            // this.isPickListMode());
+//            // }
+//            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
+//            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
+//            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
+//            // }
+//            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
+//            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
+//            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)",
+//            // this.isPickListMode());
+//            // }
+//        }
+//    }
+//
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#useDocumentAuthorizer(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
+//     *      Uses BudgetConstructionDocumentAuthorizer to get the editMode and set the action flags This uses the BC security model
+//     *      to setup the authorization state
+//     */
+//    @Override
+//    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
+//        BudgetConstructionDocumentAuthorizer bcDocumentAuthorizer = (BudgetConstructionDocumentAuthorizer) documentAuthorizer;
+//        Person kualiUser = GlobalVariables.getUserSession().getPerson();
+//
+//        // setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
+//        setEditingMode(bcDocumentAuthorizer.getEditModeFromSession());
+//
+//        // use BudgetConstructionDocumentAuthorizer method version using editingMode to set action flags
+//        setDocumentActionFlags(bcDocumentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser, getEditingMode()));
+//    }
 
     /**
      * Gets the budgetConstructionDocument

@@ -380,7 +380,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateNonMoveableAsset(Asset asset, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(maintenanceDocument);
+        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.RETIRE_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 

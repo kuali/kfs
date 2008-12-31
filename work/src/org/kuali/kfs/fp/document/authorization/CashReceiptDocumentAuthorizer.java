@@ -21,23 +21,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.fp.businessobject.CashDrawer;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
-import org.kuali.kfs.fp.document.service.CashReceiptService;
-import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
-import org.kuali.rice.kns.util.Timer;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -122,7 +112,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      */
     @Override
     public boolean canInitiate(String documentTypeName, Person user) {
-        return super.canInitiate(documentTypeName, user) && !SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("CashManagementDocument").canInitiate("CashManagementDocument", user);
+        return super.canInitiate(documentTypeName, user) && !SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer("CashManagementDocument").canInitiate("CashManagementDocument", user);
     }
     
     /**

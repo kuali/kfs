@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -34,7 +34,7 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
 
     private KualiConfigurationService configService;
     private AccountService accountService;
-    private DocumentAuthorizationService documentAuthorizationService;
+    private DocumentTypeService documentTypeService;
 
     /**
      * Constructs a MaintenancePreRulesBase class and injects some services through setters
@@ -50,7 +50,7 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         // SpringContext, and configure the bean defs for spring.
         setAccountService(SpringContext.getBean(AccountService.class));
         setConfigService(SpringContext.getBean(KualiConfigurationService.class));
-        setDocumentAuthorizationService(SpringContext.getBean(DocumentAuthorizationService.class));
+        setDocumentTypeService(SpringContext.getBean(DocumentTypeService.class));
     }
 
     public void setAccountService(AccountService accountService) {
@@ -174,22 +174,12 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
     }
 
 
-    /**
-     * Gets the documentAuthorizationService attribute.
-     * 
-     * @return Returns the documentAuthorizationService.
-     */
-    protected final DocumentAuthorizationService getDocumentAuthorizationService() {
-        return documentAuthorizationService;
+    protected final DocumentTypeService getDocumentTypeService() {
+        return documentTypeService;
     }
 
-    /**
-     * Sets the documentAuthorizationService attribute value.
-     * 
-     * @param documentAuthorizationService The documentAuthorizationService to set.
-     */
-    public final void setDocumentAuthorizationService(DocumentAuthorizationService documentAuthorizationService) {
-        this.documentAuthorizationService = documentAuthorizationService;
+    public final void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
 }

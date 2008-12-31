@@ -35,10 +35,9 @@ import org.kuali.kfs.module.cg.document.validation.impl.AuditCluster;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -156,7 +155,8 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         RoutingForm routingForm = (RoutingForm) form;
 
         // Check if user has permission to save
-        routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
+        // TODO this method is gone fix for kim
+//        routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
         if (!"TRUE".equals(routingForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             super.save(mapping, form, request, response);
         }
@@ -169,7 +169,8 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
 
     protected void setApprovalsMessage(RoutingForm routingForm) {
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-        routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
+// TODO this method is gone, fix for kim
+        //        routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
         DocumentActionFlags flags = routingForm.getDocumentActionFlags();
         if (flags.getCanRoute() || flags.getCanApprove()) {
             Person user = GlobalVariables.getUserSession().getPerson();

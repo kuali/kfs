@@ -48,7 +48,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -154,26 +154,26 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         }
     }
 
-    // TODO fix for kim
-    /**
-     * Refactored out actually calling the documentAuthorizer methods, since FinancialDocuments call a differently-parameterized
-     * version of getEditMode
-     * 
-     * @param documentAuthorizer
-     */
-    @Override
-    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-        Person kualiUser = GlobalVariables.getUserSession().getPerson();
-
-        AccountingDocument financialDocument = (AccountingDocument) getDocument();
-        AccountingDocumentAuthorizer financialDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizer;
-
-        setEditingMode(financialDocumentAuthorizer.getEditMode(financialDocument, kualiUser));
-
-//        setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
-
-        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), kualiUser));
-    }
+ // TODO this method is gone, fix for kim
+//    /**
+//     * Refactored out actually calling the documentAuthorizer methods, since FinancialDocuments call a differently-parameterized
+//     * version of getEditMode
+//     * 
+//     * @param documentAuthorizer
+//     */
+//    @Override
+//    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
+//        Person kualiUser = GlobalVariables.getUserSession().getPerson();
+//
+//        AccountingDocument financialDocument = (AccountingDocument) getDocument();
+//        AccountingDocumentAuthorizer financialDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizer;
+//
+//        setEditingMode(financialDocumentAuthorizer.getEditMode(financialDocument, kualiUser));
+//
+////        setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
+//
+//        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), kualiUser));
+//    }
 
     /**
      * This method iterates over all of the source lines and all of the target lines in a transactional document, and calls
@@ -659,7 +659,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * current accounting lines.
      */
     public void refreshEditableAccounts() {
-        AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(this.getDocument());
+        AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(this.getDocument());
         this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), GlobalVariables.getUserSession().getPerson()));
     }
 

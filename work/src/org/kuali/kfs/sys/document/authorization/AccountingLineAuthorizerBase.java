@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -48,7 +48,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
 
     private KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-    private DocumentAuthorizationService documentAuthorizationService = SpringContext.getBean(DocumentAuthorizationService.class);
+    private DocumentTypeService documentAuthorizationService = SpringContext.getBean(DocumentTypeService.class);
 
     /**
      * Returns the basic actions - add for new lines, delete and balance inquiry for existing lines

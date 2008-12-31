@@ -329,9 +329,10 @@ public class CertificationReportAction extends EffortCertificationAction {
      */
     private boolean isSummarizeDetailLinesRendered(CertificationReportForm certificationReportForm) {
         Document document = certificationReportForm.getDocument();
-        DocumentAuthorizer documentAuthorizer = KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(document);
+        DocumentAuthorizer documentAuthorizer = KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(document);
+     // TODO this method is gone, fix for kim
 
-        certificationReportForm.populateAuthorizationFields(documentAuthorizer);
+//        certificationReportForm.populateAuthorizationFields(documentAuthorizer);
         Map<String, String> editMode = certificationReportForm.getEditingMode();
 
         if (editMode.containsKey(EffortCertificationEditMode.PROJECT_ENTRY)) {

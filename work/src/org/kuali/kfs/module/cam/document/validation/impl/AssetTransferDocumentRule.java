@@ -368,7 +368,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         boolean assetMovable = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
         
-        AssetTransferDocumentAuthorizer documentAuthorizer = (AssetTransferDocumentAuthorizer) KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(assetTransferDocument);
+        AssetTransferDocumentAuthorizer documentAuthorizer = (AssetTransferDocumentAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         if(!assetMovable && !isAuthorizedTransferMovable) {

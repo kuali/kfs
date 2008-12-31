@@ -159,7 +159,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
 
         // get the correct documentAuthorizer for this document
-        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentAuthorizationService.getDocumentAuthorizer(document);
+        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
 
         // get a new instance of MaintenanceDocumentAuthorizations for this context
         MaintenanceDocumentAuthorizations auths = SpringContext.getBean(MaintenanceDocumentAuthorizationService.class).generateMaintenanceDocumentAuthorizations(document, user);

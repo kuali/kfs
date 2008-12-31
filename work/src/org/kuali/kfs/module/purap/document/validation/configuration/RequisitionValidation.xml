@@ -254,7 +254,7 @@
 				                    <map>
 					                    <entry>
 						                    <key><value>needsIndividualItemValidation</value></key>
-                                            <bean parent="PurchasingAccountsPayable-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
+                                            <bean parent="Requisition-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
 					                    </entry>
 				                    </map>
 					            </property>
@@ -268,7 +268,10 @@
 					            </property>
 				            </bean>
 				            <!-- End of itemConsideredEnteredBranchingValidation -->	
-			            		                 
+			                <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase goes here -->
+			                <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />
+			                <bean parent="Purchasing-processContainsAtLeastOneItemValidation" scope="prototype" />
+			                <bean parent="Purchasing-processTradeInValidation" scope="prototype" />
                         </list>
                     </property>
                 </bean>	  									    
@@ -276,7 +279,7 @@
         </property>					
     </bean>  
 
-    <bean id="PurchasingAccountsPayable-itemConsideredEnteredCompositeValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
+    <bean id="Requisition-itemConsideredEnteredCompositeValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
         <property name="quitOnFail" value="false" />
         <property name="validations">
             <list>    

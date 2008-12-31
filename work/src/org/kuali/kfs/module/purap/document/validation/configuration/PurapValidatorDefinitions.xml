@@ -92,6 +92,12 @@
 
     <bean id="Purchasing-processAccountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessAccountValidation" abstract="true"/>
 
+    <bean id="Purchasing-processTotalCostValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessTotalCostValidation" abstract="true"/>
+
+    <bean id="Purchasing-processContainsAtLeastOneItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessContainsAtLeastOneItemValidation" abstract="true"/>
+
+    <bean id="Purchasing-processTradeInValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessTradeInValidation" abstract="true"/>
+
 <!-- Requisition Definitions -->	
 
 	<bean id="Requisition-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">

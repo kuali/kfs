@@ -37,11 +37,25 @@
   					</property>
   				</bean>
 
-                <!-- new process item validation should go here -->									
 				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
-			
 				
 				<bean parent="Purchasing-processVendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+			    <bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-paymentInfoValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  
 				

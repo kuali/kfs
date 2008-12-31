@@ -78,7 +78,7 @@
 
 	<bean id="Purchasing-paymentInfoValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingPaymentInfoValidation" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="universityDateTimeService" ref="universityDateTimeService" />
+		<property name="universityDateService" ref="universityDateService" />
 	</bean>
 
 	<bean id="Purchasing-updateCamsViewValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingUpdateCamsViewValidation" abstract="true">
@@ -146,6 +146,9 @@
 	</bean>
 	
 	<bean id="PurchaseOrder-assignSensitiveDataValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAssignSensitiveDataValidation" abstract="true" />
+
+    <bean id="PurchaseOrder-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRequiresAccountValidationBranchingValidation" abstract="true" />
+    
 <!-- Purchase Order Amendment Definitions -->
 	<bean id="PurchaseOrderAmendment-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentNewProcessItemValidation" abstract="true">
 		<property name="purapService" ref="purapService" />
@@ -165,6 +168,13 @@
 	</bean>
 
     <bean id="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation" abstract="true" />
+
+    <bean id="PurchaseOrderAmendment-processAccountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentProcessAccountValidation" abstract="true"/>
+
+    <bean id="PurchaseOrderAmendment-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentRequiresAccountValidationBranchingValidation" abstract="true" >
+        <property name="purapService" ref="purapService" />
+		<property name="purchaseOrderService" ref="purchaseOrderService" />
+    </bean>
 
 <!-- Accounts Payable Definitions  -->
     <bean id="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation" abstract="true"/>        

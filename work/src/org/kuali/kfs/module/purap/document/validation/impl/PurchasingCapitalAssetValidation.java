@@ -70,4 +70,20 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
         return valid;
     }
 
+    public CapitalAssetBuilderModuleService getCapitalAssetBuilderModuleService() {
+        return capitalAssetBuilderModuleService;
+    }
+
+    public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
+        this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
+    }
+
+    public PurchasingService getPurchasingService() {
+        return purchasingService;
+    }
+
+    public void setPurchasingService(PurchasingService purchasingService) {
+        this.purchasingService = purchasingService;
+    }
+
 }

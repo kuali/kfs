@@ -31,4 +31,12 @@ public class PurchasingUpdateCamsViewValidation extends GenericValidation{
         return capitalAssetBuilderModuleService.validateUpdateCAMSView(pd.getItems());
     }
 
+    public CapitalAssetBuilderModuleService getCapitalAssetBuilderModuleService() {
+        return capitalAssetBuilderModuleService;
+    }
+
+    public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
+        this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
+    }
+
 }

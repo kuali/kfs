@@ -17,23 +17,26 @@ package org.kuali.kfs.module.ar.batch;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
-import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Parameter;
@@ -43,6 +46,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     
@@ -323,38 +327,40 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
         customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
         customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, new KualiDecimal(1), new BigDecimal(100), "1111111", "BA"));
-
+// TODO abyrne - stop using DocumentTestUtils from production code
+        return "";
 //        customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(100));
 //        customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount();
-        try {
-            // the document header is created and set here
-            customerCreditMemoDocument = (CustomerCreditMemoDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerCreditMemoDocument.class);
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Document customerCreditMemoDocument creation failed.");
-        }
-        customerCreditMemoDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
-        customerCreditMemoDocument.setInvoice(customerInvoiceDocument);
-        customerCreditMemoDocument.populateCustomerCreditMemoDetails();
+//        try {
+//            // the document header is created and set here
+//            
+//            customerCreditMemoDocument = (CustomerCreditMemoDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerCreditMemoDocument.class);
+//        }
+//        catch (WorkflowException e) {
+//            throw new RuntimeException("Document customerCreditMemoDocument creation failed.");
+//        }
+//        customerCreditMemoDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
+//        customerCreditMemoDocument.setInvoice(customerInvoiceDocument);
+//        customerCreditMemoDocument.populateCustomerCreditMemoDetails();
 
-        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
-        for (CustomerCreditMemoDetail customerCreditMemoDetail : customerCreditMemoDetails) {
-            customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(1));
-            customerCreditMemoDetail.setCreditMemoItemTotalAmount(new KualiDecimal(100));
-            customerCreditMemoDetail.setCreditMemoLineTotalAmount(new KualiDecimal(100));
-        }
-
-        try {
-            documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
-            Thread.sleep(5000);
-            documentService.blanketApproveDocument(customerCreditMemoDocument, null, null);
-            LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Customer Invoice Document routing failed.");
-        }
-        LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
-
-       return customerInvoiceDocument.getDocumentNumber();
+//        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
+//        for (CustomerCreditMemoDetail customerCreditMemoDetail : customerCreditMemoDetails) {
+//            customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(1));
+//            customerCreditMemoDetail.setCreditMemoItemTotalAmount(new KualiDecimal(100));
+//            customerCreditMemoDetail.setCreditMemoLineTotalAmount(new KualiDecimal(100));
+//        }
+//
+//        try {
+//            documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
+//            Thread.sleep(5000);
+//            documentService.blanketApproveDocument(customerCreditMemoDocument, null, null);
+//            LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
+//        } catch (WorkflowException e) {
+//            throw new RuntimeException("Customer Invoice Document routing failed.");
+//        }
+//        LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
+//
+//       return customerInvoiceDocument.getDocumentNumber();
     }
 
 

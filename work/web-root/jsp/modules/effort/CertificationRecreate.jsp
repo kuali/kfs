@@ -24,7 +24,7 @@
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
 
-<c:set var="readOnly" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="readOnly" value="${empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true" documentTypeName="${documentTypeName}"
 	htmlFormAction="${htmlFormAction}" renderMultipart="true"

@@ -18,69 +18,36 @@ package org.kuali.kfs.coa.identity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.identity.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimRoleTypeServiceBase {
-    
+    protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
+    protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
+    {
+        roleQualifierRequiredAttributes.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+
+        qualificationRequiredAttributes.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        qualificationRequiredAttributes.add(KFSPropertyConstants.ORGANIZATION_CODE);
+    }
+
     private OrganizationService organizationService;
+    private ChartService chartService;
 
-    protected final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
-    
-    protected boolean doDescendHierarchy(String descendHierarchyValue){
-        return DESCEND_HIERARCHY_TRUE_VALUE.equalsIgnoreCase(descendHierarchyValue);
-    }
-    
-    protected boolean isParentOrg(String qualificationChartCode, String qualificationOrgCode, String roleChartCode, String roleOrgCode, 
-            boolean descendHierarchy) {
-        
-        // perform exact match first
-        if(StringUtils.equals(qualificationChartCode, roleChartCode)
-                && StringUtils.equals(qualificationOrgCode, roleOrgCode) ) {
-            return true;
-        } else {
-            // if descendHierarchy is false, abort now
-            if(!descendHierarchy){
-                return false;
-            }
-            // otherwise, check if the organization/chart in the role qualifier implies
-            // the organization in the qualification
-            
-            // first, just check on a chart match - if there is no organization on the role qualifier
-            if(StringUtils.isBlank(roleOrgCode)){
-                if(StringUtils.equals(qualificationChartCode, roleChartCode)){
-                    return true;
-                } else {
-                    // TODO: need to check on the chart hierarchy?
-                    return false;
-                }
-            }
-            
-            // now that we know that we have a chart and an org on the role qualifier,
-            // test to see if they match
-            return organizationService.isParentOrg(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode);
+    protected boolean isParentOrg(String qualificationChartCode, String qualificationOrgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
+        if (roleOrgCode == null) {
+            return roleChartCode.equals(qualificationChartCode) || (descendHierarchy && chartService.isParentChart(qualificationChartCode, roleChartCode));
         }
-        
+        return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode)) || (descendHierarchy && organizationService.isParentOrg(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode));
     }
 
-    /**
-     * Gets the organizationService attribute. 
-     * @return Returns the organizationService.
-     */
-    public OrganizationService getOrganizationService() {
-        return organizationService;
-    }
-
-    /**
-     * Sets the organizationService attribute value.
-     * @param organizationService The organizationService to set.
-     */
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
 
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
+    }
 }

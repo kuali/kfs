@@ -62,6 +62,14 @@ public interface ChartService {
      * @return
      */
     public List getChartsThatUserIsResponsibleFor(Person kualiUser);
-
+    
+    /**
+     * This method traverses the hierarchy to see if the potentialChildChartCode reports to the potentialParentChartCode
+     * 
+     * @param potentialChildChartCode
+     * @param potentialParentChartCode
+     * @return boolean indicating whether the first parameter reports to the second
+     */
+    public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode);
 }
 

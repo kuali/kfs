@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
@@ -57,7 +58,7 @@ public class ChartServiceImpl implements ChartService {
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getAllChartCodes()
      */
-    public List getAllChartCodes() {
+    public List<String> getAllChartCodes() {
         Collection charts = chartDao.getAll();
         List chartCodes = new ArrayList();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {
@@ -105,6 +106,25 @@ public class ChartServiceImpl implements ChartService {
             LOG.debug("retrieved chartsResponsible list for user " + person.getName());
         }
         return chartList;
+    }
+    
+    public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode) {
+        if ((potentialChildChartCode == null) || (potentialParentChartCode == null)) {
+            throw new IllegalArgumentException("The isParentChartCode method requires a non-null potentialChildChartCode and potentialParentChartCode");
+        }
+        Chart thisChart = getByPrimaryId(potentialChildChartCode);
+        if ((thisChart == null) || StringUtils.isBlank(thisChart.getChartOfAccountsCode())) {
+            throw new IllegalArgumentException("The isParentChartCode method requires a valid potentialChildChartCode");
+        }
+        if (thisChart.getCode().equals(thisChart.getReportsToChartOfAccountsCode())) {
+            return false;
+        }
+        else if (potentialParentChartCode.equals(thisChart.getReportsToChartOfAccountsCode())) {
+            return true;
+        }
+        else {
+            return isParentChart(thisChart.getReportsToChartOfAccountsCode(), potentialParentChartCode);
+        }
     }
 
     /**

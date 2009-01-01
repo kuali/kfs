@@ -14,9 +14,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
     <bean id="bcModuleConfiguration" parent="bcModuleConfiguration-parentBean" />
 	
     <bean id="bcModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
@@ -200,7 +206,7 @@
 		</property>
 	</bean>
 	
-	<bean id="intendedIncumbentSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentSelectLookupableHelperServiceImpl" singleton="false">
+	<bean id="intendedIncumbentSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentSelectLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -218,13 +224,13 @@
 		</property>		
 	</bean>
 	
-	<bean id="intendedIncumbentSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="intendedIncumbentSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="intendedIncumbentSelectLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="positionSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionSelectLookupableHelperServiceImpl" singleton="false">
+	<bean id="positionSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionSelectLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -242,37 +248,37 @@
 		</property>		
 	</bean>
 
-	<bean id="positionSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="positionSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="positionSelectLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="budgetPositionLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
+	<bean id="budgetPositionLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 	
-	<bean id="budgetPositionLookupable" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" singleton="false">
+	<bean id="budgetPositionLookupable" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="budgetPositionLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">	
+	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">	
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 
-	<bean id="budgetIntendedIncumbentLookupable" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" singleton="false">
+	<bean id="budgetIntendedIncumbentLookupable" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="budgetIntendedIncumbentLookupableHelperService" />
 		</property>
 	</bean>	
 
-	<bean id="accountSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.AccountSelectLookupableHelperServiceImpl" singleton="false">
+	<bean id="accountSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.AccountSelectLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -290,13 +296,13 @@
 		</property>		
 	</bean>
 
-	<bean id="accountSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="accountSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="accountSelectLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="lockMonitorLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.LockMonitorLookupableHelperServiceImpl" singleton="false">
+	<bean id="lockMonitorLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.LockMonitorLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -320,13 +326,13 @@
 		</property>		
 	</bean>
 
-	<bean id="lockMonitorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="lockMonitorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="lockMonitorLookupableHelperService" />
 		</property>
 	</bean>	
 
-	<bean id="requestBenefitsLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.RequestBenefitsLookupableHelperServiceImpl" singleton="false">
+	<bean id="requestBenefitsLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.RequestBenefitsLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -347,7 +353,7 @@
 		</property>
 	</bean>
 
-	<bean id="requestBenefitsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="requestBenefitsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="requestBenefitsLookupableHelperService" />
 		</property>
@@ -988,7 +994,7 @@
 		</property> 
 	</bean> 
 	
-	<bean id="csfTrackerLookupableHelperServiceImpl" class="org.kuali.kfs.module.bc.businessobject.lookup.CSFTrackerLookupableHelperServiceImpl" singleton="false">
+	<bean id="csfTrackerLookupableHelperServiceImpl" class="org.kuali.kfs.module.bc.businessobject.lookup.CSFTrackerLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -1009,10 +1015,18 @@
 		</property>	
 	</bean>
 	
-	<bean id="csfTrackerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="csfTrackerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="csfTrackerLookupableHelperServiceImpl" />
 		</property>
 	</bean>	
+	
+	<bean name="budgetConstructionDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" />
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kfsService" p:service-ref="budgetConstructionDocumentDerivedRoleTypeService"
+				p:localServiceName="budgetConstructionDocumentDerivedRoleTypeService" />
+		</property>
+	</bean>
 </beans>
 

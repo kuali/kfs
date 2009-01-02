@@ -797,13 +797,13 @@
 		</property>
 	</bean>	
 	
-    <bean id="accountsReceivableProcessingOrganizationRoleTypeService" class="org.kuali.kfs.module.ar.identity.AccountsReceivableProcessingOrganizationRoleTypeServiceImpl"
-      p:businessObjectService-ref="businessObjectService" />	
+    <bean id="accountsReceivableOrganizationDerivedRoleTypeService" class="org.kuali.kfs.module.ar.identity.AccountsReceivableOrganizationDerivedRoleTypeServiceImpl"
+      p:businessObjectService-ref="businessObjectService" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
     	<property name="serviceDefinition">
 		<bean parent="kfsService"
-        	p:service-ref="accountsReceivableProcessingOrganizationRoleTypeService"
-        	p:localServiceName="accountsReceivableProcessingOrganizationRoleTypeService" />
+        	p:service-ref="accountsReceivableOrganizationDerivedRoleTypeService"
+        	p:localServiceName="accountsReceivableOrganizationDerivedRoleTypeService" />
 		</property>
 	</bean>
 

@@ -15,19 +15,15 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KimAttributes;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
-public class OrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyRoleTypeServiceImpl {
+public class OrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
     {
-        roleQualifierRequiredAttributes.add(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
+        roleQualifierRequiredAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
 
-        qualificationRequiredAttributes.add(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
+        qualificationRequiredAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
     }
 
     /**
@@ -37,7 +33,11 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
      * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
-    public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        return super.performMatch(qualification, roleQualifier) && qualification.get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL).equalsIgnoreCase(roleQualifier.get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL));
+    @Override
+    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+        validateRequiredAttributesAgainstReceived(qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
+        validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
+
+        return isParentOrg(qualification.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), qualification.get(KFSPropertyConstants.ORGANIZATION_CODE), roleQualifier.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), roleQualifier.get(KFSPropertyConstants.ORGANIZATION_CODE), true) && qualification.get(KimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KimAttributes.DOCUMENT_TYPE_NAME));
     }
 }

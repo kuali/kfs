@@ -23,28 +23,37 @@ import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
-    private static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
+    public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
+    public static final String DESCEND_HIERARCHY_FALSE_VALUE = "N";
+    private boolean qualificationDeterminesDescendHierarchy;
     {
-        roleQualifierRequiredAttributes.add(KimAttributes.DESCEND_HIERARCHY);
-
-        qualificationRequiredAttributes.add(KimAttributes.DESCEND_HIERARCHY);
+        if (qualificationDeterminesDescendHierarchy) {
+            qualificationRequiredAttributes.add(KimAttributes.DESCEND_HIERARCHY);
+        }
+        else {
+            roleQualifierRequiredAttributes.add(KimAttributes.DESCEND_HIERARCHY);
+        }
     }
 
     /***
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
+     *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        validateRequiredAttributesAgainstReceived(
-                qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        validateRequiredAttributesAgainstReceived(
-                roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
+        validateRequiredAttributesAgainstReceived(qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
+        validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
+        String descendHierarchy = null;
+        if (qualificationDeterminesDescendHierarchy) {
+            descendHierarchy = qualification.get(KimAttributes.DESCEND_HIERARCHY);
+        }
+        else {
+            descendHierarchy = roleQualifier.get(KimAttributes.DESCEND_HIERARCHY);
+        }
+        return isParentOrg(qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), qualification.get(KimAttributes.ORGANIZATION_CODE), roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), roleQualifier.get(KimAttributes.ORGANIZATION_CODE), DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy));
+    }
 
-        return isParentOrg(
-                qualification.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), 
-                qualification.get(KFSPropertyConstants.ORGANIZATION_CODE), 
-                roleQualifier.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), 
-                roleQualifier.get(KFSPropertyConstants.ORGANIZATION_CODE), 
-                DESCEND_HIERARCHY_TRUE_VALUE.equals(roleQualifier.get(KimAttributes.DESCEND_HIERARCHY)));
+    public void setQualificationDeterminesDescendHierarchy(boolean qualificationDeterminesDescendHierarchy) {
+        this.qualificationDeterminesDescendHierarchy = qualificationDeterminesDescendHierarchy;
     }
 }

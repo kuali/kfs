@@ -1021,7 +1021,9 @@
 		</property>
 	</bean>	
 	
-	<bean name="budgetConstructionDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" />
+	<bean name="budgetConstructionDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl">
+		<property name="organizationService" ref="organizationService" />
+	</bean>
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="budgetConstructionDocumentDerivedRoleTypeService"

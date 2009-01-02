@@ -25,14 +25,15 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-public class AccountsReceivableProcessingOrganizationRoleTypeServiceImpl extends PassThruRoleTypeServiceBase {
-
+public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase {
+    private static final String PROCESSOR_ROLE_NAME = "Processor";
+    
     protected BusinessObjectService businessObjectService;
 
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, AttributeSet qualification) {
         
-        if ( roleName.equals( "Processor" ) ) {        
+        if (PROCESSOR_ROLE_NAME.equals(roleName)) {        
             Map<String,Object> arOrgOptPk = new HashMap<String, Object>();
             arOrgOptPk.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE) );
             arOrgOptPk.put(KimAttributes.ORGANIZATION_CODE, qualification.get(KimAttributes.ORGANIZATION_CODE) );
@@ -52,8 +53,8 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImpl extends
                 AttributeSet nestedRoleQualification = new AttributeSet( qualification );
                 // put in an invalid set of attributes to prevent a true response
                 nestedRoleQualification.put( KimAttributes.NAMESPACE_CODE, ArConstants.AR_NAMESPACE_CODE );
-                nestedRoleQualification.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, "!~!~" );
-                nestedRoleQualification.put(KimAttributes.ORGANIZATION_CODE, "!~!~!~!~!~" );
+                nestedRoleQualification.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, UNMATCHABLE_QUALIFICATION);
+                nestedRoleQualification.put(KimAttributes.ORGANIZATION_CODE, UNMATCHABLE_QUALIFICATION);
                 return nestedRoleQualification;
             }
         } else {

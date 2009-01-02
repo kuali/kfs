@@ -790,23 +790,23 @@
 		<property name="organizationService" ref="organizationService" />
 	</bean>
 
-	<bean id="organizationOptionalHierarchyRoleTypeService"
+	<bean id="organizationOptionalHierarchyQualifierRoleTypeService"
 		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="organizationOptionalHierarchyRoleTypeService"
-				p:localServiceName="organizationOptionalHierarchyRoleTypeService" />
+			<bean parent="kfsService" p:service-ref="organizationOptionalHierarchyQualifierRoleTypeService"
+				p:localServiceName="organizationOptionalHierarchyQualifierRoleTypeService" />
 		</property>
 	</bean>
 
-	<bean name="organizationHierarchyRoleTypeService"
-		class="org.kuali.kfs.coa.identity.OrganizationHierarchyRoleTypeServiceImpl"
-		parent="organizationHierarchyAwareRoleTypeService" />
+	<bean id="organizationOptionalHierarchyQualificationRoleTypeService"
+		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
+		parent="organizationHierarchyAwareRoleTypeService" p:qualificationDeterminesDescendHierarchy="true" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="organizationHierarchyRoleTypeService"
-				p:localServiceName="organizationHierarchyRoleTypeService" />
+			<bean parent="kfsService" p:service-ref="organizationOptionalHierarchyQualificationRoleTypeService"
+				p:localServiceName="organizationOptionalHierarchyQualificationRoleTypeService" />
 		</property>
 	</bean>
 

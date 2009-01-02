@@ -88,8 +88,8 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     }
     
     public void testConvertQualificationForMemberRoles() {
-        AccountsReceivableProcessingOrganizationRoleTypeServiceImpl roleTypeService = 
-                new AccountsReceivableProcessingOrganizationRoleTypeServiceImpl();
+        AccountsReceivableOrganizationDerivedRoleTypeServiceImpl roleTypeService = 
+                new AccountsReceivableOrganizationDerivedRoleTypeServiceImpl();
         roleTypeService.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         AttributeSet qualification = buildDocQualifier();
         AttributeSet result = roleTypeService.convertQualificationForMemberRoles(AR_NAMESPACE, AR_PROCESSOR_ROLE, qualification);

@@ -47,7 +47,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
         FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry)(dataDictionary.getDocumentEntry(document.getClass().getName()));
         
-        if (documentEntry.getAllowsErrorCorrection()) {
+        if (!documentEntry.getAllowsErrorCorrection()) {
             return false;
         }
         

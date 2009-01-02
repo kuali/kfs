@@ -16,9 +16,13 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
@@ -26,7 +30,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class is used to create and test populated Requisition Documents
@@ -44,7 +48,7 @@ public class NegativeAPOTest extends KualiTestBase {
 
     private RequisitionService reqService;
     private KualiConfigurationService kualiConfigurationService;
-    private UnitTestSqlDao unitTestSqlDao;
+    private PurapService purapService;
     
     private RequisitionDocument requisitionDocument = null;
 
@@ -56,8 +60,8 @@ public class NegativeAPOTest extends KualiTestBase {
         if (null == kualiConfigurationService) {
             kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         }
-        if (null == unitTestSqlDao) {
-            unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
+        if (null == purapService) {
+            purapService = SpringContext.getBean(PurapService.class);
         }
     }
 
@@ -189,19 +193,24 @@ public class NegativeAPOTest extends KualiTestBase {
      }
      
      // Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.
-     /*public void testInvalidAPOApprovalOutsideAllowedDateRange() throws Exception {
+     public void testInvalidAPOApprovalOutsideAllowedDateRange() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_APPROVAL_OUTSIDE_ALLOWED_DATE_RANGE.createRequisitionDocument();
-         
-         String sql = "UPDATE SH_UNIV_DATE_T";
-                  sql += "SET UNIV_FISCAL_YR='2006'";
-         unitTestSqlDao.sqlCommand(sql);
-         
-         assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
-         if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_FAILS_CAPITAL_ASSET_RULES);
-             assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
-         }  
-     }*/
+         int currentYear = (new GregorianCalendar()).get(Calendar.YEAR);
+         requisitionDocument.setPostingYear(new Integer(currentYear + 1));
+         boolean apoAllowed = reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument);
+         // This should only give a negative result when the current date in the next fiscal year is outside the acceptable 
+         // range of dates during which the next fiscal year is acceptable.
+         if (!purapService.isTodayWithinApoAllowedRange()) {
+             assertFalse(apoAllowed); 
+             if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
+                 String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_OUTSIDE_NEXT_FY_APPROVAL_RANGE);
+                 assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
+             }
+         }
+         else {
+             assertTrue(apoAllowed);            
+         }
+     }
      
      // Requisition contains inactive commodity codes.
      public void testInvalidAPOHasInactiveCommodityCode() throws Exception {

@@ -91,6 +91,7 @@ public class PurapKeyConstants {
     public static final String NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA="requisition.nonAPO.requisition.contains.commodity.code.sensitive.data";
     public static final String NON_APO_REQUISITION_MISSING_SOME_VENDOR_ADDRESS_FIELDS="requisition.nonAPO.missing.some.vendor.address.fields";
     public static final String NON_APO_REQUISITION_FAILS_CAPITAL_ASSET_RULES="requisition.nonAPO.capital.asset.rules";
+    public static final String NON_APO_REQUISITION_OUTSIDE_NEXT_FY_APPROVAL_RANGE="requisition.nonAPO.outside.nextFY.approval.range";
     // Purchase Order
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";
     public static final String PURCHASE_ORDER_SPLIT_QUESTION_TEXT = "purchaseOrder.split.question.text";

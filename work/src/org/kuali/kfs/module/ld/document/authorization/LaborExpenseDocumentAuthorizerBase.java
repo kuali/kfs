@@ -21,7 +21,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 /**
- * Labor Docuemnt Implements special document authorization for the labor expense documents.
+ * Labor Document Implements special document authorization for the labor expense documents.
  */
 public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthorizerBase {
     // TODO fix for kim

@@ -270,4 +270,11 @@ public class LaborConstants {
         }
         return DASH_EMPLID;
     }
+    
+    public static final String LABOR_MODULE_CODE = "KFS-LD";
+    
+    public static class PermissionNames {
+        public static final String 
+            OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION = "Override Transfer Impacting Open Effort Certification";
+    }    
 }

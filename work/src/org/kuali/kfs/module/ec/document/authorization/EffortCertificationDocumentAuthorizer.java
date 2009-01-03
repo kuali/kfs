@@ -15,85 +15,32 @@
  */
 package org.kuali.kfs.module.ec.document.authorization;
 
+import java.util.HashMap;
+import java.util.Map;
 
-// getEditMode is not required as part of KIM changes
+import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
-
-//import java.util.HashMap;
-//import java.util.Map;
-
-//import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
-//import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
-//import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-
-//import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
-//import org.kuali.rice.kim.bo.Person;
-//import org.kuali.rice.kns.document.Document;
-//import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * Document Authorizer for the Effort Certification document.
  */
-public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
+public class EffortCertificationDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     
-//    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
    
      /** @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
       *  org.kuali.rice.kim.bo.Person)
       */
-//    @Override
-//    public Map<String, String> getEditMode(Document document, Person person) {
-//        Map<String, String> editModeMap = new HashMap<String, String>();
-//        String editMode = EffortCertificationEditMode.VIEW_ONLY;
-//
-//       KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-//        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            // TODO fix for kim
-////            if (hasInitiateAuthorization(document, person)) {
-    //            editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.TRUE.toString());
-////            }
-//        }
-//        else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-//            String routeLevel = workflowDocument.getCurrentRouteNodeNames();
-
-//            Map<String, String> editModes = this.getEditModeSetup();
-//            Map<String, Boolean> editableIndicators = this.getEditableIndicator();
-//            if (editModes.containsKey(routeLevel) && editableIndicators.get(routeLevel)) {
-//                editMode = editModes.get(routeLevel);
-//                editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.FALSE.toString());
-//            }
-//        }
-
-//        editModeMap.put(editMode, Boolean.TRUE.toString());
-//        return editModeMap;
-//   }
-
-    // setup the edit map where its key is route level name and its value the edit mode.
-//    private Map<String, String> getEditModeSetup() {
-//        Map<String, String> editModes = new HashMap<String, String>();
-
-//        editModes.put(RouteLevelNames.PROJECT_DIRECTOR, EffortCertificationEditMode.PROJECT_ENTRY);
-//        editModes.put(RouteLevelNames.ACCOUNT_REVIEW, EffortCertificationEditMode.EXPENSE_ENTRY);
-//        editModes.put(RouteLevelNames.ORG_REVIEW, EffortCertificationEditMode.EXPENSE_ENTRY);
-//        editModes.put(RouteLevelNames.CG_WORKGROUP, EffortCertificationEditMode.EXPENSE_ENTRY);
-//        editModes.put(RouteLevelNames.RECREATE_WORKGROUP, EffortCertificationEditMode.EXPENSE_ENTRY);
-
-//        return editModes;
-//    }
-
-    // setup the editable indicator map where its key is route level name and its value the editable indicator.
-//    private Map<String, Boolean> getEditableIndicator() {
-//        Map<String, Boolean> editableIndicators = new HashMap<String, Boolean>();
-
-//        editableIndicators.put(RouteLevelNames.PROJECT_DIRECTOR, true);
-//        editableIndicators.put(RouteLevelNames.ACCOUNT_REVIEW, true);
-//        editableIndicators.put(RouteLevelNames.ORG_REVIEW, EffortCertificationParameterFinder.getOrganizationRoutingEditableIndicator());
-//        editableIndicators.put(RouteLevelNames.CG_WORKGROUP, EffortCertificationParameterFinder.getAwardRoutingEditableIndicator());
- //       editableIndicators.put(RouteLevelNames.RECREATE_WORKGROUP, EffortCertificationParameterFinder.getAdministrationRoutingEditableIndicator());
-
-//        return editableIndicators;
-//    }
+    @Override
+    public Map getEditMode(Document document, Person user) {
+        Map editModeMap = super.getEditMode(document, user);
+        // need to figure out how to set the setHasTotalAmount to true
+        return editModeMap;
+   }
 }
 

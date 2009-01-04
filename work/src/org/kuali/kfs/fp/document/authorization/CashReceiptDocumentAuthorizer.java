@@ -104,16 +104,17 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
         return new HashMap();
     }
 
-    /**
-     * CR docs cannot be initiated by users in a verification unit that the CR is associated with. Right now, since there is a
-     * single verification unit, we only need this to check for exitence in that one.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public boolean canInitiate(String documentTypeName, Person user) {
-        return super.canInitiate(documentTypeName, user) && !SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer("CashManagementDocument").canInitiate("CashManagementDocument", user);
-    }
+    // TODO evaluate how to handle this exception with kim
+//    /**
+//     * CR docs cannot be initiated by users in a verification unit that the CR is associated with. Right now, since there is a
+//     * single verification unit, we only need this to check for exitence in that one.
+//     * 
+//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
+//     */
+//    @Override
+//    public boolean canInitiate(String documentTypeName, Person user) {
+//        return super.canInitiate(documentTypeName, user) && !SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer("CashManagementDocument").canInitiate("CashManagementDocument", user);
+//    }
     
     /**
      * Method used by <code>{@link org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService}</code> to determine of the

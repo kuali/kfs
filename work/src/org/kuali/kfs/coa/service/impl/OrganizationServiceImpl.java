@@ -91,7 +91,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Cached
-    public boolean isParentOrg( String childChartOfAccountsCode, String childOrganizationCode, String parentChartOfAccountsCode, String parentOrganizationCode ) {
+    public boolean isParentOrganization( String childChartOfAccountsCode, String childOrganizationCode, String parentChartOfAccountsCode, String parentOrganizationCode ) {
         if (StringUtils.isBlank(childChartOfAccountsCode)) {
             throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
         }

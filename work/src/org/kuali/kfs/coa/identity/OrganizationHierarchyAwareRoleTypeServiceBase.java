@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.identity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.coa.service.ChartHierarchyService;
+import org.kuali.kfs.coa.service.OrganizationHierarchyService;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
@@ -33,21 +33,21 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
         qualificationRequiredAttributes.add(KimAttributes.ORGANIZATION_CODE);
     }
 
-    private OrganizationService organizationService;
-    private ChartService chartService;
+    private ChartHierarchyService chartService;
+    private OrganizationHierarchyService organizationService;
 
     protected boolean isParentOrg(String qualificationChartCode, String qualificationOrgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
         if (roleOrgCode == null) {
             return roleChartCode.equals(qualificationChartCode) || (descendHierarchy && chartService.isParentChart(qualificationChartCode, roleChartCode));
         }
-        return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode)) || (descendHierarchy && organizationService.isParentOrg(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode));
+        return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode)) || (descendHierarchy && organizationService.isParentOrganization(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode));
     }
 
-    public void setOrganizationService(OrganizationService organizationService) {
+    public void setOrganizationService(OrganizationHierarchyService organizationService) {
         this.organizationService = organizationService;
     }
 
-    public void setChartService(ChartService chartService) {
+    public void setChartService(ChartHierarchyService chartService) {
         this.chartService = chartService;
     }
 }

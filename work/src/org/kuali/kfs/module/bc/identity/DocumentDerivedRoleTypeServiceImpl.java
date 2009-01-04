@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.bc.identity;
 
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl;
-import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
@@ -26,7 +26,7 @@ import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
 public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase {
     private static final String DOCUMENT_VIEWER_ROLE_NAME = "Document Viewer";
     private static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
-    private OrganizationService organizationService;
+    private BudgetConstructionOrganizationReportsService organizationService;
 
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, AttributeSet qualification) {
@@ -47,7 +47,7 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         else {
             accountNumber = UNMATCHABLE_QUALIFICATION;
             for (int i = 2; i <= organizationLevelCode; i++) {
-                Organization newOrganization = organizationService.getByPrimaryId(chartOfAccountsCode, organizationCode);
+                BudgetConstructionOrganizationReports newOrganization = organizationService.getByPrimaryId(chartOfAccountsCode, organizationCode);
                 chartOfAccountsCode = newOrganization.getReportsToChartOfAccountsCode();
                 organizationCode = newOrganization.getReportsToOrganizationCode();
             }
@@ -59,7 +59,7 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         return newQualification;
     }
 
-    public void setOrganizationService(OrganizationService organizationService) {
+    public void setOrganizationService(BudgetConstructionOrganizationReportsService organizationService) {
         this.organizationService = organizationService;
     }
 }

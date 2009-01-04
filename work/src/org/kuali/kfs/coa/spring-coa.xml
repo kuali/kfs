@@ -800,16 +800,6 @@
 		</property>
 	</bean>
 
-	<bean id="organizationOptionalHierarchyQualificationRoleTypeService"
-		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
-		parent="organizationHierarchyAwareRoleTypeService" p:qualificationDeterminesDescendHierarchy="true" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="organizationOptionalHierarchyQualificationRoleTypeService"
-				p:localServiceName="organizationOptionalHierarchyQualificationRoleTypeService" />
-		</property>
-	</bean>
-
 	<bean id="organizationHierarchyReviewRoleTypeService"
 		class="org.kuali.kfs.coa.identity.OrganizationHierarchyReviewRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />

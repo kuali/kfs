@@ -20,9 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.service.ChartHierarchyService;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.OrganizationHierarchyService;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
  *      java.lang.String)
  */
 @Transactional
-public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetConstructionOrganizationReportsService {
+public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetConstructionOrganizationReportsService, ChartHierarchyService, OrganizationHierarchyService {
 
     private BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao;
 
@@ -105,4 +110,13 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
         return budgetConstructionOrganizationReportsDao.isLeafOrg(chartOfAccountsCode, organizationCode);
     }
 
+    public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode) {
+        // TODO implement this method using the bc tables instead
+        return SpringContext.getBean(ChartService.class).isParentChart(potentialChildChartCode, potentialParentChartCode);
+    }
+
+    public boolean isParentOrganization(String potentialChildChartCode, String potentialChildOrganizationCode, String potentialParentChartCode, String potentialParentOrganizationCode) {
+        // TODO implement this method using the bc tables instead
+        return SpringContext.getBean(OrganizationService.class).isParentOrganization(potentialChildChartCode, potentialChildOrganizationCode, potentialParentChartCode, potentialParentOrganizationCode);
+    }
 }

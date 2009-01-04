@@ -1019,11 +1019,25 @@
 		<property name="lookupableHelperService">
 			<ref bean="csfTrackerLookupableHelperServiceImpl" />
 		</property>
-	</bean>	
-	
-	<bean name="budgetConstructionDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl">
-		<property name="organizationService" ref="organizationService" />
 	</bean>
+
+	<bean
+		id="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService"
+		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
+		p:qualificationDeterminesDescendHierarchy="true"
+		p:chartService-ref="budgetConstructionOrganizationReportsService"
+		p:organizationService-ref="budgetConstructionOrganizationReportsService" />
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kfsService"
+				p:service-ref="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService"
+				p:localServiceName="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService" />
+		</property>
+	</bean>
+
+	<bean name="budgetConstructionDocumentDerivedRoleTypeService"
+		class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl"
+		p:organizationService-ref="budgetConstructionOrganizationReportsService" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="budgetConstructionDocumentDerivedRoleTypeService"

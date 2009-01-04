@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.identity.OrganizationAndOptionalNamespaceRoleTypeServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -66,7 +67,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
 
     protected String getUserRoleId() {
         if (userRoleId == null) {
-            userRoleId = getRoleManagementService().getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KimConstants.KIM_ROLE_NAME_USER);
+            userRoleId = getRoleManagementService().getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, OrganizationAndOptionalNamespaceRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME);
         }
         return userRoleId;
     }
@@ -95,7 +96,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         }
         AttributeSet qualification = new AttributeSet(1);
         qualification.put(KimAttributes.NAMESPACE_CODE, namespaceCode);
-        List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(person.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KimConstants.KIM_ROLE_NAME_USER, qualification);
+        List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(person.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, OrganizationAndOptionalNamespaceRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         ChartOrgHolderImpl result = new ChartOrgHolderImpl();
         if (!roleQualifiers.isEmpty()) {
             result.setChartOfAccountsCode(roleQualifiers.get(0).get(KimAttributes.CHART_OF_ACCOUNTS_CODE));

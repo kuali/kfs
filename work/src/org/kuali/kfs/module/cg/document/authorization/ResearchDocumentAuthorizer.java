@@ -38,7 +38,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -183,8 +182,10 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
      * @param user
      * @return true if the given user is allowed to modify documents of the given document type
      */
+    // TODO fix for kim
     public boolean canModify(String documentTypeName, Person user) {
-        return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_MODIFY, documentTypeName);
+        return false;
+//        return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_MODIFY, documentTypeName);
     }
 
     /**
@@ -194,8 +195,10 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
      * @param user
      * @return true if the given user is allowed to view documents of the given document type
      */
+    // TODO fix for kim
     public boolean canView(String documentTypeName, Person user) {
-        return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_VIEW, documentTypeName);
+        return false;
+//        return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_VIEW, documentTypeName);
     }
 }
 

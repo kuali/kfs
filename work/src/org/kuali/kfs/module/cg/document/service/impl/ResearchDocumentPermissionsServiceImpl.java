@@ -81,8 +81,9 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
      */
     public List<ResearchAdhocPermissionType> getPermissionTypes() {
         List<ResearchAdhocPermissionType> permissionTypeList = new ArrayList<ResearchAdhocPermissionType>();
-        permissionTypeList.add(new ResearchAdhocPermissionType(KFSConstants.PERMISSION_READ_CODE, KFSConstants.PERMISSION_READ_DESCRIPTION));
-        permissionTypeList.add(new ResearchAdhocPermissionType(KFSConstants.PERMISSION_MOD_CODE, KFSConstants.PERMISSION_MOD_DESCRIPTION));
+        // TODO fix for kim
+//        permissionTypeList.add(new ResearchAdhocPermissionType(KFSConstants.PERMISSION_READ_CODE, KFSConstants.PERMISSION_READ_DESCRIPTION));
+//        permissionTypeList.add(new ResearchAdhocPermissionType(KFSConstants.PERMISSION_MOD_CODE, KFSConstants.PERMISSION_MOD_DESCRIPTION));
         return permissionTypeList;
     }
 

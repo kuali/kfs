@@ -39,7 +39,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
@@ -207,12 +206,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
         col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
         col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
 
-        // check security on field and do masking if necessary
-        boolean viewAuthorized = SpringContext.getBean(AuthorizationService.class).isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getPerson(), element.getClass().getName(), col.getPropertyName());
-        if (!viewAuthorized) {
-            Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
-            propValue = displayMask.maskValue(propValue);
-        }
+        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue);
         col.setPropertyValue(propValue);
 
 

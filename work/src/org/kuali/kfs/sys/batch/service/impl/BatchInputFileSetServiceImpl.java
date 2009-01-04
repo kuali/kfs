@@ -112,12 +112,6 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        // check user is authorized to delete a file for the batch type
-        if (!this.isUserAuthorizedForBatchType(inputType, user)) {
-            LOG.error("User " + user.getPrincipalName() + " is not authorized to delete a file of batch type " + inputType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(user.getPrincipalName(), "delete", inputType.getFileSetTypeIdentifer());
-        }
-
         if (!canDelete(user, inputType, fileUserIdentifier)) {
             return false;
         }
@@ -183,11 +177,6 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
      */
     public File download(Person user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
-        if (!this.isUserAuthorizedForBatchType(inputType, user)) {
-            LOG.error("User " + user.getPrincipalName() + " is not authorized to download a file of batch type " + inputType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(user.getPrincipalName(), "download", inputType.getFileSetTypeIdentifer());
-        }
-
         String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
         File file = new File(fileName);
         if (!inputType.checkAuthorization(user, file)) {
@@ -221,21 +210,6 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#isUserAuthorizedForBatchType(org.kuali.kfs.sys.batch.BatchInputFileSetType,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean isUserAuthorizedForBatchType(BatchInputFileSetType batchInputFileSetType, Person user) {
-        if (batchInputFileSetType == null || user == null) {
-            LOG.error("an invalid(null) argument was given");
-            throw new IllegalArgumentException("an invalid(null) argument was given");
-        }
-
-        String authorizedWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(batchInputFileSetType.getUploadWorkgroupParameterComponent(), KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME);
-
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroupName);
-    }
-
-    /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileSetType,
      *      org.kuali.rice.kim.bo.Person)
      */
@@ -255,11 +229,6 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      */
     public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException {
         // check user is authorized to upload a file for the batch type
-        if (!isUserAuthorizedForBatchType(inputType, user)) {
-            LOG.error("User " + user.getPrincipalName() + " is not authorized to upload a file of batch type " + inputType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(user.getPrincipalName(), "upload", inputType.getFileSetTypeIdentifer());
-        }
-
         assertNoFilesInSetExist(user, inputType, fileUserIdentifier);
 
         Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap);

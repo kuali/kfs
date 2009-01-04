@@ -94,13 +94,6 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.BatchInputType#getUploadWorkgroupParameterComponent()
-     */
-    public Class getUploadWorkgroupParameterComponent() {
-        return LoadPaymentsStep.class;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileTypeBase#process(java.lang.String, java.lang.Object)
      */
     @Override

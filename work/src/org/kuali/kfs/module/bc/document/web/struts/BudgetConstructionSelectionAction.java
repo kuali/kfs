@@ -43,7 +43,6 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.AddBudgetConstructionDocumentEvent;
-import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
@@ -51,10 +50,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -62,7 +59,6 @@ import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -104,19 +100,20 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         return forward;
     }
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
-     *      java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-
-        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
-            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
-        }
-    }
+    // TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
+//     *      java.lang.String)
+//     */
+//    @Override
+//    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+//
+//        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
+//        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
+//            LOG.error("User not authorized to use this action: " + this.getClass().getName());
+//            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
+//        }
+//    }
 
     /**
      * Performs the initial load of the selection screen. Checks for the active BC fiscal year and initializes the fiscal year to be

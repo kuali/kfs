@@ -347,12 +347,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                             col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
                             col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
 
-                            // check security on field and do masking if necessary
-                            boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getPerson(), element.getClass().getName(), col.getPropertyName());
-                            if (!viewAuthorized) {
-                                Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
-                                propValue = displayMask.maskValue(propValue);
-                            }
+                            propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue);
                             col.setPropertyValue(propValue);
 
                             // add correct label for sysparam

@@ -15,16 +15,7 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import java.util.Date;
-
-import org.kuali.kfs.sys.businessobject.TaxRegion;
-import org.kuali.kfs.sys.businessobject.TaxRegionRate;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class implements authorization for Tax District Maintenance Document.

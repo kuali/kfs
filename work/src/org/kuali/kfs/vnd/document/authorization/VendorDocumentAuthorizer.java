@@ -15,34 +15,19 @@
  */
 package org.kuali.kfs.vnd.document.authorization;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.vnd.VendorAuthorizationConstants;
-import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.businessobject.VendorHeader;
-import org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Authorizer class for Vendor maintenance document
@@ -150,80 +135,81 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
 //        return docActionFlags;
 //    }
 
-    /**
-     * Sets the vendor contract and vendor contract organization fields to be read only if the current user is not a member of
-     * purchasing workgroup.
-     * 
-     * @param vendor an instance of VendorDetail document
-     * @param auths an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields
-     * @param user current logged-in user
-     * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
-     */
-    private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
-        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingWorkgroup)) {
-            List<VendorContract> contracts = vendor.getVendorContracts();
-            int i = 0;
-            for (VendorContract contract : contracts) {
-                // contract fields
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractName");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractDescription");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorCampusCode");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractBeginningDate");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractEndDate");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].contractManagerCode");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorB2bIndicator");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].purchaseOrderCostSourceCode");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorPaymentTermsCode");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorShippingPaymentTermsCode");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorShippingTitleCode");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractExtensionDate");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].organizationAutomaticPurchaseOrderLimit");
-                auths.addReadonlyAuthField("vendorContracts[" + i + "].active");
-
-                // contract organization sub collection fields
-                int j = 0;
-                List<VendorContractOrganization> vendorContractOrganizations = contract.getVendorContractOrganizations();
-                for (VendorContractOrganization org : vendorContractOrganizations) {
-                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].chartOfAccountsCode");
-                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].organizationCode");
-                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractPurchaseOrderLimitAmount");
-                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractExcludeIndicator");
-                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].active");
-                    j++;
-                }
-                i++;
-            }
-        }
-    }
-    
-    /**
-     * Sets the vendor commodity code fields to be read only and remove the add line on the vendor commodity collection if
-     * the user is not a member of purchasing workgroup.
-     * 
-     * @param vendor an instance of VendorDetail document
-     * @param auths an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields
-     * @param user current logged-in user
-     * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
-     */
-    private void setVendorCommodityCodeFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
-        //If the user is not in purchasing workgroup, we need to set the includeAddLine to false for vendorCommodities collection
-        //and set the commodity default indicator and active indicator to be read only.
-        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingWorkgroup)) {
-            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
-            collDef.setIncludeAddLine(false);
-            
-            List<VendorCommodityCode>vendorCommodities = vendor.getVendorCommodities();
-            int i = 0;
-            for (VendorCommodityCode vendorCommodityCode : vendorCommodities) {
-                auths.addReadonlyAuthField("vendorCommodities[" + i + "].commodityDefaultIndicator");
-                auths.addReadonlyAuthField("vendorCommodities[" + i + "].active");
-                i++;
-            }
-        }
-        else {
-            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
-            collDef.setIncludeAddLine(true);
-        }
-    }
+    // TODO fix for kim - framework will do these for you now - your authorizer will say commodities and contracts are secure potentially hidden section ids and kim will check the perms that are set up for them
+//    /**
+//     * Sets the vendor contract and vendor contract organization fields to be read only if the current user is not a member of
+//     * purchasing workgroup.
+//     * 
+//     * @param vendor an instance of VendorDetail document
+//     * @param auths an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields
+//     * @param user current logged-in user
+//     * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
+//     */
+//    private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
+//        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingWorkgroup)) {
+//            List<VendorContract> contracts = vendor.getVendorContracts();
+//            int i = 0;
+//            for (VendorContract contract : contracts) {
+//                // contract fields
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractName");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractDescription");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorCampusCode");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractBeginningDate");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractEndDate");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].contractManagerCode");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorB2bIndicator");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].purchaseOrderCostSourceCode");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorPaymentTermsCode");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorShippingPaymentTermsCode");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorShippingTitleCode");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractExtensionDate");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].organizationAutomaticPurchaseOrderLimit");
+//                auths.addReadonlyAuthField("vendorContracts[" + i + "].active");
+//
+//                // contract organization sub collection fields
+//                int j = 0;
+//                List<VendorContractOrganization> vendorContractOrganizations = contract.getVendorContractOrganizations();
+//                for (VendorContractOrganization org : vendorContractOrganizations) {
+//                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].chartOfAccountsCode");
+//                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].organizationCode");
+//                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractPurchaseOrderLimitAmount");
+//                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractExcludeIndicator");
+//                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].active");
+//                    j++;
+//                }
+//                i++;
+//            }
+//        }
+//    }
+//    
+//    /**
+//     * Sets the vendor commodity code fields to be read only and remove the add line on the vendor commodity collection if
+//     * the user is not a member of purchasing workgroup.
+//     * 
+//     * @param vendor an instance of VendorDetail document
+//     * @param auths an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields
+//     * @param user current logged-in user
+//     * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
+//     */
+//    private void setVendorCommodityCodeFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
+//        //If the user is not in purchasing workgroup, we need to set the includeAddLine to false for vendorCommodities collection
+//        //and set the commodity default indicator and active indicator to be read only.
+//        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingWorkgroup)) {
+//            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
+//            collDef.setIncludeAddLine(false);
+//            
+//            List<VendorCommodityCode>vendorCommodities = vendor.getVendorCommodities();
+//            int i = 0;
+//            for (VendorCommodityCode vendorCommodityCode : vendorCommodities) {
+//                auths.addReadonlyAuthField("vendorCommodities[" + i + "].commodityDefaultIndicator");
+//                auths.addReadonlyAuthField("vendorCommodities[" + i + "].active");
+//                i++;
+//            }
+//        }
+//        else {
+//            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
+//            collDef.setIncludeAddLine(true);
+//        }
+//    }
 }
 

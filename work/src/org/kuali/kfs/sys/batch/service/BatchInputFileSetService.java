@@ -82,15 +82,6 @@ public interface BatchInputFileSetService {
     public boolean isBatchInputTypeActive(BatchInputFileSetType batchInputFileSetType);
 
     /**
-     * Checks if the user has permissions to manage the batch input type.
-     * 
-     * @param batchInputFileSetType - input type to check user permissions on
-     * @param user - user to check
-     * @return boolean - true if user has permissions for the type, false if the user does not have permission
-     */
-    public boolean isUserAuthorizedForBatchType(BatchInputFileSetType batchInputFileSetType, Person user);
-
-    /**
      * Returns a list of batch type file names (including path) that the given user has permissions to manage.
      * 
      * @param user - user for checking permissions

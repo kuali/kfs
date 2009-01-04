@@ -49,12 +49,6 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        // check user is authorized to delete a file for the batch type
-        if (!this.isUserAuthorizedForBatchType(inputType, user)) {
-            LOG.error("User " + user.getPrincipalName() + " is not authorized to delete a file of batch type " + inputType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(user.getPrincipalName(), "delete", inputType.getFileSetTypeIdentifer());
-        }
-
         for (String fileType : inputType.getFileTypes()) {
             String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
             File file = new File(fileName);
@@ -70,12 +64,6 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
     }
 
     public Map<String, String> save(Person user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, AssetBarCodeInventoryInputFileForm form) throws AuthorizationException, FileStorageException {
-        // check user is authorized to upload a file for the batch type
-        if (!isUserAuthorizedForBatchType(inputType, user)) {
-            LOG.error("User " + user.getPrincipalName() + " is not authorized to upload a file of batch type " + inputType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(user.getPrincipalName(), "upload", inputType.getFileSetTypeIdentifer());
-        }
-
         assertNoFilesInSetExist(user, inputType, fileUserIdentifier);
 
         Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap);

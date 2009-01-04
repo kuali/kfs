@@ -46,10 +46,8 @@ import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
@@ -65,31 +63,32 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeAction.class);
     
     private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
+    // TODO fix for kim
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-
-        AuthorizationType adHocAuthorizationType = new AuthorizationType.AdHocRequest(this.getClass(), methodToCall);
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), adHocAuthorizationType)) {
-            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), adHocAuthorizationType, getKualiModuleService().getResponsibleModuleService(((KualiForm) form).getClass()));
-        }
-
-        Person person = GlobalVariables.getUserSession().getPerson();
-        try {
-            List<Organization> pointOfViewOrgs = permissionService.getOrgReview(person);
-            if (pointOfViewOrgs.isEmpty()) {
-                GlobalVariables.getErrorMap().putError("pointOfViewOrg", BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
-            }
-
-        }
-        catch (Exception e) {
-            throw new AuthorizationException(person.getPrincipalName(), this.getClass().getName(), "Can't determine organization approver status.");
-        }
-    }
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+//     */
+//    @Override
+//    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+//
+//        AuthorizationType adHocAuthorizationType = new AuthorizationType.AdHocRequest(this.getClass(), methodToCall);
+//        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), adHocAuthorizationType)) {
+//            LOG.error("User not authorized to use this action: " + this.getClass().getName());
+//            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), adHocAuthorizationType, getKualiModuleService().getResponsibleModuleService(((KualiForm) form).getClass()));
+//        }
+//
+//        Person person = GlobalVariables.getUserSession().getPerson();
+//        try {
+//            List<Organization> pointOfViewOrgs = permissionService.getOrgReview(person);
+//            if (pointOfViewOrgs.isEmpty()) {
+//                GlobalVariables.getErrorMap().putError("pointOfViewOrg", BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+//            }
+//
+//        }
+//        catch (Exception e) {
+//            throw new AuthorizationException(person.getPrincipalName(), this.getClass().getName(), "Can't determine organization approver status.");
+//        }
+//    }
 
     /**
      * Sets up the initial mode of the drill down screen based on a passed in calling mode attribute This can be one of five modes -

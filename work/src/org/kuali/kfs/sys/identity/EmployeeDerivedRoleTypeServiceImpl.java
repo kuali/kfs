@@ -57,7 +57,7 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         List<String> principalIds = new ArrayList<String>();
 
-        String principalId = qualification.get(KimConstants.KIM_ATTRIB_PRINCIPAL_ID);
+        String principalId = qualification.get(KimConstants.PropertyNames.PRINCIPAL_ID);
 
         if(hasApplicationRole(principalId, null, namespaceCode, roleName, qualification))
             principalIds.add( principalId );

@@ -155,13 +155,6 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.BatchInputType#getUploadWorkgroupParameterComponent()
-     */
-    public Class getUploadWorkgroupParameterComponent() {
-        return EnterpriseFeedStep.class;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
     public String getTitleKey() {

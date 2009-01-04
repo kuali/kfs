@@ -40,10 +40,6 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
         return KFSConstants.PCDO_FILE_TYPE_INDENTIFIER;
     }
 
-    public Class getUploadWorkgroupParameterComponent() {
-        return ProcurementCardLoadStep.class;
-    }
-
     /**
      * No additional information is added to procurment card batch files.
      * 

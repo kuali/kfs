@@ -1290,7 +1290,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return <code>Person</code>
      */
     private Person retrieveEmployeeBySSN(String ssnNumber) {
-        return (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnNumber).get(0);
+        return (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
     }
 
     /**

@@ -15,22 +15,16 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -76,53 +70,54 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
 //        // read-only acquisition code
 //    }
 
-    /**
-     * Check and set view only for campusTagNumber,assetTypeCode and assetDescription
-     * 
-     * @param auths
-     * @param asset
-     */
-    private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, Person user) {
-        // Apply the rule, when tag number exists and user is not a member of WORKGROUP_CM_SUPER_USERS &
-        // WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
-        if (asset.isTagged() & !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-            // if tag was created in a prior fiscal year, set tag number, asset type code and description as view only
-            if (getAssetService().isAssetTaggedInPriorFiscalYear(asset)) {
-                makeReadOnlyFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
-            }
-            else {
-                // Set the Tag Number as view only
-                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
-            }
-        }
-    }
+    // TODO fix for kim - move to presentation controller
+//    /**
+//     * Check and set view only for campusTagNumber,assetTypeCode and assetDescription
+//     * 
+//     * @param auths
+//     * @param asset
+//     */
+//    private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, Person user) {
+//        // Apply the rule, when tag number exists and user is not a member of WORKGROUP_CM_SUPER_USERS &
+//        // WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
+//        if (asset.isTagged() & !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
+//            // if tag was created in a prior fiscal year, set tag number, asset type code and description as view only
+//            if (getAssetService().isAssetTaggedInPriorFiscalYear(asset)) {
+//                makeReadOnlyFields(auths, getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
+//            }
+//            else {
+//                // Set the Tag Number as view only
+//                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
+//            }
+//        }
+//    }
 
 
-    private void hidePaymentSequence(MaintenanceDocumentAuthorizations auths, Asset asset) {
-        int size = asset.getAssetPayments().size();
-        for (int i = 0; i < size; i++) {
-            auths.addHiddenAuthField(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER);
-        }
-    }
-
-
-    private void hideFields(MaintenanceDocumentAuthorizations auths, List<String> hiddenFields) {
-        for (String field : hiddenFields) {
-            auths.addHiddenAuthField(field);
-        }
-    }
-
-    private void makeReadOnlyFields(MaintenanceDocumentAuthorizations auths, List<String> readOnlyFields) {
-        for (String field : readOnlyFields) {
-            auths.addReadonlyAuthField(field);
-        }
-    }
-
-    private void hideFields(MaintenanceDocumentAuthorizations auths, String[] hiddenFields) {
-        for (String field : hiddenFields) {
-            auths.addHiddenAuthField(field);
-        }
-    }
+//    private void hidePaymentSequence(MaintenanceDocumentAuthorizations auths, Asset asset) {
+//        int size = asset.getAssetPayments().size();
+//        for (int i = 0; i < size; i++) {
+//            auths.addHiddenAuthField(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER);
+//        }
+//    }
+//
+//
+//    private void hideFields(MaintenanceDocumentAuthorizations auths, List<String> hiddenFields) {
+//        for (String field : hiddenFields) {
+//            auths.addHiddenAuthField(field);
+//        }
+//    }
+//
+//    private void makeReadOnlyFields(MaintenanceDocumentAuthorizations auths, List<String> readOnlyFields) {
+//        for (String field : readOnlyFields) {
+//            auths.addReadonlyAuthField(field);
+//        }
+//    }
+//
+//    private void hideFields(MaintenanceDocumentAuthorizations auths, String[] hiddenFields) {
+//        for (String field : hiddenFields) {
+//            auths.addHiddenAuthField(field);
+//        }
+//    }
 
 
 //    @Override

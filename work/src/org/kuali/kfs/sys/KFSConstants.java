@@ -615,14 +615,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String WORKFLOW_FYI_REQUEST = "F";
     public static final String WORKFLOW_APPROVE_REQUEST = "A";
 
-    // Permission codes
-    public static final String PERMISSION_READ_CODE = "R";
-    public static final String PERMISSION_READ_DESCRIPTION = "READ";
-    public static final String PERMISSION_MOD_CODE = "M";
-    public static final String PERMISSION_MOD_DESCRIPTION = "MOD";
-    public static final String PERMISSION_MODIFY = "modify";
-    public static final String PERMISSION_VIEW = "view";
-
     public static class DocumentStatusCodes {
         public static final String INITIATED = "?";
         public static final String CANCELLED = "X";

@@ -48,8 +48,8 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
             accountNumber = UNMATCHABLE_QUALIFICATION;
             for (int i = 2; i <= organizationLevelCode; i++) {
                 Organization newOrganization = organizationService.getByPrimaryId(chartOfAccountsCode, organizationCode);
-                chartOfAccountsCode = newOrganization.getChartOfAccountsCode();
-                organizationCode = newOrganization.getOrganizationCode();
+                chartOfAccountsCode = newOrganization.getReportsToChartOfAccountsCode();
+                organizationCode = newOrganization.getReportsToOrganizationCode();
             }
         }
         newQualification.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);

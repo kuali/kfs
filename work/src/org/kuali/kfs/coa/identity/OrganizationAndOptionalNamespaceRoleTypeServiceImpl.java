@@ -30,6 +30,7 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
  * This class...
  */
 public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+    public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
 
     protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
     protected List<String> qualificationRequiredAttributes = new ArrayList<String>();

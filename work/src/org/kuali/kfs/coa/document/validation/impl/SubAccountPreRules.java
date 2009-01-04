@@ -23,9 +23,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
-import org.kuali.rice.kns.service.MaintenanceDocumentAuthorizationService;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictions;
+import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -110,10 +109,10 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
         Person user = GlobalVariables.getUserSession().getPerson();
 
         // get a new instance of MaintenanceDocumentAuthorizations for this context
-        MaintenanceDocumentAuthorizations auths = SpringContext.getBean(MaintenanceDocumentAuthorizationService.class).generateMaintenanceDocumentAuthorizations(document, user);
+        MaintenanceDocumentRestrictions auths = SpringContext.getBean(BusinessObjectAuthorizationService.class).getMaintenanceDocumentRestrictions(document, user);
 
         // don't need to copy if the user does not have the authority to edit the fields
-        if (!auths.getAuthFieldAuthorization("a21SubAccount.financialIcrSeriesIdentifier").isReadOnly()) {
+        if (!auths.getFieldRestriction("a21SubAccount.financialIcrSeriesIdentifier").isReadOnly()) {
             // only need to do this of the account sub type is EX
             A21SubAccount a21SubAccount = newSubAccount.getA21SubAccount();
             Account account = newSubAccount.getAccount();

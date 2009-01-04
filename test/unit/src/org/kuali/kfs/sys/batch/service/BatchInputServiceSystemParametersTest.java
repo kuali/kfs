@@ -15,15 +15,9 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KualiTestConstants.TestConstants.Data4;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
@@ -32,6 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * Tests system parameters are setup and methods on the batch input types are correctly using them.
@@ -62,21 +57,6 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
         validWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
         invalidWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
     }
-
-    /**
-     * Verifies system parameters needed by the batch upload process exist in the db.
-     */
-    public final void testSystemParametersExist() throws Exception {
-        List<String> activeFileTypes = parameterService.getParameterValues(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
-        assertTrue("system parameter " + SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME + " is not setup or contains no file types", activeFileTypes != null && activeFileTypes.size() > 0 && StringUtils.isNotBlank(activeFileTypes.get(0)));
-
-        String pcdoUploadWorkgroup = parameterService.getParameterValue(pcdoBatchInputFileType.getUploadWorkgroupParameterComponent(), KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME);
-        assertTrue("system parameter pcdo " + KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME + " does not exist or has empty value.", StringUtils.isNotBlank(pcdoUploadWorkgroup));
-
-        String collectorUploadWorkgroup = parameterService.getParameterValue(collectorBatchInputFileType.getUploadWorkgroupParameterComponent(), KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME);
-        assertTrue("system parameter collector " + KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME + " does not exist or has empty value.", StringUtils.isNotBlank(pcdoUploadWorkgroup));
-    }
-
 
     /**
      * Set SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME to empty and verify both pcdo & collector are inactive

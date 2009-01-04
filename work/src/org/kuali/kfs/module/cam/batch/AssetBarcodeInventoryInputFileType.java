@@ -151,13 +151,6 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     }
 
 
-    /** 
-     * 
-     */    
-    public Class getUploadWorkgroupParameterComponent() {
-        return BarcodeInventoryErrorDocument.class;
-    }
-
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */

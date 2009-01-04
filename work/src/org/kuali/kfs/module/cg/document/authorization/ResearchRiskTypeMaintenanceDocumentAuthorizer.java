@@ -15,15 +15,7 @@
  */
 package org.kuali.kfs.module.cg.document.authorization;
 
-import org.kuali.kfs.module.cg.CGPropertyConstants;
-import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Authorizer class for ResearchRiskTypeMaintenanceDocument - allows for targeted field disabling.

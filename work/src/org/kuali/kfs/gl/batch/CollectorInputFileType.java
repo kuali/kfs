@@ -48,16 +48,6 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * Returns the class associated with the authorization workgroup for the input type, in this case CollectorStep
-     * 
-     * @return the CollectorStep class
-     * @see org.kuali.kfs.sys.batch.BatchInputType#getUploadWorkgroupParameterComponent()
-     */
-    public Class getUploadWorkgroupParameterComponent() {
-        return CollectorStep.class;
-    }
-
-    /**
      * Builds the file name using the following construction: All collector files start with gl_idbilltrans_ append the chartorg
      * from the batch header append the username of the user who is uploading the file then the user supplied indentifier finally
      * the timestamp

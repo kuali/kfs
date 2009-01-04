@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
@@ -41,11 +42,15 @@ import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.exception.XMLParseException;
-import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -55,6 +60,13 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class KualiBatchInputFileAction extends KualiAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiBatchInputFileAction.class);
+    private static IdentityManagementService identityManagementService;
+    private IdentityManagementService getIdentityManagementService() {
+        if (identityManagementService == null) {
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        }
+        return identityManagementService;
+    }
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
@@ -67,27 +79,15 @@ public class KualiBatchInputFileAction extends KualiAction {
         return forward;
     }
 
-    /**
-     * First verifies the user is active for the module in which the batch input type is in, then calls batch input service to
-     * authorize the user for the specific batch input type.
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         BatchUpload batchUpload = ((KualiBatchInputFileForm) form).getBatchUpload();
         BatchInputFileType batchInputFileType = retrieveBatchInputFileTypeImpl(batchUpload.getBatchInputTypeName());
-
-        AuthorizationType defaultAuthorizationType = new AuthorizationType.Default(batchInputFileType.getClass());
-        if (!getKualiModuleService().isAuthorized(GlobalVariables.getUserSession().getPerson(), defaultAuthorizationType)) {
-            LOG.error("User not authorized for lookup action for this object: " + batchInputFileType.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), defaultAuthorizationType, getKualiModuleService().getResponsibleModuleService(batchInputFileType.getClass()));
-        }
-
-        boolean isAuthorizedForType = SpringContext.getBean(BatchInputFileService.class).isUserAuthorizedForBatchType(batchInputFileType, GlobalVariables.getUserSession().getPerson());
-        if (!isAuthorizedForType) {
-            LOG.error("User " + GlobalVariables.getUserSession().getPerson().getPrincipalName() + " is not authorized for batch type " + batchInputFileType.getFileTypeIdentifer());
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "upload", batchInputFileType.getFileTypeIdentifer());
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(KimAttributes.NAMESPACE_CODE, KimCommonUtils.getNamespaceCode(batchInputFileType.getClass()));
+        permissionDetails.put(KimAttributes.BEAN_NAME, batchUpload.getBatchInputTypeName());
+        if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.UPLOAD_BATCH_INPUT_FILES, permissionDetails, null)) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), methodToCall, batchUpload.getBatchInputTypeName());
         }
     }
 

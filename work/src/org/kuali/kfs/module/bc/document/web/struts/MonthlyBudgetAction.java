@@ -31,7 +31,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
-import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.validation.event.SaveMonthlyBudgetEvent;
 import org.kuali.kfs.sys.KFSConstants;
@@ -40,9 +39,7 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -95,18 +92,19 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         return forward;
     }
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-
-        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
-            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
-        }
-    }
+    // TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+//     */
+//    @Override
+//    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+//
+//        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
+//        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
+//            LOG.error("User not authorized to use this action: " + this.getClass().getName());
+//            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
+//        }
+//    }
 
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

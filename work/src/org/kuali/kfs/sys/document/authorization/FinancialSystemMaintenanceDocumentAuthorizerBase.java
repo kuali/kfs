@@ -15,18 +15,15 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
@@ -37,7 +34,7 @@ import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBa
 public class FinancialSystemMaintenanceDocumentAuthorizerBase extends MaintenanceDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(FinancialSystemMaintenanceDocumentAuthorizerBase.class);
 
-    private static RoleService roleService;
+    private static FinancialSystemUserService financialSystemUserService;
 // TODO fix for kim    
 //    /**
 //     * Adds settings for KFS maintenance-document-specific flags.
@@ -66,32 +63,20 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
     protected void addRoleQualification(BusinessObject businessObject, Map<String,String> attributes) {
         super.addRoleQualification(businessObject, attributes);
         Document document = (Document)businessObject;
-        
-        // get the KFS-SYS User qualifiers
-        // get the namespace from the current qualifier set (set by the superclass)
-        String namespaceCode = attributes.get(KimAttributes.NAMESPACE_CODE);
-        Person initiator = getPersonService().getPersonByPrincipalName( document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId() );
-
-        // build a new attribute set for checking the role service
-        AttributeSet userRoleQualifiers = new AttributeSet();
-        userRoleQualifiers.put(KimAttributes.NAMESPACE_CODE, namespaceCode);        
-        List<AttributeSet> userRoleInfo = getRoleService().getRoleQualifiersForPrincipal(initiator.getPrincipalId(), 
-                KFSConstants.ParameterNamespaces.KFS, KimConstants.KIM_ROLE_NAME_USER, userRoleQualifiers);
-
-        if ( userRoleInfo != null && !userRoleInfo.isEmpty() ) {
-            attributes.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, userRoleInfo.get(0).get(KimAttributes.CHART_OF_ACCOUNTS_CODE));
-            attributes.put(KimAttributes.ORGANIZATION_CODE, userRoleInfo.get(0).get(KimAttributes.ORGANIZATION_CODE));
+        Person initiator = getPersonService().getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+        ChartOrgHolder initiatorPrimaryOrganization = getFinancialSystemUserService().getOrganizationByNamespaceCode(initiator, attributes.get(KimAttributes.NAMESPACE_CODE));
+        if (initiatorPrimaryOrganization != null) {
+            attributes.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, initiatorPrimaryOrganization.getChartOfAccountsCode());
+            attributes.put(KimAttributes.ORGANIZATION_CODE, initiatorPrimaryOrganization.getOrganizationCode());
         }
         attributes.put(KimAttributes.CAMPUS_CODE, initiator.getCampusCode());
-        
     }
 
-    public static RoleService getRoleService() {
-        if ( roleService == null ) {
-            roleService = KIMServiceLocator.getRoleManagementService();
+    public static final FinancialSystemUserService getFinancialSystemUserService() {
+        if (financialSystemUserService == null) {
+            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
         }
-        return roleService;
+        return financialSystemUserService;
     }
-
 }
 

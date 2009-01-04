@@ -51,10 +51,5 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
     public String getTitleKey() {
         return PurapKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_EINVOICE;
     }
-
-    public Class getUploadWorkgroupParameterComponent() {
-        return ElectronicInvoiceStep.class;
-    }
-
 }
 

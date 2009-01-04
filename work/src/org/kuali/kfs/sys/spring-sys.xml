@@ -548,6 +548,19 @@
 	  </property>
 	</bean>
 
+	<bean id="batchJobModifierRoleTypeService"
+		class="org.kuali.rice.kns.authorization.PermissionDerivedRoleTypeServiceImpl">
+		<property name="permissionTemplateNamespace" value="KR-NS" />
+		<property name="permissionTemplateName" value="Modify Batch Job" />
+	</bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="batchJobModifierRoleTypeService"
+	      p:localServiceName="batchJobModifierRoleTypeService" />
+	  </property>
+	</bean>
+
     <bean id="financialSystemDocumentTypePermissionTypeService" class="org.kuali.kfs.sys.identity.FinancialSystemDocumentTypePermissionTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">

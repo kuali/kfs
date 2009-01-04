@@ -28,13 +28,19 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -49,6 +55,64 @@ public class KualiBatchJobModifyAction extends KualiAction {
 
     private static SchedulerService schedulerService;
     private static ParameterService parameterService;
+    private static IdentityManagementService identityManagementService;
+    private Boolean canModifyJob = false;
+    
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        if (form instanceof KualiBatchJobModifyForm) {
+            if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.LOOK_UP_RECORDS, KimCommonUtils.getNamespaceAndComponentSimpleName(BatchJobStatus.class), new AttributeSet(getRoleQualification(form, "use")))) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), "view", "batch jobs");
+            }
+        }
+        else {
+            super.checkAuthorization(form, methodToCall);
+        }
+    }
+
+    /**
+     * Performs the actual authorization check for a given job and action against the current user. This method can be overridden by
+     * sub-classes if more granular controls are desired.
+     * 
+     * @param job
+     * @param actionType
+     * @throws AuthorizationException
+     */
+    protected boolean canModifyJob(KualiBatchJobModifyForm form, String actionType) {
+        if (canModifyJob == null) {
+            AttributeSet permissionDetails = new AttributeSet();
+            permissionDetails.put(KimAttributes.NAMESPACE_CODE, form.getJob().getNamespaceCode());
+            permissionDetails.put(KimAttributes.BEAN_NAME, form.getJob().getName());
+            canModifyJob = new Boolean(getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.MODIFY_BATCH_JOB, permissionDetails, new AttributeSet(getRoleQualification(form, actionType))));
+        }
+        return canModifyJob.booleanValue();
+    }
+    
+    protected void checkJobAuthorization(KualiBatchJobModifyForm form, String actionType) throws AuthorizationException {
+        if (!canModifyJob(form, actionType)) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), "actionType", form.getJob().getName());
+        }
+    }
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // load the given job and map into the form
+        String jobName = request.getParameter(JOB_NAME_PARAMETER);
+        String jobGroup = request.getParameter(JOB_GROUP_PARAMETER);
+        if (form instanceof KualiBatchJobModifyForm) {
+            ((KualiBatchJobModifyForm)form).setJob(getSchedulerService().getJob(jobGroup, jobName));
+        }
+        ActionForward forward = super.execute(mapping, form, request, response);
+        canModifyJob = null;
+        return forward;
+    }
+
+    private IdentityManagementService getIdentityManagementService() {
+        if (identityManagementService == null) {
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        }
+        return identityManagementService;
+    }
 
     private SchedulerService getSchedulerService() {
         if (schedulerService == null) {
@@ -64,64 +128,23 @@ public class KualiBatchJobModifyAction extends KualiAction {
         return parameterService;
     }
 
-    private BatchJobStatus getJob(HttpServletRequest request) {
-        // load the given job and map into the form
-        String jobName = request.getParameter(JOB_NAME_PARAMETER);
-        String jobGroup = request.getParameter(JOB_GROUP_PARAMETER);
-
-        return getSchedulerService().getJob(jobGroup, jobName);
-    }
-
-
-    private boolean canModifyJob(BatchJobStatus job, String actionType) {
-        try {
-            checkJobAuthorization(job, actionType);
-        }
-        catch (AuthorizationException ex) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Performs the actual authorization check for a given job and action against the current user. This method can be overridden by
-     * sub-classes if more granular controls are desired.
-     * 
-     * @param job
-     * @param actionType
-     * @throws AuthorizationException
-     */
-    protected void checkJobAuthorization(BatchJobStatus job, String actionType) throws AuthorizationException {
-        String adminWorkgroup = getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
-        System.out.println("Admin Work Group: "+adminWorkgroup);
-        if (getParameterService().parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX)) {
-            String jobSpecificAdminWorkgroup = getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX);
-            System.out.println("Job Specific Admin Work Group: "+adminWorkgroup);
-            if (!(KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminWorkgroup) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, jobSpecificAdminWorkgroup))) {
-                System.out.println("I'm in Admin Work Group: "+KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminWorkgroup));
-                System.out.println("I'm in Job Specific Admin Work Group: "+KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, jobSpecificAdminWorkgroup));
-                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), actionType, job.getFullName());
-            }
-        }
-    }
-
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BatchJobStatus job = getJob(request);
+        KualiBatchJobModifyForm batchModifyForm = (KualiBatchJobModifyForm)form;
 
-        request.setAttribute("job", job);
-        request.setAttribute("canRunJob", canModifyJob(job, "runJob"));
-        request.setAttribute("canSchedule", canModifyJob(job, "schedule"));
-        request.setAttribute("canUnschedule", canModifyJob(job, "unschedule"));
-        request.setAttribute("canStopJob", canModifyJob(job, "stopJob"));
+        request.setAttribute("job", batchModifyForm.getJob());
+        request.setAttribute("canRunJob", canModifyJob(batchModifyForm, "runJob"));
+        request.setAttribute("canSchedule", canModifyJob(batchModifyForm, "schedule"));
+        request.setAttribute("canUnschedule", canModifyJob(batchModifyForm, "unschedule"));
+        request.setAttribute("canStopJob", canModifyJob(batchModifyForm, "stopJob"));
         request.setAttribute("userEmailAddress", GlobalVariables.getUserSession().getPerson().getEmailAddress());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward runJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BatchJobStatus job = getJob(request);
+        KualiBatchJobModifyForm batchModifyForm = (KualiBatchJobModifyForm)form;
 
-        checkJobAuthorization(job, "runJob");
+        checkJobAuthorization(batchModifyForm, "runJob");
 
         String startStepStr = request.getParameter(START_STEP_PARAMETER);
         String endStepStr = request.getParameter(END_STEP_PARAMETER);
@@ -135,44 +158,44 @@ public class KualiBatchJobModifyAction extends KualiAction {
             startTime = SpringContext.getBean(DateTimeService.class).convertToDateTime(startTimeStr);
         }
 
-        job.runJob(startStep, endStep, startTime, emailAddress);
+        batchModifyForm.getJob().runJob(startStep, endStep, startTime, emailAddress);
 
         // redirect to display form to prevent re-execution of the job by mistake
-        return getForward(job);
+        return getForward(batchModifyForm.getJob());
     }
 
     public ActionForward stopJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BatchJobStatus job = getJob(request);
+        KualiBatchJobModifyForm batchModifyForm = (KualiBatchJobModifyForm)form;
 
-        checkJobAuthorization(job, "stopJob");
+        checkJobAuthorization(batchModifyForm, "stopJob");
 
-        job.interrupt();
+        batchModifyForm.getJob().interrupt();
 
-        return getForward(job);
+        return getForward(batchModifyForm.getJob());
     }
 
 
     public ActionForward schedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BatchJobStatus job = getJob(request);
+        KualiBatchJobModifyForm batchModifyForm = (KualiBatchJobModifyForm)form;
 
-        checkJobAuthorization(job, "schedule");
+        checkJobAuthorization(batchModifyForm, "schedule");
 
-        job.schedule();
+        batchModifyForm.getJob().schedule();
 
-        return getForward(job);
+        return getForward(batchModifyForm.getJob());
     }
 
     public ActionForward unschedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BatchJobStatus job = getJob(request);
+        KualiBatchJobModifyForm batchModifyForm = (KualiBatchJobModifyForm)form;
 
-        checkJobAuthorization(job, "unschedule");
+        checkJobAuthorization(batchModifyForm, "unschedule");
 
-        job.unschedule();
+        batchModifyForm.getJob().unschedule();
 
         // move to the unscheduled job object since the scheduled one has been removed
-        job = getSchedulerService().getJob(SchedulerService.UNSCHEDULED_GROUP, job.getName());
+        batchModifyForm.setJob(getSchedulerService().getJob(SchedulerService.UNSCHEDULED_GROUP, batchModifyForm.getJob().getName()));
 
-        return getForward(job);
+        return getForward(batchModifyForm.getJob());
     }
 
     private ActionForward getForward(BatchJobStatus job) {

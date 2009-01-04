@@ -41,10 +41,4 @@ public abstract class B2BFileTypeBase  extends BatchInputFileTypeBase{
         // TODO Auto-generated method stub
         return null;
     }
-
-    public Class getUploadWorkgroupParameterComponent() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

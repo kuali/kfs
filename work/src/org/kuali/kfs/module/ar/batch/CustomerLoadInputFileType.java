@@ -118,15 +118,6 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
         return ArKeyConstants.CustomerLoad.MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER;
     }
 
-    /**
-     * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#getUploadWorkgroupParameterComponent()
-     */
-    @SuppressWarnings("unchecked")
-    public Class getUploadWorkgroupParameterComponent() {
-        return CustomerLoadStep.class;
-    }
-
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

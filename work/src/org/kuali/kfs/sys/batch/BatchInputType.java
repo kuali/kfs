@@ -35,11 +35,6 @@ public interface BatchInputType {
     public boolean checkAuthorization(Person user, File batchFile);
 
     /**
-     * Returns the authorization workgroup for the input type.
-     */
-    public Class getUploadWorkgroupParameterComponent();
-
-    /**
      * Returns the key for the application constants message to display as the title for the upload screen.
      */
     public String getTitleKey();

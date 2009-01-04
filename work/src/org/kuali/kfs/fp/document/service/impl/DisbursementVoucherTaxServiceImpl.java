@@ -73,7 +73,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             return null;
         }
 
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, taxIDNumber).get(0);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes.TAX, taxIDNumber).get(0);
         
         String universalId = null;
         if (person != null) {

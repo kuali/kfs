@@ -118,16 +118,6 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
         return "";
     }
 
-    /**
-     * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#getUploadWorkgroupParameterComponent()
-     */
-    @SuppressWarnings("unchecked")
-    public Class getUploadWorkgroupParameterComponent() {
-        //  this is never used in the GUI, so this should fail fast if anyone tries
-        return null;
-    }
-
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

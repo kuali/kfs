@@ -32,7 +32,6 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -55,20 +54,21 @@ import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.FieldAuthorization;
+import org.kuali.rice.kns.authorization.FieldRestriction;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictions;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.MaintenanceDocumentAuthorizationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -129,138 +129,151 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-    @Override
-    protected boolean checkAuthorizationRestrictions(MaintenanceDocument document) {
-
-        boolean success = true;
-        boolean changed = false;
-
-        boolean isInitiator = false;
-        boolean isApprover = false;
-
-        Object oldValue = null;
-        Object newValue = null;
-        Object savedValue = null;
-
-        KualiWorkflowDocument workflowDocument = null;
-        Person user = GlobalVariables.getUserSession().getPerson();
-        try {
-            workflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), user);
-        }
-        catch (WorkflowException e) {
-            throw new UnknownDocumentIdException("no document found for documentHeaderId '" + document.getDocumentNumber() + "'", e);
-        }
-        if (user.getPrincipalName().equalsIgnoreCase(workflowDocument.getInitiatorNetworkId())) {
-            // if these are the same person then we know it is the initiator
-            isInitiator = true;
-        }
-        else if (workflowDocument.isApprovalRequested()) {
-            isApprover = true;
-        }
-
-        // get the correct documentAuthorizer for this document
-        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
-
-        // get a new instance of MaintenanceDocumentAuthorizations for this context
-        MaintenanceDocumentAuthorizations auths = SpringContext.getBean(MaintenanceDocumentAuthorizationService.class).generateMaintenanceDocumentAuthorizations(document, user);
-
-        // load a temp copy of the document from the DB to compare to for changes
-        MaintenanceDocument savedDoc = null;
-        Maintainable savedNewMaintainable = null;
-        PersistableBusinessObject savedNewBo = null;
-
-        if (isApprover) {
-            try {
-                DocumentService docService = SpringContext.getBean(DocumentService.class);
-                savedDoc = (MaintenanceDocument) docService.getByDocumentHeaderId(document.getDocumentNumber());
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException("A WorkflowException was thrown which prevented the loading of " + "the comparison document (" + document.getDocumentNumber() + ")", e);
-            }
-
-            // attempt to retrieve the BO, but leave it blank if it or any of the objects on the path
-            // to it are blank
-            if (savedDoc != null) {
-                savedNewMaintainable = savedDoc.getNewMaintainableObject();
-                if (savedNewMaintainable != null) {
-                    savedNewBo = savedNewMaintainable.getBusinessObject();
-                }
-            }
-        }
-
-        // setup in-loop members
-        FieldAuthorization fieldAuthorization = null;
-
-        // walk through all the restrictions
-        Collection restrictedFields = auths.getAuthFieldNames();
-        for (Iterator iter = restrictedFields.iterator(); iter.hasNext();) {
-            String fieldName = (String) iter.next();
-
-            if (fieldName.indexOf(VendorPropertyConstants.VENDOR_HEADER_PREFIX) < 0 || newVendor.isVendorParentIndicator()) {
-                // get the specific field authorization structure
-                fieldAuthorization = auths.getAuthFieldAuthorization(fieldName);
-
-                // if there are any restrictions, then enforce them
-                if (fieldAuthorization.isRestricted()) {
-                    // reset the changed flag
-                    changed = false;
-
-                    // new value should always be the same regardles of who is
-                    // making the request
-                    newValue = ObjectUtils.getNestedValue(newVendor, fieldName);
-
-                    // first we need to handle the case of edit doc && initiator
-                    if (isInitiator && document.isEdit()) {
-                        // old value must equal new value
-                        oldValue = ObjectUtils.getNestedValue(oldVendor, fieldName);
-                    }
-                    else if (isApprover && savedNewBo != null) {
-                        oldValue = ObjectUtils.getNestedValue(savedNewBo, fieldName);
-                    }
-
-                    // check to make sure nothing has changed
-                    if (oldValue == null && newValue == null) {
-                        changed = false;
-                    }
-                    else if ((oldValue == null && newValue != null) || (oldValue != null && newValue == null)) {
-                        changed = true;
-                    }
-                    else if (oldValue != null && newValue != null) {
-                        if (!oldValue.equals(newValue)) {
-                            changed = true;
-                        }
-                    }
-
-                    // if changed and a NEW doc, but the new value is the default value, then let it go
-                    // we dont allow changing to default values for EDIT docs though, only NEW
-                    if (changed && document.isNew()) {
-                        String defaultValue = maintDocDictionaryService.getFieldDefaultValue(document.getNewMaintainableObject().getBoClass(), fieldName);
-
-                        // get the string value of newValue
-                        String newStringValue = newValue.toString();
-                        // if the newValue is the default value, then ignore
-                        if (newStringValue.equalsIgnoreCase(defaultValue)) {
-                            changed = false;
-                        }
-                    }
-
-                    //if this is a change for vendor parent indicator field from No to Yes, we'll let it pass.
-                    if (changed && !oldVendor.isVendorParentIndicator() && newVendor.isVendorParentIndicator()) {
-                        changed = false;    
-                    }
-                    
-                    // if anything has changed, complain
-//FIXME this isn't working; it is preventing any vendor changes (KULPURAP-3190)
-//if (changed) {
-//                        String humanReadableFieldName = ddService.getAttributeLabel(document.getNewMaintainableObject().getBoClass(), fieldName);
-//                        putFieldError(fieldName, KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED, humanReadableFieldName);
-//                        success &= false;
+    // TODO FIXME can the editing of these fields in the first place now be prevented via the presentation controller?
+    // e.g.
+    //     @Override
+//    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
+//        Set<String> conditionallyReadOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
+//        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+//        if (!vendor.isVendorParentIndicator()) {
+//            // make some sections read only, e.g. supplier diversity cause they're on the header
+//            conditionallyReadOnlySectionIds.add("Supplier Diversity");
+//        }
+//        return conditionallyReadOnlySectionIds;
+//    }
+    // TODO method is gone - fix for kim / session work
+//    @Override
+//    protected boolean checkAuthorizationRestrictions(MaintenanceDocument document) {
+//
+//        boolean success = true;
+//        boolean changed = false;
+//
+//        boolean isInitiator = false;
+//        boolean isApprover = false;
+//
+//        Object oldValue = null;
+//        Object newValue = null;
+//        Object savedValue = null;
+//
+//        KualiWorkflowDocument workflowDocument = null;
+//        Person user = GlobalVariables.getUserSession().getPerson();
+//        try {
+//            workflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), user);
+//        }
+//        catch (WorkflowException e) {
+//            throw new UnknownDocumentIdException("no document found for documentHeaderId '" + document.getDocumentNumber() + "'", e);
+//        }
+//        if (user.getPrincipalName().equalsIgnoreCase(workflowDocument.getInitiatorNetworkId())) {
+//            // if these are the same person then we know it is the initiator
+//            isInitiator = true;
+//        }
+//        else if (workflowDocument.isApprovalRequested()) {
+//            isApprover = true;
+//        }
+//
+//        // get the correct documentAuthorizer for this document
+//        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
+//
+//        // get a new instance of MaintenanceDocumentAuthorizations for this context
+//        MaintenanceDocumentRestrictions auths = SpringContext.getBean(BusinessObjectAuthorizationService.class).getMaintenanceDocumentRestrictions(document, user);
+//
+//        // load a temp copy of the document from the DB to compare to for changes
+//        MaintenanceDocument savedDoc = null;
+//        Maintainable savedNewMaintainable = null;
+//        PersistableBusinessObject savedNewBo = null;
+//
+//        if (isApprover) {
+//            try {
+//                DocumentService docService = SpringContext.getBean(DocumentService.class);
+//                savedDoc = (MaintenanceDocument) docService.getByDocumentHeaderId(document.getDocumentNumber());
+//            }
+//            catch (WorkflowException e) {
+//                throw new RuntimeException("A WorkflowException was thrown which prevented the loading of " + "the comparison document (" + document.getDocumentNumber() + ")", e);
+//            }
+//
+//            // attempt to retrieve the BO, but leave it blank if it or any of the objects on the path
+//            // to it are blank
+//            if (savedDoc != null) {
+//                savedNewMaintainable = savedDoc.getNewMaintainableObject();
+//                if (savedNewMaintainable != null) {
+//                    savedNewBo = savedNewMaintainable.getBusinessObject();
+//                }
+//            }
+//        }
+//
+//        // setup in-loop members
+//        FieldRestriction fieldAuthorization = null;
+//
+//        // walk through all the restrictions
+//        Collection restrictedFields = auths.getRestrictedFieldNames();
+//        for (Iterator iter = restrictedFields.iterator(); iter.hasNext();) {
+//            String fieldName = (String) iter.next();
+//
+//            if (fieldName.indexOf(VendorPropertyConstants.VENDOR_HEADER_PREFIX) < 0 || newVendor.isVendorParentIndicator()) {
+//                // get the specific field authorization structure
+//                fieldAuthorization = auths.getFieldRestriction(fieldName);
+//
+//                // if there are any restrictions, then enforce them
+//                if (fieldAuthorization.isRestricted()) {
+//                    // reset the changed flag
+//                    changed = false;
+//
+//                    // new value should always be the same regardles of who is
+//                    // making the request
+//                    newValue = ObjectUtils.getNestedValue(newVendor, fieldName);
+//
+//                    // first we need to handle the case of edit doc && initiator
+//                    if (isInitiator && document.isEdit()) {
+//                        // old value must equal new value
+//                        oldValue = ObjectUtils.getNestedValue(oldVendor, fieldName);
 //                    }
-                }
-            }
-        }
-        return success;
-    }
+//                    else if (isApprover && savedNewBo != null) {
+//                        oldValue = ObjectUtils.getNestedValue(savedNewBo, fieldName);
+//                    }
+//
+//                    // check to make sure nothing has changed
+//                    if (oldValue == null && newValue == null) {
+//                        changed = false;
+//                    }
+//                    else if ((oldValue == null && newValue != null) || (oldValue != null && newValue == null)) {
+//                        changed = true;
+//                    }
+//                    else if (oldValue != null && newValue != null) {
+//                        if (!oldValue.equals(newValue)) {
+//                            changed = true;
+//                        }
+//                    }
+//
+//                    // if changed and a NEW doc, but the new value is the default value, then let it go
+//                    // we dont allow changing to default values for EDIT docs though, only NEW
+//                    if (changed && document.isNew()) {
+//                        String defaultValue = maintDocDictionaryService.getFieldDefaultValue(document.getNewMaintainableObject().getBoClass(), fieldName);
+//
+//                        // get the string value of newValue
+//                        String newStringValue = newValue.toString();
+//                        // if the newValue is the default value, then ignore
+//                        if (newStringValue.equalsIgnoreCase(defaultValue)) {
+//                            changed = false;
+//                        }
+//                    }
+//
+//                    //if this is a change for vendor parent indicator field from No to Yes, we'll let it pass.
+//                    if (changed && !oldVendor.isVendorParentIndicator() && newVendor.isVendorParentIndicator()) {
+//                        changed = false;    
+//                    }
+//                    
+//                    // if anything has changed, complain
+////FIXME this isn't working; it is preventing any vendor changes (KULPURAP-3190)
+////if (changed) {
+////                        String humanReadableFieldName = ddService.getAttributeLabel(document.getNewMaintainableObject().getBoClass(), fieldName);
+////                        putFieldError(fieldName, KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED, humanReadableFieldName);
+////                        success &= false;
+////                    }
+//                }
+//            }
+//        }
+//        return success;
+//    }
 
     /**
      * Refreshes the references of vendor detail and its sub objects

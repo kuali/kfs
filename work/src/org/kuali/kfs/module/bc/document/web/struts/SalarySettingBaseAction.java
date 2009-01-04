@@ -39,10 +39,8 @@ import org.kuali.kfs.module.bc.document.validation.event.NormalizePayrateAndAmou
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -50,8 +48,6 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * the base action class for salary setting, which provides the implementations of common actions of the salary setting screens
@@ -85,22 +81,23 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         return forward;
     }
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
-     *      java.lang.String)
-     */
-    @Override
-    public void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-
-        if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
-            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-
-            ModuleService module = getKualiModuleService().getResponsibleModuleService(this.getClass());
-            throw new ModuleAuthorizationException(currentUser.getPrincipalName(), bcAuthorizationType, module);
-        }
-    }
+    // TODO fix for kim
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
+//     *      java.lang.String)
+//     */
+//    @Override
+//    public void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+//        Person currentUser = GlobalVariables.getUserSession().getPerson();
+//        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
+//
+//        if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
+//            LOG.error("User not authorized to use this action: " + this.getClass().getName());
+//
+//            ModuleService module = getKualiModuleService().getResponsibleModuleService(this.getClass());
+//            throw new ModuleAuthorizationException(currentUser.getPrincipalName(), bcAuthorizationType, module);
+//        }
+//    }
 
     /**
      * save the information in the current form into underlying data store

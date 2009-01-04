@@ -134,7 +134,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
      * @return <code>Person</code>
      */
     private Person retrieveEmployeeBySSN(String ssnNumber) {
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnNumber).get(0);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
         if (person == null) {
             LOG.error("User Not Found");
         }

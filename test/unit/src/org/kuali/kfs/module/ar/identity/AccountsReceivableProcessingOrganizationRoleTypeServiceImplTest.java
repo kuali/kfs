@@ -92,7 +92,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
                 new AccountsReceivableOrganizationDerivedRoleTypeServiceImpl();
         roleTypeService.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         AttributeSet qualification = buildDocQualifier();
-        AttributeSet result = roleTypeService.convertQualificationForMemberRoles(AR_NAMESPACE, AR_PROCESSOR_ROLE, qualification);
+        AttributeSet result = roleTypeService.convertQualificationForMemberRoles(AR_NAMESPACE, AR_PROCESSOR_ROLE, null, null, qualification);
         assertNotSame( "should not have returned the same object", qualification, result );
         assertEquals( "charts did not match", AR_DOC_PROCESSING_CHART, result.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE ));
         assertEquals( "orgs did not match", AR_DOC_PROCESSING_ORG, result.get(KFSPropertyConstants.ORGANIZATION_CODE));

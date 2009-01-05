@@ -34,7 +34,7 @@ public class ChartDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
      * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public AttributeSet convertQualificationForMemberRoles( String namespaceCode, String roleName, AttributeSet qualification){
+    public AttributeSet convertQualificationForMemberRoles( String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification){
         String[] chartOrg = getOrganizationService().getRootOrganizationCode();
         if(chartOrg != null){
             String rootChartOfAccountCode = chartOrg[0];

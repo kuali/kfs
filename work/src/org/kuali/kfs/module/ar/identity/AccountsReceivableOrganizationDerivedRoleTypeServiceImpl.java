@@ -31,7 +31,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Pa
     protected BusinessObjectService businessObjectService;
 
     @Override
-    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, AttributeSet qualification) {
+    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
         
         if (PROCESSOR_ROLE_NAME.equals(roleName)) {        
             Map<String,Object> arOrgOptPk = new HashMap<String, Object>();

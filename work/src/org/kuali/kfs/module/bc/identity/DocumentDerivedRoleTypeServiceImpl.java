@@ -29,7 +29,7 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
     private BudgetConstructionOrganizationReportsService organizationService;
 
     @Override
-    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, AttributeSet qualification) {
+    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
         AttributeSet newQualification = new AttributeSet();
         int organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
         String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);

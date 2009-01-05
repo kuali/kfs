@@ -71,7 +71,6 @@ public class DebitsAndCreditsBalanceValidation extends GenericValidation {
             }           
         }
         
-        LOG.info("debitCredit Amount:" + creditAmount + ":" + debitAmount + ";");
         boolean isValid = debitAmount.compareTo(creditAmount) == 0;
 
         if (!isValid) {

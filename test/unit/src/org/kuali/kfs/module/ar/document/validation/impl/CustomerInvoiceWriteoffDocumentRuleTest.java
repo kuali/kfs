@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -153,38 +154,5 @@ public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {
         assertTrue(rule.doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument));        
     }
     
-    /**
-     * This method...
-     */
-    public void testDoesCustomerInvoiceDocumentHaveValidBalance_Invalid() throws WorkflowException {
-        
-        String customerInvoiceDocumentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO,
-                new CustomerInvoiceDetailFixture[]
-                {CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE},
-                null);
-        
-        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = null;
-        try {
-            customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerInvoiceWriteoffDocument.class);
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Document creation failed.");
-        }        
-        
-        //Writeoff invoice so the balance is 0 
-        customerInvoiceWriteoffDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocumentNumber);
-        SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(customerInvoiceWriteoffDocument);
-        customerInvoiceWriteoffDocument.getDocumentHeader().setDocumentDescription("WRITEOFF TO REDUCE OPEN AMOUNT TO ZERO.");
-        
-        try {
-            SpringContext.getBean(DocumentService.class).routeDocument(customerInvoiceWriteoffDocument, null, null);
-        } catch (WorkflowException e){
-            throw new RuntimeException("Document routing failed.");
-        }
-        
-        //Create a new writeoff doc associated with same invoice
-        customerInvoiceWriteoffDocument = new CustomerInvoiceWriteoffDocument();
-        customerInvoiceWriteoffDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocumentNumber);
-        assertFalse(rule.doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument));            
-    }    
 }
 

@@ -138,7 +138,7 @@ public enum CustomerInvoiceDetailFixture {
             new KualiDecimal(1), // amount
             new KualiDecimal(0), // invoiceItemTaxAmount
             null),
-    
+    ZERO_DOLLAR_INVOICE_DETAIL(KualiDecimal.ZERO),
     ONE_DOLLAR_INVOICE_DETAIL(new KualiDecimal(1)),
     TEN_DOLLAR_INVOICE_DETAIL(new KualiDecimal(10)),
     FIFTY_DOLLAR_INVOICE_DETAIL(new KualiDecimal(50)),

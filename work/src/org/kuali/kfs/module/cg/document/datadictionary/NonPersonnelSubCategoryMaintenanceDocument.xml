@@ -29,8 +29,8 @@
     <property name="documentTypeName" value="NonPersonnelSubCategoryMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="NPSC" />
-    <property name="workflowProperties" >
-      <ref bean="NonPersonnelSubCategoryMaintenanceDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="NonPersonnelSubCategoryMaintenanceDocument-workflowAttributes" />
     </property>
     <property name="authorizations" >
       <list>
@@ -76,8 +76,7 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="NonPersonnelSubCategoryMaintenanceDocument-workflowProperties" parent="NonPersonnelSubCategoryMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="NonPersonnelSubCategoryMaintenanceDocument-workflowAttributes" parent="NonPersonnelSubCategoryMaintenanceDocument-workflowAttributes-parentBean" />
 
-  <bean id="NonPersonnelSubCategoryMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  <bean id="NonPersonnelSubCategoryMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" />
 </beans>

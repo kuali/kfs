@@ -30,8 +30,8 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.SubcontractorRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="SUBC" />
-    <property name="workflowProperties" >
-      <ref bean="SubContractorMaintenanceDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="SubContractorMaintenanceDocument-workflowAttributes" />
     </property>
     <property name="authorizations" >
       <list>
@@ -92,8 +92,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="SubContractorMaintenanceDocument-workflowProperties" parent="SubContractorMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="SubContractorMaintenanceDocument-workflowAttributes" parent="SubContractorMaintenanceDocument-workflowAttributes-parentBean" />
 
-  <bean id="SubContractorMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="SubContractorMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
   </bean>
 </beans>

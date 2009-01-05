@@ -40,8 +40,8 @@
     <property name="documentTypeName" value="NonPersonnelObjectCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="NPOC" />
-    <property name="workflowProperties" >
-      <ref bean="NonPersonnelObjectCodeMaintenanceDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="NonPersonnelObjectCodeMaintenanceDocument-workflowAttributes" />
     </property>
     <property name="authorizations" >
       <list>
@@ -86,8 +86,7 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="NonPersonnelObjectCodeMaintenanceDocument-workflowProperties" parent="NonPersonnelObjectCodeMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="NonPersonnelObjectCodeMaintenanceDocument-workflowAttributes" parent="NonPersonnelObjectCodeMaintenanceDocument-workflowAttributes-parentBean" />
 
-  <bean id="NonPersonnelObjectCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-  </bean>
+  <bean id="NonPersonnelObjectCodeMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" />
 </beans>

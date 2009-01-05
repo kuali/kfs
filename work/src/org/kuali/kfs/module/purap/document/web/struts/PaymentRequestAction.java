@@ -33,8 +33,6 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
-import org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentRule;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -327,8 +325,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         
         if (preq.isClosePurchaseOrderIndicator()) {
             PurchaseOrderDocument po = preq.getPurchaseOrderDocument();
-            PurchaseOrderDocumentRule rule = (PurchaseOrderDocumentRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(po, PurchaseOrderDocumentRule.class);
-            if (rule.validateCanClosePOForTradeIn(po)) {
+            if (po.canClosePOForTradeIn()) {
                 return super.route(mapping, form, request, response);
             }
             else {

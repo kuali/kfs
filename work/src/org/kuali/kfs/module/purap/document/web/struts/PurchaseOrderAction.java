@@ -355,8 +355,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String operation = "Close ";
         PurchaseOrderDocument po = ((PurchaseOrderForm)form).getPurchaseOrderDocument();
         
-        PurchasingDocumentRuleBase rule = (PurchasingDocumentRuleBase)SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(po, PurchasingDocumentRuleBase.class);
-        if (rule.validateCanClosePOForTradeIn(po)) {
+        if (po.canClosePOForTradeIn()) {
             return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT, operation);
         }
         else {

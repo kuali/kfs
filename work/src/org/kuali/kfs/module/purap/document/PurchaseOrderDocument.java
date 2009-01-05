@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
@@ -83,6 +84,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -1378,5 +1380,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     @Override
     public Class getPurchasingCapitalAssetSystemClass() {
         return PurchaseOrderCapitalAssetSystem.class;
+    }
+    
+    /**
+     * Validates whether we can indeed close the PO. Return false and give error if 
+     * the outstanding encumbrance amount of the trade in item is less than 0.
+     * 
+     * @param po
+     * @return
+     */
+    public boolean canClosePOForTradeIn () {
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)getItems()) {
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE) && item.getItemOutstandingEncumberedAmount().isLessThan(new KualiDecimal(0))) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_OUTSTANDING_ENCUMBERED_AMOUNT_NEGATIVE, "amend the PO");
+                return false;
+            }
+        }
+        return true;
     }
 }

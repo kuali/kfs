@@ -37,7 +37,7 @@
                 </c:if>
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
                     <th class="sortable">
-                        <c:out value="${column.columnTitle}"/><c:if test="${empty column.columnTitle}">$nbsp;</c:if>
+                        ${column.columnTitle}<c:if test="${empty column.columnTitle}">&nbsp;</c:if>
                     </th>
                 </c:forEach>
             </tr>
@@ -75,51 +75,51 @@
                             <html:image property="methodToCall.deleteManualEntry.entryId${laborOriginEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete" />
                         </td>
                     </c:if>
-                    <td class="infocell"><c:out value="${laborOriginEntry.universityFiscalYear}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.chartOfAccountsCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.accountNumber}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.subAccountNumber}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.financialObjectCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.financialSubObjectCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.financialBalanceTypeCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.financialObjectTypeCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.universityFiscalPeriodCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.financialDocumentTypeCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.financialSystemOriginationCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.documentNumber}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.transactionLedgerEntrySequenceNumber}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.positionNumber}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.projectCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.transactionLedgerEntryDescription}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.transactionLedgerEntryAmount}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.transactionDebitCreditCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.transactionDate}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.organizationDocumentNumber}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.organizationReferenceId}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.referenceFinancialDocumentTypeCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.referenceFinancialSystemOriginationCode}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.referenceFinancialDocumentNumber}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.financialDocumentReversalDate}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.transactionEncumbranceUpdateCode}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.transactionPostingDate}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.payPeriodEndDate}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.transactionTotalHours}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.payrollEndDateFiscalYear}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.payrollEndDateFiscalPeriodCode}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.emplid}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.employeeRecord}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.earnCode}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.payGroup}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.salaryAdministrationPlan}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.grade}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.runIdentifier}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalChartOfAccountsCode}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalAccountNumber}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalSubAccountNumber}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalFinancialObjectCode}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalFinancialSubObjectCode}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.hrmsCompany}" />&nbsp;</td>
-					<td class="infocell"><c:out value="${laborOriginEntry.setid}" />&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.universityFiscalYear}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.chartOfAccountsCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.accountNumber}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.subAccountNumber}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.financialObjectCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.financialSubObjectCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.financialBalanceTypeCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.financialObjectTypeCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.universityFiscalPeriodCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.financialDocumentTypeCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.financialSystemOriginationCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.documentNumber}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.transactionLedgerEntrySequenceNumber}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.positionNumber}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.projectCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.transactionLedgerEntryDescription}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.transactionLedgerEntryAmount}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.transactionDebitCreditCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.transactionDate}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.organizationDocumentNumber}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.organizationReferenceId}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.referenceFinancialDocumentTypeCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.referenceFinancialSystemOriginationCode}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.referenceFinancialDocumentNumber}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.financialDocumentReversalDate}&nbsp;</td>
+                    <td class="infocell">${laborOriginEntry.transactionEncumbranceUpdateCode}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.transactionPostingDate}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.payPeriodEndDate}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.transactionTotalHours}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.payrollEndDateFiscalYear}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.payrollEndDateFiscalPeriodCode}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.emplid}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.employeeRecord}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.earnCode}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.payGroup}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.salaryAdministrationPlan}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.grade}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.runIdentifier}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.laborLedgerOriginalChartOfAccountsCode}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.laborLedgerOriginalAccountNumber}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.laborLedgerOriginalSubAccountNumber}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.laborLedgerOriginalFinancialObjectCode}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.laborLedgerOriginalFinancialSubObjectCode}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.hrmsCompany}&nbsp;</td>
+					<td class="infocell">${laborOriginEntry.setid}&nbsp;</td>
 				</tr>
             </c:forEach>
         <tbody>

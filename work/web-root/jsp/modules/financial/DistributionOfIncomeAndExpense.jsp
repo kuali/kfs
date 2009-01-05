@@ -49,6 +49,6 @@
 	<kul:panelFooter />
 
 	<kfs:documentControls
-		transactionalDocument="${documentEntry.transactionalDocument}" />
+		transactionalDocument="${documentEntry.transactionalDocument}" extraButtons="${KualiForm.extraButtons}" />
 
 </kul:documentPage>

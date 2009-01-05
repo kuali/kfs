@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="JournalVoucherDocument" parent="JournalVoucherDocument-parentBean" />
 
@@ -23,9 +26,6 @@
     <property name="documentTypeCode" value="JV" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="JournalVoucherDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -67,7 +67,10 @@
 	    	</entry>	    	
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />     
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="workflowAttributes">
+    	<ref bean="JournalVoucherDocument-workflowAttributes" />
+    </property> 
   </bean>
 
 <!-- Attribute Definitions -->
@@ -109,27 +112,6 @@
     <property name="description" value="The 2-character code and text describing the type of balance involved in the Journal Voucher. Select one from the pulldown list." />
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-  <bean id="JournalVoucherDocument-workflowProperties" parent="JournalVoucherDocument-workflowProperties-parentBean" />
-
-  <bean id="JournalVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-  
   <!-- validations -->
   
   <bean id="JournalVoucherDocument-validations" parent="JournalVoucherDocument-validations-parentBean" />
@@ -216,5 +198,18 @@
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,voucherLineHelpers*" /> 
-  </bean>  
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="JournalVoucherDocument-workflowAttributes" parent="JournalVoucherDocument-workflowAttributes-parentBean" />
+	
+	<bean id="JournalVoucherDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
+	</bean>
 </beans>

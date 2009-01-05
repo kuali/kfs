@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="ProcurementCardDocument" parent="ProcurementCardDocument-parentBean" />
 
@@ -18,9 +21,6 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />
     <property name="documentTypeCode" value="PCDO" />
     <property name="sessionDocument" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="ProcurementCardDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -42,35 +42,10 @@
 	    	</entry>
     	</map>
     </property>  
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />      
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="ProcurementCardDocument-workflowProperties" parent="ProcurementCardDocument-workflowProperties-parentBean" />
-
-  <bean id="ProcurementCardDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="transactionEntries.sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="transactionEntries.targetAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="transactionEntries.sourceAccountingLines.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="transactionEntries.targetAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="workflowAttributes">
+    	<ref bean="ProcurementCardDocument-workflowAttributes" />
+    </property>   
   </bean>
   
      <!-- Validations -->
@@ -149,5 +124,25 @@
 					p:totalProperty="targetTotal" p:representedProperty="amount" p:nestedProperty="true"/>
 			</list>
 		</property>
-	</bean>  
+	</bean>
+	
+	<!-- workflow attributes for routing -->
+	<bean id="ProcurementCardDocument-workflowAttributes" parent="ProcurementCardDocument-workflowAttributes-parentBean" />
+	
+	<bean id="ProcurementCardDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+    		</map>
+    	</property>
+	</bean>
 </beans>

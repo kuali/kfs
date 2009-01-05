@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CashManagementDocument" parent="CashManagementDocument-parentBean" />
 
@@ -21,10 +24,7 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules" />
     <property name="documentTypeCode" value="CMD" />
-     <property name="sessionDocument" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="CashManagementDocument-workflowProperties" />
-    </property>
+    <property name="sessionDocument" value="true" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -42,6 +42,9 @@
         <ref bean="CashManagementDocument-workgroupName" />
         <ref bean="CashManagementDocument-cashDrawerStatus" />
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="CashManagementDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -78,19 +81,35 @@
     <property name="description" value="..." />
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="CashManagementDocument-workflowProperties" parent="CashManagementDocument-workflowProperties-parentBean" />
-
-  <bean id="CashManagementDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="basePath" value="kualiTransactionalDocumentInformation.documentInitiator.person.campus" />
-        </bean>
-      </list>
-    </property>
-  </bean>
+<!-- workflow attributes for routing -->
+	<bean id="CashManagementDocument-workflowAttributes" parent="CashManagementDocument-workflowAttributes-parentBean" />
+	
+	<bean id="CashManagementDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true">
+		<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Campus" value-ref="CashManagementDocument-RoutingType-InitiatorCampus" />
+    		</map>
+    	</property>
+	</bean>
+	
+	<bean id="CashManagementDocument-DocumentValuePathGroup-InitiatorCampus" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>documentHeader.workflowDocument.initiator.campusCode</value>
+    		</list>
+    	</property>
+   	</bean>
+   	
+   	<bean id="CashManagementDocument-RoutingType-InitiatorCampus" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-campusCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="CashManagementDocument-DocumentValuePathGroup-InitiatorCampus" />
+    		</list>
+    	</property>
+    </bean>
 </beans>
-

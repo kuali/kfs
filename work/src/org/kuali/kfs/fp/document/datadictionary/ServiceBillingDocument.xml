@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="ServiceBillingDocument" parent="ServiceBillingDocument-parentBean" />
 
@@ -19,13 +22,9 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="documentTypeCode" value="SB" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="ServiceBillingDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -51,29 +50,13 @@
 	    	</entry>
     	</map>
     </property> 
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />       
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="ServiceBillingDocument-workflowProperties" parent="ServiceBillingDocument-workflowProperties-parentBean" />
-
-  <bean id="ServiceBillingDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="workflowAttributes">
+    	<ref bean="ServiceBillingDocument-workflowAttributes" />
+    </property>     
   </bean>
   
+  <!-- validations -->
   <bean id="ServiceBillingDocument-validations" parent="ServiceBillingDocument-validations-parentBean" />
   
   <bean id="ServiceBillingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
@@ -158,5 +141,18 @@
 			<bean parent="AccountingLineView-actions" />
 		</list>
 	</property>
-  </bean>  
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="ServiceBillingDocument-workflowAttributes" parent="ServiceBillingDocument-workflowAttributes-parentBean" />
+  
+  <bean id="ServiceBillingDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true">
+  		<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
+  </bean>
 </beans>

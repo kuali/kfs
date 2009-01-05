@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="BudgetAdjustmentDocument" parent="BudgetAdjustmentDocument-parentBean" />
 
@@ -27,9 +30,6 @@
     <property name="documentTypeCode" value="BA" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="BudgetAdjustmentDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -61,6 +61,9 @@
 	    		<ref bean="BudgetAdjustment-targetAccountingLineGroup" parent="AccountingLineGroup" />
 	    	</entry>
     	</map>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="BudgetAdjustmentDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -114,33 +117,6 @@
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentFiscalYearValuesFinder"
             p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-  <bean id="BudgetAdjustmentDocument-workflowProperties" parent="BudgetAdjustmentDocument-workflowProperties-parentBean" />
-
-  <bean id="BudgetAdjustmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
     </property>
   </bean>
   
@@ -274,5 +250,26 @@
 	      <bean parent="AccountingLineView-actions" />
 	    </list>
 	  </property>
+	</bean>
+	
+	<!-- workflow attributes for routing -->
+	<bean id="BudgetAdjustmentDocument-workflowAttributes" parent="BudgetAdjustmentDocument-workflowAttributes-parentBean" />
+	
+	<bean id="BudgetAdjustmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    		</map>
+    	</property>
 	</bean>
 </beans>

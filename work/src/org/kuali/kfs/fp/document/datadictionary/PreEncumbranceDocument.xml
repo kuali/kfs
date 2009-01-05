@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PreEncumbranceDocument" parent="PreEncumbranceDocument-parentBean" />
 
@@ -23,9 +26,6 @@
     <property name="documentTypeCode" value="PE" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="PreEncumbranceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -56,7 +56,10 @@
 	    	</entry>
     	</map>
     </property>  
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />      
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="workflowAttributes">
+    	<ref bean="PreEncumbranceDocument-workflowAttributes" />
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->
@@ -71,35 +74,6 @@
     <property name="required" value="false" />
     <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today&apos;s date. Use the calendar icon to select and format the Reversal Date." />
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PreEncumbranceDocument-workflowProperties" parent="PreEncumbranceDocument-workflowProperties-parentBean" />
-
-  <bean id="PreEncumbranceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-  
   
      <!-- Validations -->
   
@@ -180,4 +154,24 @@
 		</list>
 	</property>
   </bean>
+  
+  <!-- workflow attributes for routing -->
+	<bean id="PreEncumbranceDocument-workflowAttributes" parent="PreEncumbranceDocument-workflowAttributes-parentBean" />
+	
+	<bean id="PreEncumbranceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly" />
+    		</map>
+    	</property>
+	</bean>
 </beans>

@@ -22,9 +22,6 @@
     <property name="documentTypeCode" value="CCR" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="CreditCardReceiptDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -51,7 +48,10 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />     
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="workflowAttributes">
+    	<ref bean="CreditCardReceiptDocument-workflowAttributes" />
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->
@@ -64,28 +64,6 @@
     <property name="label" value="Credit Card Receipt Total" />
     <property name="shortLabel" value="Credit Card Receipt Total" />
     <property name="description" value="The sum of the entered credit card lines." />
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="CreditCardReceiptDocument-workflowProperties" parent="CreditCardReceiptDocument-workflowProperties-parentBean" />
-
-  <bean id="CreditCardReceiptDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
   
     
@@ -157,4 +135,17 @@
 		</list>
 	</property>
   </bean>
+  
+  <!-- workflow attributes -->
+	<bean id="CreditCardReceiptDocument-workflowAttributes" parent="CreditCardReceiptDocument-workflowAttributes-parentBean" />
+	
+	<bean id="CreditCardReceiptDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
+	</bean>
 </beans>

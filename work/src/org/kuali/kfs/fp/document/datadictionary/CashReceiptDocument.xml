@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CashReceiptDocument" parent="CashReceiptDocument-parentBean" />
 
@@ -22,9 +25,6 @@
     <property name="documentTypeCode" value="CR" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="CashReceiptDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -56,7 +56,10 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />     
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="workflowAttributes">
+    	<ref bean="CashReceiptDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -87,6 +90,7 @@
   </bean>
     
   <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean" />
+
   <bean id="CashReceiptDocument-totalCashAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCashAmount" />
     <property name="label" value="Total Currency Amount" />
@@ -112,30 +116,6 @@
   <bean id="CashReceiptDocument-documentNumber" parent="CashReceiptDocument-documentNumber-parentBean" />
 
   <bean id="CashReceiptDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="CashReceiptDocument-workflowProperties" parent="CashReceiptDocument-workflowProperties-parentBean" />
-
-  <bean id="CashReceiptDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="cashReceiptHeader" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
   
   <!-- validations -->
@@ -226,4 +206,48 @@
 		</list>
 	</property>
   </bean>
+	
+	<!-- workflow attributes for routing -->
+	<bean id="CashReceiptDocument-workflowAttributes" parent="CashReceiptDocument-workflowAttributes-parentBean" />
+	
+	<bean id="CashReceiptDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="CashManagement" value-ref="CashReceiptDocument-RoutingType-CashReceiptCampus" />
+    		</map>
+    	</property>
+	</bean>
+	
+	<bean id="CashReceiptDocument-RoutingAttribute-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.CashReceiptHeader" />
+    	<property name="attributeName" value="campusCode" />
+	</bean>
+	
+	<bean id="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>cashReceiptHeader.campusCode</value>
+    		</list>
+    	</property>
+   	</bean>
+   	
+   	<bean id="CashReceiptDocument-RoutingType-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-campusCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus" />
+    		</list>
+    	</property>
+    </bean>
 </beans>

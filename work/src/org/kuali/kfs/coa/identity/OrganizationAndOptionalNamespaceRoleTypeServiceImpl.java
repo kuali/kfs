@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
@@ -35,12 +35,12 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRole
     protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
     protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
     {
-        roleQualifierRequiredAttributes.add(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        roleQualifierRequiredAttributes.add(KimAttributes.ORGANIZATION_CODE);        
+        roleQualifierRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        roleQualifierRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);        
         //roleQualifierRequiredAttributes.add(KfsCoreKimAttributes.NAMESPACE_CODE);
 
-        qualificationRequiredAttributes.add(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        qualificationRequiredAttributes.add(KimAttributes.ORGANIZATION_CODE);        
+        qualificationRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        qualificationRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);        
         //qualificationRequiredAttributes.add(KfsCoreKimAttributes.NAMESPACE_CODE);
     }
     
@@ -55,14 +55,14 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRole
         String orgCode = "";
         String namespace = "";
         if ( qualification != null ) {
-            chart = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-            orgCode = qualification.get(KimAttributes.ORGANIZATION_CODE);
-            namespace = qualification.get(KimAttributes.NAMESPACE_CODE);
+            chart = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            orgCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
+            namespace = qualification.get(KfsKimAttributes.NAMESPACE_CODE);
         }
         
-        String roleChart = roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String roleOrgCode = roleQualifier.get(KimAttributes.ORGANIZATION_CODE);
-        String roleNamespace = roleQualifier.get(KimAttributes.NAMESPACE_CODE);
+        String roleChart = roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String roleOrgCode = roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE);
+        String roleNamespace = roleQualifier.get(KfsKimAttributes.NAMESPACE_CODE);
 
         // check if the chart/org match
         // if so, do an optional namespace match - if is specified on both, then must match
@@ -85,15 +85,15 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRole
         String orgCode = "";
         String namespace = "";
         if ( qualification != null ) {
-            chart = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-            orgCode = qualification.get(KimAttributes.ORGANIZATION_CODE);
-            namespace = qualification.get(KimAttributes.NAMESPACE_CODE);
+            chart = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            orgCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
+            namespace = qualification.get(KfsKimAttributes.NAMESPACE_CODE);
         }
         // look for match
         for ( RoleMembershipInfo rmi : roleMemberList ) {
-            String roleChart = rmi.getQualifier().get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-            String roleOrgCode = rmi.getQualifier().get(KimAttributes.ORGANIZATION_CODE);
-            String roleNamespace = rmi.getQualifier().get(KimAttributes.NAMESPACE_CODE);
+            String roleChart = rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            String roleOrgCode = rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE);
+            String roleNamespace = rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE);
             if ( StringUtils.equals(namespace, roleNamespace) || (StringUtils.isBlank(roleNamespace) && StringUtils.isBlank(namespace)) ) {
                 // check chart org for exact namespace;
                 if ( (StringUtils.equals(chart, roleChart) 

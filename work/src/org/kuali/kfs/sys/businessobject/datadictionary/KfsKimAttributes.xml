@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="KfsKimAttributes" parent="KfsKimAttributes-parentBean" />
+
+  <bean id="KfsKimAttributes-parentBean" abstract="true" parent="KimAttributes-parentBean"
+        p:businessObjectClass="org.kuali.kfs.sys.identity.KfsKimAttributes"
+        p:objectLabel="KFS Core KIM Attributes">
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="KfsKimAttributes-chartOfAccountsCode" />
+        <ref bean="KfsKimAttributes-accountNumber" />
+        <ref bean="KfsKimAttributes-organizationCode" />
+        <ref bean="KfsKimAttributes-descendHierarchy" />
+        <ref bean="KfsKimAttributes-fromAmount" />
+        <ref bean="KfsKimAttributes-toAmount" />
+        <ref bean="KfsKimAttributes-accountingLineOverrideCode" />
+        <ref bean="KfsKimAttributes-subFundGroupCode" />
+        <ref bean="KfsKimAttributes-purchasingCommodityCode" />
+        <ref bean="KfsKimAttributes-contractManagerCode" />
+        <ref bean="KfsKimAttributes-customerProfileId" />
+        <ref bean="KfsKimAttributes-vendorTypeCode" />
+        <ref bean="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" />
+        <ref bean="KfsKimAttributes-disbursementVoucherPaymentMethodCode" />
+        <ref bean="KfsKimAttributes-subAccountNumber" />
+        <ref bean="KfsKimAttributes-researchRiskTypeCode" />
+        <ref bean="KfsKimAttributes-QuestionType-questionTypeCode" />
+        <ref bean="KfsKimAttributes-QuestionType-active" />
+        <ref bean="KfsKimAttributes-QuestionType-questionTypeDescription" />
+        <ref bean="KfsKimAttributes-QuestionType-questionTypeSortNumber" />
+        <ref bean="KfsKimAttributes-QuestionType-questionTypeWorkgroupName" />
+        <ref bean="KfsKimAttributes-QuestionType-questionTypeNotificationValue" />
+        <ref bean="KfsKimAttributes-sensitiveDataCode" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KfsKimAttributes-chartOfAccountsCode" parent="Chart-chartOfAccountsCode" />
+  <bean id="KfsKimAttributes-accountNumber" parent="Account-accountNumber" />
+  <bean id="KfsKimAttributes-organizationCode" parent="Organization-organizationCode" />
+
+  <bean id="KfsKimAttributes-accountingLineOverrideCode" parent="KfsKimAttributes-accountingLineOverrideCode-parentBean" />
+  <bean id="KfsKimAttributes-accountingLineOverrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" 
+  	p:name="accountingLineOverrideCode" 
+	p:label="Accounting Line Override Code"
+    p:shortLabel="Override Code" />
+
+  <bean id="KfsKimAttributes-subFundGroupCode" parent="SubFundGroup-subFundGroupCode" />
+  <bean id="KfsKimAttributes-purchasingCommodityCode" parent="CommodityCode-purchasingCommodityCode" />
+  <bean id="KfsKimAttributes-contractManagerCode" parent="ContractManager-contractManagerCode" />
+
+  <bean id="KfsKimAttributes-customerProfileId" parent="KfsKimAttributes-customerProfileId-parentBean" />
+  <bean id="KfsKimAttributes-customerProfileId-parentBean" abstract="true" parent="CustomerProfile-id"
+  	p:name="customerProfileId" 
+	p:label="Customer Profile Id"
+    p:shortLabel="Id" />
+
+
+  <bean id="KfsKimAttributes-vendorTypeCode" parent="VendorType-vendorTypeCode" />
+  <bean id="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId" />
+
+  <bean id="KfsKimAttributes-disbursementVoucherPaymentMethodCode" parent="KfsKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" />
+  <bean id="KfsKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" abstract="true" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode"
+  	p:name="disbursementVoucherPaymentMethodCode" />
+
+  <bean id="KfsKimAttributes-subAccountNumber" parent="SubAccount-subAccountNumber" />
+
+  <bean id="KfsKimAttributes-fromAmount" parent="KfsKimAttributes-fromAmount-parentBean" />
+  <bean id="KfsKimAttributes-fromAmount-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount"
+  	p:name="fromAmount" 
+	p:label="From Amount"
+    p:shortLabel="From Amount" />
+
+  <bean id="KfsKimAttributes-toAmount" parent="KfsKimAttributes-toAmount-parentBean" />
+  <bean id="KfsKimAttributes-toAmount-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount" 
+  	p:name="toAmount" 
+	p:label="To Amount"
+    p:shortLabel="To Amount" />
+
+  <bean id="KfsKimAttributes-descendHierarchy" parent="KfsKimAttributes-descendHierarchy-parentBean" />
+  <bean id="KfsKimAttributes-descendHierarchy-parentBean" abstract="true" parent="GenericAttributes-genericBoolean"
+    p:name="descendHierarchy"
+    p:label="Descends Hierarchy"
+    p:shortLabel="Descends Hierarchy" />
+
+  <bean id="KfsKimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode" />
+  <bean id="KfsKimAttributes-QuestionType-questionTypeCode" parent="QuestionType-questionTypeCode" />
+  <bean id="KfsKimAttributes-QuestionType-active" parent="QuestionType-active" />
+  <bean id="KfsKimAttributes-QuestionType-questionTypeDescription" parent="QuestionType-questionTypeDescription" />
+  <bean id="KfsKimAttributes-QuestionType-questionTypeSortNumber" parent="QuestionType-questionTypeSortNumber" />
+  <bean id="KfsKimAttributes-QuestionType-questionTypeWorkgroupName" parent="QuestionType-questionTypeWorkgroupName" />
+  <bean id="KfsKimAttributes-QuestionType-questionTypeNotificationValue" parent="QuestionType-questionTypeNotificationValue" />
+  <bean id="KfsKimAttributes-sensitiveDataCode" parent="SensitiveData-sensitiveDataCode" />
+
+</beans>

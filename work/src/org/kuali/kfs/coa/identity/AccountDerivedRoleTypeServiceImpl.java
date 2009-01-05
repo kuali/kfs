@@ -26,7 +26,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.role.dto.KimDelegationMemberInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -38,9 +38,9 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     private AccountService accountService;
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
-        requiredAttributes.add(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        requiredAttributes.add(KimAttributes.ACCOUNT_NUMBER);
-        requiredAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
+        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
+        requiredAttributes.add(KfsKimAttributes.DOCUMENT_TYPE_NAME);
     }
     
     /**
@@ -61,9 +61,9 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         //validate received attributes
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        String chartOfAccountsCode = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String accountNumber = qualification.get(KimAttributes.ACCOUNT_NUMBER);
-        String fisDocumentTypeCode = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
+        String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
+        String fisDocumentTypeCode = qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
         String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         //Default to 0 total amount
         if(StringUtils.isEmpty(totalDollarAmount))

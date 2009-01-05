@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.service.DocumentTypeService;
@@ -290,11 +290,11 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         AttributeSet permissionDetails = new AttributeSet();
 
         if (StringUtils.isNotBlank(documentTypeName)) {
-            permissionDetails.put(KimAttributes.DOCUMENT_TYPE_NAME, documentTypeName);
+            permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, documentTypeName);
         }
 
         if (StringUtils.isNotBlank(fieldName)) {
-            permissionDetails.put(KimAttributes.PROPERTY_NAME, fieldName);
+            permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, fieldName);
         }
 
         return permissionDetails;
@@ -310,8 +310,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         AttributeSet roleQualifiers = new AttributeSet();
 
         if (accountingLine != null) {
-            roleQualifiers.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
-            roleQualifiers.put(KimAttributes.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
+            roleQualifiers.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
+            roleQualifiers.put(KfsKimAttributes.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
         }
 
         return roleQualifiers;

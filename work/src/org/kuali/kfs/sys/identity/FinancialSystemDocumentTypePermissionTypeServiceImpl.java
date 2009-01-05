@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.sys.identity;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -33,30 +35,12 @@ import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
  */
 public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends DocumentTypePermissionTypeServiceImpl {
 
-    private static RoleService roleService;
+    private RoleService roleService;
     
-	/***
-	 * 
-     *  Consider the document type hierarchy - 
-     *  only for the template Claim Electronic Payment, null document type passed in matches role members 
-     *  assigned with no role member attr data row for that - otherwise null document type not allowed.
-     *
-	 * 
-	 * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.role.KimPermission)
-	 */
-    @Deprecated // remove this after the rice update
-	protected boolean performPermissionMatch(AttributeSet requestedDetails, KimPermission permission) {
-        if ( permission instanceof KimPermissionInfo ) {
-            return performPermissionMatch(requestedDetails, (KimPermissionInfo)permission );
-        } else {
-            return performPermissionMatch(requestedDetails, ((KimPermissionImpl)permission).toSimpleInfo() );
-        }
-	}
-
-    protected boolean performPermissionMatch(AttributeSet requestedDetails, KimPermissionInfo permission) {
+    public boolean performPermissionMatch(AttributeSet requestedDetails, KimPermissionInfo permission) {
         if(KFSConstants.SysKimConstants.CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME.equals(permission.getTemplate().getName())){
-            String documentTypeName = requestedDetails.get(KimAttributes.DOCUMENT_TYPE_NAME);
-            String qualifierDocumentTypeName = permission.getDetails().get(KimAttributes.DOCUMENT_TYPE_NAME);
+            String documentTypeName = requestedDetails.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+            String qualifierDocumentTypeName = permission.getDetails().get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
             if(documentTypeName==null && qualifierDocumentTypeName==null || 
                     (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 
                             && documentTypeName.equals(qualifierDocumentTypeName))){
@@ -69,7 +53,7 @@ public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends Docume
     /**
      * @return the RoleService
      */
-     protected static RoleService getRoleService(){
+     protected RoleService getRoleService(){
         if(roleService == null){
             roleService = KIMServiceLocator.getRoleService();
         }

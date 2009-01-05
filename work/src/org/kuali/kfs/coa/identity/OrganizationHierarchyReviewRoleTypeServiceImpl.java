@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 public class OrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
     {
-        roleQualifierRequiredAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
+        roleQualifierRequiredAttributes.add(KfsKimAttributes.DOCUMENT_TYPE_NAME);
 
-        qualificationRequiredAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
+        qualificationRequiredAttributes.add(KfsKimAttributes.DOCUMENT_TYPE_NAME);
     }
 
     /**
@@ -39,11 +39,11 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
         validateRequiredAttributesAgainstReceived(
                 roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
 
-        return isParentOrg(qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), 
-                qualification.get(KimAttributes.ORGANIZATION_CODE), 
-                roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), 
-                roleQualifier.get(KimAttributes.ORGANIZATION_CODE), true) && 
-                qualification.get(KimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(
-                        roleQualifier.get(KimAttributes.DOCUMENT_TYPE_NAME));
+        return isParentOrg(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
+                qualification.get(KfsKimAttributes.ORGANIZATION_CODE), 
+                roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
+                roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE), true) && 
+                qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(
+                        roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
     }
 }

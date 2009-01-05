@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.identity;
 
 import java.util.LinkedHashMap;
 
-public class KimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
+public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     public static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     public static String ACCOUNT_NUMBER = "accountNumber";

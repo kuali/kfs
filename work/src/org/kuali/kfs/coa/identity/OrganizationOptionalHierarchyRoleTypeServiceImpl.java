@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.identity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
@@ -27,10 +27,10 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
     private boolean qualificationDeterminesDescendHierarchy;
     {
         if (qualificationDeterminesDescendHierarchy) {
-            qualificationRequiredAttributes.add(KimAttributes.DESCEND_HIERARCHY);
+            qualificationRequiredAttributes.add(KfsKimAttributes.DESCEND_HIERARCHY);
         }
         else {
-            roleQualifierRequiredAttributes.add(KimAttributes.DESCEND_HIERARCHY);
+            roleQualifierRequiredAttributes.add(KfsKimAttributes.DESCEND_HIERARCHY);
         }
     }
 
@@ -44,15 +44,15 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
         validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
         String descendHierarchy = null;
         if (qualificationDeterminesDescendHierarchy) {
-            descendHierarchy = qualification.get(KimAttributes.DESCEND_HIERARCHY);
+            descendHierarchy = qualification.get(KfsKimAttributes.DESCEND_HIERARCHY);
         }
         else {
-            descendHierarchy = roleQualifier.get(KimAttributes.DESCEND_HIERARCHY);
+            descendHierarchy = roleQualifier.get(KfsKimAttributes.DESCEND_HIERARCHY);
         }
-        return isParentOrg(qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), 
-                qualification.get(KimAttributes.ORGANIZATION_CODE), 
-                roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), 
-                roleQualifier.get(KimAttributes.ORGANIZATION_CODE), DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy));
+        return isParentOrg(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
+                qualification.get(KfsKimAttributes.ORGANIZATION_CODE), 
+                roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
+                roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE), DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy));
     }
 
     public void setQualificationDeterminesDescendHierarchy(boolean qualificationDeterminesDescendHierarchy) {

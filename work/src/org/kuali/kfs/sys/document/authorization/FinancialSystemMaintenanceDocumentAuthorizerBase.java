@@ -21,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -64,12 +64,12 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
         super.addRoleQualification(businessObject, attributes);
         Document document = (Document)businessObject;
         Person initiator = getPersonService().getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
-        ChartOrgHolder initiatorPrimaryOrganization = getFinancialSystemUserService().getOrganizationByNamespaceCode(initiator, attributes.get(KimAttributes.NAMESPACE_CODE));
+        ChartOrgHolder initiatorPrimaryOrganization = getFinancialSystemUserService().getOrganizationByNamespaceCode(initiator, attributes.get(KfsKimAttributes.NAMESPACE_CODE));
         if (initiatorPrimaryOrganization != null) {
-            attributes.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, initiatorPrimaryOrganization.getChartOfAccountsCode());
-            attributes.put(KimAttributes.ORGANIZATION_CODE, initiatorPrimaryOrganization.getOrganizationCode());
+            attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, initiatorPrimaryOrganization.getChartOfAccountsCode());
+            attributes.put(KfsKimAttributes.ORGANIZATION_CODE, initiatorPrimaryOrganization.getOrganizationCode());
         }
-        attributes.put(KimAttributes.CAMPUS_CODE, initiator.getCampusCode());
+        attributes.put(KfsKimAttributes.CAMPUS_CODE, initiator.getCampusCode());
     }
 
     public static final FinancialSystemUserService getFinancialSystemUserService() {

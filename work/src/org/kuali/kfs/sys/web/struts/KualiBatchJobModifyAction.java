@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -81,8 +81,8 @@ public class KualiBatchJobModifyAction extends KualiAction {
     protected boolean canModifyJob(KualiBatchJobModifyForm form, String actionType) {
         if (canModifyJob == null) {
             AttributeSet permissionDetails = new AttributeSet();
-            permissionDetails.put(KimAttributes.NAMESPACE_CODE, form.getJob().getNamespaceCode());
-            permissionDetails.put(KimAttributes.BEAN_NAME, form.getJob().getName());
+            permissionDetails.put(KfsKimAttributes.NAMESPACE_CODE, form.getJob().getNamespaceCode());
+            permissionDetails.put(KfsKimAttributes.BEAN_NAME, form.getJob().getName());
             canModifyJob = new Boolean(getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.MODIFY_BATCH_JOB, permissionDetails, new AttributeSet(getRoleQualification(form, actionType))));
         }
         return canModifyJob.booleanValue();

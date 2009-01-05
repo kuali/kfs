@@ -20,17 +20,17 @@ import java.util.List;
 
 import org.kuali.kfs.coa.service.ChartHierarchyService;
 import org.kuali.kfs.coa.service.OrganizationHierarchyService;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimRoleTypeServiceBase {
     protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
     protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
     {
-        roleQualifierRequiredAttributes.add(KimAttributes.CHART_OF_ACCOUNTS_CODE);
+        roleQualifierRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
 
-        qualificationRequiredAttributes.add(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        qualificationRequiredAttributes.add(KimAttributes.ORGANIZATION_CODE);
+        qualificationRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        qualificationRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
     }
 
     private ChartHierarchyService chartService;

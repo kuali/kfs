@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.role.dto.KimDelegationMemberInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
@@ -29,7 +29,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
         extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
 
     {
-        qualificationRequiredAttributes.add(KimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
+        qualificationRequiredAttributes.add(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
         qualificationRequiredAttributes.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
     }
 
@@ -62,8 +62,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
     }
 
     private boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier){
-        String overrideCode = qualification.get(KimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
-        String overrideCodeQualifier = roleQualifier.get(KimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
+        String overrideCode = qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
+        String overrideCodeQualifier = roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
         if(overrideCodeQualifier==null || overrideCode.equals(overrideCodeQualifier))
             return true;
         return false;
@@ -73,8 +73,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
         boolean isValidTotalAmount = false;
         try{
             int totalAmount = new Integer(qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT)).intValue();
-            String toAmountStr = roleQualifier.get(KimAttributes.TO_AMOUNT);
-            String fromAmountStr = roleQualifier.get(KimAttributes.FROM_AMOUNT);
+            String toAmountStr = roleQualifier.get(KfsKimAttributes.TO_AMOUNT);
+            String fromAmountStr = roleQualifier.get(KfsKimAttributes.FROM_AMOUNT);
             if((StringUtils.isEmpty(toAmountStr) || new Integer(toAmountStr).intValue()>totalAmount) &&
                     (StringUtils.isEmpty(fromAmountStr) || new Integer(fromAmountStr).intValue()<totalAmount)){
                 isValidTotalAmount = true;

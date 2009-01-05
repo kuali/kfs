@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -198,9 +198,9 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
         Document document = (Document)businessObject;
         // add the document amount
         if ( ((AccountingDocument)document).getSourceTotal() != null && ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount() != null ) {
-            attributes.put(KimAttributes.DOCUMENT_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());
+            attributes.put(KfsKimAttributes.DOCUMENT_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());
         } else {
-            attributes.put(KimAttributes.DOCUMENT_AMOUNT, "0" );
+            attributes.put(KfsKimAttributes.DOCUMENT_AMOUNT, "0" );
         }
     }
 }

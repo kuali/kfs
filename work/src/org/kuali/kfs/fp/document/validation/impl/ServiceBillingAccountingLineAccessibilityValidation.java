@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEv
 import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.service.DocumentTypeService;
@@ -109,12 +109,12 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         String permissionTemplateName = KFSConstants.SysKimConstants.MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME;
 
         AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KimAttributes.DOCUMENT_TYPE_NAME, accountingDocument.getClass().getSimpleName());
-        permissionDetails.put(KimAttributes.PROPERTY_NAME, KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value);
+        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, accountingDocument.getClass().getSimpleName());
+        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value);
 
         AttributeSet roleQualifiers = new AttributeSet();
-        roleQualifiers.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
-        roleQualifiers.put(KimAttributes.ACCOUNT_NUMBER, account.getAccountNumber());
+        roleQualifiers.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
+        roleQualifiers.put(KfsKimAttributes.ACCOUNT_NUMBER, account.getAccountNumber());
 
         return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, permissionTemplateName, principalId, permissionDetails, roleQualifiers);
     }

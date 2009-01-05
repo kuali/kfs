@@ -19,7 +19,7 @@ import org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceIm
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
 
@@ -32,9 +32,9 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, AttributeSet qualification) {
         AttributeSet newQualification = new AttributeSet();
         int organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
-        String chartOfAccountsCode = qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String accountNumber = qualification.get(KimAttributes.ACCOUNT_NUMBER);
-        String organizationCode = qualification.get(KimAttributes.ORGANIZATION_CODE);
+        String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
+        String organizationCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
         String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;
         if (DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
             descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_TRUE_VALUE;
@@ -52,10 +52,10 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
                 organizationCode = newOrganization.getReportsToOrganizationCode();
             }
         }
-        newQualification.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        newQualification.put(KimAttributes.ACCOUNT_NUMBER, accountNumber);
-        newQualification.put(KimAttributes.ORGANIZATION_CODE, organizationCode);
-        newQualification.put(KimAttributes.DESCEND_HIERARCHY, descendHierarchy);
+        newQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        newQualification.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
+        newQualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
+        newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
         return newQualification;
     }
 

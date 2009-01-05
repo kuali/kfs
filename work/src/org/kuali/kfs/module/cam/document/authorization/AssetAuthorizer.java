@@ -21,7 +21,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -156,7 +156,7 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         String chart = asset.getOrganizationOwnerChartOfAccountsCode();
         String org = asset.getOrganizationOwnerAccount().getOrganizationCode();
         
-        attributes.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
-        attributes.put(KimAttributes.ORGANIZATION_CODE, org);        
+        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
+        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);        
     }
 }

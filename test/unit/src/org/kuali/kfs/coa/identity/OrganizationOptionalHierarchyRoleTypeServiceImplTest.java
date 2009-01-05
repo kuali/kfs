@@ -20,7 +20,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 @ConfigureContext//(session=UserNameFixture.hfore)
@@ -37,12 +37,12 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
         AttributeSet roleQualifier = new AttributeSet();
         roleQualifier.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         roleQualifier.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
-        roleQualifier.put(KimAttributes.DESCEND_HIERARCHY, "Y");
+        roleQualifier.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
         
         AttributeSet qualification = new AttributeSet();
         qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
-        qualification.put(KimAttributes.DESCEND_HIERARCHY, "Y");
+        qualification.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
         assertTrue( "BL-PHYS - exact match - should have passed", roleTypeService.performMatch(qualification, roleQualifier));
         qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "BCMI");
         assertTrue( "BL-BCMI- hierarchy match - should have passed", roleTypeService.performMatch(qualification, roleQualifier));
@@ -59,7 +59,7 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
 //        AttributeSet qualification = new AttributeSet();
 //        qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
 //        qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
-//        qualification.put(KimAttributes.DESCEND_HIERARCHY, "Y");
+//        qualification.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
 //        assertTrue( "BL-PHYS - exact match - should have passed", rs.principalHasRole("3432106365", roleIds, qualification ) );
 //        //qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "BCMI");
 //        //assertTrue( "BL-BCMI- hierarchy match - should have passed", rs.principalHasRole("3432106365", roleIds, qualification ) );

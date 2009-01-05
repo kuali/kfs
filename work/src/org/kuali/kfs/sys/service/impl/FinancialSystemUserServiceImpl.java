@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -95,12 +95,12 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
             return null;
         }
         AttributeSet qualification = new AttributeSet(1);
-        qualification.put(KimAttributes.NAMESPACE_CODE, namespaceCode);
+        qualification.put(KfsKimAttributes.NAMESPACE_CODE, namespaceCode);
         List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(person.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, OrganizationAndOptionalNamespaceRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         ChartOrgHolderImpl result = new ChartOrgHolderImpl();
         if (!roleQualifiers.isEmpty()) {
-            result.setChartOfAccountsCode(roleQualifiers.get(0).get(KimAttributes.CHART_OF_ACCOUNTS_CODE));
-            result.setOrganizationCode(roleQualifiers.get(0).get(KimAttributes.ORGANIZATION_CODE));
+            result.setChartOfAccountsCode(roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
+            result.setOrganizationCode(roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE));
         }
         return result;
     }

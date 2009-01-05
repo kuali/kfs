@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.identity.KimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
@@ -39,8 +39,8 @@ public class ChartRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         validateRequiredAttributesAgainstReceived(requiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
         
-        return StringUtils.equals(qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), 
-                roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE));
+        return StringUtils.equals(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
+                roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
     }
 
 }

@@ -86,6 +86,8 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         arDocHeader.setDocumentNumber(doc.getDocumentNumber());
         doc.setAccountsReceivableDocumentHeader(arDocHeader);
 
+        documentService.saveDocument(doc);
+        
         return doc;
     }
     

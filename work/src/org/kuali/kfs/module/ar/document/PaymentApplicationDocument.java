@@ -492,7 +492,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             // FIXME Add in the recursive parent search to find a CashControlDocument 
             // if one isn't present on the PaymentApplicationDocument passed in.
         }
-        return paymentApplicationDocument.getCashControlDocument();
+        return cashControlDocument;
     }
     
     /**

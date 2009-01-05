@@ -183,14 +183,10 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * @return
      * @throws WorkflowException
      */
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException {
-        DocumentHeader documentHeader = document.getDocumentHeader();
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        DocumentHeader documentHeader = paymentApplicationDocument.getDocumentHeader();
         String cashControlDocumentNumber = documentHeader.getOrganizationDocumentNumber();
-        if(null == cashControlDocumentNumber) {
-            return null;
-        }
-        CashControlDocument cashControlDocument = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
-        return cashControlDocument;
+        return (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
     }
     
     /**

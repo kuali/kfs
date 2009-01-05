@@ -22,6 +22,7 @@
     <property name="documentTypeName" value="InternalBillingDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.InternalBillingDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="documentTypeCode" value="IB" />
     <property name="sessionDocument" value="true" />

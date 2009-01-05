@@ -22,7 +22,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Lockbox">
 <!--<ruleTemplate>LockboxTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

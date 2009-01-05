@@ -6,7 +6,7 @@
 <parent>PurchasingAccountsPayableTransactionalDocument</parent>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="RequiresInvoiceAttachment"/>
+          <start name="AdHoc" nextNode="RequiresInvoiceAttachment"/>
           	<split name="RequiresInvoiceAttachment" nextNode="NoOp">
 						<branch name="True">
 							<requests name="InvoiceAttachment" nextNode="Join"/>
@@ -20,7 +20,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <split name="RequiresInvoiceAttachment">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>

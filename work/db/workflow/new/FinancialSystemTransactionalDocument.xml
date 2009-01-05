@@ -6,11 +6,11 @@
 <parent>FinancialSystemDocument</parent>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing"/>
+          <start name="AdHoc"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 </routeNodes>
 </documentType>
 </documentTypes>

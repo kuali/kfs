@@ -7,7 +7,7 @@
 <docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="ProjectManagement"/>
+          <start name="AdHoc" nextNode="ProjectManagement"/>
           <requests name="ProjectManagement" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy" nextNode="Do Award Split"/>
@@ -34,7 +34,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="ProjectManagement">
 <!--<ruleTemplate>KualiProjectDirectorTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

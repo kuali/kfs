@@ -7,13 +7,13 @@
 <docHandler>${application.url}/purapVendorCreditMemo.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="InvoiceAttachment"/>
+          <start name="AdHoc" nextNode="InvoiceAttachment"/>
           <requests name="InvoiceAttachment" nextNode="Account"/>
           <requests name="Account"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="InvoiceAttachment">
 <!--<ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

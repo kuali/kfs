@@ -7,12 +7,12 @@
 <docHandler/>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="OrganizationHierarchy"/>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="OrganizationHierarchy">
 <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

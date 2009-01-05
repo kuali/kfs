@@ -7,7 +7,7 @@
 <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="InvoiceAttachment"/>
+          <start name="AdHoc" nextNode="InvoiceAttachment"/>
           <requests name="InvoiceAttachment" nextNode="PurchaseWasReceived"/>
           <split name="PurchaseWasReceived" nextNode="SubAccount">
 						<branch name="True">
@@ -36,7 +36,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="InvoiceAttachment">
 <!--<ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

@@ -7,7 +7,7 @@
 <docHandler>${application.url}/researchRoutingFormMainPage.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Split"/>
+          <start name="AdHoc" nextNode="Split"/>
           <split name="Split" nextNode="ResearchRisk">
             <branch name="Adhoc Approvers Branch">
               <requests name="ResearchAdHoc" nextNode="Final Notification"/>
@@ -21,7 +21,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 
 <role name="ResearchAdHoc">
 <!--<ruleTemplate>KualiResearchAdhocApproverTemplate</ruleTemplate>-->

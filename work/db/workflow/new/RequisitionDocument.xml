@@ -7,7 +7,7 @@
 <docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Organization"/>
+          <start name="AdHoc" nextNode="Organization"/>
           <requests name="Organization" nextNode="SubAccount"/>
           <requests name="SubAccount" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
@@ -26,7 +26,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Organization">
 <!--<ruleTemplate>KualiRequisitionContentTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

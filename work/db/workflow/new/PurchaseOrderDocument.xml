@@ -7,7 +7,7 @@
 <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="ContractManagement"/>
+          <start name="AdHoc" nextNode="ContractManagement"/>
           <requests name="ContractManagement" nextNode="Commodity"/>
           <requests name="Commodity" nextNode="Award"/>
           <requests name="Award" nextNode="RequiresBudgetReview"/>
@@ -44,7 +44,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="ContractManagement">
 <!--<ruleTemplate>KualiInternalPurchasingTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

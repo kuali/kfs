@@ -7,7 +7,7 @@
 <docHandler>${application.url}/purapLineItemReceiving.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="RelatesToOutstandingTransactions"/>
+          <start name="AdHoc" nextNode="RelatesToOutstandingTransactions"/>
           	<split name="RelatesToOutstandingTransactions" nextNode="NoOp">
 						<branch name="True">
 							<requests name="OutstandingTransactions" nextNode="Join"/>
@@ -21,7 +21,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <split name="RelatesToOutstandingTransactions">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>

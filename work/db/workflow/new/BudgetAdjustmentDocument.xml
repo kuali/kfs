@@ -7,12 +7,12 @@
 <docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Approval No Approval Split"/>
+          <start name="AdHoc" nextNode="Approval No Approval Split"/>
           <split name="Approval No Approval Split" nextNode="Do More Nothing">
             <branch name="ApprovalBranch">
               <requests name="Account" nextNode="OrganizationHierarchy"/>
-              <requests name="OrganizationHierarchy" nextNode="Subfund"/>
-              <requests name="Subfund" nextNode="Award"/>
+              <requests name="OrganizationHierarchy" nextNode="SubFund"/>
+              <requests name="SubFund" nextNode="Award"/>
               <requests name="Award" nextNode="Join"/>
             </branch>
             <branch name="NoApprovalBranch">
@@ -24,7 +24,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Account">
 <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

@@ -7,12 +7,12 @@
 <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="AccountsPayable"/>
+          <start name="AdHoc" nextNode="AccountsPayable"/>
           <requests name="AccountsPayable"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="AccountsPayable">
 <!--<ruleTemplate>KualiPurchaseOrderRemoveHoldNotify</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

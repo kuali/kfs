@@ -7,7 +7,7 @@
 <docHandler>${application.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="HasReccurence"/>
+          <start name="AdHoc" nextNode="HasReccurence"/>
           <split name="HasReccurence" nextNode="Do Nothing">
             <branch name="True">
             	<requests name="Account" nextNode="Reccurence"/>
@@ -22,7 +22,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Account">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

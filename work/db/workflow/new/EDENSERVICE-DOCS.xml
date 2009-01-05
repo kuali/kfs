@@ -6,12 +6,12 @@
 <parent>RiceDocument</parent>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Workflow Document Routing"/>
+          <start name="AdHoc" nextNode="Workflow Document Routing"/>
           <requests name="Workflow Document Routing"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Workflow Document Routing">
 <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

@@ -6,12 +6,12 @@
 <parent>FinancialSystemTransactionalDocument</parent>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="ProjectManagement"/>
+          <start name="AdHoc" nextNode="ProjectManagement"/>
           <requests name="ProjectManagement"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="ProjectManagement">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>

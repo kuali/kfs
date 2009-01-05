@@ -7,10 +7,10 @@
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Approval No Approval Split"/>
+          <start name="AdHoc" nextNode="Approval No Approval Split"/>
           <split name="Approval No Approval Split">
             <branch name="ApprovalBranch">
-              <requests name="Vendor Type" nextNode="Initiator"/>
+              <requests name="Management" nextNode="Initiator"/>
               <requests name="Initiator" nextNode="Join"/>
             </branch>
             <branch name="NoApprovalBranch">
@@ -21,7 +21,7 @@
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Management">
 <!--<ruleTemplate>KualiVendorDocumentTypeTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

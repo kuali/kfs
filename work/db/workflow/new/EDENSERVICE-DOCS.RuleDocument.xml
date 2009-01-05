@@ -7,12 +7,12 @@
 <docHandler>${workflow.url}/Rule.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Rule Routing"/>
+          <start name="AdHoc" nextNode="Rule Routing"/>
           <requests name="Rule Routing"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Rule Routing">
 <ruleTemplate>RuleTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

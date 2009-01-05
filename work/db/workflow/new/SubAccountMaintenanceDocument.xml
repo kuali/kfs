@@ -7,13 +7,13 @@
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Account"/>
+          <start name="AdHoc" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy"/>
         </routePath>
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Account">
 <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

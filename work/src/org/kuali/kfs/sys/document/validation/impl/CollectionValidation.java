@@ -87,7 +87,7 @@ public class CollectionValidation extends CompositeValidation {
      * @return
      */
     private String buildPropertyName(int count) {
-        return new StringBuilder().append(collectionProperty.substring(0, collectionProperty.length()-2)).append('[').append(count).append(']').toString();
+        return new StringBuilder().append(collectionProperty.substring(0, collectionProperty.length()-1)).append('[').append(count).append(']').toString();
     }
     
     /**

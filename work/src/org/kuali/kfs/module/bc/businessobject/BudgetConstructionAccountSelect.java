@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kim.service.PersonService;
 
@@ -266,7 +265,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
             try {
                 Long docNum = Long.valueOf(this.getDocumentNumber());
 
-                ActionTakenService actionTakenService = KEWServiceLocator.getActionTakenService();
+                ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 if (actionsTaken.size() > 0) {
                     this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPrincipalName();
@@ -316,7 +315,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
             try {
                 Long docNum = Long.valueOf(this.getDocumentNumber());
 
-                ActionTakenService actionTakenService = KEWServiceLocator.getActionTakenService();
+                ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 if (actionsTaken.size() > 0) {
                     this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPrincipalName();

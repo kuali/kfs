@@ -13,16 +13,6 @@
 		<property name="fields">
 			<list>
 				<bean parent="AccountingLineView-field"
-					p:name="postingYear" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="overrideCode" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="sequenceNumber" p:hidden="true" />					
-				<bean parent="AccountingLineView-field"
-					p:name="versionNumber" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="documentNumber" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
 					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true" p:unconditionallyReadOnly="true"  
 					p:webUILeaveFieldFunction="loadChartInfo"
 					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
@@ -68,16 +58,6 @@
 		<property name="elementName" value="accountingInformation" />
 		<property name="fields">
 			<list>
-				<bean parent="AccountingLineView-field"
-					p:name="postingYear" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="overrideCode" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="sequenceNumber" p:hidden="true" />					
-				<bean parent="AccountingLineView-field"
-					p:name="versionNumber" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="documentNumber" p:hidden="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true" p:unconditionallyReadOnly="false"  
 					p:webUILeaveFieldFunction="loadChartInfo"

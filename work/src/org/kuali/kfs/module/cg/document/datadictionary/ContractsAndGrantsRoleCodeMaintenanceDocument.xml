@@ -27,7 +27,7 @@
     <property name="summary" value="Person Role maintenance document" />
     <property name="description" value="Document used to create or update Person Role objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" p:parameterName="PERSON_ROLE" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" p:parameterName="CONTRACTS_AND_GRANTS_ROLE_CODE" />
     </property>
     <property name="documentTypeName" value="ContractsAndGrantsRoleCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

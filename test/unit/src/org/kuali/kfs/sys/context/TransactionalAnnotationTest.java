@@ -29,15 +29,6 @@ import org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.rice.kim.dao.proxy.PersonDaoProxy;
-import org.kuali.rice.kim.service.impl.PersonServiceImpl;
-import org.kuali.rice.kns.lookup.LookupResultsServiceImpl;
-import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
-import org.kuali.rice.kns.service.impl.KeyValuesServiceImpl;
-import org.kuali.rice.kns.service.impl.LookupServiceImpl;
-import org.kuali.rice.kns.service.impl.PersistenceServiceImpl;
-import org.kuali.rice.kns.service.impl.PostDataLoadEncryptionServiceImpl;
-import org.kuali.rice.kns.service.impl.SequenceAccessorServiceImpl;
 import org.springframework.aop.framework.AopProxyUtils;
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -53,28 +44,18 @@ public class TransactionalAnnotationTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionalAnnotationTest.class);
 
     Map<Class<? extends Object>, Boolean> seenClasses = new HashMap<Class<? extends Object>, Boolean>();
-    List<Class<? extends Object>> excludedClasses;
+    List<Class<? extends Object>> excludedClasses = new ArrayList<Class<? extends Object>>();
     Map<String, String> doubleAnnotatedTransactionalServices;
     Map<String, String> nonAnnotatedTransactionalServices;
     Map<String, Class<? extends Object>> incorrectlyAnnotatedTransactionalServices;
+
+    {
+        excludedClasses.add( SubFundGroupServiceImpl.class );
+        excludedClasses.add( SensitiveDataServiceImpl.class );
+    }
     
     public void setUp() throws Exception {
         super.setUp();
-/* TODO services that are in RICE and not annotated are excluded from the test.
-   Annotate these classes */
-        excludedClasses = new ArrayList<Class<? extends Object>>();
-        excludedClasses.add( BusinessObjectServiceImpl.class );
-        excludedClasses.add( PersistenceServiceImpl.class );
-        excludedClasses.add( SubFundGroupServiceImpl.class );
-        excludedClasses.add( PostDataLoadEncryptionServiceImpl.class );
-        excludedClasses.add( KeyValuesServiceImpl.class );
-        excludedClasses.add( SequenceAccessorServiceImpl.class );
-        excludedClasses.add( LookupResultsServiceImpl.class );
-        excludedClasses.add( PostDataLoadEncryptionServiceImpl.class );
-        excludedClasses.add( LookupServiceImpl.class );
-        excludedClasses.add( SensitiveDataServiceImpl.class );
-        excludedClasses.add( PersonServiceImpl.class );
-        excludedClasses.add( PersonDaoProxy.class );
     }
 
     public void testTransactionAnnotations() {
@@ -156,9 +137,14 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         return;
     }
 
+    private boolean isExcludedClass( Class<? extends Object> beanClass ) {
+        return beanClass.getName().startsWith("org.kuali.rice") 
+                || excludedClasses.contains(beanClass);
+    }
+    
     private boolean isClassAnnotated(String beanName, Class<? extends Object> beanClass) {
         boolean hasClassAnnotation = false;
-        if (shouldHaveTransaction(beanClass)&& !excludedClasses.contains(beanClass)){
+        if (shouldHaveTransaction(beanClass)&& !isExcludedClass(beanClass)){
             if (beanClass.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) {
                 hasClassAnnotation = true;
             }

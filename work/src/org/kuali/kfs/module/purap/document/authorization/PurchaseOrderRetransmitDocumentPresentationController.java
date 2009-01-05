@@ -30,10 +30,11 @@ public class PurchaseOrderRetransmitDocumentPresentationController extends Purch
         return false;
     }
 
-//    @Override
-//    protected boolean canEdit(Document document) {
-//        return false;
-//    }
+    @Override
+    public boolean canInitiate(String documentTypeName) {
+        // TODO (ying) move the initiate permissions to here (no user logic)
+        return super.canInitiate(documentTypeName);
+    }
 
     @Override
     public Set<String> getEditModes(Document document) {

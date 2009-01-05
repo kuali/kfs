@@ -173,10 +173,11 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                     badNameCount = badNameCount + 1;
                 }
             } else {
-                errorString = errorString+"Unable to find document type for code: " + docType + " label: " + label + ".\n"; 
-                badNameCount = badNameCount + 1;
+                // ignore - these will be caught by a different test
+//                errorString = errorString+"Unable to find document type for code: " + docType + " label: " + label + ".\n"; 
+//                badNameCount = badNameCount + 1;
             }
         }
-        assertTrue(badNameCount+" Doc Types exist with bad names: \n"+errorString, badNameCount == 0);   
+        assertEquals(badNameCount+" Doc Types exist with bad names: \n"+errorString, 0, badNameCount );   
     }
 }

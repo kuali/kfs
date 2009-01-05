@@ -752,6 +752,9 @@
         <property name="kualiModuleService">
             <ref bean="kualiModuleService" />
         </property>
+        <property name="routeHeaderService">
+            <ref bean="enDocumentRouteHeaderService" />
+        </property>
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>

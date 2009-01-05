@@ -69,6 +69,13 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put("documentNumber", this.getDocumentNumber());
         m.put("sequenceNumber", this.getSequenceNumber() == null ? "" : this.getSequenceNumber().toString());
+        m.put("chartOfAccountsCode",getChartOfAccountsCode());
+        m.put("accountNumber",getAccountNumber());
+        m.put("subAccountNumber",getSubAccountNumber());
+        m.put("financialObjectCode",getFinancialObjectCode());
+        m.put("financialSubObjectCode",getFinancialSubObjectCode());
+        m.put("projectCode",getProjectCode());
+        m.put("postingYear",this.getPostingYear().toString());
         return m;
     }
 

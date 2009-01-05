@@ -104,7 +104,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 
 				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
@@ -127,7 +127,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 				<bean parent="AssetPayment-orginCodeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -138,7 +138,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>				
 				<bean parent="AssetPayment-documentTypeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -149,7 +149,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 				<bean parent="AssetPayment-objectCodeSubtypeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -160,7 +160,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 					<property name="accountingDocumentParameterPropertyName" value="document" />
@@ -208,7 +208,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 											
 				<bean parent="AssetPayment-zeroAmountValidation" scope="prototype">
@@ -220,7 +220,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 				<bean parent="AssetPayment-orginCodeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -231,7 +231,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>				
 				<bean parent="AssetPayment-documentTypeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -242,7 +242,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 				<bean parent="AssetPayment-objectCodeSubtypeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -253,7 +253,7 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
+					<property name="quitOnFail" value="false" />
 				</bean>
 			</list>
   		</property>
@@ -280,6 +280,43 @@
 					<property name="accountingDocumentParameterPropertyName" value="document" />
 					<property name="accountingLineParameterPropertyName" value="accountingLine" />
 				</bean>
+
+				<bean parent="AssetPayment-zeroAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="false" />
+				</bean>
+
+				<bean parent="AssetPayment-documentTypeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="false" />
+				</bean>
+
+				<bean parent="AssetPayment-objectCodeSubtypeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="false" />
+				</bean>
+
 			</list>
   		</property>
 	</bean>

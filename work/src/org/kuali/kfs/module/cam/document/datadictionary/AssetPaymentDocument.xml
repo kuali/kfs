@@ -32,6 +32,20 @@
         </bean>
       </list>
     </property>
+
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="expenditureFinancialDocumentType"
+              p:collection="sourceAccountingLines"
+              p:attributeToHighlightOnFail="expenditureFinancialDocumentTypeCode"/>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="expenditureFinancialSystemOrigination"
+              p:collection="sourceAccountingLines"
+              p:attributeToHighlightOnFail="expenditureFinancialSystemOriginationCode"/>
+      </list>
+    </property>
+    
     <property name="attributes" >
       <list>  
       </list>

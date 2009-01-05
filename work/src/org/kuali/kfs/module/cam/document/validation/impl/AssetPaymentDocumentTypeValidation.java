@@ -65,6 +65,11 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
+        } else { 
+              // implemented because dd is not enforcing required field rule
+            label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE).getLabel();
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSKeyConstants.ERROR_REQUIRED,label);
+            result = false;
         }
         return result;
     }
@@ -84,6 +89,4 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-
-
 }

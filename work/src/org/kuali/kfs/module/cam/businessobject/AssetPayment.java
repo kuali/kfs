@@ -1127,12 +1127,42 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.capitalAssetNumber != null) {
-            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
-        }
-        if (this.paymentSequenceNumber != null) {
-            m.put("paymentSequenceNumber", this.paymentSequenceNumber.toString());
-        }
+        m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
+        m.put("paymentSequenceNumber", this.paymentSequenceNumber.toString());
+        m.put("objectId", this.getObjectId());
+        m.put("versionNumber" ,this.getVersionNumber().toString() );
+        m.put("chartOfAccountsCode" , this.getChartOfAccountsCode());
+        m.put("accountNumber",getAccountNumber());
+        m.put("subAccountNumber",getSubAccountNumber());
+        m.put("financialObjectCode",getFinancialObjectCode());
+        m.put("financialSubObjectCode",getFinancialSubObjectCode());
+        m.put("financialSystemOriginationCode" ,this.getFinancialSystemOriginationCode() );
+        m.put("financialDocumentTypeCode" , this.getFinancialDocumentTypeCode());
+        m.put("documentNumber", this.getDocumentNumber());
+        m.put("FinancialDocumentPostingYear",this.getFinancialDocumentPostingYear().toString());
+        m.put("FinancialDocumentPostingPeriodCode",this.getFinancialDocumentPostingPeriodCode());
+        m.put("financialDocumentPostingDate" , this.getFinancialDocumentPostingDate().toString());
+        m.put("projectCode",getProjectCode());
+        m.put("organizationReferenceId" , this.getOrganizationReferenceId());
+        m.put("accountChargeAmount", ( this.getAccountChargeAmount() == null ? "NULL" : this.getAccountChargeAmount().toString()));
+        m.put("purchaseOrderNumber" , this.getPurchaseOrderNumber());
+        m.put("requisitionNumber" , this.getRequisitionNumber());
+        m.put("primaryDepreciationBaseAmount" , this.getPrimaryDepreciationBaseAmount().toString());
+        m.put("accumulatedPrimaryDepreciationAmount" , this.getAccumulatedPrimaryDepreciationAmount().toString());
+        m.put("previousYearPrimaryDepreciationAmount" , this.getPreviousYearPrimaryDepreciationAmount().toString());
+        m.put("period1Depreciation1Amount" , (this.getPeriod1Depreciation1Amount() != null ? this.getPeriod1Depreciation1Amount().toString() : "NULL"));
+        m.put("period2Depreciation1Amount" , (this.getPeriod2Depreciation1Amount() != null ? this.getPeriod2Depreciation1Amount().toString() : "NULL"));
+        m.put("period3Depreciation1Amount" , (this.getPeriod3Depreciation1Amount() != null ? this.getPeriod3Depreciation1Amount().toString() : "NULL"));
+        m.put("period4Depreciation1Amount" , (this.getPeriod4Depreciation1Amount() != null ? this.getPeriod4Depreciation1Amount().toString() : "NULL"));
+        m.put("period5Depreciation1Amount" , (this.getPeriod5Depreciation1Amount() != null ? this.getPeriod5Depreciation1Amount().toString() : "NULL"));
+        m.put("period6Depreciation1Amount" , (this.getPeriod6Depreciation1Amount() != null ? this.getPeriod6Depreciation1Amount().toString() : "NULL"));
+        m.put("period7Depreciation1Amount" , (this.getPeriod7Depreciation1Amount() != null ? this.getPeriod7Depreciation1Amount().toString() : "NULL"));
+        m.put("period8Depreciation1Amount" , (this.getPeriod8Depreciation1Amount() != null ? this.getPeriod8Depreciation1Amount().toString() : "NULL"));
+        m.put("period9Depreciation1Amount" , (this.getPeriod9Depreciation1Amount() != null ? this.getPeriod9Depreciation1Amount().toString() : "NULL"));
+        m.put("period10Depreciation1Amount" ,(this.getPeriod10Depreciation1Amount() != null ? this.getPeriod10Depreciation1Amount().toString() : "NULL"));
+        m.put("period11Depreciation1Amount" ,(this.getPeriod11Depreciation1Amount() != null ? this.getPeriod11Depreciation1Amount().toString() : "NULL"));
+        m.put("period12Depreciation1Amount" ,(this.getPeriod12Depreciation1Amount() != null ? this.getPeriod12Depreciation1Amount().toString() : "NULL"));
+        m.put("transferPaymentCode" , this.getTransferPaymentCode());
         return m;
     }
 

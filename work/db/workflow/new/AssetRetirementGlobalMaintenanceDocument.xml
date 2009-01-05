@@ -6,25 +6,49 @@
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
+        
         <routePath>
-          <start name="AdHoc" nextNode="RetiredAssetTransferredExternally"/>
-					<split name="RetiredAssetTransferredExternally" nextNode="NoOp">
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"  nextNode="RetiredAssetTransferredExternally"/>
+					<split name="RetiredAssetTransferredExternally" nextNode="RetiredAssetSoldOrGifted">
 						<branch name="True">
-							<requests name="Account" nextNode="Join"/>
+							<requests name="Manager"  nextNode="Join"/>
 						</branch>
 						<branch name="False">
 							<simple name="NoOp" nextNode="Join"/>
 						</branch>
 						<join name="Join"/>
 					</split>
-					<simple name="NoOp"/>
+			<split name="RetiredAssetSoldOrGifted" nextNode="NoOp">
+						<branch name="True">
+							<requests name="Purchasing" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+					<simple name="NoOp"/>		
         </routePath>
+        
+        
       </routePaths>
 <routeNodes>
-<start name="Adhoc Routing"/>
+<start name="AdHoc"/>
 <role name="Account">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
+<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Manager">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Purchasing">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+
 <split name="RetiredAssetTransferredExternally">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>

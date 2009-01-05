@@ -5,7 +5,24 @@
 <name>AssetGlobalMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
 </documentType>
 </documentTypes>
 </data>

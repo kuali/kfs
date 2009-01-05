@@ -34,6 +34,7 @@ public class KualiModuleServiceTest extends KualiTestBase {
         boolean riceKnsFound = false;
         boolean riceKimFound = false;
         boolean riceKewFound = false;
+        boolean riceKsbFound = false;
         boolean coaFound = false;
         boolean sysFound = false;
         boolean fpFound = false;
@@ -63,12 +64,16 @@ public class KualiModuleServiceTest extends KualiTestBase {
             if ( namespaceCode.equals( KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE ) ) {
                 riceKewFound = true;
             }
+            if ( namespaceCode.equals( KNSConstants.KUALI_RICE_SERVICE_BUS_NAMESPACE ) ) {
+                riceKsbFound = true;
+            }
         }
         // TODO: constants in Rice do not match the namespaces used in the configuration
         // so commenting out for now until the codes have stabilized
-//        assertTrue( "Unable to find " + KNSConstants.KNS_NAMESPACE + " module in installed modules list", riceKnsFound );
-//        assertTrue( "Unable to find " + KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE + " module in installed modules list", riceKewFound );
-//        assertTrue( "Unable to find " + KimConstants.NAMESPACE_CODE + " module in installed modules list", riceKimFound );
+        assertTrue( "Unable to find " + KNSConstants.KNS_NAMESPACE + " module in installed modules list", riceKnsFound );
+        assertTrue( "Unable to find " + KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE + " module in installed modules list", riceKewFound );
+        assertTrue( "Unable to find " + KimConstants.NAMESPACE_CODE + " module in installed modules list", riceKimFound );
+        assertTrue( "Unable to find " + KNSConstants.KUALI_RICE_SERVICE_BUS_NAMESPACE + " module in installed modules list", riceKsbFound );
         assertTrue( "Unable to find " + KFSConstants.ParameterNamespaces.CHART + " module in installed modules list", coaFound );
         assertTrue( "Unable to find " + KFSConstants.ParameterNamespaces.KFS + " module in installed modules list", sysFound );
         assertTrue( "Unable to find " + KFSConstants.ParameterNamespaces.FINANCIAL + " module in installed modules list", fpFound );

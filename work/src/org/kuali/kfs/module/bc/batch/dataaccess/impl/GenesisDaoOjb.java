@@ -70,8 +70,6 @@ import org.kuali.rice.kew.actions.CompleteAction;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -628,8 +626,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             // no new documents need to be created
             return;
         }
-        // get the workflow document service
-        setUpRouteHeaderService();
         // take the count of header keys from the GL
         setUpCurrentBCHeaderKeys(BaseYear);
         Integer RequestYear = BaseYear + 1;
@@ -2706,10 +2702,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         this.workflowDocumentService = workflowDocumentService;
     }
 
-    private void setUpRouteHeaderService() {
-        if (this.routeHeaderService == null) {
-            this.routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
-        }
+    public void setRouteHeaderService(RouteHeaderService routeHeaderService) {
+            this.routeHeaderService = routeHeaderService;
     }
 
     /**

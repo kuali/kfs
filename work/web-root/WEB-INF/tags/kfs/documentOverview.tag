@@ -29,7 +29,7 @@
 
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="financialDocHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
-<c:set var="includeTotalAmount" value="${KualiForm.documentActionFlags.hasAmountTotal}" />
+<c:set var="includeTotalAmount" value="${not empty editingMode[KFSConstants.AMOUNT_TOTALING_EDITING_MODE]}" />
 
 <kul:documentOverview editingMode="${editingMode}">
 	<c:if test="${includePostingYear or includeTotalAmount or includeBankCode}">

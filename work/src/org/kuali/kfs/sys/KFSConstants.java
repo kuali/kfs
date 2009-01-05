@@ -1288,5 +1288,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";
+
+    public static final String AMOUNT_TOTALING_EDITING_MODE = "amountTotaling";
 }
 

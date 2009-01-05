@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
@@ -70,5 +71,18 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         }
         return documentActions;
     }
-    
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
+        
+        if(document instanceof AmountTotaling) {
+            editModes.add(KFSConstants.AMOUNT_TOTALING_EDITING_MODE);
+        }
+        
+        return editModes;
+    }   
 }

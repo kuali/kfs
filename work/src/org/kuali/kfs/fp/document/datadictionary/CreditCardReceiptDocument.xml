@@ -6,7 +6,7 @@
 
   <bean id="CreditCardReceiptDocument" parent="CreditCardReceiptDocument-parentBean" />
 
-  <bean id="CreditCardReceiptDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="CreditCardReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="label" value="Credit Card Receipt" />
     <property name="shortLabel" value="Credit Card Receipt" />
     <property name="summary" value="&amp;nbsp;" />
@@ -18,7 +18,6 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="documentTypeCode" value="CCR" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />

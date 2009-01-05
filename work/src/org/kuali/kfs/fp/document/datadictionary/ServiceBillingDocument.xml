@@ -9,7 +9,7 @@
 
   <bean id="ServiceBillingDocument" parent="ServiceBillingDocument-parentBean" />
 
-  <bean id="ServiceBillingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="ServiceBillingDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Service Billing" />
     <property name="shortLabel" value="Service Billing" />

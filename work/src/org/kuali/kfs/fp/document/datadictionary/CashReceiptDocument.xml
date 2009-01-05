@@ -9,7 +9,7 @@
 
   <bean id="CashReceiptDocument" parent="CashReceiptDocument-parentBean" />
 
-  <bean id="CashReceiptDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="CashReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="label" value="Cash Receipt" />
     <property name="shortLabel" value="Cash Receipt" />
     <property name="summary" value="&amp;nbsp;" />
@@ -20,7 +20,6 @@
     <property name="documentTypeName" value="CashReceiptDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CR" />
     <property name="sessionDocument" value="true" />

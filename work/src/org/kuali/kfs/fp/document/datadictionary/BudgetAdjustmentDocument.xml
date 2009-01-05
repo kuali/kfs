@@ -9,7 +9,7 @@
 
   <bean id="BudgetAdjustmentDocument" parent="BudgetAdjustmentDocument-parentBean" />
 
-  <bean id="BudgetAdjustmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="BudgetAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Budget Adjustment" />
     <property name="shortLabel" value="Budget Adjustment" />

@@ -9,7 +9,7 @@
 
   <bean id="YearEndBudgetAdjustmentDocument" parent="YearEndBudgetAdjustmentDocument-parentBean" />
 
-  <bean id="YearEndBudgetAdjustmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="YearEndBudgetAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Year End Budget Adjustment" />
     <property name="shortLabel" value="Year End Budget Adjustment" />

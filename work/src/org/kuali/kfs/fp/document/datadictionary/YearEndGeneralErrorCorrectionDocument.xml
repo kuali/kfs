@@ -9,7 +9,7 @@
 
   <bean id="YearEndGeneralErrorCorrectionDocument" parent="YearEndGeneralErrorCorrectionDocument-parentBean" />
 
-  <bean id="YearEndGeneralErrorCorrectionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="YearEndGeneralErrorCorrectionDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Year End General Error Correction" />
     <property name="shortLabel" value="Year End General Error Correction" />
@@ -24,7 +24,6 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />
     <property name="documentTypeCode" value="YEGE" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />

@@ -9,7 +9,7 @@
 
   <bean id="AdvanceDepositDocument" parent="AdvanceDepositDocument-parentBean" />
 
-  <bean id="AdvanceDepositDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="AdvanceDepositDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="label" value="Advance Deposit" />
     <property name="shortLabel" value="Advance Deposit" />
     <property name="summary" value="&amp;nbsp;" />
@@ -21,7 +21,6 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules" />
     <property name="documentTypeCode" value="AD" />
     <property name="sessionDocument" value="true" />

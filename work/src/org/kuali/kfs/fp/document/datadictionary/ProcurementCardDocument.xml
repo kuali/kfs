@@ -9,7 +9,7 @@
 
   <bean id="ProcurementCardDocument" parent="ProcurementCardDocument-parentBean" />
 
-  <bean id="ProcurementCardDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="ProcurementCardDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="label" value="Procurement Card" />
     <property name="shortLabel" value="Procurement Card" />
     <property name="summary" value="Procurement Card Document" />
@@ -18,7 +18,6 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />
     <property name="documentTypeCode" value="PCDO" />
     <property name="sessionDocument" value="true" />
     <property name="authorizations" >

@@ -9,7 +9,7 @@
 
   <bean id="NonCheckDisbursementDocument" parent="NonCheckDisbursementDocument-parentBean" />
 
-  <bean id="NonCheckDisbursementDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="NonCheckDisbursementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Non-Check Disbursement" />
     <property name="shortLabel" value="Non-Check Disbursement" />

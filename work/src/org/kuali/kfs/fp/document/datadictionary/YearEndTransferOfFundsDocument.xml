@@ -9,7 +9,7 @@
 
   <bean id="YearEndTransferOfFundsDocument" parent="YearEndTransferOfFundsDocument-parentBean" />
 
-  <bean id="YearEndTransferOfFundsDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="YearEndTransferOfFundsDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Year End Transfer Of Funds" />
     <property name="shortLabel" value="Year End Transfer Of Funds" />
@@ -22,7 +22,6 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />
     <property name="documentTypeCode" value="YETF" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />

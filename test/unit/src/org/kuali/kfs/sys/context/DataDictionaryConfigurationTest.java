@@ -123,7 +123,8 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<Class> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
         
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            if (!ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
+            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith("org.kuali.rice")
+                    && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
                 List<Class> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
                 try {
                     if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
@@ -164,9 +165,15 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             String docType = documentEntry.getDocumentTypeCode();
             HashMap docFields = new HashMap();
             docFields.put("documentTypeCode", docType);
-            String docName =  ((DocumentType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, docFields)).getDocumentName();
-            if (!label.equals(docName)){
-                errorString = errorString+"Name for doc type "+docType+" of "+docName+" does not match label, "+label+".\n"; 
+            DocumentType dt = ((DocumentType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, docFields));
+            if ( dt != null ) {
+                String docName = dt.getDocumentName();
+                if (!label.equals(docName)){
+                    errorString = errorString+"Name for doc type "+docType+" of "+docName+" does not match label, "+label+".\n"; 
+                    badNameCount = badNameCount + 1;
+                }
+            } else {
+                errorString = errorString+"Unable to find document type for code: " + docType + " label: " + label + ".\n"; 
                 badNameCount = badNameCount + 1;
             }
         }

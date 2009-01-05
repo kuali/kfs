@@ -840,7 +840,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getCapitalAssetObjectSubTypeLinesFlag(org.kuali.kfs.sys.document.AccountingDocument)
+     * This method...
      * 
      * @param accountingDocument
      * @return getCapitalAssetObjectSubTypeLinesFlag =  "" ==> no assetObjectSubType code
@@ -848,7 +848,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *                                          T ==> assetObjectSubType code on target lines
      *                                          FT ==> assetObjectSubType code on both source and target lines
      */
-    public String getCapitalAssetObjectSubTypeLinesFlag(AccountingDocument accountingDocument) {
+    protected String getCapitalAssetObjectSubTypeLinesFlag(AccountingDocument accountingDocument) {
         List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
         String getCapitalAssetObjectSubTypeLinesFlag = ""; 
 
@@ -877,9 +877,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(org.kuali.kfs.sys.document.AccountingDocument)
-     *
-     * @param accountingDocument
-     * @return boolean false if the document has capital asset object sub type code
      */
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument) {
         boolean hasCapitalAssetObjectSubType = false; 

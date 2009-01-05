@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -153,10 +154,12 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         super.addRoleQualification(businessObject, attributes);
         Asset asset = (Asset) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
         
-        String chart = asset.getOrganizationOwnerChartOfAccountsCode();
-        String org = asset.getOrganizationOwnerAccount().getOrganizationCode();
-        
-        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
-        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);        
+        if (ObjectUtils.isNotNull(asset)) {
+            String chart = asset.getOrganizationOwnerChartOfAccountsCode();
+            String org = asset.getOrganizationOwnerAccount().getOrganizationCode();
+            
+            attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
+            attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);
+        }
     }
 }

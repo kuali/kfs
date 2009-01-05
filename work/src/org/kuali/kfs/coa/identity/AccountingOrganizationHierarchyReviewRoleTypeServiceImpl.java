@@ -29,10 +29,10 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
         extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
 
     {
-        qualificationRequiredAttributes.add(KFSPropertyConstants.OVERRIDE_CODE);
+        qualificationRequiredAttributes.add(KimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
         qualificationRequiredAttributes.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
     }
-    
+
     /**
      * Create role type service - org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeService 
      * for KFS-COA/"Organization: Always Hierarchical, Document Type & Accounting"
@@ -62,8 +62,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
     }
 
     private boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier){
-        String overrideCode = qualification.get(KFSPropertyConstants.OVERRIDE_CODE);
-        String overrideCodeQualifier = roleQualifier.get(KFSPropertyConstants.OVERRIDE_CODE);
+        String overrideCode = qualification.get(KimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
+        String overrideCodeQualifier = roleQualifier.get(KimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
         if(overrideCodeQualifier==null || overrideCode.equals(overrideCodeQualifier))
             return true;
         return false;

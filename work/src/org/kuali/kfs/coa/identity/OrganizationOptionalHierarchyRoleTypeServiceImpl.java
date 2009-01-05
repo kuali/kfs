@@ -18,7 +18,6 @@ package org.kuali.kfs.coa.identity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
@@ -50,7 +49,10 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
         else {
             descendHierarchy = roleQualifier.get(KimAttributes.DESCEND_HIERARCHY);
         }
-        return isParentOrg(qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), qualification.get(KimAttributes.ORGANIZATION_CODE), roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), roleQualifier.get(KimAttributes.ORGANIZATION_CODE), DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy));
+        return isParentOrg(qualification.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), 
+                qualification.get(KimAttributes.ORGANIZATION_CODE), 
+                roleQualifier.get(KimAttributes.CHART_OF_ACCOUNTS_CODE), 
+                roleQualifier.get(KimAttributes.ORGANIZATION_CODE), DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy));
     }
 
     public void setQualificationDeterminesDescendHierarchy(boolean qualificationDeterminesDescendHierarchy) {

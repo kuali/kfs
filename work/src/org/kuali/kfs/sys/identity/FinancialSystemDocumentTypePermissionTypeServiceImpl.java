@@ -55,8 +55,8 @@ public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends Docume
 
     protected boolean performPermissionMatch(AttributeSet requestedDetails, KimPermissionInfo permission) {
         if(KFSConstants.SysKimConstants.CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME.equals(permission.getTemplate().getName())){
-            String documentTypeName = requestedDetails.get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
-            String qualifierDocumentTypeName = permission.getDetails().get(KEWConstants.DOCUMENT_TYPE_NAME_DETAIL);
+            String documentTypeName = requestedDetails.get(KimAttributes.DOCUMENT_TYPE_NAME);
+            String qualifierDocumentTypeName = permission.getDetails().get(KimAttributes.DOCUMENT_TYPE_NAME);
             if(documentTypeName==null && qualifierDocumentTypeName==null || 
                     (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 
                             && documentTypeName.equals(qualifierDocumentTypeName))){

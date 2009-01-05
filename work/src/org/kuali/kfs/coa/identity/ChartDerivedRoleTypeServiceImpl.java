@@ -16,8 +16,7 @@
 package org.kuali.kfs.coa.identity;
 
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
@@ -42,7 +41,7 @@ public class ChartDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
             // copy all the other qualification attributes
             AttributeSet processingChartQualification = new AttributeSet( qualification );
             // now, override the chart
-            processingChartQualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, rootChartOfAccountCode);
+            processingChartQualification.put(KimAttributes.CHART_OF_ACCOUNTS_CODE, rootChartOfAccountCode);
             return processingChartQualification;
         } else {
             return qualification;

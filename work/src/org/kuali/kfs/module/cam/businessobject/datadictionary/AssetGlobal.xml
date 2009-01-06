@@ -112,6 +112,7 @@
   <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Asset-organizationOwnerChartOfAccountsCode">
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
+            <property name="readOnly" value="false" />
         </bean>
     </property>
   </bean>
@@ -120,6 +121,7 @@
   <bean id="AssetGlobal-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber">
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
+            <property name="readOnly" value="false" />
         </bean>
     </property>
   </bean>

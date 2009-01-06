@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    					http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+						http://rice.kuali.org/dd 
+						http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Room" parent="Room-parentBean" />
 
@@ -14,6 +17,7 @@
     <property name="lookupDefinition" >
       <ref bean="Room-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="buildingRoomNumber" />
     <property name="objectLabel" value="Room" />
     <property name="attributes" >
       <list>
@@ -132,7 +136,7 @@
   <bean id="Room-inquiryDefinition" parent="Room-inquiryDefinition-parentBean" />
 
   <bean id="Room-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Room  Inquiry" />
+    <property name="title" value="Room Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -171,6 +175,11 @@
     <property name="instructions" value="Lookup a Room" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>buildingRoomNumber</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >

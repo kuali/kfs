@@ -16,43 +16,39 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * This class determines permissions for a user to view the
- * buttons on Purchase Order Document.
- * 
+ * Determines permissions for a user to view the buttons on Requisition Document.
  */
 public class RequisitionDocumentActionAuthorizer extends PurchasingDocumentActionAuthorizer {
 
     private RequisitionDocument requisition;
-    private Map editMode;
-    
-    /**
-     * Constructs a PurchaseOrderDocumentActionAuthorizer.
-     * 
-     * @param po A PurchaseOrderDocument
-     */
-    public RequisitionDocumentActionAuthorizer(RequisitionDocument req, Map editingMode) {
+    private Map documentActions;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
+    /**
+     * Constructs a RequisitionDocumentActionAuthorizer.
+     * 
+     * @param req A RequisitionDocument
+     */
+    public RequisitionDocumentActionAuthorizer(RequisitionDocument req, Map documentActions) {
         this.requisition = req;
-        this.editMode = editingMode;
-        
+        this.documentActions = documentActions;
         this.docStatus = req.getStatusCode();
         this.documentType = req.getDocumentHeader().getWorkflowDocument().getDocumentType();
-
     }
 
 
     @Override
     public boolean canCalculate() {
-        return (requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS)||requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW)||requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW)) && this.editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY);
+        boolean canUserEdit = documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+
+        return canUserEdit && (requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS) || 
+                requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW) || 
+                requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW));
     }
 }
-

@@ -104,14 +104,14 @@ public class RequisitionForm extends PurchasingFormBase {
 
     /**
      * Override the superclass method to add appropriate buttons for
-     * PurchaseOrderDocument.
+     * RequisitionDocument.
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
         RequisitionDocument req = (RequisitionDocument) this.getDocument();
-        auth = new RequisitionDocumentActionAuthorizer(req, getEditingMode());
+        auth = new RequisitionDocumentActionAuthorizer(req, getDocumentActions());
 
         //add buttons from purapformbase
         return super.getExtraButtons();

@@ -15,23 +15,11 @@
     <property name="documentTypeName" value="ElectronicInvoiceRejectDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ElectronicInvoiceRejectDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentPreRules" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase" />
     <property name="documentTypeCode" value="EIRT" />
     <property name="workflowProperties" >
       <ref bean="ElectronicInvoiceRejectDocument-workflowProperties" />
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>PA_AP_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
     <property name="attributes" >
       <list>

@@ -17,10 +17,10 @@ package org.kuali.kfs.fp.document;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertEquality;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertInequality;
-import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE5;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,8 +93,8 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
 
-        ArrayList preCopySourceLines = (ArrayList) ObjectUtils.deepCopy((ArrayList) document.getSourceAccountingLines());
-        ArrayList preCopyTargetLines = (ArrayList) ObjectUtils.deepCopy((ArrayList) document.getTargetAccountingLines());
+        List preCopySourceLines = (List) ObjectUtils.deepCopy((Serializable)document.getSourceAccountingLines());
+        List preCopyTargetLines = (List) ObjectUtils.deepCopy((Serializable)document.getTargetAccountingLines());
         // validate preCopy state
         assertNotNull(preCopyId);
         assertNull(preCopyCopiedFromId);
@@ -284,7 +284,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
     }
 
     public final void testGetNewDocument() throws Exception {
-        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
+        AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
     }
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {

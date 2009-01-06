@@ -61,7 +61,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
             String code = documentEntry.getDocumentTypeCode();
-            if (!documentTypeCodes.contains(code) && !"RUSR".equals(code) &&!"PRPL".equals(code)) { //PRPL is added here because two doc types reference it.  This should be fixed
+            if (!documentTypeCodes.contains(code) && !"RUSR".equals(code) && code!=null) {//Rice documents sometimes have null doc types.
                 ddEntriesWithMissingTypes.add(code + " (" + documentEntry.getDocumentTypeName() + ")");
             }
             else {

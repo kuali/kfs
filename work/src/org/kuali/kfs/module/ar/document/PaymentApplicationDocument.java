@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
@@ -51,12 +50,13 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -520,15 +520,23 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         String cashControlDocumentTypeCode = documentTypeService.getDocumentTypeCodeByClass(CashControlDocument.class);
         String paymentApplicationDocumentTypeCode = documentTypeService.getDocumentTypeCodeByClass(PaymentApplicationDocument.class); 
         
-        // Information from the cash control document
-        CashControlDocument cashControlDocument = getCashControlDocument(this);
-        String cashControlDocumentProcessingChartCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
-        String cashControlDocumentProcessingOrganizationCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        // The processing chart and org comes from the current user.
+        // It will be the same as the chart and org on the cash control document if there is one.
+        // If the payment application document is created from scratch though it's not easy to get 
+        // an appropriate cash control document. So we just take it from the current user instead.
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        String usersDepartment = currentUser.getPrimaryDepartmentCode();
+        String[] deptParts = usersDepartment.split("-");
+        String processingChartCode = deptParts[0];
+        String processingOrganizationCode = deptParts[1];
 
+        // Some information comes from the cash control document
+        CashControlDocument cashControlDocument = getCashControlDocument(this);
+        
         // Get the university clearing account
         SystemInformation unappliedSystemInformation = 
             systemInformationService.getByProcessingChartOrgAndFiscalYear(
-                    cashControlDocumentProcessingChartCode, cashControlDocumentProcessingOrganizationCode, currentFiscalYear);
+                    processingChartCode, processingOrganizationCode, currentFiscalYear);
         
         // Get the university clearing account
         unappliedSystemInformation.refreshReferenceObject("universityClearingAccount");
@@ -540,7 +548,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         // Get the object code for the university clearing account.
         SystemInformation universityClearingAccountSystemInformation = 
             systemInformationService.getByProcessingChartOrgAndFiscalYear(
-                    cashControlDocumentProcessingChartCode, cashControlDocumentProcessingOrganizationCode, currentFiscalYear);
+                    processingChartCode, processingOrganizationCode, currentFiscalYear);
         String universityClearingAccountObjectCode = universityClearingAccountSystemInformation.getUniversityClearingObjectCode();
         
         // Generate glpes for unapplied
@@ -562,9 +570,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitUnapplied.setTransactionLedgerEntryAmount(getNonAppliedHolding().getFinancialDocumentLineAmount());
             generatedEntries.add(actualDebitUnapplied);
             
+            Integer fiscalYearForUnappliedOffsetDefinition = null == cashControlDocument ? currentFiscalYear : cashControlDocument.getPostingYear();
             OffsetDefinition unappliedOffsetDefinition = 
                 offsetDefinitionService.getByPrimaryId(
-                        cashControlDocument.getPostingYear(), cashControlDocumentProcessingChartCode, 
+                        fiscalYearForUnappliedOffsetDefinition, processingChartCode, 
                         cashControlDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             
             GeneralLedgerPendingEntry offsetCreditUnapplied = new GeneralLedgerPendingEntry();
@@ -625,9 +634,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditEntryTwo.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditEntryTwo.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             creditEntryTwo.setAccountNumber(universityClearingAccount.getAccountNumber());
+            Integer fiscalYearForCreditOffsetDefinition = null == cashControlDocument ? currentFiscalYear : cashControlDocument.getUniversityFiscalYear();
             OffsetDefinition creditOffsetDefinition = 
                 offsetDefinitionService.getByPrimaryId(
-                        cashControlDocument.getUniversityFiscalYear(), cashControlDocumentProcessingChartCode, 
+                        fiscalYearForCreditOffsetDefinition, processingChartCode, 
                         cashControlDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             creditOffsetDefinition.refreshReferenceObject("financialObject");
             creditEntryTwo.setFinancialObjectCode(creditOffsetDefinition.getFinancialObjectCode());

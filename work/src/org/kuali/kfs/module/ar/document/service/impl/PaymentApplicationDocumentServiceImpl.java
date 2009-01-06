@@ -186,6 +186,9 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
         DocumentHeader documentHeader = paymentApplicationDocument.getDocumentHeader();
         String cashControlDocumentNumber = documentHeader.getOrganizationDocumentNumber();
+        if(null == cashControlDocumentNumber) {
+            return null;
+        }
         return (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
     }
     

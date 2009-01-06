@@ -226,6 +226,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
     private CashControlDocument createNewCashControlDocument(List<CashControlDetailSpec> specs) throws WorkflowException {
         CashControlDocument cashControlDocument = (CashControlDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CashControlDocument.class);// documentService.getNewDocument(CashControlDocument.class);
         cashControlDocument.getDocumentHeader().setDocumentDescription(TESTING);
+        cashControlDocument.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
         
         AccountsReceivableDocumentHeader arDocumentHeader = cashControlDocument.getAccountsReceivableDocumentHeader();
         arDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());

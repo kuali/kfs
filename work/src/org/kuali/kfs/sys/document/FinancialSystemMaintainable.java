@@ -15,15 +15,29 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class...
  */
 public class FinancialSystemMaintainable extends KualiMaintainableImpl {
+    
+    /**
+     * Constructs a FinancialSystemMaintainable
+     */
+    public FinancialSystemMaintainable() {
+        super();
+    }
+    
+    /**
+     * Constructs a FinancialSystemMaintainable, allowing the PersistableBusinessObject from KualiMaintainableImpl
+     * to be inherited
+     * @param businessObject a business object to set
+     */
+    public FinancialSystemMaintainable(PersistableBusinessObject businessObject) {
+        super(businessObject);
+    }
 
     /**
      * 

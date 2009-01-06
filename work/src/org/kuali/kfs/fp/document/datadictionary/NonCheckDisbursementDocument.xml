@@ -129,17 +129,17 @@
 	<bean id="NonCheckDisbursementDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
+    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
     			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly" />
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award-sourceOnly" />
     		</map>
     	</property>
 	</bean>

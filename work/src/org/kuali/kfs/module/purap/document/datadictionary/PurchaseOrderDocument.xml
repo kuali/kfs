@@ -46,6 +46,7 @@
         <ref bean="PurchaseOrderDocument-vendorNumber" />
         <ref bean="PurchaseOrderDocument-vendorDetailAssignedIdentifier" />
         <ref bean="PurchaseOrderDocument-vendorCustomerNumber" />
+        <ref bean="PurchaseOrderDocument-vendorAttentionName" />
         <ref bean="PurchaseOrderDocument-vendorLine2Address" />
         <ref bean="PurchaseOrderDocument-vendorStateCode" />
         <ref bean="PurchaseOrderDocument-vendorAddressInternationalProvinceName" />
@@ -209,6 +210,13 @@
   <bean id="PurchaseOrderDocument-vendorCustomerNumber-parentBean" abstract="true" parent="VendorCustomerNumber-vendorCustomerNumber">
     <property name="required" value="false" />
   </bean>
+  
+  <bean id="PurchaseOrderDocument-vendorAttentionName" parent="PurchaseOrderDocument-vendorAttentionName-parentBean" />
+
+  <bean id="PurchaseOrderDocument-vendorAttentionName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
+    <property name="name" value="vendorAttentionName" />
+  </bean>
+  
   <bean id="PurchaseOrderDocument-vendorLine2Address" parent="PurchaseOrderDocument-vendorLine2Address-parentBean" />
 
   <bean id="PurchaseOrderDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">

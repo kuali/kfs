@@ -188,8 +188,13 @@
                     </c:if>
                 </td>
 
-                <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-                <td align=left valign=middle class="datacell">&nbsp;</td>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAttentionName}" /></div>
+                </th>
+
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAttentionName}" property="document.vendorAttentionName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or lockB2BEntry}" />
+                </td>
             </tr>
 
             <tr>

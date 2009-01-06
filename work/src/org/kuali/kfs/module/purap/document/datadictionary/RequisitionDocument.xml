@@ -47,6 +47,7 @@
         <ref bean="RequisitionDocument-vendorNumber" />
         <ref bean="RequisitionDocument-vendorDetailAssignedIdentifier" />
         <ref bean="RequisitionDocument-vendorCustomerNumber" />
+        <ref bean="RequisitionDocument-vendorAttentionName" />
         <ref bean="RequisitionDocument-vendorLine2Address" />
         <ref bean="RequisitionDocument-vendorStateCode" />
         <ref bean="RequisitionDocument-vendorAddressInternationalProvinceName" />
@@ -184,6 +185,13 @@
   <bean id="RequisitionDocument-vendorCustomerNumber-parentBean" abstract="true" parent="VendorCustomerNumber-vendorCustomerNumber">
     <property name="required" value="false" />
   </bean>
+  
+  <bean id="RequisitionDocument-vendorAttentionName" parent="RequisitionDocument-vendorAttentionName-parentBean" />
+
+  <bean id="RequisitionDocument-vendorAttentionName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
+    <property name="name" value="vendorAttentionName" />
+  </bean>
+  
   <bean id="RequisitionDocument-vendorLine2Address" parent="RequisitionDocument-vendorLine2Address-parentBean" />
 
   <bean id="RequisitionDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">

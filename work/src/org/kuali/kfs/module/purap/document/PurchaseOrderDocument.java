@@ -453,6 +453,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setVendorContractGeneratedIdentifier(requisitionDocument.getVendorContractGeneratedIdentifier());
         this.setVendorCountryCode(requisitionDocument.getVendorCountryCode());
         this.setVendorCustomerNumber(requisitionDocument.getVendorCustomerNumber());
+        this.setVendorAttentionName(requisitionDocument.getVendorAttentionName());
         this.setVendorDetailAssignedIdentifier(requisitionDocument.getVendorDetailAssignedIdentifier());
         this.setVendorFaxNumber(requisitionDocument.getVendorFaxNumber());
         this.setVendorHeaderGeneratedIdentifier(requisitionDocument.getVendorHeaderGeneratedIdentifier());

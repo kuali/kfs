@@ -503,6 +503,7 @@ public class PurapConstants extends JSTLConstants {
     public static class CorrectionReceivingDocumentStrings{
         public static final String NOTE_QUESTION = "CorrectionReceivingNote";
         public static final String NOTE_PREFIX = "Note entered while creating Correction Receiving: ";
+        public static final String CORRECTION_RECEIVING_DOCUMENT_TYPE_NAME = "CorrectionReceiving";
     }
 
     public static class BulkReceivingDocumentStrings{

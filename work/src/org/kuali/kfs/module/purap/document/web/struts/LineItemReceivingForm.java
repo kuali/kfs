@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.document.authorization.LineItemReceivingDocume
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class LineItemReceivingForm extends ReceivingFormBase {
@@ -76,8 +77,7 @@ public class LineItemReceivingForm extends ReceivingFormBase {
     }
 
     /**
-     * Override the superclass method to add appropriate buttons for
-     * LineItemReceivingDocument.
+     * Override the superclass method to add appropriate buttons for LineItemReceivingDocument.
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
      */
@@ -88,19 +88,19 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         
         LineItemReceivingDocumentActionAuthorizer auth = new LineItemReceivingDocumentActionAuthorizer(this.getLineItemReceivingDocument(), getEditingMode());        
 
-        if (this.getEditingMode().containsKey(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB)) {
-            if (this.getEditingMode().get(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
-                ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continueReceivingLine");
-                extraButtons.add(continueButton);                
+        String displayInitTab = (String) getEditingMode().get(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB);
+        if (ObjectUtils.isNotNull(displayInitTab) && displayInitTab.equalsIgnoreCase("true")) {
+            ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continueReceivingLine");
+            extraButtons.add(continueButton);
 
-                ExtraButton clearButton = (ExtraButton) buttonsMap.get("methodToCall.clearInitFields");
-                extraButtons.add(clearButton);                
-                
-            }else{
-                if( auth.canCreateCorrection() ){
-                    ExtraButton correctionButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingCorrection");
-                    extraButtons.add(correctionButton);
-                }
+            ExtraButton clearButton = (ExtraButton) buttonsMap.get("methodToCall.clearInitFields");
+            extraButtons.add(clearButton);
+
+        }
+        else {
+            if (auth.canCreateCorrection()) {
+                ExtraButton correctionButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingCorrection");
+                extraButtons.add(correctionButton);
             }
         }
         

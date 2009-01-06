@@ -20,24 +20,19 @@
     htmlFormAction="purapCorrectionReceiving" renderMultipart="true"
     showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-    	<c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
+   <c:set var="fullEntryMode" value="${ KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
     		    
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<purap:receivingVendor
-	    documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" />
+	<purap:receivingVendor documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" />
 
-	<purap:receivingCorrectionItems
-		itemAttributes="${DataDictionary.ReceivingCorrectionItem.attributes}" />
+	<purap:receivingCorrectionItems itemAttributes="${DataDictionary.ReceivingCorrectionItem.attributes}" />
 	
     <purap:delivery
 		documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" 
 		deliveryReadOnly="true" />
           	
-    <purap:relatedDocuments
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+    <purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 
 	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/>
 
@@ -47,5 +42,4 @@
 	
   	<kfs:documentControls transactionalDocument="true"  />
     
-   
 </kul:documentPage>

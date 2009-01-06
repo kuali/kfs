@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -62,15 +63,16 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
-
         extraButtons.clear();
         
-        if (this.getEditingMode().get(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
-            extraButtons.add(createBulkReceivingContinueButton());                
+        String displayInitTab = (String)getEditingMode().get(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB);
+        if (ObjectUtils.isNotNull(displayInitTab) && displayInitTab.equalsIgnoreCase("true")) {
+            extraButtons.add(createBulkReceivingContinueButton());
             extraButtons.add(createClearInitFieldsButton());
-        }else if (getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute() || 
-                  getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsProcessed() ||
-                  getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal()){
+        }
+        else if (getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute() || 
+                getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsProcessed() || 
+                getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             extraButtons.add(createPrintReceivingTicketButton());
         }
             

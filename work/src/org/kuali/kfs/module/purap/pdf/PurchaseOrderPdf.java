@@ -440,7 +440,8 @@ public class PurchaseOrderPdf extends PurapPdf {
         infoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  ", ver_5_normal));
+        p.add(new Chunk("  Attention\n", ver_5_normal));
+        p.add(new Chunk("     " + po.getVendorAttentionName(), cour_10_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);

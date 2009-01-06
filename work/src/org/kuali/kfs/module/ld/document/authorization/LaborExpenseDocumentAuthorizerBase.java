@@ -16,15 +16,11 @@
 package org.kuali.kfs.module.ld.document.authorization;
 
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
 
 /**
  * Labor Document Implements special document authorization for the labor expense documents.
  */
 public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthorizerBase {
-    // TODO fix for kim
 
 //    /**
 //     * Override to disallow copy and error correction.

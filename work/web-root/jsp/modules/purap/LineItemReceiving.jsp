@@ -20,14 +20,7 @@
     htmlFormAction="purapLineItemReceiving" renderMultipart="true"
     showTabButtons="true">
     		     		
-    <c:choose>
-    <c:when test="${!empty KualiForm.editingMode['fullEntry']}">
-    	<c:set var="fullEntryMode" value="true" scope="request" />
-    </c:when>
-    <c:otherwise>
-    	<c:set var="fullEntryMode" value="false" scope="request" />
-    </c:otherwise>
-    </c:choose>
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
     
 	<c:if test="${KualiForm.editingMode['displayInitTab']}" > 
     	<purap:receivingLineInit documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}"/>
@@ -37,18 +30,15 @@
 	
 	    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-		<purap:receivingVendor
-		    documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}" />
+		<purap:receivingVendor documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}" />
 	
-		<purap:receivingLineItems
-			itemAttributes="${DataDictionary.LineItemReceivingItem.attributes}" />
+		<purap:receivingLineItems itemAttributes="${DataDictionary.LineItemReceivingItem.attributes}" />
 		
 	    <purap:delivery
 			documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}"
 			deliveryReadOnly="true" />
 		          	
-	    <purap:relatedDocuments
-	            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+	    <purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 
 		<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/>
 	

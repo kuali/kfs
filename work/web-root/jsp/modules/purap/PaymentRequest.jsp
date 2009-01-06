@@ -20,10 +20,7 @@
     htmlFormAction="purapPaymentRequest" renderMultipart="true"
     showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
- 
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />    
     <c:set var="taxInfoViewable" value="${KualiForm.editingMode['taxInfoViewable']}" scope="request" />
     <c:set var="taxAreaEditable" value="${KualiForm.editingMode['taxAreaEditable']}" scope="request" />

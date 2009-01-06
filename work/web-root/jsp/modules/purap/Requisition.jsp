@@ -20,9 +20,7 @@
 	htmlFormAction="purapRequisition" renderMultipart="true"
 	showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
  
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"

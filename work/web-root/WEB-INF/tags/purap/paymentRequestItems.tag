@@ -21,6 +21,7 @@
     type="java.lang.Boolean"
     description="show the amount if true else percent" %>
 
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />

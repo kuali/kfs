@@ -18,7 +18,7 @@
 <c:set var="requisitionAttributes" value="${DataDictionary.RequisitionDocument.attributes}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="ContractManagerAssignmentAttributes" value="${DataDictionary.ContractManagerAssignmentDocument.attributes}" />
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tab tabTitle="Assign A Contract Manager" defaultOpen="true" tabErrorKey="${PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS}">
 

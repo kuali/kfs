@@ -24,6 +24,8 @@
 <%@ attribute name="isRequisition" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+
 <c:if test="${empty isRequisition}">
 	<c:set var="isRequisition" value="false"/>
 </c:if>

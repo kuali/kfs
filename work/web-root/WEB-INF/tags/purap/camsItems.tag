@@ -22,6 +22,8 @@
 <%@ attribute name="isRequisition" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+
 <table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Items">
 	<tr>
 		<td colspan="12" class="subhead">CAMS Items</td>

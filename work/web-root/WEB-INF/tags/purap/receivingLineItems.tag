@@ -17,6 +17,7 @@
 
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:set var="colCount" value="12"/>
 

@@ -17,9 +17,7 @@
 
 <kul:documentPage showDocumentInfo="true" documentTypeName="VendorCreditMemoDocument" htmlFormAction="purapVendorCreditMemo" renderMultipart="true" showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
  
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
                      

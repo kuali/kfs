@@ -21,6 +21,8 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
 
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+
 <kul:tab tabTitle="Quote" defaultOpen="false"
 	tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
 	<div class="tab-container" align=center><!--  if (fullEntryMode or amendmentEntry), then display the addLine -->

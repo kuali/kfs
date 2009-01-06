@@ -26,6 +26,7 @@
 <%@ attribute name="editableFundingSource" required="false"
 			  description="Is fundingsourcecode editable?."%>
 
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:if test="${empty editableFundingSource}">
 	<c:set var="editableFundingSource" value="false" />
 </c:if>

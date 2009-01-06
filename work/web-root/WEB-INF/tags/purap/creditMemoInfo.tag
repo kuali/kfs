@@ -18,6 +18,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 
 <kul:tab tabTitle="Credit Memo Info" defaultOpen="true">

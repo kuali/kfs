@@ -20,9 +20,7 @@
     htmlFormAction="purapPurchaseOrder" renderMultipart="true"
     showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 	<c:if test="${!empty KualiForm.editingMode['amendmentEntry']}">
 		<c:set var="amendmentEntry" value="true" scope="request" />

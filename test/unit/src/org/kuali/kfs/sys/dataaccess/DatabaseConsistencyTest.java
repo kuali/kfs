@@ -75,11 +75,11 @@ public class DatabaseConsistencyTest extends KualiTestBase {
             queryString = new StringBuffer("select table_name, column_name\n");
             queryString.append(" from user_tab_columns\n");
             queryString.append(" where data_type = 'NUMBER'\n");
-            queryString.append(" and data_precision = 22\n");
-            queryString.append(" and NVL(data_scale,0) = 0\n");
+            queryString.append(" and column_name = 'VER_NBR'\n");
+            queryString.append(" and (data_precision!=8\n");
+            queryString.append(" or NVL(data_scale,0) != 0)\n");
             //queryString.append(" AND owner = (SELECT user FROM dual)\n" );
             queryString.append(" and table_name not like '%$%'\n");
-            queryString.append(" and table_name NOT IN ( 'EN_DOC_HDR_EXT_LONG_T','DOC_HDR_EXT_VAL' )\n");
             // ignore these tables for now - when these tables are replaced
             // their names won't match these patterns any more
             queryString.append(" and table_name NOT LIKE 'KCB%'\n");
@@ -88,7 +88,7 @@ public class DatabaseConsistencyTest extends KualiTestBase {
             String tempString="";
             boolean testFailed=false;
             while (dbAnswer.next()){
-                tempString = tempString+"Bad number field ";
+                tempString = tempString+"Bad VER_NBR field ";
                 tempString = tempString+dbAnswer.getString(1)+"."+dbAnswer.getString(2)+"\n";
                 testFailed=true;
             }

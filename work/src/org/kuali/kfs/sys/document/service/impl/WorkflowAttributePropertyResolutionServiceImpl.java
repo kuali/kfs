@@ -331,10 +331,17 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         final String tail = splitPath[1];
         
         if (object instanceof PersistableBusinessObject && tail != null) {
-            ((PersistableBusinessObject)object).refreshReferenceObject(head);
+            try {
+                ((PersistableBusinessObject)object).refreshReferenceObject(head);
+            } catch (Exception e) {
+                //...and swallow it
+                // what's going on here?  Well, we refreshed a reference object without really knowing if it was a related object or not.
+                // And we got an exception.  Which means it wasn't.  But that's fine, because we can assume that a non-reference will safely return
+                // whichever child property we're asking of it.  And hence, we'll just ignore this exception
+            }
         }
         final Object headValue = ObjectUtils.getPropertyValue(object, head);
-        if (headValue != null) {
+        if (!ObjectUtils.isNull(headValue)) {
             if (tail == null) {
                 return headValue;
             } else {

@@ -29,12 +29,13 @@
     <property name="documentTypeName" value="PositionObjectGroupMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="POGR" />
-    <property name="workflowAttributes">
-    	<ref bean="PositionObjectGroupMaintenanceDocument-workflowAttributes" />
+    <property name="workflowAttributes" >
+      <ref bean="PositionObjectGroupMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
+
 
   <bean id="PositionObjectGroupMaintenanceDocument-EditPositionObjectGroup" parent="PositionObjectGroupMaintenanceDocument-EditPositionObjectGroup-parentBean" />
 
@@ -55,7 +56,7 @@
       </list>
     </property>
   </bean>
-  
+
   <!-- workflow attributes -->
   <bean id="PositionObjectGroupMaintenanceDocument-workflowAttributes" parent="PositionObjectGroupMaintenanceDocument-workflowAttributes-parentBean" />
   

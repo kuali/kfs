@@ -41,6 +41,7 @@ import org.kuali.rice.kew.exception.KEWUserNotFoundException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.user.WorkflowUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -215,14 +216,8 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             /**
              * This is to get the user name for display
              */
-            try {
-                UserIdDTO userDTO = new NetworkIdDTO(requisitionPreparer);
-                WorkflowUser wfUser = KEWServiceLocator.getUserService().getWorkflowUser(userDTO);
-                setPreparerPersonName(wfUser.getDisplayName());
-            }
-            catch (KEWUserNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            Person initiatorUser = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(requisitionPreparer);
+            setPreparerPersonName(initiatorUser.getName());
         }
         
         if (getVendorNumber() != null){

@@ -64,11 +64,11 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Bulk Receiving" url="purapBulkReceiving.do?methodToCall=docHandler&command=initiate&docTypeName=BulkReceivingDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Contract Manager Assignment" url="purapContractManagerAssignment.do?methodToCall=docHandler&command=initiate&docTypeName=ContractManagerAssignmentDocument" /></li>
-		<li><portal:portalLink displayTitle="true" title="Vendor Credit Memo" url="purapVendorCreditMemo.do?methodToCall=docHandler&command=initiate&docTypeName=VendorCreditMemoDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Payment Request" url="purapPaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentRequestDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Receiving" url="purapLineItemReceiving.do?methodToCall=docHandler&command=initiate&docTypeName=LineItemReceivingDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Requisition" url="purapRequisition.do?methodToCall=docHandler&command=initiate&docTypeName=RequisitionDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Shop Catalogs" url="b2b.do?methodToCall=shopCatalogs" /></li>
+        <li><portal:portalLink displayTitle="true" title="Vendor Credit Memo" url="purapVendorCreditMemo.do?methodToCall=docHandler&command=initiate&docTypeName=VendorCreditMemoDocument" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

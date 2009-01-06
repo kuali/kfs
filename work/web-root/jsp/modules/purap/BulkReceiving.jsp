@@ -22,26 +22,19 @@
 
     <kfs:hiddenDocumentFields isFinancialDocument="false" />
     		     		
-    <c:choose>
-    <c:when test="${!empty KualiForm.editingMode['fullEntry']}">
-    	<c:set var="fullEntryMode" value="true" scope="request" />
-    </c:when>
-    <c:otherwise>
-    	<c:set var="fullEntryMode" value="false" scope="request" />
-    </c:otherwise>
-    </c:choose>
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
     
 	<c:if test="${KualiForm.editingMode['displayInitTab']}" > 
     	<purap:bulkReceivingInit documentAttributes="${DataDictionary.BulkReceivingDocument.attributes}"/>
 	</c:if>
 
     <c:choose>
-    <c:when test="${not empty KualiForm.document.purchaseOrderIdentifier}" >    
-    	<c:set var="isPOAvailable" value="true" scope="request" />
-    </c:when>
-    <c:otherwise>
-    	<c:set var="isPOAvailable" value="false" scope="request" />
-    </c:otherwise>
+	    <c:when test="${not empty KualiForm.document.purchaseOrderIdentifier}" >    
+	    	<c:set var="isPOAvailable" value="true" scope="request" />
+	    </c:when>
+	    <c:otherwise>
+	    	<c:set var="isPOAvailable" value="false" scope="request" />
+	    </c:otherwise>
     </c:choose>
     
    <c:if test="${not KualiForm.editingMode['displayInitTab']}" >

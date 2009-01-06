@@ -22,18 +22,12 @@
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="purchaseOrderStatusAttributes" value="${DataDictionary.PurchaseOrderStatus.attributes}" />
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
+<c:set var="fullEntryMode" value="${ KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="ElectronicInvoiceRejectDocument"
 	htmlFormAction="purapElectronicInvoiceReject" renderMultipart="true"
 	showTabButtons="true">
-
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
 
 	<c:if test="${KualiForm.document.invoiceResearchIndicator}">
 		NOTE: This reject document is currently being researched. See the notes below for more detail. The document will not be allowed to be routed until the research is complete.<br /><br />
@@ -647,11 +641,9 @@
 	    </div>
 	</kul:tab>
 
-    <purap:relatedDocuments
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+    <purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
     
-    <purap:paymentHistory
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 	            
 	<kul:notes/> 
 

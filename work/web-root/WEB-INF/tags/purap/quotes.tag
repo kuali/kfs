@@ -38,11 +38,10 @@
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">General Information</span>
 				<span class="subhead-right">
-					<html:image
-	property="methodToCall.printPoQuoteList"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-prntquolist.gif"
-	alt="print quote list" title="print quote list"
-	styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
+					<html:image property="methodToCall.printPoQuoteList"
+								src="${ConfigProperties.externalizable.images.url}tinybutton-prntquolist.gif"
+								alt="print quote list" title="print quote list"
+								styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
 				</span>
 			</td>
 		</tr>
@@ -86,8 +85,10 @@
 				<span class="subhead-left">Vendor Information</span>
 				<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
 					<span class="subhead-right">
-						<input type="image" name="methodToCall.performLookup.(!!org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))"
-						   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Quote List" title="Search for a Quote List" />
+						   <html:image property="methodToCall.performLookup.(!!org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))" 
+	                    			   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" 
+									   alt="Search for a Quote List" border="0"
+									   styleClass="tinybutton" align="middle" />
 					</span>
 				</c:if>
 			</td>

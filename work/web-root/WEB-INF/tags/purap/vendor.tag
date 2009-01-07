@@ -415,7 +415,7 @@
 					
 					<c:if test="${fullEntryMode or amendmentEntry}">
 					<br/>
-					<input type="image" name="methodToCall.removeAlternateVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-remaltvendor.gif" class="tinybutton" title="Remove alternate vendor" alt="Remove alternate vendor">
+					<html:image property="methodToCall.removeAlternateVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-remaltvendor.gif" alt="Remove alternate vendor" title="Remove alternate vendor" styleClass="tinybutton"/>
 					</c:if>
                 </td>      
                 </tr>
@@ -431,9 +431,13 @@
                 <td align=left valign=middle class="datacell">
                 <c:choose>
                 <c:when test="${fullEntryMode}">
-                <div align="left"><input type="image" name="methodToCall.useAlternateVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-usealtvendor.gif" class="tinybutton" title="Use alternate vendor" alt="Use alternate vendor"></div>
+                <div align="left">
+                	<html:image property="methodToCall.useAlternateVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-usealtvendor.gif" alt="Use alternate vendor" title="Use alternate vendor" styleClass="tinybutton"/>
+                </div>
                 <br>
-				<div align="left"><input type="image" name="methodToCall.useOriginalVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-useorigvendor.gif" class="tinybutton" title="Use original vendor" alt="Use original vendor"></div>
+				<div align="left">
+					<html:image property="methodToCall.useOriginalVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-useorigvendor.gif" alt="Use original vendor" title="Use original vendor" styleClass="tinybutton"/>
+				</div>
 				</c:when>
 				<c:otherwise>
 					&nbsp;

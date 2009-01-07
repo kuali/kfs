@@ -55,7 +55,7 @@
 	        					<c:out value="${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS_DESC}"/>
 	        			</th>
 	        			<td align=left valign=middle class="datacell" width="50%">
-	        				<input type="image" name="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select Individual Assets" alt="Select Individual Assets"/>
+	        				<html:image property="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="Select Individual Assets" title="Select Individual Assets" styleClass="tinybutton" />
 	        			</td>
 	        		</c:otherwise>
 	        	</c:choose>
@@ -75,7 +75,7 @@
 	        					<c:out value="${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM_DESC}"/>
 	        			</th>
 	        			<td align=left valign=middle class="datacell" width="50%">
-	        				<input type="image" name="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select One System" alt="Select One System"/>
+	        				<html:image property="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="Select One System" title="Select One System" styleClass="tinybutton"/>
 	        			</td>
 			    	</c:otherwise>
 			    </c:choose>
@@ -96,7 +96,7 @@
 	        				<c:out value="${PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS_DESC}"/>
 	        			</th>
 	        			<td align=left valign=middle class="datacell" width="50%">
-	        				<input type="image" name="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select Multiple Systems" alt="Select Multiple Systems"/>
+	        				<html:image property="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="Select Multiple Systems" title="Select Multiple Systems" styleClass="tinybutton"/>
 	        			</td>
 			    	</c:otherwise>
 			    </c:choose>

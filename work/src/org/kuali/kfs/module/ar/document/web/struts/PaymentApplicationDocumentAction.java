@@ -140,6 +140,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         if (appliedsAreValid) {
 
+            // Remove all invoice paid applieds from the document because we'll be adding them straight from the form.
+            applicationDocument.getInvoicePaidApplieds().clear();
+            
             for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
                 paymentApplicationDocumentService.updateCustomerInvoiceDetailInfo(applicationDocumentForm.getPaymentApplicationDocument(), customerInvoiceDetail);
                 Integer invoicePaidAppliedItemNbr = applicationDocument.getInvoicePaidApplieds().size() + 1;

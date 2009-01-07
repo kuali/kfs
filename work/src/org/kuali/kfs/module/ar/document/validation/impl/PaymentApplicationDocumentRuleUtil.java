@@ -240,8 +240,8 @@ public class PaymentApplicationDocumentRuleUtil {
                 ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
         }
 
-        // Can't apply zero or negative.
-        if(KualiDecimal.ZERO.doubleValue() >= amountWeWouldApply) {
+        // Can't apply a negative amount.
+        if(KualiDecimal.ZERO.doubleValue() > amountWeWouldApply) {
             isValid = false;
             errorMap.putError(
                 ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,

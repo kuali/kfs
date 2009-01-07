@@ -144,6 +144,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             applicationDocument.getInvoicePaidApplieds().clear();
             
             for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
+                
+                // Don't add lines where the amount to apply is zero. Wouldn't make any sense to do that.
+                if(KualiDecimal.ZERO.equals(customerInvoiceDetail.getAmountToApply())) {
+                    continue;
+                }
+                
                 paymentApplicationDocumentService.updateCustomerInvoiceDetailInfo(applicationDocumentForm.getPaymentApplicationDocument(), customerInvoiceDetail);
                 Integer invoicePaidAppliedItemNbr = applicationDocument.getInvoicePaidApplieds().size() + 1;
                 // if the customer invoice detail number is in the list of selected details to apply full amounts

@@ -27,6 +27,8 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.datadictionary.WorkflowProperties;
@@ -217,4 +219,46 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         }
         return (fsMaintainable == null ? null :fsMaintainable.answerSplitNodeQuestion(nodeName));
     }
+    
+    /**
+     * This method is used for routing and simply returns the initiator's Chart code.
+     * @return The Chart code of the document initiator
+     */
+    public String getInitiatorChartOfAccountsCode() {
+        String[] chartOrg = getInitiatorPrimaryDepartmentCode();
+        return chartOrg[0];
+    }
+    
+    /**
+     * This method is used for routing and simply returns the initiator's Organization code.
+     * @return The Organization code of the document initiator
+     */
+    public String getInitiatorOrganizationCode() {
+        String[] chartOrg = getInitiatorPrimaryDepartmentCode();
+        return chartOrg[1];
+    }
+    
+    /**
+     * 
+     * This method is a utility method that returns a String array containing the document initiator's
+     * ChartCode in the first index and the OrganizationCode in the second.
+     * @return a String array.
+     */
+    private String[] getInitiatorPrimaryDepartmentCode() {
+        PersonService personService = SpringContext.getBean(PersonService.class);
+        
+        String netID = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
+        Person person = null;
+        try {
+            person = personService.getPersonByPrincipalName(netID);
+        }catch (Exception e){
+            
+        }
+        String deptCode = person.getPrimaryDepartmentCode();
+        String[] chartOrg = deptCode.split("-");
+        return chartOrg;
+        
+    }
+    
 }
+

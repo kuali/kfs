@@ -19,7 +19,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
@@ -36,7 +35,6 @@ public class DatabaseConsistencyTest extends KualiTestBase {
     private StringBuffer queryString;
     private ResultSet dbAnswer;
     private String dbType;
-    private ArrayList<DataRecord> queryResults;
 
     public void setUp() throws Exception {
         super.setUp();
@@ -50,35 +48,7 @@ public class DatabaseConsistencyTest extends KualiTestBase {
             LOG.error( "Unable to establish connection to database.", e );
             throw e;
         }
-        System.err.println( "dbType: " + dbType );
         
-        if ( dbType.contains("oracle") ) {
-            
-            dbAsk = dbCon.createStatement();
-            
-            System.err.println( "Running Oracle Test" );
-            queryString = new StringBuffer("select table_name, column_name, data_type," +
-                    "nvl(data_precision,nvl(data_length,0)), nvl(data_scale,0)\n");
-            queryString.append("from all_tab_columns\n");
-            queryString.append("where table_name NOT LIKE 'KCB%'" +
-                    "and table_name NOT LIKE 'NOTIFICATION%'\n");
-            queryString.append("and owner='KULDEV'");
-            System.err.println(queryString+"\n\n");
-            
-            dbAnswer = dbAsk.executeQuery(queryString.toString());
-            String tempString="";
-            boolean testFailed=false;
-            queryResults = new ArrayList();
-            while (dbAnswer.next()){
-                try{
-                queryResults.add(new DataRecord(dbAnswer.getString(1),dbAnswer.getString(2), dbAnswer.getString(3), dbAnswer.getInt(4), dbAnswer.getInt(5)));
-        }catch (Exception e){
-            System.out.println(e+dbAnswer.getString(1)+dbAnswer.getString(2)+ dbAnswer.getString(3)+ dbAnswer.getInt(4)+ dbAnswer.getInt(5));
-        }
-            }
-            System.err.println("Size of List is "+ queryResults.size());
-        
-    }
     }
     public void tearDown() throws Exception {
         
@@ -91,10 +61,13 @@ public class DatabaseConsistencyTest extends KualiTestBase {
        
     }
     public void testNumber() throws Exception {
+        System.err.println( "dbType: " + dbType );
         
+        if ( dbType.contains("oracle") ) {
+            System.err.println( "Running Oracle Test" );
             oracleNumberTest();
         }
-    
+    }
         
     public void oracleNumberTest() throws Exception {
         try{
@@ -123,20 +96,6 @@ public class DatabaseConsistencyTest extends KualiTestBase {
         }catch (Exception e){
             LOG.error( "Exception running test.  SQL:\n" + queryString.toString(), e);
             throw e;
-        }
-    }
-    private class DataRecord {
-        String name;
-        String column;
-        String dataType;
-        int size;
-        int scale;
-        DataRecord(String name, String column, String dataType, int size, int scale){
-            this.name=name;
-            this.column=column;
-            this.dataType=dataType;
-            this.size=size;
-            this.scale=scale;            
         }
     }
 

@@ -152,13 +152,16 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
-        Asset asset = (Asset) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
         
-        if (ObjectUtils.isNotNull(asset)) {
-            String chart = asset.getOrganizationOwnerChartOfAccountsCode();
+        Asset asset = (Asset) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+
+        String chart = asset.getOrganizationOwnerChartOfAccountsCode();
+        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
+        
+        if (ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
+            // should only be null if isNew=true when we create an asset fabrication
             String org = asset.getOrganizationOwnerAccount().getOrganizationCode();
             
-            attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
             attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);
         }
     }

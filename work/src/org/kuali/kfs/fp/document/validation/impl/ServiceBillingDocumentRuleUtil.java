@@ -18,17 +18,13 @@ package org.kuali.kfs.fp.document.validation.impl;
 import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
-import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class contains static helper methods for ServiceBillingDocumentRule and ServiceBillingDocumentAuthorizer.
@@ -62,7 +58,8 @@ public class ServiceBillingDocumentRuleUtil {
             // Ignore empty key because hasAccessibleAccountingLines() may not validate beforehand.
             return false;
         }
-        ServiceBillingControl control = SpringContext.getBean(ServiceBillingControlService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
+        /*TODO:This should be fixed in KIM
+		ServiceBillingControl control = SpringContext.getBean(ServiceBillingControlService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
         if (ObjectUtils.isNull(control)) {
             if (action != null) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(action), accountingLine.getAccountNumber());
@@ -71,14 +68,16 @@ public class ServiceBillingDocumentRuleUtil {
         }
 
         if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, control.getWorkgroupName())) {
+       */
             return true;
+       /*TODO:This should be fixed in KIM
         }
         else {
             if (action != null) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPrincipalName(), control.getWorkgroupName());
             }
             return false;
-        }
+        }*/
     }
 
     /**

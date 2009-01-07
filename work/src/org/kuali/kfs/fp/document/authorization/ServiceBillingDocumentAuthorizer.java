@@ -21,20 +21,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.fp.document.ServiceBillingDocument;
-import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
 import org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRuleUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
 
 /**
  * Authorization permissions specific to the Service Billing document.

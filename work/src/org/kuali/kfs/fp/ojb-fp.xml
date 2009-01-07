@@ -1101,24 +1101,6 @@
     </collection-descriptor>
 </class-descriptor>
 
-<!-- SERVICE BILLING CONTROL MAPPING -->
-<class-descriptor class="org.kuali.kfs.fp.businessobject.ServiceBillingControl" table="FP_SB_CTRL_T">
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-</class-descriptor>
 
 <!-- Indirect Cost Adjustment Document mappings -->
 <class-descriptor class="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument" table="FP_ICR_ADJ_DOC_T">

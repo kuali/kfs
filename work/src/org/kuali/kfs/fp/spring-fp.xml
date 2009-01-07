@@ -177,12 +177,6 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
-	<bean id="serviceBillingControlService" class="org.kuali.kfs.fp.document.service.impl.ServiceBillingControlServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>
-
 	<bean id="fiscalYearFunctionControlService" class="org.kuali.kfs.fp.service.impl.FiscalYearFunctionControlServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

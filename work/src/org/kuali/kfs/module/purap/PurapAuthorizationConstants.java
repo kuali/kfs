@@ -68,6 +68,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
     public static class CreditMemoEditMode extends EditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
+        public static final String EDIT_PRE_EXTRACT = "editPreExtract";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
         public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";

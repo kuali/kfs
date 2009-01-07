@@ -15,24 +15,13 @@
     <property name="documentTypeName" value="VendorCreditMemoDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.CreditMemoDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.CreditMemoDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController" />
     <property name="documentTypeCode" value="CM" />
      <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="VendorCreditMemoDocument-workflowProperties" />
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>PA_AP_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
     <property name="accountingLineGroups">
     	<map>

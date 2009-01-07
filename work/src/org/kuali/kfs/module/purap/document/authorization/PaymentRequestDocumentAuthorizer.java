@@ -34,7 +34,6 @@ import org.kuali.rice.kns.document.Document;
  */
 public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
-
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kim.bo.Person)
@@ -71,51 +70,6 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
         return editModeMap;
     }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-//FIXME hjs: starting without the override and see what's not displaying correctly
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-//
-//        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
-//            flags.setCanBlanketApprove(true);
-//        }
-//
-//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-//        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
-//            flags.setCanSave(false);
-//            flags.setCanClose(true);
-//            flags.setCanCancel(false);
-//            flags.setCanDisapprove(false);
-//        }
-//        else {
-//            if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName()) ||
-//                 StringUtils.equals(paymentRequestDocument.getStatusCode(),PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW)) {
-//                flags.setCanDisapprove(false);
-//            }
-//
-//            PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
-//
-//            flags.setCanApprove(preqDocAuth.canApprove());
-//            flags.setCanCancel(preqDocAuth.canCancel());
-//            flags.setCanSave(preqDocAuth.canSave());
-//            
-//            //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
-//            if (!paymentRequestDocument.isExtracted()) {
-//                flags.setCanEditBank(true);
-//            }
-//        }
-//
-//        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-//        this.setAnnotateFlag(flags);
-//
-//        return flags;
-//    }
 
 }
 

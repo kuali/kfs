@@ -27,7 +27,7 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -42,6 +42,71 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class PaymentRequestDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
+//FIXME hjs KIM cleanup    
+//  PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
+//                flags.setCanApprove(preqDocAuth.canApprove());
+//                
+//                //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
+//                if (!paymentRequestDocument.isExtracted()) {
+//                    flags.setCanEditBank(true);
+//                }
+
+    @Override
+    protected boolean canSave(Document document) {
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
+        
+        //FIXME hjs should all this logic be together (either all here or all in action authorizer)
+        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+            return false;
+        }
+        // check Action Authorizer for ability to save doc
+        if (preqDocAuth.canSave()) {
+            return false;
+        }
+        return super.canSave(document);
+    }
+
+    @Override
+    protected boolean canCancel(Document document) {
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
+        
+        //FIXME hjs should all this logic be together (either all here or all in action authorizer)
+        // if Payment Request is in INITIATE status, user cannot cancel doc
+        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+            return false;
+        }
+        
+        // check Action Authorizer for ability to cancel doc
+        if (preqDocAuth.canCancel()) {
+            return false;
+        }
+        
+        return super.canCancel(document);
+    }
+
+    @Override
+    protected boolean canClose(Document document) {
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+            return false;
+        }
+        return super.canClose(document);
+    }
+
+    
+    @Override
+    protected boolean canDisapprove(Document document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName()) || 
+                StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW)) {
+            return false;
+        }
+        return super.canDisapprove(document);
+    }
+
     
     /**
      * 
@@ -49,15 +114,15 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
      */
     @Override
     protected boolean canEdit(Document document) {
-        PaymentRequestDocument preqDocument = (PaymentRequestDocument) document;
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preqDocument);
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
 
         if (preqDocAuth.isFullEntryCompleted()) {
             return false;
         }
 
         // if the hold or cancel indicator is true, don't allow editing
-        if (preqDocument.isHoldIndicator() || preqDocument.isPaymentRequestedCancelIndicator()) {
+        if (paymentRequestDocument.isHoldIndicator() || paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
             return false;
         }
 
@@ -75,8 +140,8 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
     @Override
     public Set<String> getEditModes(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        PaymentRequestDocument preqDocument = (PaymentRequestDocument)document;
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preqDocument);
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
+        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
         Set<String> editModes = new HashSet<String>();
         
         // always show amount after full entry
@@ -85,28 +150,24 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         }
 
         // make sure ap user can edit certain fields
-        if (preqDocAuth.canEditPreExtractFields() && !preqDocAuth.isAdHocRequested() && !preqDocument.isPaymentRequestedCancelIndicator()) {
+        if (preqDocAuth.canEditPreExtractFields() && !preqDocAuth.isAdHocRequested() && !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT);
         }
 
         if (preqDocAuth.isInitiateStatus()) {
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }
-        else {
-            //FIXME can we still set the editmode to false?
-//            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");
-        }
         
-        if (ObjectUtils.isNotNull(preqDocument.getVendorHeaderGeneratedIdentifier())) {
+        if (ObjectUtils.isNotNull(paymentRequestDocument.getVendorHeaderGeneratedIdentifier())) {
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.LOCK_VENDOR_ENTRY);
         }
         
         //TODO check this logic (used to check FULL_ENTRY)
-        if(canEdit(preqDocument)){
+        if(canEdit(paymentRequestDocument)){
             //Use tax indicator editing is enabled
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.USE_TAX_INDICATOR_CHANGEABLE);
             
-            if (!preqDocument.isUseTaxIndicator()) {
+            if (!paymentRequestDocument.isUseTaxIndicator()) {
                 //if full entry, and not use tax, allow editing
                 editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AMOUNT_CHANGEABLE);
             }
@@ -121,7 +182,7 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
 
         //FIXME is this the right status?  should it check to see if there is data too?
         // after tax is approved, the tax tab is viewable to everyone
-        if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(preqDocument.getStatusCode())) {
+        if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode())) {
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_INFO_VIEWABLE);
         }
 
@@ -132,9 +193,9 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
 
             // only do line item check if the hold/cancel indicator is false, otherwise document editing should be turned off.
-            if (!preqDocument.isHoldIndicator() && !preqDocument.isPaymentRequestedCancelIndicator()) {
+            if (!paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
                 List lineList = new ArrayList();
-                for (Iterator iter = preqDocument.getItems().iterator(); iter.hasNext();) {
+                for (Iterator iter = paymentRequestDocument.getItems().iterator(); iter.hasNext();) {
                     PaymentRequestItem item = (PaymentRequestItem) iter.next();
                     lineList.addAll(item.getSourceAccountingLines());
                     // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one

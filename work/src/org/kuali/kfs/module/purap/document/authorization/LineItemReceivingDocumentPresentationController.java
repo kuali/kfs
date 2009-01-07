@@ -59,7 +59,7 @@ public class LineItemReceivingDocumentPresentationController extends FinancialSy
         Set<String> editModes = new HashSet<String>();
 
         if (workflowDocument.stateIsInitiated()) {
-            editModes.add(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB);
+            editModes.add(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB);
         }
         
         return editModes;

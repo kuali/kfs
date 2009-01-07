@@ -91,6 +91,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
+    
+    private static final String PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT = "PayeeIsPurchaseOrderVendor";
+    private static final String PURCHASE_ORDER_VENDOR_TYPE = "PO";
+    private static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
+    private static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
+    private static final String PAYMENT_REASON_PREPAID_TRAVEL = "P";
+    private static final String PAYMENT_REASON_NONEMPLOYEE_TRAVEL = "N";
+    private static final String PAYMENT_REASON_DECENDENT_COMPENSATION = "D";
+    private static final String PAYMENT_REASON_MOVING_REASON = "M";
+    private static final String TAX_CONTROL_BACKUP_HOLDING = "B";
+    private static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
 
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
@@ -1492,4 +1503,66 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     
         return title;
     }
+
+
+    /**
+     * Provides answers to the following splits:
+     * PayeeIsPurchaseOrderVendor
+     * RequiresTaxReview
+     * RequiresTravelReview
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(DisbursementVoucherDocument.PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT)) return isPayeePurchaseOrderVendor();
+        if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT)) return isTaxReviewRequired();
+        if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT)) return isTravelReviewRequired();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
+    /**
+     * @return true if the payee is a purchase order vendor and therefore should receive vendor review, false otherwise
+     */
+    protected boolean isPayeePurchaseOrderVendor() {
+        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) return false;
+        final VendorDetail vendor = SpringContext.getBean(VendorService.class).getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
+        if (vendor == null) return false;
+        return vendor.getVendorHeader().getVendorTypeCode().equals(DisbursementVoucherDocument.PURCHASE_ORDER_VENDOR_TYPE);
+    }
+    
+    /**
+     * Tax review is required under the following circumstances:
+     * the payee was an employee
+     * the payee was a non-resident alien vendor
+     * the tax control code = "B" or "H"
+     * the payment reason code was "D"
+     * the payment reason code was "M" and the campus was "BL", "SB", "NW", "KO", "SE", "EA", "IN"
+     * @return true if any of the above conditions exist and this document should receive tax review, false otherwise
+     */
+    protected boolean isTaxReviewRequired() {
+        if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE)) return true;
+        if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR) && SpringContext.getBean(VendorService.class).isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) return true;
+        if (this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS)) return true;
+        if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_DECENDENT_COMPENSATION)) return true;
+        if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_MOVING_REASON) && taxedCampusForMovingReimbursements()) return true;
+        return true;
+    }
+    
+    /**
+     * Determines if the campus this DV is related to is taxed (and should get tax review routing) for moving reimbursements
+     * @return true if the campus is taxed for moving reimbursements, false otherwise
+     */
+    protected boolean taxedCampusForMovingReimbursements() {
+        return this.getCampusCode().equals("BL") || this.getCampusCode().equals("SB") || this.getCampusCode().equals("NW") || this.getCampusCode().equals("KO") || this.getCampusCode().equals("SE") || this.getCampusCode().equals("EA") || this.getCampusCode().equals("IN");
+    }
+    
+    /**
+     * Travel review is required under the following circumstances:
+     * payment reason code is "P" or "N"
+     * @return
+     */
+    protected boolean isTravelReviewRequired() {
+        return (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_PREPAID_TRAVEL) || this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_NONEMPLOYEE_TRAVEL));
+    }
+    
 }

@@ -18,8 +18,8 @@
     <property name="documentClass" value="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="documentTypeCode" value="GLCP" />
-    <property name="workflowProperties" >
-      <ref bean="GeneralLedgerCorrectionProcessDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="GeneralLedgerCorrectionProcessDocument-workflowAttributes" />
     </property>
     <property name="authorizations" >
       <list>
@@ -38,20 +38,13 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="GeneralLedgerCorrectionProcessDocument-workflowProperties" parent="GeneralLedgerCorrectionProcessDocument-workflowProperties-parentBean" />
+  <bean id="GeneralLedgerCorrectionProcessDocument-workflowAttributes" parent="GeneralLedgerCorrectionProcessDocument-workflowAttributes-parentBean" />
 
-  <bean id="GeneralLedgerCorrectionProcessDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  <bean id="GeneralLedgerCorrectionProcessDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+	  	<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    		</list>
+    	</property>
   </bean>
 </beans>

@@ -32,7 +32,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AccountsReceivableAuthorizationServiceImpl implements AccountsReceivableAuthorizationService {
 
-    private static final String KULUSER = "KULUSER";
     private static final String KULUSER_CHART_CD = "UA";
     private static final String KULUSER_ORG_CD = "AR";
     
@@ -53,7 +52,7 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         //  get the person's org from the kns authz system
         Organization personHomeOrg = personHomeOrg(person);
         
-        //  if the person's home org doesnt exist or is not setup right, then fail
+        //  if the person's home org doesn't exist or is not setup right, then fail
         if (personHomeOrg == null) {
             return false;
         }

@@ -19,6 +19,7 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -28,7 +29,6 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
 
     private static final String FILE_NAME_PREFIX = "customer_invoice_writeoff";
     private static final String FILE_NAME_DELIM = "_";
-    private static final String DEFAULT_USERNAME = "kuluser";
     
     private DateTimeService dateTimeService;
     
@@ -42,7 +42,7 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
         StringBuilder fileName = new StringBuilder(FILE_NAME_PREFIX);
         
         //  add the logged-in user name if there is one, otherwise use a sensible default
-        String userName = DEFAULT_USERNAME;
+        String userName = KFSConstants.SYSTEM_USER;
         if (person != null) {
             if (StringUtils.isNotBlank(person.getPrincipalName())) {
                 userName = person.getPrincipalName().toLowerCase();
@@ -50,12 +50,12 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
         }
         fileName.append(FILE_NAME_DELIM + userName);
         
-        //  if the user specified an identifying lable, then use it
+        //  if the user specified an identifying label, then use it
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
             fileName.append(FILE_NAME_DELIM + fileUserIdentifer);
         }
         
-        //  stick a timestamp on the end
+        //  stick a time stamp on the end
         fileName.append(FILE_NAME_DELIM + dateTimeService.toString(dateTimeService.getCurrentTimestamp(), "yyyyMMdd_HHmmss"));
 
         //  stupid spaces, begone!

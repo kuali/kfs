@@ -23,6 +23,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -32,7 +33,6 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
 
     private static final String FILE_NAME_PREFIX = "customer_load";
     private static final String FILE_NAME_DELIM = "_";
-    private static final String DEFAULT_USERNAME = "kuluser";
     
     private DateTimeService dateTimeService;
     private CustomerLoadService customerLoadService;
@@ -47,7 +47,7 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
         StringBuilder fileName = new StringBuilder(FILE_NAME_PREFIX);
         
         //  add the logged-in user name if there is one, otherwise use a sensible default
-        String userName = DEFAULT_USERNAME;
+        String userName = KFSConstants.SYSTEM_USER;
         if (user != null) {
             if (StringUtils.isNotBlank(user.getPrincipalName())) {
                 userName = user.getPrincipalName().toLowerCase();

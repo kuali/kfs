@@ -138,11 +138,11 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentInitiatorIdentifier"
-              p:defaultValue="KULUSER" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.DefaultSystemUserValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentInitiator.principalName"
               p:required="true"
-              p:defaultValue="kuluser" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.DefaultSystemUserValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentInitiator.name" />              
         <bean parent="MaintainableFieldDefinition"

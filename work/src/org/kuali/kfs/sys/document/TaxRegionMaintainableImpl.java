@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
@@ -33,8 +34,8 @@ public class TaxRegionMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
-    public List<Section> getCoreSections(Maintainable oldMaintainable) {
-        List<Section> sections = super.getCoreSections(oldMaintainable);
+    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getCoreSections(document, oldMaintainable);
 
         TaxRegion taxRegion = (TaxRegion) getBusinessObject();
 

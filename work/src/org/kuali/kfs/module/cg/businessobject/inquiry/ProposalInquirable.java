@@ -29,7 +29,9 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
+import org.kuali.rice.kns.inquiry.InquiryRestrictions;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.web.ui.SectionBridge;
@@ -47,6 +49,7 @@ public class ProposalInquirable extends KfsInquirableImpl {
     /**
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
      */
+    @Override
     public List<Section> getSections(BusinessObject bo) {
 
         initStatics();
@@ -57,12 +60,14 @@ public class ProposalInquirable extends KfsInquirableImpl {
             throw new RuntimeException("Business object class not set in inquirable.");
         }
 
+        InquiryRestrictions inquiryRestrictions = KNSServiceLocator.getBusinessObjectAuthorizationService().getInquiryRestrictions(bo, GlobalVariables.getUserSession().getPerson());
+        
         Collection inquirySections = SpringContext.getBean(BusinessObjectDictionaryService.class).getInquirySections(getBusinessObjectClass());
         for (Iterator iter = inquirySections.iterator(); iter.hasNext();) {
 
             Person user = GlobalVariables.getUserSession().getPerson();
             InquirySectionDefinition inquirySection = (InquirySectionDefinition) iter.next();
-            Section section = SectionBridge.toSection(this, inquirySection, bo);
+            Section section = SectionBridge.toSection(this, inquirySection, bo, inquiryRestrictions);
             if (inquirySection.getTitle().equals("Research Risks")) {
                 if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, centralPreAwardWorkgroupName) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, centralPostAwardWorkgroupName)) {
                     sections.add(section);

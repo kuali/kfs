@@ -404,8 +404,8 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
-    public List getSections(Maintainable oldMaintainable) {
-        List<Section> sections = super.getSections(oldMaintainable);
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getSections(document, oldMaintainable);
         Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
         String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
         boolean isVendorParent = ((VendorDetail) getBusinessObject()).isVendorParentIndicator();

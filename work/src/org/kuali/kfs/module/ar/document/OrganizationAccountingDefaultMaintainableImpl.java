@@ -23,6 +23,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
@@ -33,9 +34,9 @@ public class OrganizationAccountingDefaultMaintainableImpl extends KualiMaintain
     
     @Override
     @SuppressWarnings("unchecked")
-    public List getSections(Maintainable oldMaintainable) {
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
-        List<Section> sections = super.getSections(oldMaintainable);
+        List<Section> sections = super.getSections(document, oldMaintainable);
         List<Section> updatedSections = new ArrayList<Section>();
 
         for (Iterator iter = sections.iterator(); iter.hasNext();) {

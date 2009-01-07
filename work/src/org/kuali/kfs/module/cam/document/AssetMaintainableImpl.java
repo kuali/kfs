@@ -102,8 +102,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public List<Section> getCoreSections(Maintainable oldMaintainable) {
-        List<Section> sections = super.getCoreSections(oldMaintainable);
+    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getCoreSections(document, oldMaintainable);
 
         Asset asset = (Asset) getBusinessObject();
         if (isAssetFabrication()) {

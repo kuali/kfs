@@ -263,8 +263,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
-    public List<Section> getCoreSections(Maintainable oldMaintainable) {
-        List<Section> sections = super.getCoreSections(oldMaintainable);
+    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getCoreSections(document, oldMaintainable);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         // hide "Asset Information", "Recalculate Total Amount" tabs if not "Asset Separate" doc

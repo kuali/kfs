@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
@@ -50,7 +51,8 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl implements Gener
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
-    public List getCoreSections(Maintainable oldMaintainable) {
+    @Override
+    public List getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
         boolean fieldFound = false;
         boolean sectionFound = false;
@@ -58,7 +60,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl implements Gener
         String orgPostalCodeFieldName = KFSPropertyConstants.ORGANIZATION_ZIP_CODE;
 
         // walk the sections
-        List sections = super.getCoreSections(oldMaintainable);
+        List sections = super.getCoreSections(document, oldMaintainable);
         for (Iterator sectionIterator = sections.iterator(); sectionIterator.hasNext();) {
             Section section = (Section) sectionIterator.next();
 

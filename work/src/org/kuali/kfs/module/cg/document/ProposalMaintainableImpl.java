@@ -251,10 +251,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl implements G
      * @return
      */
     @Override
-    public List getSections(Maintainable oldMaintainable) {
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = new ArrayList<Section>();
 
-        List<Section> coreSections = getCoreSections(oldMaintainable);
+        List<Section> coreSections = getCoreSections(document, oldMaintainable);
 
         String preAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PRE_AWARD_GROUP);
         String postAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.POST_AWARD_GROUP);

@@ -26,7 +26,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
+import org.kuali.rice.kns.inquiry.InquiryRestrictions;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.web.ui.SectionBridge;
 
@@ -37,6 +40,7 @@ public class OrganizationAccountingDefaultInquirable extends KfsInquirableImpl {
     /**
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public List<Section> getSections(BusinessObject bo) {
 
@@ -46,6 +50,8 @@ public class OrganizationAccountingDefaultInquirable extends KfsInquirableImpl {
             throw new RuntimeException("Business object class not set in inquirable.");
         }
         
+        InquiryRestrictions inquiryRestrictions = KNSServiceLocator.getBusinessObjectAuthorizationService().getInquiryRestrictions(bo, GlobalVariables.getUserSession().getPerson());
+        
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean showReceivableInfo = ArConstants.OrganizationAccountingOptionsConstants.SHOW_EDIT_PAYMENTS_DEFAULTS_TAB.equals(receivableOffsetOption);        
 
@@ -53,7 +59,7 @@ public class OrganizationAccountingDefaultInquirable extends KfsInquirableImpl {
         for (Iterator iter = inquirySections.iterator(); iter.hasNext();) {
 
             InquirySectionDefinition inquirySection = (InquirySectionDefinition) iter.next();
-            Section section = SectionBridge.toSection(this, inquirySection, bo);
+            Section section = SectionBridge.toSection(this, inquirySection, bo, inquiryRestrictions);
             
             if (inquirySection.getTitle().equals(ArConstants.ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS)){
                 if( showReceivableInfo ){

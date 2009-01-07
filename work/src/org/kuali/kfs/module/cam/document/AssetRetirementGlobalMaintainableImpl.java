@@ -139,8 +139,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
-    public List<Section> getCoreSections(Maintainable oldMaintainable) {
-        List<Section> sections = super.getCoreSections(oldMaintainable);
+    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getCoreSections(document, oldMaintainable);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
         // If retirement reason code is not defined in NON_VIEWABLE_SECTION_MAP, hide all retirement detail sections.

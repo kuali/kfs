@@ -4,7 +4,6 @@
 <documentType>
 <name>FinancialSystemSimpleMaintenanceDocument</name>
 <parent>FinancialSystemDocument</parent>
-<docHandler/>
 <routePaths>
         <routePath>
           <start name="AdHoc" />

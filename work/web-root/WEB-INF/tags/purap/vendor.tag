@@ -128,12 +128,22 @@
             </tr>
 
             <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine2Address}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or (lockB2BEntry and (displayRequisitionFields or displayPurchaseOrderFields))}" />
-                </td>
+            
+                <c:choose>
+                    <c:when test="${(displayPurchaseOrderFields or displayRequisitionFields)}">
+                        <th align=right valign=middle class="bord-l-b">
+                            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAttentionName}" /></div>
+                        </th>
+                        <td align=left valign=middle class="datacell">
+                            <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAttentionName}" property="document.vendorAttentionName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or lockB2BEntry}" />
+                        </td>
+                    </c:when>
+                    <c:otherwise>
+                        <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                        <td align=left valign=middle class="datacell">&nbsp;</td>
+                    </c:otherwise>
+                </c:choose>
+                
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" />
                     	<c:if test="${displayPurchaseOrderFields}"> <br> *required for US</c:if>
@@ -145,8 +155,13 @@
             </tr>
             
             <tr>
-            	<th align=right valign=middle class="bord-l-b">&nbsp;</th>
-            	<td align=left valign=middle class="datacell">&nbsp;</td>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine2Address}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or (lockB2BEntry and (displayRequisitionFields or displayPurchaseOrderFields))}" />
+                </td>
+                
             	<th align=right valign=middle class="bord-l-b">
             		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
             	</th>
@@ -189,13 +204,9 @@
                     </c:if>
                 </td>
 
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAttentionName}" /></div>
-                </th>
-
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAttentionName}" property="document.vendorAttentionName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or lockB2BEntry}" />
-                </td>
+            	<th align=right valign=middle class="bord-l-b">&nbsp;</th>
+            	<td align=left valign=middle class="datacell">&nbsp;</td>
+            	
             </tr>
 
             <tr>

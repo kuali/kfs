@@ -334,6 +334,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         if (StringUtils.isNotBlank(po.getVendorName())) {
             vendorInfo.append("     " + po.getVendorName() + "\n");
         }
+       
+        vendorInfo.append("     Attention: " + po.getVendorAttentionName() + "\n");
+       
         if (StringUtils.isNotBlank(po.getVendorLine1Address())) {
             vendorInfo.append("     " + po.getVendorLine1Address() + "\n");
         }

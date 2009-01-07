@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
-import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.MassRuleAttribute;
 import org.kuali.rice.kew.rule.RuleBaseValues;
@@ -45,6 +44,7 @@ import org.kuali.rice.kew.rule.RuleExtensionValue;
 import org.kuali.rice.kew.rule.WorkflowAttribute;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.web.ui.Row;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

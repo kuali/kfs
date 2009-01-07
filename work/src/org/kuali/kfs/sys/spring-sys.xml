@@ -328,6 +328,10 @@
         </property>
     </bean>	    
 
+	<!-- TODO: ewestfal
+	     12-23-2008
+	     commented out since the workflow lookup framework no longer exists
+	     
 	<bean id="workflow-org.kuali.rice.kim.bo.Person-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.rice.kim.bo.Person</value>
@@ -345,6 +349,8 @@
 			<value>org.kuali.rice.kns.bo.Campus</value>
 		</property>
 	</bean>
+	
+	-->
 
 
 	<bean id="moduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

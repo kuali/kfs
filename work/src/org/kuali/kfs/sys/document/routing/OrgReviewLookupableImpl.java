@@ -23,25 +23,19 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.lookupable.Column;
-import org.kuali.rice.kew.lookupable.Field;
-import org.kuali.rice.kew.lookupable.Row;
-import org.kuali.rice.kew.lookupable.WorkflowLookupable;
 import org.kuali.rice.kew.rule.RuleBaseValues;
-import org.kuali.rice.kew.rule.bo.RuleTemplate;
 import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.rule.bo.RuleTemplate;
 import org.kuali.rice.kew.rule.service.RuleService;
 import org.kuali.rice.kew.rule.service.RuleTemplateService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.KeyLabelPair;
 import org.kuali.rice.kew.util.Utilities;
 
 /**
  * This class provides a lookup for org review hierarchy routing rules.
  */
-public class OrgReviewLookupableImpl implements WorkflowLookupable {
+public class OrgReviewLookupableImpl /*implements WorkflowLookupable*/ {
     private Long ruleTemplateId;
     private WorkflowAttribute orgReviewAttribute;
     private List rows;
@@ -77,42 +71,42 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
      * This method initializes the search criteria rows.
      */
     private void setRows() {
-        rows = new ArrayList();
-        List documentTypeFields = new ArrayList();
-        documentTypeFields.add(new Field(DOC_TYP_NAME_FIELD_LABEL, "", Field.TEXT, true, DOC_TYP_NAME_PROPERTY_NAME, "", null, DOC_TYP_LOOKUPABLE));
-        documentTypeFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, DOC_TYP_LOOKUPABLE));
-        rows.add(new Row(documentTypeFields));
-        List activeIndicatorOptions = new ArrayList();
-        activeIndicatorOptions.add(new KeyLabelPair(Boolean.TRUE.toString(), "Active"));
-        activeIndicatorOptions.add(new KeyLabelPair(Boolean.FALSE.toString(), "Inactive"));
-        activeIndicatorOptions.add(new KeyLabelPair(ALL_ACTIVE_INDICATOR_VALUE, "Show All"));
-        List activeIndicatorFields = new ArrayList();
-        activeIndicatorFields.add(new Field(ACTIVE_IND_FIELD_LABEL, "", Field.RADIO, false, ACTIVE_IND_PROPERTY_NAME, Boolean.TRUE.toString(), activeIndicatorOptions, null));
-        rows.add(new Row(activeIndicatorFields));
-        rows.addAll(orgReviewAttribute.getRuleRows());
+//        rows = new ArrayList();
+//        List documentTypeFields = new ArrayList();
+//        documentTypeFields.add(new Field(DOC_TYP_NAME_FIELD_LABEL, "", Field.TEXT, true, DOC_TYP_NAME_PROPERTY_NAME, "", null, DOC_TYP_LOOKUPABLE));
+//        documentTypeFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, DOC_TYP_LOOKUPABLE));
+//        rows.add(new Row(documentTypeFields));
+//        List activeIndicatorOptions = new ArrayList();
+//        activeIndicatorOptions.add(new KeyLabelPair(Boolean.TRUE.toString(), "Active"));
+//        activeIndicatorOptions.add(new KeyLabelPair(Boolean.FALSE.toString(), "Inactive"));
+//        activeIndicatorOptions.add(new KeyLabelPair(ALL_ACTIVE_INDICATOR_VALUE, "Show All"));
+//        List activeIndicatorFields = new ArrayList();
+//        activeIndicatorFields.add(new Field(ACTIVE_IND_FIELD_LABEL, "", Field.RADIO, false, ACTIVE_IND_PROPERTY_NAME, Boolean.TRUE.toString(), activeIndicatorOptions, null));
+//        rows.add(new Row(activeIndicatorFields));
+//        rows.addAll(orgReviewAttribute.getRuleRows());
     }
 
     /**
      * This method initializes the result set columns.
      */
     private void setColumns() {
-        columns = new ArrayList();
-        columns.add(new Column(RULE_ID_FIELD_LABEL, Boolean.TRUE.toString(), RULE_ID_PROPERTY_NAME));
-        columns.add(new Column(DOC_TYP_NAME_FIELD_LABEL, Boolean.TRUE.toString(), DOC_TYP_NAME_PROPERTY_NAME));
-        columns.add(new Column(ACTIVE_IND_FIELD_LABEL, Boolean.TRUE.toString(), ACTIVE_IND_PROPERTY_NAME));
-        Iterator extendedAttributeRowItr = orgReviewAttribute.getRuleRows().iterator();
-        while (extendedAttributeRowItr.hasNext()) {
-            Row row = (Row) extendedAttributeRowItr.next();
-            Iterator fieldItr = row.getFields().iterator();
-            while (fieldItr.hasNext()) {
-                Field field = (Field) fieldItr.next();
-                if (Field.TEXT.equals(field.getFieldType())) {
-                    columns.add(new Column(field.getFieldLabel(), Boolean.TRUE.toString(), field.getPropertyName()));
-                }
-            }
-
-        }
-        columns.add(new Column(RESPONSIBLE_PARTY_FIELD_LABEL, Boolean.TRUE.toString(), RESPONSIBLE_PARTY_PROPERTY_NAME));
+//        columns = new ArrayList();
+//        columns.add(new Column(RULE_ID_FIELD_LABEL, Boolean.TRUE.toString(), RULE_ID_PROPERTY_NAME));
+//        columns.add(new Column(DOC_TYP_NAME_FIELD_LABEL, Boolean.TRUE.toString(), DOC_TYP_NAME_PROPERTY_NAME));
+//        columns.add(new Column(ACTIVE_IND_FIELD_LABEL, Boolean.TRUE.toString(), ACTIVE_IND_PROPERTY_NAME));
+//        Iterator extendedAttributeRowItr = orgReviewAttribute.getRuleRows().iterator();
+//        while (extendedAttributeRowItr.hasNext()) {
+//            Row row = (Row) extendedAttributeRowItr.next();
+//            Iterator fieldItr = row.getFields().iterator();
+//            while (fieldItr.hasNext()) {
+//                Field field = (Field) fieldItr.next();
+//                if (Field.TEXT.equals(field.getFieldType())) {
+//                    columns.add(new Column(field.getFieldLabel(), Boolean.TRUE.toString(), field.getPropertyName()));
+//                }
+//            }
+//
+//        }
+//        columns.add(new Column(RESPONSIBLE_PARTY_FIELD_LABEL, Boolean.TRUE.toString(), RESPONSIBLE_PARTY_PROPERTY_NAME));
     }
 
     /**
@@ -139,19 +133,19 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
         }
         Map attributes = new HashMap();
         Iterator attributeRowItr = orgReviewAttribute.getRuleRows().iterator();
-        while (attributeRowItr.hasNext()) {
-            Row attributeRow = (Row) attributeRowItr.next();
-            Iterator attributeFieldItr = attributeRow.getFields().iterator();
-            while (attributeFieldItr.hasNext()) {
-                Field attributeField = (Field) attributeFieldItr.next();
-                if (fieldValues.get(attributeField.getPropertyName()) != null) {
-                    String attributeValue = (String) fieldValues.get(attributeField.getPropertyName());
-                    if (!StringUtils.isBlank(attributeValue)) {
-                        attributes.put(attributeField.getPropertyName(), attributeValue.trim());
-                    }
-                }
-            }
-        }
+//        while (attributeRowItr.hasNext()) {
+//            Row attributeRow = (Row) attributeRowItr.next();
+//            Iterator attributeFieldItr = attributeRow.getFields().iterator();
+//            while (attributeFieldItr.hasNext()) {
+//                Field attributeField = (Field) attributeFieldItr.next();
+//                if (fieldValues.get(attributeField.getPropertyName()) != null) {
+//                    String attributeValue = (String) fieldValues.get(attributeField.getPropertyName());
+//                    if (!StringUtils.isBlank(attributeValue)) {
+//                        attributes.put(attributeField.getPropertyName(), attributeValue.trim());
+//                    }
+//                }
+//            }
+//        }
         Iterator rules = ((RuleService) KEWServiceLocator.getService(KEWServiceLocator.RULE_SERVICE)).search(docTypeSearchName, null, ruleTemplateId, null, null, null, null, null, isActive, attributes, null).iterator();
         List displayList = new ArrayList();
         while (rules.hasNext()) {

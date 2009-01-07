@@ -35,14 +35,14 @@ import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
-import org.kuali.rice.kew.lookupable.Field;
-import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.AbstractWorkflowAttribute;
 import org.kuali.rice.kew.rule.RuleExtension;
 import org.kuali.rice.kew.rule.RuleExtensionValue;
 import org.kuali.rice.kew.util.KeyLabelPair;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiPurApDocumentTaxReviewAttribute.class);
@@ -71,21 +71,21 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
      * No arg constructor
      */
     public KualiPurApDocumentTaxReviewAttribute() {
-        ruleRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
+        ruleRows = new ArrayList<Row>();
         ruleRows.add(constructDropdown());
 
-        routingDataRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
+        routingDataRows = new ArrayList<Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(VendorDetail.class, VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, VENDOR_HEADER_GENERATED_ID_KEY));
         routingDataRows.add(constructDropdown());
     }
 
-    private org.kuali.rice.kew.lookupable.Row constructDropdown() {
+    private Row constructDropdown() {
         List validValuesTemp = new ArrayList();
         for (String validValue : validValues) {
             validValuesTemp.add(new KeyLabelPair(validValue, validValue));
         }
         List chartFields = new ArrayList();
-        chartFields.add(new Field(ROUTE_AS_TYPE_FIELD_LABEL, "", Field.DROPDOWN, false, VENDOR_ROUTE_AS_ATTRIBUTE_KEY, "", validValuesTemp, null, VENDOR_ROUTE_AS_ATTRIBUTE_KEY));
+        chartFields.add(new Field(ROUTE_AS_TYPE_FIELD_LABEL, "", Field.DROPDOWN, false, VENDOR_ROUTE_AS_ATTRIBUTE_KEY, "", false, false, validValuesTemp, null));
         return new Row(chartFields);
     }
 

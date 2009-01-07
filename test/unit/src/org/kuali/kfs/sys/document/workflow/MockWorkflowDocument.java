@@ -294,7 +294,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
      * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#appSpecificRouteDocumentToUser(java.lang.String, java.lang.String,
      *      int, java.lang.String, org.kuali.rice.kew.clientapp.vo.UserIdDTO, java.lang.String, boolean)
      */
-    public void appSpecificRouteDocumentToUser(String actionRequested, String routeTypeName, int priority, String annotation, UserIdDTO recipient, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
+    public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, int priority, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
         // TODO Auto-generated method stub
 
     }
@@ -303,7 +303,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
      * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#appSpecificRouteDocumentToWorkgroup(java.lang.String,
      *      java.lang.String, int, java.lang.String, org.kuali.rice.kew.clientapp.vo.WorkgroupIdDTO, java.lang.String, boolean)
      */
-    public void appSpecificRouteDocumentToWorkgroup(String actionRequested, String routeTypeName, int priority, String annotation, WorkgroupIdDTO workgroupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
+    public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, int priority, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
         // TODO Auto-generated method stub
 
     }
@@ -532,14 +532,6 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     public String[] getNodeNames() throws WorkflowException {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#appSpecificRouteDocumentToGroup(java.lang.String, java.lang.String, int, java.lang.String, org.kuali.rice.kim.bo.group.dto.GroupInfo, java.lang.String, boolean)
-     */
-    public void appSpecificRouteDocumentToGroup(String actionRequested, String routeTypeName, int priority, String annotation, GroupInfo groupInfo, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
-        // TODO Auto-generated method stub
-        
     }
 
     /**

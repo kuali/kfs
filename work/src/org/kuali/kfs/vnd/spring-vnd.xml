@@ -60,6 +60,10 @@
 		<property name="moduleConfiguration" ref="vndModuleConfiguration" />
 	</bean>
 
+	<!-- TODO: ewestfal
+	     12-23-2008
+	     commented out since the workflow lookup framework no longer exists
+	     
 	<bean id="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.vnd.businessobject.VendorType</value>
@@ -77,6 +81,7 @@
             <value>org.kuali.kfs.vnd.businessobject.CommodityCode</value>
         </property>
     </bean>
+    -->
     
     <bean id="vendorDao" parent="platformAwareDao" class="org.kuali.kfs.vnd.dataaccess.impl.VendorDaoOjb" >
         <property name="dateTimeService" ref="dateTimeService"/>

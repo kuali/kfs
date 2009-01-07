@@ -46,8 +46,6 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
-import org.kuali.rice.kew.lookupable.Field;
-import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.MassRuleAttribute;
 import org.kuali.rice.kew.rule.RuleBaseValues;
@@ -59,6 +57,8 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -114,7 +114,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      * fields and rows of the attribute
      */
     public KualiOrgReviewAttribute() {
-        List fields = new ArrayList();
+        List<Field> fields = new ArrayList<Field>();
 
         ruleRows = new ArrayList();
         ruleRows.add(getChartRow());
@@ -122,10 +122,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         ruleRows.add(getOverrideCodeRow());
 
         fields = new ArrayList();
-        fields.add(new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", null, null, FROM_AMOUNT_KEY));
+        fields.add(new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", false, false, null, null));
         ruleRows.add(new Row(fields));
         fields = new ArrayList();
-        fields.add(new Field("To Amount", "", Field.TEXT, true, TO_AMOUNT_KEY, "", null, null, TO_AMOUNT_KEY));
+        fields.add(new Field("To Amount", "", Field.TEXT, true, TO_AMOUNT_KEY, "", false, false, null, null));
         ruleRows.add(new Row(fields));
 
         routingDataRows = new ArrayList();
@@ -146,7 +146,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     
 
-    public org.kuali.rice.kew.lookupable.Row getChartRow() {
+    public Row getChartRow() {
         return KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
     }
 
@@ -157,7 +157,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
    
 
-    public org.kuali.rice.kew.lookupable.Row getOrgRow() {
+    public Row getOrgRow() {
         Map fieldConversionMap = new HashMap();
         fieldConversionMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
         return KualiWorkflowUtils.buildTextRowWithLookup(Organization.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY, fieldConversionMap);
@@ -170,7 +170,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     
 
-    public org.kuali.rice.kew.lookupable.Row getOverrideCodeRow() {
+    public Row getOverrideCodeRow() {
         java.lang.reflect.Field[] overrideCodes = AccountingLineOverride.CODE.class.getDeclaredFields();
         Map optionMap = new LinkedHashMap<String,String>();
         for (int i=0;i<overrideCodes.length ;i++){

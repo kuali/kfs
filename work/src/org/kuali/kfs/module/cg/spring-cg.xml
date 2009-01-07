@@ -149,6 +149,10 @@
     </bean>
 
 	<!-- Workflow Lookupables -->
+	<!-- TODO: ewestfal
+	     12-23-2008
+	     commented out since the workflow lookup framework no longer exists
+	     
     <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Proposal-Lookupable" parent="workflowLookupable" scope="prototype">
         <property name="businessObjectClassName">
             <value>org.kuali.kfs.module.cg.businessobject.Proposal</value>
@@ -160,6 +164,14 @@
             <value>org.kuali.kfs.module.cg.businessobject.Agency</value>
         </property>
     </bean>
+    
+	<bean id="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable" parent="workflowLookupable" scope="prototype">
+        <property name="businessObjectClassName">
+            <value>org.kuali.kfs.module.cg.businessobject.ResearchRiskType</value>
+        </property>
+    </bean>
+    
+    -->
 	
     <bean id="cfdaBatchStep" class="org.kuali.kfs.module.cg.batch.CfdaBatchStep" parent="step">
         <property name="cfdaService">
@@ -379,15 +391,7 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
-	
-	<!-- Workflow Lookupables-->
-	
-	<bean id="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable" parent="workflowLookupable" scope="prototype">
-        <property name="businessObjectClassName">
-            <value>org.kuali.kfs.module.cg.businessobject.ResearchRiskType</value>
-        </property>
-    </bean>
-    
+	    
     <bean id="contractsAndGrantsResponsibilityRoleTypeService" class="org.kuali.kfs.module.cg.identity.ContractsAndGrantsResponsibilityRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">

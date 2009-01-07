@@ -40,13 +40,13 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
-import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.RuleExtension;
 import org.kuali.rice.kew.rule.RuleExtensionValue;
 import org.kuali.rice.kew.rule.WorkflowAttribute;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * TODO delyea - documentation
@@ -67,10 +67,10 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
      * No arg constructor
      */
     public KualiPurchaseOrderBudgetAttribute() {
-        ruleRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
+        ruleRows = new ArrayList<Row>();
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
 
-        routingDataRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
+        routingDataRows = new ArrayList<Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
     }

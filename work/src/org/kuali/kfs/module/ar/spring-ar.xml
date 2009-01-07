@@ -575,6 +575,10 @@
 		</property>
 	</bean>
 	
+	<!-- TODO: ewestfal
+	     12-23-2008
+	     commented out since the workflow lookup framework no longer exists
+	     
 	<bean id="workflow-org.kuali.kfs.module.ar.businessobject.SystemInformation-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.module.ar.businessobject.SystemInformation</value>
@@ -586,6 +590,8 @@
 			<value>org.kuali.kfs.module.ar.businessobject.Customer</value>
 		</property>
 	</bean>
+	
+	-->
 	
 	<!-- Report Service  -->
 	

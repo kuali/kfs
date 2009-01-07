@@ -21,8 +21,6 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader;
-import org.kuali.rice.kew.lookupable.WorkflowLookupable;
-import org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl;
 
 /**
  * A custom {@link org.kuali.rice.kew.plugin.ResourceLoader} which wraps a Spring BeanFactory and delegates certain service lookups to
@@ -31,7 +29,7 @@ import org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl;
 public class FinancialSystemResourceLoader extends SpringBeanFactoryResourceLoader {
 
     private static final String CONVERSIONS_DELIMITER = "|";
-    private static final String LOOKUPABLE_REGEX = "workflow-.+-Lookupable(.+)";
+    //private static final String LOOKUPABLE_REGEX = "workflow-.+-Lookupable(.+)";
 
     private Set<String> overridableServices = new HashSet<String>();
 
@@ -44,9 +42,9 @@ public class FinancialSystemResourceLoader extends SpringBeanFactoryResourceLoad
         if (overridableServices.contains(serviceName.getLocalPart())) {
             return super.getService(serviceName);
         }
-        else if (isKualiLookupable(serviceName)) {
-            return fetchKualiLookupable(serviceName);
-        }
+//        else if (isKualiLookupable(serviceName)) {
+//            return fetchKualiLookupable(serviceName);
+//        }
         else if (serviceName.getLocalPart().indexOf("Lookupable") > -1) {
             return super.getService(serviceName);
         }
@@ -56,35 +54,35 @@ public class FinancialSystemResourceLoader extends SpringBeanFactoryResourceLoad
         return null;
     }
 
-    protected boolean isKualiLookupable(QName serviceName) {
-        return serviceName.getLocalPart().matches(LOOKUPABLE_REGEX);
-    }
-
-    protected Object fetchKualiLookupable(QName serviceName) {
-        String lookupableName = serviceName.getLocalPart();
-        WorkflowLookupable workflowLookupable = null;
-        if (lookupableName.indexOf(".") > 0) {
-            String lookupableImplName = lookupableName.substring(0, lookupableName.indexOf("("));
-            WorkflowLookupableImpl workflowLookupableImpl = (WorkflowLookupableImpl) getBeanFactory().getBean(lookupableImplName);
-            String allConversions = lookupableName.substring(lookupableName.indexOf("(") + 1, lookupableName.indexOf(")"));
-            String fieldConversions = null;
-            String lookupParameters = null;
-            if (allConversions.indexOf(CONVERSIONS_DELIMITER) > 0) {
-                fieldConversions = allConversions.substring(0, allConversions.indexOf(CONVERSIONS_DELIMITER));
-                lookupParameters = allConversions.substring(allConversions.indexOf(CONVERSIONS_DELIMITER) + 1);
-            }
-            else {
-                fieldConversions = allConversions;
-            }
-            workflowLookupableImpl.setFieldConversions(fieldConversions);
-            workflowLookupableImpl.setLookupParameters(lookupParameters);
-            workflowLookupable = (WorkflowLookupable) super.wrap(serviceName, workflowLookupableImpl);
-        }
-        else {
-            workflowLookupable = (WorkflowLookupable) super.getService(serviceName);
-        }
-        return workflowLookupable;
-    }
+//    protected boolean isKualiLookupable(QName serviceName) {
+//        return serviceName.getLocalPart().matches(LOOKUPABLE_REGEX);
+//    }
+//
+//    protected Object fetchKualiLookupable(QName serviceName) {
+//        String lookupableName = serviceName.getLocalPart();
+//        WorkflowLookupable workflowLookupable = null;
+//        if (lookupableName.indexOf(".") > 0) {
+//            String lookupableImplName = lookupableName.substring(0, lookupableName.indexOf("("));
+//            WorkflowLookupableImpl workflowLookupableImpl = (WorkflowLookupableImpl) getBeanFactory().getBean(lookupableImplName);
+//            String allConversions = lookupableName.substring(lookupableName.indexOf("(") + 1, lookupableName.indexOf(")"));
+//            String fieldConversions = null;
+//            String lookupParameters = null;
+//            if (allConversions.indexOf(CONVERSIONS_DELIMITER) > 0) {
+//                fieldConversions = allConversions.substring(0, allConversions.indexOf(CONVERSIONS_DELIMITER));
+//                lookupParameters = allConversions.substring(allConversions.indexOf(CONVERSIONS_DELIMITER) + 1);
+//            }
+//            else {
+//                fieldConversions = allConversions;
+//            }
+//            workflowLookupableImpl.setFieldConversions(fieldConversions);
+//            workflowLookupableImpl.setLookupParameters(lookupParameters);
+//            workflowLookupable = (WorkflowLookupable) super.wrap(serviceName, workflowLookupableImpl);
+//        }
+//        else {
+//            workflowLookupable = (WorkflowLookupable) super.getService(serviceName);
+//        }
+//        return workflowLookupable;
+//    }
 
     public Set<String> getOverridableServices() {
         return overridableServices;

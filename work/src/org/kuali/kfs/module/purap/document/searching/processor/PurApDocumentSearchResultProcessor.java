@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.kew.docsearch.DocumentSearchColumn;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
-import org.kuali.rice.kew.lookupable.Column;
 
 public abstract class PurApDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
 
@@ -50,15 +50,15 @@ public abstract class PurApDocumentSearchResultProcessor extends StandardDocumen
      * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#getCustomDisplayColumns()
      */
     @Override
-    public List<Column> getCustomDisplayColumns() {
-        List<Column> columns = new ArrayList<Column>();
+    public List<DocumentSearchColumn> getCustomDisplayColumns() {
+        List<DocumentSearchColumn> columns = new ArrayList<DocumentSearchColumn>();
         if (searchUsingDocumentInformationResults()) {
             columns = getDocumentSpecificCustomColumns();
         }
         return columns;
     }
 
-    public abstract List<Column> getDocumentSpecificCustomColumns();
+    public abstract List<DocumentSearchColumn> getDocumentSpecificCustomColumns();
 
     private boolean searchUsingDocumentInformationResults() {
         SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");

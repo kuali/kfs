@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.kew.docsearch.DocumentSearchColumn;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.lookupable.Column;
 
 public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
@@ -28,7 +28,7 @@ public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSea
      *      java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean)
      */
     @Override
-    protected void addSearchableAttributeColumnUsingKey(List<Column> columns, String key, String label, Boolean sortableOverride, Boolean defaultSortable) {
+    protected void addSearchableAttributeColumnUsingKey(List<DocumentSearchColumn> columns, String key, String label, Boolean sortableOverride, Boolean defaultSortable) {
         if ("purchaseOrderDocumentFiscalPostingYear".equals(key)) {
             addColumnUsingKey(columns, DocumentSearchResult.PROPERTY_NAME_DATE_CREATED);
         }
@@ -39,8 +39,8 @@ public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSea
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchResultProcessor#getDocumentSpecificCustomColumns()
      */
     @Override
-    public List<Column> getDocumentSpecificCustomColumns() {
-        List<Column> columns = new ArrayList<Column>();
+    public List<DocumentSearchColumn> getDocumentSpecificCustomColumns() {
+        List<DocumentSearchColumn> columns = new ArrayList<DocumentSearchColumn>();
         List<String> searchableAttributeFieldNames = new ArrayList<String>();
         searchableAttributeFieldNames.add("purchaseOrderDocumentPurchaseOrderId");
         searchableAttributeFieldNames.add("purchaseOrderDocumentStatusDescription");

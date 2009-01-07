@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kew.lookupable.Column;
+import org.kuali.rice.kew.docsearch.DocumentSearchColumn;
 
 public class CreditMemoDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
@@ -26,8 +26,8 @@ public class CreditMemoDocumentSearchResultProcessor extends PurApDocumentSearch
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchResultProcessor#getDocumentSpecificCustomColumns()
      */
     @Override
-    public List<Column> getDocumentSpecificCustomColumns() {
-        List<Column> columns = new ArrayList<Column>();
+    public List<DocumentSearchColumn> getDocumentSpecificCustomColumns() {
+        List<DocumentSearchColumn> columns = new ArrayList<DocumentSearchColumn>();
         List<String> searchableAttributeFieldNames = new ArrayList<String>();
         searchableAttributeFieldNames.add("creditMemoCreditMemoId");// cm id
         searchableAttributeFieldNames.add("creditMemoVendorCreditMemoNumber");// vendor cm #

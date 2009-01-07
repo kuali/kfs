@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.businessobject.lookup;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.lookupable.WorkflowLookupable;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 
@@ -29,7 +28,7 @@ public class LookupableSpringContext {
         return SpringContext.getBeansOfType(LookupableHelperService.class).get(beanId);
     }
 
-    public static WorkflowLookupable getWorkflowLookupable(String beanId) {
-        return SpringContext.getBeansOfType(WorkflowLookupable.class).get(beanId);
-    }
+//    public static WorkflowLookupable getWorkflowLookupable(String beanId) {
+//        return SpringContext.getBeansOfType(WorkflowLookupable.class).get(beanId);
+//    }
 }

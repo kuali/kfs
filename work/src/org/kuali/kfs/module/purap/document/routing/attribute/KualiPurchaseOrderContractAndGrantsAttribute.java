@@ -46,7 +46,6 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
-import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.RuleExtension;
 import org.kuali.rice.kew.rule.RuleExtensionValue;
@@ -54,6 +53,7 @@ import org.kuali.rice.kew.rule.WorkflowAttribute;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.Row;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -85,10 +85,10 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
      * Constructs a KualiPurchaseOrderContractAndGrantsAttribute.java.
      */
     public KualiPurchaseOrderContractAndGrantsAttribute() {
-        ruleRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
+        ruleRows = new ArrayList<Row>();
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, SUB_FUND_GROUP_CODE_KEY));
 
-        routingDataRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
+        routingDataRows = new ArrayList<Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, CHART_CODE_KEY));
         Map fieldConversionMap = new HashMap();

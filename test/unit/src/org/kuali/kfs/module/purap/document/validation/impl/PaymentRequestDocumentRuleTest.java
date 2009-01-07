@@ -226,11 +226,11 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
                 return null;
             }
             
-            public void appSpecificRouteDocumentToUser(String actionRequested, String routeTypeName, String annotation, UserIdDTO recipient, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
                 
             }
 
-            public void appSpecificRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, GroupIdDTO groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
                 
             }
             
@@ -318,11 +318,11 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
                 return null;
             }
             
-            public void appSpecificRouteDocumentToUser(String actionRequested, String routeTypeName, String annotation, UserIdDTO recipient, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
                 
             }
 
-            public void appSpecificRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, GroupIdDTO groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
                 
             }
         };

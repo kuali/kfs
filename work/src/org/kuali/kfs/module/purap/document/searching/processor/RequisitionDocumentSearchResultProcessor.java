@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.kew.docsearch.DocumentSearchColumn;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.lookupable.Column;
 
 public class RequisitionDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
@@ -27,8 +27,8 @@ public class RequisitionDocumentSearchResultProcessor extends PurApDocumentSearc
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchResultProcessor#getDocumentSpecificCustomColumns()
      */
     @Override
-    public List<Column> getDocumentSpecificCustomColumns() {
-        List<Column> columns = new ArrayList<Column>();
+    public List<DocumentSearchColumn> getDocumentSpecificCustomColumns() {
+        List<DocumentSearchColumn> columns = new ArrayList<DocumentSearchColumn>();
         List<String> searchableAttributeFieldNames = new ArrayList<String>();
         searchableAttributeFieldNames.add("requisitionDocumentRequisitionId");
         searchableAttributeFieldNames.add("requisitionDocumentStatusDescription");

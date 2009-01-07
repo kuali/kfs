@@ -18,11 +18,10 @@ package org.kuali.kfs.module.purap.document.searching.attribute;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
-import org.kuali.rice.kew.lookupable.Field;
 import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
 
 /**
@@ -32,8 +31,8 @@ public class KualiPurchaseOrderIncompleteStatusesAttribute extends KualiXmlSearc
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiPurchaseOrderIncompleteStatusesAttribute.class);
 
     public static final String FIELD_DEF_NAME = "purchaseOrderDocumentIncompleteStatuses";
-    public static final String VALUE_FOR_YES = Field.CHECKBOX_VALUE_CHECKED;
-    public static final String VALUE_FOR_NO = Field.CHECKBOX_VALUE_UNCHECKED;
+    public static final String VALUE_FOR_YES = "Yes";
+    public static final String VALUE_FOR_NO = "No";
 
     /**
      * This method will use the given value which should be the document's status code and translate that into

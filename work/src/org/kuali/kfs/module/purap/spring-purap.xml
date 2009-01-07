@@ -95,6 +95,11 @@
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>
 	<!--  end override -->
+	
+	<!-- TODO: ewestfal
+	     12-23-2008
+	     commented out since the workflow lookup framework no longer exists
+	     
 	<bean id="workflow-org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod</value>
@@ -106,6 +111,8 @@
             <value>org.kuali.kfs.module.purap.businessobject.SensitiveData</value>
         </property>
     </bean>
+    
+    -->
     
 	<bean id="pdpExtractService" class="org.kuali.kfs.module.purap.service.impl.PdpExtractServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService"/>

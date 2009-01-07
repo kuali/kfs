@@ -271,7 +271,11 @@
 
 	<bean id="a21SubAccountDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.A21SubAccountDaoOjb" />
-
+		
+    <!-- TODO: ewestfal
+	     12-23-2008
+	     commented out since the workflow lookup framework no longer exists
+	     
 	<bean id="workflow-org.kuali.module.chart.bo.Campus-Lookupable"
 		parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
@@ -421,6 +425,7 @@
 			</value>
 		</property>
 	</bean>
+	-->
 
 	<bean id="OrgReviewLookupable"
 		class="org.kuali.kfs.sys.document.routing.OrgReviewLookupableImpl"

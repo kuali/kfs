@@ -18,21 +18,18 @@ package org.kuali.rice.kns.workflow.attribute;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
+import org.kuali.rice.kew.docsearch.DocumentSearchField;
+import org.kuali.rice.kew.docsearch.DocumentSearchRow;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.lookupable.Field;
-import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
-import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.BusinessObjectRelationship;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -41,9 +38,9 @@ import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * This class...
@@ -84,13 +81,13 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
     /**
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchingRows(org.kuali.rice.kew.docsearch.DocumentSearchContext)
      */
-    public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
+    public List<DocumentSearchRow> getSearchingRows(DocumentSearchContext documentSearchContext) {
         
        
        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
        WorkflowAttributes workflowAttributes = entry.getWorkflowAttributes();
 
-       List<Row> retvals = createFieldRowsForWorkflowAttributes(workflowAttributes);
+       List<DocumentSearchRow> retvals = createFieldRowsForWorkflowAttributes(workflowAttributes);
         
         return retvals;
     }
@@ -108,8 +105,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param businessObjectClass the class of the maintained business object
      * @return a List of KEW search fields
      */
-    protected List<Row> createFieldRowsForWorkflowAttributes(WorkflowAttributes attrs) {
-        List<Row> searchFields = new ArrayList<Row>();
+    protected List<DocumentSearchRow> createFieldRowsForWorkflowAttributes(WorkflowAttributes attrs) {
+        List<DocumentSearchRow> searchFields = new ArrayList<DocumentSearchRow>();
         
       List<SearchingTypeDefinition> searchingTypeDefinitions = attrs.getSearchingTypeDefinitions();
       for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
@@ -117,17 +114,17 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
           String attributeName = attr.getAttributeName();
           String businessObjectClassName = attr.getBusinessObjectClassName();
           final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClassName);
-              Field searchField = buildSearchField(attributeName, boEntry);
+          DocumentSearchField searchField = buildSearchField(attributeName, boEntry);
               List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);
               if (searchField.isUsingDatePicker()) {
                   fieldList.add(buildDatePickerField(attributeName));
               }
               String quickfinderService = searchField.getQuickFinderClassNameImpl();
-              if (!Utilities.isEmpty(quickfinderService)) {
-                  fieldList.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, quickfinderService));
-              }
-              searchFields.add(new Row(fieldList));
+//              if (!Utilities.isEmpty(quickfinderService)) {
+//                  fieldList.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, quickfinderService));
+//              }
+              searchFields.add(new DocumentSearchRow(fieldList));
               
       }
         
@@ -140,18 +137,24 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param businessObjectEntry the business object data dictionary for the maintained business object
      * @return a search field for the given property
      */
-    protected Field buildSearchField(String propertyName, BusinessObjectEntry businessObjectEntry) {
+    protected DocumentSearchField buildSearchField(String propertyName, BusinessObjectEntry businessObjectEntry) {
         AttributeDefinition propertyAttribute = getAttributeFromEntry(propertyName, businessObjectEntry);
-        Field field = buildFieldFromEntry(propertyAttribute);
+        DocumentSearchField field = buildFieldFromEntry(propertyAttribute);
 
         // 4. quickfinder?
-        final String quickfinderServiceName = getQuickfinderServiceName(businessObjectEntry.getBusinessObjectClass(), propertyName);
         
-        if (quickfinderServiceName != null) {
-            field.setQuickFinderClassNameImpl(quickfinderServiceName);
-            field.setHasLookupable(true);
-            field.setDefaultLookupableName(propertyName);
-        }
+     // TODO: ewestfal - 12-23-2008
+        // commenting out the below for now until the new document search code is in place and we've
+        // implemented support for rendering links to url-based lookups in KFS
+        // also commented out getQuickfinderServiceName and getWorkflowLookupServiceName
+        
+//        final String quickfinderServiceName = getQuickfinderServiceName(businessObjectEntry.getBusinessObjectClass(), propertyName);
+//        
+//        if (quickfinderServiceName != null) {
+//            field.setQuickFinderClassNameImpl(quickfinderServiceName);
+//            field.setHasLookupable(true);
+//            field.setDefaultLookupableName(propertyName);
+//        }
         return field;
     }
     
@@ -162,8 +165,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param propertyName the name of the property which is going to have a date picker associated with it
      * @return a date picker field
      */
-    protected Field buildDatePickerField(String propertyName) {
-        return new Field("", "", Field.DATEPICKER, false, propertyName + "_datepicker", "", null, "");
+    protected DocumentSearchField buildDatePickerField(String propertyName) {
+        return new DocumentSearchField("", "", DocumentSearchField.DATEPICKER, propertyName + "_datepicker", "", null, "");
     }
     
     /**
@@ -181,12 +184,11 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param attributeDefinition the definition of the attribute
      * @return a KEW field based on the attribute definition
      */
-    protected Field buildFieldFromEntry(AttributeDefinition attributeDefinition) {
-        Field field = new Field(
+    protected DocumentSearchField buildFieldFromEntry(AttributeDefinition attributeDefinition) {
+        DocumentSearchField field = new DocumentSearchField(
                 attributeDefinition.getLabel(), // label
                 "", // help url
                 determineKEWFieldType(attributeDefinition), // field type
-                false, // has lookupable?
                 attributeDefinition.getName(), // property name
                 "", // property value
                 getValidValues(attributeDefinition), // field valid values
@@ -203,7 +205,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      */
     protected String determineKEWFieldType(AttributeDefinition attributeDefinition) {
         if (attributeDefinition.getControl().isDatePicker()) return Field.TEXT;
-        if (attributeDefinition.getControl().isCheckbox()) return Field.CHECKBOX_VALUE_UNCHECKED;
+        if (attributeDefinition.getControl().isCheckbox()) return Field.CHECKBOX;
         if (attributeDefinition.getControl().isHidden()) return Field.HIDDEN; // this is an absurd case...
         if (attributeDefinition.getControl().isRadio()) return Field.RADIO;
         if (attributeDefinition.getControl().isSelect()) return Field.DROPDOWN;
@@ -241,7 +243,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * "Calibrates" the field so that it isn't some stupid field, like a drop down with no values associated
      * @param field the KEW field to calibrate
      */
-    protected void calibrateField(Field field, AttributeDefinition attributeDefinition) {
+    protected void calibrateField(DocumentSearchField field, AttributeDefinition attributeDefinition) {
         if (field.getFieldType().equals(Field.RADIO) || field.getFieldType().equals(Field.DROPDOWN) && field.getFieldValidValues() == null) {
             // oops! see, the problem's here: you've got a raccon in your rotary gasket
             field.setFieldType(Field.TEXT);
@@ -277,25 +279,25 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param propertyName the property to find a lookup for
      * @return the name of the workflowLookup service if such a service exists; otherwise, null
      */
-    protected String getQuickfinderServiceName(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
-        try {
-            final BusinessObject pointlessBOInstanceToMakeTheServiceHappy = (BusinessObject)businessObjectClass.newInstance();
-            final BusinessObjectRelationship relationship = SpringContext.getBean(BusinessObjectMetaDataService.class).getBusinessObjectRelationship(pointlessBOInstanceToMakeTheServiceHappy, propertyName);
-            if (relationship != null) {
-                final Class lookingUpClass = relationship.getRelatedClass();
-                String retVal = getWorkflowLookupServiceName(lookingUpClass);
-                return retVal;
-            } else {
-                return null;
-            }
-        }
-        catch (InstantiationException ie) {
-            throw new RuntimeException("Could not instantiate class: "+businessObjectClass.getName()+" to determine search attributes lookup helper", ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("IllegalAccessException while trying to instantiate class: "+businessObjectClass.getName()+" to determine search attributes lookup helper", iae);
-        }
-    }
+//    protected String getQuickfinderServiceName(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
+//        try {
+//            final BusinessObject pointlessBOInstanceToMakeTheServiceHappy = (BusinessObject)businessObjectClass.newInstance();
+//            final BusinessObjectRelationship relationship = SpringContext.getBean(BusinessObjectMetaDataService.class).getBusinessObjectRelationship(pointlessBOInstanceToMakeTheServiceHappy, propertyName);
+//            if (relationship != null) {
+//                final Class lookingUpClass = relationship.getRelatedClass();
+//                String retVal = getWorkflowLookupServiceName(lookingUpClass);
+//                return retVal;
+//            } else {
+//                return null;
+//            }
+//        }
+//        catch (InstantiationException ie) {
+//            throw new RuntimeException("Could not instantiate class: "+businessObjectClass.getName()+" to determine search attributes lookup helper", ie);
+//        }
+//        catch (IllegalAccessException iae) {
+//            throw new RuntimeException("IllegalAccessException while trying to instantiate class: "+businessObjectClass.getName()+" to determine search attributes lookup helper", iae);
+//        }
+//    }
     
     /**
      * Returns the name of the workflow lookupable service for the given business object if one exists; otherwise
@@ -303,12 +305,12 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param businessObjectClass the business object class to try to find a workflow lookup for
      * @return null if no lookup service name could be found; the name of the service if found
      */
-    protected String getWorkflowLookupServiceName(Class businessObjectClass) {
-        final Map<String, ? extends org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl> workflowLookups = SpringContext.getBeansOfType(org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl.class);
-        final Set<String> workflowLookupServiceNames = workflowLookups.keySet();
-        final String proposedName = convertBusinessObjectClassToProposedWorklowLookupServiceName(businessObjectClass);
-        return workflowLookupServiceNames.contains(proposedName) ? proposedName : null; 
-    }
+//    protected String getWorkflowLookupServiceName(Class businessObjectClass) {
+//        final Map<String, ? extends org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl> workflowLookups = SpringContext.getBeansOfType(org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl.class);
+//        final Set<String> workflowLookupServiceNames = workflowLookups.keySet();
+//        final String proposedName = convertBusinessObjectClassToProposedWorklowLookupServiceName(businessObjectClass);
+//        return workflowLookupServiceNames.contains(proposedName) ? proposedName : null; 
+//    }
 
     /**
      * Given a business object class, determines what the name of the workflow lookupable to lookup this class would be

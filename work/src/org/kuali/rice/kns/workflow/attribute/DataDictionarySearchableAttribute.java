@@ -244,18 +244,20 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param field the KEW field to calibrate
      */
     protected void calibrateField(DocumentSearchField field, AttributeDefinition attributeDefinition) {
-        if (field.getFieldType().equals(Field.RADIO) || field.getFieldType().equals(Field.DROPDOWN) && field.getFieldValidValues() == null) {
-            // oops! see, the problem's here: you've got a raccon in your rotary gasket
-            field.setFieldType(Field.TEXT);
-        }
-        if (field.getFieldType().equals(Field.TEXT)) {
-            // ah, you're text!  let's make sure you're a bit flexible about your input!
-            field.setAllowWildcards(true);
-            field.setCaseSensitive(true);
-        }
-        
-        if (attributeDefinition.getControl().isDatePicker()) {
-            field.setHasDatePicker(true);
+        if (field.getFieldType() != null) {
+            if ((field.getFieldType().equals(Field.RADIO) || field.getFieldType().equals(Field.DROPDOWN)) && field.getFieldValidValues() == null) {
+                // oops! see, the problem's here: you've got a raccon in your rotary gasket
+                field.setFieldType(Field.TEXT);
+            }
+            if (field.getFieldType().equals(Field.TEXT)) {
+                // ah, you're text!  let's make sure you're a bit flexible about your input!
+                field.setAllowWildcards(true);
+                field.setCaseSensitive(true);
+            }
+            
+            if (attributeDefinition.getControl().isDatePicker()) {
+                field.setHasDatePicker(true);
+            }
         }
     }
 

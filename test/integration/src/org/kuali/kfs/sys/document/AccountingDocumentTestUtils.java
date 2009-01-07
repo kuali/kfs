@@ -180,9 +180,11 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
 
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         routeDocument(document, "saving copy source document", null, documentService);
-        DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
-        assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
-        assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+        if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
+            assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
+            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+        }
     }
 
     /**
@@ -196,12 +198,14 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             LOG.debug("documentHeaderId = " + documentHeaderId);
             // route the original doc, wait for status change
             routeDocument(document, "saving errorCorrection source document", null, documentService);
-            DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, "R");
-            assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
-            document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
+            if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, "R");
+                assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
+                document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
 
-            // mock a fully approved document
-            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
+                // mock a fully approved document
+                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
+            }
 
             // collect some preCorrect data
             String preCorrectId = document.getDocumentNumber();
@@ -291,8 +295,11 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // save the original doc, wait for status change
         document.prepareForSave();
         routeDocument(document, "saving copy source document", null, documentService);
-        DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
-        assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
+        if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
+            assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
+            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+        }
         // collect some preCopy data
         String preCopyId = document.getDocumentNumber();
         String preCopyCopiedFromId = document.getDocumentHeader().getDocumentTemplateNumber();
@@ -301,15 +308,14 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
         String preCopyStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
 
-        List<? extends SourceAccountingLine> preCopySourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy((ArrayList) document.getSourceAccountingLines());
-        List<? extends TargetAccountingLine> preCopyTargetLines = (List<? extends TargetAccountingLine>) ObjectUtils.deepCopy((ArrayList) document.getTargetAccountingLines());
+        List<? extends SourceAccountingLine> preCopySourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
+        List<? extends TargetAccountingLine> preCopyTargetLines = (List<? extends TargetAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));
         // validate preCopy state
         assertNotNull(preCopyId);
         assertNull(preCopyCopiedFromId);
 
         assertEquals(expectedPrePECount, preCopyPECount);
-        // assertEquals(0, preCopyNoteCount);
-        assertEquals("R", preCopyStatus);
+
         // do the copy
         ((Copyable) document).toCopy();
         // compare to preCopy state

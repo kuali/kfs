@@ -178,12 +178,7 @@
     </bean>
     <bean id="SearchingAttribute-campusCode" parent="WorkflowAttributeMetaData-campusCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
     <bean id="RoutingAttribute-campusCode" parent="WorkflowAttributeMetaData-campusCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-    <bean id="WorkflowAttributeMetaData-researchRiskCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" />
-    	<property name="attributeName" value="researchRiskTypeCode" />
-    </bean>
-    <bean id="RoutingAttribute-researchRiskCode" parent="WorkflowAttributeMetaData-researchRiskCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-	
+    	
 	<bean id="SearchingType-AccountingDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
         <property name="documentValues">

@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -562,6 +563,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setStatusChange(String statusChange) {
         getPurchaseOrderDocument().setStatusChange(statusChange);
     }
-    
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printPurchaseOrderPDFOnly".equals(methodToCallParameterValue)) {
+            return true;
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+    }
 }
 

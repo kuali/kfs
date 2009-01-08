@@ -569,8 +569,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printPurchaseOrderPDFOnly".equals(methodToCallParameterValue) || 
-            KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printingRetransmitPoOnly".equals(methodToCallParameterValue)) {
+        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
+           ("printPurchaseOrderPDFOnly".equals(methodToCallParameterValue) || "printingRetransmitPoOnly".equals(methodToCallParameterValue))) {
             return true;
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);

@@ -66,14 +66,15 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
             anchorHtmlDataList.add(super.getViewAssetUrl(asset));
         }
         else {
-            anchorHtmlDataList.add(super.getUrlData(asset, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, assetPrimaryKey));
+            //anchorHtmlDataList.add(super.getUrlData(asset, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, assetPrimaryKey));            
+
+            anchorHtmlDataList.add(this.getAssetUrl(asset));
             anchorHtmlDataList.add(super.getLoanUrl(asset));
             anchorHtmlDataList.add(super.getMergeUrl(asset));
             anchorHtmlDataList.add(this.getSeparateUrl(assetPayment));
             anchorHtmlDataList.add(super.getTransferUrl(asset));
             anchorHtmlDataList.add(this.getPaymentUrl(asset));
         }
-
         return anchorHtmlDataList;
     }
 
@@ -119,6 +120,18 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
         String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
 
         return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
+    }
+        
+    protected HtmlData getAssetUrl(Asset asset) {
+            Properties parameters = new Properties();            
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+            parameters.put(CamsPropertyConstants.AssetPaymentDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Asset.class.getName());
+    
+            String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+    
+            
+            return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
     }
     
     /**

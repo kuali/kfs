@@ -35,11 +35,7 @@ public class CamsKeyConstants {
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";
 
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
-    public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
-    public static final String ERROR_TAG_NUMBER_RESTRICT_CHANGE = "error.tag.number.restrict.change";
-    public static final String ERROR_ASSET_TYPE_CODE_RESTRICT_CHANGE = "error.asset.type.code.restrict.change";
-    public static final String ERROR_ASSET_DESCRIPTION_RESTRICT_CHANGE = "error.asset.description.restrict.change";
-    public static final String ERROR_INVALID_ASSET_STATUS_CHANGE = "error.invalid.asset.status.change";
+    public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";    
     public static final String ERROR_ASSET_RETIRED_NOEDIT = "error.asset.retired.noedit";
     public static final String ERROR_FABRICATION_ESTIMATED_TOTAL_AMOUNT_REQUIRED = "error.asset.fabrication.totalAmount.required";
     public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED = "error.asset.fabrication.completionDate.required";
@@ -48,7 +44,6 @@ public class CamsKeyConstants {
     public static final String ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE = "error.asset.fabrication.lifeLimit.negative";
     public static final String ORGANIZATION_OWNER_ACCOUNT_INACTIVE = "error.asset.org.owner.account.inactive";
     public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_PAST = "error.asset.fabrication.completionDate.past";
-    public static final String ERROR_CAPITAL_ASSET_TYPE_CODE_FABRICATION = "error.asset.fabrication.assetType.invalid";
 
     public static class Depreciation {
         public static final String NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND = "error.batch.depreciation.assetsNotFound";
@@ -64,7 +59,6 @@ public class CamsKeyConstants {
     }
 
     public static class Payment {
-        public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
         public static final String ERROR_INVALID_OBJECT_SUBTYPE = "error.asset.payment.invalidObjectSubtypeCode";
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
@@ -107,7 +101,6 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_STATE_ZIP_CODE = "error.invalid.state.zip.code";
         public static final String ERROR_INVALID_ZIP_CODE = "error.invalid.zip.code";
         public static final String ERROR_LOCATION_INFO_REQUIRED = "error.location.info.required";
-        public static final String ERROR_ONCAMPUS_CAMPUS_CODE_REQUIRED = "error.oncampus.campus.code.required";
         public static final String ERROR_ONCAMPUS_BUILDING_CODE_REQUIRED = "error.oncampus.building.value.required";
         public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_REQUIRED = "error.oncampus.room.number.required";
         public static final String ERROR_OFFCAMPUS_ADDRESS_REQUIRED = "error.offcampus.address.required";
@@ -153,7 +146,6 @@ public class CamsKeyConstants {
         public static final String ERROR_CAMPUS_CODE_REQUIRED = "error.asset.location.campus.code.required";
         public static final String ERROR_BUILDING_CODE_REQUIRED = "error.asset.location.building.code.required";
         public static final String ERROR_ROOM_NUMBER_REQUIRED = "error.asset.location.room.number.required";
-        public static final String ERROR_TAG_NUMBER_REQUIRED = "error.asset.location.tag.number.required";
     }
 
     public static class BarcodeInventory {
@@ -202,8 +194,7 @@ public class CamsKeyConstants {
         public static final String ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN = "error.capital.asset.payment.min.limit";
         public static final String ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX = "error.noncapital.asset.payment.max.limit";
         public static final String ERROR_DOCUMENT_POSTING_DATE_REQUIRED = "error.document.posting.date.required";
-        public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";
-        public static final String ERROR_INVALID_POSTING_DATE_USED_FOR_OBJECT_CODE = "error.invalid.posting.date.used.for.object.code";
+        public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";        
         public static final String ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE = "error.invalid.fin.object.sub.type.code";
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED = "error.expenditure.financial.document.number.required";
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED = "error.expenditure.financial.document.type.code.required";

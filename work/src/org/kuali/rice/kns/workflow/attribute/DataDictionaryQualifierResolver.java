@@ -154,6 +154,9 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
      */
     protected RoutingTypeDefinition getWorkflowAttributeDefintion(DocumentEntry documentEntry, String routeLevelName) {
        final WorkflowAttributes workflowAttributes = documentEntry.getWorkflowAttributes();
+       if ( workflowAttributes == null ) {
+           return null;
+       }
        final Map<String, RoutingTypeDefinition> routingTypeMap = workflowAttributes.getRoutingTypeDefinitions();
        if (routingTypeMap.containsKey(routeLevelName)) return routingTypeMap.get(routeLevelName);
        return null;

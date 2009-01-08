@@ -17,8 +17,10 @@ package org.kuali.kfs.module.cam.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -29,16 +31,20 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This class overrids the base getActionUrls method
  */
 public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLookupableHelperServiceImpl.class);
 
     AssetService assetService;
 
@@ -52,7 +58,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         Asset asset = (Asset) bo;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        
+
         // For retired asset, all action link will be hidden.
         if (assetService.isAssetRetired(asset)) {
             anchorHtmlDataList.add(getViewAssetUrl(asset));
@@ -75,7 +81,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CapitalAssetManagementAsset.class.getName());
 
         String href = UrlFactory.parameterizeUrl(CamsConstants.INQUIRY_URL, parameters);
-        
+
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, CamsConstants.AssetActions.VIEW);
         anchorHtmlData.setTarget("blank");
         return anchorHtmlData;
@@ -88,7 +94,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         parameters.put(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
         parameters.put(CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsConstants.AssetRetirementReasonCode.MERGED);
-        parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE+"::"+CamsConstants.RETIREMENT_REASON_CODE_M);
+        parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + "::" + CamsConstants.RETIREMENT_REASON_CODE_M);
 
         String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
 
@@ -123,14 +129,16 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             childURLDataList.add(childURLData);
 
             anchorHtmlData.setChildUrlDataList(childURLDataList);
-        } else {
+        }
+        else {
             anchorHtmlData = new AnchorHtmlData("", "", "");
             // 
             AnchorHtmlData childURLData = new AnchorHtmlData("", "", "");
             if (asset.getCampusTagNumber() == null) {
                 childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN);
                 childURLDataList.add(childURLData);
-            } else {
+            }
+            else {
                 parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN);
                 String childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
                 childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN);
@@ -154,7 +162,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
     }
-    
+
     protected Properties getSeparateParameters(Asset asset) {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
@@ -185,5 +193,76 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
     }
+
+    /**
+     * Generates the list of search results on campusTagNumber that meet the string range search criteria.
+     * @param fieldValues the field values of the query to carry out
+     * @return List the search results returned by the lookup
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        boolean stringRangeCriteria = false;
+        
+        String searchTagNumber = fieldValues.get(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
+        
+        // the following "if" statement is modified from rice/kns/src/main/java/org/kuali/core/dao/ojb/LookupDaoOjb.java addCriteria() addStringRangeCriteria()
+        if (StringUtils.isNotBlank(searchTagNumber) && (StringUtils.contains(searchTagNumber, "..") || StringUtils.contains(searchTagNumber, ">") || StringUtils.contains(searchTagNumber, "<") || StringUtils.contains(searchTagNumber, ">=") || StringUtils.contains(searchTagNumber, "<="))) {
+            stringRangeCriteria = true;
+            fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, null);
+        }
+        
+        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+        if (searchResults == null || searchResults.isEmpty() || StringUtils.isBlank(searchTagNumber) || !stringRangeCriteria) {
+            return searchResults;
+        }
+
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Asset.class);
+        Long matchingResultsCount = null;
+        List<Asset> newList = new ArrayList<Asset>();
+        for (BusinessObject businessObject : searchResults) {
+            Asset asset = (Asset) businessObject;
+            if (ObjectUtils.isNotNull(asset) && isInStringRangeCriteria(searchTagNumber, asset.getCampusTagNumber())) {
+                newList.add(asset);
+            }
+        }
+
+        matchingResultsCount = Long.valueOf(newList.size());
+
+        return new CollectionIncomplete(newList, matchingResultsCount);
+    }
+
+    /**
+     * This method flags if the checked value is within the search criteria
+     * 
+     * @param String searchTagNumber
+     * @param String checkValue
+     * @return boolean isInStringRangeCriteria
+     */
+    private boolean isInStringRangeCriteria(String searchTagNumber, String checkValue) {
+        boolean isInStringRangeCriteria = false;
+
+        if (StringUtils.contains(searchTagNumber, "..")) { 
+            String[] rangeValues = StringUtils.split(searchTagNumber, ".."); 
+            if (rangeValues[0].compareTo(checkValue) <= 0 && rangeValues[1].compareTo(checkValue) >= 0) 
+                isInStringRangeCriteria = true; 
+        } else if (searchTagNumber.startsWith(">=")) {
+            if (searchTagNumber.substring(2).compareTo(checkValue) <= 0) {
+                isInStringRangeCriteria = true;
+            }
+        } else if (searchTagNumber.startsWith("<=")) {
+            if (searchTagNumber.substring(2).compareTo(checkValue) >= 0)
+                isInStringRangeCriteria = true;
+        }else if (searchTagNumber.startsWith(">")) {
+            if (searchTagNumber.substring(1).compareTo(checkValue) < 0)
+                isInStringRangeCriteria = true;
+        } else if (searchTagNumber.startsWith("<")) {
+            if (searchTagNumber.substring(1).compareTo(checkValue) > 0)
+                        isInStringRangeCriteria = true;
+        }
+
+        return isInStringRangeCriteria;
+    }
+
 
 }

@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountGlobalMaintenanceDocument" parent="AccountGlobalMaintenanceDocument-parentBean" />
 
@@ -63,9 +66,6 @@
         <value>../scripts/kfs/objectInfo.js</value>
       </list>
     </property>
-    <property name="workflowProperties" >
-      <ref bean="AccountGlobalMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -77,6 +77,9 @@
           </property>
         </bean>
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="AccountGlobalMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -201,26 +204,116 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
+	<!-- workflow attributes -->
+  	<bean id="AccountGlobalMaintenanceDocument-workflowAttributes" parent="AccountGlobalMaintenanceDocument-workflowAttributes-parentBean" />
+  
+	<bean id="AccountGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="routingTypeDefinitions">
+    		<map>
+	    		<entry key="Chart" value-ref="AccountGlobalMaintenanceDocument-RoutingType-Chart" />
+    			<entry key="OrganizationHierarchy" value-ref="AccountGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+    		</map>
+		</property>
+	</bean>
+	
+	<bean id="AccountGlobalMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
+    	<property name="attributeName" value="chartOfAccountsCode" />
+	</bean>
+	
+	<bean id="AccountGlobalMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
+    	<property name="attributeName" value="organizationCode" />
+	</bean>
+	
+	<bean id="AccountGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="AccountGlobalMaintenanceDocument-DocumentCollectionPath-chartAndOrganization">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails" />
+    		</bean>
+    	</property>
+   	</bean>
+   	
+   	 <bean id="AccountGlobalMaintenanceDocument-DocumentCollectionPath-chartAndOrganization" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   			<value>account.organizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="AccountGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="AccountGlobalMaintenanceDocument-DocumentCollectionPath-chart">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails" />
+    		</bean>
+    	</property>
+   	</bean>
+   	
+   	 <bean id="AccountGlobalMaintenanceDocument-DocumentCollectionPath-chart" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="AccountGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountGlobalMaintenanceDocument-RoutingAttribute-Chart" />
+    			<ref bean="AccountGlobalMaintenanceDocument-RoutingAttribute-Organization" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" />
+    		</list>
+    	</property>
+    </bean>
+   	
+	<bean id="AccountGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountGlobalMaintenanceDocument-RoutingAttribute-Chart" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" />
+    		</list>
+    	</property>
+    </bean>
+	
 
 
-  <bean id="AccountGlobalMaintenanceDocument-workflowProperties" parent="AccountGlobalMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="AccountGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.accountGlobalDetails" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<!-- workflow attributes 
+  	<bean id="AccountGlobalMaintenanceDocument-workflowAttributes" parent="AccountGlobalMaintenanceDocument-workflowAttributes-parentBean" />
+  
+	<dd:workflowAttributes id="AccountGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true">
+		<dd:routingType nodeName="OrganizationHierarchy">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Organization" attributeName="organizationCode" />
+        	</dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+        		<dd:documentCollectionPath path="newMaintainableObject.businessObject.accountGlobalDetails">
+	            	<dd:documentValue path="chartOfAccountsCode"/>
+    	            <dd:documentValue path="account.organizationCode"/>
+    	        </dd:documentCollectionPath>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+		<dd:routingType nodeName="Chart">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+	        </dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+        		<dd:documentCollectionPath path="newMaintainableObject.businessObject.accountGlobalDetails">
+	            	<dd:documentValue path="chartOfAccountsCode"/>
+    	        </dd:documentCollectionPath>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+	</dd:workflowAttributes> -->
 </beans>
 

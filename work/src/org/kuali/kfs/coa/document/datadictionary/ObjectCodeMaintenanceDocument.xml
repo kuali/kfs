@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="ObjectCodeMaintenanceDocument" parent="ObjectCodeMaintenanceDocument-parentBean" />
 
@@ -61,9 +64,6 @@
         <value>../scripts/kfs/objectInfo.js</value>
       </list>
     </property>
-    <property name="workflowProperties" >
-      <ref bean="ObjectCodeMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -75,6 +75,9 @@
           </property>
         </bean>
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="ObjectCodeMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -139,23 +142,74 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
+	<!-- workflow attributes -->
+  	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes" parent="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+	<property name="routingTypeDefinitions">
+    		
+    		<map>
+    			<entry key="OrganizationHierarchy" value-ref="ObjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+    		</map>
+    	
+		</property>
+	</bean>
+	
+	<bean id="ObjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
+    	<property name="attributeName" value="chartOfAccountsCode" />
+	</bean>
+	
+	<bean id="ObjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
+    	<property name="attributeName" value="organizationCode" />
+	</bean>
+	
+	
+	<bean id="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>initiatorChartOfAccountsCode</value>
+    			<value>initiatorOrganizationCode</value>
+    		</list>
+    	</property>
+   	</bean>
+   	
+   	<bean id="ObjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="ObjectCodeMaintenanceDocument-RoutingAttribute-Chart" />
+    			<ref bean="ObjectCodeMaintenanceDocument-RoutingAttribute-Organization" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" />
+    		</list>
+    	</property>
+    </bean>
 
-
-  <bean id="ObjectCodeMaintenanceDocument-workflowProperties" parent="ObjectCodeMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="ObjectCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<!-- workflow attributes 
+  	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes" parent="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  
+	<dd:workflowAttributes id="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" abstract="true">
+		<dd:routingType nodeName="OrganizationHierarchy">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Organization" attributeName="organizationCode" />
+        	</dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.initiatorChartOfAccountsCode"/>
+                <dd:documentValue path="newMaintainableObject.initiatorOrganizationCode"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+		<dd:routingType nodeName="Chart">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+	        </dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+	</dd:workflowAttributes> -->
 </beans>

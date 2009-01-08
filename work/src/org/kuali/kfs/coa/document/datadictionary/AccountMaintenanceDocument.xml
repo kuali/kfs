@@ -2,9 +2,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
     xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean" />
 
@@ -67,7 +68,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <value>../scripts/chart/accountDocument.js</value>
       </list>
     </property>
-    <property name="workflowProperties" ref="AccountMaintenanceDocument-workflowProperties" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition"
@@ -79,6 +79,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           </property>
         </bean>
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="AccountDelegateMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -200,17 +203,66 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="AccountMaintenanceDocument-workflowProperties" parent="AccountMaintenanceDocument-workflowProperties-parentBean" />
-
-  <dd:workflow id="AccountMaintenanceDocument-workflowProperties-parentBean" abstract="true">
-    <dd:group>
-        <dd:path path="newMaintainableObject.businessObject" />
-        <dd:path path="oldMaintainableObject.businessObject" />
-    </dd:group>    
-  </dd:workflow> 
+	<!-- workflow attributes -->
+  	<bean id="AccountDelegateMaintenanceDocument-workflowAttributes" parent="AccountDelegateMaintenanceDocument-workflowAttributes-parentBean" />
   
+	<dd:workflowAttributes id="AccountDelegateMaintenanceDocument-workflowAttributes-parentBean" abstract="true">
+		<dd:routingType nodeName="AccountSupervisor">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
+	        </dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
+            	<dd:documentValue path="newMaintainableObject.businessObject.accountNumber"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+		<dd:routingType nodeName="Account">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
+	        </dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
+            	<dd:documentValue path="newMaintainableObject.businessObject.accountNumber"/>
+            	<dd:documentValue path="oldMaintainableObject.businessObject.chartOfAccountsCode"/>
+            	<dd:documentValue path="oldMaintainableObject.businessObject.accountNumber"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+		<dd:routingType nodeName="OrganizationHierarchy">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Organization" attributeName="organizationCode" />
+        	</dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
+                <dd:documentValue path="newMaintainableObject.businessObject.account.organizationCode"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+		<dd:routingType nodeName="Chart">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
+        	</dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+		<dd:routingType nodeName="SubFund">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.SubFundGroup" attributeName="subFundGroupCode" />
+        	</dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.businessObject.subFundGroupCode"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+		<dd:routingType nodeName="Award">
+			<dd:routingAttributes>
+            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="contractsAndGrantsAccountResponsibilityId" />
+        	</dd:routingAttributes>
+        	<dd:documentValuePathGroup>
+            	<dd:documentValue path="newMaintainableObject.businessObject.contractsAndGrantsAccountResponsibilityId"/>
+	        </dd:documentValuePathGroup>
+		</dd:routingType>
+	</dd:workflowAttributes>  
 </beans>
 

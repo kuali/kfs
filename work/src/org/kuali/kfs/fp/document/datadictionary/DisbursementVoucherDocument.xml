@@ -441,6 +441,84 @@
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
     			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail" />
+    						<property name="attributeName" value="disbVchrPayeeIdNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>dvPayeeDetail.disbVchrPayeeIdNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail" />
+    						<property name="attributeName" value="disbVchrPayeePersonName" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>dvPayeeDetail.disbVchrPayeePersonName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail" />
+    						<property name="attributeName" value="disbVchrPaymentReasonCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>dvPayeeDetail.disbVchrPaymentReasonCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
+    						<property name="attributeName" value="extractDate" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>extractDate</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
+    						<property name="attributeName" value="paidDate" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paidDate</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
+    						<property name="attributeName" value="cancelDate" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>cancelDate</value>
+    					</list>
+    				</property>
+    			</bean>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">

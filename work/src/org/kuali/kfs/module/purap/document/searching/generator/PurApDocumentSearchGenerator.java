@@ -31,8 +31,6 @@ import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
 import org.kuali.rice.kew.exception.WorkflowServiceError;
-import org.kuali.rice.kew.user.WorkflowUser;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
 /**
@@ -72,16 +70,9 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
 
     public abstract String getErrorMessageForNonSpecialUserInvalidCriteria();
 
-    public boolean isSpecialAccessSearchUser(WorkflowUser workflowUser) {
+    public boolean isSpecialAccessSearchUser(String principalId) {
         String searchSpecialAccess = getSpecialAccessSearchUserWorkgroupName();
-        Person currentUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(workflowUser.getWorkflowId());
-        if (currentUser != null) {
-            return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, searchSpecialAccess);
-        } else {
-            String errorMessage = "Error attempting to find user with UUID '" + workflowUser.getUuId() + "'";
-            LOG.error(errorMessage);
-            throw new RuntimeException(errorMessage);
-        }
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(principalId, org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, searchSpecialAccess);
     }
 
     public String getSpecialAccessSearchUserWorkgroupName() {
@@ -103,10 +94,10 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
      *      org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO)
      */
     @Override
-    public List<WorkflowServiceError> performPreSearchConditions(WorkflowUser user, DocSearchCriteriaDTO searchCriteria) {
+    public List<WorkflowServiceError> performPreSearchConditions(String principalId, DocSearchCriteriaDTO searchCriteria) {
         this.setCriteria(searchCriteria);
         this.generateSearchComponentsByFormKeyMap();
-        List<WorkflowServiceError> errors = super.performPreSearchConditions(user, searchCriteria);
+        List<WorkflowServiceError> errors = super.performPreSearchConditions(principalId, searchCriteria);
         if (isStandardCriteriaConsideredEmpty() && isSearchAttributeCriteriaConsideredEmpty()) {
             // error out for empty criteria
             addErrorMessageToList(errors, "The search criteria entered is not sufficient to search for documents of this type.");
@@ -116,7 +107,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
          * least one 'specific criteria element' (ie: doc id or purap id) 3) user is not special-access user as defined by each
          * document 4) criteria is missing one or more required criteria elements of a non-special-access user search
          */
-        else if ((isStandardCriteriaConsideredEmpty()) && (!isSpecialAccessSearchUser(user)) && (!containsAllGeneralSearchUserRequiredFields()) && (!containsOneOrMoreSpecificSearchCriteriaFields())) {
+        else if ((isStandardCriteriaConsideredEmpty()) && (!isSpecialAccessSearchUser(principalId)) && (!containsAllGeneralSearchUserRequiredFields()) && (!containsOneOrMoreSpecificSearchCriteriaFields())) {
             // error out for non special user with invalid criteria
             addErrorMessageToList(errors, getErrorMessageForNonSpecialUserInvalidCriteria());
         }

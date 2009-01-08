@@ -838,7 +838,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // next, call the complete method in the document service
         // WorkflowDocumentService interface has a complete method, but its Kuali counterpart does not
         // so, we mimic the workflow call here.  complete should be added to Kuali 
-        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorUser(), "created by Genesis");
+        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorPrincipal(), "created by Genesis");
         action.recordAction();
         // there was no need to queue.  we want to mark the document final and save it 
         ourWorkflowDoc.markDocumentEnroute();

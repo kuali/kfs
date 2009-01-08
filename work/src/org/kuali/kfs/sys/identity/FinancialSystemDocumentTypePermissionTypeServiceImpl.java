@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.identity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,19 +37,35 @@ import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
 public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends DocumentTypePermissionTypeServiceImpl {
 
     private RoleService roleService;
+
+    /**
+     * @see org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)
+     */
+    @Override
+    public List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails,
+            List<KimPermissionInfo> permissionsList) {
+        String documentTypeName = requestedDetails.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+        // loop over the permissions, checking the non-document-related ones
+        for ( KimPermissionInfo kpi : permissionsList ) {
+            // special handling when the permission is "Claim Electronic Payment"
+            // if it is present and matches, then it takes priority
+            if(KFSConstants.SysKimConstants.CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME.equals(kpi.getTemplate().getName())){
+                String qualifierDocumentTypeName = kpi.getDetails().get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+                if ( documentTypeName==null && qualifierDocumentTypeName==null || 
+                        (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 
+                                && documentTypeName.equals(qualifierDocumentTypeName))
     
-    public boolean performPermissionMatch(AttributeSet requestedDetails, KimPermissionInfo permission) {
-        if(KFSConstants.SysKimConstants.CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME.equals(permission.getTemplate().getName())){
-            String documentTypeName = requestedDetails.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
-            String qualifierDocumentTypeName = permission.getDetails().get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
-            if(documentTypeName==null && qualifierDocumentTypeName==null || 
-                    (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 
-                            && documentTypeName.equals(qualifierDocumentTypeName))){
-                return true;
+                        ) {
+                    List<KimPermissionInfo> matchingPermissions = new ArrayList<KimPermissionInfo>();
+                    matchingPermissions.add( kpi );
+                    return matchingPermissions;
+                }           
             }
-        } 
-        return super.performPermissionMatch(requestedDetails, permission);
+        }
+        // now, filter the list to just those for the current document
+        return super.performPermissionMatches( requestedDetails, permissionsList );
     }
+    
 	
     /**
      * @return the RoleService

@@ -21,73 +21,14 @@ import java.util.List;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.impl.NamespacePermissionTypeServiceImpl;
 import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
 
 @ConfigureContext
 public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
-
-    
-    public void testPerformMatch_exact() {
-        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
-        
-        AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
-        
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
-        
-        assertTrue( "Exact match should have passed", srv.performMatch(requestedDetails, permissionDetails) );
-    }
-
-    public void testPerformMatch_parent() {
-        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
-        
-        AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
-        
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "PurchasingTransactionalDocument" );
-        
-        assertTrue( "Parent match should have passed", srv.performMatch(requestedDetails, permissionDetails) );
-    }
-
-    public void testPerformMatch_top_parent() {
-        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
-        
-        AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
-        
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "KualiDocument" );
-        
-        assertTrue( "Top Level Parent match should have passed", srv.performMatch(requestedDetails, permissionDetails) );
-    }
-
-    public void testPerformMatch_mismatch() {
-        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
-        
-        AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
-        
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "FinancialProcessingTransactionalDocument" );
-        
-        assertFalse( "Parent match should have failed", srv.performMatch(requestedDetails, permissionDetails) );
-    }
-
-    public void testPerformMatch_star() {
-        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
-        
-        AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
-        
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "*" );
-        
-        assertTrue( "Star (*) match should have passed", srv.performMatch(requestedDetails, permissionDetails) );
-    }
 
     public void testPerformMatches_exact() {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
@@ -95,50 +36,107 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         AttributeSet requestedDetails = new AttributeSet();
         requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
         
-        List<KimPermissionInfo> permissions = new ArrayList<KimPermissionInfo>();
-        KimPermissionInfo kpi = new KimPermissionInfo();
-        kpi.setDetails( new AttributeSet() );
-        kpi.getDetails().put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument");
-        permissions.add(kpi);
+        List<KimPermissionInfo> permissions = 
+            buildPermissionlist( new String[] {"RequisitionDocument"} );
         
         List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
         assertEquals( "Wrong number of matches", 1, results.size() );
+        assertDocInList( results, "RequisitionDocument" );
     }
 
-    public void testPerformMatches_list() {
+    public void testPerformMatches_fulllist() {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
         
         AttributeSet requestedDetails = new AttributeSet();
         requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
         
-        List<KimPermissionInfo> permissions = new ArrayList<KimPermissionInfo>();
-        KimPermissionInfo kpi = new KimPermissionInfo();
-        kpi.setDetails( new AttributeSet() );
-        kpi.getDetails().put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument");
-        permissions.add(kpi);
-        kpi = new KimPermissionInfo();
-        kpi.setDetails( new AttributeSet() );
-        kpi.getDetails().put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "PurchasingTransactionalDocument");
-        permissions.add(kpi);
-        kpi = new KimPermissionInfo();
-        kpi.setDetails( new AttributeSet() );
-        kpi.getDetails().put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "FinancialProcessingTransactionalDocument");
-        permissions.add(kpi);
-        kpi = new KimPermissionInfo();
-        kpi.setDetails( new AttributeSet() );
-        kpi.getDetails().put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "KualiDocument");
-        permissions.add(kpi);
-        kpi = new KimPermissionInfo();
-        kpi.setDetails( new AttributeSet() );
-        kpi.getDetails().put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "*");
-        permissions.add(kpi);
+        List<KimPermissionInfo> permissions = 
+            buildPermissionlist( new String[] {"RequisitionDocument","PurchasingTransactionalDocument","FinancialProcessingTransactionalDocument","KualiDocument","*"} );
         
         List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
-        assertEquals( "Wrong number of matches", 4, results.size() );
+        for ( KimPermissionInfo info : results ) {
+            System.out.println( info );
+        }
+        assertEquals( "Wrong number of matches", 1, results.size() );
         assertDocInList( results, "RequisitionDocument" );
+    }
+
+    public void testPerformMatches_parentlist() {
+        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
+        
+        AttributeSet requestedDetails = new AttributeSet();
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        
+        List<KimPermissionInfo> permissions = 
+            buildPermissionlist( new String[] {"PurchasingTransactionalDocument","FinancialProcessingTransactionalDocument","KualiDocument","*"} );
+        
+        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        for ( KimPermissionInfo info : results ) {
+            System.out.println( info );
+        }
+        assertEquals( "Wrong number of matches", 1, results.size() );
         assertDocInList( results, "PurchasingTransactionalDocument" );
+    }
+
+    public void testPerformMatches_parentlist_2() {
+        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
+        
+        AttributeSet requestedDetails = new AttributeSet();
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        
+        List<KimPermissionInfo> permissions = 
+            buildPermissionlist( new String[] {"KualiDocument","*"} );
+        
+        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        for ( KimPermissionInfo info : results ) {
+            System.out.println( info );
+        }
+        assertEquals( "Wrong number of matches", 1, results.size() );
         assertDocInList( results, "KualiDocument" );
+    }
+
+    public void testPerformMatches_starlist() {
+        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
+        
+        AttributeSet requestedDetails = new AttributeSet();
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        
+        List<KimPermissionInfo> permissions = 
+            buildPermissionlist( new String[] {"FinancialProcessingTransactionalDocument","*"} );
+        
+        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        for ( KimPermissionInfo info : results ) {
+            System.out.println( info );
+        }
+        assertEquals( "Wrong number of matches", 1, results.size() );
         assertDocInList( results, "*" );
+    }
+
+    public void testPerformMatches_list_nomatch() {
+        DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
+        
+        AttributeSet requestedDetails = new AttributeSet();
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        
+        List<KimPermissionInfo> permissions = 
+            buildPermissionlist( new String[] {"FinancialProcessingTransactionalDocument"} );
+        
+        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        for ( KimPermissionInfo info : results ) {
+            System.out.println( info );
+        }
+        assertEquals( "Wrong number of matches", 0, results.size() );
+    }
+    
+    private List<KimPermissionInfo> buildPermissionlist( String[] docTypeNames ) {
+        List<KimPermissionInfo> permissions = new ArrayList<KimPermissionInfo>();
+        for ( String docTypeName : docTypeNames ) {
+            KimPermissionInfo kpi = new KimPermissionInfo();
+            kpi.setDetails( new AttributeSet() );
+            kpi.getDetails().put(KfsKimAttributes.DOCUMENT_TYPE_NAME, docTypeName );
+            permissions.add(kpi);
+        }
+        return permissions;
     }
     
     private void assertDocInList( List<KimPermissionInfo> permissions, String docTypeName ) {

@@ -1220,7 +1220,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
 
-        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorUser(), "created by application UI");
+        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorPrincipal(), "created by application UI");
         action.recordAction();
 
         // there was no need to queue. we want to mark the document final and save it

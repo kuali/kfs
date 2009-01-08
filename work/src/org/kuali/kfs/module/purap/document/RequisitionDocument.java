@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -44,11 +43,9 @@ import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -60,7 +57,7 @@ import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -70,8 +67,6 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
@@ -141,8 +136,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, PurapConstants.PURAP_NAMESPACE);
-        this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
-        this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+        if (ObjectUtils.isNotNull(purapChartOrg)) {
+            this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+            this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+        }
         this.setDeliveryCampusCode(currentUser.getCampusCode());
         this.setRequestorPersonName(currentUser.getName());
         this.setRequestorPersonEmailAddress(currentUser.getEmailAddress());
@@ -221,8 +218,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
 
         // Set fields from the user.
-        this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
-        this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+        if (ObjectUtils.isNotNull(purapChartOrg)) {
+            this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+            this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+        }
         this.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
         boolean activeVendor = true;
@@ -594,5 +593,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public Class getPurchasingCapitalAssetSystemClass() {
         return RequisitionCapitalAssetSystem.class;
     }
+
 }
 

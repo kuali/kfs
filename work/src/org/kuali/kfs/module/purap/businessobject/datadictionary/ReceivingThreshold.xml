@@ -88,7 +88,7 @@
   
   <bean id="ReceivingThreshold-accountTypeCode" parent="ReceivingThreshold-accountTypeCode-parentBean" />
 
-  <bean id="ReceivingThreshold-accountTypeCode-parentBean" abstract="true" parent="AcctType-accountTypeCode">
+  <bean id="ReceivingThreshold-accountTypeCode-parentBean" abstract="true" parent="AccountType-accountTypeCode">
 	  <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder"

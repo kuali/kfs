@@ -85,7 +85,7 @@
   </bean>
   <bean id="GECTargetAccountingLine-balanceTypeCode" parent="GECTargetAccountingLine-balanceTypeCode-parentBean" />
 
-  <bean id="GECTargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="GECTargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="required" value="false" />
   </bean>

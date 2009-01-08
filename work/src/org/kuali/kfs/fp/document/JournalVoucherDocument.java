@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.fp.businessobject.JournalVoucherAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
@@ -58,7 +58,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
 
     // document specific attributes
     private String balanceTypeCode; // balanceType key
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private java.sql.Date reversalDate;
 
     /**
@@ -66,7 +66,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      */
     public JournalVoucherDocument() {
         super();
-        this.balanceType = new BalanceTyp();
+        this.balanceType = new BalanceType();
     }
 
     /**
@@ -93,7 +93,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * 
      * @return BalanceTyp
      */
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
@@ -104,7 +104,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @deprecated
      */
     @Deprecated
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

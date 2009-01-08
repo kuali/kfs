@@ -48,7 +48,7 @@ import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleB
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
@@ -157,7 +157,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
 
         // check the selected balance type
         jvDoc.refreshReferenceObject(BALANCE_TYPE);
-        BalanceTyp balanceType = jvDoc.getBalanceType();
+        BalanceType balanceType = jvDoc.getBalanceType();
         valid &= accountingDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class, BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE);
 
         // check the selected accounting period
@@ -344,7 +344,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      */
     protected boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
         // make sure that the line contains a proper balance type like it should
-        BalanceTyp balanceType = accountingLine.getBalanceTyp();
+        BalanceType balanceType = accountingLine.getBalanceTyp();
         AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
         if (!accountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
             return false;

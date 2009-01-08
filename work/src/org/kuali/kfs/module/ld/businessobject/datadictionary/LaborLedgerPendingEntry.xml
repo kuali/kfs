@@ -96,7 +96,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-financialBalanceTypeCode" parent="LaborLedgerPendingEntry-financialBalanceTypeCode-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="LaborLedgerPendingEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
   </bean>
   <bean id="LaborLedgerPendingEntry-documentNumber" parent="LaborLedgerPendingEntry-documentNumber-parentBean" />

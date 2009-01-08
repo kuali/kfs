@@ -19,7 +19,7 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -64,7 +64,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private ObjectType objectType;
 
     /**
@@ -622,7 +622,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * 
      * @return Returns the balanceType.
      */
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
@@ -631,7 +631,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * 
      * @param balanceType The balanceType to set.
      */
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

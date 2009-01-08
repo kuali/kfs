@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -84,7 +84,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private SubAccount subAccount;
     private SubObjectCode subObjectCode;
     private ProjectCode project;
-    private BalanceTyp balanceTyp;
+    private BalanceType balanceTyp;
     private OriginationCode referenceOrigin;
     private DocumentType referenceType;
     private SalesTax salesTax;
@@ -102,7 +102,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         project = new ProjectCode();
         postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         objectCode.setUniversityFiscalYear(postingYear);
-        balanceTyp = new BalanceTyp();
+        balanceTyp = new BalanceType();
         // salesTax = new SalesTax();
         salesTaxRequired = false;
     }
@@ -162,7 +162,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the balanceTyp.
      */
-    public BalanceTyp getBalanceTyp() {
+    public BalanceType getBalanceTyp() {
         return balanceTyp;
     }
 
@@ -170,7 +170,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param balanceTyp The balanceTyp to set.
      * @deprecated
      */
-    public void setBalanceTyp(BalanceTyp balanceTyp) {
+    public void setBalanceTyp(BalanceType balanceTyp) {
         this.balanceTyp = balanceTyp;
     }
 

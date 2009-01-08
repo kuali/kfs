@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
@@ -132,7 +132,7 @@ public class JournalVoucherAction extends VoucherAction {
      */
     private void populateBalanceTypeOneDocument(JournalVoucherForm journalVoucherForm) {
         String selectedBalanceTypeCode = journalVoucherForm.getSelectedBalanceType().getCode();
-        BalanceTyp selectedBalanceType = getPopulatedBalanceTypeInstance(selectedBalanceTypeCode);
+        BalanceType selectedBalanceType = getPopulatedBalanceTypeInstance(selectedBalanceTypeCode);
         journalVoucherForm.getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
         journalVoucherForm.getJournalVoucherDocument().setBalanceType(selectedBalanceType); // set the fully populated balance type
         // object into the form's selected
@@ -221,8 +221,8 @@ public class JournalVoucherAction extends VoucherAction {
         int balanceTypeAmountChangeMode = NO_MODE_CHANGE;
 
         // retrieve fully populated balance type instances
-        BalanceTyp origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
-        BalanceTyp newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
+        BalanceType origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
+        BalanceType newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
 
         // figure out which ways we are switching the modes first deal with amount changes
         if (origBalType.isFinancialOffsetGenerationIndicator() && !newBalType.isFinancialOffsetGenerationIndicator()) { // credit/debit
@@ -247,8 +247,8 @@ public class JournalVoucherAction extends VoucherAction {
         int balanceTypeExternalEncumbranceChangeMode = NO_MODE_CHANGE;
 
         // retrieve fully populated balance type instances
-        BalanceTyp origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
-        BalanceTyp newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
+        BalanceType origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
+        BalanceType newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
 
         // then deal with external encumbrance changes
         if (origBalType.getCode().equals(KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE) && !newBalType.getCode().equals(KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
@@ -292,7 +292,7 @@ public class JournalVoucherAction extends VoucherAction {
                 String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
                 if ((KFSConstants.JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                     // if no button clicked keep the old value and reload doc
-                    BalanceTyp origBalType = getPopulatedBalanceTypeInstance(jvForm.getOriginalBalanceType());
+                    BalanceType origBalType = getPopulatedBalanceTypeInstance(jvForm.getOriginalBalanceType());
                     jvForm.setSelectedBalanceType(origBalType);
                     jvDoc.setBalanceType(origBalType);
                     jvDoc.setBalanceTypeCode(origBalType.getCode());
@@ -353,8 +353,8 @@ public class JournalVoucherAction extends VoucherAction {
         }
 
         // retrieve fully populated balance type instances
-        BalanceTyp origBalType = getPopulatedBalanceTypeInstance(jvForm.getOriginalBalanceType());
-        BalanceTyp newBalType = getPopulatedBalanceTypeInstance(jvForm.getSelectedBalanceType().getCode());
+        BalanceType origBalType = getPopulatedBalanceTypeInstance(jvForm.getOriginalBalanceType());
+        BalanceType newBalType = getPopulatedBalanceTypeInstance(jvForm.getSelectedBalanceType().getCode());
 
         // now complete building of the message
         String replacement = "\"" + origBalType.getCode() + "-" + origBalType.getName() + "\"";
@@ -373,7 +373,7 @@ public class JournalVoucherAction extends VoucherAction {
      * @param balanceTypeCode
      * @return BalanceTyp
      */
-    protected BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
+    protected BalanceType getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
         return SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode);
     }

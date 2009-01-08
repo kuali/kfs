@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -62,13 +62,13 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
     /**
      * @return Returns the balanceTyp.
      */
-    public BalanceTyp getBalanceTyp();
+    public BalanceType getBalanceTyp();
 
     /**
      * @param balanceTyp The balanceTyp to set.
      * @deprecated
      */
-    public void setBalanceTyp(BalanceTyp balanceTyp);
+    public void setBalanceTyp(BalanceType balanceTyp);
 
     /**
      * @param objectCode The objectCode to set.

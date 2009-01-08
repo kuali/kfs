@@ -78,7 +78,7 @@
   </bean>
   <bean id="Encumbrance-balanceTypeCode" parent="Encumbrance-balanceTypeCode-parentBean" />
 
-  <bean id="Encumbrance-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-financialBalanceTypeShortNm">
+  <bean id="Encumbrance-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-financialBalanceTypeShortNm">
     <property name="name" value="balanceTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Balance Type" />

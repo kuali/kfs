@@ -122,7 +122,7 @@
   </bean>
   <bean id="CollectorDetail-financialBalanceTypeCode" parent="CollectorDetail-financialBalanceTypeCode-parentBean" />
 
-  <bean id="CollectorDetail-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="CollectorDetail-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

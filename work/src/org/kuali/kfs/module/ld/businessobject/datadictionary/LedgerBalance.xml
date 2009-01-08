@@ -202,7 +202,7 @@
   </bean>
   <bean id="LedgerBalance-financialBalanceTypeCode" parent="LedgerBalance-financialBalanceTypeCode-parentBean" />
 
-  <bean id="LedgerBalance-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="LedgerBalance-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="control" >
       <bean parent="RadioControlDefinition"

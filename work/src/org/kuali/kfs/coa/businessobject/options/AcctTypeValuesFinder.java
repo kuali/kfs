@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.AcctType;
+import org.kuali.kfs.coa.businessobject.AccountType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -39,7 +39,7 @@ public class AcctTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        List<AcctType> codes = (List<AcctType>) SpringContext.getBean(KeyValuesService.class).findAll(AcctType.class);
+        List<AccountType> codes = (List<AccountType>) SpringContext.getBean(KeyValuesService.class).findAll(AccountType.class);
 
         // sort using comparator.
         Collections.sort(codes, new AccountTypeCodeComparator());
@@ -47,7 +47,7 @@ public class AcctTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
-        for (AcctType acctType : codes) {
+        for (AccountType acctType : codes) {
             if(acctType.isActive()) {
                 labels.add(new KeyLabelPair(acctType.getAccountTypeCode(), acctType.getAccountTypeCode() + " - " + acctType.getAccountTypeName()));
             }

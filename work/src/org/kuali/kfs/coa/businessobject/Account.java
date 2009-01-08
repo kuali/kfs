@@ -109,7 +109,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private Chart chartOfAccounts;
     private Chart endowmentIncomeChartOfAccounts;
     private Organization organization;
-    private AcctType accountType;
+    private AccountType accountType;
     private Campus accountPhysicalCampus;
     private State accountState;
     private SubFundGroup subFundGroup;
@@ -791,7 +791,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the accountType
      */
-    public AcctType getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
     }
 
@@ -801,7 +801,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountType The accountType to set.
      * @deprecated
      */
-    public void setAccountType(AcctType accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 

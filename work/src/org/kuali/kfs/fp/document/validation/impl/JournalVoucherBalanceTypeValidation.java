@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 import static org.kuali.kfs.sys.KFSPropertyConstants.BALANCE_TYPE_CODE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,7 +44,7 @@ public class JournalVoucherBalanceTypeValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         String label = getLabelFromDataDictionary(JournalVoucherDocument.class, KFSPropertyConstants.BALANCE_TYPE_CODE);
         getJournalVoucherForValidation().refreshReferenceObject(KFSPropertyConstants.BALANCE_TYPE);
-        BalanceTyp balanceType = getJournalVoucherForValidation().getBalanceType();
+        BalanceType balanceType = getJournalVoucherForValidation().getBalanceType();
         if (ObjectUtils.isNull(balanceType)) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;

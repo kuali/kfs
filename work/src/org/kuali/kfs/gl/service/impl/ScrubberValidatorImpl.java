@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -878,7 +878,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // balance type IS NOT empty
         String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
         if (StringUtils.hasText(balanceTypeCode)) {
-            BalanceTyp originEntryBalanceType = referenceLookup.get().getBalanceType(originEntry);
+            BalanceType originEntryBalanceType = referenceLookup.get().getBalanceType(originEntry);
             if (originEntryBalanceType == null) {
                 // balance type IS NOT valid
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND, " (" + balanceTypeCode + ")", Message.TYPE_FATAL);
@@ -1047,7 +1047,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
-        BalanceTyp workingEntryBalanceType = referenceLookup.get().getBalanceType(workingEntry);
+        BalanceType workingEntryBalanceType = referenceLookup.get().getBalanceType(workingEntry);
 
         ObjectType workingEntryObjectType = referenceLookup.get().getObjectType(workingEntry);
 
@@ -1082,7 +1082,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateTransactionAmount() started");
 
         KualiDecimal amount = originEntry.getTransactionLedgerEntryAmount();
-        BalanceTyp originEntryBalanceType = referenceLookup.get().getBalanceType(originEntry);
+        BalanceType originEntryBalanceType = referenceLookup.get().getBalanceType(originEntry);
 
         if (originEntryBalanceType == null) {
             // We can't validate the amount without a balance type code

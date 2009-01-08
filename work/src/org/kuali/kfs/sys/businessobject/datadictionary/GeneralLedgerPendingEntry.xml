@@ -100,7 +100,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-financialBalanceTypeCode" parent="GeneralLedgerPendingEntry-financialBalanceTypeCode-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="GeneralLedgerPendingEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="summary" value="Balance Type" />
     <property name="description" value="Balance type categorizes transactions and balances into Budget, Actual or Encumbrance. There may be various types of each category." />

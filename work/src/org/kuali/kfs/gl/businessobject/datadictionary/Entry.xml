@@ -93,7 +93,7 @@
   </bean>
   <bean id="Entry-financialBalanceTypeCode" parent="Entry-financialBalanceTypeCode-parentBean" />
 
-  <bean id="Entry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="Entry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

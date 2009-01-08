@@ -22,7 +22,7 @@ package org.kuali.kfs.gl.businessobject;
 import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -93,7 +93,7 @@ public interface Transaction {
 
     public ObjectCode getFinancialObject();
 
-    public BalanceTyp getBalanceType();
+    public BalanceType getBalanceType();
 
     public Options getOption();
 

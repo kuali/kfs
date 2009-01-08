@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -74,7 +74,7 @@ public class LaborJournalVoucherExternalEncumbranceValidation extends GenericVal
     private boolean externalEncumbranceSpecificBusinessRulesValid(LaborJournalVoucherDetail laborJournalVoucherDetail) {
         boolean externalEncumbranceValid  = true ;
         
-        BalanceTyp balanceTyp = laborJournalVoucherDetail.getBalanceTyp();
+        BalanceType balanceTyp = laborJournalVoucherDetail.getBalanceTyp();
         AccountingDocumentRuleHelperService journalVoucherRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class) ;
         if (!journalVoucherRuleUtil.isValidBalanceType(balanceTyp, GENERIC_CODE_PROPERTY_NAME)) {
             externalEncumbranceValid = false ;

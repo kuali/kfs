@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -98,7 +98,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
     private ObjectType financialObjectType;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private AccountingPeriod universityFiscalPeriod;
     private AccountingPeriod payrollEndDateFiscalPeriod;
     private DocumentType documentType;
@@ -1050,7 +1050,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
      * 
      * @return Returns the balanceType.
      */
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
@@ -1060,7 +1060,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
      * @param balanceType The balanceType to set.
      */
     @Deprecated
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

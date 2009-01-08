@@ -4,23 +4,23 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AcctType" parent="AcctType-parentBean" />
+  <bean id="AccountType" parent="AccountType-parentBean" />
 
-  <bean id="AcctType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AcctType" />
+  <bean id="AccountType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountType" />
     <property name="inquiryDefinition" >
-      <ref bean="AcctType-inquiryDefinition" />
+      <ref bean="AccountType-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="AcctType-lookupDefinition" />
+      <ref bean="AccountType-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="accountTypeCode" />
     <property name="objectLabel" value="Account Type" />
     <property name="attributes" >
       <list>
-        <ref bean="AcctType-accountTypeCode" />
-        <ref bean="AcctType-accountTypeName" />
-        <ref bean="AcctType-active" />
+        <ref bean="AccountType-accountTypeCode" />
+        <ref bean="AccountType-accountTypeName" />
+        <ref bean="AccountType-active" />
       </list>
     </property>
   </bean>
@@ -28,9 +28,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AcctType-accountTypeCode" parent="AcctType-accountTypeCode-parentBean" />
+  <bean id="AccountType-accountTypeCode" parent="AccountType-accountTypeCode-parentBean" />
 
-  <bean id="AcctType-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccountType-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Account Type Code" />
@@ -46,9 +46,9 @@
             p:size="2" />
     </property>
   </bean>
-  <bean id="AcctType-accountTypeName" parent="AcctType-accountTypeName-parentBean" />
+  <bean id="AccountType-accountTypeName" parent="AccountType-accountTypeName-parentBean" />
 
-  <bean id="AcctType-accountTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccountType-accountTypeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountTypeName" />
     <property name="label" value="Account Type Name" />
     <property name="shortLabel" value="Name" />
@@ -63,9 +63,9 @@
             p:size="50" />
     </property>
   </bean>
-  <bean id="AcctType-active" parent="AcctType-active-parentBean" />
+  <bean id="AccountType-active" parent="AccountType-active-parentBean" />
 
-  <bean id="AcctType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="AccountType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
@@ -73,9 +73,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AcctType-inquiryDefinition" parent="AcctType-inquiryDefinition-parentBean" />
+  <bean id="AccountType-inquiryDefinition" parent="AccountType-inquiryDefinition-parentBean" />
 
-  <bean id="AcctType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="AccountType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Account Type Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -100,9 +100,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AcctType-lookupDefinition" parent="AcctType-lookupDefinition-parentBean" />
+  <bean id="AccountType-lookupDefinition" parent="AccountType-lookupDefinition-parentBean" />
 
-  <bean id="AcctType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="AccountType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Account Type Lookup" />
     <property name="instructions" value="Lookup an Account Type" />
     <property name="defaultSort" >

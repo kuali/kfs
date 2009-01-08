@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -47,7 +47,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     private Account account;
     private SubAccount subAccount;
     private A21SubAccount a21SubAccount;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private Chart chart;
     private ObjectCode financialObject;
     private SubObjectCode financialSubObject;
@@ -201,11 +201,11 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.account = account;
     }
 
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

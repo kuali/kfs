@@ -20,7 +20,7 @@ import java.sql.Date;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -73,7 +73,7 @@ public interface CachingDao {
      * @param entry the origin entry to retrieve the balance type of
      * @return the related balance typ record, or null if not found
      */
-    public BalanceTyp getBalanceType(OriginEntry entry);
+    public BalanceType getBalanceType(OriginEntry entry);
 
     /**
      * Retrieve option for given origin entry

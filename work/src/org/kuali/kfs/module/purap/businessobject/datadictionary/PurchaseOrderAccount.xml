@@ -89,7 +89,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-balanceTypeCode" parent="PurchaseOrderAccount-balanceTypeCode-parentBean" />
 
-  <bean id="PurchaseOrderAccount-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="PurchaseOrderAccount-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="required" value="false" />
   </bean>

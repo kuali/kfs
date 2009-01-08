@@ -23,12 +23,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class AcctType extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountType extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
      */
-    public AcctType() {
+    public AccountType() {
 
     }
 

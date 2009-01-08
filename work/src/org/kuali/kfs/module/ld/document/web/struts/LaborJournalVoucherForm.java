@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ld.document.web.struts;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
@@ -53,7 +53,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
      */
     @Override
     protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
-        BalanceTyp selectedBalanceType = getPopulatedBalanceTypeInstance(getSelectedBalanceType().getCode());
+        BalanceType selectedBalanceType = getPopulatedBalanceTypeInstance(getSelectedBalanceType().getCode());
         if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());

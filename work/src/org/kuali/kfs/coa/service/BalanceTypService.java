@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 
 /**
  * This service interface defines methods necessary for retrieving fully populated BalanceType business objects from the database
@@ -42,7 +42,7 @@ public interface BalanceTypService {
      * @param code The primary key in the database for this data type.
      * @return A fully populated object instance.
      */
-    public BalanceTyp getBalanceTypByCode(String code);
+    public BalanceType getBalanceTypByCode(String code);
 
 
     /**

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.coa.businessobject.AcctType;
+import org.kuali.kfs.coa.businessobject.AccountType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -44,7 +44,7 @@ public class ReceivingThreshold extends PersistableBusinessObjectBase {
     private boolean active;
     
     private Chart chart;
-    private AcctType accountType;
+    private AccountType accountType;
     private SubFundGroup subFundGroup;
     private ObjectCode financialObject;
     private Organization organization;
@@ -73,11 +73,11 @@ public class ReceivingThreshold extends PersistableBusinessObjectBase {
         return returnMap;
     }
 
-    public AcctType getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(AcctType accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 

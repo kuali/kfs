@@ -454,7 +454,7 @@ public interface AccountIntf {
      * 
      * @return Returns the accountType
      */
-    public AcctType getAccountType();
+    public AccountType getAccountType();
 
     /**
      * Sets the accountType attribute.
@@ -462,7 +462,7 @@ public interface AccountIntf {
      * @param accountType The accountType to set.
      * @deprecated
      */
-    public void setAccountType(AcctType accountType);
+    public void setAccountType(AccountType accountType);
 
     /**
      * Gets the accountPhysicalCampus attribute.

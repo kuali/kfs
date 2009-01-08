@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
@@ -67,7 +67,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     private DocumentType documentType;
 
     private ObjectCode financialObject;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private OriginationCode originationCode;
     private Options option;
 
@@ -410,7 +410,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
      * 
      * @return Returns the balanceType.
      */
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
@@ -419,7 +419,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
      * 
      * @param balanceType The balanceType to set.
      */
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

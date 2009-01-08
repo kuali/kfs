@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -76,7 +76,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     // bo references
     private Account account;
     private SubAccount subAccount;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private Chart chart;
     private ObjectCode financialObject;
     private SubObjectCode financialSubObject;
@@ -684,11 +684,11 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         this.accountingPeriod = accountingPeriod;
     }
 
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

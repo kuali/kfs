@@ -62,7 +62,7 @@
   </bean>
   <bean id="OriginEntryFull-financialBalanceTypeCode" parent="OriginEntryFull-financialBalanceTypeCode-parentBean" />
 
-  <bean id="OriginEntryFull-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="OriginEntryFull-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="label" value="Balance Type" />
     <property name="shortLabel" value="BalTyp" />

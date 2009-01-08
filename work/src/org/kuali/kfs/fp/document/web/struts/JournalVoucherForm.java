@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -41,7 +41,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class JournalVoucherForm extends VoucherForm {
     private List balanceTypes;
     private String originalBalanceType;
-    private BalanceTyp selectedBalanceType;
+    private BalanceType selectedBalanceType;
 
     /**
      * Constructs a JournalVoucherForm instance.
@@ -49,7 +49,7 @@ public class JournalVoucherForm extends VoucherForm {
     public JournalVoucherForm() {
         super();
         setDocument(new JournalVoucherDocument());
-        selectedBalanceType = new BalanceTyp(KFSConstants.BALANCE_TYPE_ACTUAL);
+        selectedBalanceType = new BalanceType(KFSConstants.BALANCE_TYPE_ACTUAL);
         originalBalanceType = "";
     }
 
@@ -83,7 +83,7 @@ public class JournalVoucherForm extends VoucherForm {
      * @param sourceLine - line to set code on
      */
     protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
-        BalanceTyp selectedBalanceType = getSelectedBalanceType();
+        BalanceType selectedBalanceType = getSelectedBalanceType();
         if (ObjectUtils.isNotNull(selectedBalanceType) && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
@@ -121,7 +121,7 @@ public class JournalVoucherForm extends VoucherForm {
      * 
      * @return BalanceTyp
      */
-    public BalanceTyp getSelectedBalanceType() {
+    public BalanceType getSelectedBalanceType() {
         return selectedBalanceType;
     }
 
@@ -130,7 +130,7 @@ public class JournalVoucherForm extends VoucherForm {
      * 
      * @param selectedBalanceType
      */
-    public void setSelectedBalanceType(BalanceTyp selectedBalanceType) {
+    public void setSelectedBalanceType(BalanceType selectedBalanceType) {
         this.selectedBalanceType = selectedBalanceType;
     }
 
@@ -205,7 +205,7 @@ public class JournalVoucherForm extends VoucherForm {
      * @param balanceTypeCode
      * @return BalanceTyp
      */
-    protected BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
+    protected BalanceType getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
         BalanceTypService bts = SpringContext.getBean(BalanceTypService.class);
         return bts.getBalanceTypByCode(balanceTypeCode);

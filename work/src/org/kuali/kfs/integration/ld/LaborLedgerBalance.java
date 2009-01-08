@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -80,14 +80,14 @@ public interface LaborLedgerBalance extends PersistableBusinessObject, Externali
      * 
      * @return Returns the balanceType.
      */
-    public BalanceTyp getBalanceType();
+    public BalanceType getBalanceType();
 
     /**
      * Sets the balanceType attribute value.
      * 
      * @param balanceType The balanceType to set.
      */
-    public void setBalanceType(BalanceTyp balanceType);
+    public void setBalanceType(BalanceType balanceType);
 
     /**
      * Gets the beginningBalanceLineAmount attribute.

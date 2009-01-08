@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -220,7 +220,7 @@ public class GeneralLedgerConstants {
 
     public static String getSpaceBalanceTypeCode() {
         if (SPACE_BALANCE_TYPE_CODE == null) {
-            SPACE_BALANCE_TYPE_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(BalanceTyp.class, KFSPropertyConstants.CODE), ' ');
+            SPACE_BALANCE_TYPE_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(BalanceType.class, KFSPropertyConstants.CODE), ' ');
         }
         return SPACE_BALANCE_TYPE_CODE;
     }

@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
@@ -604,7 +604,7 @@ public class ScrubberProcess {
 
                     ParameterEvaluator offsetFiscalPeriods = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
-                    BalanceTyp scrubbedEntryBalanceType = referenceLookup.get().getBalanceType(scrubbedEntry);
+                    BalanceType scrubbedEntryBalanceType = referenceLookup.get().getBalanceType(scrubbedEntry);
                     if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
                         if (scrubbedEntry.isDebit()) {
                             unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);

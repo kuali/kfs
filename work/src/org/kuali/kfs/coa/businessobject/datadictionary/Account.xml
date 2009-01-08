@@ -221,7 +221,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-accountTypeCode" parent="Account-accountTypeCode-parentBean" />
 
-  <dd:boAttributeRef id="Account-accountTypeCode-parentBean" abstract="true" parent="AcctType-accountTypeCode">
+  <dd:boAttributeRef id="Account-accountTypeCode-parentBean" abstract="true" parent="AccountType-accountTypeCode">
   	<dd:select valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder" />
   </dd:boAttributeRef>
   

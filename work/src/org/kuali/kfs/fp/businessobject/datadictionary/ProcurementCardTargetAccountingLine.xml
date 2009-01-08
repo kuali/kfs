@@ -91,7 +91,7 @@
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-balanceTypeCode" parent="ProcurementCardTargetAccountingLine-balanceTypeCode-parentBean" />
 
-  <bean id="ProcurementCardTargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="ProcurementCardTargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="required" value="false" />
   </bean>

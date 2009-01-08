@@ -26,7 +26,7 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
@@ -241,9 +241,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         for (CollectorDetail collectorDetail : batch.getCollectorDetails()) {
             String balanceTypeCode = getBalanceTypeCode(collectorDetail, batch);
 
-            BalanceTyp balanceTyp = new BalanceTyp();
+            BalanceType balanceTyp = new BalanceType();
             balanceTyp.setFinancialBalanceTypeCode(balanceTypeCode);
-            balanceTyp = (BalanceTyp) SpringContext.getBean(BusinessObjectService.class).retrieve(balanceTyp);
+            balanceTyp = (BalanceType) SpringContext.getBean(BusinessObjectService.class).retrieve(balanceTyp);
             if (balanceTyp == null) {
                 // no balance type in db
                 LOG.info("No balance type code found for ID billing record. " + collectorDetail);
@@ -272,7 +272,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param objectType the object type
      * @param batch the patch to which the interDepartmentalBilling parameter belongs
      */
-    protected void negateAmountIfNecessary(CollectorDetail collectorDetail, BalanceTyp balanceTyp, ObjectType objectType, CollectorBatch batch) {
+    protected void negateAmountIfNecessary(CollectorDetail collectorDetail, BalanceType balanceTyp, ObjectType objectType, CollectorBatch batch) {
         if (balanceTyp != null && objectType != null) {
             if (balanceTyp.isFinancialOffsetGenerationIndicator()) {
                 if (KFSConstants.GL_DEBIT_CODE.equals(objectType.getFinObjectTypeDebitcreditCd())) {

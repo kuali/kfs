@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -56,7 +56,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     private Account account;
     private Chart chartOfAccounts;
     private ObjectType objectType;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
 
     /**
      * Default constructor.
@@ -444,7 +444,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * 
      * @return Returns the balanceTyp.
      */
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
@@ -453,7 +453,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * 
      * @param balanceTyp The balanceTyp to set.
      */
-    public void setBalanceType(BalanceTyp balanceTyp) {
+    public void setBalanceType(BalanceType balanceTyp) {
         this.balanceType = balanceTyp;
     }
 

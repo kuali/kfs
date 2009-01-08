@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.document.service;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 
 /**
@@ -30,7 +30,7 @@ public interface AccountingDocumentRuleHelperService {
      * @param errorPropertyName also used as the BalanceTyp DD attribute name
      * @return True if the balance type is valid, false otherwise.
      */
-    public abstract boolean isValidBalanceType(BalanceTyp balanceType, String errorPropertyName);
+    public abstract boolean isValidBalanceType(BalanceType balanceType, String errorPropertyName);
     
     /**
      * This method checks for the existence of the provided balance type, in the system and also checks to see if it is active.
@@ -41,7 +41,7 @@ public interface AccountingDocumentRuleHelperService {
      * @param errorPropertyName
      * @return True if the balance type is valid, false otherwise.
      */
-    public abstract boolean isValidBalanceType(BalanceTyp balanceType, Class entryClass, String attributeName, String errorPropertyName);
+    public abstract boolean isValidBalanceType(BalanceType balanceType, Class entryClass, String attributeName, String errorPropertyName);
     
     /**
      * This method checks for the existence of the accounting period in the system and also makes sure that the accounting period is

@@ -96,7 +96,7 @@
   </bean>
   <bean id="Balance-balanceTypeCode" parent="Balance-balanceTypeCode-parentBean" />
 
-  <bean id="Balance-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="Balance-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

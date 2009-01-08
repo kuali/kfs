@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
@@ -223,7 +223,7 @@ public class BalanceForwardRuleHelper {
 
         balanceTypeEncumbranceIndicators = new HashMap<String, Boolean>();
         for (Object balanceTypAsObj : SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps()) {
-            BalanceTyp balanceType = (BalanceTyp) balanceTypAsObj;
+            BalanceType balanceType = (BalanceType) balanceTypAsObj;
             balanceTypeEncumbranceIndicators.put(balanceType.getCode(), (balanceType.isFinBalanceTypeEncumIndicator() ? Boolean.TRUE : Boolean.FALSE));
         }
     }

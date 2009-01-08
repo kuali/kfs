@@ -67,7 +67,7 @@
   </bean>
   <bean id="AccountBalancePendingEntry-financialBalanceTypeCode" parent="AccountBalancePendingEntry-financialBalanceTypeCode-parentBean" />
 
-  <bean id="AccountBalancePendingEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="AccountBalancePendingEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
   </bean>
   <bean id="AccountBalancePendingEntry-transactionDate" parent="AccountBalancePendingEntry-transactionDate-parentBean" />

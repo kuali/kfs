@@ -48,7 +48,7 @@
 
   <bean id="TargetAccountingLine-balanceTypeCode" parent="TargetAccountingLine-balanceTypeCode-parentBean" />
 
-  <bean id="TargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="TargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="required" value="false" />
   </bean>

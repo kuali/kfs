@@ -61,7 +61,7 @@
   </bean>
   <bean id="OffsetDefinition-financialBalanceTypeCode" parent="OffsetDefinition-financialBalanceTypeCode-parentBean" />
 
-  <bean id="OffsetDefinition-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="OffsetDefinition-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

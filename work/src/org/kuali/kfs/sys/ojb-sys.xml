@@ -150,43 +150,43 @@
         <foreignkey field-ref="financialObjectTypeTransferExpenseCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="actualFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="actualFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="actualFinancialBalanceTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="budgetCheckingBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="budgetCheckingBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="budgetCheckingBalanceTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="extrnlEncumFinBalanceTyp" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="extrnlEncumFinBalanceTyp" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="extrnlEncumFinBalanceTypCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="intrnlEncumFinBalanceTyp" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="intrnlEncumFinBalanceTyp" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="intrnlEncumFinBalanceTypCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="preencumbranceFinBalType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="preencumbranceFinBalType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="preencumbranceFinBalTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="eliminationsFinBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="eliminationsFinBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="eliminationsFinBalanceTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="costShareEncumbranceBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="costShareEncumbranceBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="costShareEncumbranceBalanceTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="baseBudgetFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="baseBudgetFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="baseBudgetFinancialBalanceTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="monthlyBudgetFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="monthlyBudgetFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="monthlyBudgetFinancialBalanceTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="nominalFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="nominalFinancialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="nominalFinancialBalanceTypeCd" />
     </reference-descriptor>
 </class-descriptor>
@@ -293,7 +293,7 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="balanceTyp" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="balanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="balanceTypeCode" />
     </reference-descriptor>
 
@@ -369,7 +369,7 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="balanceTyp" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="balanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="balanceTypeCode" />
     </reference-descriptor>
 
@@ -463,7 +463,7 @@
         <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="balanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="balanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialBalanceTypeCode" />
     </reference-descriptor>
 

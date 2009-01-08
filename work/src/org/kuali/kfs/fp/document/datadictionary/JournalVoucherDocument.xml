@@ -105,7 +105,7 @@
   </bean>
   <bean id="JournalVoucherDocument-balanceTypeCode" parent="JournalVoucherDocument-balanceTypeCode-parentBean" />
 
-  <bean id="JournalVoucherDocument-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="JournalVoucherDocument-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The 2-character code and text describing the type of balance involved in the Journal Voucher. Select one from the pulldown list." />

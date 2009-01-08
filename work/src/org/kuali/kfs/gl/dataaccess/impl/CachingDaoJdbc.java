@@ -30,7 +30,7 @@ import java.util.HashMap;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -348,20 +348,20 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originEntryFinancialObject;
     }
     
-    public BalanceTyp getBalanceType(OriginEntry originEntry) {
-        BalanceTyp originEntryBalanceType = null;
+    public BalanceType getBalanceType(OriginEntry originEntry) {
+        BalanceType originEntryBalanceType = null;
         String key = "CA_BALANCE_TYPE_T:" + originEntry.getFinancialBalanceTypeCode();
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                originEntryBalanceType = (BalanceTyp) value;
+                originEntryBalanceType = (BalanceType) value;
             }
         } else {
             try {
                 balanceTypPreparedSelect.setString(1, originEntry.getFinancialBalanceTypeCode());
                 ResultSet rs = balanceTypPreparedSelect.executeQuery();
                 if (rs.next()) {
-                    originEntryBalanceType = new BalanceTyp();
+                    originEntryBalanceType = new BalanceType();
                     originEntryBalanceType.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
                     originEntryBalanceType.setFinancialOffsetGenerationIndicator(rs.getString(1).compareTo("Y") == 0 ? true : false);
                     originEntryBalanceType.setFinBalanceTypeEncumIndicator(rs.getString(2).compareTo("Y") == 0 ? true : false);

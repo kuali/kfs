@@ -26,7 +26,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -108,7 +108,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @return the related balance typ record, or null if not found
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getBalanceType(org.kuali.module.gl.bo.OriginEntry)
      */
-    public BalanceTyp getBalanceType(OriginEntry entry) {
+    public BalanceType getBalanceType(OriginEntry entry) {
         return cachingDao.getBalanceType(entry);
     }
 

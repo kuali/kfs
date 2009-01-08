@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.businessobject;
 import java.io.Serializable;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -36,13 +36,13 @@ public class SufficientFundsItem implements Serializable, Comparable {
     private String sufficientFundsObjectCode;
     private KualiDecimal amount;
     private String documentTypeCode;
-    private BalanceTyp balanceTyp;
+    private BalanceType balanceTyp;
 
-    public BalanceTyp getBalanceTyp() {
+    public BalanceType getBalanceTyp() {
         return balanceTyp;
     }
 
-    public void setBalanceTyp(BalanceTyp balanceTyp) {
+    public void setBalanceTyp(BalanceType balanceTyp) {
         this.balanceTyp = balanceTyp;
     }
 

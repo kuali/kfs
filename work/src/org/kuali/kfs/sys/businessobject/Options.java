@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -75,16 +75,16 @@ public class Options extends PersistableBusinessObjectBase {
     private ObjectType finObjTypeCshNotIncome;
     private ObjectType financialObjectTypeTransferIncome;
     private ObjectType financialObjectTypeTransferExpense;
-    private BalanceTyp actualFinancialBalanceType;
-    private BalanceTyp budgetCheckingBalanceType;
-    private BalanceTyp extrnlEncumFinBalanceTyp;
-    private BalanceTyp intrnlEncumFinBalanceTyp;
-    private BalanceTyp preencumbranceFinBalType;
-    private BalanceTyp eliminationsFinBalanceType;
-    private BalanceTyp costShareEncumbranceBalanceType;
-    private BalanceTyp baseBudgetFinancialBalanceType;
-    private BalanceTyp monthlyBudgetFinancialBalanceType;
-    private BalanceTyp nominalFinancialBalanceType;
+    private BalanceType actualFinancialBalanceType;
+    private BalanceType budgetCheckingBalanceType;
+    private BalanceType extrnlEncumFinBalanceTyp;
+    private BalanceType intrnlEncumFinBalanceTyp;
+    private BalanceType preencumbranceFinBalType;
+    private BalanceType eliminationsFinBalanceType;
+    private BalanceType costShareEncumbranceBalanceType;
+    private BalanceType baseBudgetFinancialBalanceType;
+    private BalanceType monthlyBudgetFinancialBalanceType;
+    private BalanceType nominalFinancialBalanceType;
 
     /**
      * Gets the universityFiscalYear attribute.
@@ -500,56 +500,56 @@ public class Options extends PersistableBusinessObjectBase {
     /**
      * @return Returns the actualFinancialBalanceType.
      */
-    public BalanceTyp getActualFinancialBalanceType() {
+    public BalanceType getActualFinancialBalanceType() {
         return actualFinancialBalanceType;
     }
 
     /**
      * @param actualFinancialBalanceType The actualFinancialBalanceType to set.
      */
-    public void setActualFinancialBalanceType(BalanceTyp actualFinancialBalanceType) {
+    public void setActualFinancialBalanceType(BalanceType actualFinancialBalanceType) {
         this.actualFinancialBalanceType = actualFinancialBalanceType;
     }
 
     /**
      * @return Returns the budgetCheckingBalanceType.
      */
-    public BalanceTyp getBudgetCheckingBalanceType() {
+    public BalanceType getBudgetCheckingBalanceType() {
         return budgetCheckingBalanceType;
     }
 
     /**
      * @param budgetCheckingBalanceType The budgetCheckingBalanceType to set.
      */
-    public void setBudgetCheckingBalanceType(BalanceTyp budgetCheckingBalanceType) {
+    public void setBudgetCheckingBalanceType(BalanceType budgetCheckingBalanceType) {
         this.budgetCheckingBalanceType = budgetCheckingBalanceType;
     }
 
     /**
      * @return Returns the eliminationsFinBalanceType.
      */
-    public BalanceTyp getEliminationsFinBalanceType() {
+    public BalanceType getEliminationsFinBalanceType() {
         return eliminationsFinBalanceType;
     }
 
     /**
      * @param eliminationsFinBalanceType The eliminationsFinBalanceType to set.
      */
-    public void setEliminationsFinBalanceType(BalanceTyp eliminationsFinBalanceType) {
+    public void setEliminationsFinBalanceType(BalanceType eliminationsFinBalanceType) {
         this.eliminationsFinBalanceType = eliminationsFinBalanceType;
     }
 
     /**
      * @return Returns the extrnlEncumFinBalanceTyp.
      */
-    public BalanceTyp getExtrnlEncumFinBalanceTyp() {
+    public BalanceType getExtrnlEncumFinBalanceTyp() {
         return extrnlEncumFinBalanceTyp;
     }
 
     /**
      * @param extrnlEncumFinBalanceTyp The extrnlEncumFinBalanceTyp to set.
      */
-    public void setExtrnlEncumFinBalanceTyp(BalanceTyp extrnlEncumFinBalanceTyp) {
+    public void setExtrnlEncumFinBalanceTyp(BalanceType extrnlEncumFinBalanceTyp) {
         this.extrnlEncumFinBalanceTyp = extrnlEncumFinBalanceTyp;
     }
 
@@ -668,14 +668,14 @@ public class Options extends PersistableBusinessObjectBase {
     /**
      * @return Returns the intrnlEncumFinBalanceTyp.
      */
-    public BalanceTyp getIntrnlEncumFinBalanceTyp() {
+    public BalanceType getIntrnlEncumFinBalanceTyp() {
         return intrnlEncumFinBalanceTyp;
     }
 
     /**
      * @param intrnlEncumFinBalanceTyp The intrnlEncumFinBalanceTyp to set.
      */
-    public void setIntrnlEncumFinBalanceTyp(BalanceTyp intrnlEncumFinBalanceTyp) {
+    public void setIntrnlEncumFinBalanceTyp(BalanceType intrnlEncumFinBalanceTyp) {
         this.intrnlEncumFinBalanceTyp = intrnlEncumFinBalanceTyp;
     }
 
@@ -696,14 +696,14 @@ public class Options extends PersistableBusinessObjectBase {
     /**
      * @return Returns the preencumbranceFinBalType.
      */
-    public BalanceTyp getPreencumbranceFinBalType() {
+    public BalanceType getPreencumbranceFinBalType() {
         return preencumbranceFinBalType;
     }
 
     /**
      * @param preencumbranceFinBalType The preencumbranceFinBalType to set.
      */
-    public void setPreencumbranceFinBalType(BalanceTyp preencumbranceFinBalType) {
+    public void setPreencumbranceFinBalType(BalanceType preencumbranceFinBalType) {
         this.preencumbranceFinBalType = preencumbranceFinBalType;
     }
 
@@ -730,7 +730,7 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the costShareEncumbranceBalanceType.
      */
-    public BalanceTyp getCostShareEncumbranceBalanceType() {
+    public BalanceType getCostShareEncumbranceBalanceType() {
         return costShareEncumbranceBalanceType;
     }
 
@@ -740,7 +740,7 @@ public class Options extends PersistableBusinessObjectBase {
      * @param costShareEncumbranceBalanceType The costShareEncumbranceBalanceType to set.
      * @deprecated
      */
-    public void setCostShareEncumbranceBalanceType(BalanceTyp costShareEncumbranceBalanceType) {
+    public void setCostShareEncumbranceBalanceType(BalanceType costShareEncumbranceBalanceType) {
         this.costShareEncumbranceBalanceType = costShareEncumbranceBalanceType;
     }
 
@@ -859,7 +859,7 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the baseBudgetFinancialBalanceType.
      */
-    public BalanceTyp getBaseBudgetFinancialBalanceType() {
+    public BalanceType getBaseBudgetFinancialBalanceType() {
         return baseBudgetFinancialBalanceType;
     }
 
@@ -869,7 +869,7 @@ public class Options extends PersistableBusinessObjectBase {
      * @param baseBudgetFinancialBalanceType The baseBudgetFinancialBalanceType to set.
      * @deprecated
      */
-    public void setBaseBudgetFinancialBalanceType(BalanceTyp baseBudgetFinancialBalanceType) {
+    public void setBaseBudgetFinancialBalanceType(BalanceType baseBudgetFinancialBalanceType) {
         this.baseBudgetFinancialBalanceType = baseBudgetFinancialBalanceType;
     }
 
@@ -878,7 +878,7 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the monthlyBudgetFinancialBalanceType.
      */
-    public BalanceTyp getMonthlyBudgetFinancialBalanceType() {
+    public BalanceType getMonthlyBudgetFinancialBalanceType() {
         return monthlyBudgetFinancialBalanceType;
     }
 
@@ -888,7 +888,7 @@ public class Options extends PersistableBusinessObjectBase {
      * @param monthlyBudgetFinancialBalanceType The monthlyBudgetFinancialBalanceType to set.
      * @deprecated
      */
-    public void setMonthlyBudgetFinancialBalanceType(BalanceTyp monthlyBudgetFinancialBalanceType) {
+    public void setMonthlyBudgetFinancialBalanceType(BalanceType monthlyBudgetFinancialBalanceType) {
         this.monthlyBudgetFinancialBalanceType = monthlyBudgetFinancialBalanceType;
     }
 
@@ -915,7 +915,7 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the nominalFinancialBalanceType.
      */
-    public BalanceTyp getNominalFinancialBalanceType() {
+    public BalanceType getNominalFinancialBalanceType() {
         return nominalFinancialBalanceType;
     }
 
@@ -925,7 +925,7 @@ public class Options extends PersistableBusinessObjectBase {
      * @param nominalFinancialBalanceType The nominalFinancialBalanceType to set.
      * @deprecated
      */
-    public void setNominalFinancialBalanceType(BalanceTyp nominalFinancialBalanceType) {
+    public void setNominalFinancialBalanceType(BalanceType nominalFinancialBalanceType) {
         this.nominalFinancialBalanceType = nominalFinancialBalanceType;
     }
 

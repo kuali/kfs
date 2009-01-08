@@ -20,7 +20,7 @@ package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.Comparator;
 
-import org.kuali.kfs.coa.businessobject.AcctType;
+import org.kuali.kfs.coa.businessobject.AccountType;
 
 /**
  * This class is a comparator for Account Type Codes
@@ -33,8 +33,8 @@ public class AccountTypeCodeComparator implements Comparator {
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     public int compare(Object o1, Object o2) {
-        AcctType acctType1 = (AcctType) o1;
-        AcctType acctType2 = (AcctType) o2;
+        AccountType acctType1 = (AccountType) o1;
+        AccountType acctType2 = (AccountType) o2;
 
         int acctTypeComp = acctType1.getAccountTypeCode().compareTo(acctType2.getAccountTypeCode());
 

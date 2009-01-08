@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.service;
 import java.util.HashMap;
 
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,7 +41,7 @@ public class BalanceTypServiceTest extends KualiTestBase {
 
     public void testCreateLookupDelete1() {
         // create
-        BalanceTyp bal = new BalanceTyp();
+        BalanceType bal = new BalanceType();
         bal.setActive(true);
         bal.setFinBalanceTypeEncumIndicator(true);
         bal.setCode(BAL_TYPE_CODE);
@@ -56,7 +56,7 @@ public class BalanceTypServiceTest extends KualiTestBase {
         // lookup
         HashMap map = new HashMap();
         map.put("code", BAL_TYPE_CODE);
-        BalanceTyp bal2 = (BalanceTyp) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BalanceTyp.class, map);
+        BalanceType bal2 = (BalanceType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BalanceType.class, map);
         assertNotNull("Should be a valid object.", bal2);
         assertEquals("Known-good code results in expected returned Name.", BAL_TYPE_NAME, bal2.getName());
 
@@ -66,7 +66,7 @@ public class BalanceTypServiceTest extends KualiTestBase {
         // try to lookup again
         map = new HashMap();
         map.put("code", BAL_TYPE_CODE);
-        BalanceTyp bal3 = (BalanceTyp) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BalanceTyp.class, map);
+        BalanceType bal3 = (BalanceType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BalanceType.class, map);
         assertNull("Shouldn't be a valid object.", bal3);
     }
 

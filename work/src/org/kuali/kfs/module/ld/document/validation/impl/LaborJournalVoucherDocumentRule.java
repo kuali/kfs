@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.fp.document.validation.impl.JournalVoucherDocumentRule;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherDetail;
@@ -115,7 +115,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     protected boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
         boolean encumbranceValid = true;
 
-        BalanceTyp balanceType = accountingLine.getBalanceTyp();
+        BalanceType balanceType = accountingLine.getBalanceTyp();
         AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
         if (!accountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
             encumbranceValid = false;

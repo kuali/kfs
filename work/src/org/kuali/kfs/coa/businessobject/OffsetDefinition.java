@@ -37,7 +37,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
     private Options universityFiscal;
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
-    private BalanceTyp financialBalanceType;
+    private BalanceType financialBalanceType;
     private DocumentType financialDocumentType;
 
     /**
@@ -126,7 +126,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
      * 
      * @return the balanceType
      */
-    public BalanceTyp getFinancialBalanceType() {
+    public BalanceType getFinancialBalanceType() {
         return financialBalanceType;
     }
 
@@ -136,7 +136,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
      * @param financialBalanceType
      * @deprecated
      */
-    public void setFinancialBalanceType(BalanceTyp financialBalanceType) {
+    public void setFinancialBalanceType(BalanceType financialBalanceType) {
         this.financialBalanceType = financialBalanceType;
     }
 

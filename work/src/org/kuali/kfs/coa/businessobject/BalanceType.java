@@ -22,7 +22,7 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 /**
  * This class is the business object for the Balance Type object.
  */
-public class BalanceTyp extends KualiCodeBase implements Inactivateable {
+public class BalanceType extends KualiCodeBase implements Inactivateable {
 
     private String financialBalanceTypeShortNm;
     private boolean financialOffsetGenerationIndicator;
@@ -31,14 +31,14 @@ public class BalanceTyp extends KualiCodeBase implements Inactivateable {
     /**
      * Constructs a BalanceTyp.java.
      */
-    public BalanceTyp() {
+    public BalanceType() {
         super.setActive(true); // always active, plus no column in the table
     }
 
     /**
      * @param typeCode
      */
-    public BalanceTyp(String typeCode) {
+    public BalanceType(String typeCode) {
         this();
         setCode(typeCode);
     }

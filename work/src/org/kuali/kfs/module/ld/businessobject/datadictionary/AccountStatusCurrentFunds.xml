@@ -69,7 +69,7 @@
   </bean>
   <bean id="AccountStatusCurrentFunds-financialBalanceTypeCode" parent="AccountStatusCurrentFunds-financialBalanceTypeCode-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="AccountStatusCurrentFunds-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />

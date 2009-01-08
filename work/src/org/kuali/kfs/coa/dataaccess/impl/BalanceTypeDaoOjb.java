@@ -20,7 +20,7 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -34,13 +34,13 @@ public class BalanceTypeDaoOjb extends PlatformAwareDaoBaseOjb implements Balanc
      * @see org.kuali.kfs.coa.dataaccess.BalanceTypeDao#getEncumbranceBalanceTypes()
      * @return a list of {@link BalanceTyp} that hare tied to encumbrances
      */
-    public Collection<BalanceTyp> getEncumbranceBalanceTypes() {
+    public Collection<BalanceType> getEncumbranceBalanceTypes() {
         LOG.debug("getEncumbranceBalanceTypes() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("finBalanceTypeEncumIndicator", true);
 
-        Query q = QueryFactory.newQuery(BalanceTyp.class, criteria);
+        Query q = QueryFactory.newQuery(BalanceType.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 }

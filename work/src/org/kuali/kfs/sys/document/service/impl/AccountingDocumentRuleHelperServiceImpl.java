@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -75,8 +75,8 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp, java.lang.String)
      */
-    public boolean isValidBalanceType(BalanceTyp balanceType, String errorPropertyName) {
-        return isValidBalanceType(balanceType, BalanceTyp.class, errorPropertyName, errorPropertyName);
+    public boolean isValidBalanceType(BalanceType balanceType, String errorPropertyName) {
+        return isValidBalanceType(balanceType, BalanceType.class, errorPropertyName, errorPropertyName);
     }
     
     /**
@@ -100,7 +100,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp, java.lang.Class, java.lang.String, java.lang.String)
      */
-    public boolean isValidBalanceType(BalanceTyp balanceType, Class entryClass, String attributeName, String errorPropertyName) {
+    public boolean isValidBalanceType(BalanceType balanceType, Class entryClass, String attributeName, String errorPropertyName) {
         String label = getLabelFromDataDictionary(entryClass, attributeName);
         if (ObjectUtils.isNull(balanceType)) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);

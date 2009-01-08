@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -62,7 +62,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private Account account;
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private ObjectType objectType;
 
     private List<BudgetConstructionMonthly> budgetConstructionMonthly;
@@ -470,7 +470,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * 
      * @return Returns the balanceType.
      */
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
@@ -480,7 +480,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @param balanceType The balanceType to set.
      * @deprecated
      */
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

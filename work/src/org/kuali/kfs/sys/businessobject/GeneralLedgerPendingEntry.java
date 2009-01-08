@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -82,7 +82,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private SubAccount subAccount;
     private ObjectCode financialObject;
     private SubObjectCode financialSubObject;
-    private BalanceTyp balanceType;
+    private BalanceType balanceType;
     private ObjectType objectType;
     private A21SubAccount a21SubAccount;
     private TransientBalanceInquiryAttributes dummyBusinessObject;
@@ -99,7 +99,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      */
     public GeneralLedgerPendingEntry() {
         this.objectType = new ObjectType();
-        this.balanceType = new BalanceTyp();
+        this.balanceType = new BalanceType();
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.financialObject = new ObjectCode();
     }
@@ -794,7 +794,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * 
      * @return Returns the balanceType.
      */
-    public BalanceTyp getBalanceType() {
+    public BalanceType getBalanceType() {
         return balanceType;
     }
 
@@ -803,7 +803,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * 
      * @param balanceType The balanceType to set.
      */
-    public void setBalanceType(BalanceTyp balanceType) {
+    public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
     }
 

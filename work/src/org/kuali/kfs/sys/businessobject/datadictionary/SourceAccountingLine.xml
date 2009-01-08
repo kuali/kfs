@@ -85,7 +85,7 @@
   </bean>
   <bean id="SourceAccountingLine-balanceTypeCode" parent="SourceAccountingLine-balanceTypeCode-parentBean" />
 
-  <bean id="SourceAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="SourceAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="required" value="false" />
   </bean>

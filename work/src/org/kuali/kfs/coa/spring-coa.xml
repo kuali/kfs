@@ -409,10 +409,10 @@
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.AcctType-Lookupable"
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.AccountType-Lookupable"
 		parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.coa.businessobject.AcctType
+			<value>org.kuali.kfs.coa.businessobject.AccountType
 			</value>
 		</property>
 	</bean>

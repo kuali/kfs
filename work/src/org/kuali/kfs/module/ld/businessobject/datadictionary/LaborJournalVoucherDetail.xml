@@ -105,7 +105,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-balanceTypeCode" parent="LaborJournalVoucherDetail-balanceTypeCode-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="LaborJournalVoucherDetail-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode" />
     <property name="required" value="false" />
   </bean>

@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
 import org.kuali.kfs.coa.businessobject.FederalFundedCode;
 import org.kuali.kfs.coa.businessobject.FundGroup;
@@ -60,7 +60,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     private static Map codeColumns = new HashMap();
     static {
         codeColumns.put(AgencyType.class, "code");
-        codeColumns.put(BalanceTyp.class, "code");
+        codeColumns.put(BalanceType.class, "code");
         codeColumns.put(BudgetAggregationCode.class, "code");
         codeColumns.put(PaymentReasonCode.class, "code");
         codeColumns.put(FederalFundedCode.class, "code");
@@ -87,7 +87,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     private static Map nameColumns = new HashMap();
     static {
         nameColumns.put(AgencyType.class, "name");
-        nameColumns.put(BalanceTyp.class, "name");
+        nameColumns.put(BalanceType.class, "name");
         nameColumns.put(BudgetAggregationCode.class, "name");
         nameColumns.put(PaymentReasonCode.class, "name");
         nameColumns.put(FederalFundedCode.class, "name");

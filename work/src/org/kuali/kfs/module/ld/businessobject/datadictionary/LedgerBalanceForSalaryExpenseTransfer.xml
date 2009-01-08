@@ -188,7 +188,7 @@
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-financialBalanceTypeCode" parent="LedgerBalanceForSalaryExpenseTransfer-financialBalanceTypeCode-parentBean" />
 
-  <bean id="LedgerBalanceForSalaryExpenseTransfer-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="LedgerBalanceForSalaryExpenseTransfer-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />

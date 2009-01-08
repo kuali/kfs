@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -60,7 +60,7 @@ public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements Valu
         Collection c = bts.getAllBalanceTyps();
 
         for (Iterator iter = c.iterator(); iter.hasNext();) {
-            BalanceTyp bt = (BalanceTyp) iter.next();
+            BalanceType bt = (BalanceType) iter.next();
             labels.add(new KeyLabelPair(bt.getCode(), bt.getCode() + " - " + bt.getName()));
         }
 

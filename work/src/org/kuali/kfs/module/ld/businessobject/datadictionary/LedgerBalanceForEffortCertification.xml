@@ -190,7 +190,7 @@
   </bean>
   <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode" parent="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean" />
 
-  <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
   </bean>
   <bean id="LedgerBalanceForEffortCertification-financialObjectCode" parent="LedgerBalanceForEffortCertification-financialObjectCode-parentBean" />

@@ -95,7 +95,7 @@
   </bean>
   <bean id="CashBalance-balanceTypeCode" parent="CashBalance-balanceTypeCode-parentBean" />
 
-  <bean id="CashBalance-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-financialBalanceTypeShortNm">
+  <bean id="CashBalance-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-financialBalanceTypeShortNm">
     <property name="name" value="balanceTypeCode" />
     <property name="label" value="Balance Type Code" />
     <property name="shortLabel" value="Balance Type Code" />

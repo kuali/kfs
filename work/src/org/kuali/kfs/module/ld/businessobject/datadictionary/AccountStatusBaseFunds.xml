@@ -58,7 +58,7 @@
   </bean>
   <bean id="AccountStatusBaseFunds-financialBalanceTypeCode" parent="AccountStatusBaseFunds-financialBalanceTypeCode-parentBean" />
 
-  <bean id="AccountStatusBaseFunds-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+  <bean id="AccountStatusBaseFunds-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode" />
   </bean>
   <bean id="AccountStatusBaseFunds-financialObjectCode" parent="AccountStatusBaseFunds-financialObjectCode-parentBean" />

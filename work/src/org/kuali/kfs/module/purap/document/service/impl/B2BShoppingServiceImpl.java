@@ -40,6 +40,7 @@ import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -164,11 +165,11 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
             
-            String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, PurapConstants.PURAP_NAMESPACE).getChartOfAccountsCode();
-            req.setChartOfAccountsCode(chartAccountsCode);
-            
-            String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, PurapConstants.PURAP_NAMESPACE).getOrganizationCode();
-            req.setOrganizationCode(organizationCode);
+            ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, PurapConstants.PURAP_NAMESPACE);
+            if (ObjectUtils.isNotNull(purapChartOrg)) {
+                req.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+                req.setOrganizationCode(purapChartOrg.getOrganizationCode());
+            }
             
             req.setRequestorPersonName(user.getName());
             req.setRequestorPersonEmailAddress(user.getEmailAddress());

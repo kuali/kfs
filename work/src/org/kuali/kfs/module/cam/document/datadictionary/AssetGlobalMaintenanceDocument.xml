@@ -24,9 +24,6 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="organizationOwnerChartOfAccounts"
               p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
-        <!-- bean parent="ReferenceDefinition"
-              p:attributeName="organizationOwnerAccount"
-              p:attributeToHighlightOnFail="organizationOwnerAccountNumber" / -->
         <bean parent="ReferenceDefinition"
               p:attributeName="inventoryStatus"
               p:attributeToHighlightOnFail="inventoryStatusCode" />
@@ -46,10 +43,6 @@
               p:attributeName="chart"
               p:collection="assetPaymentDetails"
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <!-- bean parent="ReferenceDefinition"
-              p:attributeName="account"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="accountNumber" /-->
         <bean parent="ReferenceDefinition"
               p:attributeName="objectCode"
               p:collection="assetPaymentDetails"

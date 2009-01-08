@@ -17,17 +17,11 @@ package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
  * 
@@ -36,8 +30,10 @@ public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDoc
 
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+
         // This should take care of KULAR-490
-        OrganizationOptions organizationOptions = (OrganizationOptions) businessObject;
+        OrganizationOptions organizationOptions = (OrganizationOptions) ((FinancialSystemMaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+        
         attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, organizationOptions.getChartOfAccountsCode());
         attributes.put(KfsKimAttributes.ORGANIZATION_CODE, organizationOptions.getOrganizationCode());
         super.addRoleQualification(businessObject, attributes);

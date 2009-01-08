@@ -10,4 +10,11 @@
     </bean>
     <bean id="RoutingAttribute-researchRiskCode" parent="WorkflowAttributeMetaData-researchRiskCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
 
+	<bean id="DocumentValuePathGroup-ContractsAndGrantsProjectDirector-principalId" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   		<property name="documentValues">
+	   		<list>
+	   			<value>projectDirector.principalId</value>
+	   		</list>
+   		</property>
+   	</bean>
 </beans>

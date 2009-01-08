@@ -502,12 +502,4 @@
 	   		</list>
    		</property>
    	</bean>
-   	
-   	<bean id="DocumentValuePathGroup-SimpleProjectDirector-principalId" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-   		<property name="documentValues">
-	   		<list>
-	   			<value>projectDirector.principalId</value>
-	   		</list>
-   		</property>
-   	</bean>
 </beans>

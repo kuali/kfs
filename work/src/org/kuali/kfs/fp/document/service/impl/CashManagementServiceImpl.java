@@ -184,9 +184,9 @@ public class CashManagementServiceImpl implements CashManagementService {
             try {
                 cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
                 cmDoc.getDocumentHeader().setDocumentDescription(docDescription);
-                cmDoc.setWorkgroupName(workgroupName);
+                cmDoc.setCampusCode(workgroupName);
                 cmDoc.setCashDrawer(cd);
-                cmDoc.getCurrentTransaction().setWorkgroupName(cmDoc.getWorkgroupName());
+                cmDoc.getCurrentTransaction().setCampusCode(cmDoc.getCampusCode());
                 cmDoc.getCurrentTransaction().setReferenceFinancialDocumentNumber(cmDoc.getDocumentNumber());
                 cmDoc.getCurrentTransaction().setOpenItemsInProcess(getOpenItemsInProcess(cmDoc));
             }
@@ -442,7 +442,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         // reclose the cashDrawer
-        String unitName = cmDoc.getWorkgroupName();
+        String unitName = cmDoc.getCampusCode();
         cashDrawerService.closeCashDrawer(cmDoc.getCashDrawer());
 
         // cleanup the CMDoc, but let the postprocessor itself save it
@@ -484,7 +484,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         deposit.refresh();
 
         // save workgroup name, for possible later use
-        String depositWorkgroup = deposit.getCashManagementDocument().getWorkgroupName();
+        String depositWorkgroup = deposit.getCashManagementDocument().getCampusCode();
 
         // update every CashReceipt associated with this Deposit
         List depositCashReceiptControls = deposit.getDepositCashReceiptControl();
@@ -518,7 +518,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // unlock the cashDrawer, if needed
         if (deposit.getDepositTypeCode() == DepositConstants.DEPOSIT_TYPE_FINAL) {
-            CashDrawer drawer = cashDrawerService.getByWorkgroupName(deposit.getCashManagementDocument().getWorkgroupName(), false);
+            CashDrawer drawer = cashDrawerService.getByWorkgroupName(deposit.getCashManagementDocument().getCampusCode(), false);
             CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
             if (currencyDetail != null) {
                 drawer.addCurrency(currencyDetail);
@@ -560,7 +560,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new IllegalStateException("cmDoc " + cmDoc.getDocumentNumber() + " is missing a FinalDeposit");
         }
 
-        String workgroupName = cmDoc.getWorkgroupName();
+        String workgroupName = cmDoc.getCampusCode();
         cashDrawerService.closeCashDrawer(workgroupName);
         CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, false);
 
@@ -601,7 +601,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     public boolean allVerifiedCashReceiptsAreDeposited(CashManagementDocument cmDoc) {
         boolean result = true;
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         for (Object o: verifiedReceipts) {
             if (!verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
                 result = false;
@@ -682,7 +682,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new IllegalStateException("CashManagementDocument #"+cmDoc.getDocumentNumber()+" already has a final deposit");
         }
         // if there are still verified un-deposited cash receipts, throw an IllegalStateException
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         for (Object o: verifiedReceipts) {
             CashReceiptDocument crDoc = (CashReceiptDocument)o;
             if (!verifyCashReceiptIsDeposited(cmDoc, crDoc)) {
@@ -724,7 +724,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     public void applyCashieringTransaction(CashManagementDocument cmDoc) {
         if (cmDoc.getCashDrawer() == null) {
-            cmDoc.setCashDrawer(cashDrawerService.getByWorkgroupName(cmDoc.getWorkgroupName(), false));
+            cmDoc.setCashDrawer(cashDrawerService.getByWorkgroupName(cmDoc.getCampusCode(), false));
         }
         CashieringTransactionRule transactionRule = new CashieringTransactionRule();
         transactionRule.setCashDrawerService(cashDrawerService);
@@ -828,7 +828,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         if (trans.getNewItemInProcess().isPopulated()) {
             trans.getNewItemInProcess().setItemRemainingAmount(trans.getNewItemInProcess().getItemAmount());
             trans.getNewItemInProcess().setItemReducedAmount(KualiDecimal.ZERO);
-            trans.getNewItemInProcess().setWorkgroupName(cmDoc.getWorkgroupName());
+            trans.getNewItemInProcess().setCampusCode(cmDoc.getCampusCode());
             businessObjectService.save(trans.getNewItemInProcess());
             
             // put it in the list of open items in process
@@ -921,7 +921,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.kfs.fp.document.service.CashManagementService#getOpenItemsInProcess(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public List<CashieringItemInProcess> getOpenItemsInProcess(CashManagementDocument cmDoc) {
-        List<CashieringItemInProcess> itemsInProcess = cashManagementDao.findOpenItemsInProcessByWorkgroupName(cmDoc.getWorkgroupName());
+        List<CashieringItemInProcess> itemsInProcess = cashManagementDao.findOpenItemsInProcessByWorkgroupName(cmDoc.getCampusCode());
         return (itemsInProcess == null) ? new ArrayList<CashieringItemInProcess>() : itemsInProcess;
     }
 
@@ -935,7 +935,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.kfs.fp.document.service.CashManagementService#getRecentlyClosedItemsInProcess(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public List<CashieringItemInProcess> getRecentlyClosedItemsInProcess(CashManagementDocument cmDoc) {
-        return cashManagementDao.findRecentlyClosedItemsInProcess(cmDoc.getWorkgroupName());
+        return cashManagementDao.findRecentlyClosedItemsInProcess(cmDoc.getCampusCode());
     }
 
     /**
@@ -1148,7 +1148,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @return True if there's some cash receipts that verified, interim, or final in this workgroup; false if otherwise.
      */
     private boolean existCashReceipts(CashManagementDocument cmDoc) {
-        List<CashReceiptDocument> cashReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), new String[] {KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, KFSConstants.DocumentStatusCodes.CashReceipt.FINAL} );
+        List<CashReceiptDocument> cashReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), new String[] {KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, KFSConstants.DocumentStatusCodes.CashReceipt.FINAL} );
         return cashReceipts != null && cashReceipts.size() > 0;
     }
     

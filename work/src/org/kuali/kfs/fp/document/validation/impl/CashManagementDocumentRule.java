@@ -116,15 +116,15 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
             if (cmd.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
                 // now verify that the associated cash drawer is in the appropriate state
-                CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(cmd.getWorkgroupName(), true);
+                CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(cmd.getCampusCode(), true);
                 if (!cmd.hasFinalDeposit()) {
                     if (!cd.isOpen()) {
-                        throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
+                        throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getCampusCode() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
                     }
                 }
                 else {
                     if (!cd.isLocked()) {
-                        throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
+                        throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getCampusCode() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
                     }
                 }
             }
@@ -217,7 +217,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     private boolean verifyAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
         boolean allCRsDeposited = true;
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         for (Object o : verifiedReceipts) {
             if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument) o)) {
                 allCRsDeposited = false;

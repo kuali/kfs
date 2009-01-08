@@ -130,10 +130,10 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         }
         
         if (!StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode())) {
-            throw new IllegalStateException("CashDrawer '" + drawer.getWorkgroupName() + "' cannot be locked because it is not open");
+            throw new IllegalStateException("CashDrawer '" + drawer.getCampusCode() + "' cannot be locked because it is not open");
         }
         if (!StringUtils.equals(documentId, drawer.getReferenceFinancialDocumentNumber())) {
-            throw new IllegalStateException("CashDrawer '" + drawer.getWorkgroupName() + "' cannot be locked because it was opened by document " + drawer.getReferenceFinancialDocumentNumber());
+            throw new IllegalStateException("CashDrawer '" + drawer.getCampusCode() + "' cannot be locked because it was opened by document " + drawer.getReferenceFinancialDocumentNumber());
         }
 
         drawer.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_LOCKED);
@@ -173,10 +173,10 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         }
 
         if (!StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_LOCKED, drawer.getStatusCode())) {
-            throw new IllegalStateException("CashDrawer '" + drawer.getWorkgroupName() + "' cannot be unlocked because it is not locked");
+            throw new IllegalStateException("CashDrawer '" + drawer.getCampusCode() + "' cannot be unlocked because it is not locked");
         }
         if (!StringUtils.equals(documentId, drawer.getReferenceFinancialDocumentNumber())) {
-            throw new IllegalStateException("CashDrawer '" + drawer.getWorkgroupName() + "' cannot be unlocked because it was locked by document " + drawer.getReferenceFinancialDocumentNumber());
+            throw new IllegalStateException("CashDrawer '" + drawer.getCampusCode() + "' cannot be unlocked because it was locked by document " + drawer.getReferenceFinancialDocumentNumber());
         }
 
         drawer.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_OPEN);
@@ -233,7 +233,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      */
     private CashDrawer newCashDrawer(String workgroupName) {
         CashDrawer drawer = new CashDrawer();
-        drawer.setWorkgroupName(workgroupName);
+        drawer.setCampusCode(workgroupName);
         drawer.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
 
         return drawer;

@@ -741,7 +741,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         crDoc.setCashReceiptHeader(new CashReceiptHeader());
         crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.getCashReceiptHeader().setWorkgroupName(workgroupName);
+        crDoc.getCashReceiptHeader().setCampusCode(workgroupName);
 
         crDoc.setCampusLocationCode(SpringContext.getBean(CashReceiptService.class).getCampusCodeForCashReceiptVerificationUnit(workgroupName));
 

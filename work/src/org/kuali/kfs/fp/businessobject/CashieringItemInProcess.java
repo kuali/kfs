@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class CashieringItemInProcess extends PersistableBusinessObjectBase {
 
-    private String workgroupName;
+    private String campusCode;
     private Integer itemIdentifier;
     private KualiDecimal itemAmount;
     private KualiDecimal itemReducedAmount;
@@ -48,8 +48,8 @@ public class CashieringItemInProcess extends PersistableBusinessObjectBase {
      * 
      * @return Returns the workgroupName
      */
-    public String getWorkgroupName() {
-        return workgroupName;
+    public String getCampusCode() {
+        return campusCode;
     }
 
     /**
@@ -57,8 +57,8 @@ public class CashieringItemInProcess extends PersistableBusinessObjectBase {
      * 
      * @param workgroupName The workgroupName to set.
      */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
     }
 
 
@@ -217,7 +217,7 @@ public class CashieringItemInProcess extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("workgroupName", this.workgroupName);
+        m.put("campusCode", this.campusCode);
         if (this.itemIdentifier != null) {
             m.put("itemIdentifier", this.itemIdentifier.toString());
         }

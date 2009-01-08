@@ -316,7 +316,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
 
         crDoc.setCashReceiptHeader(new CashReceiptHeader());
         crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.getCashReceiptHeader().setWorkgroupName(verificationUnit);
+        crDoc.getCashReceiptHeader().setCampusCode(verificationUnit);
 
         /* initialize currency and coin detail */
         CurrencyDetail currencyDetail = new CurrencyDetail();

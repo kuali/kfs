@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Cashiering Item In Process" />
     <property name="attributes" >
       <list>
-        <ref bean="CashieringItemInProcess-workgroupName" />
+        <ref bean="CashieringItemInProcess-campusCode" />
         <ref bean="CashieringItemInProcess-itemIdentifier" />
         <ref bean="CashieringItemInProcess-itemAmount" />
         <ref bean="CashieringItemInProcess-itemReducedAmount" />
@@ -33,13 +33,13 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashieringItemInProcess-workgroupName" parent="CashieringItemInProcess-workgroupName-parentBean" />
+  <bean id="CashieringItemInProcess-campusCode" parent="CashieringItemInProcess-campusCode-parentBean" />
 
-  <bean id="CashieringItemInProcess-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="workgroupName" />
+  <bean id="CashieringItemInProcess-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Workgroup Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Code" />
     <property name="maxLength" value="70" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -178,7 +178,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="workgroupName" />
+                    p:attributeName="campusCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemIdentifier" />
               <bean parent="FieldDefinition"
@@ -215,7 +215,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="workgroupName" />
+              p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="itemIdentifier" />
         <bean parent="FieldDefinition"
@@ -233,7 +233,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="workgroupName" />
+              p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="itemIdentifier" />
         <bean parent="FieldDefinition"

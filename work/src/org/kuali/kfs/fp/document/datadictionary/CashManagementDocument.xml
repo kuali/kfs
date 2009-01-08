@@ -38,7 +38,7 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="CashManagementDocument-workgroupName" />
+        <ref bean="CashManagementDocument-campusCode" />
         <ref bean="CashManagementDocument-cashDrawerStatus" />
       </list>
     </property>
@@ -50,10 +50,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashManagementDocument-workgroupName" parent="CashManagementDocument-workgroupName-parentBean" />
+  <bean id="CashManagementDocument-campusCode" parent="CashManagementDocument-campusCode-parentBean" />
 
-  <bean id="CashManagementDocument-workgroupName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="workgroupName" />
+  <bean id="CashManagementDocument-campusCode-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="campusCode" />
     <property name="label" value="Verification Unit" />
     <property name="shortLabel" value="Verification Unit" />
     <property name="maxLength" value="70" />

@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class CashieringTransaction extends TransientBusinessObjectBase {
     public static final String DETAIL_DOCUMENT_TYPE = "CM";
 
-    private String workgroupName;
+    private String campusCode;
     private String referenceFinancialDocumentNumber;
 
     // money in properties
@@ -63,7 +63,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
      */
     public CashieringTransaction(String workgroupName, String referenceFinancialDocumentNumber) {
         super();
-        this.workgroupName = workgroupName;
+        this.campusCode = workgroupName;
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
         this.transactionStarted = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
@@ -209,8 +209,8 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
      * 
      * @return Returns the workgroupName.
      */
-    public String getWorkgroupName() {
-        return workgroupName;
+    public String getCampusCode() {
+        return campusCode;
     }
 
     /**
@@ -218,8 +218,8 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
      * 
      * @param workgroupName The workgroupName to set.
      */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
+    public void setCampusCode(String workgroupName) {
+        this.campusCode = workgroupName;
     }
 
     /**
@@ -354,7 +354,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
         moneyOutCurrency.setFinancialDocumentTypeCode(DETAIL_DOCUMENT_TYPE);
         moneyOutCurrency.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
 
-        newItemInProcess.setWorkgroupName(this.workgroupName);
+        newItemInProcess.setCampusCode(this.campusCode);
     }
 
     /**
@@ -363,7 +363,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap pkMap = new LinkedHashMap();
-        pkMap.put("workgroupName", this.workgroupName);
+        pkMap.put("workgroupName", this.campusCode);
         pkMap.put("referenceFinancialDocumentNumber", this.referenceFinancialDocumentNumber);
         pkMap.put("transactionStarted", this.transactionStarted);
         return pkMap;

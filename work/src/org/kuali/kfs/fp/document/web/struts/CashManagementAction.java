@@ -184,7 +184,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
     private void checkDepositAuthorization(CashManagementDocument cmDoc, String depositTypeCode) {
         // deposits can only be added if the CashDrawer is open
         if (!cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_OPEN)) {
-            throw new IllegalStateException("CashDrawer '" + cmDoc.getWorkgroupName() + "' must be open for deposits to be made");
+            throw new IllegalStateException("CashDrawer '" + cmDoc.getCampusCode() + "' must be open for deposits to be made");
         }
 
         // verify user's ability to add a deposit
@@ -403,7 +403,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
     private String buildCashDrawerCorrectionUrl(CashManagementDocument cmDoc) {
         Properties params = new Properties();
         params.setProperty("methodToCall", "startCorrections");
-        params.setProperty("wrkgrpNm", cmDoc.getWorkgroupName());
+        params.setProperty("wrkgrpNm", cmDoc.getCampusCode());
 
         return UrlFactory.parameterizeUrl("cashDrawerCorrection.do", params);
     }

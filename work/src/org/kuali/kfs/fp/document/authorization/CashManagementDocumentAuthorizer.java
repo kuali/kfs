@@ -61,7 +61,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
         // update editMode if possible
         CashManagementDocument cmDoc = (CashManagementDocument) document;
 
-        if (org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, cmDoc.getWorkgroupName()).getGroupId())) {
+        if (org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, cmDoc.getCampusCode()).getGroupId())) {
             editModeMap.clear();
 
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -142,7 +142,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
      */
     private boolean areAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
         boolean theyAre = true;
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
         for (Object o : verifiedReceipts) {
             if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument) o)) {

@@ -125,7 +125,7 @@ public class DepositWizardAction extends KualiAction {
      * @param documentActionFlags
      */
     private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode, DocumentActionFlags documentActionFlags) {
-        String verificationUnit = cmDoc.getWorkgroupName();
+        String verificationUnit = cmDoc.getCampusCode();
 
         CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(verificationUnit, true);
         if (!cd.isOpen()) {

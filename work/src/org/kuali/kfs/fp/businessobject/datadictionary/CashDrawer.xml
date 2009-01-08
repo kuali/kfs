@@ -11,7 +11,7 @@
     <property name="objectLabel" value="Cash Drawer" />
     <property name="attributes" >
       <list>
-        <ref bean="CashDrawer-workgroupName" />
+        <ref bean="CashDrawer-campusCode" />
         <ref bean="CashDrawer-financialDocumentHundredCentAmount" />
         <ref bean="CashDrawer-hundredCentCount" />
         <ref bean="CashDrawer-financialDocumentFiftyCentAmount" />
@@ -50,13 +50,13 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashDrawer-workgroupName" parent="CashDrawer-workgroupName-parentBean" />
+  <bean id="CashDrawer-campusCode" parent="CashDrawer-campusCode-parentBean" />
 
-  <bean id="CashDrawer-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="workgroupName" />
+  <bean id="CashDrawer-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Workgroup Name" />
-    <property name="shortLabel" value="Wrkgrp Name" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Cmps Cd" />
     <property name="maxLength" value="70" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern"

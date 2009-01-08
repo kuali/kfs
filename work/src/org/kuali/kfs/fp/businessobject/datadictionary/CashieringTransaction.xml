@@ -11,7 +11,7 @@
     <property name="objectLabel" value="Cashiering Transaction" />
     <property name="attributes" >
       <list>
-        <ref bean="CashieringTransaction-workgroupName" />
+        <ref bean="CashieringTransaction-campusCode" />
         <ref bean="CashieringTransaction-referenceFinancialDocumentNumber" />
         <ref bean="CashieringTransaction-transactionStarted" />
       </list>
@@ -21,13 +21,13 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashieringTransaction-workgroupName" parent="CashieringTransaction-workgroupName-parentBean" />
+  <bean id="CashieringTransaction-campusCode" parent="CashieringTransaction-campusCode-parentBean" />
 
-  <bean id="CashieringTransaction-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="workgroupName" />
+  <bean id="CashieringTransaction-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Workgroup Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Code" />
     <property name="maxLength" value="70" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

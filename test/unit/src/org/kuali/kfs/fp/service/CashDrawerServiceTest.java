@@ -449,7 +449,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
 
         assertNotNull(d);
-        assertEquals(workgroup, d.getWorkgroupName());
+        assertEquals(workgroup, d.getCampusCode());
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, d.getStatusCode());
     }
 
@@ -467,7 +467,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertNull(preExisting);
 
         CashDrawer created = new CashDrawer();
-        created.setWorkgroupName(RANDOM_WORKGROUP_NAME);
+        created.setCampusCode(RANDOM_WORKGROUP_NAME);
         created.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
 
         CashDrawer retrieved = null;
@@ -478,7 +478,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
             assertNotNull(retrieved);
 
             // compare
-            assertEquals(created.getWorkgroupName(), retrieved.getWorkgroupName());
+            assertEquals(created.getCampusCode(), retrieved.getCampusCode());
             assertEquals(created.getStatusCode(), retrieved.getStatusCode());
             assertNull(retrieved.getReferenceFinancialDocumentNumber());
         }
@@ -516,7 +516,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         deleteCashDrawer(workgroupName);
 
         CashDrawer cd = new CashDrawer();
-        cd.setWorkgroupName(workgroupName);
+        cd.setCampusCode(workgroupName);
         cd.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
         SpringContext.getBean(BusinessObjectService.class).save(cd);
     }

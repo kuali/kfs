@@ -110,7 +110,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     public void populateCashDrawerSummary() {
         CashManagementDocument cmd = getCashManagementDocument();
         if (cmd != null) {
-            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(cmd.getWorkgroupName(), true);
+            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(cmd.getCampusCode(), true);
             if (!cd.isClosed()) {
                 cashDrawerSummary = new CashDrawerSummary(cmd);
             }
@@ -471,7 +471,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void resummarize(CashManagementDocument cmDoc) {
             //
             // get all interesting CRs
-            String workgroupName = cmDoc.getWorkgroupName();
+            String workgroupName = cmDoc.getCampusCode();
             List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroupName, INTERESTING_STATII);
 
 

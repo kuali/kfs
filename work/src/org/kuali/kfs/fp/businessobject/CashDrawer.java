@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * different types of denominations for currency and coin. 
  */
 public class CashDrawer extends PersistableBusinessObjectBase {
-    private String workgroupName;
+    private String campusCode;
     private String statusCode;
 
     private KualiDecimal cashDrawerTotalAmount;
@@ -94,8 +94,8 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * 
      * @return Returns the workgroupName
      */
-    public String getWorkgroupName() {
-        return workgroupName;
+    public String getCampusCode() {
+        return campusCode;
     }
 
     /**
@@ -103,8 +103,8 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * 
      * @param workgroupName The workgroupName to set.
      */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
+    public void setCampusCode(String workgroupName) {
+        this.campusCode = workgroupName;
     }
 
 
@@ -1067,7 +1067,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("workgroupName", this.workgroupName);
+        m.put("workgroupName", this.campusCode);
         return m;
     }
 }

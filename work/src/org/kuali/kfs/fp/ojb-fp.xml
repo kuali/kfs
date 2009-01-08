@@ -968,7 +968,7 @@
 
 <!-- CASH DRAWER SPECIFIC MAPPINGS -->
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CashDrawer" table="FP_CSH_DRWR_T">
-    <field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="statusCode" column="FDOC_OPEN_DPST_CD" jdbc-type="VARCHAR" />
@@ -1000,7 +1000,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
     <!-- CashManagement-specific attributes -->
-    <field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
 
     <!-- object references -->
@@ -1088,7 +1088,7 @@
     <field-descriptor name="nextCreditCardCashieringDocumentLineNumber" column="FDC_NXTCC_CDLN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextRevolvingFundLineNumber" column="FDOC_NXT_RF_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextAdvanceDepositLineNumber" column="FDOC_NXT_AD_LN_NBR" jdbc-type="INTEGER" />
-    <field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="depositDate" column="FDOC_DEPOSIT_DT" jdbc-type="DATE" />
 
     <reference-descriptor name="cashReceiptDocument" class-ref="org.kuali.kfs.fp.document.CashReceiptDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -2264,7 +2264,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" table="FP_CASHIER_ITM_IN_PROC_T">
-	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="itemIdentifier" column="ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="FP_CASHIER_ITM_IN_PROC_T_SEQ" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

@@ -36,7 +36,7 @@ public class CashReceiptHeader extends PersistableBusinessObjectBase {
     private Integer nextCreditCardCashieringDocumentLineNumber;
     private Integer nextRevolvingFundLineNumber;
     private Integer nextAdvanceDepositLineNumber;
-    private String workgroupName;
+    private String campusCode;
     private Date depositDate;
 
     private CashReceiptDocument cashReceiptDocument;
@@ -168,8 +168,8 @@ public class CashReceiptHeader extends PersistableBusinessObjectBase {
      * 
      * @return Returns the workgroupName
      */
-    public String getWorkgroupName() {
-        return workgroupName;
+    public String getCampusCode() {
+        return campusCode;
     }
 
     /**
@@ -177,8 +177,8 @@ public class CashReceiptHeader extends PersistableBusinessObjectBase {
      * 
      * @param workgroupName The workgroupName to set.
      */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
+    public void setCampusCode(String workgroupName) {
+        this.campusCode = workgroupName;
     }
 
 

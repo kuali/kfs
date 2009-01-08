@@ -61,7 +61,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     private static final long serialVersionUID = 7475843770851900297L;
     private static Logger LOG = Logger.getLogger(CashManagementDocument.class);
 
-    private String workgroupName;
+    private String campusCode;
     private String referenceFinancialDocumentNumber;
 
     private List<Deposit> deposits;
@@ -104,8 +104,8 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     /**
      * @return current value of workgroupName.
      */
-    public String getWorkgroupName() {
-        return workgroupName;
+    public String getCampusCode() {
+        return campusCode;
     }
 
     /**
@@ -113,8 +113,8 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * 
      * @param workgroupName The workgroupName to set.
      */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
+    public void setCampusCode(String workgroupName) {
+        this.campusCode = workgroupName;
     }
 
     /**
@@ -350,8 +350,8 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         // grab the cash drawer
-        if (this.getWorkgroupName() != null) {
-            this.cashDrawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(this.getWorkgroupName(), false);
+        if (this.getCampusCode() != null) {
+            this.cashDrawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(this.getCampusCode(), false);
             this.resetCurrentTransaction();
         }
         SpringContext.getBean(CashManagementService.class).populateCashDetailsForDeposit(this);
@@ -366,7 +366,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
-        m.put("workgroupName", getWorkgroupName());
+        m.put("workgroupName", getCampusCode());
         return m;
     }
 
@@ -377,8 +377,8 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         if (this.currentTransaction != null) {
             this.currentTransaction.setTransactionEnded(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         }
-        currentTransaction = new CashieringTransaction(workgroupName, referenceFinancialDocumentNumber);
-        if (this.getWorkgroupName() != null) {
+        currentTransaction = new CashieringTransaction(campusCode, referenceFinancialDocumentNumber);
+        if (this.getCampusCode() != null) {
             List<CashieringItemInProcess> openItemsInProcess = SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(this);
             if (openItemsInProcess != null) {
                 currentTransaction.setOpenItemsInProcess(openItemsInProcess);

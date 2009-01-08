@@ -25,23 +25,6 @@ import org.kuali.rice.kim.bo.Person;
  * This service interface defines the methods that a CashReceiptService implementation must provide.
  */
 public interface CashReceiptService {
-    
-    /**
-     * This method retrieves a cash receipt verification unit associated with the given campus code.
-     *
-     * @param campusCode The campus code to use to look up the cash receipt verification unit.
-     * @return Cash receipt verification unit workgroupName associated with the given campusCode.
-     */
-    public String getCashReceiptVerificationUnitForCampusCode(String campusCode);
-
-    /**
-     * This method retrieves a campus code associated with the given cash receipt verification unit.
-     * 
-     * @param unitName The cash receipt verification unit name to use to look up the campus code.
-     * @return The campusCode associated with the given cash receipt verification unit.
-     */
-    public String getCampusCodeForCashReceiptVerificationUnit(String unitName);
-
     /**
      * This method retrieves the cash receipt verification unit for the given user.
      * 

@@ -22,7 +22,7 @@ import org.kuali.rice.kns.exception.KualiException;
 
 
 public class CashDrawerStateException extends KualiException {
-    private final String verificationUnit;
+    private final String campusCode;
     private final String controllingDocumentId;
     private final String currentDrawerStatus;
     private final String desiredDrawerStatus;
@@ -30,9 +30,9 @@ public class CashDrawerStateException extends KualiException {
     private final static String CASH_DRAWER_STATE_EXCEPTION_SESSION_KEY = "CASH_DRAWER_STATE_EXCEPTION";
 
 
-    public CashDrawerStateException(String verificationUnit, String controllingDocumentId, String currentDrawerStatus, String desiredDrawerStatus) {
+    public CashDrawerStateException(String campusCode, String controllingDocumentId, String currentDrawerStatus, String desiredDrawerStatus) {
         super("Cash Drawer State Exception; this exception should simply serve to redirect the page to the Cash Drawer Status page");
-        this.verificationUnit = verificationUnit;
+        this.campusCode = campusCode;
         this.controllingDocumentId = controllingDocumentId;
         this.currentDrawerStatus = currentDrawerStatus;
         this.desiredDrawerStatus = desiredDrawerStatus;
@@ -40,10 +40,10 @@ public class CashDrawerStateException extends KualiException {
 
 
     /**
-     * @return current value of verificationUnit.
+     * @return current value of campusCode.
      */
-    public String getVerificationUnit() {
-        return verificationUnit;
+    public String getCampusCode() {
+        return campusCode;
     }
 
     /**
@@ -73,7 +73,7 @@ public class CashDrawerStateException extends KualiException {
      */
     public Properties toProperties() {
         Properties properties = new Properties();
-        properties.setProperty("verificationUnit", getVerificationUnit());
+        properties.setProperty("campusCode", getCampusCode());
         properties.setProperty("controllingDocumentId", getControllingDocumentId());
         properties.setProperty("currentDrawerStatus", getCurrentDrawerStatus());
         properties.setProperty("desiredDrawerStatus", getDesiredDrawerStatus());

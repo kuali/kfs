@@ -403,7 +403,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
     private String buildCashDrawerCorrectionUrl(CashManagementDocument cmDoc) {
         Properties params = new Properties();
         params.setProperty("methodToCall", "startCorrections");
-        params.setProperty("wrkgrpNm", cmDoc.getCampusCode());
+        params.setProperty("campusCode", cmDoc.getCampusCode());
 
         return UrlFactory.parameterizeUrl("cashDrawerCorrection.do", params);
     }

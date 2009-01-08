@@ -25,20 +25,20 @@ import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 public interface CashManagementDao {
 
     /**
-     * This method returns a list of open items in process for a given workgroup
+     * This method returns a list of open items in process for a given campus code
      * 
-     * @param wrkgrpName the workgroup name to use to search open items in process for
+     * @param campusCode the campus code to use to search open items in process for
      * @return a list of open items in process
      */
-    public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String wrkgrpName);
+    public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String campusCode);
 
     /**
-     * This finds items in process associated with the given workgroup closed within the past 30 days.
+     * This finds items in process associated with the given campus code closed within the past 30 days.
      * 
-     * @param workgroupName the workgroup name that the found items in process should be associated with
+     * @param campusCode the campus code that the found items in process should be associated with
      * @return a list of CashieringItemInProcess records
      */
-    public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String workgroupName);
+    public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String campusCode);
 
     /**
      * Retrieves all currency detail records with the given document number, document type code, and cashiering record source

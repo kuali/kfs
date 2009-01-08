@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.context.SpringContext;
  */
 @ConfigureContext
 public class CashDrawerServiceTest extends KualiTestBase {
-    private static final String BLANK_WORKGROUP_NAME = "";
-    private static final String VALID_WORKGROUP_NAME = "testWorkgroup";
+    private static final String BLANK_CAMPUS_CODE = "";
+    private static final String VALID_CAMPUS_CODE = "KO";
     private static final String BLANK_DOC_ID = "    ";
     private static final String VALID_DOC_ID = "1234";
     private static final String OTHER_DOC_ID = "4321";
@@ -46,7 +46,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashDrawerService.class).openCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
+            SpringContext.getBean(CashDrawerService.class).openCashDrawer(BLANK_CAMPUS_CODE, VALID_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -64,7 +64,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashDrawerService.class).openCashDrawer(VALID_WORKGROUP_NAME, BLANK_DOC_ID);
+            SpringContext.getBean(CashDrawerService.class).openCashDrawer(VALID_CAMPUS_CODE, BLANK_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -79,16 +79,16 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * will create a new cash drawer and open it.
      */
     public final void testOpenCashDrawer_nonexistent() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String campusCode = VALID_CAMPUS_CODE;
 
         // make sure it doesn't exist
-        deleteCashDrawer(workgroup);
+        deleteCashDrawer(campusCode);
 
         // open it
-        SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, VALID_DOC_ID);
+        SpringContext.getBean(CashDrawerService.class).openCashDrawer(campusCode, VALID_DOC_ID);
 
         // verify that it is open
-        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode, false);
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -98,7 +98,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * This method tests the openCashDrawer method under valid conditions.
      */
     public final void testOpenCashDrawer() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // make sure it exists
         createCashDrawer(workgroup);
@@ -107,7 +107,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, VALID_DOC_ID);
 
         // make sure it is open
-        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroup, false);
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -121,7 +121,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashDrawerService.class).closeCashDrawer(BLANK_WORKGROUP_NAME);
+            SpringContext.getBean(CashDrawerService.class).closeCashDrawer(BLANK_CAMPUS_CODE);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -136,7 +136,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * will create a new cash drawer and closes it.
      */
     public final void testCloseCashDrawer_nonexistent() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // make sure it doesn't exist
         deleteCashDrawer(workgroup);
@@ -145,7 +145,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         SpringContext.getBean(CashDrawerService.class).closeCashDrawer(workgroup);
 
         // verify that it is closed
-        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroup, false);
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
@@ -155,7 +155,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * This method tests the closeCashDrawer method under valid conditions.
      */
     public final void testCloseCashDrawer_existent() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // make sure it exists
         createCashDrawer(workgroup);
@@ -164,7 +164,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         SpringContext.getBean(CashDrawerService.class).closeCashDrawer(workgroup);
 
         // make sure it is closed
-        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroup, false);
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
@@ -178,7 +178,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashDrawerService.class).lockCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
+            SpringContext.getBean(CashDrawerService.class).lockCashDrawer(BLANK_CAMPUS_CODE, VALID_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -193,7 +193,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * an error is generated.
      */
     public final void testLockCashDrawer_nonexistent() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // make sure it doesn't exist
         deleteCashDrawer(workgroup);
@@ -216,7 +216,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * is closed, an error is generated.
      */
     public final void testLockCashDrawer_closed() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // close it
         SpringContext.getBean(CashDrawerService.class).closeCashDrawer(workgroup);
@@ -239,7 +239,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * is already locked, an error is generated.
      */
     public final void testLockCashDrawer_alreadyLocked() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // open it
         SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, VALID_DOC_ID);
@@ -264,7 +264,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * is already opened by another document, an error is generated.
      */
     public final void testLockCashDrawer_openedByDifferentDocument() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // open it
         SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, OTHER_DOC_ID);
@@ -286,7 +286,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * This method tests the lockCashDrawer method under valid conditions.
      */
     public final void testLockCashDrawer_open() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // open it
         SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, VALID_DOC_ID);
@@ -295,7 +295,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         SpringContext.getBean(CashDrawerService.class).lockCashDrawer(workgroup, VALID_DOC_ID);
 
         // verify that it is locked
-        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroup, false);
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_LOCKED, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -309,7 +309,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashDrawerService.class).unlockCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
+            SpringContext.getBean(CashDrawerService.class).unlockCashDrawer(BLANK_CAMPUS_CODE, VALID_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -324,7 +324,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * an error is generated.
      */
     public final void testUnlockCashDrawer_nonexistent() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // make sure it doesn't exist
         deleteCashDrawer(workgroup);
@@ -347,7 +347,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * an error is generated.
      */
     public final void testUnlockCashDrawer_open() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // open it
         SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, VALID_DOC_ID);
@@ -369,7 +369,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * This method tests the unlockCashDrawer method under valid conditions.
      */
     public final void testUnlockCashDrawer_locked() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // lock it
         SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, VALID_DOC_ID);
@@ -379,7 +379,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         SpringContext.getBean(CashDrawerService.class).unlockCashDrawer(workgroup, VALID_DOC_ID);
 
         // verify that it is unlocked
-        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroup, false);
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -390,7 +390,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * is already locked by another document, an error is generated.
      */
     public final void testUnlockCashDrawer_lockedByDifferentDocumentId() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
         // lock it
         SpringContext.getBean(CashDrawerService.class).openCashDrawer(workgroup, OTHER_DOC_ID);
@@ -417,7 +417,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashDrawerService.class).getByWorkgroupName("  ", false);
+            SpringContext.getBean(CashDrawerService.class).getByCampusCode("  ", false);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -432,7 +432,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * will generate an error.
      */
     public final void testGetByWorkgroupName_nonexistentWorkgroup() {
-        CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName("foo", false);
+        CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByCampusCode("foo", false);
 
         assertNull(d);
     }
@@ -442,81 +442,40 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * This method tests the getByWorkgroupName method under valid conditions.
      */
     public final void testGetByWorkgroupName_existingWorkgroup() {
-        final String workgroup = VALID_WORKGROUP_NAME;
+        final String workgroup = VALID_CAMPUS_CODE;
 
-        createCashDrawer(VALID_WORKGROUP_NAME);
+        createCashDrawer(VALID_CAMPUS_CODE);
 
-        CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroup, false);
+        CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroup, false);
 
         assertNotNull(d);
         assertEquals(workgroup, d.getCampusCode());
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, d.getStatusCode());
     }
 
-    /**
-     * 
-     * This method tests that all the possible steps during the lifecycle of a cash drawer function properly and are 
-     * achievable with the expected results.
-     */
-    public final void testLifeCycle() {
-        final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime();
-
-        boolean deleteSucceeded = false;
-
-        CashDrawer preExisting = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
-        assertNull(preExisting);
-
-        CashDrawer created = new CashDrawer();
-        created.setCampusCode(RANDOM_WORKGROUP_NAME);
-        created.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
-
-        CashDrawer retrieved = null;
-        try {
-            SpringContext.getBean(BusinessObjectService.class).save(created);
-
-            retrieved = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
-            assertNotNull(retrieved);
-
-            // compare
-            assertEquals(created.getCampusCode(), retrieved.getCampusCode());
-            assertEquals(created.getStatusCode(), retrieved.getStatusCode());
-            assertNull(retrieved.getReferenceFinancialDocumentNumber());
-        }
-        finally {
-            // delete it
-            if (retrieved != null) {
-                SpringContext.getBean(BusinessObjectService.class).delete(retrieved);
-            }
-        }
-
-        // verify that the delete succeeded
-        retrieved = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
-        assertNull(retrieved);
-    }
-
 
     // utility methods
 
     /**
-     * This method performs the necessary steps to delete a cash drawer from the database for the given workgroup name.
-     * @param workgroupName The name of the workgroup of the cash drawer to be deleted.
+     * This method performs the necessary steps to delete a cash drawer from the database for the given campus code.
+     * @param campusCode The code of the campus of the cash drawer to be deleted.
      */
-    private void deleteCashDrawer(String workgroupName) {
+    private void deleteCashDrawer(String campusCode) {
         Map deleteCriteria = new HashMap();
-        deleteCriteria.put("workgroupName", workgroupName);
+        deleteCriteria.put("campusCode", campusCode);
         SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
     /**
      * 
-     * This method performs the necessary steps to create a new cash drawer in the database for the given workgroup name.
-     * @param workgroupName The name of the workgroup of the cash drawer being created.
+     * This method performs the necessary steps to create a new cash drawer in the database for the given campus code.
+     * @param campusCode The code of the campus of the cash drawer being created.
      */
-    private void createCashDrawer(String workgroupName) {
-        deleteCashDrawer(workgroupName);
+    private void createCashDrawer(String campusCode) {
+        deleteCashDrawer(campusCode);
 
         CashDrawer cd = new CashDrawer();
-        cd.setCampusCode(workgroupName);
+        cd.setCampusCode(campusCode);
         cd.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
         SpringContext.getBean(BusinessObjectService.class).save(cd);
     }

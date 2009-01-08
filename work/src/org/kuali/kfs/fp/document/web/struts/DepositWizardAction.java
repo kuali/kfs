@@ -125,20 +125,18 @@ public class DepositWizardAction extends KualiAction {
      * @param documentActionFlags
      */
     private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode, DocumentActionFlags documentActionFlags) {
-        String verificationUnit = cmDoc.getCampusCode();
-
-        CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(verificationUnit, true);
+        CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmDoc.getCampusCode(), true);
         if (!cd.isOpen()) {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
 
             String cmDocId = cmDoc.getDocumentNumber();
             String currentState = cd.getStatusCode();
 
-            throw new CashDrawerStateException(verificationUnit, cmDocId, (String) f.format(CashDrawerConstants.STATUS_OPEN), (String) f.format(cd.getStatusCode()));
+            throw new CashDrawerStateException(cmDoc.getCampusCode(), cmDocId, (String) f.format(CashDrawerConstants.STATUS_OPEN), (String) f.format(cd.getStatusCode()));
         }
 
         dform.setCashManagementDocId(cmDoc.getDocumentNumber());
-        dform.setCashDrawerVerificationUnit(verificationUnit);
+        dform.setCashDrawerCampusCode(cmDoc.getCampusCode());
 
         dform.setDepositTypeCode(depositTypeCode);
 
@@ -169,7 +167,7 @@ public class DepositWizardAction extends KualiAction {
      * @param dform
      */
     private void loadCashReceipts(DepositWizardForm dform) {
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         dform.setDepositableCashReceipts(new ArrayList());
         dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
 
@@ -276,7 +274,7 @@ public class DepositWizardAction extends KualiAction {
         if (depositIsFinal) {
             // add check free cash receipts to the selected receipts so they are automatically deposited
             dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
-            for (Object crDocObj : SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+            for (Object crDocObj : SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
                 CashReceiptDocument crDoc = (CashReceiptDocument) crDocObj;
                 if (crDoc.getCheckCount() == 0) {
                     // it's check free; it is automatically deposited as part of the final deposit
@@ -310,7 +308,7 @@ public class DepositWizardAction extends KualiAction {
 
                 if (depositIsFinal) {
                     // have all verified CRs been deposited? If not, that's an error
-                    List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+                    List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
                     for (Object o : verifiedReceipts) {
                         CashReceiptDocument crDoc = (CashReceiptDocument) o;
                         if (!selectedReceipts.contains(crDoc)) {
@@ -333,7 +331,7 @@ public class DepositWizardAction extends KualiAction {
                     checkEnoughCoinForDeposit(dform);
 
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {
@@ -434,7 +432,7 @@ public class DepositWizardAction extends KualiAction {
         CurrencyDetail detail = depositForm.getCurrencyDetail();
         if (detail != null) {
             // 1. get the cash drawer
-            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(depositForm.getCashDrawerVerificationUnit(), false);
+            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(depositForm.getCashDrawerCampusCode(), false);
             // assumptions at this point:
             // 1. a cash drawer does exist for the unit
             // 2. we can ignore negative amounts, because if we have negative amounts, we're actually gaining money (and that will
@@ -503,7 +501,7 @@ public class DepositWizardAction extends KualiAction {
         CoinDetail detail = depositForm.getCoinDetail();
         if (detail != null) {
             // 1. get the cash drawer
-            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(depositForm.getCashDrawerVerificationUnit(), false);
+            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(depositForm.getCashDrawerCampusCode(), false);
             // assumptions at this point:
             // 1. a cash drawer does exist for the unit
             // 2. we can ignore negative amounts, because if we have negative amounts, we're actually gaining money (and that will

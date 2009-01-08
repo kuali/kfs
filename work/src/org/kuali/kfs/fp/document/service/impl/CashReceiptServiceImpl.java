@@ -72,62 +72,6 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     private DictionaryValidationService dictionaryValidationService;
 
     /**
-     * This method uses the campus code provided to determine the cash receipt verification unit.  The verification unit
-     * is equivalent to the campus code with a prefix retrieved from the parameter service using the ParameterService
-     *  using the key "VERIFICATION_UNIT_GROUP_PREFIX".
-     * 
-     * @param campusCode The campus code used to determine the verification unit.
-     * @return The cash receipt verification unit based on the campus code provided.
-     * 
-     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
-     */
-    public String getCashReceiptVerificationUnitForCampusCode(String campusCode) {
-        String vunit = null;
-
-        if (StringUtils.isBlank(campusCode)) {
-            throw new IllegalArgumentException("invalid (blank) campusCode");
-        }
-
-        vunit = parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX")+campusCode;
-        
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, vunit);
-        if (group == null) {
-            throw new IllegalArgumentException(vunit+" does not have a corresponding workgroup");
-        }
-
-        return vunit;
-    }
-
-
-    /**
-     * This method uses the unit name provided to determine the associated campus code.  The campus code is a substring of the 
-     * unit name and can be retrieved by removing the verification unit prefix from the unit name.  The prefix to be removed 
-     * can be retrieved from the ParameterService using the key "VERIFICATION_UNIT_GROUP_PREFIX".
-     * 
-     * @param unitName The unit name to be used to determine the campus code.
-     * @return The campus code retrieved from the unit name provided.
-     * 
-     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCampusCodeForCashReceiptVerificationUnit(java.lang.String)
-     */
-    public String getCampusCodeForCashReceiptVerificationUnit(String unitName) {
-        String campusCode = null;
-
-        if (StringUtils.isBlank(unitName)) {
-            throw new IllegalArgumentException("invalid (blank) unitName");
-        }
-
-        // pretend that a lookup is actually happening
-        campusCode = unitName.replace(parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX"), "").toUpperCase();
-        
-        if (!verifyCampus(campusCode)) {
-            throw new IllegalArgumentException("The campus "+campusCode+" does not exist");
-        }
-
-        return campusCode;
-    }
-
-
-    /**
      * This method verifies the campus code provided exists.  This is done by retrieving all the available campuses from
      * the BusinessObjectService and then looking for a matching campus code within the result set.
      * 
@@ -164,7 +108,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (null) user");
         }
 
-        return getCashReceiptVerificationUnitForCampusCode(user.getCampusCode());
+        return user.getCampusCode();
     }
 
 
@@ -242,11 +186,11 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     /**
      * This method builds out a map of search criteria for performing cash receipt lookups using the values provided.
      * 
-     * @param workgroupName The workgroup name to use as search criteria for looking up cash receipts.
+     * @param campusCode The campus code to use as search criteria for looking up cash receipts.
      * @param statii A collection of possible statuses to use as search criteria for looking up cash receipts.
      * @return The search criteria provided in a map with CashReceiptConstants used as keys to the parameters given.
      */
-    private Map buildCashReceiptCriteriaMap(String workgroupName, String[] statii) {
+    private Map buildCashReceiptCriteriaMap(String campusCode, String[] statii) {
         Map queryCriteria = new HashMap();
 
         if (statii.length == 1) {
@@ -257,8 +201,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             queryCriteria.put(KFSConstants.CashReceiptConstants.CASH_RECEIPT_DOC_HEADER_STATUS_CODE_PROPERTY_NAME, statusList);
         }
 
-        String campusLocationCode = getCampusCodeForCashReceiptVerificationUnit(workgroupName);
-        queryCriteria.put(KFSConstants.CashReceiptConstants.CASH_RECEIPT_CAMPUS_LOCATION_CODE_PROPERTY_NAME, campusLocationCode);
+        queryCriteria.put(KFSConstants.CashReceiptConstants.CASH_RECEIPT_CAMPUS_LOCATION_CODE_PROPERTY_NAME, campusCode);
 
         return queryCriteria;
     }
@@ -323,14 +266,14 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @return An instance of a cash drawer associated with the cash receipt document provided.
      */
     private CashDrawer retrieveCashDrawer(CashReceiptDocument crDoc) {
-        String workgroupName = getCashReceiptVerificationUnitForCampusCode(crDoc.getCampusLocationCode());
-        if (workgroupName == null) {
+        String campusCode = crDoc.getCampusLocationCode();
+        if (campusCode == null) {
             throw new RuntimeException("Cannot find workgroup name for Cash Receipt document: "+crDoc.getDocumentNumber());
         }
         
-        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName, false);
+        CashDrawer drawer = cashDrawerService.getByCampusCode(campusCode, false);
         if (drawer == null) {
-            throw new RuntimeException("There is no Cash Drawer for Workgroup "+workgroupName);
+            throw new RuntimeException("There is no Cash Drawer for Workgroup "+campusCode);
         }
         return drawer;
     }

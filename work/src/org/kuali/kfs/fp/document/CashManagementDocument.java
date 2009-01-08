@@ -351,7 +351,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         super.processAfterRetrieve();
         // grab the cash drawer
         if (this.getCampusCode() != null) {
-            this.cashDrawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(this.getCampusCode(), false);
+            this.cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(this.getCampusCode(), false);
             this.resetCurrentTransaction();
         }
         SpringContext.getBean(CashManagementService.class).populateCashDetailsForDeposit(this);

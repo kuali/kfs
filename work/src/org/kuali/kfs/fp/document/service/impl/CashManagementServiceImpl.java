@@ -136,8 +136,8 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.kfs.fp.document.service.CashManagementService#createCashManagementDocument(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public CashManagementDocument createCashManagementDocument(String workgroupName, String docDescription, String annotation) {
-        if (StringUtils.isBlank(workgroupName)) {
+    public CashManagementDocument createCashManagementDocument(String campusCode, String docDescription, String annotation) {
+        if (StringUtils.isBlank(campusCode)) {
             throw new IllegalArgumentException("invalid (blank) workgroupName");
         }
         if (StringUtils.isBlank(docDescription)) {
@@ -151,7 +151,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         documentAuthorizer.canInitiate(documentTypeName, user);
 
         // check cash drawer
-        CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, true);
+        CashDrawer cd = cashDrawerService.getByCampusCode(campusCode, true);
         String controllingDocId = cd.getReferenceFinancialDocumentNumber();
 
         // KULEDOCS-1475: adding handling for two things which should never happen:
@@ -173,7 +173,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             if (forceDrawerClosed) {
                 cashDrawerService.closeCashDrawer(cd);
-                cd = cashDrawerService.getByWorkgroupName(workgroupName, true);
+                cd = cashDrawerService.getByCampusCode(campusCode, true);
             }
         }
 
@@ -184,7 +184,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             try {
                 cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
                 cmDoc.getDocumentHeader().setDocumentDescription(docDescription);
-                cmDoc.setCampusCode(workgroupName);
+                cmDoc.setCampusCode(campusCode);
                 cmDoc.setCashDrawer(cd);
                 cmDoc.getCurrentTransaction().setCampusCode(cmDoc.getCampusCode());
                 cmDoc.getCurrentTransaction().setReferenceFinancialDocumentNumber(cmDoc.getDocumentNumber());
@@ -197,7 +197,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         else {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
 
-            throw new CashDrawerStateException(workgroupName, controllingDocId, (String) f.format(CashDrawerConstants.STATUS_CLOSED), (String) f.format(cd.getStatusCode()));
+            throw new CashDrawerStateException(campusCode, controllingDocId, (String) f.format(CashDrawerConstants.STATUS_CLOSED), (String) f.format(cd.getStatusCode()));
         }
 
         return cmDoc;
@@ -518,7 +518,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // unlock the cashDrawer, if needed
         if (deposit.getDepositTypeCode() == DepositConstants.DEPOSIT_TYPE_FINAL) {
-            CashDrawer drawer = cashDrawerService.getByWorkgroupName(deposit.getCashManagementDocument().getCampusCode(), false);
+            CashDrawer drawer = cashDrawerService.getByCampusCode(deposit.getCashManagementDocument().getCampusCode(), false);
             CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
             if (currencyDetail != null) {
                 drawer.addCurrency(currencyDetail);
@@ -560,9 +560,9 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new IllegalStateException("cmDoc " + cmDoc.getDocumentNumber() + " is missing a FinalDeposit");
         }
 
-        String workgroupName = cmDoc.getCampusCode();
-        cashDrawerService.closeCashDrawer(workgroupName);
-        CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, false);
+        String campusCode = cmDoc.getCampusCode();
+        cashDrawerService.closeCashDrawer(campusCode);
+        CashDrawer cd = cashDrawerService.getByCampusCode(campusCode, false);
 
 
         // finalize the CashReceipts
@@ -724,7 +724,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     public void applyCashieringTransaction(CashManagementDocument cmDoc) {
         if (cmDoc.getCashDrawer() == null) {
-            cmDoc.setCashDrawer(cashDrawerService.getByWorkgroupName(cmDoc.getCampusCode(), false));
+            cmDoc.setCashDrawer(cashDrawerService.getByCampusCode(cmDoc.getCampusCode(), false));
         }
         CashieringTransactionRule transactionRule = new CashieringTransactionRule();
         transactionRule.setCashDrawerService(cashDrawerService);

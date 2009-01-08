@@ -50,13 +50,13 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = twatson)
 public class CashManagementServiceTest extends KualiTestBase {
-    static final String CMST_WORKGROUP = "FP_CASH_MANAGEMENT_USERS_KO";
+    static final String CMST_CAMPUS_CODE = "KO";
 
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashManagementService.class).createCashManagementDocument("    ", "foo", "cmst1");
+            SpringContext.getBean(CashManagementService.class).createCashManagementDocument("  ", "foo", "cmst1");
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -69,7 +69,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, null, "cmst2");
+            SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, null, "cmst2");
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -83,11 +83,11 @@ public class CashManagementServiceTest extends KualiTestBase {
         String testDocumentId = null;
 
         try {
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testCreate_valid", "cmst3");
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testCreate_valid", "cmst3");
             assertNotNull(createdDoc);
             testDocumentId = createdDoc.getDocumentNumber();
 
@@ -104,7 +104,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
@@ -113,11 +113,11 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         String testDocumentId = null;
         try {
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testCreate_cashDrawerAlreadyOpen", "cmst3");
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testCreate_cashDrawerAlreadyOpen", "cmst3");
             assertNotNull(createdDoc);
             testDocumentId = createdDoc.getDocumentNumber();
 
@@ -128,7 +128,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             boolean failedAsExpected = false;
             // fail creating the document since the CashDrawer is already open
             try {
-                SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testCreate_validCollision 2", "cmst5");
+                SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testCreate_validCollision 2", "cmst5");
                 fail("created a CMD while the CashDrawer is already open");
             }
             catch (CashDrawerStateException e) {
@@ -149,7 +149,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             cleanupCancel(testDocumentId);
 
             // delete the cashDrawer you created
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
@@ -161,11 +161,11 @@ public class CashManagementServiceTest extends KualiTestBase {
             //
             // create empty CMDoc
             //
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, false);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, false);
             assertNull(preDocCD);
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testCreate_valid", "cmst3");
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testCreate_valid", "cmst3");
             assertNotNull(createdDoc);
             testDocumentId = createdDoc.getDocumentNumber();
 
@@ -184,7 +184,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             SpringContext.getBean(CashManagementService.class).cancelCashManagementDocument(createdDoc);
 
             // verify that the cancellation closed the cash drawer
-            CashDrawer postCancelCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, false);
+            CashDrawer postCancelCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, false);
             assertNotNull(postCancelCD);
             assertEquals(postCancelCD.getStatusCode(), KFSConstants.CashDrawerConstants.STATUS_CLOSED);
         }
@@ -193,7 +193,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
@@ -205,11 +205,11 @@ public class CashManagementServiceTest extends KualiTestBase {
         try {
             //
             // create a valid, empty CashManagementDocument
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_valid", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it separately
@@ -221,9 +221,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -267,13 +267,13 @@ public class CashManagementServiceTest extends KualiTestBase {
         finally {
 
             // clean up CRdoc
-            denatureCashReceipts(CMST_WORKGROUP);
+            denatureCashReceipts(CMST_CAMPUS_CODE);
 
             // cancel CMDoc; now we can
             cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
@@ -299,7 +299,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         String docId = null;
         try {
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_eCRL", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_eCRL", null);
             docId = createdDoc.getDocumentNumber();
 
             SpringContext.getBean(CashDrawerService.class).openCashDrawer(createdDoc.getCashDrawer(), docId);
@@ -312,7 +312,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             // clean up CRdoc
-            denatureCashReceipts(CMST_WORKGROUP);
+            denatureCashReceipts(CMST_CAMPUS_CODE);
 
             if (docId != null) {
                 Document testDoc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
@@ -320,7 +320,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             }
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
 
         assertTrue(failedAsExpected);
@@ -335,11 +335,11 @@ public class CashManagementServiceTest extends KualiTestBase {
         try {
             //
             // create a valid, empty CashManagementDocument
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nonverified", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_nonverified", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
             SpringContext.getBean(CashDrawerService.class).openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
@@ -353,7 +353,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipt
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("75.00"));
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("75.00"));
             changeCurrentUser(twatson);
 
             List crList = new ArrayList();
@@ -367,13 +367,13 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             // clean up CRdoc
-            denatureCashReceipts(CMST_WORKGROUP);
+            denatureCashReceipts(CMST_CAMPUS_CODE);
 
             // cancel CMDoc
             cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
 
         assertTrue(failedAsExpected);
@@ -388,12 +388,12 @@ public class CashManagementServiceTest extends KualiTestBase {
         try {
             //
             // create a valid, empty CashManagementDocument
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
             changeCurrentUser(twatson);
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nonverified", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_nonverified", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
             //
@@ -401,7 +401,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipt
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST noncheck CR", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST noncheck CR", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             changeCurrentUser(twatson);
             changeCurrentUser(twatson);
 
@@ -416,10 +416,10 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             // clean up CRdoc
-            denatureCashReceipts(CMST_WORKGROUP);
+            denatureCashReceipts(CMST_CAMPUS_CODE);
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
 
         assertTrue(failedAsExpected);
@@ -433,11 +433,11 @@ public class CashManagementServiceTest extends KualiTestBase {
         try {
             //
             // create a valid, empty CashManagementDocument
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_valid", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it
@@ -453,9 +453,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("10.00"));
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("10.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -500,13 +500,13 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             // clean up CRdoc
-            denatureCashReceipts(CMST_WORKGROUP);
+            denatureCashReceipts(CMST_CAMPUS_CODE);
 
             // cancel CMDoc
             cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
@@ -532,11 +532,11 @@ public class CashManagementServiceTest extends KualiTestBase {
         try {
             //
             // create a valid, empty CashManagementDocument
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_valid", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it
@@ -548,9 +548,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -620,13 +620,13 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             // clean up CRdoc
-            denatureCashReceipts(CMST_WORKGROUP);
+            denatureCashReceipts(CMST_CAMPUS_CODE);
 
             // cancel CMDoc
             cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
@@ -634,38 +634,38 @@ public class CashManagementServiceTest extends KualiTestBase {
     public void testKULEDOCS_1475_nullDocument() {
         try {
             // open the Cash Drawer for a null documentId
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
 
-            CashDrawer forcedOpen = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            CashDrawer forcedOpen = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             forcedOpen.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_OPEN);
             forcedOpen.setReferenceFinancialDocumentNumber(null);
             SpringContext.getBean(BusinessObjectService.class).save(forcedOpen);
 
             // try create a new CM doc
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_valid", null);
             assertNotNull(createdDoc);
         }
         finally {
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
     public void testKULEDOCS_1475_nonexistentDocument() {
         try {
             // open the Cash Drawer for a nonexistent documentId
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
 
-            CashDrawer forcedLocked = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            CashDrawer forcedLocked = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             forcedLocked.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_LOCKED);
             forcedLocked.setReferenceFinancialDocumentNumber("0");
             SpringContext.getBean(BusinessObjectService.class).save(forcedLocked);
 
             // try create a new CM doc
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_valid", null);
             assertNotNull(createdDoc);
         }
         finally {
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
     }
 
@@ -678,11 +678,11 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             //
             // create a valid, empty CashManagementDocument
-            deleteIfExists(CMST_WORKGROUP);
-            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+            deleteIfExists(CMST_CAMPUS_CODE);
+            CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS_CODE, true);
             assertTrue(preDocCD.isClosed());
 
-            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
+            CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_valid", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it
@@ -690,7 +690,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             saveDocument(createdDoc);
 
             // try create a new CM doc
-            SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
+            SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS_CODE, "CMST_testAddID_valid", null);
         }
         catch (CashDrawerStateException e) {
             failedAsExpected = true;
@@ -699,7 +699,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             // cancel CMDoc
             cleanupCancel(testDocumentId);
 
-            deleteIfExists(CMST_WORKGROUP);
+            deleteIfExists(CMST_CAMPUS_CODE);
         }
 
         assertTrue(failedAsExpected);
@@ -711,9 +711,9 @@ public class CashManagementServiceTest extends KualiTestBase {
         return crDoc;
     }
 
-    private void deleteIfExists(String workgroupName) {
+    private void deleteIfExists(String campusCode) {
         Map deleteCriteria = new HashMap();
-        deleteCriteria.put("workgroupName", workgroupName);
+        deleteCriteria.put("campusCode", campusCode);
         SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
@@ -729,7 +729,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status, KualiDecimal checkAmount) throws WorkflowException {
+    private CashReceiptDocument buildCashReceiptDoc(String campusCode, String description, String status, KualiDecimal checkAmount) throws WorkflowException {
         CashReceiptDocument crDoc = (CashReceiptDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setDocumentDescription(description);
@@ -741,9 +741,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         crDoc.setCashReceiptHeader(new CashReceiptHeader());
         crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.getCashReceiptHeader().setCampusCode(workgroupName);
+        crDoc.getCashReceiptHeader().setCampusCode(campusCode);
 
-        crDoc.setCampusLocationCode(SpringContext.getBean(CashReceiptService.class).getCampusCodeForCashReceiptVerificationUnit(workgroupName));
+        crDoc.setCampusLocationCode(campusCode);
 
         crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
         saveDocument(crDoc);

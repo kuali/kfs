@@ -26,9 +26,9 @@ public interface CashDrawerService {
     /**
      * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary.
      * 
-     * @param workgroupName The workgroup name used to retrieve the cash drawer to be closed.
+     * @param campusCode The campus code used to retrieve the cash drawer to be closed.
      */
-    public void closeCashDrawer(String workgroupName);
+    public void closeCashDrawer(String campusCode);
 
     /**
      * Closes the cash drawer associated with the given document
@@ -39,14 +39,14 @@ public interface CashDrawerService {
 
     /**
      * 
-     * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary. Records the given
+     * Opens the CashDrawer instance associated with the given campus, creating one if necessary. Records the given
      * documentId as the document which opened the cashdrawer.
      * 
-     * @param workgroupName The workgroup name to be used to retrieve the cash drawer to be closed.
+     * @param campusCode The campus code to be used to retrieve the cash drawer to be closed.
      * @param documentId The id of the document used to open the cash drawer.
      * @return The opened version of the cash drawer.
      */
-    public CashDrawer openCashDrawer(String workgroupName, String documentId);
+    public CashDrawer openCashDrawer(String campusCode, String documentId);
     
     /**
      * Opens the given cash drawer
@@ -58,14 +58,14 @@ public interface CashDrawerService {
     public CashDrawer openCashDrawer(CashDrawer cd, String documentId);
 
     /**
-     * Locks the currently-open CashDrawer instance associated with the given workgroupName, throwing an IllegalStateException if
+     * Locks the currently-open CashDrawer instance associated with the given campus, throwing an IllegalStateException if
      * that cashDrawer is not open (i.e. is closed or locked). Records the given documentId as the document which locked the
      * cashDrawer.
      * 
-     * @param workgroupName The workgroup name used to retrieve the cash drawer to be locked.
+     * @param campusCode The campus code used to retrieve the cash drawer to be locked.
      * @param documentId The id of the document used to lock the cash drawer.
      */
-    public void lockCashDrawer(String workgroupName, String documentId);
+    public void lockCashDrawer(String campusCode, String documentId);
     
     /**
      * Locks the given cash drawer, if it is open
@@ -76,14 +76,14 @@ public interface CashDrawerService {
     public void lockCashDrawer(CashDrawer cd, String documentId);
 
     /**
-     * Unlocks the currently-locked CashDrawer instance associated with the given workgroupName, 
+     * Unlocks the currently-locked CashDrawer instance associated with the given campus code, 
      * throwing an IllegalStateException if that cashDrawer is not locked (i.e. is closed or open). 
      * Records the given documentId as the document which unlocked the cashDrawer.
      * 
-     * @param workgroupName The workgroup name used to retrieve the cash drawer to be unlocked.
+     * @param campusCode The campus code used to retrieve the cash drawer to be unlocked.
      * @param documentId The id of the document used to unlock the cash drawer.
      */
-    public void unlockCashDrawer(String workgroupName, String documentId);
+    public void unlockCashDrawer(String campusCode, String documentId);
     
     /**
      * Unlocks the given cash drawer, if it is open and locked
@@ -94,15 +94,15 @@ public interface CashDrawerService {
     public void unlockCashDrawer(CashDrawer cd, String documentId);
 
     /**
-     * Retrieves the CashDrawer instance associated with the given workgroupName, if any. If autocreate is true, 
-     * and no CashDrawer for the given workgroupName exists, getByWorkgroupName will return a newly-created 
+     * Retrieves the CashDrawer instance associated with the given campus code, if any. If autocreate is true, 
+     * and no CashDrawer for the given campus exists, getByCampusCode will return a newly-created 
      * (non-persisted) CashDrawer instance.
      * 
-     * @param workgroupName The workgroup name used to retrieve the cash drawer.
+     * @param campusCode The campus code used to retrieve the cash drawer.
      * @param autocreate Identifies whether or not a new cash drawer will be created if one does not already exist for the workgroup name provided.
      * @return CashDrawer instance or null
      */
-    public CashDrawer getByWorkgroupName(String workgroupName, boolean autocreate);
+    public CashDrawer getByCampusCode(String campusCode, boolean autocreate);
     
     /**
      * Calculates the total amount of all the currency in the drawer.  

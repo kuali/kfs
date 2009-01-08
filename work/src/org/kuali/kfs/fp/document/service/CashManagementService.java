@@ -36,12 +36,12 @@ public interface CashManagementService {
     /**
      * Creates and returns a CashManagementDocument, opening the CashDrawer associated with the given verification unit.
      * 
-     * @param workgroupName
+     * @param campusCode
      * @param docDescription
      * @param annotation
      * @return A properly initialized CashManagementDocument instance.
      */
-    public CashManagementDocument createCashManagementDocument(String workgroupName, String docDescription, String annotation);
+    public CashManagementDocument createCashManagementDocument(String campusCode, String docDescription, String annotation);
 
 
     /**

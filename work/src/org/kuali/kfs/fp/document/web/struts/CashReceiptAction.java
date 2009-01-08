@@ -309,14 +309,13 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         CashReceiptForm crForm = (CashReceiptForm) kualiDocumentFormBase;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
-        CashReceiptService crs = SpringContext.getBean(CashReceiptService.class);
-        String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
-        String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
+        CashReceiptService crs = SpringContext.getBean(CashReceiptService.class); 
+        String campusCode = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
         crDoc.setCampusLocationCode(campusCode);
 
         crDoc.setCashReceiptHeader(new CashReceiptHeader());
         crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.getCashReceiptHeader().setCampusCode(verificationUnit);
+        crDoc.getCashReceiptHeader().setCampusCode(campusCode);
 
         /* initialize currency and coin detail */
         CurrencyDetail currencyDetail = new CurrencyDetail();

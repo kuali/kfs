@@ -44,7 +44,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 @ConfigureContext(session = UserNameFixture.twatson)
 public class CashieringTransactionRuleTest extends KualiTestBase {
-    static final String CMST_WORKGROUP = "FP_CASH_MANAGEMENT_USERS_KO";
+    static final String CMST_CAMPUS = "KO";
 
     public void testMoneyInOutBalanceRule() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyInNoNegatives");
@@ -454,13 +454,13 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     private CashManagementDocument cashManagementDocumentFixture(String testName) {
         // delete fake cash drawer if we can find it; these ideas are pretty much nicked from CashManagementServiceTest
         Map deleteCriteria = new HashMap();
-        deleteCriteria.put("workgroupName", CMST_WORKGROUP);
+        deleteCriteria.put("campusCode", CMST_CAMPUS);
         SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
 
         // create a new cash drawer
-        CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
+        CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS, true);
 
-        CashManagementDocument cmDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "Document Created for " + testName, "CMD");
+        CashManagementDocument cmDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS, "Document Created for " + testName, "CMD");
         return cmDoc;
     }
 

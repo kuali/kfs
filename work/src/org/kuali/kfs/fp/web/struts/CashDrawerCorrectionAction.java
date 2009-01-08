@@ -58,8 +58,8 @@ public class CashDrawerCorrectionAction extends KualiAction {
     public ActionForward startCorrections(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashDrawerCorrectionForm cdcForm = (CashDrawerCorrectionForm) form;
         if (cdcForm.getCashDrawer().getCampusCode() == null) {
-            String workgroupName = request.getParameter("wrkgrpNm");
-            cdcForm.setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroupName, false));
+            String workgroupName = request.getParameter("campusCode");
+            cdcForm.setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroupName, false));
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -134,7 +134,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");
         params.setProperty("command", "initiate");
-        params.setProperty("docTypeName", "CAshManagementDocument");
+        params.setProperty("docTypeName", "CashManagementDocument");
 
         String cmActionUrl = UrlFactory.parameterizeUrl(KFSConstants.CASH_MANAGEMENT_DOCUMENT_ACTION, params);
 

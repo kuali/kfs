@@ -39,7 +39,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
  * This class is the action form for the deposit document wizard.
  */
 public class DepositWizardForm extends KualiForm {
-    private String cashDrawerVerificationUnit;
+    private String cashDrawerCampusCode;
     private String cashManagementDocId;
 
     private List depositableCashReceipts;
@@ -178,19 +178,19 @@ public class DepositWizardForm extends KualiForm {
 
 
     /**
-     * @return current value of cashDrawerVerificationUnit.
+     * @return current value of cashDrawerCampusCode.
      */
-    public String getCashDrawerVerificationUnit() {
-        return cashDrawerVerificationUnit;
+    public String getCashDrawerCampusCode() {
+        return cashDrawerCampusCode;
     }
 
     /**
-     * Sets the cashDrawerVerificationUnit attribute value.
+     * Sets the cashDrawerCampusCode attribute value.
      * 
-     * @param cashDrawerVerificationUnit The cashDrawerVerificationUnit to set.
+     * @param cashDrawerCampusCode The cashDrawerCampusCode to set.
      */
-    public void setCashDrawerVerificationUnit(String cashDrawerVerificationUnit) {
-        this.cashDrawerVerificationUnit = cashDrawerVerificationUnit;
+    public void setCashDrawerCampusCode(String cashDrawerVerificationUnit) {
+        this.cashDrawerCampusCode = cashDrawerVerificationUnit;
     }
 
 

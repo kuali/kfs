@@ -46,10 +46,10 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     /**
      * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findOpenItemsInProcessByWorkgroupName(java.lang.String)
      */
-    public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String wrkgrpName) throws DataAccessException {
+    public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String campusCode) throws DataAccessException {
         List<CashieringItemInProcess> openItems = new ArrayList<CashieringItemInProcess>();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("workgroupName", wrkgrpName);
+        criteria.addEqualTo("campusCode", campusCode);
         criteria.addColumnIsNull("ITM_CLOSED_DT");
 
         QueryByCriteria openItemsQuery = QueryFactory.newQuery(CashieringItemInProcess.class, criteria);
@@ -63,11 +63,11 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     /**
      * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findRecentlyClosedItemsInProcess(java.lang.String)
      */
-    public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String workgroupName) {
+    public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String campusCode) {
         List<CashieringItemInProcess> closedItems = new ArrayList<CashieringItemInProcess>();
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("workgroupName", workgroupName);
+        criteria.addEqualTo("campusCode", campusCode);
         criteria.addColumnNotNull("ITM_CLOSED_DT");
         Calendar thirtyDaysAgo = new GregorianCalendar();
         thirtyDaysAgo.add(Calendar.DAY_OF_YEAR, -30);

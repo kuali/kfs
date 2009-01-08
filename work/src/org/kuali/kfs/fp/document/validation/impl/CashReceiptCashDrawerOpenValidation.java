@@ -39,10 +39,9 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        String unitName = getCashReceiptService().getCashReceiptVerificationUnitForCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
-        CashDrawer cd = getCashDrawerService().getByWorkgroupName(unitName, false);
+        CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode(), false);
         if (cd == null) {
-            throw new IllegalStateException("There is no cash drawer associated with unitName '" + unitName + "' from cash receipt " + getCashReceiptDocumentForValidation().getDocumentNumber());
+            throw new IllegalStateException("There is no cash drawer associated with unitName '" + getCashReceiptDocumentForValidation().getCampusLocationCode() + "' from cash receipt " + getCashReceiptDocumentForValidation().getDocumentNumber());
         }
         else if (cd.isClosed() && !getCashReceiptDocumentForValidation().getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getCampusCode());

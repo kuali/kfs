@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -49,7 +50,7 @@ public class BudgetAdjustmentDocumentPresentationController extends LedgerPostin
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
            
         if (!(document instanceof Correctable)) return false;
-        if (!((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(getClass().getName())).getAllowsErrorCorrection()) return false;
+        if (!((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) return false;
         if (document.getDocumentHeader().getCorrectedByDocumentId() != null) return false;
         return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
     }

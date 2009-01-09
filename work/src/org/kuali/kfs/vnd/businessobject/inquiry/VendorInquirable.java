@@ -46,34 +46,5 @@ public class VendorInquirable extends KfsInquirableImpl {
 
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
     }
-    
-    /*
-    public void addAdditionalSections(List sections, BusinessObject bo) {
-        if (bo instanceof Org) {
-            Org org = (Org) bo;
 
-            List rows = new ArrayList();
-
-            Field f = new Field();
-            f.setPropertyName("Organization Hierarchy");
-            f.setFieldLabel("Organization Hierarchy");
-            f.setPropertyValue(org.getOrganizationHierarchy());
-            f.setFieldType(Field.HIDDEN);
-            rows.add(new Row(f));
-
-            f = new Field();
-            f.setPropertyName("Organization Review Hierarchy");
-            f.setFieldLabel("Organization Review Hierarchy");
-            f.setPropertyValue("run search");
-            f.setFieldType(Field.HIDDEN);
-            f.setInquiryURL(org.getOrganizationReviewHierarchy());
-            rows.add(new Row(f));
-
-            Section section = new Section();
-            section.setRows(rows);
-            section.setSectionTitle("Organization Hierarchy");
-            sections.add(section);
-        }
-    }
-    */
 }

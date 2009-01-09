@@ -24,7 +24,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * Business object for American Institute of Certified Public Accountants (AICPA) function
  */
-public class AicpaFunction extends PersistableBusinessObjectBase implements Inactivateable {
+public class AICPAFunctionX extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String financialAicpaFunctionCode;
     private String financialAicpaFunctionName;
@@ -33,7 +33,7 @@ public class AicpaFunction extends PersistableBusinessObjectBase implements Inac
     /**
      * Default constructor.
      */
-    public AicpaFunction() {
+    public AICPAFunctionX() {
 
     }
 

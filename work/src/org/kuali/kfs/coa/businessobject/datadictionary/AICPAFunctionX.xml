@@ -4,23 +4,23 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AicpaFunction" parent="AicpaFunction-parentBean" />
+  <bean id="AICPAFunction" parent="AICPAFunction-parentBean" />
 
-  <bean id="AicpaFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AicpaFunction" />
+  <bean id="AICPAFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AICPAFunctionX" />
     <property name="inquiryDefinition" >
-      <ref bean="AicpaFunction-inquiryDefinition" />
+      <ref bean="AICPAFunction-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="AicpaFunction-lookupDefinition" />
+      <ref bean="AICPAFunction-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="financialAicpaFunctionCode" />
     <property name="objectLabel" value="AICPA Function" />
     <property name="attributes" >
       <list>
-        <ref bean="AicpaFunction-financialAicpaFunctionCode" />
-        <ref bean="AicpaFunction-financialAicpaFunctionName" />
-        <ref bean="AicpaFunction-active" />
+        <ref bean="AICPAFunction-financialAicpaFunctionCode" />
+        <ref bean="AICPAFunction-financialAicpaFunctionName" />
+        <ref bean="AICPAFunction-active" />
       </list>
     </property>
   </bean>
@@ -28,9 +28,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AicpaFunction-financialAicpaFunctionCode" parent="AicpaFunction-financialAicpaFunctionCode-parentBean" />
+  <bean id="AICPAFunction-financialAicpaFunctionCode" parent="AICPAFunction-financialAicpaFunctionCode-parentBean" />
 
-  <bean id="AicpaFunction-financialAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AICPAFunction-financialAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialAicpaFunctionCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="AICPA Function Code" />
@@ -45,9 +45,9 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="AicpaFunction-financialAicpaFunctionName" parent="AicpaFunction-financialAicpaFunctionName-parentBean" />
+  <bean id="AICPAFunction-financialAicpaFunctionName" parent="AICPAFunction-financialAicpaFunctionName-parentBean" />
 
-  <bean id="AicpaFunction-financialAicpaFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AICPAFunction-financialAicpaFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialAicpaFunctionName" />
     <property name="label" value="AICPA Function Name" />
     <property name="shortLabel" value="Name" />
@@ -58,9 +58,9 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="AicpaFunction-active" parent="AicpaFunction-active-parentBean" />
+  <bean id="AICPAFunction-active" parent="AICPAFunction-active-parentBean" />
 
-  <bean id="AicpaFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="AICPAFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
   </bean>
 
@@ -68,9 +68,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AicpaFunction-inquiryDefinition" parent="AicpaFunction-inquiryDefinition-parentBean" />
+  <bean id="AICPAFunction-inquiryDefinition" parent="AICPAFunction-inquiryDefinition-parentBean" />
 
-  <bean id="AicpaFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="AICPAFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="AICPA Function Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -95,9 +95,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AicpaFunction-lookupDefinition" parent="AicpaFunction-lookupDefinition-parentBean" />
+  <bean id="AICPAFunction-lookupDefinition" parent="AICPAFunction-lookupDefinition-parentBean" />
 
-  <bean id="AicpaFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="AICPAFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="AICPA Function Lookup" />
     <property name="instructions" value="Lookup an AICPA Function" />
     <property name="defaultSort" >

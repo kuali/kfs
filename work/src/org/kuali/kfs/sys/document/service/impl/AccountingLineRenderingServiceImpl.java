@@ -54,6 +54,7 @@ import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -68,6 +69,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
     private AccountingLineAuthorizationTransformer accountingLineAuthorizationTransformer;
     private List<AccountingLineRenderingTransformation> preTablificationTransformations;
     private List<AccountingLineTableTransformation> postTablificationTransformations;
+    private DocumentTypeService documentTypeService;
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#performPreTablificationTransformations(java.util.List, org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition, org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, java.util.Map, java.lang.String)
@@ -134,18 +136,8 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @return an authorizer for the document
      */
     protected AccountingDocumentAuthorizer getDocumentAuthorizer(AccountingDocument document) {
-        final Class documentAuthorizerClass = dataDictionaryService.getDataDictionary().getDocumentEntry(document.getClass().getName()).getDocumentAuthorizerClass();
-        AccountingDocumentAuthorizer documentAuthorizer = null;
-        try {
-            documentAuthorizer = (AccountingDocumentAuthorizer)documentAuthorizerClass.newInstance();
-        }
-        catch (InstantiationException ie) {
-            throw new IllegalArgumentException("InstantionException while initiating Document Authorizer", ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new IllegalArgumentException("IllegalAccessException while initiating Document Authorizer", iae);
-        }
-        return documentAuthorizer;
+        AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) getDocumentTypeService().getDocumentAuthorizer(document);
+        return accountingDocumentAuthorizer;
     }
 
     /**
@@ -381,6 +373,13 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         if (pageContext.getSession().getAttribute(KUALI_FORM_NAME) != null) return (KualiAccountingDocumentFormBase)pageContext.getSession().getAttribute(KUALI_FORM_NAME);
         
         return (KualiAccountingDocumentFormBase)GlobalVariables.getKualiForm();
+    }
+    
+    private DocumentTypeService getDocumentTypeService() {
+        if (documentTypeService == null) {
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        }
+        return documentTypeService;
     }
 }
 

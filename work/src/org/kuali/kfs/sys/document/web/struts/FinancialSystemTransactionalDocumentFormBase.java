@@ -105,47 +105,15 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = super.getExtraButtons();
-        final FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(getDocument().getClass()));
-        final Set<String> documentActionsFromPresentationController = createPresentationControllerInstance(documentEntry).getDocumentActions(getDocument());
-        final Set<String> documentActionsFromAuthorizer = createAuthorizerInstance(documentEntry).getDocumentActions(getDocument(), GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        final Set<String> documentActionsFromPresentationController = documentTypeService.getDocumentPresentationController(getDocument())
+                .getDocumentActions(getDocument());
+        final Set<String> documentActionsFromAuthorizer = documentTypeService.getDocumentAuthorizer(getDocument())
+                .getDocumentActions(getDocument(), GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
         if (documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
             buttons.add(generateErrorCorrectionButton());
         }
         return buttons;
-    }    
-
-    /**
-     * Creates a new instance of the presentation controller which fits this document
-     * @param documentEntry the data dictionary entry for this document
-     * @return a new instance of the presentation controller
-     */
-    protected FinancialSystemTransactionalDocumentPresentationController createPresentationControllerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
-        try {
-            return (FinancialSystemTransactionalDocumentPresentationController)documentEntry.getDocumentPresentationControllerClass().newInstance();
-        }
-        catch (InstantiationException ie) {
-            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),iae);
-        }
-    }
-    
-    /**
-     * Creates a new instance of the authorizer which fits this document
-     * @param documentEntry the data dictionary entry for this document
-     * @return a new instance of the authorizer
-     */
-    protected DocumentAuthorizer createAuthorizerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
-        try {
-            return (DocumentAuthorizer)documentEntry.getDocumentAuthorizerClass().newInstance();
-        }
-        catch (InstantiationException ie) {
-            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),iae);
-        }
     }
     
     /**

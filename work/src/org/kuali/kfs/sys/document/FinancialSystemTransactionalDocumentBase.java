@@ -141,9 +141,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
     public void toErrorCorrection() throws WorkflowException, IllegalStateException {
-        final FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(this.getClass()));
-        final Set<String> documentActionsFromPresentationController = createPresentationControllerInstance(documentEntry).getDocumentActions(this);
-        final Set<String> documentActionsFromAuthorizer = createAuthorizerInstance(documentEntry).getDocumentActions(this, GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        final Set<String> documentActionsFromPresentationController = documentTypeService.getDocumentPresentationController(this).getDocumentActions(this);
+        final Set<String> documentActionsFromAuthorizer = documentTypeService.getDocumentAuthorizer(this).getDocumentActions(this, GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
         if (!documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
             throw new IllegalStateException(this.getClass().getName() + " does not support document-level error correction");
         }
@@ -152,40 +152,6 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         setNewDocumentHeader();
         getDocumentHeader().setFinancialDocumentInErrorNumber(sourceDocumentHeaderId);
         addCopyErrorDocumentNote("error-correction for document " + sourceDocumentHeaderId);
-    }
-
-    /**
-     * Creates a new instance of the presentation controller which fits this document
-     * @param documentEntry the data dictionary entry for this document
-     * @return a new instance of the presentation controller
-     */
-    protected FinancialSystemTransactionalDocumentPresentationController createPresentationControllerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
-        try {
-            return (FinancialSystemTransactionalDocumentPresentationController)documentEntry.getDocumentPresentationControllerClass().newInstance();
-        }
-        catch (InstantiationException ie) {
-            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Couldn't create new instance of presentation controller for class: "+this.getClass(),iae);
-        }
-    }
-    
-    /**
-     * Creates a new instance of the authorizer which fits this document
-     * @param documentEntry the data dictionary entry for this document
-     * @return a new instance of the authorizer
-     */
-    protected DocumentAuthorizer createAuthorizerInstance(FinancialSystemTransactionalDocumentEntry documentEntry) {
-        try {
-            return (DocumentAuthorizer)documentEntry.getDocumentAuthorizerClass().newInstance();
-        }
-        catch (InstantiationException ie) {
-            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Couldn't create new instance of authorizer for class: "+this.getClass(),iae);
-        }
     }
 
     /**

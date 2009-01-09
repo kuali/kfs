@@ -111,33 +111,10 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptDocumentRule#isCoverSheetPrintable(org.kuali.kfs.fp.document.CashReceiptFamilyBase)
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
-        CashReceiptDocumentAuthorizer authorizer = getCashReceiptDocumentAuthorizer(crDoc);
-
+        CashReceiptDocumentAuthorizer authorizer = (CashReceiptDocumentAuthorizer) getDocumentTypeService().getDocumentAuthorizer(crDoc);
         return authorizer.isCoverSheetPrintable(crDoc);
     }
     
-    /**
-     * Gets the class of the CR's doc authorizer from the data dictionary and then returns an instance of that authorizer
-     * @param crDoc the document to authorize
-     * @return an instance of the proper authorization class
-     */
-    protected CashReceiptDocumentAuthorizer getCashReceiptDocumentAuthorizer(CashReceiptDocument crDoc) {
-        CashReceiptDocumentAuthorizer docAuthorizer = null;
-        
-        try {
-            Class documentAuthorizerClass = getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocumentTypeService().getDocumentTypeNameByClass(crDoc.getClass())).getDocumentAuthorizerClass();
-            docAuthorizer = (CashReceiptDocumentAuthorizer)documentAuthorizerClass.newInstance();
-        }
-        catch (InstantiationException ie) {
-            throw new RuntimeException(ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException(iae);
-        }
-        
-        return docAuthorizer;
-    }
-
     /**
      * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>. An <code>{@link OutputStream}</code> is written
      * to for the cover sheet.

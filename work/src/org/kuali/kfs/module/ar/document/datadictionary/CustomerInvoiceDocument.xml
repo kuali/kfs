@@ -38,6 +38,7 @@
 	    	</entry>
     	</map>
     </property>
+    <property name="importedLineParserClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccountingLineParser" />
 
     <property name="attributes" >
       <list>

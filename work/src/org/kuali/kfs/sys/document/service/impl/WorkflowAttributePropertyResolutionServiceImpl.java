@@ -147,11 +147,13 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @param qualifier the qualifier to put values into
      */
     protected void addPathValuesToQualifier(Object businessObject, List<String> paths, AttributeSet qualifier) {
-        for (String path : paths) {
-            // get the values for the paths of each element of the collection
-            final Object value = ObjectUtils.getPropertyValue(businessObject, path);
-            if (value != null) {
-                qualifier.put(simplifyPath(path), value.toString());
+        if (ObjectUtils.isNotNull(paths)) {
+            for (String path : paths) {
+                // get the values for the paths of each element of the collection
+                final Object value = ObjectUtils.getPropertyValue(businessObject, path);
+                if (value != null) {
+                    qualifier.put(simplifyPath(path), value.toString());
+                }
             }
         }
     }
@@ -341,6 +343,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         if (object instanceof PersistableBusinessObject && tail != null) {
             if (persistenceStructureService.hasReference(object.getClass(), head)) {
                 ((PersistableBusinessObject)object).refreshReferenceObject(head);
+
             }
         }
         final Object headValue = ObjectUtils.getPropertyValue(object, head);

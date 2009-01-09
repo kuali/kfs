@@ -42,21 +42,10 @@
     <property name="documentTypeName" value="AssetRetirementGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRetirementGlobalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementPresentationController" />
     <property name="documentTypeCode" value="AR" />
     <property name="workflowProperties" >
       <ref bean="AssetRetirementGlobalMaintenanceDocument-workflowProperties" />
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
     <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenanceGlpe.jsp"></property>
   </bean>

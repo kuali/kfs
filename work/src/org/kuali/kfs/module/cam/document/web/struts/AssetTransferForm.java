@@ -15,17 +15,12 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
@@ -35,9 +30,6 @@ public class AssetTransferForm extends FinancialSystemTransactionalDocumentFormB
     public AssetTransferForm() {
         super();
         setDocument(new AssetTransferDocument());
-        Map<String, String> editModeMap = new HashMap<String, String>();
-        editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-        setEditingMode(editModeMap);
     }
 
     public AssetTransferDocument getAssetTransferDocument() {

@@ -15,42 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.document.AssetTransferDocument;
-import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * AssetTransferDocumentAuthorizer for Asset Transfer.
+ */
 public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    // TODO fix for kim
-//
-//    /**
-//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kim.bo.Person) This method determines if user can continue with transfer action or not, following
-//     *      conditions are checked to decide
-//     *      <li>Check if asset is active and not retired</li>
-//     *      <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>
-//     */
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-//        AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-//        Asset asset = assetTransferDocument.getAsset();
-//        if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
-//            GlobalVariables.getErrorMap().putError(CamsConstants.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
-//            actionFlags.setCanAdHocRoute(false);
-//            actionFlags.setCanApprove(false);
-//            actionFlags.setCanBlanketApprove(false);
-//            actionFlags.setCanRoute(false);
-//            actionFlags.setCanSave(false);
-//        }
-//        return actionFlags;
-//    }
-}
 
+}

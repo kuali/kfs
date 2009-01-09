@@ -15,47 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.Map;
-
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-
 
 /**
- * Uses defaults.
+ * Equipment Loan Or Return Document Authorizer
  */
 public class EquipmentLoanOrReturnDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentAuthorizer.class);
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        Map<String, String> editModeMap = super.getEditMode(document, user);
-        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-        
-        // setup new loan document
-        if (equipmentLoanOrReturnDocument.isNewLoan()) {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
-        }
-        else {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
-        }
-        
-        // setup return loan document
-        if (equipmentLoanOrReturnDocument.isReturnLoan()) {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY, "TRUE");
-        }
-        else {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY, "FALSE");
-        }
-        
-        return editModeMap;
-    }
 }
-

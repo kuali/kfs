@@ -16,16 +16,13 @@
 package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * 
@@ -45,10 +42,6 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     public BarcodeInventoryErrorForm() {
         super();
         setDocument(new BarcodeInventoryErrorDocument());
-
-        Map<String, String> editModeMap = new HashMap<String, String>();
-        editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-        setEditingMode(editModeMap);
     }
 
 

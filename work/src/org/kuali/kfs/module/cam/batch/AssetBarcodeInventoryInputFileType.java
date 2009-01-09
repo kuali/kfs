@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
-import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -123,6 +122,8 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     }
 
     /**
+     * TODO KIM implementation page seems to indicate this is to be removed. But the implementation of BatchInputFileSetType requires this.
+     * 
      * Return true if user is authorized to access batch file
      * 
      * @param user authorized user

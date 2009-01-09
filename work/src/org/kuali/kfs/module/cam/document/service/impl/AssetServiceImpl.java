@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -87,6 +88,13 @@ public class AssetServiceImpl implements AssetService {
         return !(ObjectUtils.isNull(oldAsset.getCapitalAssetInServiceDate()) ? ObjectUtils.isNull(newAsset.getCapitalAssetInServiceDate()) : oldAsset.getCapitalAssetInServiceDate().equals(newAsset.getCapitalAssetInServiceDate()));
     }
 
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetFabrication(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    public boolean isAssetFabrication(MaintenanceDocument maintenanceDocument) {
+        return maintenanceDocument.getNewMaintainableObject().getBusinessObject() instanceof Asset && maintenanceDocument.isNew();
+    }
+    
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetLoaned(org.kuali.kfs.module.cam.businessobject.Asset)
      */

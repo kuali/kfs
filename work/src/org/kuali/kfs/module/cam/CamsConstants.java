@@ -28,7 +28,9 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
  */
 public class CamsConstants extends JSTLConstants {
     public static final String CAM_MODULE_CODE = "KFS-CAM";
-    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
+
+    public static final String ASSET_RETIREMENT_DOCUMENT_TYPE_NAME = "AssetRetirementGlobalMaintenanceDocument";
+    
     public static final int ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY = 10;
 
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";
@@ -44,6 +46,11 @@ public class CamsConstants extends JSTLConstants {
         public static final String RETIRE_NON_MOVABLE_ASSETS = "Retire Non-Movable Assets";
         public static final String TRANSFER_NON_MOVABLE_ASSETS = "Transfer Non-Movable Assets";
         public static final String USE_ACQUISITION_TYPE_NEW = "Use Acquisition Type \"New\"";
+        public static final String RAZE = "Raze";
+        public static final String MERGE = "Merge";
+        public static final String SEPARATE = "Separate";
+        public static final String USE_RESTRICTED_RETIREMENT_REASON = "Use Restricted Retirement Reason";
+        public static final String EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR = "Edit When Tagged Prior Fiscal Year";
     }
     
     public static class AssetActions {
@@ -156,17 +163,6 @@ public class CamsConstants extends JSTLConstants {
             statusDescription.put(STATUS_CODE_DELETED, STATUS_CODE_DELETED_DESCRIPTION);
             statusDescription.put(STATUS_CODE_ERROR, STATUS_CODE_ERROR_DESCRIPTION);
         }
-    }
-
-    public static class Workgroups {
-        public static final String WORKGROUP_CM_ADMINISTRATORS = "CM_ADMINISTRATORS";
-        public static final String WORKGROUP_CM_SECURITY_ADMINISTRATORS = "CM_SECURITY_ADMINISTRATORS";
-        public static final String WORKGROUP_CM_ADD_PAYMENT_USERS = "CM_ADD_PAYMENT_USERS";
-        public static final String WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS = "CM_ASSET_MERGE_SEPARATE_USERS";
-        public static final String WORKGROUP_CM_SUPER_USERS = "CM_SUPER_USERS";
-        public static final String WORKGROUP_CM_BARCODE_USERS = "CM_BARCODE_USERS";
-        public static final String WORKGROUP_CM_CAPITAL_ASSET_BUILDER_ADMINISTRATORS = "CM_CAPITAL_ASSET_BUILDER_ADMINISTRATORS";
-        public static final String WORKGROUP_RAZE_WORKGROUP = "RAZE_WORKGROUP";
     }
 
     public static class InventoryStatusCode {

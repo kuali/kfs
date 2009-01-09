@@ -192,10 +192,10 @@
 		</property>
 	</bean>
 
-    <bean id="assetAcquisitionLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
-	<bean id="assetAcquisitionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="assetAcquisitionTypeLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="assetAcquisitionTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="assetAcquisitionLookupableHelperService" />
+			<ref bean="assetAcquisitionTypeLookupableHelperService" />
 		</property>
 	</bean>
     

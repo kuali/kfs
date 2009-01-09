@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 
 
@@ -34,6 +35,11 @@ public interface AssetService {
 
     boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset);
 
+    /**
+     * @return if MaintenanceDocument is an asset fabrication or not
+     */
+    public boolean isAssetFabrication(MaintenanceDocument maintenanceDocument);
+    
     /**
      * @return if the asset is on loan or not
      */

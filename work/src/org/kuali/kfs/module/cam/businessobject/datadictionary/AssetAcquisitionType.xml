@@ -113,7 +113,7 @@
   <bean id="AssetAcquisitionType-lookupDefinition" parent="AssetAcquisitionType-lookupDefinition-parentBean" />
   <bean id="AssetAcquisitionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Acquisition Type" />
-    <property name="lookupableID" value="assetAcquisitionLookupable" />  
+    <property name="lookupableID" value="assetAcquisitionTypeLookupable" />  
     <property name="instructions" value="Look up an Acquisition Type" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

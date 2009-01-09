@@ -6,6 +6,161 @@
 
   <bean name="AssetFabrication" parent="Asset">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetFabrication" />
+    <property name="attributes" >
+      <list>
+      	<ref bean="Asset-hiddenFieldForError" />
+        <ref bean="Asset-acquisitionTypeCode" />
+        <ref bean="Asset-agencyNumber" />
+        <ref bean="Asset-buildingSubRoomNumber" />
+        <ref bean="Asset-campusPoliceDepartmentCaseNumber" />
+        <ref bean="Asset-campusTagNumber" />
+        <ref bean="Asset-capitalAssetDescription" />
+        <ref bean="Asset-capitalAssetNumber" />
+        <ref bean="Asset-cashReceiptFinancialDocumentNumber" />
+        <ref bean="Asset-createDate" />
+        <ref bean="Asset-financialObjectSubTypeCode" />
+        <ref bean="Asset-depreciationDate" />
+        <ref bean="Asset-depreciationDateCopy" />
+        <ref bean="Asset-capitalAssetInServiceDate" />
+        <ref bean="Asset-estimatedFabricationCompletionDate" />
+        <ref bean="Asset-fabricationEstimatedRetentionYears" />
+        <ref bean="Asset-estimatedSellingPrice" />
+        <ref bean="Asset-expectedReturnDate" />
+        <ref bean="Asset-fabricationEstimatedTotalAmount" />
+        <ref bean="Asset-financialDocumentPostingPeriodCode" />
+        <ref bean="Asset-financialDocumentPostingYear" />
+        <ref bean="Asset-inventoryScannedCode" />
+        <ref bean="Asset-inventoryStatusCode" />
+        <ref bean="Asset-nationalStockNumber" />
+        <ref bean="Asset-governmentTagNumber" />
+        <ref bean="Asset-lastInventoryDate" />
+        <ref bean="Asset-loanDate" />
+        <ref bean="Asset-loanReturnDate" />
+        <ref bean="Asset-manufacturerModelNumber" />
+        <ref bean="Asset-manufacturerName" />
+        <ref bean="Asset-oldTagNumber" />
+        <ref bean="Asset-organizationInventoryName" />
+        <ref bean="Asset-primaryDepreciationMethodCode" />
+        <ref bean="Asset-receiveDate" />
+        <ref bean="Asset-replacementAmount" />
+        <ref bean="Asset-retirementAccountNumber" />
+        <ref bean="Asset-retirementChartOfAccountsCode" />
+        <ref bean="Asset-retirementFiscalYear" />
+        <ref bean="Asset-retirementPeriodCode" />
+        <ref bean="Asset-retirementReasonCode" />
+        <ref bean="Asset-salePrice" />
+        <ref bean="Asset-salvageAmount" />
+        <ref bean="Asset-serialNumber" />
+        <ref bean="Asset-totalCostAmount" />
+        <ref bean="Asset-transferOfFundsFinancialDocumentNumber" />
+        <ref bean="Asset-vendorName" />
+        <ref bean="Asset-capitalAssetType.depreciableLifeLimit" />
+        <ref bean="Asset-representativeUniversalIdentifier" />
+        <ref bean="Asset-assetRepresentative.principalName" />
+        <ref bean="Asset-assetRepresentative.name" />
+
+        <ref bean="Asset-loanOrReturnInfo.borrowerPerson.name" />
+
+        <ref bean="AssetFabrication-organizationOwnerChartOfAccountsCode" />
+        <ref bean="AssetFabrication-organizationOwnerAccountNumber" />  
+        <ref bean="Asset-organizationOwnerAccount.organizationCode" />
+        <ref bean="Asset-capitalAssetTypeCode" />
+        <ref bean="Asset-campusCode" />
+        <ref bean="Asset-buildingCode" />
+        <ref bean="Asset-buildingRoomNumber" />
+        <ref bean="Asset-assetOrganization.organizationText" />
+        <ref bean="Asset-assetOrganization.organizationTagNumber" /> 
+        <ref bean="Asset-assetOrganization.organizationAssetTypeIdentifier" />
+        <ref bean="Asset-conditionCode" />
+        <ref bean="Asset-landCountyName" />
+        <ref bean="Asset-landAcreageSize" />
+        <ref bean="Asset-landParcelNumber" />
+        <ref bean="Asset-accumulatedDepreciation" />
+        <ref bean="Asset-baseAmount" />
+        <ref bean="Asset-bookValue" />
+        <ref bean="Asset-prevYearDepreciation" />
+        <ref bean="Asset-yearToDateDepreciation" />
+        <ref bean="Asset-currentMonthDepreciation" />
+        <ref bean="Asset-paymentTotalCost" />
+        <ref bean="Asset-federalContribution" />
+        <ref bean="Asset-assetWarranty.warrantyNumber" />
+        <ref bean="Asset-assetWarranty.warrantyContactName" />
+        <ref bean="Asset-assetWarranty.warrantyPhoneNumber" />
+        <ref bean="Asset-assetWarranty.warrantyPurchaseOrderNumber" />
+        <ref bean="Asset-assetWarranty.warrantyBeginningDate" />
+        <ref bean="Asset-assetWarranty.warrantyEndingDate" />
+        <ref bean="Asset-assetWarranty.warrantyText" />
+        <ref bean="Asset-separateHistory.separateSourceCapitalAssetNumber" />
+        <ref bean="Asset-separateHistory.separateDocumentHeaderFinalDate" />
+        <ref bean="Asset-retirementInfo.documentNumber" />
+        <ref bean="Asset-retirementReason.retirementReasonName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementDate" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementContactName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementInstitutionName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementStreetAddress" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCityName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementState.postalStateCode" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.postalZipCode.postalCode" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.buyerDescription" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerAddress" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerCityName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerZipCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerCountryCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerPhoneNumber" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageAddress" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCityName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageZipCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountryCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber" />
+        <ref bean="Asset-offCampusLocation.assetLocationContactName" />
+        <ref bean="Asset-offCampusLocation.assetLocationStreetAddress" />
+        <ref bean="Asset-offCampusLocation.assetLocationCityName" />
+        <ref bean="Asset-offCampusLocation.assetLocationStateCode" />
+        <ref bean="Asset-offCampusLocation.assetLocationZipCode" />
+        <ref bean="Asset-offCampusLocation.assetLocationCountryCode" />
+        
+        <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode" />
+	    <ref bean="Asset-offCampusLocation.postalZipCode.postalCode" />
+	    <ref bean="Asset-offCampusLocation.assetLocationCountry.postalCountryName" />
+        
+        <ref bean="Asset-assetStatus.inventoryStatusCode" />        
+        <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
+        <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerState.postalStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+        <ref bean="Asset-quantity" />
+        <ref bean="Asset-assetPayments.paymentSequenceNumber" />
+        <ref bean="Asset-assetPayments.purchaseOrderNumber" />
+        <ref bean="Asset-assetPayments.documentNumber" />      
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetFabrication-organizationOwnerChartOfAccountsCode" parent="AssetFabrication-organizationOwnerChartOfAccountsCode-parentBean" />
+  <bean id="AssetFabrication-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Asset-organizationOwnerChartOfAccountsCode">
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="readOnly" value="false" />
+        </bean>
+    </property>
+  </bean>
+  
+  <bean id="AssetFabrication-organizationOwnerAccountNumber" parent="AssetFabrication-organizationOwnerAccountNumber-parentBean" />
+  <bean id="AssetFabrication-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber">
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+            <property name="readOnly" value="false" />
+        </bean>
+    </property>
   </bean>
 
 </beans>

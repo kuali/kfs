@@ -98,7 +98,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         initializeAttributes(document);
         boolean valid = true;
-        if (document.isNew()) {
+        if (SpringContext.getBean(AssetService.class).isAssetFabrication(document)) {
             this.isFabrication = true;
             valid &= validateAccount();
             valid &= validateLocation();
@@ -291,12 +291,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
         else {
-            Person user = GlobalVariables.getUserSession().getPerson();
-            if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+            // TODO following workgroup rule doesn't exist in KFSKIMMapping.xls or Workgroups page.
+//            Person user = GlobalVariables.getUserSession().getPerson();
+//            if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
                 GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
                 valid &= parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
                 GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
-            }
+//            }
         }
         return valid;
     }
@@ -404,7 +405,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         initializeAttributes(document);
-        if (document.isNew() && newAsset.getCapitalAssetNumber() == null) {
+        if (SpringContext.getBean(AssetService.class).isAssetFabrication(document) && newAsset.getCapitalAssetNumber() == null) {
             newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
             oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
             newAsset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));

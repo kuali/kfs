@@ -82,6 +82,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalPreRules" />        
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalPresentationController" />
     <property name="documentTypeCode" value="AA" />
     <property name="workflowProperties" >
       <ref bean="AssetGlobalMaintenanceDocument-workflowProperties" />
@@ -90,18 +91,6 @@
       <list>
         <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/cams/assetGlobalMaintenanceDocument.js</value>
-      </list>
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
       </list>
     </property>
     <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenanceGlpe.jsp"></property>

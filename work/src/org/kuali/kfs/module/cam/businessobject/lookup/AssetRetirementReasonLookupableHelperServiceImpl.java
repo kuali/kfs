@@ -15,17 +15,26 @@
  */
 package org.kuali.kfs.module.cam.businessobject.lookup;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
+import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
@@ -50,12 +59,45 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
      */
     @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys) {
-        Properties parameters = getParameters(
-                businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
+        AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObject;
+        
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        
+        if (initializingAssetRetirement) {
+            AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
+            
+            if (assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
+                // TODO following doesn't work because asset isn't a Document
+                //boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.USE_RESTRICTED_RETIREMENT_REASON, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                boolean isAuthorized = true;
+                
+                if (!isAuthorized) {
+                    return getEmptyAnchorHtmlData();
+                }
+            } else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+                // TODO following doesn't work because asset isn't a Document
+                //boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                boolean isAuthorized = true;
+                
+                if (!isAuthorized) {
+                    return getEmptyAnchorHtmlData();
+                }
+            } else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
+                // TODO following doesn't work because asset isn't a Document
+                //boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RAZE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                boolean isAuthorized = true;
+                
+                if (!isAuthorized) {
+                    return getEmptyAnchorHtmlData();
+                }
+            }            
+        }
+        
+        Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetRetirementGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE);
-        parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE+"::"+((AssetRetirementReason) businessObject).getRetirementReasonCode());
+        parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE+"::"+assetRetirementReason.getRetirementReasonCode());
         setBackLocation(KFSConstants.MAINTENANCE_ACTION);
         return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys);
     }

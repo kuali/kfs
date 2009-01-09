@@ -21,18 +21,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="workflowProperties" >
       <ref bean="AssetTransferDocument-workflowProperties" />
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="attributes" >
       <list>
         <ref bean="AssetTransferDocument-buildingCode" />

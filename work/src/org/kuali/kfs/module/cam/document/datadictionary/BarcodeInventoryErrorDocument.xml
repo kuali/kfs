@@ -16,22 +16,11 @@
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentPresentationController" />
     
     <property name="documentTypeCode" value="BCIE" />
     <property name="workflowProperties" >
       <ref bean="BarcodeInventoryErrorDocument-workflowProperties" />
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>CM_BARCODE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
     <property name="attributes" >
       <list>

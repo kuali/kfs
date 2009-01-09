@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -48,13 +47,11 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.ui.Section;
 
 
 /**
@@ -132,38 +129,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
         }
-    }
-
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
-     */
-    @Override
-    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        List<Section> sections = super.getCoreSections(document, oldMaintainable);
-        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-
-        // If retirement reason code is not defined in NON_VIEWABLE_SECTION_MAP, hide all retirement detail sections.
-        String[] nonViewableSections = NON_VIEWABLE_SECTION_MAP.get(assetRetirementGlobal.getRetirementReasonCode());
-
-        if (nonViewableSections == null) {
-            nonViewableSections = new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT };
-        }
-
-        // Hide retirement detail sections based on the retirement reason code
-        for (Section section : sections) {
-            if (ArrayUtils.contains(nonViewableSections, section.getSectionId())) {
-                section.setHidden(true);
-            }
-
-            if (!getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
-                if (CamsConstants.AssetRetirementGlobal.SECTION_TARGET_ASSET_RETIREMENT_INFO.equals(section.getSectionId())) {
-                    section.setHidden(true);
-                }
-            }
-
-        }
-        return sections;
     }
 
 

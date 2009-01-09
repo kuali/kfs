@@ -36,7 +36,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 /**
  * This class overrides the getReturnUrl, setFieldConversions and getActionUrls for {@link OrganizationRoutingModelName}
  */
-public class AssetAcquisitionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private boolean initializingAssetGlobal = true;
 
 
@@ -54,13 +54,20 @@ public class AssetAcquisitionLookupableHelperServiceImpl extends KualiLookupable
      */
     @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys) {
-        Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
-        parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
-        parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE + "::" + ((AssetAcquisitionType) businessObject).getAcquisitionTypeCode());
-        setBackLocation(KFSConstants.MAINTENANCE_ACTION);
-        return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys);
+        AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) businessObject;
+        
+        if (initializingAssetGlobal && !assetAcquisitionType.isActive()) {
+            // no return URL if we are initializing asset global and the record is inactive
+            return getEmptyAnchorHtmlData();
+        } else {
+            Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
+            parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
+            parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE + "::" + assetAcquisitionType.getAcquisitionTypeCode());
+            setBackLocation(KFSConstants.MAINTENANCE_ACTION);
+            return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys);
+        }
     }
 
     /**

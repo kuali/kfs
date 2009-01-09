@@ -42,7 +42,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Section;
 
@@ -95,9 +94,6 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     }
 
     /**
-     * Hide a few sections if this is a create new (fabrication request) or vice versa. Also hide payments if there are more then
-     * the allowable number.
-     * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -106,52 +102,15 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         List<Section> sections = super.getCoreSections(document, oldMaintainable);
 
         Asset asset = (Asset) getBusinessObject();
-        if (isAssetFabrication()) {
-            // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
-            // that are to be hidden for asset edit, see AssetAuthorizer.addMaintenanceDocumentRestrictions
+        if (asset.getAssetPayments().size() == 0) {
             for (Section section : sections) {
-                String sectionId = section.getSectionId();
-                if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(sectionId) || CamsConstants.Asset.SECTION_ID_MERGE_HISTORY.equals(sectionId)) {
-                    section.setHidden(true);
-                }
-            }
-        }
-        else {
-            // asset edit. Hide sections that are only applicable to fabrication request
-            for (Section section : sections) {
-                // hide fabrication only if asset is not fabricated through CAMS.
-                if (CamsConstants.Asset.SECTION_ID_FABRICATION_INFORMATION.equals(section.getSectionId()) && asset.getEstimatedFabricationCompletionDate() == null) {
-                    section.setHidden(true);
-                }
-                // if asset is not retired, hide retirement information
-                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !getAssetService().isAssetRetired(asset)) {
-                    section.setHidden(true);
-                }
-                if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() == 0) {
+                if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId())) {
                     section.setSectionTitle(section.getSectionTitle() + CamsConstants.Asset.SECTION_TITLE_NO_PAYMENT + asset.getCapitalAssetNumber());
                 }
-                else if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() > CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
-                    // Hide the payment section if there are more then CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY
-                    section.setHidden(true);
-                }
-                // If asset is not loaned, hide the section
-                if (CamsConstants.Asset.SECTION_ID_LOAN_INFORMATION.equals(section.getSectionId()) && (asset.getExpectedReturnDate() == null || asset.getLoanReturnDate() != null)) {
-                    section.setHidden(true);
-                }
-
             }
         }
 
         return sections;
-    }
-
-    /**
-     * Checks if the maintainable is for asset fabrication as opposed "create new".
-     * 
-     * @return
-     */
-    private boolean isAssetFabrication() {
-        return KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction());
     }
 
     /**

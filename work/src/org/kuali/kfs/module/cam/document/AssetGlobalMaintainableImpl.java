@@ -57,14 +57,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
@@ -255,31 +253,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         if (financialDocumentTypeCode != null) {
             assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0].toString());
         }
-    }
-
-    /**
-     * Hide specific document sections.
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
-     */
-    @Override
-    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        List<Section> sections = super.getCoreSections(document, oldMaintainable);
-        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-
-        // hide "Asset Information", "Recalculate Total Amount" tabs if not "Asset Separate" doc
-        if (!getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
-            for (Section section : sections) {
-                if (CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION.equals(section.getSectionId())) {
-                    section.setHidden(true);
-                }
-                if (CamsConstants.AssetGlobal.SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT.equals(section.getSectionId())) {
-                    section.setHidden(true);
-                }
-            }
-        }
-
-        return sections;
     }
 
     /**

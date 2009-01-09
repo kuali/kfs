@@ -85,23 +85,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         LOCATION_FIELD_MAP.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE);
     }
 
-    // TODO method is gone - fix for kim / session work
-
-//    /**
-//     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.rice.kns.document.MaintenanceDocument)
-//     */
-//    @Override
-//    protected boolean checkAuthorizationRestrictions(MaintenanceDocument document) {
-//
-//        boolean success = true;
-//
-//        AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-//        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
-//            return success;
-//        }
-//        return success;
-//    }
-
     /**
      * This method checks reference fields when adding new payment into collection.
      * 

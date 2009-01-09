@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceConsolidationDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.util.Guid;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -53,7 +53,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
     public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByConsolidationObjectTypes() started");
 
-        Options options = optionsService.getOptions(universityFiscalYear);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
         String sessionId = new Guid().toString();
         List<Map<String, Object>> data = null;
 
@@ -120,7 +120,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @param sessionId the unique session id of the web session of the currently inquiring users, so temp table entries have a unique identifier 
      * @return true if pending entries exist that would affect this inquiry, false otherwise
      */
-    private boolean getMatchingPendingEntriesByConsolidation(String[] objectTypes, Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
+    private boolean getMatchingPendingEntriesByConsolidation(String[] objectTypes, SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByConsolidation() started");
 
         // If they have specified this year, we will get all the pending entries
@@ -182,7 +182,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @param options the system options of the fiscal year that is being inquired upon
      * @param sessionId the session id of the inquiring user, for a unique primary key in the temporary tables
      */
-    private void summarizePendingEntriesByConsolidation(Options options, String sessionId) {
+    private void summarizePendingEntriesByConsolidation(SystemOptions options, String sessionId) {
         LOG.debug("summarizePendingEntriesByConsolidation() started");
 
         try {

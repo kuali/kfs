@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kim.bo.Person;
@@ -500,14 +500,14 @@ public interface LaborLedgerBalance extends PersistableBusinessObject, Externali
      * 
      * @return Returns the option.
      */
-    public Options getOption();
+    public SystemOptions getOption();
 
     /**
      * Sets the option attribute value.
      * 
      * @param option The option to set.
      */
-    public void setOption(Options option);
+    public void setOption(SystemOptions option);
 
     /**
      * Gets the positionNumber attribute.

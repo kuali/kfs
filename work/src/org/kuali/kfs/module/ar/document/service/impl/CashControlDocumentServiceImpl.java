@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -156,7 +156,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         }
 
         // get current year options
-        Options options = optionsService.getCurrentYearOptions();
+        SystemOptions options = optionsService.getCurrentYearOptions();
 
         // build an accounting line that will be used to create the glpe
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
@@ -200,7 +200,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         }
 
         // get current year oprions
-        Options options = optionsService.getCurrentYearOptions();
+        SystemOptions options = optionsService.getCurrentYearOptions();
 
         // build dummy accounting line for gl population
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
@@ -250,7 +250,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
-        Options options = optionsService.getCurrentYearOptions();
+        SystemOptions options = optionsService.getCurrentYearOptions();
 
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getCreditCardObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
@@ -329,7 +329,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @param options the current year oprions
      * @param documentType the document type to be associated with the glpe
      */
-    private GeneralLedgerPendingEntry createAndAddNewExplicitEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, Options options, String documentType) {
+    private GeneralLedgerPendingEntry createAndAddNewExplicitEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, SystemOptions options, String documentType) {
 
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 

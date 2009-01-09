@@ -109,7 +109,7 @@
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -260,7 +260,7 @@
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -359,7 +359,7 @@
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -415,7 +415,7 @@
         <foreignkey field-ref="balanceTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     
@@ -466,7 +466,7 @@
     <field-descriptor name="month13Amount" column="MO13_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="DATE" />
 
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -559,7 +559,7 @@
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 </class-descriptor>
@@ -603,7 +603,7 @@
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     
@@ -701,7 +701,7 @@
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="universityFiscalAccountingPeriod" />
     </reference-descriptor>
-    <reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 </class-descriptor>

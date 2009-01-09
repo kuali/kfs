@@ -45,7 +45,7 @@
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.ObjectType">
 	   		<param name="include" value="code,name,active" />
 	   	</convert>
-	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.ObjLevel">
+	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.ObjectLevel">
 	   		<param name="include" value="chartOfAccountCode,financialObjectLevelCode,financialObjectLevelName,financialObjectLevelShortNm,financialConsolidationObjectCode,active" />
 	   	</convert>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.ObjectCode">

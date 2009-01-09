@@ -30,7 +30,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentType;
@@ -85,7 +85,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private DocumentType documentType;
     private DocumentType referenceDocumentType;
     private UniversityDate universityDate;
-    private Options option;
+    private SystemOptions option;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
     private OriginationCode originationCode;
@@ -732,11 +732,11 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         this.objectType = objectType;
     }
 
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

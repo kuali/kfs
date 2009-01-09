@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -115,7 +115,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
     private List<AssetRetirementGlobal> retirementGlobals;
-    private ObjSubTyp financialObjectSubType;
+    private ObjectSubType financialObjectSubType;
     private AssetAcquisitionType acquisitionType;
     private ContractsAndGrantsAgency agency;
 
@@ -1817,7 +1817,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * 
      * @return Returns the financialObjectSubType.
      */
-    public ObjSubTyp getFinancialObjectSubType() {
+    public ObjectSubType getFinancialObjectSubType() {
         return financialObjectSubType;
     }
 
@@ -1827,7 +1827,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
-    public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
+    public void setFinancialObjectSubType(ObjectSubType financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
 

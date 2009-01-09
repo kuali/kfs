@@ -29,7 +29,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -58,7 +58,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
     private SubObjectCode financialSubObject;
     private A21SubAccount a21SubAccount;
     private TransientBalanceInquiryAttributes dummyBusinessObject;
-    private Options option;
+    private SystemOptions option;
     private String title;
 
     public static final String TYPE_CONSOLIDATION = "Consolidation";
@@ -193,11 +193,11 @@ public class AccountBalance extends PersistableBusinessObjectBase {
         a21SubAccount = subAccount;
     }
 
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

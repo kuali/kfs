@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
@@ -432,7 +432,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      *         or financial object type income not cash code))
      */
     protected String getObjectTypeCode(GeneralLedgerPendingEntrySourceDetail line) {
-        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
 
         if (options.getFinObjTypeExpenditureexpCd().equals(objectTypeCode) || options.getFinObjTypeExpendNotExpCode().equals(objectTypeCode)) {
@@ -611,7 +611,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      *         financial object type income cash code)
      */
     protected String getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(GeneralLedgerPendingEntry explicitEntry) {
-        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         String objectTypeCode = explicitEntry.getFinancialObjectTypeCode();
 
         if (options.getFinObjTypeExpNotExpendCode().equals(objectTypeCode)) {

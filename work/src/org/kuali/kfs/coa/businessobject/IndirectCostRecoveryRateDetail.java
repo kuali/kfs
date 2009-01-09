@@ -19,7 +19,7 @@ package org.kuali.kfs.coa.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -48,7 +48,7 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
     private String financialSubObjectCode;
     private boolean active;
 
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private IndirectCostRecoveryRate indirectCostRecoveryRate;
     
     /*
@@ -165,12 +165,12 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
     }
 
 
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
 
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

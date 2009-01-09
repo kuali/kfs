@@ -27,7 +27,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
 
 /**
@@ -57,9 +57,9 @@ public class PosterSummaryReportStep extends AbstractStep {
         final String CURRENT_YEAR_UPPER = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER);
         final String CURRENT_AND_LAST_YEAR = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR);
 
-        Options currentYear = optionsService.getCurrentYearOptions();
-        Options nextYear = optionsService.getOptions(currentYear.getUniversityFiscalYear() + 1);
-        Options previousYear = optionsService.getOptions(currentYear.getUniversityFiscalYear() - 1);
+        SystemOptions currentYear = optionsService.getCurrentYearOptions();
+        SystemOptions nextYear = optionsService.getOptions(currentYear.getUniversityFiscalYear() + 1);
+        SystemOptions previousYear = optionsService.getOptions(currentYear.getUniversityFiscalYear() - 1);
 
         Date runDate = getDateTimeService().getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);

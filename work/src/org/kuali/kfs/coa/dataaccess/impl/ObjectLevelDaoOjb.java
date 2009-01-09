@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -30,12 +30,12 @@ public class ObjectLevelDaoOjb extends PlatformAwareDaoBaseOjb implements Object
     /**
      * @see org.kuali.kfs.coa.dataaccess.ObjectLevelDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
+    public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("financialObjectLevelCode", objectLevelCode);
 
-        return (ObjLevel) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjLevel.class, criteria));
+        return (ObjectLevel) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectLevel.class, criteria));
     }
 
 }

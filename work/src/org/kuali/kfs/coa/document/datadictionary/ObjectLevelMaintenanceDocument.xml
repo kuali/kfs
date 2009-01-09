@@ -10,7 +10,7 @@
   <bean id="ObjectLevelMaintenanceDocument" parent="ObjectLevelMaintenanceDocument-parentBean" />
 
   <bean id="ObjectLevelMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjLevel" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectLevel" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -38,7 +38,7 @@
     <property name="summary" value="Object Level maintenance document" />
     <property name="description" value="Document used to create or update Object Level objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ObjLevel" p:parameterName="OBJECT_LEVEL" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ObjectLevel" p:parameterName="OBJECT_LEVEL" />
     </property>
     <property name="documentTypeName" value="ObjectLevelMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectLevelRule" />

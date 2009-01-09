@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
@@ -806,7 +806,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * 
      * @return Returns the option.
      */
-    public Options getOption();
+    public SystemOptions getOption();
 
     /**
      * Sets the option
@@ -814,7 +814,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * @param option The option to set.
      */
     @Deprecated
-    public void setOption(Options option);
+    public void setOption(SystemOptions option);
 
     /**
      * Gets the payrollEndDateFiscalPeriod

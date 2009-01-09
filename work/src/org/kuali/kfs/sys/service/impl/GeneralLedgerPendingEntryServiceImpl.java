@@ -51,7 +51,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
@@ -99,7 +99,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
-        Options options = optionsService.getOptions(universityFiscalYear);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
 
         Collection balanceTypeCodes = new ArrayList();
         balanceTypeCodes.add(options.getActualFinancialBalanceTypeCd());
@@ -117,7 +117,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
-        Options options = optionsService.getOptions(universityFiscalYear);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
 
         List<String> balanceTypeCodes = balanceTypeService.getEncumbranceBalanceTypes(universityFiscalYear);
 
@@ -135,7 +135,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
-        Options options = optionsService.getOptions(universityFiscalYear);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
 
         Collection balanceTypeCodes = new ArrayList();
         balanceTypeCodes.add(options.getBudgetCheckingBalanceTypeCd());
@@ -154,7 +154,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         // Note, we are getting the options from the first fiscal year in the list. We are assuming that the
         // balance type code for actual is the same in all the years in the list.
-        Options options = optionsService.getOptions((Integer) universityFiscalYears.get(0));
+        SystemOptions options = optionsService.getOptions((Integer) universityFiscalYears.get(0));
 
         Collection objectCodes = new ArrayList();
         objectCodes.add(c.getFinancialCashObjectCode());
@@ -176,7 +176,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         // Note, we are getting the options from the first fiscal year in the list. We are assuming that the
         // balance type code for actual is the same in all the years in the list.
-        Options options = optionsService.getOptions((Integer) universityFiscalYears.get(0));
+        SystemOptions options = optionsService.getOptions((Integer) universityFiscalYears.get(0));
 
         Collection balanceTypeCodes = new ArrayList();
         balanceTypeCodes.add(options.getActualFinancialBalanceTypeCd());

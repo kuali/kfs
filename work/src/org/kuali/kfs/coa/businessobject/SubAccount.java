@@ -39,7 +39,7 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
 
     private A21SubAccount a21SubAccount;
     private Account account;
-    private ReportingCodes reportingCode;
+    private ReportingCode reportingCode;
     private Chart chart;
     private Organization org;
     private Chart financialReportChart;
@@ -99,7 +99,7 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
      * @param reportingCode The financialReporting to set.
      * @deprecated
      */
-    public void setReportingCode(ReportingCodes reportingCode) {
+    public void setReportingCode(ReportingCode reportingCode) {
         this.reportingCode = reportingCode;
     }
 
@@ -180,7 +180,7 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
      * 
      * @return Returns the financialReporting
      */
-    public ReportingCodes getReportingCode() {
+    public ReportingCode getReportingCode() {
         return reportingCode;
     }
 

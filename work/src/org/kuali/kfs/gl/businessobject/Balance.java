@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -76,19 +76,19 @@ public class Balance extends PersistableBusinessObjectBase {
     private ObjectType objectType;
 
     private TransientBalanceInquiryAttributes dummyBusinessObject;
-    private Options option;
+    private SystemOptions option;
 
     /**
      * @return Returns the options.
      */
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
     /**
      * @param options The options to set.
      */
-    public void setOption(Options opt) {
+    public void setOption(SystemOptions opt) {
         this.option = opt;
     }
 

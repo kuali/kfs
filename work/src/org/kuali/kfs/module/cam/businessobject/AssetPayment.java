@@ -11,7 +11,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -71,7 +71,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private DocumentType documentType;
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
-    private Options option;
+    private SystemOptions option;
 
     // Non-persisted attributes:
     private KualiDecimal yearToDate;
@@ -1108,7 +1108,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * 
      * @return Returns the option.
      */
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
@@ -1118,7 +1118,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * @param option The option to set.
      * @deprecated
      */
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

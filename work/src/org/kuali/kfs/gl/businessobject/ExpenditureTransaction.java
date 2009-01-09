@@ -18,7 +18,7 @@ package org.kuali.kfs.gl.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -56,7 +56,7 @@ public class ExpenditureTransaction extends PersistableBusinessObjectBase {
     private KualiDecimal accountObjectDirectCostAmount;
 
     private Account account;
-    private Options option;
+    private SystemOptions option;
 
     /**
      * 
@@ -96,11 +96,11 @@ public class ExpenditureTransaction extends PersistableBusinessObjectBase {
         return map;
     }
 
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

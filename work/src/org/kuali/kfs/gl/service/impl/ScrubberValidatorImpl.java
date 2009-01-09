@@ -48,7 +48,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -615,7 +615,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
         }
 
-        Options originEntryOption = referenceLookup.get().getOption(workingEntry.getUniversityFiscalYear());
+        SystemOptions originEntryOption = referenceLookup.get().getOption(workingEntry.getUniversityFiscalYear());
         if (originEntryOption == null) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, originEntry.getUniversityFiscalYear() + "", Message.TYPE_FATAL);
         }
@@ -924,7 +924,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             // balance type IS empty. We can't set it if the year isn't set
-            Options workingEntryOption = referenceLookup.get().getOption(workingEntry);
+            SystemOptions workingEntryOption = referenceLookup.get().getOption(workingEntry);
 
             if (workingEntryOption != null) {
                 workingEntry.setFinancialBalanceTypeCode(workingEntryOption.getActualFinancialBalanceTypeCd());

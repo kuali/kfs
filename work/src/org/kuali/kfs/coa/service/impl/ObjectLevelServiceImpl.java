@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -31,7 +31,7 @@ public class ObjectLevelServiceImpl implements ObjectLevelService {
     /**
      * @see org.kuali.kfs.coa.service.ObjectLevelService#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
+    public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
         return objectLevelDao.getByPrimaryId(chartOfAccountsCode, objectLevelCode);
     }
 

@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -38,7 +38,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase implements I
     private boolean budgetRolloverIndicator;
 
     private Date universityFiscalPeriodEndDate;
-    private Options options;
+    private SystemOptions options;
 
     /**
      * Default constructor.
@@ -173,7 +173,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase implements I
     /**
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -181,7 +181,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase implements I
      * @param options The options to set.
      * @deprecated
      */
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 

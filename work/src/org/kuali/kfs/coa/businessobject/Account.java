@@ -113,7 +113,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private Campus accountPhysicalCampus;
     private State accountState;
     private SubFundGroup subFundGroup;
-    private HigherEdFunction financialHigherEdFunction;
+    private HigherEducationFunction financialHigherEdFunction;
     private RestrictedStatus accountRestrictedStatus;
     private Account reportsToAccount;
     private Account continuationAccount;
@@ -868,7 +868,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the financialHigherEdFunction
      */
-    public HigherEdFunction getFinancialHigherEdFunction() {
+    public HigherEducationFunction getFinancialHigherEdFunction() {
         return financialHigherEdFunction;
     }
 
@@ -878,7 +878,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param financialHigherEdFunction The financialHigherEdFunction to set.
      * @deprecated
      */
-    public void setFinancialHigherEdFunction(HigherEdFunction financialHigherEdFunction) {
+    public void setFinancialHigherEdFunction(HigherEducationFunction financialHigherEdFunction) {
         this.financialHigherEdFunction = financialHigherEdFunction;
     }
 

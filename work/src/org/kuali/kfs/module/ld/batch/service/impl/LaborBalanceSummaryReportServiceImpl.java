@@ -30,7 +30,7 @@ import org.kuali.kfs.gl.batch.PosterSummaryReportStep;
 import org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService;
 import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.util.ReportRegistry;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -82,7 +82,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
 
     // generate a set of balance summary reports for actual, budget and encumbrance balances
     private void generateBalanceSummaryReports(Integer fiscalYear, Date runDate) {
-        Options options = optionsService.getOptions(fiscalYear);       
+        SystemOptions options = optionsService.getOptions(fiscalYear);       
         if(options == null) {
             LOG.fatal("The data for " + fiscalYear + "have NOT been setup.");
             return;
@@ -107,7 +107,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @return the encumbrance balance type codes for the given fiscal year
      */
     private List<String> getEncumbranceBalanceTypes(Integer fiscalYear) {
-        Options options = optionsService.getOptions(fiscalYear);
+        SystemOptions options = optionsService.getOptions(fiscalYear);
 
         List<String> balanceTypes = new ArrayList<String>();
         balanceTypes.add(options.getExtrnlEncumFinBalanceTypCd());
@@ -124,7 +124,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @return the actual balance type codes for the given fiscal year
      */
     private List<String> getActualBalanceTypes(Integer fiscalYear) {
-        Options options = optionsService.getOptions(fiscalYear);
+        SystemOptions options = optionsService.getOptions(fiscalYear);
 
         List<String> balanceTypes = new ArrayList<String>();
         balanceTypes.add(options.getActualFinancialBalanceTypeCd());
@@ -138,7 +138,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @return the budget balance type codes for the given fiscal year
      */
     private List<String> getBudgetBalanceTypes(Integer fiscalYear) {
-        Options options = optionsService.getOptions(fiscalYear);
+        SystemOptions options = optionsService.getOptions(fiscalYear);
 
         List<String> balanceTypes = new ArrayList<String>();
         balanceTypes.add(options.getBudgetCheckingBalanceTypeCd());

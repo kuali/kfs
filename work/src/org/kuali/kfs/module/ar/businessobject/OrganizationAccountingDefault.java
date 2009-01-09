@@ -9,7 +9,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -56,7 +56,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	private Chart defaultPaymentChartOfAccounts;
 	private SubAccount defaultPaymentSubAccount;
 	private ProjectCode defaultPaymentProject;
-	private Options universityFiscal;
+	private SystemOptions universityFiscal;
     private ObjectCode defaultPaymentFinancialObject;
     private SubObjectCode defaultPaymentFinancialSubObject;
     private Chart writeoffChartOfAccounts;
@@ -952,7 +952,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -961,7 +961,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

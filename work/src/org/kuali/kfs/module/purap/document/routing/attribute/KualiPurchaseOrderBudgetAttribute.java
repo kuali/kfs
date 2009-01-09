@@ -32,7 +32,7 @@ import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
@@ -71,7 +71,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
 
         routingDataRows = new ArrayList<Row>();
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SystemOptions.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
     }
 
@@ -212,7 +212,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
      */
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
-        setFiscalYear(LookupUtils.forceUppercase(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, (String) paramMap.get(UNIVERSITY_FISCAL_YEAR_KEY)));
+        setFiscalYear(LookupUtils.forceUppercase(SystemOptions.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, (String) paramMap.get(UNIVERSITY_FISCAL_YEAR_KEY)));
         setFinCoaCd(LookupUtils.forceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, (String) paramMap.get(FIN_COA_CD_KEY)));
         String label = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         if (StringUtils.isBlank(getFinCoaCd())) {
@@ -227,14 +227,14 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
                 errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
             }
         }
-        label = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        label = KualiWorkflowUtils.getBusinessObjectAttributeLabel(SystemOptions.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         if (StringUtils.isBlank(getFiscalYear())) {
             String errorMessage = label + " is required";
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
         }
         else {
             // not blank so check value for validity
-            Options options = SpringContext.getBean(OptionsService.class).getOptions(Integer.valueOf(getFiscalYear()));
+            SystemOptions options = SpringContext.getBean(OptionsService.class).getOptions(Integer.valueOf(getFiscalYear()));
             if (options == null) {
                 String errorMessage = label + " entered is invalid";
                 errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));

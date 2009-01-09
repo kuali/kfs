@@ -4,29 +4,29 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ReportingCodes" parent="ReportingCodes-parentBean" />
+  <bean id="ReportingCode" parent="ReportingCode-parentBean" />
 
-  <bean id="ReportingCodes-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ReportingCodes" />
+  <bean id="ReportingCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ReportingCode" />
     <property name="inquiryDefinition" >
-      <ref bean="ReportingCodes-inquiryDefinition" />
+      <ref bean="ReportingCode-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="ReportingCodes-lookupDefinition" />
+      <ref bean="ReportingCode-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="financialReportingCode" />
     <property name="objectLabel" value="Financial Reporting Code" />
     <property name="attributes" >
       <list>
-        <ref bean="ReportingCodes-chartOfAccountsCode" />
-        <ref bean="ReportingCodes-organizationCode" />
-        <ref bean="ReportingCodes-financialReportingCode" />
-        <ref bean="ReportingCodes-financialReportingCodeDescription" />
-        <ref bean="ReportingCodes-financialReportingCodeMgrId" />
-        <ref bean="ReportingCodes-person.principalName" />
-        <ref bean="ReportingCodes-person.name" />
-        <ref bean="ReportingCodes-financialReportsToReportingCode" />
-        <ref bean="ReportingCodes-active" />
+        <ref bean="ReportingCode-chartOfAccountsCode" />
+        <ref bean="ReportingCode-organizationCode" />
+        <ref bean="ReportingCode-financialReportingCode" />
+        <ref bean="ReportingCode-financialReportingCodeDescription" />
+        <ref bean="ReportingCode-financialReportingCodeMgrId" />
+        <ref bean="ReportingCode-person.principalName" />
+        <ref bean="ReportingCode-person.name" />
+        <ref bean="ReportingCode-financialReportsToReportingCode" />
+        <ref bean="ReportingCode-active" />
       </list>
     </property>
     <property name="relationships" >
@@ -65,19 +65,19 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ReportingCodes-chartOfAccountsCode" parent="ReportingCodes-chartOfAccountsCode-parentBean" />
+  <bean id="ReportingCode-chartOfAccountsCode" parent="ReportingCode-chartOfAccountsCode-parentBean" />
 
-  <bean id="ReportingCodes-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="ReportingCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   	<property name="forceUppercase" value="true" />
   </bean>
-  <bean id="ReportingCodes-organizationCode" parent="ReportingCodes-organizationCode-parentBean" />
+  <bean id="ReportingCode-organizationCode" parent="ReportingCode-organizationCode-parentBean" />
 
-  <bean id="ReportingCodes-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+  <bean id="ReportingCode-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="forceUppercase" value="true" />
   </bean>
-  <bean id="ReportingCodes-financialReportingCode" parent="ReportingCodes-financialReportingCode-parentBean" />
+  <bean id="ReportingCode-financialReportingCode" parent="ReportingCode-financialReportingCode-parentBean" />
 
-  <bean id="ReportingCodes-financialReportingCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ReportingCode-financialReportingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Reporting Code" />
@@ -92,9 +92,9 @@
             p:size="10" />
     </property>
   </bean>
-  <bean id="ReportingCodes-financialReportingCodeDescription" parent="ReportingCodes-financialReportingCodeDescription-parentBean" />
+  <bean id="ReportingCode-financialReportingCodeDescription" parent="ReportingCode-financialReportingCodeDescription-parentBean" />
 
-  <bean id="ReportingCodes-financialReportingCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ReportingCode-financialReportingCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingCodeDescription" />
     <property name="label" value="Financial Reporting Code Description" />
     <property name="shortLabel" value="financialReportingCodeDescription" />
@@ -109,9 +109,9 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="ReportingCodes-financialReportingCodeMgrId" parent="ReportingCodes-financialReportingCodeMgrId-parentBean" />
+  <bean id="ReportingCode-financialReportingCodeMgrId" parent="ReportingCode-financialReportingCodeMgrId-parentBean" />
 
-  <bean id="ReportingCodes-financialReportingCodeMgrId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ReportingCode-financialReportingCodeMgrId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingCodeMgrId" />
     <property name="label" value="Financial Reporting Code Manager Id" />
     <property name="shortLabel" value="Manager Id" />
@@ -124,9 +124,9 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="ReportingCodes-person.principalName" parent="ReportingCodes-person.principalName-parentBean" />
+  <bean id="ReportingCode-person.principalName" parent="ReportingCode-person.principalName-parentBean" />
 
-  <bean id="ReportingCodes-person.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="ReportingCode-person.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="person.principalName" />
     <property name="label" value="Financial Reporting Code Manager UserID" />
     <property name="shortLabel" value="UserID" />
@@ -138,32 +138,32 @@
             p:userIdAttributeName="person.principalName" />
     </property>
   </bean>
-  <bean id="ReportingCodes-person.name" parent="ReportingCodes-person.name-parentBean" />
+  <bean id="ReportingCode-person.name" parent="ReportingCode-person.name-parentBean" />
 
-  <bean id="ReportingCodes-person.name-parentBean" abstract="true" parent="PersonImpl-name">
+  <bean id="ReportingCode-person.name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="person.name" />
     <property name="label" value="Financial Reporting Code Manager Name" />
     <property name="required" value="false" />
   </bean>
-  <bean id="ReportingCodes-financialReportsToReportingCode" parent="ReportingCodes-financialReportsToReportingCode-parentBean" />
+  <bean id="ReportingCode-financialReportsToReportingCode" parent="ReportingCode-financialReportsToReportingCode-parentBean" />
 
-  <bean id="ReportingCodes-financialReportsToReportingCode-parentBean" abstract="true" parent="ReportingCodes-financialReportingCode">
+  <bean id="ReportingCode-financialReportsToReportingCode-parentBean" abstract="true" parent="ReportingCode-financialReportingCode">
     <property name="name" value="financialReportsToReportingCode" />
     <property name="label" value="Financial Reports To Reporting Code" />
     <property name="shortLabel" value="Reports To Code" />
   </bean>
-  <bean id="ReportingCodes-active" parent="ReportingCodes-active-parentBean" />
+  <bean id="ReportingCode-active" parent="ReportingCode-active-parentBean" />
 
-  <bean id="ReportingCodes-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="ReportingCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ReportingCodes-inquiryDefinition" parent="ReportingCodes-inquiryDefinition-parentBean" />
+  <bean id="ReportingCode-inquiryDefinition" parent="ReportingCode-inquiryDefinition-parentBean" />
 
-  <bean id="ReportingCodes-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="ReportingCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Financial Reporting Code Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -196,9 +196,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ReportingCodes-lookupDefinition" parent="ReportingCodes-lookupDefinition-parentBean" />
+  <bean id="ReportingCode-lookupDefinition" parent="ReportingCode-lookupDefinition-parentBean" />
 
-  <bean id="ReportingCodes-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="ReportingCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Financial Reporting Code Lookup" />
     <property name="instructions" value="Lookup Financial Reporting Code" />
     <property name="defaultSort" >

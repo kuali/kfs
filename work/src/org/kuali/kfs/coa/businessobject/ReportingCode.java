@@ -26,7 +26,7 @@ import org.kuali.rice.kim.service.PersonService;
 /**
  * Reporting Codes Business Object
  */
-public class ReportingCodes extends PersistableBusinessObjectBase implements Inactivateable {
+public class ReportingCode extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -1585612121519839488L;
     private String chartOfAccountsCode;
@@ -40,7 +40,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
     private Chart chart;
     private Organization org;
     private Person person;
-    private ReportingCodes reportingCodes;
+    private ReportingCode reportingCodes;
 
     /**
      * @return Returns the chartOfAccountsCode.
@@ -172,7 +172,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
     /**
      * @return Returns the reportingCodes.
      */
-    public ReportingCodes getReportingCodes() {
+    public ReportingCode getReportingCodes() {
         return reportingCodes;
     }
 
@@ -180,7 +180,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
      * @param reportingCodes The reportingCodes to set.
      * @deprecated
      */
-    public void setReportingCodes(ReportingCodes reportingCodes) {
+    public void setReportingCodes(ReportingCode reportingCodes) {
         this.reportingCodes = reportingCodes;
     }
 

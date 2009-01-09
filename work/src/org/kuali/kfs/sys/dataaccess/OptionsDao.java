@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.sys.dataaccess;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 
 /**
  * 
  * 
  */
 public interface OptionsDao {
-    public Options getByPrimaryId(Integer universityFiscalYear);
+    public SystemOptions getByPrimaryId(Integer universityFiscalYear);
 }

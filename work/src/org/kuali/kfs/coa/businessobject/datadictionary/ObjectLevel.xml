@@ -4,27 +4,27 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ObjLevel" parent="ObjLevel-parentBean" />
+  <bean id="ObjectLevel" parent="ObjectLevel-parentBean" />
 
-  <bean id="ObjLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjLevel" />
+  <bean id="ObjectLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectLevel" />
     <property name="inquiryDefinition" >
-      <ref bean="ObjLevel-inquiryDefinition" />
+      <ref bean="ObjectLevel-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="ObjLevel-lookupDefinition" />
+      <ref bean="ObjectLevel-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="financialObjectLevelCode" />
     <property name="objectLabel" value="Object Level" />
     <property name="attributes" >
       <list>
-        <ref bean="ObjLevel-chartOfAccountsCode" />
-        <ref bean="ObjLevel-financialObjectLevelCode" />
-        <ref bean="ObjLevel-financialObjectLevelName" />
-        <ref bean="ObjLevel-financialObjectLevelShortNm" />
-        <ref bean="ObjLevel-financialConsolidationObjectCode" />
-        <ref bean="ObjLevel-active" />
-        <ref bean="ObjLevel-financialReportingSortCode" />
+        <ref bean="ObjectLevel-chartOfAccountsCode" />
+        <ref bean="ObjectLevel-financialObjectLevelCode" />
+        <ref bean="ObjectLevel-financialObjectLevelName" />
+        <ref bean="ObjectLevel-financialObjectLevelShortNm" />
+        <ref bean="ObjectLevel-financialConsolidationObjectCode" />
+        <ref bean="ObjectLevel-active" />
+        <ref bean="ObjectLevel-financialReportingSortCode" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -38,13 +38,13 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ObjLevel-chartOfAccountsCode" parent="ObjLevel-chartOfAccountsCode-parentBean" />
+  <bean id="ObjectLevel-chartOfAccountsCode" parent="ObjectLevel-chartOfAccountsCode-parentBean" />
 
-  <bean id="ObjLevel-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="ObjectLevel-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="ObjLevel-financialObjectLevelCode" parent="ObjLevel-financialObjectLevelCode-parentBean" />
+  <bean id="ObjectLevel-financialObjectLevelCode" parent="ObjectLevel-financialObjectLevelCode-parentBean" />
 
-  <bean id="ObjLevel-financialObjectLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ObjectLevel-financialObjectLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Level Code" />
@@ -60,9 +60,9 @@
             p:size="4" />
     </property>
   </bean>
-  <bean id="ObjLevel-financialObjectLevelName" parent="ObjLevel-financialObjectLevelName-parentBean" />
+  <bean id="ObjectLevel-financialObjectLevelName" parent="ObjectLevel-financialObjectLevelName-parentBean" />
 
-  <bean id="ObjLevel-financialObjectLevelName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ObjectLevel-financialObjectLevelName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Object Level Name" />
@@ -78,13 +78,13 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="ObjLevel-financialObjectLevelShortNm" parent="ObjLevel-financialObjectLevelShortNm-parentBean" />
+  <bean id="ObjectLevel-financialObjectLevelShortNm" parent="ObjectLevel-financialObjectLevelShortNm-parentBean" />
 
-  <bean id="ObjLevel-financialObjectLevelShortNm-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ObjectLevel-financialObjectLevelShortNm-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelShortNm" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Level Short Name" />
-    <property name="shortLabel" value="ObjLevelShortName" />
+    <property name="label" value="Object Level" />
+    <property name="shortLabel" value="ObjLevel" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -96,21 +96,21 @@
             p:size="12" />
     </property>
   </bean>
-  <bean id="ObjLevel-financialConsolidationObjectCode" parent="ObjLevel-financialConsolidationObjectCode-parentBean" />
+  <bean id="ObjectLevel-financialConsolidationObjectCode" parent="ObjectLevel-financialConsolidationObjectCode-parentBean" />
 
-  <bean id="ObjLevel-financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectCons-finConsolidationObjectCode">
+  <bean id="ObjectLevel-financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
     <property name="name" value="financialConsolidationObjectCode" />
     <property name="shortLabel" value="Consolidation Code" />
   </bean>
-  <bean id="ObjLevel-active" parent="ObjLevel-active-parentBean" />
+  <bean id="ObjectLevel-active" parent="ObjectLevel-active-parentBean" />
 
-  <bean id="ObjLevel-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="ObjectLevel-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
     <property name="required" value="true" />
   </bean>
-  <bean id="ObjLevel-financialReportingSortCode" parent="ObjLevel-financialReportingSortCode-parentBean" />
+  <bean id="ObjectLevel-financialReportingSortCode" parent="ObjectLevel-financialReportingSortCode-parentBean" />
 
-  <bean id="ObjLevel-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ObjectLevel-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Report Sort Code" />
@@ -130,9 +130,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ObjLevel-inquiryDefinition" parent="ObjLevel-inquiryDefinition-parentBean" />
+  <bean id="ObjectLevel-inquiryDefinition" parent="ObjectLevel-inquiryDefinition-parentBean" />
 
-  <bean id="ObjLevel-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="ObjectLevel-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Object Level Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -165,9 +165,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ObjLevel-lookupDefinition" parent="ObjLevel-lookupDefinition-parentBean" />
+  <bean id="ObjectLevel-lookupDefinition" parent="ObjectLevel-lookupDefinition-parentBean" />
 
-  <bean id="ObjLevel-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="ObjectLevel-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Object Level Lookup" />
     <property name="instructions" value="Lookup an Object Level" />
     <property name="defaultSort" >

@@ -34,7 +34,7 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -141,7 +141,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         Map pkMap = new HashMap();
         Integer year = indirectCostRecoveryRate.getUniversityFiscalYear();
         pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        if(!checkExistenceFromTable(Options.class, pkMap)) {
+        if(!checkExistenceFromTable(SystemOptions.class, pkMap)) {
             GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                     RiceKeyConstants.ERROR_EXISTENCE, 
                     SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRate.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));

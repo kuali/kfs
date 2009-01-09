@@ -33,7 +33,7 @@ import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -79,7 +79,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Chart sourceChartOfAccounts;
     private Account sourceAccount;
     private SubAccount subAccount;
-    private Options options;
+    private SystemOptions options;
 
     /**
      * Default constructor.
@@ -497,7 +497,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -507,7 +507,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @param options The options to set.
      */
     @Deprecated
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 

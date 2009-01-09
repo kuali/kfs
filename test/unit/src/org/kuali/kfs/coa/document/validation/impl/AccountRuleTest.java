@@ -31,7 +31,7 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -1006,7 +1006,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     private void disableBeginBalanceLoadInd() {
-        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         options.setFinancialBeginBalanceLoadInd(true);
         SpringContext.getBean(BusinessObjectService.class).save(options);
     }

@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -61,13 +61,13 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private transient FederalFundedCode financialFederalFunded;
-    private transient Options universityFiscal;
-    private transient ObjLevel financialObjectLevel;
+    private transient SystemOptions universityFiscal;
+    private transient ObjectLevel financialObjectLevel;
     private transient Chart chartOfAccounts;
     private transient Chart reportsToChartOfAccounts;
     private transient ObjectCode reportsToFinancialObject;
     private transient ObjectType financialObjectType;
-    private transient ObjSubTyp financialObjectSubType;
+    private transient ObjectSubType financialObjectSubType;
     
     /**
      * Default no-arg constructor.
@@ -77,7 +77,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
         // universityFiscalYear = SpringContext.getBean(DateTimeService.class).getCurrentFiscalYear();
 
         // construct the referenced objects for the calling of the referencing object
-        this.financialObjectLevel = new ObjLevel();
+        this.financialObjectLevel = new ObjectLevel();
         this.financialObjectType = new ObjectType();
     }
 
@@ -256,7 +256,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * 
      * @return Returns the universityFiscal
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -266,7 +266,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 
@@ -275,7 +275,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * 
      * @return Returns the financialObjectLevel
      */
-    public ObjLevel getFinancialObjectLevel() {
+    public ObjectLevel getFinancialObjectLevel() {
         return financialObjectLevel;
     }
 
@@ -285,7 +285,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * @param financialObjectLevel The financialObjectLevel to set.
      * @deprecated
      */
-    public void setFinancialObjectLevel(ObjLevel financialObjectLevel) {
+    public void setFinancialObjectLevel(ObjectLevel financialObjectLevel) {
         this.financialObjectLevel = financialObjectLevel;
     }
 
@@ -370,7 +370,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * 
      * @return Returns the financialObjectSubType
      */
-    public ObjSubTyp getFinancialObjectSubType() {
+    public ObjectSubType getFinancialObjectSubType() {
         return financialObjectSubType;
     }
 
@@ -380,7 +380,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
-    public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
+    public void setFinancialObjectSubType(ObjectSubType financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
 

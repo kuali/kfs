@@ -4,48 +4,48 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Options" parent="Options-parentBean" />
+  <bean id="SystemOptions" parent="SystemOptions-parentBean" />
 
-  <bean id="Options-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Options" />
+  <bean id="SystemOptions-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.SystemOptions" />
     <property name="inquiryDefinition" >
-      <ref bean="Options-inquiryDefinition" />
+      <ref bean="SystemOptions-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="Options-lookupDefinition" />
+      <ref bean="SystemOptions-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="universityFiscalYear" />
     <property name="objectLabel" value="System Options" />
     <property name="attributes" >
       <list>
-        <ref bean="Options-universityFiscalYear" />
-        <ref bean="Options-universityFiscalYearName" />
-        <ref bean="Options-universityFiscalYearStartYr" />
-        <ref bean="Options-universityFiscalYearStartMo" />
-        <ref bean="Options-financialBeginBalanceLoadInd" />
-        <ref bean="Options-budgetCheckingOptionsCode" />
-        <ref bean="Options-universityFinChartOfAcctCd" />
-        <ref bean="Options-actualFinancialBalanceTypeCd" />
-        <ref bean="Options-extrnlEncumFinBalanceTypCd" />
-        <ref bean="Options-intrnlEncumFinBalanceTypCd" />
-        <ref bean="Options-preencumbranceFinBalTypeCd" />
-        <ref bean="Options-eliminationsFinBalanceTypeCd" />
-        <ref bean="Options-budgetCheckingBalanceTypeCd" />
-        <ref bean="Options-finObjTypeExpenditureexpCd" />
-        <ref bean="Options-finObjTypeExpendNotExpCode" />
-        <ref bean="Options-finObjTypeExpNotExpendCode" />
-        <ref bean="Options-finObjectTypeIncomecashCode" />
-        <ref bean="Options-finObjTypeIncomeNotCashCd" />
-        <ref bean="Options-finObjTypeCshNotIncomeCd" />
-        <ref bean="Options-financialObjectTypeAssetsCd" />
-        <ref bean="Options-finObjectTypeLiabilitiesCode" />
-        <ref bean="Options-finObjectTypeFundBalanceCd" />
-        <ref bean="Options-costShareEncumbranceBalanceTypeCd" />
-        <ref bean="Options-baseBudgetFinancialBalanceTypeCd" />
-        <ref bean="Options-monthlyBudgetFinancialBalanceTypeCd" />
-        <ref bean="Options-financialObjectTypeTransferIncomeCd" />
-        <ref bean="Options-financialObjectTypeTransferExpenseCd" />
-        <ref bean="Options-nominalFinancialBalanceTypeCd" />
+        <ref bean="SystemOptions-universityFiscalYear" />
+        <ref bean="SystemOptions-universityFiscalYearName" />
+        <ref bean="SystemOptions-universityFiscalYearStartYr" />
+        <ref bean="SystemOptions-universityFiscalYearStartMo" />
+        <ref bean="SystemOptions-financialBeginBalanceLoadInd" />
+        <ref bean="SystemOptions-budgetCheckingOptionsCode" />
+        <ref bean="SystemOptions-universityFinChartOfAcctCd" />
+        <ref bean="SystemOptions-actualFinancialBalanceTypeCd" />
+        <ref bean="SystemOptions-extrnlEncumFinBalanceTypCd" />
+        <ref bean="SystemOptions-intrnlEncumFinBalanceTypCd" />
+        <ref bean="SystemOptions-preencumbranceFinBalTypeCd" />
+        <ref bean="SystemOptions-eliminationsFinBalanceTypeCd" />
+        <ref bean="SystemOptions-budgetCheckingBalanceTypeCd" />
+        <ref bean="SystemOptions-finObjTypeExpenditureexpCd" />
+        <ref bean="SystemOptions-finObjTypeExpendNotExpCode" />
+        <ref bean="SystemOptions-finObjTypeExpNotExpendCode" />
+        <ref bean="SystemOptions-finObjectTypeIncomecashCode" />
+        <ref bean="SystemOptions-finObjTypeIncomeNotCashCd" />
+        <ref bean="SystemOptions-finObjTypeCshNotIncomeCd" />
+        <ref bean="SystemOptions-financialObjectTypeAssetsCd" />
+        <ref bean="SystemOptions-finObjectTypeLiabilitiesCode" />
+        <ref bean="SystemOptions-finObjectTypeFundBalanceCd" />
+        <ref bean="SystemOptions-costShareEncumbranceBalanceTypeCd" />
+        <ref bean="SystemOptions-baseBudgetFinancialBalanceTypeCd" />
+        <ref bean="SystemOptions-monthlyBudgetFinancialBalanceTypeCd" />
+        <ref bean="SystemOptions-financialObjectTypeTransferIncomeCd" />
+        <ref bean="SystemOptions-financialObjectTypeTransferExpenseCd" />
+        <ref bean="SystemOptions-nominalFinancialBalanceTypeCd" />
       </list>
     </property>
   </bean>
@@ -53,9 +53,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Options-universityFiscalYear" parent="Options-universityFiscalYear-parentBean" />
+  <bean id="SystemOptions-universityFiscalYear" parent="SystemOptions-universityFiscalYear-parentBean" />
 
-  <bean id="Options-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+  <bean id="SystemOptions-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
@@ -63,9 +63,9 @@
     <property name="summary" value="University Fiscal Year" />
     <property name="description" value="Indicates what fiscal year this options applies to." />
   </bean>
-  <bean id="Options-universityFiscalYearName" parent="Options-universityFiscalYearName-parentBean" />
+  <bean id="SystemOptions-universityFiscalYearName" parent="SystemOptions-universityFiscalYearName-parentBean" />
 
-  <bean id="Options-universityFiscalYearName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-universityFiscalYearName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYearName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year Name" />
@@ -82,9 +82,9 @@
     <property name="summary" value="Fiscal Year Name" />
     <property name="description" value="The name of the fiscal year in format like: 2005-2006" />
   </bean>
-  <bean id="Options-universityFiscalYearStartYr" parent="Options-universityFiscalYearStartYr-parentBean" />
+  <bean id="SystemOptions-universityFiscalYearStartYr" parent="SystemOptions-universityFiscalYearStartYr-parentBean" />
 
-  <bean id="Options-universityFiscalYearStartYr-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-universityFiscalYearStartYr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYearStartYr" />
     <property name="label" value="Fiscal Year Start Year" />
     <property name="shortLabel" value="Start Year" />
@@ -100,9 +100,9 @@
     <property name="summary" value="Fiscal Year Start Year" />
     <property name="description" value="Fiscal Year Start Year." />
   </bean>
-  <bean id="Options-universityFiscalYearStartMo" parent="Options-universityFiscalYearStartMo-parentBean" />
+  <bean id="SystemOptions-universityFiscalYearStartMo" parent="SystemOptions-universityFiscalYearStartMo-parentBean" />
 
-  <bean id="Options-universityFiscalYearStartMo-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-universityFiscalYearStartMo-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYearStartMo" />
     <property name="label" value="Fiscal Year Start Month" />
     <property name="shortLabel" value="Start Month" />
@@ -118,9 +118,9 @@
     <property name="summary" value="Fiscal Year Start Month" />
     <property name="description" value="Fiscal Year Start Month." />
   </bean>
-  <bean id="Options-financialBeginBalanceLoadInd" parent="Options-financialBeginBalanceLoadInd-parentBean" />
+  <bean id="SystemOptions-financialBeginBalanceLoadInd" parent="SystemOptions-financialBeginBalanceLoadInd-parentBean" />
 
-  <bean id="Options-financialBeginBalanceLoadInd-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  <bean id="SystemOptions-financialBeginBalanceLoadInd-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="financialBeginBalanceLoadInd" />
     <property name="label" value="Beginning Balances Loaded Indicator" />
     <property name="shortLabel" value="Begin Bal. Loaded Ind" />
@@ -128,9 +128,9 @@
     <property name="summary" value="Beginning Balances Loaded Indicator" />
     <property name="description" value="Beginning Balances Loaded Indicator" />
   </bean>
-  <bean id="Options-budgetCheckingOptionsCode" parent="Options-budgetCheckingOptionsCode-parentBean" />
+  <bean id="SystemOptions-budgetCheckingOptionsCode" parent="SystemOptions-budgetCheckingOptionsCode-parentBean" />
 
-  <bean id="Options-budgetCheckingOptionsCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  <bean id="SystemOptions-budgetCheckingOptionsCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="budgetCheckingOptionsCode" />
     <property name="label" value="Budget Checking Options Code" />
     <property name="shortLabel" value="Budget Option Code" />
@@ -138,9 +138,9 @@
     <property name="summary" value="Budget Checking Options Code" />
     <property name="description" value="Budget Checking Options Code" />
   </bean>
-  <bean id="Options-universityFinChartOfAcctCd" parent="Options-universityFinChartOfAcctCd-parentBean" />
+  <bean id="SystemOptions-universityFinChartOfAcctCd" parent="SystemOptions-universityFinChartOfAcctCd-parentBean" />
 
-  <bean id="Options-universityFinChartOfAcctCd-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="SystemOptions-universityFinChartOfAcctCd-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="universityFinChartOfAcctCd" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -148,9 +148,9 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="Options-actualFinancialBalanceTypeCd" parent="Options-actualFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-actualFinancialBalanceTypeCd" parent="SystemOptions-actualFinancialBalanceTypeCd-parentBean" />
 
-  <bean id="Options-actualFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-actualFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="actualFinancialBalanceTypeCd" />
     <property name="label" value="Actual Balance Type" />
     <property name="shortLabel" value="Actual Balance Type" />
@@ -166,9 +166,9 @@
     <property name="summary" value="Actual Balance Type" />
     <property name="description" value="Actual Balance Type" />
   </bean>
-  <bean id="Options-extrnlEncumFinBalanceTypCd" parent="Options-extrnlEncumFinBalanceTypCd-parentBean" />
+  <bean id="SystemOptions-extrnlEncumFinBalanceTypCd" parent="SystemOptions-extrnlEncumFinBalanceTypCd-parentBean" />
 
-  <bean id="Options-extrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-extrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="extrnlEncumFinBalanceTypCd" />
     <property name="label" value="External Encumbrance Balance Type" />
     <property name="shortLabel" value="External Encumbrance Balance Type" />
@@ -184,9 +184,9 @@
     <property name="summary" value="External Encumbrance Balance Type" />
     <property name="description" value="External Encumbrance Balance Type" />
   </bean>
-  <bean id="Options-intrnlEncumFinBalanceTypCd" parent="Options-intrnlEncumFinBalanceTypCd-parentBean" />
+  <bean id="SystemOptions-intrnlEncumFinBalanceTypCd" parent="SystemOptions-intrnlEncumFinBalanceTypCd-parentBean" />
 
-  <bean id="Options-intrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-intrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="intrnlEncumFinBalanceTypCd" />
     <property name="label" value="Internal Encumbrance Balance Type" />
     <property name="shortLabel" value="Internal Encumbrance Balance Type" />
@@ -202,9 +202,9 @@
     <property name="summary" value="Internal Encumbrance Balance Type" />
     <property name="description" value="Internal Encumbrance Balance Type" />
   </bean>
-  <bean id="Options-preencumbranceFinBalTypeCd" parent="Options-preencumbranceFinBalTypeCd-parentBean" />
+  <bean id="SystemOptions-preencumbranceFinBalTypeCd" parent="SystemOptions-preencumbranceFinBalTypeCd-parentBean" />
 
-  <bean id="Options-preencumbranceFinBalTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-preencumbranceFinBalTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="preencumbranceFinBalTypeCd" />
     <property name="label" value="Pre-Encumbrance Balance Type" />
     <property name="shortLabel" value="Pre-Encumbrance Balance Type" />
@@ -220,9 +220,9 @@
     <property name="summary" value="Pre-Encumbrance Balance Type" />
     <property name="description" value="Pre-Encumbrance Balance Type" />
   </bean>
-  <bean id="Options-eliminationsFinBalanceTypeCd" parent="Options-eliminationsFinBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-eliminationsFinBalanceTypeCd" parent="SystemOptions-eliminationsFinBalanceTypeCd-parentBean" />
 
-  <bean id="Options-eliminationsFinBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-eliminationsFinBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="eliminationsFinBalanceTypeCd" />
     <property name="label" value="Eliminations Balance Type" />
     <property name="shortLabel" value="Eliminations Balance Type" />
@@ -238,9 +238,9 @@
     <property name="summary" value="Eliminations Balance Type" />
     <property name="description" value="Eliminations Balance Type" />
   </bean>
-  <bean id="Options-budgetCheckingBalanceTypeCd" parent="Options-budgetCheckingBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-budgetCheckingBalanceTypeCd" parent="SystemOptions-budgetCheckingBalanceTypeCd-parentBean" />
 
-  <bean id="Options-budgetCheckingBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-budgetCheckingBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetCheckingBalanceTypeCd" />
     <property name="label" value="Budget Checking Balance Type" />
     <property name="shortLabel" value="Budget Checking Balance Type" />
@@ -256,9 +256,9 @@
     <property name="summary" value="Budget Checking Balance Type" />
     <property name="description" value="Budget Checking Balance Type" />
   </bean>
-  <bean id="Options-finObjTypeExpenditureexpCd" parent="Options-finObjTypeExpenditureexpCd-parentBean" />
+  <bean id="SystemOptions-finObjTypeExpenditureexpCd" parent="SystemOptions-finObjTypeExpenditureexpCd-parentBean" />
 
-  <bean id="Options-finObjTypeExpenditureexpCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjTypeExpenditureexpCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeExpenditureexpCd" />
     <property name="label" value="Expenditure/Expense Object Type" />
     <property name="shortLabel" value="Expenditure/Expense Object Type" />
@@ -274,9 +274,9 @@
     <property name="summary" value="Expenditure/Expense Object Type" />
     <property name="description" value="Expenditure/Expense Object Type" />
   </bean>
-  <bean id="Options-finObjTypeExpendNotExpCode" parent="Options-finObjTypeExpendNotExpCode-parentBean" />
+  <bean id="SystemOptions-finObjTypeExpendNotExpCode" parent="SystemOptions-finObjTypeExpendNotExpCode-parentBean" />
 
-  <bean id="Options-finObjTypeExpendNotExpCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjTypeExpendNotExpCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeExpendNotExpCode" />
     <property name="label" value="Expenditure Not Expense Object Type" />
     <property name="shortLabel" value="Expenditure Not Expense Object Type" />
@@ -292,9 +292,9 @@
     <property name="summary" value="Expenditure Not Expense Object Type" />
     <property name="description" value="Expenditure Not Expense Object Type" />
   </bean>
-  <bean id="Options-finObjTypeExpNotExpendCode" parent="Options-finObjTypeExpNotExpendCode-parentBean" />
+  <bean id="SystemOptions-finObjTypeExpNotExpendCode" parent="SystemOptions-finObjTypeExpNotExpendCode-parentBean" />
 
-  <bean id="Options-finObjTypeExpNotExpendCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjTypeExpNotExpendCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeExpNotExpendCode" />
     <property name="label" value="Expense Not Expenditure Object Type" />
     <property name="shortLabel" value="Expense Not Expenditure Object Type" />
@@ -310,9 +310,9 @@
     <property name="summary" value="Expense Not Expenditure Object Type" />
     <property name="description" value="Expense Not Expenditure Object Type" />
   </bean>
-  <bean id="Options-finObjectTypeIncomecashCode" parent="Options-finObjectTypeIncomecashCode-parentBean" />
+  <bean id="SystemOptions-finObjectTypeIncomecashCode" parent="SystemOptions-finObjectTypeIncomecashCode-parentBean" />
 
-  <bean id="Options-finObjectTypeIncomecashCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjectTypeIncomecashCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjectTypeIncomecashCode" />
     <property name="label" value="Income/Cash Object Type" />
     <property name="shortLabel" value="Income/Cash Object Type" />
@@ -328,9 +328,9 @@
     <property name="summary" value="Income/Cash Object Type" />
     <property name="description" value="Income/Cash Object Type" />
   </bean>
-  <bean id="Options-finObjTypeIncomeNotCashCd" parent="Options-finObjTypeIncomeNotCashCd-parentBean" />
+  <bean id="SystemOptions-finObjTypeIncomeNotCashCd" parent="SystemOptions-finObjTypeIncomeNotCashCd-parentBean" />
 
-  <bean id="Options-finObjTypeIncomeNotCashCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjTypeIncomeNotCashCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeIncomeNotCashCd" />
     <property name="label" value="Income Not Cash Object Type" />
     <property name="shortLabel" value="Income Not Cash Object Type" />
@@ -346,9 +346,9 @@
     <property name="summary" value="Income Not Cash Object Type" />
     <property name="description" value="Income Not Cash Object Type" />
   </bean>
-  <bean id="Options-finObjTypeCshNotIncomeCd" parent="Options-finObjTypeCshNotIncomeCd-parentBean" />
+  <bean id="SystemOptions-finObjTypeCshNotIncomeCd" parent="SystemOptions-finObjTypeCshNotIncomeCd-parentBean" />
 
-  <bean id="Options-finObjTypeCshNotIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjTypeCshNotIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjTypeCshNotIncomeCd" />
     <property name="label" value="Cash Not Income Object Type" />
     <property name="shortLabel" value="Cash Not Income Object Type" />
@@ -364,9 +364,9 @@
     <property name="summary" value="Cash Not Income Object Type" />
     <property name="description" value="Cash Not Income Object Type" />
   </bean>
-  <bean id="Options-financialObjectTypeAssetsCd" parent="Options-financialObjectTypeAssetsCd-parentBean" />
+  <bean id="SystemOptions-financialObjectTypeAssetsCd" parent="SystemOptions-financialObjectTypeAssetsCd-parentBean" />
 
-  <bean id="Options-financialObjectTypeAssetsCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-financialObjectTypeAssetsCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeAssetsCd" />
     <property name="label" value="Assets Object Type" />
     <property name="shortLabel" value="Assets Object Type" />
@@ -382,9 +382,9 @@
     <property name="summary" value="Assets Object Type" />
     <property name="description" value="Assets Object Type" />
   </bean>
-  <bean id="Options-finObjectTypeLiabilitiesCode" parent="Options-finObjectTypeLiabilitiesCode-parentBean" />
+  <bean id="SystemOptions-finObjectTypeLiabilitiesCode" parent="SystemOptions-finObjectTypeLiabilitiesCode-parentBean" />
 
-  <bean id="Options-finObjectTypeLiabilitiesCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjectTypeLiabilitiesCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjectTypeLiabilitiesCode" />
     <property name="label" value="Liabilities Object Type" />
     <property name="shortLabel" value="Liabilities Object Type" />
@@ -400,9 +400,9 @@
     <property name="summary" value="Liabilities Object Type" />
     <property name="description" value="Liabilities Object Type" />
   </bean>
-  <bean id="Options-finObjectTypeFundBalanceCd" parent="Options-finObjectTypeFundBalanceCd-parentBean" />
+  <bean id="SystemOptions-finObjectTypeFundBalanceCd" parent="SystemOptions-finObjectTypeFundBalanceCd-parentBean" />
 
-  <bean id="Options-finObjectTypeFundBalanceCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-finObjectTypeFundBalanceCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finObjectTypeFundBalanceCd" />
     <property name="label" value="Fund Balance Object Type" />
     <property name="shortLabel" value="Fund Balance Object Type" />
@@ -418,9 +418,9 @@
     <property name="summary" value="Fund Balance Object Type" />
     <property name="description" value="Fund Balance Object Type." />
   </bean>
-  <bean id="Options-costShareEncumbranceBalanceTypeCd" parent="Options-costShareEncumbranceBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-costShareEncumbranceBalanceTypeCd" parent="SystemOptions-costShareEncumbranceBalanceTypeCd-parentBean" />
 
-  <bean id="Options-costShareEncumbranceBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-costShareEncumbranceBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="costShareEncumbranceBalanceTypeCd" />
     <property name="label" value="Cost Share Encumbrance Balance Type" />
     <property name="shortLabel" value="Cost Share Encumbrance Balance Type" />
@@ -436,9 +436,9 @@
     <property name="summary" value="Cost Share Encumbrance Balance Type" />
     <property name="description" value="Cost Share Encumbrance Balance Type." />
   </bean>
-  <bean id="Options-baseBudgetFinancialBalanceTypeCd" parent="Options-baseBudgetFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-baseBudgetFinancialBalanceTypeCd" parent="SystemOptions-baseBudgetFinancialBalanceTypeCd-parentBean" />
 
-  <bean id="Options-baseBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-baseBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="baseBudgetFinancialBalanceTypeCd" />
     <property name="label" value="Base Budget Balance Type" />
     <property name="shortLabel" value="Base Budget Balance Type" />
@@ -454,9 +454,9 @@
     <property name="summary" value="Base Budget Balance Type" />
     <property name="description" value="Base Budget Balance Type." />
   </bean>
-  <bean id="Options-monthlyBudgetFinancialBalanceTypeCd" parent="Options-monthlyBudgetFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-monthlyBudgetFinancialBalanceTypeCd" parent="SystemOptions-monthlyBudgetFinancialBalanceTypeCd-parentBean" />
 
-  <bean id="Options-monthlyBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-monthlyBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="monthlyBudgetFinancialBalanceTypeCd" />
     <property name="label" value="Monthly Budget Balance Type" />
     <property name="shortLabel" value="Monthly Budget Balance Type" />
@@ -472,9 +472,9 @@
     <property name="summary" value="Monthly Budget Balance Type" />
     <property name="description" value="Monthly Budget Balance Type." />
   </bean>
-  <bean id="Options-financialObjectTypeTransferIncomeCd" parent="Options-financialObjectTypeTransferIncomeCd-parentBean" />
+  <bean id="SystemOptions-financialObjectTypeTransferIncomeCd" parent="SystemOptions-financialObjectTypeTransferIncomeCd-parentBean" />
 
-  <bean id="Options-financialObjectTypeTransferIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-financialObjectTypeTransferIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeTransferIncomeCd" />
     <property name="label" value="Transfer In Object Type" />
     <property name="shortLabel" value="Transfer In Object Type" />
@@ -490,9 +490,9 @@
     <property name="summary" value="Transfer In Object Type" />
     <property name="description" value="Transfer In Object Type." />
   </bean>
-  <bean id="Options-financialObjectTypeTransferExpenseCd" parent="Options-financialObjectTypeTransferExpenseCd-parentBean" />
+  <bean id="SystemOptions-financialObjectTypeTransferExpenseCd" parent="SystemOptions-financialObjectTypeTransferExpenseCd-parentBean" />
 
-  <bean id="Options-financialObjectTypeTransferExpenseCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-financialObjectTypeTransferExpenseCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeTransferExpenseCd" />
     <property name="label" value="Transfer Out Object Type" />
     <property name="shortLabel" value="Transfer Out Object Type" />
@@ -508,9 +508,9 @@
     <property name="summary" value="Transfer Out Object Type" />
     <property name="description" value="Transfer Out Object Type." />
   </bean>
-  <bean id="Options-nominalFinancialBalanceTypeCd" parent="Options-nominalFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-nominalFinancialBalanceTypeCd" parent="SystemOptions-nominalFinancialBalanceTypeCd-parentBean" />
 
-  <bean id="Options-nominalFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemOptions-nominalFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nominalFinancialBalanceTypeCd" />
     <property name="label" value="Nominal Closing Balances Balance Type" />
     <property name="shortLabel" value="Nominal Closing Balances Balance Type" />
@@ -530,9 +530,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Options-inquiryDefinition" parent="Options-inquiryDefinition-parentBean" />
+  <bean id="SystemOptions-inquiryDefinition" parent="SystemOptions-inquiryDefinition-parentBean" />
 
-  <bean id="Options-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="SystemOptions-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="System Options Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -607,9 +607,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Options-lookupDefinition" parent="Options-lookupDefinition-parentBean" />
+  <bean id="SystemOptions-lookupDefinition" parent="SystemOptions-lookupDefinition-parentBean" />
 
-  <bean id="Options-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="SystemOptions-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="System Options Lookup" />
     <property name="instructions" value="Lookup a System Options" />
     <property name="defaultSort" >

@@ -24,9 +24,9 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectConsService;
@@ -216,7 +216,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      */
     public boolean objectLevelTableDoesNotHave(String chartCode, String objectCode) {
         try {
-            ObjLevel objLevel = objectLevelService.getByPrimaryId(chartCode, objectCode);
+            ObjectLevel objLevel = objectLevelService.getByPrimaryId(chartCode, objectCode);
             if (objLevel != null) {
                 objLevel.getFinancialObjectLevelCode(); // this might throw an Exception when proxying is in effect
                 return false;
@@ -238,7 +238,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      */
     public boolean consolidationTableDoesNotHave(String chartCode, String objectCode) {
         try {
-            ObjectCons objectCons = objectConsService.getByPrimaryId(chartCode, objectCode);
+            ObjectConsolidation objectCons = objectConsService.getByPrimaryId(chartCode, objectCode);
             if (objectCons != null) {
                 objectCons.getFinConsolidationObjectCode(); // this might throw an Exception when proxying is in effect
                 return false;

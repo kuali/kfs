@@ -10,7 +10,7 @@
   <bean id="HigherEducationFunctionMaintenanceDocument" parent="HigherEducationFunctionMaintenanceDocument-parentBean" />
 
   <bean id="HigherEducationFunctionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.HigherEdFunction" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.HigherEducationFunction" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -40,7 +40,7 @@
     <property name="summary" value="Higher Education Function maintenance document" />
     <property name="description" value="Document used to create or update Higher Education Function objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.HigherEdFunction" p:parameterName="HIGHER_EDUCATION_FUNCTION" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.HigherEducationFunction" p:parameterName="HIGHER_EDUCATION_FUNCTION" />
     </property>
     <property name="documentTypeName" value="HigherEducationFunctionMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

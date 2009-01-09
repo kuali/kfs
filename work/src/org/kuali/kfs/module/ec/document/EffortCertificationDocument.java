@@ -27,7 +27,7 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
@@ -67,7 +67,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private Person employee;
-    private Options options;
+    private SystemOptions options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
     private List<EffortCertificationDetail> summarizedDetailLines;
@@ -196,7 +196,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -205,7 +205,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * 
      * @param options The options to set.
      */
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 

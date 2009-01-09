@@ -2,7 +2,7 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -14,7 +14,7 @@ public class AssetDepreciationConvention extends PersistableBusinessObjectBase {
 	private String depreciationConventionCode;
     private boolean active;
     
-    private ObjSubTyp financialObjectSubType;
+    private ObjectSubType financialObjectSubType;
     
 	/**
 	 * Default constructor.
@@ -68,7 +68,7 @@ public class AssetDepreciationConvention extends PersistableBusinessObjectBase {
      * Gets the financialObjectSubType attribute. 
      * @return Returns the financialObjectSubType.
      */
-    public ObjSubTyp getFinancialObjectSubType() {
+    public ObjectSubType getFinancialObjectSubType() {
         return financialObjectSubType;
     }
 
@@ -77,7 +77,7 @@ public class AssetDepreciationConvention extends PersistableBusinessObjectBase {
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
-    public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
+    public void setFinancialObjectSubType(ObjectSubType financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
 

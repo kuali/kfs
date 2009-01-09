@@ -52,7 +52,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -108,7 +108,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         private Date timestamp;
         private static final String DATE_FORMAT = "yyyy-MM-dd";
         private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NOMINAL_ACTIVITY_BALANCE_FIXTURE.class);
-        private Options fsOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        private SystemOptions fsOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
         private NOMINAL_ACTIVITY_BALANCE_FIXTURE(String chartCode, String accountNumber) {
             this.chartCode = chartCode;
@@ -215,7 +215,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         private Date timestamp;
         private static final String DATE_FORMAT = "yyyy-MM-dd";
         private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NOMINAL_ACTIVITY_BALANCE_FIXTURE.class);
-        private Options fsOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        private SystemOptions fsOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
         private ORG_REVERSION_BALANCE_FIXTURE(String chartCode, String accountNumber) {
             this.chartCode = chartCode;

@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
 import org.kuali.kfs.coa.service.BalanceTypService;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -127,7 +127,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
      */
     @CacheNoCopy
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
-        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
         List<String> encumberanceBalanceTypes = new ArrayList<String>();
         encumberanceBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
         encumberanceBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
@@ -160,7 +160,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
      */
     @CacheNoCopy
     public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {
-        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
         List<String> continuationAccountBypassBalanceTypes = new ArrayList<String>();
         continuationAccountBypassBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
         continuationAccountBypassBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());

@@ -18,7 +18,7 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -38,7 +38,7 @@ public class EncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements
      */
     public String getValue() {
         OptionsService os = SpringContext.getBean(OptionsService.class);
-        Options o = os.getCurrentYearOptions();
+        SystemOptions o = os.getCurrentYearOptions();
 
         return o.getExtrnlEncumFinBalanceTypCd();
     }
@@ -53,7 +53,7 @@ public class EncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements
         List labels = new ArrayList();
 
         OptionsService os = SpringContext.getBean(OptionsService.class);
-        Options o = os.getCurrentYearOptions();
+        SystemOptions o = os.getCurrentYearOptions();
 
         labels.add(new KeyLabelPair(o.getExtrnlEncumFinBalanceTypCd(), o.getExtrnlEncumFinBalanceTypCd() + " - " + o.getExtrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));
         labels.add(new KeyLabelPair(o.getIntrnlEncumFinBalanceTypCd(), o.getIntrnlEncumFinBalanceTypCd() + " - " + o.getIntrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));

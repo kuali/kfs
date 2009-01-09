@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -34,7 +34,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
     private String chartOfAccountsCode;
     private String financialObjectCode;
 
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private BalanceType financialBalanceType;
@@ -70,7 +70,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
      * 
      * @return Returns the universityFiscal
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -80,7 +80,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
      * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

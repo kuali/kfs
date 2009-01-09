@@ -27,7 +27,7 @@
 <!-- Attribute Definitions -->
 
   <bean id="AssetDepreciationConvention-financialObjectSubTypeCode" parent="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" />
-  <bean id="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjSubTyp-code">
+  <bean id="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectSubType-code">
     <property name="name" value="financialObjectSubTypeCode" />
     <property name="label" value="Financial Object Sub Type Code" />
     <property name="shortLabel" value="Code" />

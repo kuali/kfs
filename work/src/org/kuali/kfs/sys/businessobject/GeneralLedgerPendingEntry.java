@@ -76,7 +76,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private DocumentType documentType;
     private FinancialSystemDocumentHeader documentHeader;
 
-    private Options option;
+    private SystemOptions option;
     private Chart chart;
     private Account account;
     private SubAccount subAccount;
@@ -190,11 +190,11 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         this.originationCode = originationCode;
     }
 
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 

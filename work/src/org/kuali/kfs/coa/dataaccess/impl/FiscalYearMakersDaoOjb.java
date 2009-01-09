@@ -63,7 +63,7 @@ import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
@@ -404,8 +404,8 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * Options *
          **************************************************************************************************************************/
         FiscalYearMakersCopyAction copyActionOptions = new FiscalYearMakersCopyAction() {
-            FiscalYearMakersFieldChangeAction<Options> fieldAction = new FiscalYearMakersFieldChangeAction<Options>() {
-                public void customFieldChangeMethod(Integer currentFiscalYear, Integer newFiscalYear, Options candidateRow) {
+            FiscalYearMakersFieldChangeAction<SystemOptions> fieldAction = new FiscalYearMakersFieldChangeAction<SystemOptions>() {
+                public void customFieldChangeMethod(Integer currentFiscalYear, Integer newFiscalYear, SystemOptions candidateRow) {
                     // some ineffeciency in set up is traded for easier maintenance
                     Integer currentYearStart = currentFiscalYear - 1;
                     String endNextYearString = newFiscalYear.toString();
@@ -419,11 +419,11 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             };
 
             public void copyMethod(Integer baseYear, boolean replaceMode) {
-                MakersMethods<Options> makersMethod = new MakersMethods<Options>();
-                makersMethod.makeMethod(Options.class, baseYear, replaceMode, fieldAction);
+                MakersMethods<SystemOptions> makersMethod = new MakersMethods<SystemOptions>();
+                makersMethod.makeMethod(SystemOptions.class, baseYear, replaceMode, fieldAction);
             }
         };
-        addCopyAction(Options.class, copyActionOptions);
+        addCopyAction(SystemOptions.class, copyActionOptions);
 
         /***************************************************************************************************************************
          * OrganizationReversion *

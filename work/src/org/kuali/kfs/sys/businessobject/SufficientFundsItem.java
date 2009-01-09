@@ -29,7 +29,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Represents a sufficient fund item which is used to show if a document has sufficient funds
  */
 public class SufficientFundsItem implements Serializable, Comparable {
-    private Options year;
+    private SystemOptions year;
     private Account account;
     private ObjectCode financialObject;
     private ObjectType financialObjectType;
@@ -56,7 +56,7 @@ public class SufficientFundsItem implements Serializable, Comparable {
      * @param tran
      * @param sufficientFundsObjectCode
      */
-    public SufficientFundsItem(Options universityFiscalYear, Transaction tran, String sufficientFundsObjectCode) {
+    public SufficientFundsItem(SystemOptions universityFiscalYear, Transaction tran, String sufficientFundsObjectCode) {
 
         amount = KualiDecimal.ZERO;
         year = universityFiscalYear;
@@ -75,7 +75,7 @@ public class SufficientFundsItem implements Serializable, Comparable {
      * @param accountLine
      * @param sufficientFundsObjectCode
      */
-    public SufficientFundsItem(Options universityFiscalYear, AccountingLine accountLine, String sufficientFundsObjectCode) {
+    public SufficientFundsItem(SystemOptions universityFiscalYear, AccountingLine accountLine, String sufficientFundsObjectCode) {
 
         amount = KualiDecimal.ZERO;
         year = universityFiscalYear;
@@ -190,11 +190,11 @@ public class SufficientFundsItem implements Serializable, Comparable {
         this.sufficientFundsObjectCode = sufficientFundsObjectCode;
     }
 
-    public Options getYear() {
+    public SystemOptions getYear() {
         return year;
     }
 
-    public void setYear(Options year) {
+    public void setYear(SystemOptions year) {
         this.year = year;
     }
 

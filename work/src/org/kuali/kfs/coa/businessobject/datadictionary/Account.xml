@@ -254,13 +254,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
 
   <bean id="Account-financialHigherEdFunctionCd" parent="Account-financialHigherEdFunctionCd-parentBean" />
-  <dd:boAttributeRef id="Account-financialHigherEdFunctionCd-parentBean" abstract="true" parent="HigherEdFunction-financialHigherEdFunctionCd"
+  <dd:boAttributeRef id="Account-financialHigherEdFunctionCd-parentBean" abstract="true" parent="HigherEducationFunction-financialHigherEdFunctionCd"
                 shortLabel="HighEdFncCd">  
   </dd:boAttributeRef>
 
   <bean id="Account-financialHigherEdFunction.codeAndDescription" parent="Account-financialHigherEdFunction.codeAndDescription-parentBean" />
 
-  <bean id="Account-financialHigherEdFunction.codeAndDescription-parentBean" abstract="true" parent="HigherEdFunction-codeAndDescription">
+  <bean id="Account-financialHigherEdFunction.codeAndDescription-parentBean" abstract="true" parent="HigherEducationFunction-codeAndDescription">
     <property name="name" value="financialHigherEdFunction.codeAndDescription" />
     <property name="label" value="Higher Ed Function Code" />
     <property name="shortLabel" value="Higher Ed Function Code" />

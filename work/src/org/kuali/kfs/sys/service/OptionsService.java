@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 
 public interface OptionsService {
-    public Options getCurrentYearOptions();
+    public SystemOptions getCurrentYearOptions();
 
-    public Options getOptions(Integer universityFiscalYear);
+    public SystemOptions getOptions(Integer universityFiscalYear);
 }

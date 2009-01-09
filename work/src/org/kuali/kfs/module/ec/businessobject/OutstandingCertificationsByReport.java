@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -36,7 +36,7 @@ public class OutstandingCertificationsByReport extends PersistableBusinessObject
     private String organizationCode;
     private Integer outstandingCertificationCount;
 
-    private Options options;
+    private SystemOptions options;
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private Chart chart;
     private Organization organization;
@@ -136,7 +136,7 @@ public class OutstandingCertificationsByReport extends PersistableBusinessObject
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -145,7 +145,7 @@ public class OutstandingCertificationsByReport extends PersistableBusinessObject
      * 
      * @param options The options to set.
      */
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 

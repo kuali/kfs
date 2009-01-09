@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
@@ -35,7 +35,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
     private String emplid;
     
     private Person employee;
-    private Options options;
+    private SystemOptions options;
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     
     /**
@@ -128,7 +128,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -137,7 +137,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * 
      * @param options The options to set.
      */
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
     

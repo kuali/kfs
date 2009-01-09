@@ -21,12 +21,12 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 /**
  * 
  */
-public class ObjSubTyp extends KualiCodeBase implements Inactivateable {
+public class ObjectSubType extends KualiCodeBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
      */
-    public ObjSubTyp() {
+    public ObjectSubType() {
         super.setActive(true); // always active
     }
 

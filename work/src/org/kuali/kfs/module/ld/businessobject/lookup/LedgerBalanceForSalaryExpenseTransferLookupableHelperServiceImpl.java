@@ -26,7 +26,7 @@ import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
 
 /**
@@ -49,7 +49,7 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         String fiscalYearString = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        Options options = this.getOptions(fiscalYearString);
+        SystemOptions options = this.getOptions(fiscalYearString);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
         fieldValues.put(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);
@@ -76,8 +76,8 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
      * @param fiscalYearString the given fiscal year
      * @return the Options object for the given fiscal year
      */
-    private Options getOptions(String fiscalYearString) {
-        Options options;
+    private SystemOptions getOptions(String fiscalYearString) {
+        SystemOptions options;
         if (fiscalYearString == null) {
             options = optionsService.getCurrentYearOptions();
         }

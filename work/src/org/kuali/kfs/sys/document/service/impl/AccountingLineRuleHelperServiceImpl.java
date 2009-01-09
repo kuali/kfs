@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.FundGroup;
-import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -82,7 +82,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getObjectSubTypeCodeLabel()
      */
     public String getObjectSubTypeCodeLabel() {
-        return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ObjSubTyp.class.getName()).getAttributeDefinition(KFSPropertyConstants.CODE).getShortLabel();
+        return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ObjectSubType.class.getName()).getAttributeDefinition(KFSPropertyConstants.CODE).getShortLabel();
     }
 
     /**

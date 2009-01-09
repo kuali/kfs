@@ -31,7 +31,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
@@ -153,7 +153,7 @@ public class BalanceForwardRuleHelper {
     private SubFundGroupService subFundGroupService;
     private OriginEntryService originEntryService;
     private ParameterService parameterService;
-    private Options currentYearOptions;
+    private SystemOptions currentYearOptions;
     private String[] priorYearAccountObjectTypes;
     private String[] generalSwObjectTypes;
     private String annualClosingDocType;
@@ -185,7 +185,7 @@ public class BalanceForwardRuleHelper {
         this();
         setClosingFiscalYear(closingFiscalYear);
 
-        Options jobYearRunOptions = SpringContext.getBean(OptionsService.class).getOptions(closingFiscalYear);
+        SystemOptions jobYearRunOptions = SpringContext.getBean(OptionsService.class).getOptions(closingFiscalYear);
 
         generalSwObjectTypes = new String[3];
         generalSwObjectTypes[0] = jobYearRunOptions.getFinancialObjectTypeAssetsCd();

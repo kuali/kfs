@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -69,7 +69,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     private ObjectCode financialObject;
     private BalanceType balanceType;
     private OriginationCode originationCode;
-    private Options option;
+    private SystemOptions option;
 
     private TransientBalanceInquiryAttributes dummyBusinessObject;
 
@@ -446,7 +446,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
      * 
      * @return Returns the option.
      */
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
@@ -455,7 +455,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
      * 
      * @param option The option to set.
      */
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

@@ -23,12 +23,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class ObjectCons extends PersistableBusinessObjectBase implements Inactivateable {
+public class ObjectConsolidation extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
      */
-    public ObjectCons() {
+    public ObjectConsolidation() {
 
     }
 

@@ -23,7 +23,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class HigherEdFunction extends PersistableBusinessObjectBase implements Inactivateable {
+public class HigherEducationFunction extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String financialHigherEdFunctionCd;
     private String financialHigherEdFunctionNm;
@@ -39,7 +39,7 @@ public class HigherEdFunction extends PersistableBusinessObjectBase implements I
     /**
      * Default no-arg constructor.
      */
-    public HigherEdFunction() {
+    public HigherEducationFunction() {
 
     }
 

@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.businessobject.ResponsibilityCenter;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -67,7 +67,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     private String positionLockUserIdentifier;
     private boolean active;
 
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding;
     private List<BudgetConstructionPositionSelect> budgetConstructionPositionSelect;
     private ResponsibilityCenter responsibilityCenter;
@@ -633,7 +633,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -642,7 +642,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
 import org.kuali.kfs.coa.businessobject.FederalFundedCode;
 import org.kuali.kfs.coa.businessobject.FundGroup;
 import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
-import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
@@ -69,7 +69,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         codeColumns.put(NonpersonnelSubCategory.class, "code");
         codeColumns.put(ObjectCode.class, "financialObjectCode");
         codeColumns.put(ObjectType.class, "code");
-        codeColumns.put(ObjSubTyp.class, "code");
+        codeColumns.put(ObjectSubType.class, "code");
         codeColumns.put(OriginEntrySource.class, "code");
         codeColumns.put(ProjectCode.class, "code");
         codeColumns.put(RestrictedStatus.class, "accountRestrictedStatusCode");
@@ -96,7 +96,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         nameColumns.put(NonpersonnelSubCategory.class, "name");
         nameColumns.put(ObjectCode.class, "financialObjectCodeName");
         nameColumns.put(ObjectType.class, "name");
-        nameColumns.put(ObjSubTyp.class, "name");
+        nameColumns.put(ObjectSubType.class, "name");
         nameColumns.put(OriginEntrySource.class, "name");
         nameColumns.put(ProjectCode.class, "name");
         nameColumns.put(RestrictedStatus.class, "accountRestrictedStatusName");

@@ -49,13 +49,13 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	
-	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
-	<reference-descriptor name="reportBeginFiscalYear" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="reportBeginFiscalYear" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="effortCertificationReportBeginFiscalYear" />
 	</reference-descriptor>
-	<reference-descriptor name="reportEndFiscalYear" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="reportEndFiscalYear" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="effortCertificationReportEndFiscalYear" />
 	</reference-descriptor>
 	<reference-descriptor name="reportBeginPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -66,7 +66,7 @@
         <foreignkey field-ref="effortCertificationReportEndFiscalYear" />
         <foreignkey field-ref="effortCertificationReportEndPeriodCode" />
     </reference-descriptor>
-    <reference-descriptor name="expenseTransferYear" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="expenseTransferYear" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="expenseTransferFiscalYear" />
 	</reference-descriptor>
 	<reference-descriptor name="expenseTransferFiscalPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -107,7 +107,7 @@
     <reference-descriptor name="effortCertificationReportType" class-ref="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="effortCertificationReportTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 </class-descriptor>
@@ -121,7 +121,7 @@
 	<field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true"/>
 	
-	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 	
@@ -161,7 +161,7 @@
 	<field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="effortCertificationOriginalPayrollAmount" column="A21_LBRORIG_PY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 
-	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 	
@@ -211,7 +211,7 @@
     <field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
     <field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true" />
    
-   	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+   	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 	
@@ -239,7 +239,7 @@
     <field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
     <field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true" />
    
-   	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+   	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 	
@@ -276,7 +276,7 @@
     <field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="effortCertificationOriginalPayrollAmount" column="A21_LBRORIG_PY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 
-	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
    
@@ -321,7 +321,7 @@
 	<field-descriptor name="chartOfAccountsCode" column="FOO" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationCode" column="FOO" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 	

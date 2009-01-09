@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
@@ -62,12 +62,12 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private DocumentHeader financialDocument;
     private ObjectCode financialObject;
     private ObjectCode reportsToFinancialObject;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private Chart chartOfAccounts;
     private Chart reportsToChartOfAccounts;
     private ObjectType financialObjectType;
-    private ObjSubTyp financialObjectSubType;
-    private ObjLevel financialObjectLevel;
+    private ObjectSubType financialObjectSubType;
+    private ObjectLevel financialObjectLevel;
     private BudgetAggregationCode financialBudgetAggregation;
     private MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private FederalFundedCode financialFederalFunded;
@@ -470,7 +470,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * 
      * @return Returns the universityFiscal
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -480,7 +480,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 
@@ -527,7 +527,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * 
      * @return Returns FinancialObjectSubType attribute.
      */
-    public ObjSubTyp getFinancialObjectSubType() {
+    public ObjectSubType getFinancialObjectSubType() {
         return financialObjectSubType;
     }
 
@@ -537,7 +537,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
-    public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
+    public void setFinancialObjectSubType(ObjectSubType financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
 
@@ -603,7 +603,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * 
      * @return ObjectLevel
      */
-    public ObjLevel getFinancialObjectLevel() {
+    public ObjectLevel getFinancialObjectLevel() {
         return financialObjectLevel;
     }
 
@@ -613,7 +613,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * @param financialObjectLevel the ObjLevel to set
      * @deprecated
      */
-    public void setFinancialObjectLevel(ObjLevel financialObjectLevel) {
+    public void setFinancialObjectLevel(ObjectLevel financialObjectLevel) {
         this.financialObjectLevel = financialObjectLevel;
     }
 

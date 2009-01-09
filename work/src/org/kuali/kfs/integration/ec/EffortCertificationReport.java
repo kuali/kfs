@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationPeriodStatusCode;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportType;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
@@ -220,21 +220,21 @@ public interface EffortCertificationReport extends ExternalizableBusinessObject{
      * gets expenseTrasferYear
      * @return
      */
-    public abstract Options getExpenseTransferYear();
+    public abstract SystemOptions getExpenseTransferYear();
 
     /**
      * sets expenseTrasferYear attribute
      * @param expenseTransferYear
      */
     @Deprecated
-    public abstract void setExpenseTransferYear(Options expenseTransferYear);
+    public abstract void setExpenseTransferYear(SystemOptions expenseTransferYear);
 
     /**
      * 
      * gets reportBeginFiscalYear attribute value
      * @return
      */
-    public abstract Options getReportBeginFiscalYear();
+    public abstract SystemOptions getReportBeginFiscalYear();
 
     /**
      * 
@@ -242,14 +242,14 @@ public interface EffortCertificationReport extends ExternalizableBusinessObject{
      * @param reportBeginFiscalYear
      */
     @Deprecated
-    public abstract void setReportBeginFiscalYear(Options reportBeginFiscalYear);
+    public abstract void setReportBeginFiscalYear(SystemOptions reportBeginFiscalYear);
 
     /**
      * 
      * gets reportEndFiscalYear attribute
      * @return
      */
-    public abstract Options getReportEndFiscalYear();
+    public abstract SystemOptions getReportEndFiscalYear();
 
     /**
      * 
@@ -257,7 +257,7 @@ public interface EffortCertificationReport extends ExternalizableBusinessObject{
      * @param reportEndFiscalYear
      */
     @Deprecated
-    public abstract void setReportEndFiscalYear(Options reportEndFiscalYear);
+    public abstract void setReportEndFiscalYear(SystemOptions reportEndFiscalYear);
 
     /**
      * 
@@ -350,7 +350,7 @@ public interface EffortCertificationReport extends ExternalizableBusinessObject{
      * 
      * @return Returns the options.
      */
-    public abstract Options getOptions();
+    public abstract SystemOptions getOptions();
 
     /**
      * Sets the options attribute value.
@@ -358,7 +358,7 @@ public interface EffortCertificationReport extends ExternalizableBusinessObject{
      * @param options The options to set.
      */
     @Deprecated
-    public abstract void setOptions(Options options);
+    public abstract void setOptions(SystemOptions options);
 
     /**
      * Gets the reportPeriods attribute. 

@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -67,13 +67,13 @@ public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkObjConsCode() {
         boolean success = true;
-        ObjLevel objLevel = (ObjLevel) super.getNewBo();
+        ObjectLevel objLevel = (ObjectLevel) super.getNewBo();
         String chartOfAccountsCode = objLevel.getChartOfAccountsCode();
         String finConsolidationObjectCode = objLevel.getFinancialObjectLevelCode();
         Map primaryKeys = new HashMap();
         primaryKeys.put("chartOfAccountsCode", chartOfAccountsCode);
         primaryKeys.put("finConsolidationObjectCode", finConsolidationObjectCode);
-        ObjectCons objCons = (ObjectCons) getBoService().findByPrimaryKey(ObjectCons.class, primaryKeys);
+        ObjectConsolidation objCons = (ObjectConsolidation) getBoService().findByPrimaryKey(ObjectConsolidation.class, primaryKeys);
         if (objCons != null) {
             success = false;
             putFieldError("financialObjectLevelCode", KFSKeyConstants.ERROR_DOCUMENT_OBJLEVELMAINT_ALREADY_EXISTS_AS_OBJCONS);

@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
@@ -54,7 +54,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     private Account budgetReversionAccount;
     private Chart budgetReversionChartOfAccounts;
     private Chart cashReversionFinancialChartOfAccounts;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
 
     private List<OrganizationReversionGlobalDetail> organizationReversionGlobalDetails;
     private List<OrganizationReversionGlobalOrganization> organizationReversionGlobalOrganizations;
@@ -330,7 +330,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -339,7 +339,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

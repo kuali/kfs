@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -37,7 +37,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
     private Organization organization;
     private Chart chartOfAccounts;
     private OrganizationReversionCategory organizationReversionCategory;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
 
     /**
      * Default constructor.
@@ -240,7 +240,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -249,7 +249,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

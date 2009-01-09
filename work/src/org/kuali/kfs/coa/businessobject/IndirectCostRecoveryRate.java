@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -32,7 +32,7 @@ public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase {
     private boolean active;
     private List indirectCostRecoveryRateDetails;
     
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     
     public IndirectCostRecoveryRate() {
         universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
@@ -57,11 +57,11 @@ public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase {
         this.universityFiscalYear = universityFiscalYear;
     }
 
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

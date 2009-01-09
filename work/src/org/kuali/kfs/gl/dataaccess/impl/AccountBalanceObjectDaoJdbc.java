@@ -25,7 +25,7 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceObjectDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.Guid;
@@ -56,7 +56,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
     public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByObject() started");
 
-        Options options = optionsService.getOptions(universityFiscalYear);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
         List<Map<String, Object>> data = null;
         String sessionId = new Guid().toString();
         try {
@@ -106,7 +106,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
      * @param options a set of system options
      * @param sessionId the unique web id of the currently inquiring user, used as a key for the temp table
      */
-    private void summarizePendingEntriesByObject(Options options, String sessionId) {
+    private void summarizePendingEntriesByObject(SystemOptions options, String sessionId) {
         LOG.debug("summarizePendingEntriesByObject() started");
 
         try {
@@ -221,7 +221,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
      * @param pendingEntriesCode whether to summarize all, approved, or no pending entries
      * @return true if any matching pending entries were found, false otherwise
      */
-    private boolean getMatchingPendingEntriesByObject(Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
+    private boolean getMatchingPendingEntriesByObject(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByObject() started");
 
         // If they have specified this year, we will get all the pending entries where the year is equal or the year is null

@@ -2,7 +2,7 @@ package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -17,7 +17,7 @@ public class EffortCertificationReportEarnPaygroup extends PersistableBusinessOb
     private boolean active;
 
     private EffortCertificationReportType effortCertificationReportType;
-    private Options options;
+    private SystemOptions options;
     
     /**
      * Constructs a EffortCertificationReportEarnPaygroup.java.
@@ -140,7 +140,7 @@ public class EffortCertificationReportEarnPaygroup extends PersistableBusinessOb
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -150,7 +150,7 @@ public class EffortCertificationReportEarnPaygroup extends PersistableBusinessOb
      * @param options The options to set.
      */
     @Deprecated
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
     

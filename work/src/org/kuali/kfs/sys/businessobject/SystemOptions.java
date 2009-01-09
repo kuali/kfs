@@ -25,12 +25,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class Options extends PersistableBusinessObjectBase {
+public class SystemOptions extends PersistableBusinessObjectBase {
 
     /**
      * Default no-arg constructor.
      */
-    public Options() {
+    public SystemOptions() {
 
     }
 

@@ -34,7 +34,7 @@ import org.kuali.kfs.gl.businessobject.inquiry.AccountBalanceInquirableImpl;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -202,7 +202,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
         ObjectCode financialObject = balance.getFinancialObject();
         String objectTypeCode = (financialObject == null) ? Constant.EMPTY_STRING : financialObject.getFinancialObjectTypeCode();
 
-        Options options = optionsService.getCurrentYearOptions();
+        SystemOptions options = optionsService.getCurrentYearOptions();
         String[] objectTypeCodeList = new String[3];
         objectTypeCodeList[0] = options.getFinObjTypeExpendNotExpCode();
         objectTypeCodeList[1] = options.getFinObjTypeExpNotExpendCode();

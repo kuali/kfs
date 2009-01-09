@@ -41,7 +41,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.bo.DocumentType;
@@ -185,11 +185,11 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @return the related Options record, or null if not found
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getOption(org.kuali.module.gl.bo.OriginEntry)
      */
-    public Options getOption(OriginEntry entry) {
+    public SystemOptions getOption(OriginEntry entry) {
         return cachingDao.getOption(entry);
     }
 
-    public Options getOption(Integer fiscalYear) {
+    public SystemOptions getOption(Integer fiscalYear) {
         return cachingDao.getOption(fiscalYear);
     }
 

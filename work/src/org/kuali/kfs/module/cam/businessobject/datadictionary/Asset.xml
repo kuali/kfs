@@ -679,7 +679,7 @@
   </bean>
   
   <bean id="Asset-financialObjectSubTypeCode" parent="Asset-financialObjectSubTypeCode-parentBean" />
-  <bean id="Asset-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjSubTyp-code">
+  <bean id="Asset-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectSubType-code">
     <property name="name" value="financialObjectSubTypeCode" />
     <property name="label" value="Financial Object Subtype Code" />
     <property name="shortLabel" value="Code" />

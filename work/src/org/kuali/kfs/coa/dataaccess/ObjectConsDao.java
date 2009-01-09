@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 
 /**
  * This interface defines basic methods that ObjLevel Dao's must provide
@@ -29,5 +29,5 @@ public interface ObjectConsDao {
      * @param objectConsCode
      * @return a specific {@link ObjectCons} based on primary keys
      */
-    public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode);
+    public ObjectConsolidation getByPrimaryId(String chartOfAccountsCode, String objectConsCode);
 }

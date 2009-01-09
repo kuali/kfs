@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class ObjectLevelServiceTest extends KualiTestBase {
 
     public void testFindById() {
-        ObjLevel objectLevel = SpringContext.getBean(ObjectLevelService.class).getByPrimaryId("UA", "BASE");
+        ObjectLevel objectLevel = SpringContext.getBean(ObjectLevelService.class).getByPrimaryId("UA", "BASE");
         assertEquals("Object Level Code should be BASE", objectLevel.getFinancialObjectLevelCode(), "BASE");
     }
 }

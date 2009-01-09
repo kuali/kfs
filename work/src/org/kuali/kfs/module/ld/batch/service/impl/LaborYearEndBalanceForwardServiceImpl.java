@@ -49,7 +49,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -135,7 +135,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the number of qualified balances
      */
     private int processLedgerBalances(Integer fiscalYear, Integer newFiscalYear, OriginEntryGroup validGroup, Map<Transaction, List<Message>> errorMap, Date runDate) {
-        Options options = optionsService.getOptions(fiscalYear);
+        SystemOptions options = optionsService.getOptions(fiscalYear);
 
         List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
         List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
@@ -286,7 +286,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the balance type codes that are acceptable by year-end process
      */
-    private List<String> getProcessableBalanceTypeCode(Options options) {
+    private List<String> getProcessableBalanceTypeCode(SystemOptions options) {
         List<String> processableBalanceTypeCodes = new ArrayList<String>();
         processableBalanceTypeCodes.add(options.getActualFinancialBalanceTypeCd());
         return processableBalanceTypeCodes;
@@ -298,7 +298,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param options the given system options
      * @return the object type codes that are acceptable by year-end process
      */
-    private List<String> getProcessableObjectTypeCodes(Options options) {
+    private List<String> getProcessableObjectTypeCodes(SystemOptions options) {
         List<String> processableObjectTypeCodes = new ArrayList<String>();
 
         processableObjectTypeCodes.add(options.getFinObjTypeExpenditureexpCd());

@@ -19,7 +19,7 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 
 /**
@@ -33,7 +33,7 @@ public class SubObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
     private String financialObjectCode;
 
     private ObjectCode financialObject;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private Chart chartOfAccounts;
 
     /**
@@ -146,11 +146,11 @@ public class SubObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
         this.chartOfAccounts = chartOfAccounts;
     }
 
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

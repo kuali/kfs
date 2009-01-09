@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.ReportingCodes;
+import org.kuali.kfs.coa.businessobject.ReportingCode;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -31,8 +31,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
 
-    private ReportingCodes oldReportingCode;
-    private ReportingCodes newReportingCode;
+    private ReportingCode oldReportingCode;
+    private ReportingCode newReportingCode;
 
     private BusinessObjectService businessObjectService;
 
@@ -86,10 +86,10 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldReportingCode = (ReportingCodes) super.getOldBo();
+        oldReportingCode = (ReportingCode) super.getOldBo();
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newReportingCode = (ReportingCodes) super.getNewBo();
+        newReportingCode = (ReportingCode) super.getNewBo();
     }
 
     /**

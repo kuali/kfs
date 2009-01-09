@@ -4,27 +4,27 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="HigherEdFunction" parent="HigherEdFunction-parentBean" />
+  <bean id="HigherEducationFunction" parent="HigherEducationFunction-parentBean" />
 
-  <bean id="HigherEdFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.HigherEdFunction" />
+  <bean id="HigherEducationFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.HigherEducationFunction" />
     <property name="inquiryDefinition" >
-      <ref bean="HigherEdFunction-inquiryDefinition" />
+      <ref bean="HigherEducationFunction-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="HigherEdFunction-lookupDefinition" />
+      <ref bean="HigherEducationFunction-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="financialHigherEdFunctionCd" />
     <property name="objectLabel" value="Higher Education Function" />
     <property name="attributes" >
       <list>
-        <ref bean="HigherEdFunction-financialHigherEdFunctionCd" />
-        <ref bean="HigherEdFunction-financialHigherEdFunctionNm" />
-        <ref bean="HigherEdFunction-codeAndDescription" />
-        <ref bean="HigherEdFunction-finUnivBdgtOfficeFunctionCd" />
-        <ref bean="HigherEdFunction-finAicpaFunctionCode" />
-        <ref bean="HigherEdFunction-financialFederalFunctionCode" />
-        <ref bean="HigherEdFunction-active" />
+        <ref bean="HigherEducationFunction-financialHigherEdFunctionCd" />
+        <ref bean="HigherEducationFunction-financialHigherEdFunctionNm" />
+        <ref bean="HigherEducationFunction-codeAndDescription" />
+        <ref bean="HigherEducationFunction-finUnivBdgtOfficeFunctionCd" />
+        <ref bean="HigherEducationFunction-finAicpaFunctionCode" />
+        <ref bean="HigherEducationFunction-financialFederalFunctionCode" />
+        <ref bean="HigherEducationFunction-active" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -42,9 +42,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="HigherEdFunction-financialHigherEdFunctionCd" parent="HigherEdFunction-financialHigherEdFunctionCd-parentBean" />
+  <bean id="HigherEducationFunction-financialHigherEdFunctionCd" parent="HigherEducationFunction-financialHigherEdFunctionCd-parentBean" />
 
-  <bean id="HigherEdFunction-financialHigherEdFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-financialHigherEdFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialHigherEdFunctionCd" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Higher Education Function Code" />
@@ -59,9 +59,9 @@
             p:size="4" />
     </property>
   </bean>
-  <bean id="HigherEdFunction-financialHigherEdFunctionNm" parent="HigherEdFunction-financialHigherEdFunctionNm-parentBean" />
+  <bean id="HigherEducationFunction-financialHigherEdFunctionNm" parent="HigherEducationFunction-financialHigherEdFunctionNm-parentBean" />
 
-  <bean id="HigherEdFunction-financialHigherEdFunctionNm-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-financialHigherEdFunctionNm-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialHigherEdFunctionNm" />
     <property name="label" value="Higher Education Function Name" />
     <property name="shortLabel" value="Name" />
@@ -72,9 +72,9 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="HigherEdFunction-codeAndDescription" parent="HigherEdFunction-codeAndDescription-parentBean" />
+  <bean id="HigherEducationFunction-codeAndDescription" parent="HigherEducationFunction-codeAndDescription-parentBean" />
 
-  <bean id="HigherEdFunction-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
     <property name="label" value="Higher Education Function Code" />
     <property name="shortLabel" value="Higher Education Function Code" />
@@ -84,9 +84,9 @@
             p:size="47" />
     </property>
   </bean>
-  <bean id="HigherEdFunction-finUnivBdgtOfficeFunctionCd" parent="HigherEdFunction-finUnivBdgtOfficeFunctionCd-parentBean" />
+  <bean id="HigherEducationFunction-finUnivBdgtOfficeFunctionCd" parent="HigherEducationFunction-finUnivBdgtOfficeFunctionCd-parentBean" />
 
-  <bean id="HigherEdFunction-finUnivBdgtOfficeFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-finUnivBdgtOfficeFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finUnivBdgtOfficeFunctionCd" />
     <property name="label" value="University Budget Office Function Code" />
     <property name="shortLabel" value="UBO" />
@@ -97,9 +97,9 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="HigherEdFunction-finAicpaFunctionCode" parent="HigherEdFunction-finAicpaFunctionCode-parentBean" />
+  <bean id="HigherEducationFunction-finAicpaFunctionCode" parent="HigherEducationFunction-finAicpaFunctionCode-parentBean" />
 
-  <bean id="HigherEdFunction-finAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-finAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finAicpaFunctionCode" />
     <property name="label" value="AICPA Function Code" />
     <property name="shortLabel" value="AICPA" />
@@ -110,9 +110,9 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="HigherEdFunction-financialFederalFunctionCode" parent="HigherEdFunction-financialFederalFunctionCode-parentBean" />
+  <bean id="HigherEducationFunction-financialFederalFunctionCode" parent="HigherEducationFunction-financialFederalFunctionCode-parentBean" />
 
-  <bean id="HigherEdFunction-financialFederalFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-financialFederalFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialFederalFunctionCode" />
     <property name="label" value="Federal Function Code" />
     <property name="shortLabel" value="Fed" />
@@ -123,9 +123,9 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="HigherEdFunction-active" parent="HigherEdFunction-active-parentBean" />
+  <bean id="HigherEducationFunction-active" parent="HigherEducationFunction-active-parentBean" />
 
-  <bean id="HigherEdFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="HigherEducationFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
@@ -133,9 +133,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="HigherEdFunction-inquiryDefinition" parent="HigherEdFunction-inquiryDefinition-parentBean" />
+  <bean id="HigherEducationFunction-inquiryDefinition" parent="HigherEducationFunction-inquiryDefinition-parentBean" />
 
-  <bean id="HigherEdFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="HigherEducationFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Higher Education Function Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -166,9 +166,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="HigherEdFunction-lookupDefinition" parent="HigherEdFunction-lookupDefinition-parentBean" />
+  <bean id="HigherEducationFunction-lookupDefinition" parent="HigherEducationFunction-lookupDefinition-parentBean" />
 
-  <bean id="HigherEdFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="HigherEducationFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Higher Education Function Lookup" />
     <property name="instructions" value="Lookup a Higher Education Function" />
     <property name="defaultSort" >

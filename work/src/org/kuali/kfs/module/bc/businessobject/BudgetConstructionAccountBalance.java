@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
@@ -64,7 +64,7 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
     private SubFundGroup subFundGroup;
-    private ObjLevel financialObjectLevel;
+    private ObjectLevel financialObjectLevel;
 
     /**
      * Default constructor.
@@ -570,7 +570,7 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
      * 
      * @return Returns the financialObjectLevel.
      */
-    public ObjLevel getFinancialObjectLevel() {
+    public ObjectLevel getFinancialObjectLevel() {
         return financialObjectLevel;
     }
 
@@ -580,7 +580,7 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
      * @param financialObjectLevel The financialObjectLevel to set.
      * @deprecated
      */
-    public void setFinancialObjectLevel(ObjLevel financialObjectLevel) {
+    public void setFinancialObjectLevel(ObjectLevel financialObjectLevel) {
         this.financialObjectLevel = financialObjectLevel;
     }
 

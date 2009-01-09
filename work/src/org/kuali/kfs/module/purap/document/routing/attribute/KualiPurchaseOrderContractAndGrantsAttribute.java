@@ -40,7 +40,7 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
@@ -89,7 +89,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, SUB_FUND_GROUP_CODE_KEY));
 
         routingDataRows = new ArrayList<Row>();
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SystemOptions.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, CHART_CODE_KEY));
         Map fieldConversionMap = new HashMap();
         fieldConversionMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, CHART_CODE_KEY);
@@ -288,7 +288,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
     private AccountContainer getValidAccountContainer(String finFiscalYear, String finChart, String finAccount, String finObjectCode) {
         AccountContainer ac = getPotentialAccountContainer(finFiscalYear, finChart, finAccount, finObjectCode);
         if (ObjectUtils.isNotNull(ac)) {
-            String fiscalYearLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            String fiscalYearLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(SystemOptions.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
             String chartCodeLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
             String accountNumberLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER);
             String objectCodeLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
@@ -325,8 +325,8 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
 
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
-        String fiscalYearLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        setFiscalYear(LookupUtils.forceUppercase(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, (String) paramMap.get(UNIVERSITY_FISCAL_YEAR_KEY)));
+        String fiscalYearLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(SystemOptions.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        setFiscalYear(LookupUtils.forceUppercase(SystemOptions.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, (String) paramMap.get(UNIVERSITY_FISCAL_YEAR_KEY)));
         String chartCodeLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         setChartCode(LookupUtils.forceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, (String) paramMap.get(CHART_CODE_KEY)));
         String accountNumberLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER);

@@ -25,7 +25,7 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceLevelDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.Guid;
@@ -56,7 +56,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         // Set the default sort so that income entries are first, then expense below.
         String financialReportingSortCode = "A";
 
-        Options options = optionsService.getOptions(universityFiscalYear);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
         String sessionId = new Guid().toString();
         List<Map<String, Object>> data = null;
 
@@ -106,7 +106,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param options a given set of system options
      * @param sessionId the unique web id of the currently inquiring user, which acts as a key for the temporary table
      */
-    private void summarizePendingEntriesByLevel(Options options, String sessionId) {
+    private void summarizePendingEntriesByLevel(SystemOptions options, String sessionId) {
         LOG.debug("summarizePendingEntriesByLevel() started");
 
         try {
@@ -228,7 +228,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param sessionId the unique web id of the currently inquiring user, used as a key for the temporary tables
      * @return true if summarization process found pending entries to process, false otherwise
      */
-    private boolean getMatchingPendingEntriesByLevel(Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
+    private boolean getMatchingPendingEntriesByLevel(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByLevel() started");
 
         // If they have specified this year, we will get all the pending entries where the year is equal or the year is null

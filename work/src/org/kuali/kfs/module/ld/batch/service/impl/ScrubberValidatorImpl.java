@@ -43,7 +43,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -203,7 +203,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             laborWorkingEntry.setPayrollEndDateFiscalYear(payrollEndDateFiscalYear);
         }
 
-        Options options = optionsService.getOptions(laborWorkingEntry.getUniversityFiscalYear());
+        SystemOptions options = optionsService.getOptions(laborWorkingEntry.getUniversityFiscalYear());
         if (ObjectUtils.isNull(options)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, "" + payrollEndDateFiscalYear, Message.TYPE_FATAL);
         }

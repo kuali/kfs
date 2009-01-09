@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -38,7 +38,7 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
     private boolean active;
   
     private ObjectCode financialObject;
-    private transient Options universityFiscal;
+    private transient SystemOptions universityFiscal;
     private BenefitsCalculation benefitsCalculation;
     private BenefitsType financialObjectBenefitsType;
     private LaborObject laborObject;
@@ -165,7 +165,7 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -175,7 +175,7 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
      * @param universityFiscal The universityFiscal to set.
      */
     @Deprecated
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

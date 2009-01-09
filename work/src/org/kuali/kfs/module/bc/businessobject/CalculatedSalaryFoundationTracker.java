@@ -27,7 +27,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -67,7 +67,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
     private SubObjectCode financialSubObject;
     private CalculatedSalaryFoundationTrackerOverride calculatedSalaryFoundationTrackerOverride;
     
-    private transient Options universityFiscal;
+    private transient SystemOptions universityFiscal;
     private final int PERCENTAGE_SCALE = 2;
     
     /**
@@ -519,7 +519,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -528,7 +528,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

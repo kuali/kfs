@@ -32,7 +32,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
@@ -47,7 +47,7 @@ import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.DocumentType;
@@ -264,24 +264,24 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return documentType;
     }
     
-    public Options getOption(OriginEntry originEntry) {
+    public SystemOptions getOption(OriginEntry originEntry) {
         return getOption(originEntry.getUniversityFiscalYear());
     }
     
-    public Options getOption(Integer fiscalYear) {
-        Options originEntryOption = null;
+    public SystemOptions getOption(Integer fiscalYear) {
+        SystemOptions originEntryOption = null;
         String key = "FS_OPTION_T:" + fiscalYear.toString();
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                originEntryOption = (Options) value;
+                originEntryOption = (SystemOptions) value;
             }
         } else {
             try {
                 optionsPreparedSelect.setInt(1, fiscalYear);
                 ResultSet rs = optionsPreparedSelect.executeQuery();
                 if (rs.next()) {
-                    originEntryOption = new Options();
+                    originEntryOption = new SystemOptions();
                     originEntryOption.setUniversityFiscalYear(fiscalYear);
                     originEntryOption.setActualFinancialBalanceTypeCd(rs.getString(1));
                     originEntryOption.setFinancialObjectTypeAssetsCd(rs.getString(2));
@@ -700,13 +700,13 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originationCode;
     }
     
-    public ObjLevel getObjLevel(String chartOfAccountsCode, String financialObjectLevelCode) {
-        ObjLevel objLevel = null;
+    public ObjectLevel getObjLevel(String chartOfAccountsCode, String financialObjectLevelCode) {
+        ObjectLevel objLevel = null;
         String key = "CA_OBJ_LEVEL_T:" + chartOfAccountsCode + "/" + financialObjectLevelCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                objLevel = (ObjLevel) value;
+                objLevel = (ObjectLevel) value;
             }
         } else {
             try {
@@ -714,7 +714,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 objLevelPreparedSelect.setString(2, financialObjectLevelCode);
                 ResultSet rs = objLevelPreparedSelect.executeQuery();
                 if (rs.next()) {
-                    objLevel = new ObjLevel();
+                    objLevel = new ObjectLevel();
                     objLevel.setChartOfAccountsCode(chartOfAccountsCode);
                     objLevel.setFinancialObjectLevelCode(financialObjectLevelCode);
                     objLevel.setFinancialConsolidationObjectCode(rs.getString(1));

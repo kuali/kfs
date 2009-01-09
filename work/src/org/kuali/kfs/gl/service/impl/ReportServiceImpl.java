@@ -60,7 +60,7 @@ import org.kuali.kfs.gl.service.ReversalService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -569,7 +569,7 @@ public class ReportServiceImpl implements ReportService {
      * @param reportType the type of the report that should be generated
      * @see org.kuali.kfs.gl.service.ReportService#generateGlSummary(java.util.Date, int, java.util.List)
      */
-    public void generateGlSummary(Date runDate, Options year, String reportType) {
+    public void generateGlSummary(Date runDate, SystemOptions year, String reportType) {
         LOG.debug("generateGlSummary() started");
 
         List balanceTypeCodes = new ArrayList();
@@ -597,7 +597,7 @@ public class ReportServiceImpl implements ReportService {
      * @see org.kuali.kfs.gl.service.ReportService#generateGlEncumbranceSummary(java.util.Date, int, java.util.List,
      *      java.lang.String)
      */
-    public void generateGlEncumbranceSummary(Date runDate, Options year, String reportType) {
+    public void generateGlEncumbranceSummary(Date runDate, SystemOptions year, String reportType) {
         LOG.debug("generateGlEncumbranceSummary() started");
 
         List balanceTypeCodes = new ArrayList();

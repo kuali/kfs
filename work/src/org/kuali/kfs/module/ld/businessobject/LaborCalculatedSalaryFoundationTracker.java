@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -63,7 +63,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
     private Account account;
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
-    private transient Options universityFiscal;
+    private transient SystemOptions universityFiscal;
     private final int PERCENTAGE_SCALE = 2;
 
     private KualiDecimal july1BudgetAmount;
@@ -589,7 +589,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -598,7 +598,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

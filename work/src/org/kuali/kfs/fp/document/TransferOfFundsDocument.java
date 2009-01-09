@@ -21,7 +21,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -100,7 +100,7 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail, GeneralLedgerPendingEntry explicitEntry) {
         AccountingLine accountingLine = (AccountingLine)generalLedgerPendingEntrySourceDetail;
-        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);

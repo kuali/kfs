@@ -31,7 +31,7 @@ import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -55,7 +55,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     private ProjectCode project;
     private DocumentType documentType;
     private UniversityDate universityDate;
-    private Options option;
+    private SystemOptions option;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
     private OriginationCode origination;
@@ -249,11 +249,11 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.objectType = objectType;
     }
 
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

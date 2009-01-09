@@ -127,12 +127,12 @@
   </bean>
   <bean id="AccountBalanceByLevel-financialObject.financialObjectLevel.financialObjectLevelCode" parent="AccountBalanceByLevel-financialObject.financialObjectLevel.financialObjectLevelCode-parentBean" />
 
-  <bean id="AccountBalanceByLevel-financialObject.financialObjectLevel.financialObjectLevelCode-parentBean" abstract="true" parent="ObjLevel-financialObjectLevelCode">
+  <bean id="AccountBalanceByLevel-financialObject.financialObjectLevel.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
     <property name="name" value="financialObject.financialObjectLevel.financialObjectLevelCode" />
   </bean>
   <bean id="AccountBalanceByLevel-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" parent="AccountBalanceByLevel-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" />
 
-  <bean id="AccountBalanceByLevel-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" abstract="true" parent="ObjectCons-finConsolidationObjectCode">
+  <bean id="AccountBalanceByLevel-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
     <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
   </bean>
   <bean id="AccountBalanceByLevel-financialObject.financialObjectLevel.financialReportingSortCode" parent="AccountBalanceByLevel-financialObject.financialObjectLevel.financialReportingSortCode-parentBean" />

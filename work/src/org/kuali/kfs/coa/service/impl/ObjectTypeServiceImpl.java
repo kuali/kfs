@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.dataaccess.ObjectTypeDao;
 import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -60,7 +60,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public List<String> getBasicExpenseObjectTypes(Integer universityFiscalYear) {
 
         List<String> basicExpenseObjectTypes = new ArrayList<String>();
-        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
         basicExpenseObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
         basicExpenseObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         basicExpenseObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
@@ -74,7 +74,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      */
     public List<String> getExpenseObjectTypes(Integer universityFiscalYear) {
         List<String> expenseObjectTypes = new ArrayList<String>();
-        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
         expenseObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
         expenseObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         expenseObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
@@ -90,7 +90,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public List<String> getBasicIncomeObjectTypes(Integer universityFiscalYear) {
 
         List<String> basicIncomeObjectTypes = new ArrayList<String>();
-        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
         basicIncomeObjectTypes.add(option.getFinObjectTypeIncomecashCode());
         basicIncomeObjectTypes.add(option.getFinObjTypeIncomeNotCashCd());
         basicIncomeObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
@@ -168,7 +168,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      */
     public List<String> getNominalActivityClosingAllowedObjectTypes(Integer fiscalYear) {
         List<String> nominalClosingObjectTypes = new ArrayList<String>();
-        Options option = optionsDao.getByPrimaryId(fiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(fiscalYear);
         nominalClosingObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
         nominalClosingObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
         nominalClosingObjectTypes.add(option.getFinancialObjectTypeTransferExpenseCd());
@@ -184,7 +184,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getGeneralForwardBalanceObjectTypes(java.lang.Integer)
      */
     public List<String> getGeneralForwardBalanceObjectTypes(Integer fiscalYear) {
-        Options option = optionsDao.getByPrimaryId(fiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(fiscalYear);
         List<String> generalBalanceForwardObjectTypes = new ArrayList<String>();
         generalBalanceForwardObjectTypes.add(option.getFinancialObjectTypeAssetsCd());
         generalBalanceForwardObjectTypes.add(option.getFinObjectTypeLiabilitiesCode());
@@ -196,7 +196,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCumulativeForwardBalanceObjectTypes(java.lang.Integer)
      */
     public List<String> getCumulativeForwardBalanceObjectTypes(Integer fiscalYear) {
-        Options option = optionsDao.getByPrimaryId(fiscalYear);
+        SystemOptions option = optionsDao.getByPrimaryId(fiscalYear);
         List<String> cumulativeBalanceForwardsObjectTypes = new ArrayList<String>();
         cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeExpNotExpendCode());

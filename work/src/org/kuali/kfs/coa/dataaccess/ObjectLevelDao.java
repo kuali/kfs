@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 
 /**
  * This interface defines basic methods that ObjLevel Dao's must provide
@@ -28,5 +28,5 @@ public interface ObjectLevelDao {
      * @param objectLevelCode
      * @return a specific {@link ObjLevel} based on primary keys
      */
-    public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode);
+    public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode);
 }

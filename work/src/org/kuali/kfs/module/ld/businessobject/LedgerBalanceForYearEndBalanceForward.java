@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -44,7 +44,7 @@ public class LedgerBalanceForYearEndBalanceForward extends PersistableBusinessOb
 
     private Chart chartOfAccounts;
     private Account account;
-    private Options option;
+    private SystemOptions option;
 
     /**
      * Gets the universityFiscalYear attribute.
@@ -357,7 +357,7 @@ public class LedgerBalanceForYearEndBalanceForward extends PersistableBusinessOb
      * 
      * @return Returns the option.
      */
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
@@ -366,7 +366,7 @@ public class LedgerBalanceForYearEndBalanceForward extends PersistableBusinessOb
      * 
      * @param option The option to set.
      */
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

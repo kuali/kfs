@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
@@ -353,7 +353,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         String errorPath = KFSConstants.EMPTY_STRING;
         // first check to see if the level code is filled in
         if (checkEmptyValue(objectCodeGlobal.getFinancialObjectLevelCode())) {
-            ObjLevel objLevel = objectLevelService.getByPrimaryId(dtl.getChartOfAccountsCode(), objectCodeGlobal.getFinancialObjectLevelCode());
+            ObjectLevel objLevel = objectLevelService.getByPrimaryId(dtl.getChartOfAccountsCode(), objectCodeGlobal.getFinancialObjectLevelCode());
             if (ObjectUtils.isNull(objLevel)) {
                 success &= false;
                 String[] errorParameters = { objectCodeGlobal.getFinancialObjectLevelCode(), dtl.getChartOfAccountsCode() };

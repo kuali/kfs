@@ -515,7 +515,7 @@
 	<field-descriptor name="iuDefaultObjectCode" column="IU_DFLT_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="iuPositionType" column="IU_POSITION_TYPE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionLockUserIdentifier" column="POS_LOCK_USR_ID" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.kfs.coa.businessobject.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -662,7 +662,7 @@
     <reference-descriptor name="subFundGroup" class-ref="org.kuali.kfs.coa.businessobject.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjectLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
@@ -1107,11 +1107,11 @@
     <reference-descriptor name="subFundGroup" class-ref="org.kuali.kfs.coa.businessobject.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjectLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCons" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectConsolidation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialConsolidationObjectCode" />
     </reference-descriptor>
@@ -1157,11 +1157,11 @@
     <reference-descriptor name="subFundGroup" class-ref="org.kuali.kfs.coa.businessobject.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjectLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCons" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectConsolidation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialConsolidationObjectCode" />
     </reference-descriptor>
@@ -1199,11 +1199,11 @@
     <reference-descriptor name="subFundGroup" class-ref="org.kuali.kfs.coa.businessobject.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjectLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCons" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectConsolidation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialConsolidationObjectCode" />
     </reference-descriptor>
@@ -1700,7 +1700,7 @@
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
 	</reference-descriptor>
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.kfs.coa.businessobject.ObjectLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
@@ -1782,7 +1782,7 @@
         <foreignkey field-ref="financialSubObjectCode"/>
     </reference-descriptor>
 	<reference-descriptor name="universityFiscal"
-		class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true"
+		class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
@@ -1815,7 +1815,7 @@
 	<field-descriptor name="csfFundingStatusCode" column="POS_CSF_FNDSTAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="csfDeleteCode" column="POS_CSF_DELETE_CD" jdbc-type="VARCHAR"/>
    	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 	<reference-descriptor name="financialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1894,7 +1894,7 @@
 	<field-descriptor name="positionNumber" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="positionDescription" column="FOO" jdbc-type="VARCHAR"/>	
     
-	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 	<reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

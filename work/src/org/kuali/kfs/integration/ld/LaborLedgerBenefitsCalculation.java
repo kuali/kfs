@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ld;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiPercent;
@@ -144,13 +144,13 @@ public interface LaborLedgerBenefitsCalculation extends PersistableBusinessObjec
      * 
      * @return Returns the universityFiscal.
      */
-    public abstract Options getUniversityFiscal();
+    public abstract SystemOptions getUniversityFiscal();
 
     /**
      * Sets the universityFiscal attribute value.
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public abstract void setUniversityFiscal(Options universityFiscal);
+    public abstract void setUniversityFiscal(SystemOptions universityFiscal);
 
 }

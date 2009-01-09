@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase;
@@ -43,7 +43,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
      */
     @Override
     protected String getDescriptionOfBO(PersistableBusinessObject bo) {
-        return ((ObjLevel) bo).getFinancialObjectLevelName();
+        return ((ObjectLevel) bo).getFinancialObjectLevelName();
     }
 
     /**
@@ -54,11 +54,11 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
         criteria.put(KFSConstants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, values);
-        Collection<ObjLevel> coll = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(ObjLevel.class, criteria, KFSConstants.VERSION_NUMBER, true);
+        Collection<ObjectLevel> coll = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(ObjectLevel.class, criteria, KFSConstants.VERSION_NUMBER, true);
 
         Map<String, PersistableBusinessObject> results = new HashMap<String, PersistableBusinessObject>();
         // TODO: worry about version #s
-        for (ObjLevel ol : coll) {
+        for (ObjectLevel ol : coll) {
             results.put(ol.getFinancialObjectLevelCode(), ol);
         }
         return results;

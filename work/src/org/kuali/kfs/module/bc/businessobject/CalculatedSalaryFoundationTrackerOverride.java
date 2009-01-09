@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -56,7 +56,7 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
     private Account account;
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private List calculatedSalaryFoundationTracker;
 
     /**
@@ -432,7 +432,7 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -441,7 +441,7 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

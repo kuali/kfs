@@ -45,7 +45,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
@@ -669,7 +669,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
         LOG.debug("findNominalActivityBalancesForFiscalYear() started");
 
-        Options currentYearOptions = optionsService.getCurrentYearOptions();
+        SystemOptions currentYearOptions = optionsService.getCurrentYearOptions();
 
         // generate List of nominal activity object type codes
         ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
@@ -834,7 +834,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             i++;
         }
         // we only ever calculate on CB, AC, and encumbrance types, so let's only select those
-        Options options = SpringContext.getBean(OptionsService.class).getOptions(year);
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getOptions(year);
         List organizationReversionBalancesToSelect = new ArrayList();
         organizationReversionBalancesToSelect.add(options.getActualFinancialBalanceTypeCd());
         organizationReversionBalancesToSelect.add(options.getFinObjTypeExpenditureexpCd());

@@ -79,7 +79,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     private Organization organization;
     private SubFundGroup subFundGroup;
     private State accountState;
-    private HigherEdFunction financialHigherEdFunction;
+    private HigherEducationFunction financialHigherEdFunction;
     private PostalCode postalZipCode;
     private SufficientFundsCode sufficientFundsCode;
 
@@ -798,7 +798,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the financialHigherEdFunction.
      */
-    public HigherEdFunction getFinancialHigherEdFunction() {
+    public HigherEducationFunction getFinancialHigherEdFunction() {
         return financialHigherEdFunction;
     }
 
@@ -807,7 +807,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param financialHigherEdFunction The financialHigherEdFunction to set.
      */
-    public void setFinancialHigherEdFunction(HigherEdFunction financialHigherEdFunction) {
+    public void setFinancialHigherEdFunction(HigherEducationFunction financialHigherEdFunction) {
         this.financialHigherEdFunction = financialHigherEdFunction;
     }
 

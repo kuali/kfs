@@ -127,7 +127,7 @@
   </bean>
   <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" parent="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode-parentBean" />
 
-  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode-parentBean" abstract="true" parent="ObjectCons-financialReportingSortCode">
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode-parentBean" abstract="true" parent="ObjectConsolidation-financialReportingSortCode">
     <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" />
   </bean>
   <bean id="AccountBalanceByConsolidation-financialObject.financialObjectType.financialReportingSortCode" parent="AccountBalanceByConsolidation-financialObject.financialObjectType.financialReportingSortCode-parentBean" />
@@ -137,7 +137,7 @@
   </bean>
   <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" parent="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" />
 
-  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" abstract="true" parent="ObjectCons-finConsolidationObjectCode">
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
     <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
   </bean>
   <bean id="AccountBalanceByConsolidation-dummyBusinessObject.linkButtonOption" parent="AccountBalanceByConsolidation-dummyBusinessObject.linkButtonOption-parentBean" />

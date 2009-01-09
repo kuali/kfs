@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
-import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
@@ -89,7 +89,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     @SuppressWarnings("deprecation")
     private ObjectCode getObjectCodeWithLevel(PurchasingCapitalAssetFixture fixture, String levelCode) {
         ObjectCode objectCode = fixture.getObjectCode();
-        ObjLevel objLevel = new ObjLevel();
+        ObjectLevel objLevel = new ObjectLevel();
         objLevel.setFinancialObjectLevelCode(levelCode);
         objectCode.setFinancialObjectLevel(objLevel);
         objectCode.setFinancialObjectLevelCode(levelCode);
@@ -154,7 +154,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateObjectCodeVersusTransactionType_Passing() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         ObjectCode objectCode = fixture.getObjectCode();
-        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        ObjectSubType financialObjectSubType = new ObjectSubType();
         objectCode.setFinancialObjectSubTypeCode("AM");
         financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
         objectCode.setFinancialObjectSubType(financialObjectSubType);
@@ -168,7 +168,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateObjectCodeVersusTransactionType_NotIncludedCombination() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         ObjectCode objectCode = fixture.getObjectCode();
-        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        ObjectSubType financialObjectSubType = new ObjectSubType();
         objectCode.setFinancialObjectSubTypeCode("AM");
         financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
         objectCode.setFinancialObjectSubType(financialObjectSubType);
@@ -182,7 +182,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     public void testValidateObjectCodeVersusTransactionType_NotIncludedSubtype() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         ObjectCode objectCode = fixture.getObjectCode();
-        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        ObjectSubType financialObjectSubType = new ObjectSubType();
         objectCode.setFinancialObjectSubTypeCode("BI");
         financialObjectSubType.setFinancialObjectSubTypeName("Bond Issuance");
         objectCode.setFinancialObjectSubType(financialObjectSubType);

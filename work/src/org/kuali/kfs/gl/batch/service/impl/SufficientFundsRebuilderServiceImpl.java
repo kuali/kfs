@@ -38,7 +38,7 @@ import org.kuali.kfs.gl.service.SufficientFundRebuildService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -66,7 +66,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private AccountService accountService;
 
     private Date runDate;
-    private Options options;
+    private SystemOptions options;
 
     Map batchError;
     List reportSummary;

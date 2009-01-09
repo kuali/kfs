@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -31,7 +31,7 @@ public class FiscalYearFunctionControl extends PersistableBusinessObjectBase {
     private boolean financialSystemFunctionActiveIndicator;
 
     private FunctionControlCode functionControl;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
 
     /**
      * Default constructor.
@@ -151,7 +151,7 @@ public class FiscalYearFunctionControl extends PersistableBusinessObjectBase {
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -160,7 +160,7 @@ public class FiscalYearFunctionControl extends PersistableBusinessObjectBase {
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

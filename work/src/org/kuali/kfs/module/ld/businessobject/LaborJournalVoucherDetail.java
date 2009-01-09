@@ -20,7 +20,7 @@ import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 
 /**
  * Labor Journal Voucher Detail Business Object.
@@ -47,9 +47,9 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
     private String hrmsCompany;
     private String setid;
     private String encumbranceUpdateCode;
-    private Options payrollEndDateOptions;
+    private SystemOptions payrollEndDateOptions;
     private AccountingPeriod payrollEndDateFiscalPeriod;
-    private Options options;
+    private SystemOptions options;
 
     /**
      * Default constructor.
@@ -153,7 +153,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -189,7 +189,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
      * 
      * @return Returns the payrollEndDateOptions.
      */
-    public Options getPayrollEndDateOptions() {
+    public SystemOptions getPayrollEndDateOptions() {
         return payrollEndDateOptions;
     }
 
@@ -333,7 +333,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
      * 
      * @param options The options to set.
      */
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 
@@ -369,7 +369,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
      * 
      * @param payrollEndDateOptions The payrollEndDateOptions to set.
      */
-    public void setPayrollEndDateOptions(Options payrollEndDateOptions) {
+    public void setPayrollEndDateOptions(SystemOptions payrollEndDateOptions) {
         this.payrollEndDateOptions = payrollEndDateOptions;
     }
 

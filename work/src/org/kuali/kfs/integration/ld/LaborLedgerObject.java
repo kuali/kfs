@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ld;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
@@ -185,13 +185,13 @@ public interface LaborLedgerObject extends PersistableBusinessObject, Externaliz
      * 
      * @return Returns the option.
      */
-    public Options getOption();
+    public SystemOptions getOption();
 
     /**
      * Sets the option
      * 
      * @param option The option to set.
      */
-    public void setOption(Options option);
+    public void setOption(SystemOptions option);
 
 }

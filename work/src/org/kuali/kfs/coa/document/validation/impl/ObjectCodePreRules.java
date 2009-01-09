@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
@@ -85,7 +85,7 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
         newObjectCode.setReportsToChartOfAccountsCode(reportsToChart);
 
         // If Object Level is inactive, ask user confirmation question
-        ObjLevel financialObjectLevel = objectLevelService.getByPrimaryId(chart, newObjectCode.getFinancialObjectLevelCode());
+        ObjectLevel financialObjectLevel = objectLevelService.getByPrimaryId(chart, newObjectCode.getFinancialObjectLevelCode());
         if (!(financialObjectLevel == null)) {
             if (!financialObjectLevel.isActive()) {
                 String objectLevelChartOfAccountCode = financialObjectLevel.getChartOfAccountsCode();

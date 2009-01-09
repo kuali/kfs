@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -34,7 +34,7 @@ public class UniversityDate extends PersistableBusinessObjectBase {
     private String universityFiscalAccountingPeriod;
 
     private AccountingPeriod accountingPeriod;
-    private Options options;
+    private SystemOptions options;
 
     /*
      * (non-Javadoc)
@@ -109,7 +109,7 @@ public class UniversityDate extends PersistableBusinessObjectBase {
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -119,7 +119,7 @@ public class UniversityDate extends PersistableBusinessObjectBase {
      * @param options The options to set.
      * @deprecated
      */
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 

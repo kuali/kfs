@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 
 /**
  * This service interface defines methods necessary for retrieving fully populated ObjLevel business objects from the database
@@ -29,5 +29,5 @@ public interface ObjectLevelService {
      * @param ObjectLevelCode
      * @return An ObjLevel object instance.
      */
-    public ObjLevel getByPrimaryId(String chartOfAccountsCode, String ObjectLevelCode);
+    public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String ObjectLevelCode);
 }

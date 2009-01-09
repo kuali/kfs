@@ -334,10 +334,10 @@
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjLevel-Lookupable"
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectLevel-Lookupable"
 		parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.coa.businessobject.ObjLevel
+			<value>org.kuali.kfs.coa.businessobject.ObjectLevel
 			</value>
 		</property>
 	</bean>
@@ -350,10 +350,10 @@
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjSubTyp-Lookupable"
+	<bean id="workflow-org.kuali.kfs.coa.businessobject.ObjectSubType-Lookupable"
 		parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.coa.businessobject.ObjSubTyp
+			<value>org.kuali.kfs.coa.businessobject.ObjectSubType
 			</value>
 		</property>
 	</bean>
@@ -418,10 +418,10 @@
 	</bean>
 
 	<bean
-		id="workflow-org.kuali.kfs.coa.businessobject.HigherEdFunction-Lookupable"
+		id="workflow-org.kuali.kfs.coa.businessobject.HigherEducationFunction-Lookupable"
 		parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.coa.businessobject.HigherEdFunction
+			<value>org.kuali.kfs.coa.businessobject.HigherEducationFunction
 			</value>
 		</property>
 	</bean>
@@ -545,8 +545,8 @@
 				<entry key="org.kuali.kfs.coa.businessobject.ObjectCode">
 					<value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
 				</entry>
-				<entry key="org.kuali.kfs.sys.businessobject.Options">
-					<value>org.kuali.kfs.sys.businessobject.Options</value>
+				<entry key="org.kuali.kfs.sys.businessobject.SystemOptions">
+					<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 				</entry>
 				<entry key="org.kuali.kfs.coa.businessobject.OffsetDefinition">
 					<value>org.kuali.kfs.coa.businessobject.OffsetDefinition</value>
@@ -596,72 +596,72 @@
 				<entry
 					key="org.kuali.kfs.coa.businessobject.OrganizationReversionDetail">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 						<value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
 						<value>org.kuali.kfs.coa.businessobject.OrganizationReversion</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.coa.businessobject.OrganizationReversion">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.coa.businessobject.SubObjectCode">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 						<value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.coa.businessobject.ObjectCode">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.module.ld.businessobject.LaborObject">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 						<value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.coa.businessobject.OffsetDefinition">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 						<value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 					</list>
 				</entry>
 				<entry
 					key="org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 						<value>org.kuali.kfs.module.ld.businessobject.BenefitsCalculation</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.coa.businessobject.AccountingPeriod">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 					</list>
 				</entry>
 				<entry
 					key="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.fp.businessobject.WireCharge">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 						<value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
 					</list>
 				</entry>
 				<entry
 					key="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 					</list>
 				</entry>
 				<entry
@@ -673,7 +673,7 @@
 				<entry
 					key="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 						<value>org.kuali.kfs.coa.businessobject.AccountingPeriod</value>
 					</list>
 				</entry>
@@ -685,7 +685,7 @@
 				</entry>
 				<entry key="org.kuali.kfs.gl.businessobject.UniversityDate">
 					<list>
-						<value>org.kuali.kfs.sys.businessobject.Options</value>
+						<value>org.kuali.kfs.sys.businessobject.SystemOptions</value>
 					</list>
 				</entry>
 			</map>

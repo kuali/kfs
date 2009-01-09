@@ -71,7 +71,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
@@ -906,7 +906,7 @@ public class PosterServiceImpl implements PosterService {
     
     protected boolean shouldIgnoreExpenditureTransaction(ExpenditureTransaction et) {
         if (ObjectUtils.isNotNull(et.getOption())) {
-            Options options = et.getOption();
+            SystemOptions options = et.getOption();
             return StringUtils.isNotBlank(options.getActualFinancialBalanceTypeCd()) && 
                     !options.getActualFinancialBalanceTypeCd().equals(et.getBalanceTypeCode());
         }

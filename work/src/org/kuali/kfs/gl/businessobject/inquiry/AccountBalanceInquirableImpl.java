@@ -25,7 +25,7 @@ import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
@@ -71,7 +71,7 @@ public class AccountBalanceInquirableImpl extends AbstractGeneralLedgerInquirabl
         Map userDefinedAttributeMap = new HashMap();
 
         OptionsService os = SpringContext.getBean(OptionsService.class);
-        Options o = os.getCurrentYearOptions();
+        SystemOptions o = os.getCurrentYearOptions();
 
         userDefinedAttributeMap.put(KFSPropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB);
         userDefinedAttributeMap.put(KFSPropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, o.getActualFinancialBalanceTypeCd());

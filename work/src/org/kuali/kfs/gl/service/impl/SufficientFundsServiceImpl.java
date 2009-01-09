@@ -37,7 +37,7 @@ import org.kuali.kfs.gl.service.SufficientFundRebuildService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.gl.service.SufficientFundsServiceConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
@@ -167,12 +167,12 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     private List<SufficientFundsItem> summarizeTransactions(List<? extends Transaction> transactions) {
         Map<String, SufficientFundsItem> items = new HashMap<String, SufficientFundsItem>();
 
-        Options currentYear = optionsService.getCurrentYearOptions();
+        SystemOptions currentYear = optionsService.getCurrentYearOptions();
 
         for (Iterator iter = transactions.iterator(); iter.hasNext();) {
             Transaction tran = (Transaction) iter.next();
 
-            Options year = tran.getOption();
+            SystemOptions year = tran.getOption();
             if (year == null) {
                 year = currentYear;
             }

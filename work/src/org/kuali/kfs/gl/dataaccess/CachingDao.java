@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
@@ -38,7 +38,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
 
@@ -81,10 +81,10 @@ public interface CachingDao {
      * @param entry the origin entry to retrieve the related options record of
      * @return the related Options record, or null if not found
      */
-    public Options getOption(OriginEntry entry);
+    public SystemOptions getOption(OriginEntry entry);
 
 
-    public Options getOption(Integer fiscalYear);
+    public SystemOptions getOption(Integer fiscalYear);
 
     /**
      * Get object type for given origin entry
@@ -177,7 +177,7 @@ public interface CachingDao {
 
     public Organization getOrg(String chartOfAccountsCode, String organizationCode);
 
-    public ObjLevel getObjLevel(String chartOfAccountsCode, String financialObjectLevelCode);
+    public ObjectLevel getObjLevel(String chartOfAccountsCode, String financialObjectLevelCode);
 
     
     //TODO: move to labor

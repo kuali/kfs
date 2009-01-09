@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -96,9 +96,9 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
         Boolean foundYear = false;
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        List optionList = (List) boService.findAll(Options.class);
+        List optionList = (List) boService.findAll(SystemOptions.class);
         for (Iterator iter = optionList.iterator(); iter.hasNext();) {
-            Options options = (Options) iter.next();
+            SystemOptions options = (SystemOptions) iter.next();
             if (options.getUniversityFiscalYear().compareTo(newAccountingPeriod.getUniversityFiscalYear()) == 0) {
                 foundYear = true;
                 break;

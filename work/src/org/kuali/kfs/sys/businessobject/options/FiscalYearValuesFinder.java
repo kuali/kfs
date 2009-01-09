@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -38,12 +38,12 @@ public class FiscalYearValuesFinder extends KeyValuesBase {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         FiscalYearComparator fiscalYearComparator = new FiscalYearComparator();
-        List optionList = (List) boService.findAll(Options.class);
+        List optionList = (List) boService.findAll(SystemOptions.class);
         Collections.sort(optionList, fiscalYearComparator);
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = optionList.iterator(); iter.hasNext();) {
-            Options options = (Options) iter.next();
+            SystemOptions options = (SystemOptions) iter.next();
             labels.add(new KeyLabelPair(options.getUniversityFiscalYear().toString(), options.getUniversityFiscalYear().toString()));
         }
 

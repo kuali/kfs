@@ -28,7 +28,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 
 /**
  * An interface of methods that allow all of the GL processes generate reports about their runs
@@ -134,7 +134,7 @@ public interface ReportService {
      * @param options the options of the fiscal year the poster was run
      * @param reportType the type of the report that should be generated
      */
-    public void generateGlSummary(Date runDate, Options year, String reportType);
+    public void generateGlSummary(Date runDate, SystemOptions year, String reportType);
 
     /**
      * Generates GL Encumbrance Summary report
@@ -143,7 +143,7 @@ public interface ReportService {
      * @param options the options of the fiscal year the poster was run
      * @param reportType the type of the report that should be generated
      */
-    public void generateGlEncumbranceSummary(Date runDate, Options year, String reportType);
+    public void generateGlEncumbranceSummary(Date runDate, SystemOptions year, String reportType);
 
     /**
      * Generates the Poster Statistics report

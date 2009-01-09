@@ -33,7 +33,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
 
@@ -80,9 +80,9 @@ public interface OriginEntryLookupService {
      * @param entry the origin entry to retrieve the related options record of
      * @return the related Options record, or null if not found
      */
-    public Options getOption(OriginEntry entry);
+    public SystemOptions getOption(OriginEntry entry);
     
-    public Options getOption(Integer fiscalYear);
+    public SystemOptions getOption(Integer fiscalYear);
 
     /**
      * Get object type for given origin entry

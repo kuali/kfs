@@ -4,23 +4,23 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ObjSubTyp" parent="ObjSubTyp-parentBean" />
+  <bean id="ObjectSubType" parent="ObjectSubType-parentBean" />
 
-  <bean id="ObjSubTyp-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjSubTyp" />
+  <bean id="ObjectSubType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectSubType" />
     <property name="inquiryDefinition" >
-      <ref bean="ObjSubTyp-inquiryDefinition" />
+      <ref bean="ObjectSubType-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="ObjSubTyp-lookupDefinition" />
+      <ref bean="ObjectSubType-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="code" />
     <property name="objectLabel" value="Object Sub-Type" />
     <property name="attributes" >
       <list>
-        <ref bean="ObjSubTyp-code" />
-        <ref bean="ObjSubTyp-name" />
-        <ref bean="ObjSubTyp-active" />
+        <ref bean="ObjectSubType-code" />
+        <ref bean="ObjectSubType-name" />
+        <ref bean="ObjectSubType-active" />
       </list>
     </property>
   </bean>
@@ -28,9 +28,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ObjSubTyp-code" parent="ObjSubTyp-code-parentBean" />
+  <bean id="ObjectSubType-code" parent="ObjectSubType-code-parentBean" />
 
-  <bean id="ObjSubTyp-code-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ObjectSubType-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Object Sub-Type Code" />
@@ -45,9 +45,9 @@
             p:size="2" />
     </property>
   </bean>
-  <bean id="ObjSubTyp-name" parent="ObjSubTyp-name-parentBean" />
+  <bean id="ObjectSubType-name" parent="ObjectSubType-name-parentBean" />
 
-  <bean id="ObjSubTyp-name-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ObjectSubType-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Object Sub-Type Name" />
@@ -59,9 +59,9 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="ObjSubTyp-active" parent="ObjSubTyp-active-parentBean" />
+  <bean id="ObjectSubType-active" parent="ObjectSubType-active-parentBean" />
 
-  <bean id="ObjSubTyp-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="ObjectSubType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
@@ -69,9 +69,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ObjSubTyp-inquiryDefinition" parent="ObjSubTyp-inquiryDefinition-parentBean" />
+  <bean id="ObjectSubType-inquiryDefinition" parent="ObjectSubType-inquiryDefinition-parentBean" />
 
-  <bean id="ObjSubTyp-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="ObjectSubType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Object Sub-Type Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -96,9 +96,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ObjSubTyp-lookupDefinition" parent="ObjSubTyp-lookupDefinition-parentBean" />
+  <bean id="ObjectSubType-lookupDefinition" parent="ObjectSubType-lookupDefinition-parentBean" />
 
-  <bean id="ObjSubTyp-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="ObjectSubType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Object Sub-Type Lookup" />
     <property name="instructions" value="Lookup an Object Sub-Type" />
     <property name="defaultSort" >

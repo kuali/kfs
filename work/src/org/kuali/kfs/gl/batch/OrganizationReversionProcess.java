@@ -43,7 +43,7 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -105,8 +105,8 @@ public class OrganizationReversionProcess {
     private final String FUND_REVERTED_TO_MESSAGE;
     private final String FUND_REVERTED_FROM_MESSAGE;
 
-    private Options priorYearOptions;
-    private Options currentYearOptions;
+    private SystemOptions priorYearOptions;
+    private SystemOptions currentYearOptions;
     private Integer paramFiscalYear;
 
     /**
@@ -312,7 +312,7 @@ public class OrganizationReversionProcess {
      * @param bal the current balance to process
      */
     protected void calculateBucketAmounts(Balance bal) {
-        Options options = priorYearOptions;
+        SystemOptions options = priorYearOptions;
         if (endOfYear) {
             options = currentYearOptions;
         }

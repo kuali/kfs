@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -43,7 +43,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
     private Account budgetReversionAccount;
     private Chart budgetReversionChartOfAccounts;
     private Chart cashReversionFinancialChartOfAccounts;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private Organization organization;
     private List<Organization> organizations; // This is only used by the "global" document
     private List<OrganizationReversionDetail> organizationReversionDetail;
@@ -352,7 +352,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -361,7 +361,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

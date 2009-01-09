@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
@@ -50,7 +50,7 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
     private boolean active;
 
     private DocumentHeader financialDocument;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
     private Chart chartOfAccounts;
 
     private List<SubObjectCodeGlobalDetail> subObjCdGlobalDetails;
@@ -225,7 +225,7 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
      * 
      * @return Returns the universityFiscal
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -235,7 +235,7 @@ public class SubObjectCodeGlobal extends PersistableBusinessObjectBase implement
      * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

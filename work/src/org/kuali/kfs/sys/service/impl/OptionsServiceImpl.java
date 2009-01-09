@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.service.impl;
 
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -29,14 +29,14 @@ public class OptionsServiceImpl implements OptionsService {
     private OptionsDao optionsDao;
     private UniversityDateService universityDateService;
     
-    public Options getCurrentYearOptions() {
+    public SystemOptions getCurrentYearOptions() {
         LOG.debug("getCurrentYearOptions() started");
 
         Integer fy = universityDateService.getCurrentFiscalYear();
         return optionsDao.getByPrimaryId(fy);
     }
 
-    public Options getOptions(Integer universityFiscalYear) {
+    public SystemOptions getOptions(Integer universityFiscalYear) {
         LOG.debug("getOptions() started");
 
         return optionsDao.getByPrimaryId(universityFiscalYear);

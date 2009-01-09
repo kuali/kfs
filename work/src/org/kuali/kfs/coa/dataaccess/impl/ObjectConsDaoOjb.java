@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -30,12 +30,12 @@ public class ObjectConsDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
     /**
      * @see org.kuali.kfs.coa.dataaccess.ObjectConsDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
+    public ObjectConsolidation getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("finConsolidationObjectCode", objectConsCode);
 
-        return (ObjectCons) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCons.class, criteria));
+        return (ObjectConsolidation) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectConsolidation.class, criteria));
     }
 
 }

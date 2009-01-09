@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
@@ -70,7 +70,7 @@ public class SubObjectCode extends PersistableBusinessObjectBase implements Inac
     private Chart chartOfAccounts;
     private Account account;
     private ObjectCode financialObject;
-    private Options universityFiscal;
+    private SystemOptions universityFiscal;
 
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
@@ -169,7 +169,7 @@ public class SubObjectCode extends PersistableBusinessObjectBase implements Inac
      * 
      * @return Returns the universityFiscal
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -179,7 +179,7 @@ public class SubObjectCode extends PersistableBusinessObjectBase implements Inac
      * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 

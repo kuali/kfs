@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.dataaccess.impl;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -33,13 +33,13 @@ public class OptionsDaoOjb extends PlatformAwareDaoBaseOjb implements OptionsDao
         super();
     }
 
-    public Options getByPrimaryId(Integer universityFiscalYear) {
+    public SystemOptions getByPrimaryId(Integer universityFiscalYear) {
         LOG.debug("getByPrimaryId() started");
 
         Criteria crit = new Criteria();
         crit.addEqualTo("universityFiscalYear", universityFiscalYear);
 
-        QueryByCriteria qbc = QueryFactory.newQuery(Options.class, crit);
-        return (Options) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+        QueryByCriteria qbc = QueryFactory.newQuery(SystemOptions.class, crit);
+        return (SystemOptions) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 }

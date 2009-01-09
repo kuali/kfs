@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 
 /**
  * This service interface defines methods necessary for retrieving fully populated ObjectCons business objects from the database
@@ -29,5 +29,5 @@ public interface ObjectConsService {
      * @param ObjectLevelCode
      * @return An ObjLevel object instance.
      */
-    public ObjectCons getByPrimaryId(String chartOfAccountsCode, String ObjectConsCode);
+    public ObjectConsolidation getByPrimaryId(String chartOfAccountsCode, String ObjectConsCode);
 }

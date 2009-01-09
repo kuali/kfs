@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import org.kuali.kfs.coa.businessobject.ObjLevel;
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
@@ -57,7 +57,7 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        ObjectCons objConsolidation = (ObjectCons) getNewBo();
+        ObjectConsolidation objConsolidation = (ObjectConsolidation) getNewBo();
 
         checkObjLevelCode(objConsolidation);
         return true;
@@ -74,7 +74,7 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        ObjectCons objConsolidation = (ObjectCons) getNewBo();
+        ObjectConsolidation objConsolidation = (ObjectConsolidation) getNewBo();
 
         success &= checkObjLevelCode(objConsolidation);
         return success;
@@ -87,10 +87,10 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
      * @param document
      * @return false if Object Level Code already exists
      */
-    private boolean checkObjLevelCode(ObjectCons objConsolidation) {
+    private boolean checkObjLevelCode(ObjectConsolidation objConsolidation) {
         boolean success = true;
 
-        ObjLevel objLevel = objectLevelService.getByPrimaryId(objConsolidation.getChartOfAccountsCode(), objConsolidation.getFinConsolidationObjectCode());
+        ObjectLevel objLevel = objectLevelService.getByPrimaryId(objConsolidation.getChartOfAccountsCode(), objConsolidation.getFinConsolidationObjectCode());
         if (objLevel != null) {
             success = false;
             putFieldError("finConsolidationObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL);

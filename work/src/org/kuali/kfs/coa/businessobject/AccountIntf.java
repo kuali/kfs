@@ -514,7 +514,7 @@ public interface AccountIntf {
      * 
      * @return Returns the financialHigherEdFunction
      */
-    public HigherEdFunction getFinancialHigherEdFunction();
+    public HigherEducationFunction getFinancialHigherEdFunction();
 
     /**
      * Sets the financialHigherEdFunction attribute.
@@ -522,7 +522,7 @@ public interface AccountIntf {
      * @param financialHigherEdFunction The financialHigherEdFunction to set.
      * @deprecated
      */
-    public void setFinancialHigherEdFunction(HigherEdFunction financialHigherEdFunction);
+    public void setFinancialHigherEdFunction(HigherEducationFunction financialHigherEdFunction);
 
     /**
      * Gets the accountRestrictedStatus attribute.

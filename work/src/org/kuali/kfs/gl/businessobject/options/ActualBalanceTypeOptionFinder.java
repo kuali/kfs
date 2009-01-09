@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypService;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -42,7 +42,7 @@ public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements Valu
      */
     public String getValue() {
         OptionsService os = SpringContext.getBean(OptionsService.class);
-        Options o = os.getCurrentYearOptions();
+        SystemOptions o = os.getCurrentYearOptions();
 
         return o.getActualFinancialBalanceTypeCd();
     }

@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
@@ -752,7 +752,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
                     glpeService.populateExplicitGeneralLedgerPendingEntry(this, accountingLine, sequenceHelper, explicitEntry);
 
                     /* override and set object type to income */
-                    Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+                    SystemOptions options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
                     explicitEntry.setFinancialObjectTypeCode(options.getFinObjectTypeIncomecashCode());
 
                     /* D/C code is empty for BA, set correct balance type, correct amount */

@@ -28,8 +28,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * 
  */
-public class ObjLevel extends PersistableBusinessObjectBase implements Inactivateable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjLevel.class);
+public class ObjectLevel extends PersistableBusinessObjectBase implements Inactivateable {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevel.class);
 
     private String chartOfAccountsCode;
     private String financialObjectLevelCode;
@@ -39,16 +39,16 @@ public class ObjLevel extends PersistableBusinessObjectBase implements Inactivat
     private String financialReportingSortCode;
     private String financialConsolidationObjectCode;
 
-    private ObjectCons financialConsolidationObject;
+    private ObjectConsolidation financialConsolidationObject;
     private Chart chartOfAccounts;
 
 
     /**
      * Constructs a ObjLevel.java.
      */
-    public ObjLevel() {
+    public ObjectLevel() {
         super();
-        this.financialConsolidationObject = new ObjectCons();
+        this.financialConsolidationObject = new ObjectConsolidation();
     }
 
     /**
@@ -151,7 +151,7 @@ public class ObjLevel extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @return Returns the financialConsolidationObject
      */
-    public ObjectCons getFinancialConsolidationObject() {
+    public ObjectConsolidation getFinancialConsolidationObject() {
         return financialConsolidationObject;
     }
 
@@ -160,7 +160,7 @@ public class ObjLevel extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @param financialConsolidationObject The financialConsolidationObject to set.
      */
-    public void setFinancialConsolidationObject(ObjectCons financialConsolidationObject) {
+    public void setFinancialConsolidationObject(ObjectConsolidation financialConsolidationObject) {
         this.financialConsolidationObject = financialConsolidationObject;
     }
 
@@ -225,7 +225,7 @@ public class ObjLevel extends PersistableBusinessObjectBase implements Inactivat
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
             BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            ObjLevel originalObjLevel = (ObjLevel) boService.retrieve(this);
+            ObjectLevel originalObjLevel = (ObjectLevel) boService.retrieve(this);
 
             if (originalObjLevel != null) {
                 if (!originalObjLevel.getFinancialConsolidationObjectCode().equals(getFinancialConsolidationObjectCode())) {

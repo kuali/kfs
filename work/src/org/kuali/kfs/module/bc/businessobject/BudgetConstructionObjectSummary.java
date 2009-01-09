@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjLevel;
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -54,8 +54,8 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
     private Organization organization;
     private Chart chartOfAccounts;
     private SubFundGroup subFundGroup;
-    private ObjLevel financialObjectLevel;
-    private ObjectCons financialConsolidationObject;
+    private ObjectLevel financialObjectLevel;
+    private ObjectConsolidation financialConsolidationObject;
 
     /**
      * Default constructor.
@@ -447,7 +447,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
      * 
      * @return Returns the financialObjectLevel.
      */
-    public ObjLevel getFinancialObjectLevel() {
+    public ObjectLevel getFinancialObjectLevel() {
         return financialObjectLevel;
     }
 
@@ -457,7 +457,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
      * @param financialObjectLevel The financialObjectLevel to set.
      * @deprecated
      */
-    public void setFinancialObjectLevel(ObjLevel financialObjectLevel) {
+    public void setFinancialObjectLevel(ObjectLevel financialObjectLevel) {
         this.financialObjectLevel = financialObjectLevel;
     }
 
@@ -485,7 +485,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
      * 
      * @return Returns the financialConsolidationObject.
      */
-    public ObjectCons getFinancialConsolidationObject() {
+    public ObjectConsolidation getFinancialConsolidationObject() {
         return financialConsolidationObject;
     }
 
@@ -495,7 +495,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
      * @param financialConsolidationObject The financialConsolidationObject to set.
      * @deprecated
      */
-    public void setFinancialConsolidationObject(ObjectCons financialConsolidationObject) {
+    public void setFinancialConsolidationObject(ObjectConsolidation financialConsolidationObject) {
         this.financialConsolidationObject = financialConsolidationObject;
     }
 

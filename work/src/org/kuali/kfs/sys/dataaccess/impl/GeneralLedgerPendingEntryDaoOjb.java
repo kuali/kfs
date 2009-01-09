@@ -38,7 +38,7 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -426,7 +426,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      */
     private Criteria buildCriteriaToExcludeFundBalance() {
 
-        Options option = optionsService.getCurrentYearOptions();
+        SystemOptions option = optionsService.getCurrentYearOptions();
         String fundBalanceObjectTypeCode = option.getFinObjectTypeFundBalanceCd();
 
         Criteria criteria = new Criteria();

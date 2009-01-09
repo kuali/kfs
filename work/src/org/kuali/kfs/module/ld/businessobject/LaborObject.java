@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -43,7 +43,7 @@ public class LaborObject extends PersistableBusinessObjectBase implements LaborL
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private PositionObjectGroup positionObjectGroup;
-    private Options option;
+    private SystemOptions option;
 
     /**
      * Default constructor.
@@ -273,7 +273,7 @@ public class LaborObject extends PersistableBusinessObjectBase implements LaborL
      * 
      * @return Returns the option.
      */
-    public Options getOption() {
+    public SystemOptions getOption() {
         return option;
     }
 
@@ -282,7 +282,7 @@ public class LaborObject extends PersistableBusinessObjectBase implements LaborL
      * 
      * @param option The option to set.
      */
-    public void setOption(Options option) {
+    public void setOption(SystemOptions option) {
         this.option = option;
     }
 

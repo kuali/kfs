@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -44,7 +44,7 @@ public class BudgetConstructionLockSummary extends PersistableBusinessObjectBase
     private Account account;
     private SubAccount subAccount;
     private BudgetConstructionPosition budgetConstructionPosition;
-    private Options options;
+    private SystemOptions options;
 
     /**
      * Default Constructor.
@@ -317,7 +317,7 @@ public class BudgetConstructionLockSummary extends PersistableBusinessObjectBase
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -326,7 +326,7 @@ public class BudgetConstructionLockSummary extends PersistableBusinessObjectBase
      * 
      * @param options The options to set.
      */
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 

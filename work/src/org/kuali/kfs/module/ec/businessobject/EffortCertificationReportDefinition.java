@@ -28,7 +28,7 @@ import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -52,12 +52,12 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     private String effortCertificationReportEndPeriodCode;
     private boolean active;
 
-    private Options options;
-    private Options reportBeginFiscalYear;
-    private Options reportEndFiscalYear;
+    private SystemOptions options;
+    private SystemOptions reportBeginFiscalYear;
+    private SystemOptions reportEndFiscalYear;
     private AccountingPeriod reportBeginPeriod;
     private AccountingPeriod reportEndPeriod;
-    private Options expenseTransferYear;
+    private SystemOptions expenseTransferYear;
     private AccountingPeriod expenseTransferFiscalPeriod;
     private EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode;
     private EffortCertificationReportType effortCertificationReportType;
@@ -312,7 +312,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * gets expenseTrasferYear
      * @return
      */
-    public Options getExpenseTransferYear() {
+    public SystemOptions getExpenseTransferYear() {
         return expenseTransferYear;
     }
 
@@ -321,7 +321,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * @param expenseTransferYear
      */
     @Deprecated
-    public void setExpenseTransferYear(Options expenseTransferYear) {
+    public void setExpenseTransferYear(SystemOptions expenseTransferYear) {
         this.expenseTransferYear = expenseTransferYear;
     }
 
@@ -330,7 +330,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * gets reportBeginFiscalYear attribute value
      * @return
      */
-    public Options getReportBeginFiscalYear() {
+    public SystemOptions getReportBeginFiscalYear() {
         return reportBeginFiscalYear;
     }
 
@@ -340,7 +340,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * @param reportBeginFiscalYear
      */
     @Deprecated
-    public void setReportBeginFiscalYear(Options reportBeginFiscalYear) {
+    public void setReportBeginFiscalYear(SystemOptions reportBeginFiscalYear) {
         this.reportBeginFiscalYear = reportBeginFiscalYear;
     }
 
@@ -349,7 +349,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * gets reportEndFiscalYear attribute
      * @return
      */
-    public Options getReportEndFiscalYear() {
+    public SystemOptions getReportEndFiscalYear() {
         return reportEndFiscalYear;
     }
 
@@ -359,7 +359,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * @param reportEndFiscalYear
      */
     @Deprecated
-    public void setReportEndFiscalYear(Options reportEndFiscalYear) {
+    public void setReportEndFiscalYear(SystemOptions reportEndFiscalYear) {
         this.reportEndFiscalYear = reportEndFiscalYear;
     }
 
@@ -478,7 +478,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * 
      * @return Returns the options.
      */
-    public Options getOptions() {
+    public SystemOptions getOptions() {
         return options;
     }
 
@@ -488,7 +488,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * @param options The options to set.
      */
     @Deprecated
-    public void setOptions(Options options) {
+    public void setOptions(SystemOptions options) {
         this.options = options;
     }
 

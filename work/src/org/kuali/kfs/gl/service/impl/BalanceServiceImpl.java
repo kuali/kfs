@@ -30,7 +30,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.GlSummary;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.gl.service.BalanceService;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -399,7 +399,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     private void loadConstantsFromOptions() {
         LOG.debug("loadConstantsFromOptions() started");
-        Options options = optionsService.getCurrentYearOptions();
+        SystemOptions options = optionsService.getCurrentYearOptions();
         // String[] actualBalanceCodes = new String[] { "AC" };
         actualBalanceCodes = new String[] { options.getActualFinancialBalanceTypeCd() }; // AC
         // String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };

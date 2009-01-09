@@ -113,7 +113,7 @@
   </bean>
   <bean id="SubAccount-financialReportingCode" parent="SubAccount-financialReportingCode-parentBean" />
 
-  <bean id="SubAccount-financialReportingCode-parentBean" abstract="true" parent="ReportingCodes-financialReportingCode">
+  <bean id="SubAccount-financialReportingCode-parentBean" abstract="true" parent="ReportingCode-financialReportingCode">
     <property name="shortLabel" value="Fin. Rpt. Code" />
     <property name="required" value="false" />
   </bean>

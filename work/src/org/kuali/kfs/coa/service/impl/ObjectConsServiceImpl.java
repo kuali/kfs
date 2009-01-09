@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
 import org.kuali.kfs.coa.service.ObjectConsService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -31,7 +31,7 @@ public class ObjectConsServiceImpl implements ObjectConsService {
     /**
      * @see org.kuali.kfs.coa.service.ObjectConsService#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
+    public ObjectConsolidation getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
         return objectConsDao.getByPrimaryId(chartOfAccountsCode, objectConsCode);
     }
 

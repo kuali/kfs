@@ -4,9 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -22,13 +22,13 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
 	private String depreciationExpenseFinancialObjectCode;
     private boolean active;
 
-    private transient Options universityFiscal;
+    private transient SystemOptions universityFiscal;
     private ObjectCode accumulatedDepreciationFinancialObject;
 	private ObjectCode capitalizationFinancialObject;
 	private ObjectCode depreciationExpenseFinancialObject;
 	private List<ObjectCode> objectCode;
 	private Chart chartOfAccounts;
-    private ObjSubTyp financialObjectSubType;
+    private ObjectSubType financialObjectSubType;
     
 	/**
 	 * Default constructor.
@@ -247,7 +247,7 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
      * Gets the financialObjectSubType attribute. 
      * @return Returns the financialObjectSubType.
      */
-    public ObjSubTyp getFinancialObjectSubType() {
+    public ObjectSubType getFinancialObjectSubType() {
         return financialObjectSubType;
     }
 
@@ -256,7 +256,7 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
-    public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
+    public void setFinancialObjectSubType(ObjectSubType financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
     
@@ -285,7 +285,7 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
      * 
      * @return Returns the universityFiscal.
      */
-    public Options getUniversityFiscal() {
+    public SystemOptions getUniversityFiscal() {
         return universityFiscal;
     }
 
@@ -294,7 +294,7 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
      * 
      * @param universityFiscal The universityFiscal to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
     

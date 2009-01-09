@@ -54,7 +54,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
@@ -643,7 +643,7 @@ public class ScrubberProcess {
                         }
                     }
 
-                    Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
+                    SystemOptions scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
                     if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                         if (scrubbedEntry.isDebit()) {
                             scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
@@ -766,7 +766,7 @@ public class ScrubberProcess {
 
         OriginEntryFull costShareEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-        Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
+        SystemOptions scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
 
         costShareEntry.setFinancialObjectCode(parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_PARM_NM));
@@ -1021,7 +1021,7 @@ public class ScrubberProcess {
 
         OriginEntryFull capitalizationEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-        Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
+        SystemOptions scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
@@ -1100,7 +1100,7 @@ public class ScrubberProcess {
 
         OriginEntryFull plantIndebtednessEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-        Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
+        SystemOptions scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
         Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
@@ -1223,7 +1223,7 @@ public class ScrubberProcess {
         OriginEntryFull liabilityEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
         Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
-        Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
+        SystemOptions scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         ObjectCode scrubbedEntryFinancialObject = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
 
@@ -1348,7 +1348,7 @@ public class ScrubberProcess {
         costShareEncumbranceEntry.setTransactionLedgerEntryDescription(buffer.toString());
 
         A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
-        Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
+        SystemOptions scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
 
         costShareEncumbranceEntry.setChartOfAccountsCode(scrubbedEntryA21SubAccount.getCostShareChartOfAccountCode());
         costShareEncumbranceEntry.setAccountNumber(scrubbedEntryA21SubAccount.getCostShareSourceAccountNumber());

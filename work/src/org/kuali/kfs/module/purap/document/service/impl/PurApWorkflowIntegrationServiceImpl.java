@@ -33,9 +33,9 @@ import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.exception.KEWUserNotFoundException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.user.WorkflowUser;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -284,24 +284,24 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#getLastUserId(org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue)
      */
     public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws KEWUserNotFoundException {
-        WorkflowUser user = null;
+        KimPrincipal principal = null;
         Timestamp previousDate = null;
         for (Iterator iter = routeHeader.getActionsTaken().iterator(); iter.hasNext();) {
             ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
 
             if (previousDate != null) {
                 if (actionTaken.getActionDate().after(previousDate)) {
-                    user = actionTaken.getWorkflowUser();
+                    principal = actionTaken.getPrincipal();
                     previousDate = actionTaken.getActionDate();
                 }
             }
             else {
                 previousDate = actionTaken.getActionDate();
-                user = actionTaken.getWorkflowUser();
+                principal = actionTaken.getPrincipal();
             }
         }
-        if (user != null && user.getAuthenticationUserId() != null) {
-            return user.getAuthenticationUserId().getAuthenticationId();
+        if (principal != null && principal.getPrincipalName() != null) {
+            return principal.getPrincipalName();
         }
         else {
             return null;

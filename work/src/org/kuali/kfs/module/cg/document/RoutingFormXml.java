@@ -624,17 +624,16 @@ public class RoutingFormXml {
             // Base case
             if (actionRequest.getActionTaken() == null) {
                 // Action not taken yet, leave date empty
-                UserDTO user = actionRequest.getUserDTO();
+                String principalId = actionRequest.getPrincipalId();
                 String actionName = ObjectUtils.toString(KEWConstants.ACTION_REQUEST_CD.get(actionRequest.getActionRequested()));
-                createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionName, "");
+                createApproverElement(xmlDoc, approvalsElement, principalId, actionRequest.getNodeName(), actionName, "");
             }
-            else if (actionRequest.getUserDTO().getEmplId().equals(actionRequest.getActionTaken().getUserDTO().getEmplId())) {
+            else if (actionRequest.getPrincipalId().equals(actionRequest.getActionTaken().getPrincipalId())) {
                 // Action was taken, show date
                 DateFormat dateFormat = new SimpleDateFormat(CGConstants.LONG_TIMESTAMP_FORMAT);
                 ActionTakenDTO actionTaken = actionRequest.getActionTaken();
-                UserDTO user = actionTaken.getUserDTO();
                 String actionName = ObjectUtils.toString(KEWConstants.ACTION_TAKEN_CD.get(actionTaken.getActionTaken()));
-                createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionName, dateFormat.format(actionTaken.getActionDate().getTime()));
+                createApproverElement(xmlDoc, approvalsElement, actionTaken.getPrincipalId(), actionRequest.getNodeName(), actionName, dateFormat.format(actionTaken.getActionDate().getTime()));
             }
             // else ignore, it should be an actionRequest for a user whose requests are cleared out. Such as if
             // multiple requests were pending but one disapproved, then all of the users get disapprovals assigned
@@ -658,17 +657,16 @@ public class RoutingFormXml {
      * @param actionName will be used for the ACTION field
      * @param actionDate will be used for the ACTION_DATE field
      */
-    private static void createApproverElement(Document xmlDoc, Element approvalsElement, UserDTO workflowUser, String nodeName, String actionName, String actionDate) {
+    private static void createApproverElement(Document xmlDoc, Element approvalsElement, String principalId, String nodeName, String actionName, String actionDate) {
         Element approverElement = xmlDoc.createElement("APPROVER");
 
-        Person kualiUser;
         PersonService kfsUserService = SpringContext.getBean(PersonService.class);
-        kualiUser = kfsUserService.getPerson(workflowUser.getUuId());
-        if (kualiUser == null) {
-            LOG.error("Lookup for emplId=" + workflowUser.getEmplId() + " failed. Skipping putting person in XML.");
+        Person person = kfsUserService.getPerson(principalId);
+        if (person == null) {
+            LOG.error("Lookup for principalId=" + principalId + " failed. Skipping putting person in XML.");
             return;
         }
-        ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(kualiUser,CGConstants.CG_NAMESPACE_CODE);
+        ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(person,CGConstants.CG_NAMESPACE_CODE);
         approverElement.setAttribute("TITLE", ObjectUtils.toString(nodeName));
         approverElement.setAttribute("CHART", ObjectUtils.toString(userChartOrg.getChartOfAccountsCode()));
         approverElement.setAttribute("ORG", ObjectUtils.toString(userChartOrg.getOrganizationCode()));
@@ -676,8 +674,8 @@ public class RoutingFormXml {
         approverElement.setAttribute("ACTION_DATE", ObjectUtils.toString(actionDate));
 
         Element nameElement = xmlDoc.createElement("NAME");
-        nameElement.setAttribute("FIRST", ObjectUtils.toString(workflowUser.getFirstName()));
-        nameElement.setAttribute("LAST", ObjectUtils.toString(workflowUser.getLastName()));
+        nameElement.setAttribute("FIRST", ObjectUtils.toString(person.getFirstName()));
+        nameElement.setAttribute("LAST", ObjectUtils.toString(person.getLastName()));
         approverElement.appendChild(nameElement);
 
         approvalsElement.appendChild(approverElement);

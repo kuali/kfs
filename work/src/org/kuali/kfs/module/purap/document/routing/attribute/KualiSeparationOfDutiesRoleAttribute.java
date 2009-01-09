@@ -96,7 +96,7 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
         for (Iterator iter = document.getActionsTaken().iterator(); iter.hasNext();) {
             ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
             if ((actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_APPROVED_CD)) || (actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_COMPLETED_CD))) {
-                documentReviewers.add(actionTaken.getWorkflowUser().getWorkflowUserId().getWorkflowId());
+                documentReviewers.add(actionTaken.getPrincipalId());
             }
         }
         // if document has been approved or completed by more than one person... no need for separation of duties

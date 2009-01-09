@@ -268,7 +268,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 if (actionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPrincipalName();
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getPrincipalId()).getPrincipalName();
                     this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size() - 1).getActionDate().getTime());
                 }
                 else {
@@ -318,7 +318,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 if (actionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPrincipalName();
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getPrincipalId()).getPrincipalName();
                     this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size() - 1).getActionDate().getTime());
                 }
 

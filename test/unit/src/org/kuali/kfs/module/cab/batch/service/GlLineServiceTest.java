@@ -50,7 +50,7 @@ public class GlLineServiceTest extends KualiTestBase {
     private List<GeneralLedgerEntry> entries;
 
     @Override
-    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.bomiddle, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
         glLineService = SpringContext.getBean(GlLineService.class);

@@ -32,7 +32,9 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Pa
 
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
-        
+        if ( qualification == null ) {
+            return new AttributeSet();
+        }
         if (PROCESSOR_ROLE_NAME.equals(roleName)) {        
             Map<String,Object> arOrgOptPk = new HashMap<String, Object>();
             arOrgOptPk.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );

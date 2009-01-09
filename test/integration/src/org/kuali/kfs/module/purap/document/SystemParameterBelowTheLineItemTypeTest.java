@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemRequisi
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ParameterService;
 
 /**
@@ -42,7 +43,7 @@ import org.kuali.kfs.sys.service.ParameterService;
  * If the values in the System Parameter change, someone will need to also
  * update this test as well as the fixtures relevant to the change.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = UserNameFixture.parke)
 public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
 
     private RequisitionDocument requisitionDocument = null;

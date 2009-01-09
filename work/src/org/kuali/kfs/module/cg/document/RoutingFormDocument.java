@@ -27,7 +27,7 @@ import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.Budget;
-import org.kuali.kfs.module.cg.businessobject.Cfda;
+import org.kuali.kfs.module.cg.businessobject.CFDAX;
 import org.kuali.kfs.module.cg.businessobject.ContractGrantProposal;
 import org.kuali.kfs.module.cg.businessobject.Purpose;
 import org.kuali.kfs.module.cg.businessobject.ResearchTypeCode;
@@ -127,7 +127,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormStatus routingFormStatus;
     private Purpose purpose;
     private RoutingFormAgency routingFormAgency;
-    private Cfda cfda;
+    private CFDAX cfda;
     private List<RoutingFormResearchRisk> routingFormResearchRisks;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
@@ -1133,11 +1133,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormAgency = routingFormAgency;
     }
 
-    public Cfda getCfda() {
+    public CFDAX getCfda() {
         return cfda;
     }
 
-    public void setCfda(Cfda cfda) {
+    public void setCfda(CFDAX cfda) {
         this.cfda = cfda;
     }
 

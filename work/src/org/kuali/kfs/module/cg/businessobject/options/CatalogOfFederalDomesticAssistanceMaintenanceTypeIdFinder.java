@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.module.cg.businessobject.Cfda;
+import org.kuali.kfs.module.cg.businessobject.CFDAX;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -39,13 +39,13 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
     public List getKeyValues() {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(Cfda.class);
+        Collection codes = boService.findAll(CFDAX.class);
 
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            Cfda cfdaReference = (Cfda) iter.next();
+            CFDAX cfdaReference = (CFDAX) iter.next();
 
             if (!isDuplicateValue(labels, cfdaReference.getCfdaMaintenanceTypeId())) {
                 labels.add(new KeyLabelPair(cfdaReference.getCfdaMaintenanceTypeId(), cfdaReference.getCfdaMaintenanceTypeId()));

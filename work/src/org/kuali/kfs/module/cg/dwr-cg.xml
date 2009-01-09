@@ -41,7 +41,7 @@
             <param name="beanName" value="agencyService" />
             <include method="getByPrimaryId" />
         </create>
-        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.Cfda">
+        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.CFDAX">
             <param name="include" value="cfdaNumber,cfdaProgramTitleName" />
         </convert>
         <create creator="spring" javascript="CfdaService">

@@ -85,39 +85,65 @@
     <property name="required" value="false" />
   </bean>
   
-  <!-- Exported Workflow Properties -->
-
-  <!-- 
-  <bean id="CashControlDocument-workflowProperties" parent="CashControlDocument-workflowProperties-parentBean" />
-
-  <bean id="CashControlDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="lockboxNumber" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+<!-- Start - Workflow Attribute Beans -->  
+  <bean id="CashControlDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="CashControlDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" />
+  
+  <bean id="CashControlDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>chartOfAccountsCode</value>
+	   	</list>
+	</property>
   </bean>
-  -->
+
+  <bean id="CashControlDocument-SearchingTypeDefinition-organizationCode" parent="CashControlDocument-SearchingTypeDefinition-organizationCode-parentBean" />
+  
+  <bean id="CashControlDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>organizationCode</value>
+	   	</list>
+	</property>
+  </bean>   
+
+  <bean id="CashControlDocument-DocumentValuePathGroup" parent="CashControlDocument-DocumentValuePathGroup-parentBean" />
+  
+  <bean id="CashControlDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>chartOfAccountsCode</value>
+				<value>organizationCode</value>	    					
+			</list>
+		</property>
+  </bean>
+  
+  <bean id="RoutingType-CashControlDocument-Lockbox" parent="RoutingType-CashControlDocument-parentBean" />    			
+  <bean id="RoutingType-CashControlDocument-ElectronicPayment" parent="RoutingType-CashControlDocument-parentBean" />
+  
+  <bean id="RoutingType-CashControlDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-organizationCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="CashControlDocument-DocumentValuePathGroup" />    			
+    		</list>
+    	</property>
+    </bean>
+    
+  
   <bean id="CashControlDocument-workflowAttributes" parent="CashControlDocument-workflowAttributes-parentBean" />
 	
   <bean id="CashControlDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-		        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
-		        <property name="documentValues">
-		        	<list>
-		        		<value>chartOfAccountsCode</value>
-		        	</list>
-		        </property>
-    			</bean>
+    			<ref bean="CashControlDocument-SearchingTypeDefinition-chartOfAccountsCode" />
+    			<ref bean="CashControlDocument-SearchingTypeDefinition-organizationCode" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
@@ -127,45 +153,4 @@
     		</map>
     	</property>
   </bean>
-  
-  <bean id="RoutingType-CashControlDocument-Lockbox" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    				<property name="documentValues">
-	    				<list>
-	    					<value>chartOfAccountsCode</value>
-	    					<value>organizationCode</value>	    					
-	    				</list>
-    				</property>
-    			</bean>
-    		</list>
-    	</property>
-    </bean>
-    <bean id="RoutingType-CashControlDocument-ElectronicPayment" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    				<property name="documentValues">
-	    				<list>
-	    					<value>chartOfAccountsCode</value>
-	    					<value>organizationCode</value>	    					
-	    				</list>
-    				</property>
-    			</bean>
-    		</list>
-    	</property>
-    </bean>
-</beans>
+  </beans>

@@ -34,7 +34,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     private UniversityBudgetOfficeFunction universityBudgetOfficeFunction;
     private FederalFunction federalFunction;
-    private AICPAFunctionX aicpaFunction; // American Institute of Certified Public Accountants
+    private AICPAFunction aicpaFunction; // American Institute of Certified Public Accountants
 
     /**
      * Default no-arg constructor.
@@ -166,7 +166,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
     /**
      * @return Returns the aicpaFunction.
      */
-    public AICPAFunctionX getAicpaFunction() {
+    public AICPAFunction getAicpaFunction() {
         return aicpaFunction;
     }
 
@@ -174,7 +174,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
      * @param aicpaFunction The aicpaFunction to set.
      * @deprecated
      */
-    public void setAicpaFunction(AICPAFunctionX aicpaFunction) {
+    public void setAicpaFunction(AICPAFunction aicpaFunction) {
         this.aicpaFunction = aicpaFunction;
     }
 

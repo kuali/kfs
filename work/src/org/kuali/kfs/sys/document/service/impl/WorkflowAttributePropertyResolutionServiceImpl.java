@@ -57,6 +57,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         List<AttributeSet> qualifiers = new ArrayList<AttributeSet>();
         
         if (routingTypeDefinition != null) {
+            document.populateDocumentForRouting();
             for (DocumentValuePathGroup documentValuePathGroup : routingTypeDefinition.getDocumentValuePathGroups()) {
                 qualifiers.addAll(resolveDocumentValuePath(document, documentValuePathGroup));
             }
@@ -180,8 +181,10 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      */
     public List<SearchableAttributeValue> resolveSearchableAttributeValues(Document document, WorkflowAttributes workflowAttributes) {
         List<SearchableAttributeValue> valuesToIndex = new ArrayList<SearchableAttributeValue>();
-        for (SearchingTypeDefinition definition : workflowAttributes.getSearchingTypeDefinitions()) {
-            valuesToIndex.addAll(aardvarkValuesForSearchingTypeDefinition(document, definition));
+        if (workflowAttributes != null) {
+            for (SearchingTypeDefinition definition : workflowAttributes.getSearchingTypeDefinitions()) {
+                valuesToIndex.addAll(aardvarkValuesForSearchingTypeDefinition(document, definition));
+            }
         }
         return valuesToIndex;
     }

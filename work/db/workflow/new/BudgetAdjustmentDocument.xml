@@ -8,7 +8,7 @@
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Approval No Approval Split"/>
-          <split name="Approval No Approval Split" nextNode="Do More Nothing">
+          <split name="Approval No Approval Split">
             <branch name="ApprovalBranch">
               <requests name="Account" nextNode="OrganizationHierarchy"/>
               <requests name="OrganizationHierarchy" nextNode="SubFund"/>
@@ -20,7 +20,7 @@
             </branch>
             <join name="Join"/>
           </split>
-          <simple name="Do More Nothing"/>
+         
         </routePath>
       </routePaths>
 <routeNodes>
@@ -47,9 +47,7 @@
 <simple name="Do Nothing">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
-<simple name="Do More Nothing">
-<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-</simple>
+
 <join name="Join"/>
 </routeNodes>
 </documentType>

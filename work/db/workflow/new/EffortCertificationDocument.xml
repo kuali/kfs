@@ -11,7 +11,7 @@
           <requests name="ProjectManagement" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy" nextNode="Do Award Split"/>
-          <split name="Do Award Split" nextNode="Do Nothing">
+          <split name="Do Award Split" nextNode="Do Recreate Split">
             <branch name="EffortDistributionIsChangedBranch">
               <requests name="Award Workgroup" nextNode="Award Join"/>
             </branch>
@@ -20,8 +20,7 @@
             </branch>
             <join name="Award Join"/>
           </split>
-          <simple name="Do Nothing" nextNode="Do Recreate Split"/>
-          <split name="Do Recreate Split" nextNode="Do Nothing Again">
+          <split name="Do Recreate Split" >
             <branch name="RecreateWorkgroupBranch">
               <requests name="Recreate Workgroup" nextNode="Recreate Join"/>
             </branch>
@@ -30,7 +29,6 @@
             </branch>
             <join name="Recreate Join"/>
           </split>
-          <simple name="Do Nothing Again"/>
         </routePath>
       </routePaths>
 <routeNodes>
@@ -68,9 +66,6 @@
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <simple name="Recreate Do Nothing">
-<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-</simple>
-<simple name="Do Nothing Again">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <join name="Award Join"/>

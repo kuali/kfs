@@ -26,7 +26,7 @@
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
 <simple name="NoOp">
-<type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <join name="Join"/>
 <role name="NewUnorderedItems">

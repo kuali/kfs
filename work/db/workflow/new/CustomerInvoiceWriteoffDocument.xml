@@ -8,7 +8,7 @@
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="RequiresApproval"/>
-          <split name="RequiresApproval" nextNode="Do Nothing">
+          <split name="RequiresApproval">
             <branch name="True">
             	<requests name="Account" nextNode="Join"/>
             </branch>
@@ -17,7 +17,6 @@
             </branch>
             <join name="Join"/>
           </split>
-          <simple name="Do Nothing"/>
         </routePath>
       </routePaths>
 <routeNodes>

@@ -11,16 +11,16 @@
           <start name="AdHoc" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy"  nextNode="RetiredAssetTransferredExternally"/>
-					<split name="RetiredAssetTransferredExternally" nextNode="RetiredAssetSoldOrGifted">
+		  <split name="RetiredAssetTransferredExternally" nextNode="RetiredAssetSoldOrGifted">
 						<branch name="True">
 							<requests name="Manager"  nextNode="Join"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOp" nextNode="Join"/>
+							<simple name="NoOpExternal" nextNode="Join"/>
 						</branch>
 						<join name="Join"/>
-					</split>
-			<split name="RetiredAssetSoldOrGifted" nextNode="NoOp">
+		  </split>
+		  <split name="RetiredAssetSoldOrGifted">
 						<branch name="True">
 							<requests name="Purchasing" nextNode="Join"/>
 						</branch>
@@ -29,7 +29,6 @@
 						</branch>
 						<join name="Join"/>
 					</split>
-					<simple name="NoOp"/>		
         </routePath>
         
         
@@ -53,7 +52,10 @@
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
 <simple name="NoOp">
-<type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<simple name="NoOpExternal">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <join name="Join"/>
 </routeNodes>

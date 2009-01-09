@@ -42,6 +42,11 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         validateRequiredAttributesAgainstReceived(qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
+        // if no qualification is passed, then we have no basis to reject this
+        // (if a null is let through, then we get an NPE below) 
+        if ( qualification == null || qualification.isEmpty() || roleQualifier == null || roleQualifier.isEmpty() ) {
+            return true;
+        }
         String descendHierarchy = null;
         if (qualificationDeterminesDescendHierarchy) {
             descendHierarchy = qualification.get(KfsKimAttributes.DESCEND_HIERARCHY);

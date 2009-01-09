@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -29,6 +31,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -84,6 +87,9 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
+    CREDIT_MEMO_ONE_ACCOUNT(
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,CreditMemoAccount.class, 
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1),   
     REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT( new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 },
             new AccountingLineFixture[] { AccountingLineFixture.PURAP_LINE1 },
             new Integer[] {0} ),
@@ -240,6 +246,23 @@ public enum PurapAccountingServiceFixture {
     public PaymentRequestDocument generatePaymentRequestDocument_TwoItems() {
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_TWO_ITEM.createPaymentRequestDocument();
         return augmentPaymentRequestDocument(preq);
+    }
+    
+    
+    private VendorCreditMemoDocument augmentVendorCreditMemoDocument(VendorCreditMemoDocument vcm) {
+        List<PaymentRequestItem> augmentedItems = new TypedArrayList(CreditMemoItem.class);
+        for(PaymentRequestItem item : (List<PaymentRequestItem>)vcm.getItems()) {
+            item.setTotalAmount(this.totalAmount);
+            item.setSourceAccountingLines(purApAccountingLineList);        
+            augmentedItems.add(item);
+        }
+        vcm.setItems(augmentedItems);
+        return vcm;
+    }
+    
+    public VendorCreditMemoDocument generateVendorCreditMemoDocument_OneItem() {
+        VendorCreditMemoDocument vcm = CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
+        return augmentVendorCreditMemoDocument(vcm);
     }
 
     public KualiDecimal getTotalAmount() {

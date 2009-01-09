@@ -109,8 +109,8 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public Map getForcedLookupOptionalFields() {
         Map forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
 
-        forcedLookupOptionalFields.put(ArPropertyConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY, ArPropertyConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY + ";" + CustomerInvoiceItemCode.class.getName());
-        forcedLookupOptionalFields.put(ArPropertyConstants.CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY, ArPropertyConstants.UNIT_OF_MEASURE_PROPERTY + ";" + UnitOfMeasure.class.getName());
+        forcedLookupOptionalFields.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_CODE, ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_CODE + ";" + CustomerInvoiceItemCode.class.getName());
+        forcedLookupOptionalFields.put(ArPropertyConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE, ArPropertyConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE + ";" + UnitOfMeasure.class.getName());
 
         return forcedLookupOptionalFields;
     }

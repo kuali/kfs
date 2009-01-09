@@ -56,6 +56,9 @@ public class ArPropertyConstants {
 
         public static final String INVOICE_ITEM_UNIT_PRICE = "invoiceItemUnitPrice";
         public static final String INVOICE_ITEM_QUANTITY = "invoiceItemQuantity";
+        public static final String INVOICE_ITEM_SERVICE_DATE = "invoiceItemServiceDate";
+        public static final String INVOICE_ITEM_DESCRIPTION = "invoiceItemDescription";
+        public static final String INVOICE_ITEM_TAXABLE_INDICATOR = "taxableIndicator";
 
         public static final String PROCESSING_CHART_OF_ACCOUNT_CODE = "accountsReceivableDocumentHeader.processingChartOfAccountCode";
 
@@ -172,10 +175,5 @@ public class ArPropertyConstants {
         public static final String NON_INVOICED_LINE_AMOUNT = "nonInvoicedAddLine.financialDocumentLineAmount";
         public static final String UNAPPLIED_AMOUNT = "document.nonAppliedHolding";
     }
-
-    // CustomerInvoiceDocumentForm
-    public static final String CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY = "invoiceItemUnitOfMeasureCode";
-    public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";
-    public static final String CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY = "invoiceItemCode";
 
 }

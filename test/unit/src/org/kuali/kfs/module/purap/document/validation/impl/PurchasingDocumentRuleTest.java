@@ -15,22 +15,13 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
-import org.kuali.kfs.coa.businessobject.ObjectSubType;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.module.cab.businessobject.AssetTransactionType;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -42,7 +33,6 @@ import org.kuali.kfs.module.purap.fixture.DeliveryRequiredDateFixture;
 import org.kuali.kfs.module.purap.fixture.ItemFieldsFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
-import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
 import org.kuali.kfs.module.purap.fixture.RecurringPaymentBeginEndDatesFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCapitalAssetItemsFixture;
@@ -51,14 +41,14 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests
  * that test functionality that is common to all Purchasing documents.
  */
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = UserNameFixture.parke)
 public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
 
     PurchasingDocumentRuleBase rules;

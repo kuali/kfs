@@ -18,13 +18,15 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = parke)
 public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
@@ -71,9 +73,15 @@ public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
 
     @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
     public void testAmendmentValidate_InvalidUser() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
-        savePO(po);        
-        assertFalse(amendRule.processValidation(po));
+        try {
+            po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
+            savePO(po);        
+            assertFalse(amendRule.processValidation(po));
+            return;
+        } catch ( DocumentInitiationAuthorizationException ex ) {
+            // OK, rorenfro can't initiate PO documents
+        }
+        fail( GlobalVariables.getUserSession().getPrincipalName() + " should not have been able to initiate the PO document" );
     }
 }
 

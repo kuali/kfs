@@ -17,13 +17,11 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -35,8 +33,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
-import org.kuali.rice.kew.dto.GroupIdDTO;
-import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -44,7 +40,6 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 

@@ -15,23 +15,22 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.AmountsLimitsFixture;
 import org.kuali.kfs.module.purap.fixture.ItemAccountsFixture;
-import org.kuali.kfs.module.purap.fixture.ItemTypesFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = UserNameFixture.parke)
 public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderDocumentRule rule;

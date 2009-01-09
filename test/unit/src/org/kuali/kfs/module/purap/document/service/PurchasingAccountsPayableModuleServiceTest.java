@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,24 +31,21 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
 
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = parke)
 public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
     
-    @ConfigureContext(session = khuntley, shouldCommitTransactions=true)
-    public void testAddAssignedAssetNumbers() {
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
+    public void testAddAssignedAssetNumbers() throws Exception {
         Integer purchaseOrderNumber = null;
         PurchaseOrderDocumentTest documentTest = new PurchaseOrderDocumentTest();
-        try {
+
             PurchaseOrderDocument poDocument = documentTest.buildSimpleDocument();
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             poDocument.prepareForSave();       
             AccountingDocumentTestUtils.saveDocument(poDocument, documentService);
             PurchaseOrderDocument result = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocument.getDocumentNumber());
             purchaseOrderNumber = result.getPurapDocumentIdentifier();
-        } 
-        catch (Exception e) {
-            assertTrue(false);
-        }
+
         List<Long> assetNumbers = new ArrayList<Long>();
         assetNumbers.add(new Long("12345"));
         assetNumbers.add(new Long("12346"));
@@ -56,9 +53,7 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         String documentType = "AssetGlobalMaintenanceDocument";
         SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, assetNumbers, authorId, documentType);
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
-        if( po == null ) {
-            assertTrue(false);
-        }
+        assertNotNull("PO should not have been null",po);
         List<Note> boNotes = po.getBoNotes();
         boolean hasNote = false;
         for( Note note : boNotes ) {
@@ -67,26 +62,21 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
                 break;
             }
         }
-        assertTrue(hasNote);
+        assertTrue("note was missing from PO",hasNote);
     }
     
-    @ConfigureContext(session = khuntley, shouldCommitTransactions=true)
-    public void testGetPurchaseOrderInquiryUrl() {
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
+    public void testGetPurchaseOrderInquiryUrl() throws Exception {
         Integer purchaseOrderNumber = null;
         PurchaseOrderDocumentTest documentTest = new PurchaseOrderDocumentTest();
-        try {
             PurchaseOrderDocument poDocument = documentTest.buildSimpleDocument();
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             poDocument.prepareForSave();       
             AccountingDocumentTestUtils.saveDocument(poDocument, documentService);
             PurchaseOrderDocument result = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocument.getDocumentNumber());
             purchaseOrderNumber = result.getPurapDocumentIdentifier();
-        } 
-        catch (Exception e) {
-            assertTrue(false);
-        }
         String url = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getPurchaseOrderInquiryUrl(purchaseOrderNumber);
-        assertFalse(StringUtils.isEmpty(url));
+        assertFalse("url was empty",StringUtils.isEmpty(url));
     }
 }
 

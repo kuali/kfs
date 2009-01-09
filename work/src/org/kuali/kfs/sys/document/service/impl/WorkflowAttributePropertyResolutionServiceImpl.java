@@ -20,12 +20,12 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import org.apache.ojb.broker.metadata.FieldDescriptor;
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.SearchableAttributeDateTimeValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
@@ -74,7 +74,12 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
     protected List<AttributeSet> resolveDocumentValuePath(BusinessObject businessObject, DocumentValuePathGroup group) {
         List<AttributeSet> qualifiers;
         AttributeSet qualifier = new AttributeSet();
-        addPathValuesToQualifier(businessObject, group.getDocumentValues(), qualifier);
+        if (group.getDocumentValues() == null && group.getDocumentCollectionPath() == null) {
+            throw new IllegalStateException("A document value path group must have the documentValues property set, the documentCollectionPath property set, or both.");
+        }
+        if (group.getDocumentValues() != null) {
+            addPathValuesToQualifier(businessObject, group.getDocumentValues(), qualifier);
+        }
         if (group.getDocumentCollectionPath() != null) {
             qualifiers = resolveDocumentCollectionPath(businessObject, group.getDocumentCollectionPath());
             for (AttributeSet collectionElementQualifier : qualifiers) {
@@ -181,7 +186,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      */
     public List<SearchableAttributeValue> resolveSearchableAttributeValues(Document document, WorkflowAttributes workflowAttributes) {
         List<SearchableAttributeValue> valuesToIndex = new ArrayList<SearchableAttributeValue>();
-        if (workflowAttributes != null) {
+        if (workflowAttributes != null && workflowAttributes.getSearchingTypeDefinitions() != null) {
             for (SearchingTypeDefinition definition : workflowAttributes.getSearchingTypeDefinitions()) {
                 valuesToIndex.addAll(aardvarkValuesForSearchingTypeDefinition(document, definition));
             }
@@ -334,13 +339,9 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         final String tail = splitPath[1];
         
         if (object instanceof PersistableBusinessObject && tail != null) {
-            try {
+            FieldDescriptor fieldDescriptor = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(object.getClass()).getFieldDescriptorForPath(head);
+            if (fieldDescriptor != null) {
                 ((PersistableBusinessObject)object).refreshReferenceObject(head);
-            } catch (Exception e) {
-                //...and swallow it
-                // what's going on here?  Well, we refreshed a reference object without really knowing if it was a related object or not.
-                // And we got an exception.  Which means it wasn't.  But that's fine, because we can assume that a non-reference will safely return
-                // whichever child property we're asking of it.  And hence, we'll just ignore this exception
             }
         }
         final Object headValue = ObjectUtils.getPropertyValue(object, head);

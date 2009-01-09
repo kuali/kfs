@@ -541,7 +541,9 @@
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
     
-    <bean id="workflowAttributesPropertyResolutionService" class="org.kuali.kfs.sys.document.service.impl.WorkflowAttributePropertyResolutionServiceImpl" />
+    <bean id="workflowAttributesPropertyResolutionService" class="org.kuali.kfs.sys.document.service.impl.WorkflowAttributePropertyResolutionServiceImpl">
+    	<property name="persistenceStructureService"><ref bean="persistenceStructureService" /></property>
+    </bean>
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
 

@@ -24,8 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.ojb.broker.metadata.FieldDescriptor;
-import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.SearchableAttributeDateTimeValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
@@ -41,6 +39,7 @@ import org.kuali.rice.kns.datadictionary.RoutingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -48,6 +47,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * The default implementation of the WorkflowAttributePropertyResolutionServiceImpl
  */
 public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowAttributePropertyResolutionService {
+    private PersistenceStructureService persistenceStructureService;
 
     /**
      * Using the proper RoutingTypeDefinition for the current routing node of the document, aardvarks out the proper routing type qualifiers
@@ -339,8 +339,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         final String tail = splitPath[1];
         
         if (object instanceof PersistableBusinessObject && tail != null) {
-            FieldDescriptor fieldDescriptor = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(object.getClass()).getFieldDescriptorForPath(head);
-            if (fieldDescriptor != null) {
+            if (persistenceStructureService.hasReference(object.getClass(), head)) {
                 ((PersistableBusinessObject)object).refreshReferenceObject(head);
             }
         }
@@ -422,5 +421,21 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         } else {
             c.add(o);
         }
+    }
+
+    /**
+     * Gets the persistenceStructureService attribute. 
+     * @return Returns the persistenceStructureService.
+     */
+    public PersistenceStructureService getPersistenceStructureService() {
+        return persistenceStructureService;
+    }
+
+    /**
+     * Sets the persistenceStructureService attribute value.
+     * @param persistenceStructureService The persistenceStructureService to set.
+     */
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

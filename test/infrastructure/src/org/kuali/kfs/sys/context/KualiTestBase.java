@@ -79,12 +79,16 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         if (System.getProperty(SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES) != null) {
             Set<RelatesTo.JiraIssue> openOrInProgressOrReopened = JiraRelatedSuite.getMatchingIssues(getRelatedJiraIssues(), OPEN_OR_IN_PROGRESS_OR_REOPENED);
             if (!openOrInProgressOrReopened.isEmpty()) {
-                LOG.info("Skipping test '" + testName + "' because of JIRA issues open or in progress or reopened: " + openOrInProgressOrReopened);
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info("Skipping test '" + testName + "' because of JIRA issues open or in progress or reopened: " + openOrInProgressOrReopened);
+                }
                 return; // let this test method pass without running it
             }
         }
 
-        LOG.info("Entering test '" + testName + "'");
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Entering test '" + testName + "'");
+        }
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setMessageList(new ArrayList());
         ConfigureContext contextConfiguration = getMethod(getName()).getAnnotation(ConfigureContext.class) != null ? getMethod(getName()).getAnnotation(ConfigureContext.class) : getMethod("setUp").getAnnotation(ConfigureContext.class) != null ? getMethod("setUp").getAnnotation(ConfigureContext.class) : getClass().getAnnotation(ConfigureContext.class);
@@ -142,7 +146,9 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             }
             GlobalVariables.setUserSession(null);
             GlobalVariables.setErrorMap(new ErrorMap());
-            LOG.info("Leaving test '" + testName + "'");
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info("Leaving test '" + testName + "'");
+            }
         }
     }
 
@@ -192,6 +198,10 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         UserNameFixture sessionUser = contextConfiguration.session();
         if (sessionUser != UserNameFixture.NO_SESSION) {
             GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
+            org.kuali.rice.kew.web.session.UserSession.setAuthenticatedUser(
+                    new org.kuali.rice.kew.web.session.UserSession(
+                            GlobalVariables.getUserSession().getPrincipalId())
+                    );
         }
     }
 

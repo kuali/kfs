@@ -209,15 +209,23 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
     
     public boolean answerSplitNodeQuestion(String nodeName) {
-        Class<? extends Maintainable> maintainableClass = getNewMaintainableObject().getClass();
-        
-        FinancialSystemMaintainable fsMaintainable = null;
-        try {
-            fsMaintainable = (FinancialSystemMaintainable)maintainableClass.newInstance();
-        } catch (Exception e) {
-            
+        if (getNewMaintainableObject() instanceof FinancialSystemMaintainable) {
+            FinancialSystemMaintainable fsMaintainable = (FinancialSystemMaintainable)getNewMaintainableObject();
+
+            if (fsMaintainable == null) {
+                throw new UnsupportedOperationException("Cannot access Maintainable class to answer split node question");
+            }
+            return fsMaintainable.answerSplitNodeQuestion(nodeName);
+        } else if (getNewMaintainableObject() instanceof FinancialSystemGlobalMaintainable) {
+            FinancialSystemGlobalMaintainable fsMaintainable = (FinancialSystemGlobalMaintainable)getNewMaintainableObject();
+
+            if (fsMaintainable == null) {
+                throw new UnsupportedOperationException("Cannot access Maintainable class to answer split node question");
+            }
+            return fsMaintainable.answerSplitNodeQuestion(nodeName);
+        } else {
+            throw new UnsupportedOperationException("Maintainable for "+getNewMaintainableObject().getBoClass().getName()+" does not extend org.kuali.kfs.sys.document.FinancialSystemMaintainable nor org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable and therefore cannot answer split node question");
         }
-        return (fsMaintainable == null ? null :fsMaintainable.answerSplitNodeQuestion(nodeName));
     }
     
     /**

@@ -256,12 +256,8 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         PersonService personService = SpringContext.getBean(PersonService.class);
         
         String netID = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
-        Person person = null;
-        try {
-            person = personService.getPersonByPrincipalName(netID);
-        }catch (Exception e){
-            
-        }
+        Person person =  personService.getPersonByPrincipalName(netID);
+       
         String deptCode = person.getPrimaryDepartmentCode();
         String[] chartOrg = deptCode.split("-");
         return chartOrg;

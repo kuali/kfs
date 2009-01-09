@@ -236,7 +236,7 @@
         	</dd:routingAttributes>
         	<dd:documentValuePathGroup>
             	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
-                <dd:documentValue path="newMaintainableObject.businessObject.account.organizationCode"/>
+                <dd:documentValue path="newMaintainableObject.businessObject.organizationCode"/>
 	        </dd:documentValuePathGroup>
 		</dd:routingType>
 		<dd:routingType nodeName="Chart">

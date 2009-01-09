@@ -149,6 +149,7 @@
 	<property name="routingTypeDefinitions">
     		
     		<map>
+    			<entry key="Chart" value-ref="ObjectCodeMaintenanceDocument-RoutingType-Chart" />
     			<entry key="OrganizationHierarchy" value-ref="ObjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" />
     		</map>
     	
@@ -175,6 +176,14 @@
     	</property>
    	</bean>
    	
+   	<bean id="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    		</list>
+    	</property>
+   	</bean>
+   	
    	<bean id="ObjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -188,6 +197,20 @@
     		</list>
     	</property>
     </bean>
+    
+    <bean id="ObjectCodeMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="ObjectCodeMaintenanceDocument-RoutingAttribute-Chart" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-Chart" />
+    		</list>
+    	</property>
+    </bean>
+	
 
 	<!-- workflow attributes 
   	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes" parent="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" />

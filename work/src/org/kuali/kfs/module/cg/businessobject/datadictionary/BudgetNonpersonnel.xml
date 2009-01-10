@@ -270,7 +270,7 @@
   </bean>
   <bean id="BudgetNonpersonnel-nonpersonnelObjectCode" parent="BudgetNonpersonnel-nonpersonnelObjectCode-parentBean" />
 
-  <bean id="BudgetNonpersonnel-nonpersonnelObjectCode-parentBean" abstract="true" parent="NonpersonnelObjectCode-budgetNonpersonnelObjectCode">
+  <bean id="BudgetNonpersonnel-nonpersonnelObjectCode-parentBean" abstract="true" parent="NonPersonnelObjectCode-budgetNonpersonnelObjectCode">
     <property name="name" value="nonpersonnelObjectCode" />
     <property name="label" value="Nonpersonnel Object Code" />
     <property name="shortLabel" value="Nonpersonnel Object Code" />

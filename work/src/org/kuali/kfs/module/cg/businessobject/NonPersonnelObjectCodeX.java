@@ -24,17 +24,17 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  */
 
-public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implements Comparable, Inactivateable {
+public class NonPersonnelObjectCodeX extends PersistableBusinessObjectBase implements Comparable, Inactivateable {
     private static final long serialVersionUID = -5150973847161350622L;
 
     /**
      * Default no-arg constructor.
      */
-    public NonpersonnelObjectCode() {
+    public NonPersonnelObjectCodeX() {
         super();
     }
 
-    public NonpersonnelObjectCode(String nonpersonnelCategoryCode, String nonpersonnelSubCategoryCode) {
+    public NonPersonnelObjectCodeX(String nonpersonnelCategoryCode, String nonpersonnelSubCategoryCode) {
         super();
         this.budgetNonpersonnelCategoryCode = nonpersonnelCategoryCode;
         this.budgetNonpersonnelSubCategoryCode = nonpersonnelSubCategoryCode;
@@ -48,8 +48,8 @@ public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implem
     private String budgetNonpersonnelSubCategoryCode;
     private boolean active;
     private String budgetNonpersonnelObjectCode;
-    private NonpersonnelCategory nonpersonnelCategory;
-    private NonpersonnelSubCategory nonpersonnelSubCategory;
+    private NonPersonnelCategoryX nonpersonnelCategory;
+    private NonPersonnelSubCategoryX nonpersonnelSubCategory;
 
     /**
      * @param o
@@ -110,33 +110,33 @@ public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implem
     /**
      * @return Returns the nonpersonelCategory.
      */
-    public NonpersonnelCategory getNonpersonnelCategory() {
+    public NonPersonnelCategoryX getNonpersonnelCategory() {
         return nonpersonnelCategory;
     }
 
     /**
      * @param nonpersonelCategory The nonpersonelCategory to set.
      */
-    public void setNonpersonnelCategory(NonpersonnelCategory nonpersonnelCategory) {
+    public void setNonpersonnelCategory(NonPersonnelCategoryX nonpersonnelCategory) {
         this.nonpersonnelCategory = nonpersonnelCategory;
     }
 
     /**
      * @return Returns the nonpersonnelSubCategory.
      */
-    public NonpersonnelSubCategory getNonpersonnelSubCategory() {
+    public NonPersonnelSubCategoryX getNonpersonnelSubCategory() {
         return nonpersonnelSubCategory;
     }
 
     /**
      * @param nonpersonnelSubCategory The nonpersonnelSubCategory to set.
      */
-    public void setNonpersonnelSubCategory(NonpersonnelSubCategory nonpersonnelSubCategory) {
+    public void setNonpersonnelSubCategory(NonPersonnelSubCategoryX nonpersonnelSubCategory) {
         this.nonpersonnelSubCategory = nonpersonnelSubCategory;
     }
 
     public int compareTo(Object o) {
-        return this.getNonpersonnelSubCategory().compareTo(((NonpersonnelObjectCode) o).getNonpersonnelSubCategory());
+        return this.getNonpersonnelSubCategory().compareTo(((NonPersonnelObjectCodeX) o).getNonpersonnelSubCategory());
     }
 
     /**

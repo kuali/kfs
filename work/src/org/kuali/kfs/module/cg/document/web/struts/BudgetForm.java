@@ -40,7 +40,7 @@ import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetTypeCode;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
-import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
+import org.kuali.kfs.module.cg.businessobject.NonPersonnelCategoryX;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
@@ -464,11 +464,11 @@ public class BudgetForm extends ResearchDocumentFormBase {
      * 
      * @return Returns the newNonpersonnel.
      */
-    public NonpersonnelCategory getNonpersonnelCategory(int index) {
+    public NonPersonnelCategoryX getNonpersonnelCategory(int index) {
         while (getNonpersonnelCategories().size() <= index) {
-            getNonpersonnelCategories().add(new NonpersonnelCategory());
+            getNonpersonnelCategories().add(new NonPersonnelCategoryX());
         }
-        return (NonpersonnelCategory) getNonpersonnelCategories().get(index);
+        return (NonPersonnelCategoryX) getNonpersonnelCategories().get(index);
     }
 
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {

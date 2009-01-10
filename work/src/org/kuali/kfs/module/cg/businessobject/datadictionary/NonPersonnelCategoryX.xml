@@ -4,24 +4,24 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="NonpersonnelCategory" parent="NonpersonnelCategory-parentBean" />
+  <bean id="NonPersonnelCategory" parent="NonPersonnelCategory-parentBean" />
 
-  <bean id="NonpersonnelCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory" />
+  <bean id="NonPersonnelCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonPersonnelCategoryX" />
     <property name="inquiryDefinition" >
-      <ref bean="NonpersonnelCategory-inquiryDefinition" />
+      <ref bean="NonPersonnelCategory-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="NonpersonnelCategory-lookupDefinition" />
+      <ref bean="NonPersonnelCategory-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="code" />
     <property name="objectLabel" value="Non-Personnel Category" />
     <property name="attributes" >
       <list>
-        <ref bean="NonpersonnelCategory-code" />
-        <ref bean="NonpersonnelCategory-active" />
-        <ref bean="NonpersonnelCategory-name" />
-        <ref bean="NonpersonnelCategory-sortNumber" />
+        <ref bean="NonPersonnelCategory-code" />
+        <ref bean="NonPersonnelCategory-active" />
+        <ref bean="NonPersonnelCategory-name" />
+        <ref bean="NonPersonnelCategory-sortNumber" />
       </list>
     </property>
   </bean>
@@ -29,9 +29,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="NonpersonnelCategory-code" parent="NonpersonnelCategory-code-parentBean" />
+  <bean id="NonPersonnelCategory-code" parent="NonPersonnelCategory-code-parentBean" />
 
-  <bean id="NonpersonnelCategory-code-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelCategory-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Nonpersonnel Category Code" />
@@ -49,14 +49,14 @@
     <property name="summary" value="Nonpersonnel Category Code" />
     <property name="description" value="Nonpersonnel Category Code" />
   </bean>
-  <bean id="NonpersonnelCategory-active" parent="NonpersonnelCategory-active-parentBean" />
+  <bean id="NonPersonnelCategory-active" parent="NonPersonnelCategory-active-parentBean" />
 
-  <bean id="NonpersonnelCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="NonPersonnelCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
-  <bean id="NonpersonnelCategory-name" parent="NonpersonnelCategory-name-parentBean" />
+  <bean id="NonPersonnelCategory-name" parent="NonPersonnelCategory-name-parentBean" />
 
-  <bean id="NonpersonnelCategory-name-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelCategory-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
     <property name="label" value="Nonpersonnel Category Name" />
     <property name="shortLabel" value="Name" />
@@ -73,9 +73,9 @@
     <property name="summary" value="Nonpersonnel Category Name" />
     <property name="description" value="The name of the Nonpersonnel Category." />
   </bean>
-  <bean id="NonpersonnelCategory-sortNumber" parent="NonpersonnelCategory-sortNumber-parentBean" />
+  <bean id="NonPersonnelCategory-sortNumber" parent="NonPersonnelCategory-sortNumber-parentBean" />
 
-  <bean id="NonpersonnelCategory-sortNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelCategory-sortNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sortNumber" />
     <property name="label" value="Nonpersonnel Category Sort Number" />
     <property name="shortLabel" value="Sort Number" />
@@ -94,9 +94,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="NonpersonnelCategory-inquiryDefinition" parent="NonpersonnelCategory-inquiryDefinition-parentBean" />
+  <bean id="NonPersonnelCategory-inquiryDefinition" parent="NonPersonnelCategory-inquiryDefinition-parentBean" />
 
-  <bean id="NonpersonnelCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="NonPersonnelCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Non-Personnel Category Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -123,9 +123,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="NonpersonnelCategory-lookupDefinition" parent="NonpersonnelCategory-lookupDefinition-parentBean" />
+  <bean id="NonPersonnelCategory-lookupDefinition" parent="NonPersonnelCategory-lookupDefinition-parentBean" />
 
-  <bean id="NonpersonnelCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="NonPersonnelCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Non-Personnel Category Lookup" />
     <property name="instructions" value="Lookup a Nonpersonnel Category" />
     <property name="defaultSort" >

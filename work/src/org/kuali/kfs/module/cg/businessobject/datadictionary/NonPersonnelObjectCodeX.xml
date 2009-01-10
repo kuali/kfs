@@ -4,25 +4,25 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="NonpersonnelObjectCode" parent="NonpersonnelObjectCode-parentBean" />
+  <bean id="NonPersonnelObjectCode" parent="NonPersonnelObjectCode-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode" />
+  <bean id="NonPersonnelObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCodeX" />
     <property name="inquiryDefinition" >
-      <ref bean="NonpersonnelObjectCode-inquiryDefinition" />
+      <ref bean="NonPersonnelObjectCode-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="NonpersonnelObjectCode-lookupDefinition" />
+      <ref bean="NonPersonnelObjectCode-lookupDefinition" />
     </property>
     <property name="objectLabel" value="Non-Personnel Object Code" />
     <property name="attributes" >
       <list>
-        <ref bean="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode" />
-        <ref bean="NonpersonnelObjectCode-nonpersonnelCategory.name" />
-        <ref bean="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode" />
-        <ref bean="NonpersonnelObjectCode-nonpersonnelSubCategory.name" />
-        <ref bean="NonpersonnelObjectCode-budgetNonpersonnelObjectCode" />
-        <ref bean="NonpersonnelObjectCode-active" />
+        <ref bean="NonPersonnelObjectCode-budgetNonpersonnelCategoryCode" />
+        <ref bean="NonPersonnelObjectCode-nonpersonnelCategory.name" />
+        <ref bean="NonPersonnelObjectCode-budgetNonpersonnelSubCategoryCode" />
+        <ref bean="NonPersonnelObjectCode-nonpersonnelSubCategory.name" />
+        <ref bean="NonPersonnelObjectCode-budgetNonpersonnelObjectCode" />
+        <ref bean="NonPersonnelObjectCode-active" />
       </list>
     </property>
   </bean>
@@ -30,32 +30,32 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode" parent="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode-parentBean" />
+  <bean id="NonPersonnelObjectCode-budgetNonpersonnelCategoryCode" parent="NonPersonnelObjectCode-budgetNonpersonnelCategoryCode-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode-parentBean" abstract="true" parent="NonpersonnelCategory-code">
+  <bean id="NonPersonnelObjectCode-budgetNonpersonnelCategoryCode-parentBean" abstract="true" parent="NonPersonnelCategory-code">
     <property name="name" value="budgetNonpersonnelCategoryCode" />
     <property name="forceUppercase" value="true" />
   </bean>
-  <bean id="NonpersonnelObjectCode-nonpersonnelCategory.name" parent="NonpersonnelObjectCode-nonpersonnelCategory.name-parentBean" />
+  <bean id="NonPersonnelObjectCode-nonpersonnelCategory.name" parent="NonPersonnelObjectCode-nonpersonnelCategory.name-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-nonpersonnelCategory.name-parentBean" abstract="true" parent="NonpersonnelCategory-name">
+  <bean id="NonPersonnelObjectCode-nonpersonnelCategory.name-parentBean" abstract="true" parent="NonPersonnelCategory-name">
     <property name="name" value="nonpersonnelCategory.name" />
   </bean>
-  <bean id="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode" parent="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" >
+  <bean id="NonPersonnelObjectCode-budgetNonpersonnelSubCategoryCode" parent="NonPersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" >
   	<property name="forceUppercase" value="true" />
   </bean>
 
-  <bean id="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" abstract="true" parent="NonpersonnelSubCategory-code">
+  <bean id="NonPersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" abstract="true" parent="NonPersonnelSubCategory-code">
     <property name="name" value="budgetNonpersonnelSubCategoryCode" />
   </bean>
-  <bean id="NonpersonnelObjectCode-nonpersonnelSubCategory.name" parent="NonpersonnelObjectCode-nonpersonnelSubCategory.name-parentBean" />
+  <bean id="NonPersonnelObjectCode-nonpersonnelSubCategory.name" parent="NonPersonnelObjectCode-nonpersonnelSubCategory.name-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-nonpersonnelSubCategory.name-parentBean" abstract="true" parent="NonpersonnelSubCategory-name">
+  <bean id="NonPersonnelObjectCode-nonpersonnelSubCategory.name-parentBean" abstract="true" parent="NonPersonnelSubCategory-name">
     <property name="name" value="nonpersonnelSubCategory.name" />
   </bean>
-  <bean id="NonpersonnelObjectCode-budgetNonpersonnelObjectCode" parent="NonpersonnelObjectCode-budgetNonpersonnelObjectCode-parentBean" />
+  <bean id="NonPersonnelObjectCode-budgetNonpersonnelObjectCode" parent="NonPersonnelObjectCode-budgetNonpersonnelObjectCode-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-budgetNonpersonnelObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelObjectCode-budgetNonpersonnelObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetNonpersonnelObjectCode" />
     <property name="label" value="Object Code" />
     <property name="shortLabel" value="Obj Cd" />
@@ -72,18 +72,18 @@
     <property name="summary" value="Object Code" />
     <property name="description" value="The assigned object code." />
   </bean>
-  <bean id="NonpersonnelObjectCode-active" parent="NonpersonnelObjectCode-active-parentBean" />
+  <bean id="NonPersonnelObjectCode-active" parent="NonPersonnelObjectCode-active-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="NonPersonnelObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="NonpersonnelObjectCode-inquiryDefinition" parent="NonpersonnelObjectCode-inquiryDefinition-parentBean" />
+  <bean id="NonPersonnelObjectCode-inquiryDefinition" parent="NonPersonnelObjectCode-inquiryDefinition-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="NonPersonnelObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Non-Personnel Object Code Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -110,9 +110,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="NonpersonnelObjectCode-lookupDefinition" parent="NonpersonnelObjectCode-lookupDefinition-parentBean" />
+  <bean id="NonPersonnelObjectCode-lookupDefinition" parent="NonPersonnelObjectCode-lookupDefinition-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="NonPersonnelObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Non-Personnel Object Code Lookup" />
     <property name="instructions" value="Lookup a Nonpersonnel Object Code" />
     <property name="defaultSort" >

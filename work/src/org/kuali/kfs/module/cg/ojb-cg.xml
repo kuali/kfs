@@ -560,20 +560,20 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory" table="ER_NPRS_CTGRY_CD_T">
+<class-descriptor class="org.kuali.kfs.module.cg.businessobject.NonPersonnelCategoryX" table="ER_NPRS_CTGRY_CD_T">
     <field-descriptor name="code" column="BDGT_NPRS_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="name" column="BDGT_NPRS_CTGRY_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="sortNumber" column="BDGT_NPRS_SORT_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <collection-descriptor name="nonpersonnelObjectCodes" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="nonpersonnelObjectCodes" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCodeX" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="budgetNonpersonnelSubCategoryCode" />
         <inverse-foreignkey field-ref="code" field-id-ref="1" />
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory" table="ER_NPRS_SUB_CTGRY_CD_T">
+<class-descriptor class="org.kuali.kfs.module.cg.businessobject.NonPersonnelSubCategoryX" table="ER_NPRS_SUB_CTGRY_CD_T">
     <field-descriptor name="code" column="BDGT_NPRS_SUB_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="name" column="BDGT_NPRS_SUB_CTGRY_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="nonpersonnelMtdcExcludedIndicator" column="BDGT_NPRS_MTDC_EXCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
@@ -622,17 +622,17 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode" table="ER_NPRS_OBJ_CD_T">
+<class-descriptor class="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCodeX" table="ER_NPRS_OBJ_CD_T">
    <field-descriptor name="budgetNonpersonnelCategoryCode" column="BDGT_NPRS_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="budgetNonpersonnelSubCategoryCode" column="BDGT_NPRS_SUB_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="budgetNonpersonnelObjectCode" column="BDGT_NPRS_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="nonpersonnelCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="nonpersonnelCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonPersonnelCategoryX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetNonpersonnelCategoryCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonpersonnelSubCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="nonpersonnelSubCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonPersonnelSubCategoryX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetNonpersonnelSubCategoryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -836,7 +836,7 @@
     <field-descriptor name="subcontractorNumber" column="SBCNR_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="nonpersonnelObjectCode" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="nonpersonnelObjectCode" class-ref="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCodeX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetNonpersonnelCategoryCode" />
         <foreignkey field-ref="budgetNonpersonnelSubCategoryCode" />
     </reference-descriptor>

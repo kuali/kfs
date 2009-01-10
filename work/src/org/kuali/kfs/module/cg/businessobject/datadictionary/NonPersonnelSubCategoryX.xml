@@ -4,25 +4,25 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="NonpersonnelSubCategory" parent="NonpersonnelSubCategory-parentBean" />
+  <bean id="NonPersonnelSubCategory" parent="NonPersonnelSubCategory-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory" />
+  <bean id="NonPersonnelSubCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonPersonnelSubCategoryX" />
     <property name="inquiryDefinition" >
-      <ref bean="NonpersonnelSubCategory-inquiryDefinition" />
+      <ref bean="NonPersonnelSubCategory-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="NonpersonnelSubCategory-lookupDefinition" />
+      <ref bean="NonPersonnelSubCategory-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="code" />
     <property name="objectLabel" value="Non-Personnel Sub-Category" />
     <property name="attributes" >
       <list>
-        <ref bean="NonpersonnelSubCategory-code" />
-        <ref bean="NonpersonnelSubCategory-active" />
-        <ref bean="NonpersonnelSubCategory-nonpersonnelMtdcExcludedIndicator" />
-        <ref bean="NonpersonnelSubCategory-nonpersonnelModularExcludedIndicator" />
-        <ref bean="NonpersonnelSubCategory-name" />
+        <ref bean="NonPersonnelSubCategory-code" />
+        <ref bean="NonPersonnelSubCategory-active" />
+        <ref bean="NonPersonnelSubCategory-nonpersonnelMtdcExcludedIndicator" />
+        <ref bean="NonPersonnelSubCategory-nonpersonnelModularExcludedIndicator" />
+        <ref bean="NonPersonnelSubCategory-name" />
       </list>
     </property>
   </bean>
@@ -30,9 +30,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="NonpersonnelSubCategory-code" parent="NonpersonnelSubCategory-code-parentBean" />
+  <bean id="NonPersonnelSubCategory-code" parent="NonPersonnelSubCategory-code-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-code-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelSubCategory-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Nonpersonnel Sub Category Code" />
@@ -49,14 +49,14 @@
     <property name="summary" value="Nonpersonnel Sub Category Code" />
     <property name="description" value="Nonpersonnel Sub Category Code" />
   </bean>
-  <bean id="NonpersonnelSubCategory-active" parent="NonpersonnelSubCategory-active-parentBean" />
+  <bean id="NonPersonnelSubCategory-active" parent="NonPersonnelSubCategory-active-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="NonPersonnelSubCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
-  <bean id="NonpersonnelSubCategory-nonpersonnelMtdcExcludedIndicator" parent="NonpersonnelSubCategory-nonpersonnelMtdcExcludedIndicator-parentBean" />
+  <bean id="NonPersonnelSubCategory-nonpersonnelMtdcExcludedIndicator" parent="NonPersonnelSubCategory-nonpersonnelMtdcExcludedIndicator-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-nonpersonnelMtdcExcludedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelSubCategory-nonpersonnelMtdcExcludedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nonpersonnelMtdcExcludedIndicator" />
     <property name="label" value="MTDC Excluded Indicator" />
     <property name="shortLabel" value="mtdc excluded" />
@@ -67,9 +67,9 @@
     <property name="summary" value="Excluded Indicator indicates whether an Nonpersonnel Sub Category is excluded from Indirect Cost Calculations." />
     <property name="description" value="This attribute is used to describe whether the associated Nonpersonnel Sub Category is excluded from Indirect Cost Calculations." />
   </bean>
-  <bean id="NonpersonnelSubCategory-nonpersonnelModularExcludedIndicator" parent="NonpersonnelSubCategory-nonpersonnelModularExcludedIndicator-parentBean" />
+  <bean id="NonPersonnelSubCategory-nonpersonnelModularExcludedIndicator" parent="NonPersonnelSubCategory-nonpersonnelModularExcludedIndicator-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-nonpersonnelModularExcludedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelSubCategory-nonpersonnelModularExcludedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nonpersonnelModularExcludedIndicator" />
     <property name="label" value="Modular Excluded Indicator" />
     <property name="shortLabel" value="Modular excluded" />
@@ -80,9 +80,9 @@
     <property name="summary" value="Excluded Indicator indicates whether an Nonpersonnel Sub Category is excluded from Direct Cost on Modular Budgets." />
     <property name="description" value="This attribute is used to describe whether the associated Nonpersonnel Sub Category is excluded from Direct Cost on Modular Budgets." />
   </bean>
-  <bean id="NonpersonnelSubCategory-name" parent="NonpersonnelSubCategory-name-parentBean" />
+  <bean id="NonPersonnelSubCategory-name" parent="NonPersonnelSubCategory-name-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-name-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonPersonnelSubCategory-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
     <property name="label" value="Nonpersonnel Sub Category Name" />
     <property name="shortLabel" value="Name" />
@@ -103,9 +103,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="NonpersonnelSubCategory-inquiryDefinition" parent="NonpersonnelSubCategory-inquiryDefinition-parentBean" />
+  <bean id="NonPersonnelSubCategory-inquiryDefinition" parent="NonPersonnelSubCategory-inquiryDefinition-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="NonPersonnelSubCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Non-Personnel Sub-Category Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -134,9 +134,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="NonpersonnelSubCategory-lookupDefinition" parent="NonpersonnelSubCategory-lookupDefinition-parentBean" />
+  <bean id="NonPersonnelSubCategory-lookupDefinition" parent="NonPersonnelSubCategory-lookupDefinition-parentBean" />
 
-  <bean id="NonpersonnelSubCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="NonPersonnelSubCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Non-Personnel Sub-Category Lookup" />
     <property name="instructions" value="Lookup a Nonpersonnel Sub Category" />
     <property name="defaultSort" >

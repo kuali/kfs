@@ -22,15 +22,15 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 /**
  * This class...
  */
-public class NonPersonnelSubCategoryX extends KualiCodeBase implements Comparable, Inactivateable {
+public class NonPersonnelSubCategory extends KualiCodeBase implements Comparable, Inactivateable {
 
     private static final long serialVersionUID = 992811943219411565L;
 
-    public NonPersonnelSubCategoryX() {
+    public NonPersonnelSubCategory() {
         super();
     }
 
-    public NonPersonnelSubCategoryX(String nonpersonnelSubCategoryCode) {
+    public NonPersonnelSubCategory(String nonpersonnelSubCategoryCode) {
         super();
         super.setCode(nonpersonnelSubCategoryCode);
     }
@@ -71,6 +71,6 @@ public class NonPersonnelSubCategoryX extends KualiCodeBase implements Comparabl
     }
 
     public int compareTo(Object o) {
-        return super.getName().compareTo(((NonPersonnelSubCategoryX) o).getName());
+        return super.getName().compareTo(((NonPersonnelSubCategory) o).getName());
     }
 }

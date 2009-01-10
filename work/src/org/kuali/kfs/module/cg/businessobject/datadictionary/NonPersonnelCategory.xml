@@ -7,7 +7,7 @@
   <bean id="NonPersonnelCategory" parent="NonPersonnelCategory-parentBean" />
 
   <bean id="NonPersonnelCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonPersonnelCategoryX" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonPersonnelCategory" />
     <property name="inquiryDefinition" >
       <ref bean="NonPersonnelCategory-inquiryDefinition" />
     </property>

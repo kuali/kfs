@@ -49,7 +49,7 @@ public class BudgetNonpersonnelTest extends KualiTestBase {
 
             budgetNonpersonnel.setBudgetNonpersonnelCategoryCode(nonpersonnelCategories[i]);
             budgetNonpersonnel.setBudgetNonpersonnelSubCategoryCode(subCategories[i]);
-            budgetNonpersonnel.setNonpersonnelObjectCode(new NonPersonnelObjectCodeX(nonpersonnelCategories[i], subCategories[i]));
+            budgetNonpersonnel.setNonpersonnelObjectCode(new NonPersonnelObjectCode(nonpersonnelCategories[i], subCategories[i]));
 
             budgetNonpersonnel.setCopyToFuturePeriods(false);
             budgetNonpersonnel.setAgencyCopyIndicator(false);

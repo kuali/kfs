@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
-import org.kuali.kfs.module.cg.businessobject.NonPersonnelCategoryX;
+import org.kuali.kfs.module.cg.businessobject.NonPersonnelCategory;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
@@ -61,7 +61,7 @@ public class BudgetNonpersonnelCopyOverFormHelper implements Serializable {
 
         // Build NonpersonnelCopyOverCategoryHelper for each category.
         for (Iterator nonpersonnelCategoryIter = nonpersonnelCategories.iterator(); nonpersonnelCategoryIter.hasNext();) {
-            NonPersonnelCategoryX nonpersonnelCategory = (NonPersonnelCategoryX) nonpersonnelCategoryIter.next();
+            NonPersonnelCategory nonpersonnelCategory = (NonPersonnelCategory) nonpersonnelCategoryIter.next();
 
             nonpersonnelCopyOverCategoryHelpers.put(nonpersonnelCategory.getCode(), new NonpersonnelCopyOverCategoryHelper(nonpersonnelCategory, budgetForm.getCurrentTaskNumber(), budgetForm.getBudgetDocument().getBudget().getPeriods(), budgetForm.getBudgetDocument().getBudget().getBudgetNonpersonnelInflationRate(), nonpersonnelItems));
         }
@@ -81,7 +81,7 @@ public class BudgetNonpersonnelCopyOverFormHelper implements Serializable {
 
         // iterate over each category
         for (Iterator nonpersonnelCategoryIter = nonpersonnelCategories.iterator(); nonpersonnelCategoryIter.hasNext();) {
-            NonPersonnelCategoryX nonpersonnelCategory = (NonPersonnelCategoryX) nonpersonnelCategoryIter.next();
+            NonPersonnelCategory nonpersonnelCategory = (NonPersonnelCategory) nonpersonnelCategoryIter.next();
 
             NonpersonnelCopyOverCategoryHelper nonpersonnelCopyOverCategoryHelper = (NonpersonnelCopyOverCategoryHelper) nonpersonnelCopyOverCategoryHelpers.get(nonpersonnelCategory.getCode());
             if (nonpersonnelCopyOverCategoryHelper != null) {
@@ -174,7 +174,7 @@ public class BudgetNonpersonnelCopyOverFormHelper implements Serializable {
          * @param nonpersonnelItems all nonpersonnel items, this method will pick the appropriate ones out, this needs to be ordered
          *        by sequence number.
          */
-        public NonpersonnelCopyOverCategoryHelper(NonPersonnelCategoryX nonpersonnelCategory, Integer currentTaskNumber, List periods, KualiDecimal budgetNonpersonnelInflationRate, List nonpersonnelItems) {
+        public NonpersonnelCopyOverCategoryHelper(NonPersonnelCategory nonpersonnelCategory, Integer currentTaskNumber, List periods, KualiDecimal budgetNonpersonnelInflationRate, List nonpersonnelItems) {
             this();
             this.setNonpersonnelCategoryCode(nonpersonnelCategory.getCode());
 

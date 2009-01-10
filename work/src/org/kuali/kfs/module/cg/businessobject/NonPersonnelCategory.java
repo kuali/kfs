@@ -26,7 +26,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * This is KRAs NonpersonnelCategory business object.
  */
-public class NonPersonnelCategoryX extends PersistableBusinessObjectBase implements Inactivateable {
+public class NonPersonnelCategory extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -908290558174256616L;
     private String code;
@@ -36,7 +36,7 @@ public class NonPersonnelCategoryX extends PersistableBusinessObjectBase impleme
 
     private List nonpersonnelObjectCodes;
 
-    public NonPersonnelCategoryX() {
+    public NonPersonnelCategory() {
         super();
         nonpersonnelObjectCodes = new ArrayList();
     }
@@ -65,7 +65,7 @@ public class NonPersonnelCategoryX extends PersistableBusinessObjectBase impleme
      * Constructs a NonpersonnelCategory.java.
      * @param nonpersonnelCategoryCode
      */
-    public NonPersonnelCategoryX(String nonpersonnelCategoryCode) {
+    public NonPersonnelCategory(String nonpersonnelCategoryCode) {
         this.setCode(nonpersonnelCategoryCode);
     }
 
@@ -136,7 +136,7 @@ public class NonPersonnelCategoryX extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the nonpersonnelObjectCodes.
      */
-    public List<NonPersonnelObjectCodeX> getNonpersonnelObjectCodes() {
+    public List<NonPersonnelObjectCode> getNonpersonnelObjectCodes() {
         return nonpersonnelObjectCodes;
     }
 
@@ -154,10 +154,10 @@ public class NonPersonnelCategoryX extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the newNonpersonnel.
      */
-    public NonPersonnelObjectCodeX getNonpersonnelObjectCode(int index) {
+    public NonPersonnelObjectCode getNonpersonnelObjectCode(int index) {
         while (getNonpersonnelObjectCodes().size() <= index) {
-            getNonpersonnelObjectCodes().add(new NonPersonnelObjectCodeX());
+            getNonpersonnelObjectCodes().add(new NonPersonnelObjectCode());
         }
-        return (NonPersonnelObjectCodeX) getNonpersonnelObjectCodes().get(index);
+        return (NonPersonnelObjectCode) getNonpersonnelObjectCodes().get(index);
     }
 }

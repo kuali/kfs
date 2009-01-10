@@ -34,7 +34,7 @@ import org.kuali.kfs.coa.businessobject.RestrictedStatus;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.module.cg.businessobject.AgencyType;
-import org.kuali.kfs.module.cg.businessobject.NonPersonnelSubCategoryX;
+import org.kuali.kfs.module.cg.businessobject.NonPersonnelSubCategory;
 import org.kuali.kfs.pdp.businessobject.AccountingChangeCode;
 import org.kuali.kfs.pdp.businessobject.AchTransactionCode;
 import org.kuali.kfs.pdp.businessobject.AchTransactionType;
@@ -66,7 +66,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         codeColumns.put(FederalFundedCode.class, "code");
         codeColumns.put(FundGroup.class, "code");
         codeColumns.put(MandatoryTransferEliminationCode.class, "code");
-        codeColumns.put(NonPersonnelSubCategoryX.class, "code");
+        codeColumns.put(NonPersonnelSubCategory.class, "code");
         codeColumns.put(ObjectCode.class, "financialObjectCode");
         codeColumns.put(ObjectType.class, "code");
         codeColumns.put(ObjectSubType.class, "code");
@@ -93,7 +93,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         nameColumns.put(FederalFundedCode.class, "name");
         nameColumns.put(FundGroup.class, "name");
         nameColumns.put(MandatoryTransferEliminationCode.class, "name");
-        nameColumns.put(NonPersonnelSubCategoryX.class, "name");
+        nameColumns.put(NonPersonnelSubCategory.class, "name");
         nameColumns.put(ObjectCode.class, "financialObjectCodeName");
         nameColumns.put(ObjectType.class, "name");
         nameColumns.put(ObjectSubType.class, "name");

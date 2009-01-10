@@ -57,7 +57,7 @@ public class BudgetNonpersonnel extends PersistableBusinessObjectBase implements
     private KualiInteger budgetThirdPartyCostShareAmountBackup;
     private KualiInteger budgetInstitutionCostShareAmountBackup;
 
-    private NonPersonnelObjectCodeX nonpersonnelObjectCode;
+    private NonPersonnelObjectCode nonpersonnelObjectCode;
 
     /**
      * Default no-arg constructor.
@@ -394,14 +394,14 @@ public class BudgetNonpersonnel extends PersistableBusinessObjectBase implements
     /**
      * o
      */
-    public void setNonpersonnelObjectCode(NonPersonnelObjectCodeX o) {
+    public void setNonpersonnelObjectCode(NonPersonnelObjectCode o) {
         nonpersonnelObjectCode = o;
     }
 
     /**
      * nonpersonnelObjectCode
      */
-    public NonPersonnelObjectCodeX getNonpersonnelObjectCode() {
+    public NonPersonnelObjectCode getNonpersonnelObjectCode() {
         return nonpersonnelObjectCode;
     }
 

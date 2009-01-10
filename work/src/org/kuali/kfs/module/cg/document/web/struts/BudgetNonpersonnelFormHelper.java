@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
-import org.kuali.kfs.module.cg.businessobject.NonPersonnelCategoryX;
+import org.kuali.kfs.module.cg.businessobject.NonPersonnelCategory;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -126,7 +126,7 @@ public class BudgetNonpersonnelFormHelper {
      */
     public void setupNonpersonnelCategories(List nonpersonnelCategories) {
         for (Iterator i = nonpersonnelCategories.iterator(); i.hasNext();) {
-            NonPersonnelCategoryX nonpersonnelCategory = (NonPersonnelCategoryX) i.next();
+            NonPersonnelCategory nonpersonnelCategory = (NonPersonnelCategory) i.next();
             if (nonpersonnelCategoryHelperMap.get(nonpersonnelCategory.getCode()) == null) {
                 nonpersonnelCategoryHelperMap.put(nonpersonnelCategory.getCode(), new NonpersonnelCategoryHelper(nonpersonnelCategory));
                 Collections.sort(nonpersonnelCategory.getNonpersonnelObjectCodes());
@@ -222,7 +222,7 @@ public class BudgetNonpersonnelFormHelper {
          * 
          * @param nonpersonnelCategory
          */
-        public NonpersonnelCategoryHelper(NonPersonnelCategoryX nonpersonnelCategory) {
+        public NonpersonnelCategoryHelper(NonPersonnelCategory nonpersonnelCategory) {
             this.setNonpersonnelCategoryCode(nonpersonnelCategory.getCode());
         }
 

@@ -7,7 +7,7 @@
   <bean id="NonPersonnelObjectCodeMaintenanceDocument" parent="NonPersonnelObjectCodeMaintenanceDocument-parentBean" />
 
   <bean id="NonPersonnelObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCodeX" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCode" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -35,7 +35,7 @@
     <property name="summary" value="Object Code maintenance document" />
     <property name="description" value="Document used to create or update Object Code objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCodeX" p:parameterName="NONPERSONNEL_OBJECT_CODE" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCode" p:parameterName="NONPERSONNEL_OBJECT_CODE" />
     </property>
     <property name="documentTypeName" value="NonPersonnelObjectCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

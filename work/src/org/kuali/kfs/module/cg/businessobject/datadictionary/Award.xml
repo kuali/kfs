@@ -229,7 +229,7 @@
   </bean>
   <bean id="Award-awardSubcontractors.subcontractor.subcontractorNumber" parent="Award-awardSubcontractors.subcontractor.subcontractorNumber-parentBean" />
 
-  <bean id="Award-awardSubcontractors.subcontractor.subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+  <bean id="Award-awardSubcontractors.subcontractor.subcontractorNumber-parentBean" abstract="true" parent="SubContractor-subcontractorNumber">
     <property name="name" value="awardSubcontractors.subcontractor.subcontractorNumber" />
     <property name="shortLabel" value="Subcontr Num" />
   </bean>

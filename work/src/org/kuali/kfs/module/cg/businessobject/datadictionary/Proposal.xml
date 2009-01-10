@@ -184,7 +184,7 @@
   </bean>
   <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" parent="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean" />
 
-  <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+  <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean" abstract="true" parent="SubContractor-subcontractorNumber">
     <property name="name" value="proposalSubcontractors.subcontractor.subcontractorNumber" />
     <property name="shortLabel" value="Subcontr Num" />
   </bean>

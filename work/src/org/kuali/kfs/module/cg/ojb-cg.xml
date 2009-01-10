@@ -83,7 +83,7 @@
  SUBCONTRACTOR
 
 -->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Subcontractor" table="CG_SUBCNR_T">
+<class-descriptor class="org.kuali.kfs.module.cg.businessobject.SubContractorX" table="CG_SUBCNR_T">
     <field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -303,7 +303,7 @@
     <field-descriptor name="proposalSubcontractorAmount" column="CGPRPSL_SUBCN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="proposalSubcontractorDescription" column="CGPRPSL_SUBCN_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.SubContractorX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="subcontractorNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -555,7 +555,7 @@
     <field-descriptor name="subcontractorAuditHistoryText" column="SUBCN_AUDTHIST_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="awardSubcontractorDescription" column="CGAWD_SUBCN_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.SubContractorX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="subcontractorNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -1379,7 +1379,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="routingFormSubcontractorAmount" column="RF_SBCNR_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="routingFormSubcontractorNumber" column="RF_SBCNR_NBR" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	<reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.SubContractorX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="routingFormSubcontractorNumber" />
 	</reference-descriptor>
 </class-descriptor>

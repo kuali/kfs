@@ -41,7 +41,7 @@
   	<property name="forceUppercase" value="true" />
   </bean>
 
-  <bean id="ProposalSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+  <bean id="ProposalSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="SubContractor-subcontractorNumber">
   </bean>
   <bean id="ProposalSubcontractor-proposalSubcontractorAmount" parent="ProposalSubcontractor-proposalSubcontractorAmount-parentBean" />
 
@@ -85,7 +85,7 @@
   </bean>
   <bean id="ProposalSubcontractor-subcontractor.subcontractorName" parent="ProposalSubcontractor-subcontractor.subcontractorName-parentBean" />
 
-  <bean id="ProposalSubcontractor-subcontractor.subcontractorName-parentBean" abstract="true" parent="Subcontractor-subcontractorName">
+  <bean id="ProposalSubcontractor-subcontractor.subcontractorName-parentBean" abstract="true" parent="SubContractor-subcontractorName">
     <property name="name" value="subcontractor.subcontractorName" />
     <property name="label" value="Name" />
   </bean>

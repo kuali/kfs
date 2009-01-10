@@ -39,7 +39,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     private String awardSubcontractorDescription;
     private boolean active = true;
 
-    private Subcontractor subcontractor;
+    private SubContractorX subcontractor;
 
     /**
      * Default constructor.
@@ -221,7 +221,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
      * 
      * @return Returns the subcontractor.
      */
-    public Subcontractor getSubcontractor() {
+    public SubContractorX getSubcontractor() {
         return subcontractor;
     }
 
@@ -233,7 +233,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
      *             creation of the object and should not be changed.
      */
     @Deprecated
-    public void setSubcontractor(Subcontractor subcontractor) {
+    public void setSubcontractor(SubContractorX subcontractor) {
         this.subcontractor = subcontractor;
     }
 

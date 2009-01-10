@@ -26,7 +26,7 @@ import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
 
-public class PayeeACHAccountX extends PersistableBusinessObjectBase implements Inactivateable {
+public class PayeeACHAccount extends PersistableBusinessObjectBase implements Inactivateable {
 
     private KualiInteger achAccountGeneratedIdentifier;
     private String bankRoutingNumber;
@@ -49,7 +49,7 @@ public class PayeeACHAccountX extends PersistableBusinessObjectBase implements I
     /**
      * Default constructor.
      */
-    public PayeeACHAccountX() {
+    public PayeeACHAccount() {
 
     }
 

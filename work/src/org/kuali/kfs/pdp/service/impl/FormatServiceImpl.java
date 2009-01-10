@@ -36,7 +36,7 @@ import org.kuali.kfs.pdp.businessobject.DisbursementType;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccountX;
+import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.pdp.businessobject.PaymentChangeCode;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -323,7 +323,7 @@ public class FormatServiceImpl implements FormatService {
         }
 
         // determine whether payment should be ACH or Check
-        PayeeACHAccountX payeeAchAccount = null;
+        PayeeACHAccount payeeAchAccount = null;
         boolean isCheck = true;
         if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(paymentGroup.getPayeeIdTypeCd())) {
             if (StringUtils.isNotBlank(paymentGroup.getPayeeId()) && !paymentGroup.getPymtAttachment() && !paymentGroup.getProcessImmediate() && !paymentGroup.getPymtSpecialHandling() && (customer.getAchTransactionType() != null) && noNegativeDetails) {

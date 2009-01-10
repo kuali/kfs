@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccountX;
+import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 
 /**
  * Provides service methods for retrieving ACH information
@@ -30,5 +30,5 @@ public interface AchService {
      * @param achTransactionType ach transaction type for record
      * @return PayeeAchAccount
      */
-    public PayeeACHAccountX getAchInformation(String idType, String payeeId, String achTransactionType);
+    public PayeeACHAccount getAchInformation(String idType, String payeeId, String achTransactionType);
 }

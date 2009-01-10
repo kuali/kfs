@@ -17,16 +17,16 @@ package org.kuali.kfs.pdp.document.validation.impl;
 
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccountX;
+import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeAchAccountPreRules.class);
-    private PayeeACHAccountX newPayeeAchAccount;
+    private PayeeACHAccount newPayeeAchAccount;
 
     private void setupConvenienceObjects(MaintenanceDocument document) {
-        newPayeeAchAccount = (PayeeACHAccountX) document.getNewMaintainableObject().getBusinessObject();
+        newPayeeAchAccount = (PayeeACHAccount) document.getNewMaintainableObject().getBusinessObject();
     }
 
     protected boolean doCustomPreRules(MaintenanceDocument document) {

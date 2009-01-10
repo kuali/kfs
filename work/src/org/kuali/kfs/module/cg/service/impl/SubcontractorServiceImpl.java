@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.module.cg.businessobject.Subcontractor;
+import org.kuali.kfs.module.cg.businessobject.SubContractorX;
 import org.kuali.kfs.module.cg.service.SubcontractorService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -35,8 +35,8 @@ public class SubcontractorServiceImpl implements SubcontractorService {
      * @see org.kuali.kfs.module.cg.service.SubcontractorService#getByPrimaryId(String)
      */
     @Cached
-    public Subcontractor getByPrimaryId(String subcontractorNumber) {
-        return (Subcontractor) businessObjectService.findByPrimaryKey(Subcontractor.class, mapPrimaryKeys(subcontractorNumber));
+    public SubContractorX getByPrimaryId(String subcontractorNumber) {
+        return (SubContractorX) businessObjectService.findByPrimaryKey(SubContractorX.class, mapPrimaryKeys(subcontractorNumber));
     }
 
     private Map<String, Object> mapPrimaryKeys(String subcontractorNumber) {

@@ -44,12 +44,12 @@
   </bean>
   <bean id="AwardSubcontractor-subcontractorNumber" parent="AwardSubcontractor-subcontractorNumber-parentBean" />
 
-  <bean id="AwardSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+  <bean id="AwardSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="SubContractor-subcontractorNumber">
   	<property name="forceUppercase" value="true" />
   </bean>
   <bean id="AwardSubcontractor-subcontractor.subcontractorName" parent="AwardSubcontractor-subcontractor.subcontractorName-parentBean" />
 
-  <bean id="AwardSubcontractor-subcontractor.subcontractorName-parentBean" abstract="true" parent="Subcontractor-subcontractorName">
+  <bean id="AwardSubcontractor-subcontractor.subcontractorName-parentBean" abstract="true" parent="SubContractor-subcontractorName">
     <property name="name" value="subcontractor.subcontractorName" />
     <property name="label" value="Name" />
   </bean>

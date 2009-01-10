@@ -6,29 +6,29 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="Subcontractor" parent="Subcontractor-parentBean" />
+  <bean id="SubContractor" parent="SubContractor-parentBean" />
 
-  <bean id="Subcontractor-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Subcontractor" />
+  <bean id="SubContractor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.SubContractorX" />
     <property name="inquiryDefinition" >
-      <ref bean="Subcontractor-inquiryDefinition" />
+      <ref bean="SubContractor-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="Subcontractor-lookupDefinition" />
+      <ref bean="SubContractor-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="subcontractorNumber" />
     <property name="objectLabel" value="Sub-Contractor" />
     <property name="attributes" >
       <list>
-        <ref bean="Subcontractor-subcontractorNumber" />
-        <ref bean="Subcontractor-subcontractorName" />
-        <ref bean="Subcontractor-subcontractorAddressLine1" />
-        <ref bean="Subcontractor-subcontractorAddressLine2" />
-        <ref bean="Subcontractor-subcontractorCity" />
-        <ref bean="Subcontractor-subcontractorStateCode" />
-        <ref bean="Subcontractor-subcontractorZipCode" />
-        <ref bean="Subcontractor-subcontractorCountryCode" />
-        <ref bean="Subcontractor-active" />
+        <ref bean="SubContractor-subcontractorNumber" />
+        <ref bean="SubContractor-subcontractorName" />
+        <ref bean="SubContractor-subcontractorAddressLine1" />
+        <ref bean="SubContractor-subcontractorAddressLine2" />
+        <ref bean="SubContractor-subcontractorCity" />
+        <ref bean="SubContractor-subcontractorStateCode" />
+        <ref bean="SubContractor-subcontractorZipCode" />
+        <ref bean="SubContractor-subcontractorCountryCode" />
+        <ref bean="SubContractor-active" />
       </list>
     </property>
     <property name="relationships" >
@@ -47,9 +47,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="Subcontractor-subcontractorNumber" parent="Subcontractor-subcontractorNumber-parentBean" />
+  <bean id="SubContractor-subcontractorNumber" parent="SubContractor-subcontractorNumber-parentBean" />
 
-  <bean id="Subcontractor-subcontractorNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubContractor-subcontractorNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Subcontractor Number" />
@@ -63,9 +63,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="7" />
     </property>
   </bean>
-  <bean id="Subcontractor-subcontractorName" parent="Subcontractor-subcontractorName-parentBean" />
+  <bean id="SubContractor-subcontractorName" parent="SubContractor-subcontractorName-parentBean" />
 
-  <bean id="Subcontractor-subcontractorName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubContractor-subcontractorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorName" />
     <property name="label" value="Subcontractor Name" />
     <property name="shortLabel" value="Name" />
@@ -80,9 +80,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="50" />
     </property>
   </bean>
-  <bean id="Subcontractor-subcontractorAddressLine1" parent="Subcontractor-subcontractorAddressLine1-parentBean" />
+  <bean id="SubContractor-subcontractorAddressLine1" parent="SubContractor-subcontractorAddressLine1-parentBean" />
 
-  <bean id="Subcontractor-subcontractorAddressLine1-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubContractor-subcontractorAddressLine1-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorAddressLine1" />
     <property name="label" value="Address Line 1" />
     <property name="shortLabel" value="Address1" />
@@ -97,9 +97,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="25" />
     </property>
   </bean>
-  <bean id="Subcontractor-subcontractorAddressLine2" parent="Subcontractor-subcontractorAddressLine2-parentBean" />
+  <bean id="SubContractor-subcontractorAddressLine2" parent="SubContractor-subcontractorAddressLine2-parentBean" />
 
-  <bean id="Subcontractor-subcontractorAddressLine2-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubContractor-subcontractorAddressLine2-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorAddressLine2" />
     <property name="label" value="Address Line 2" />
     <property name="shortLabel" value="Address2" />
@@ -113,9 +113,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="20" />
     </property>
   </bean>
-  <bean id="Subcontractor-subcontractorCity" parent="Subcontractor-subcontractorCity-parentBean" />
+  <bean id="SubContractor-subcontractorCity" parent="SubContractor-subcontractorCity-parentBean" />
 
-  <bean id="Subcontractor-subcontractorCity-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubContractor-subcontractorCity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subcontractorCity" />
     <property name="label" value="Subcontractor City" />
     <property name="shortLabel" value="City" />
@@ -130,35 +130,35 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="20" />
     </property>
   </bean>
-  <bean id="Subcontractor-subcontractorStateCode" parent="Subcontractor-subcontractorStateCode-parentBean" />
+  <bean id="SubContractor-subcontractorStateCode" parent="SubContractor-subcontractorStateCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="SubContractor-subcontractorStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="subcontractorStateCode" />
     <property name="label" value="State Code" />
     <property name="shortLabel" value="State" />
   </bean>
-  <bean id="Subcontractor-subcontractorZipCode" parent="Subcontractor-subcontractorZipCode-parentBean" />
+  <bean id="SubContractor-subcontractorZipCode" parent="SubContractor-subcontractorZipCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="SubContractor-subcontractorZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="subcontractorZipCode" />
     <property name="required" value="true" />
   </bean>
-  <bean id="Subcontractor-subcontractorCountryCode" parent="Subcontractor-subcontractorCountryCode-parentBean" />
+  <bean id="SubContractor-subcontractorCountryCode" parent="SubContractor-subcontractorCountryCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="SubContractor-subcontractorCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="subcontractorCountryCode" />
     <property name="shortLabel" value="Country" />
     <property name="maxLength" value="15" />
   </bean>
-  <bean id="Subcontractor-active" parent="Subcontractor-active-parentBean" />
+  <bean id="SubContractor-active" parent="SubContractor-active-parentBean" />
 
-  <bean id="Subcontractor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="SubContractor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
     <property name="shortLabel" value="Active" />
   </bean>
@@ -166,9 +166,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Subcontractor-inquiryDefinition" parent="Subcontractor-inquiryDefinition-parentBean" />
+  <bean id="SubContractor-inquiryDefinition" parent="SubContractor-inquiryDefinition-parentBean" />
 
-  <bean id="Subcontractor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="SubContractor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Sub-Contractor Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -205,9 +205,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Subcontractor-lookupDefinition" parent="Subcontractor-lookupDefinition-parentBean" />
+  <bean id="SubContractor-lookupDefinition" parent="SubContractor-lookupDefinition-parentBean" />
 
-  <bean id="Subcontractor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="SubContractor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Sub-Contractor Lookup" />
     <property name="instructions" value="Lookup an Subcontractor" />
     <property name="defaultSort" >

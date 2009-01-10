@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.PayeeACHAccountX;
+import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -33,10 +33,10 @@ import org.kuali.rice.kns.util.KualiInteger;
  * Performs business rules for the Payee ACH Account maintenance document
  */
 public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeACHAccountX.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeACHAccount.class);
 
-    private PayeeACHAccountX oldPayeeAchAccount;
-    private PayeeACHAccountX newPayeeAchAccount;
+    private PayeeACHAccount oldPayeeAchAccount;
+    private PayeeACHAccount newPayeeAchAccount;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
@@ -45,10 +45,10 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("setupConvenienceObjects called");
 
         // setup oldPayeeAchAccount convenience objects, make sure all possible sub-objects are populated
-        oldPayeeAchAccount = (PayeeACHAccountX) super.getOldBo();
+        oldPayeeAchAccount = (PayeeACHAccount) super.getOldBo();
 
         // setup newPayeeAchAccount convenience objects, make sure all possible sub-objects are populated
-        newPayeeAchAccount = (PayeeACHAccountX) super.getNewBo();
+        newPayeeAchAccount = (PayeeACHAccount) super.getNewBo();
     }
 
     /**
@@ -151,7 +151,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         criteria.put(PdpPropertyConstants.ACH_TRANSACTION_TYPE, newAchTransactionType);
         criteria.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, newPayeeIdTypeCd);
 
-        int matches = SpringContext.getBean(BusinessObjectService.class).countMatching(PayeeACHAccountX.class, criteria);
+        int matches = SpringContext.getBean(BusinessObjectService.class).countMatching(PayeeACHAccount.class, criteria);
         if (matches > 0) {
             putFieldError(identifierField, KFSKeyConstants.ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_DUPLICATE_RECORD);
             valid = false;

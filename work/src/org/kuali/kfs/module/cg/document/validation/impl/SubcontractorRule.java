@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.cg.businessobject.Subcontractor;
+import org.kuali.kfs.module.cg.businessobject.SubContractorX;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
@@ -36,7 +36,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
-    private Subcontractor newSubcontractor;
+    private SubContractorX newSubcontractor;
 
     /**
      * This method has been overridden to add some additional validation checks to the {@link Subcontractor} maintenance document.
@@ -51,7 +51,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
         success = super.validateMaintenanceDocument(maintenanceDocument);
 
-        newSubcontractor = (Subcontractor) super.getNewBo();
+        newSubcontractor = (SubContractorX) super.getNewBo();
         success &= validateCountryCode(newSubcontractor.getSubcontractorCountryCode());
         success &= validateStateCode(newSubcontractor.getSubcontractorCountryCode(), newSubcontractor.getSubcontractorStateCode());
 

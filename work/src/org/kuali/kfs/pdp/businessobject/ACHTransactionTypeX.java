@@ -21,13 +21,14 @@ import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class AchTransactionCode extends KualiCodeBase {
+public class ACHTransactionTypeX extends KualiCodeBase {
     
     /**
-     * Constructs a AchTransactionCode.java.
+     * Constructs a AchTransactionType.java.
      */
-    public AchTransactionCode() {
+    public ACHTransactionTypeX() {
         super();
     }
+
 
 }

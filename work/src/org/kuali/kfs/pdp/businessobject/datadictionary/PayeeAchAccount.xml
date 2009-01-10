@@ -198,13 +198,13 @@
 
   <bean id="PayeeAchAccount-achTransactionType" parent="PayeeAchAccount-achTransactionType-parentBean" />
 
-  <bean id="PayeeAchAccount-achTransactionType-parentBean" abstract="true" parent="AchTransactionType-code-parentBean">
+  <bean id="PayeeAchAccount-achTransactionType-parentBean" abstract="true" parent="ACHTransactionType-code-parentBean">
     <property name="name" value="achTransactionType" />
   </bean>
   
   <bean id="PayeeAchAccount-bankRoutingNumber" parent="PayeeAchAccount-bankRoutingNumber-parentBean" />
 
-  <bean id="PayeeAchAccount-bankRoutingNumber-parentBean" abstract="true" parent="AchBank-bankRoutingNumber">
+  <bean id="PayeeAchAccount-bankRoutingNumber-parentBean" abstract="true" parent="ACHBank-bankRoutingNumber">
   </bean>
   <bean id="PayeeAchAccount-vendorHeaderGeneratedIdentifier" parent="PayeeAchAccount-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -265,7 +265,7 @@
   
   <bean id="PayeeAchAccount-bankRouting.bankName" parent="PayeeAchAccount-bankRouting.bankName-parentBean" />
 
-  <bean id="PayeeAchAccount-bankRouting.bankName-parentBean" abstract="true" parent="AchBank-bankName">
+  <bean id="PayeeAchAccount-bankRouting.bankName-parentBean" abstract="true" parent="ACHBank-bankName">
     <property name="name" value="bankRouting.bankName" />
     <property name="required" value="false" />
   </bean>

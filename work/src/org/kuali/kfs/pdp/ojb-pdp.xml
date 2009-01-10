@@ -29,14 +29,14 @@
   	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
   </class-descriptor>
   
-  <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchTransactionCode" table="PDP_ACH_TRANS_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.ACHTransactionCodeX" table="PDP_ACH_TRANS_CD_T">
     <field-descriptor name="code" column="TRANS_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="name" column="TRANS_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
  
-   <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchTransactionType" table="PDP_ACH_TRANS_TYP_T">
+   <class-descriptor class="org.kuali.kfs.pdp.businessobject.ACHTransactionTypeX" table="PDP_ACH_TRANS_TYP_T">
     <field-descriptor name="code" column="TRANS_TYP" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="name" column="TRANS_TYP_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -164,7 +164,7 @@
 		<foreignkey field-ref="defaultSubObjectCode" />
 	</reference-descriptor>
 	
-    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.AchTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.ACHTransactionTypeX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="achTransactionType" />
 	</reference-descriptor>
 	
@@ -574,7 +574,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.pdp.businessobject.AchBank" table="PDP_ACH_BNK_T">
+<class-descriptor class="org.kuali.kfs.pdp.businessobject.ACHBankX" table="PDP_ACH_BNK_T">
 	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -611,7 +611,7 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.ACHBankX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="bankRoutingNumber" />
 	</reference-descriptor>
 
@@ -620,7 +620,7 @@
 		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
 	</reference-descriptor>
 	
-    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.AchTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.ACHTransactionTypeX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="achTransactionType" />
 	</reference-descriptor>
 </class-descriptor>

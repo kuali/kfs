@@ -4,21 +4,21 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AchTransactionCode" parent="AchTransactionCode-parentBean" />
+  <bean id="ACHTransactionCode" parent="ACHTransactionCode-parentBean" />
 
-  <bean id="AchTransactionCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AchTransactionCode" />
+  <bean id="ACHTransactionCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHTransactionCodeX" />
     <property name="inquiryDefinition" >
-      <ref bean="AchTransactionCode-inquiryDefinition" />
+      <ref bean="ACHTransactionCode-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="AchTransactionCode-lookupDefinition" />
+      <ref bean="ACHTransactionCode-lookupDefinition" />
     </property>
     <property name="objectLabel" value="ACH Transaction Code" />
     <property name="attributes" >
       <list>
-        <ref bean="AchTransactionCode-code" />
-        <ref bean="AchTransactionCode-name" />
+        <ref bean="ACHTransactionCode-code" />
+        <ref bean="ACHTransactionCode-name" />
       </list>
     </property>
   </bean>
@@ -26,9 +26,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AchTransactionCode-code" parent="AchTransactionCode-code-parentBean" />
+  <bean id="ACHTransactionCode-code" parent="ACHTransactionCode-code-parentBean" />
 
-  <bean id="AchTransactionCode-code-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHTransactionCode-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="ACH Transaction Code" />
@@ -40,9 +40,9 @@
             p:size="2" />
     </property>
   </bean>
-  <bean id="AchTransactionCode-name" parent="AchTransactionCode-name-parentBean" />
+  <bean id="ACHTransactionCode-name" parent="ACHTransactionCode-name-parentBean" />
 
-  <bean id="AchTransactionCode-name-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHTransactionCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
     <property name="label" value="ACH Transaction Code description" />
     <property name="shortLabel" value="ACH Transaction Code description" />
@@ -58,9 +58,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AchTransactionCode-inquiryDefinition" parent="AchTransactionCode-inquiryDefinition-parentBean" />
+  <bean id="ACHTransactionCode-inquiryDefinition" parent="ACHTransactionCode-inquiryDefinition-parentBean" />
 
-  <bean id="AchTransactionCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="ACHTransactionCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="ACH Transaction Code Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -81,9 +81,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AchTransactionCode-lookupDefinition" parent="AchTransactionCode-lookupDefinition-parentBean" />
+  <bean id="ACHTransactionCode-lookupDefinition" parent="ACHTransactionCode-lookupDefinition-parentBean" />
 
-  <bean id="AchTransactionCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="ACHTransactionCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="ACH Transaction Code Lookup" />
     <property name="instructions" value="Lookup an ACH Transaction Code" />
     <property name="defaultSort" >

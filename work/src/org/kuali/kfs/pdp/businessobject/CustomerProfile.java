@@ -108,7 +108,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private State state;
     private PostalCode postalCode;
     private Country country;
-    private AchTransactionType transactionType;
+    private ACHTransactionTypeX transactionType;
 
     private List<CustomerBank> customerBanks;
 
@@ -1052,7 +1052,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the transactionType.
      */
-    public AchTransactionType getTransactionType() {
+    public ACHTransactionTypeX getTransactionType() {
         return transactionType;
     }
 
@@ -1061,7 +1061,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @param transactionType The transactionType to set.
      */
-    public void setTransactionType(AchTransactionType transactionType) {
+    public void setTransactionType(ACHTransactionTypeX transactionType) {
         this.transactionType = transactionType;
     }
 

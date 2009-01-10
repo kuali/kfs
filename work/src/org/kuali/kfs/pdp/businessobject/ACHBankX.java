@@ -26,7 +26,7 @@ import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 
-public class AchBank extends PersistableBusinessObjectBase implements Inactivateable {
+public class ACHBankX extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String bankRoutingNumber;
     private String bankOfficeCode;
@@ -51,7 +51,7 @@ public class AchBank extends PersistableBusinessObjectBase implements Inactivate
     /**
      * Default constructor.
      */
-    public AchBank() {
+    public ACHBankX() {
 
     }
 
@@ -60,7 +60,7 @@ public class AchBank extends PersistableBusinessObjectBase implements Inactivate
      * 
      * @param fileData
      */
-    public AchBank(String fileData) {
+    public ACHBankX(String fileData) {
         // 074914274O0710003011020207000000000UNITED COMMERCE BANK 211 SOUTH COLLEGE AVENUE BLOOMINGTON IN474040000812336226511
         // Routing Number 9 1-9 The institution's routing number
         // Office Code 1 10 Main office or branch O=main B=branch

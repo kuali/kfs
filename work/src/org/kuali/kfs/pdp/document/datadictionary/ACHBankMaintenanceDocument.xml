@@ -10,7 +10,7 @@
   <bean id="ACHBankMaintenanceDocument" parent="ACHBankMaintenanceDocument-parentBean" />
 
   <bean id="ACHBankMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AchBank" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHBankX" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -37,7 +37,7 @@
     <property name="summary" value="Ach bank maintenance document" />
     <property name="description" value="Document used to create or update Ach Bank objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.pdp.businessobject.AchBank" p:parameterName="BANK" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.pdp.businessobject.ACHBankX" p:parameterName="BANK" />
     </property>
     <property name="documentTypeName" value="ACHBankMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.AchBankRule" />

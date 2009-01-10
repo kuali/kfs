@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import org.kuali.kfs.pdp.businessobject.AchBank;
+import org.kuali.kfs.pdp.businessobject.ACHBankX;
 
 public interface AchBankService {
 
@@ -33,5 +33,5 @@ public interface AchBankService {
      * @param bankRoutingNumber pk for AchBank
      * @return AchBank
      */
-    public AchBank getByPrimaryId(String bankRoutingNumber);
+    public ACHBankX getByPrimaryId(String bankRoutingNumber);
 }

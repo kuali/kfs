@@ -27,7 +27,7 @@ import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.batch.ExtractAchPaymentsStep;
 import org.kuali.kfs.pdp.batch.LoadPaymentsStep;
-import org.kuali.kfs.pdp.businessobject.AchBank;
+import org.kuali.kfs.pdp.businessobject.ACHBankX;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -436,7 +436,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         // get bank name to which the payment is being transferred
         String bankName = "";
 
-        AchBank achBank = achBankService.getByPrimaryId(paymentGroup.getAchBankRoutingNbr());
+        ACHBankX achBank = achBankService.getByPrimaryId(paymentGroup.getAchBankRoutingNbr());
         if (achBank == null) {
             LOG.error("Bank cound not be found for routing number " + paymentGroup.getAchBankRoutingNbr());
         }

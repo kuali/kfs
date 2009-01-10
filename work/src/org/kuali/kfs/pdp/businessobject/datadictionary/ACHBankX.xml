@@ -6,35 +6,35 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AchBank" parent="AchBank-parentBean" />
+  <bean id="ACHBank" parent="ACHBank-parentBean" />
 
-  <bean id="AchBank-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AchBank" />
+  <bean id="ACHBank-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHBankX" />
     <property name="inquiryDefinition" >
-      <ref bean="AchBank-inquiryDefinition" />
+      <ref bean="ACHBank-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="AchBank-lookupDefinition" />
+      <ref bean="ACHBank-lookupDefinition" />
     </property>
     <property name="objectLabel" value="Account Clearing House Bank" />
     <property name="attributes" >
       <list>
-        <ref bean="AchBank-bankRoutingNumber" />
-        <ref bean="AchBank-bankOfficeCode" />
-        <ref bean="AchBank-bankServiceNumber" />
-        <ref bean="AchBank-bankTypeCode" />
-        <ref bean="AchBank-bankNewRoutingNumber" />
-        <ref bean="AchBank-bankName" />
-        <ref bean="AchBank-bankStreetAddress" />
-        <ref bean="AchBank-bankCityName" />
-        <ref bean="AchBank-bankStateCode" />
-        <ref bean="AchBank-bankZipCode" />
-        <ref bean="AchBank-bankPhoneAreaCode" />
-        <ref bean="AchBank-bankPhonePrefixNumber" />
-        <ref bean="AchBank-bankPhoneSuffixNumber" />
-        <ref bean="AchBank-bankInstitutionStatusCode" />
-        <ref bean="AchBank-bankDataViewCode" />
-        <ref bean="AchBank-active" />
+        <ref bean="ACHBank-bankRoutingNumber" />
+        <ref bean="ACHBank-bankOfficeCode" />
+        <ref bean="ACHBank-bankServiceNumber" />
+        <ref bean="ACHBank-bankTypeCode" />
+        <ref bean="ACHBank-bankNewRoutingNumber" />
+        <ref bean="ACHBank-bankName" />
+        <ref bean="ACHBank-bankStreetAddress" />
+        <ref bean="ACHBank-bankCityName" />
+        <ref bean="ACHBank-bankStateCode" />
+        <ref bean="ACHBank-bankZipCode" />
+        <ref bean="ACHBank-bankPhoneAreaCode" />
+        <ref bean="ACHBank-bankPhonePrefixNumber" />
+        <ref bean="ACHBank-bankPhoneSuffixNumber" />
+        <ref bean="ACHBank-bankInstitutionStatusCode" />
+        <ref bean="ACHBank-bankDataViewCode" />
+        <ref bean="ACHBank-active" />
       </list>
     </property>
 	<property name="relationships" >
@@ -52,9 +52,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="AchBank-bankRoutingNumber" parent="AchBank-bankRoutingNumber-parentBean" />
+  <bean id="ACHBank-bankRoutingNumber" parent="ACHBank-bankRoutingNumber-parentBean" />
 
-  <bean id="AchBank-bankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankRoutingNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Routing Number" />
@@ -77,9 +77,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   		</bean>
   	</property>
   </bean>
-  <bean id="AchBank-bankOfficeCode" parent="AchBank-bankOfficeCode-parentBean" />
+  <bean id="ACHBank-bankOfficeCode" parent="ACHBank-bankOfficeCode-parentBean" />
 
-  <bean id="AchBank-bankOfficeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankOfficeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankOfficeCode" />
     <property name="label" value="Bank Office Code" />
     <property name="shortLabel" value="Office Code" />
@@ -93,9 +93,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="3" />
     </property>
   </bean>
-  <bean id="AchBank-bankServiceNumber" parent="AchBank-bankServiceNumber-parentBean" />
+  <bean id="ACHBank-bankServiceNumber" parent="ACHBank-bankServiceNumber-parentBean" />
 
-  <bean id="AchBank-bankServiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankServiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankServiceNumber" />
     <property name="label" value="Bank Service Number" />
     <property name="shortLabel" value="Bank Service Number" />
@@ -109,9 +109,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="9" />
     </property>
   </bean>
-  <bean id="AchBank-bankTypeCode" parent="AchBank-bankTypeCode-parentBean" />
+  <bean id="ACHBank-bankTypeCode" parent="ACHBank-bankTypeCode-parentBean" />
 
-  <bean id="AchBank-bankTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankTypeCode" />
     <property name="label" value="Record Type Code" />
     <property name="shortLabel" value="Record Type Code" />
@@ -125,9 +125,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="1" />
     </property>
   </bean>
-  <bean id="AchBank-bankNewRoutingNumber" parent="AchBank-bankNewRoutingNumber-parentBean" />
+  <bean id="ACHBank-bankNewRoutingNumber" parent="ACHBank-bankNewRoutingNumber-parentBean" />
 
-  <bean id="AchBank-bankNewRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankNewRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankNewRoutingNumber" />
     <property name="label" value="Bank New Routing Number" />
     <property name="shortLabel" value="Bank New Routing Number" />
@@ -141,9 +141,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="9" />
     </property>
   </bean>
-  <bean id="AchBank-bankName" parent="AchBank-bankName-parentBean" />
+  <bean id="ACHBank-bankName" parent="ACHBank-bankName-parentBean" />
 
-  <bean id="AchBank-bankName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankName" />
     <property name="label" value="Bank Name" />
     <property name="shortLabel" value="Bank Name" />
@@ -158,9 +158,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="38" />
     </property>
   </bean>
-  <bean id="AchBank-bankStreetAddress" parent="AchBank-bankStreetAddress-parentBean" />
+  <bean id="ACHBank-bankStreetAddress" parent="ACHBank-bankStreetAddress-parentBean" />
 
-  <bean id="AchBank-bankStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankStreetAddress" />
     <property name="label" value="Bank Street Address" />
     <property name="shortLabel" value="Bank Street Address" />
@@ -175,9 +175,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="38" />
     </property>
   </bean>
-  <bean id="AchBank-bankCityName" parent="AchBank-bankCityName-parentBean" />
+  <bean id="ACHBank-bankCityName" parent="ACHBank-bankCityName-parentBean" />
 
-  <bean id="AchBank-bankCityName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankCityName" />
     <property name="label" value="Bank City Name" />
     <property name="shortLabel" value="Bank City Name" />
@@ -192,16 +192,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="50" />
     </property>
   </bean>
-  <bean id="AchBank-bankStateCode" parent="AchBank-bankStateCode-parentBean" />
+  <bean id="ACHBank-bankStateCode" parent="ACHBank-bankStateCode-parentBean" />
 
-  <bean id="AchBank-bankStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="ACHBank-bankStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="bankStateCode" />
   </bean>
-  <bean id="AchBank-bankZipCode" parent="AchBank-bankZipCode-parentBean" />
+  <bean id="ACHBank-bankZipCode" parent="ACHBank-bankZipCode-parentBean" />
 
-  <bean id="AchBank-bankZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="ACHBank-bankZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="bankZipCode" />
@@ -218,9 +218,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
   
-  <bean id="AchBank-bankPhoneAreaCode" parent="AchBank-bankPhoneAreaCode-parentBean" />
+  <bean id="ACHBank-bankPhoneAreaCode" parent="ACHBank-bankPhoneAreaCode-parentBean" />
 
-  <bean id="AchBank-bankPhoneAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankPhoneAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankPhoneAreaCode" />
     <property name="label" value="Bank Phone Area Code" />
     <property name="shortLabel" value="Bank Phone Area Code" />
@@ -234,9 +234,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="3" />
     </property>
   </bean>
-  <bean id="AchBank-bankPhonePrefixNumber" parent="AchBank-bankPhonePrefixNumber-parentBean" />
+  <bean id="ACHBank-bankPhonePrefixNumber" parent="ACHBank-bankPhonePrefixNumber-parentBean" />
 
-  <bean id="AchBank-bankPhonePrefixNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankPhonePrefixNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankPhonePrefixNumber" />
     <property name="label" value="Bank Phone Prefix Number" />
     <property name="shortLabel" value="Bank Phone Prefix Number" />
@@ -250,9 +250,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="3" />
     </property>
   </bean>
-  <bean id="AchBank-bankPhoneSuffixNumber" parent="AchBank-bankPhoneSuffixNumber-parentBean" />
+  <bean id="ACHBank-bankPhoneSuffixNumber" parent="ACHBank-bankPhoneSuffixNumber-parentBean" />
 
-  <bean id="AchBank-bankPhoneSuffixNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankPhoneSuffixNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankPhoneSuffixNumber" />
     <property name="label" value="Bank Phone Suffix Number" />
     <property name="shortLabel" value="Bank Phone Suffix Number" />
@@ -266,9 +266,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="4" />
     </property>
   </bean>
-  <bean id="AchBank-bankInstitutionStatusCode" parent="AchBank-bankInstitutionStatusCode-parentBean" />
+  <bean id="ACHBank-bankInstitutionStatusCode" parent="ACHBank-bankInstitutionStatusCode-parentBean" />
 
-  <bean id="AchBank-bankInstitutionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankInstitutionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankInstitutionStatusCode" />
     <property name="label" value="Bank Institution Status Code" />
     <property name="shortLabel" value="Bank Institution Status Code" />
@@ -282,9 +282,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="1" />
     </property>
   </bean>
-  <bean id="AchBank-bankDataViewCode" parent="AchBank-bankDataViewCode-parentBean" />
+  <bean id="ACHBank-bankDataViewCode" parent="ACHBank-bankDataViewCode-parentBean" />
 
-  <bean id="AchBank-bankDataViewCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ACHBank-bankDataViewCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankDataViewCode" />
     <property name="label" value="Bank Data View Code" />
     <property name="shortLabel" value="Bank Data View Code" />
@@ -299,18 +299,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
   
-  <bean id="AchBank-active" parent="AchBank-active-parentBean" />
+  <bean id="ACHBank-active" parent="ACHBank-active-parentBean" />
 
-  <bean id="AchBank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="ACHBank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AchBank-inquiryDefinition" parent="AchBank-inquiryDefinition-parentBean" />
+  <bean id="ACHBank-inquiryDefinition" parent="ACHBank-inquiryDefinition-parentBean" />
 
-  <bean id="AchBank-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="ACHBank-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="ACH Bank Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -361,9 +361,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AchBank-lookupDefinition" parent="AchBank-lookupDefinition-parentBean" />
+  <bean id="ACHBank-lookupDefinition" parent="ACHBank-lookupDefinition-parentBean" />
 
-  <bean id="AchBank-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="ACHBank-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="ACH Bank Lookup" />
     <property name="instructions" value="Lookup an ACH Bank" />
     <property name="defaultSort" >

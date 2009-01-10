@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.service;
 
-import org.kuali.kfs.module.cg.businessobject.SubContractorX;
+import org.kuali.kfs.module.cg.businessobject.SubContractor;
 
 /**
  * Services for {@link Subcontractor}s
@@ -28,6 +28,6 @@ public interface SubcontractorService {
      * @param subcontractorNumber the primary key of the {@link Subcontractor} to get
      * @return the corresponding {@link Subcontractor}, or null if none
      */
-    public SubContractorX getByPrimaryId(String subcontractorNumber);
+    public SubContractor getByPrimaryId(String subcontractorNumber);
 
 }

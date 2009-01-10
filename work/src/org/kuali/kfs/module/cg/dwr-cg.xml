@@ -27,7 +27,7 @@
             <param name="beanName" value="projectDirectorService" />
             <include method="getByPersonUserIdentifier" />
         </create>
-        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.SubContractorX">
+        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.SubContractor">
             <param name="include" value="subcontractorName" />
         </convert>
         <create creator="spring" javascript="SubcontractorService">

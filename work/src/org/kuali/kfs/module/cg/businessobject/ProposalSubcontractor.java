@@ -35,7 +35,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
     private String proposalSubcontractorDescription;
     private boolean active = true;
 
-    private SubContractorX subcontractor;
+    private SubContractor subcontractor;
 
     /**
      * Default constructor.
@@ -158,7 +158,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
     /**
      * @return Returns the subcontractor.
      */
-    public SubContractorX getSubcontractor() {
+    public SubContractor getSubcontractor() {
         return subcontractor;
     }
 
@@ -166,7 +166,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
      * @param subcontractor The subcontractor to set.
      * @deprecated
      */
-    public void setSubcontractor(SubContractorX subcontractor) {
+    public void setSubcontractor(SubContractor subcontractor) {
         this.subcontractor = subcontractor;
     }
 

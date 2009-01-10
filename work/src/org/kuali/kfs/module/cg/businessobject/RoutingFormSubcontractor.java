@@ -31,7 +31,7 @@ public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
     private Integer routingFormSubcontractorSequenceNumber;
     private KualiInteger routingFormSubcontractorAmount;
     private String routingFormSubcontractorNumber;
-    private SubContractorX subcontractor;
+    private SubContractor subcontractor;
 
     /**
      * Default constructor.
@@ -120,7 +120,7 @@ public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
      * 
      * @return Returns the subcontractor
      */
-    public SubContractorX getSubcontractor() {
+    public SubContractor getSubcontractor() {
         return subcontractor;
     }
 
@@ -129,7 +129,7 @@ public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
      * 
      * @param subcontractor The subcontractor to set.
      */
-    public void setSubcontractor(SubContractorX subcontractor) {
+    public void setSubcontractor(SubContractor subcontractor) {
         this.subcontractor = subcontractor;
     }
 

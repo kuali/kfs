@@ -29,7 +29,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * Subcontractors are vendors involved with an awarded {@link Proposal}.
  */
-public class SubContractorX extends PersistableBusinessObjectBase implements Inactivateable {
+public class SubContractor extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String subcontractorNumber;
     private String subcontractorName;
@@ -47,7 +47,7 @@ public class SubContractorX extends PersistableBusinessObjectBase implements Ina
     /**
      * Default no-arg constructor.
      */
-    public SubContractorX() {
+    public SubContractor() {
     }
 
     /**

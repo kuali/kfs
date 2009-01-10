@@ -27,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class CFDAX extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda, Inactivateable {
+public class CFDA extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda, Inactivateable {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;
@@ -38,7 +38,7 @@ public class CFDAX extends PersistableBusinessObjectBase implements ContractsAnd
     /**
      * Default constructor.
      */
-    public CFDAX() {
+    public CFDA() {
     }
 
     /**

@@ -30,7 +30,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.batch.CfdaBatchStep;
-import org.kuali.kfs.module.cg.businessobject.CFDAX;
+import org.kuali.kfs.module.cg.businessobject.CFDA;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.pdp.PdpParameterConstants;
@@ -109,8 +109,8 @@ public class CfdaServiceImpl implements CfdaService {
      * @return
      * @throws IOException
      */
-    public SortedMap<String, CFDAX> getGovCodes() throws IOException {
-        SortedMap<String, CFDAX> govMap = new TreeMap<String, CFDAX>();
+    public SortedMap<String, CFDA> getGovCodes() throws IOException {
+        SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
         
         String sourceUrl = SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER);
         
@@ -136,7 +136,7 @@ public class CfdaServiceImpl implements CfdaService {
                 // to move past it.
                 String title = extractCfdaTitleFrom(screen.readLine());
 
-                CFDAX cfda = new CFDAX();
+                CFDA cfda = new CFDA();
                 cfda.setCfdaNumber(number);
                 cfda.setCfdaProgramTitleName(title);
 
@@ -152,12 +152,12 @@ public class CfdaServiceImpl implements CfdaService {
      * @return
      * @throws IOException
      */
-    public SortedMap<String, CFDAX> getKfsCodes() throws IOException {
-        Collection allCodes = businessObjectService.findAll(CFDAX.class);
+    public SortedMap<String, CFDA> getKfsCodes() throws IOException {
+        Collection allCodes = businessObjectService.findAll(CFDA.class);
 
-        SortedMap<String, CFDAX> kfsMapAll = new TreeMap<String, CFDAX>(cfdaComparator);
+        SortedMap<String, CFDA> kfsMapAll = new TreeMap<String, CFDA>(cfdaComparator);
         for (Object o : allCodes) {
-            CFDAX c = (CFDAX) o;
+            CFDA c = (CFDA) o;
             kfsMapAll.put(c.getCfdaNumber(), c);
         }
         return kfsMapAll;
@@ -169,7 +169,7 @@ public class CfdaServiceImpl implements CfdaService {
     public CfdaUpdateResults update() throws IOException {
 
         CfdaUpdateResults results = new CfdaUpdateResults();
-        Map<String, CFDAX> govMap = null;
+        Map<String, CFDA> govMap = null;
 
         try {
             govMap = getGovCodes();
@@ -181,15 +181,15 @@ public class CfdaServiceImpl implements CfdaService {
             results.setMessage(builder.toString());
             return results;
         }
-        Map<String, CFDAX> kfsMap = getKfsCodes();
+        Map<String, CFDA> kfsMap = getKfsCodes();
 
         results.setNumberOfRecordsInKfsDatabase(kfsMap.keySet().size());
         results.setNumberOfRecordsRetrievedFromWebSite(govMap.keySet().size());
 
         for (Object key : kfsMap.keySet()) {
 
-            CFDAX cfdaKfs = kfsMap.get(key);
-            CFDAX cfdaGov = govMap.get(key);
+            CFDA cfdaKfs = kfsMap.get(key);
+            CFDA cfdaGov = govMap.get(key);
 
             if (cfdaKfs.getCfdaMaintenanceTypeId().startsWith("M")) {
                 // Leave it alone. It's maintained manually.
@@ -229,7 +229,7 @@ public class CfdaServiceImpl implements CfdaService {
 
         // What's left in govMap now is just the codes that don't exist in KFS
         for (String key : govMap.keySet()) {
-            CFDAX cfdaGov = govMap.get(key);
+            CFDA cfdaGov = govMap.get(key);
             cfdaGov.setCfdaMaintenanceTypeId("Automatic");
             cfdaGov.setCfdaStatusCode(true);
             businessObjectService.save(cfdaGov);
@@ -243,11 +243,11 @@ public class CfdaServiceImpl implements CfdaService {
         this.businessObjectService = businessObjectService;
     }
 
-    public CFDAX getByPrimaryId(String cfdaNumber) {
+    public CFDA getByPrimaryId(String cfdaNumber) {
         if ( StringUtils.isBlank(cfdaNumber) ) {
             return null;
         }
-        return (CFDAX) businessObjectService.findByPrimaryKey(CFDAX.class, mapPrimaryKeys(cfdaNumber));
+        return (CFDA) businessObjectService.findByPrimaryKey(CFDA.class, mapPrimaryKeys(cfdaNumber));
     }
 
     private Map<String, Object> mapPrimaryKeys(String cfdaNumber) {

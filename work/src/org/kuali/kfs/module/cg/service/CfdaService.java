@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg.service;
 
 import java.io.IOException;
 
-import org.kuali.kfs.module.cg.businessobject.CFDAX;
+import org.kuali.kfs.module.cg.businessobject.CFDA;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 
 /**
@@ -26,6 +26,6 @@ import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 public interface CfdaService {
     CfdaUpdateResults update() throws IOException;
 
-    public CFDAX getByPrimaryId(String cfdaNumber);
+    public CFDA getByPrimaryId(String cfdaNumber);
 
 }

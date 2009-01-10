@@ -167,7 +167,7 @@
  CATALOG OF FEDERAL DOMESTIC ASSISTANCE REFERENCE (CFDA)
 
 -->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.CFDAX" table="CG_CFDA_REF_T">
+<class-descriptor class="org.kuali.kfs.module.cg.businessobject.CFDA" table="CG_CFDA_REF_T">
     <field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -227,7 +227,7 @@
     <reference-descriptor name="proposalPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalPurposeCode" />
     </reference-descriptor>
-    <reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.CFDAX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="cfdaNumber" />
     </reference-descriptor>
     <collection-descriptor name="proposalSubcontractors" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1232,7 +1232,7 @@
     <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="agencyFederalPassThroughNumber" />
     </reference-descriptor>
-	<reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.CFDAX" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	<reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="routingFormCatalogOfFederalDomesticAssistanceNumber" />
 	</reference-descriptor>
 

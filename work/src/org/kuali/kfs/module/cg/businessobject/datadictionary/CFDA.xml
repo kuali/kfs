@@ -7,7 +7,7 @@
   <bean id="Cfda" parent="CFDA-parentBean" />
 
   <bean id="CFDA-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.CFDAX" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.CFDA" />
     <property name="inquiryDefinition" >
       <ref bean="CFDA-inquiryDefinition" />
     </property>

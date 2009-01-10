@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.ACHBankX;
+import org.kuali.kfs.pdp.businessobject.ACHBank;
 import org.kuali.kfs.pdp.service.AchBankService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,11 +37,11 @@ public class AchBankServiceImpl implements AchBankService {
     /**
      * @see org.kuali.kfs.pdp.service.AchBankService#getByPrimaryId(java.lang.String)
      */
-    public ACHBankX getByPrimaryId(String bankRoutingNumber) {
+    public ACHBank getByPrimaryId(String bankRoutingNumber) {
         Map<String, String> fieldKeys = new HashMap<String, String>();
         fieldKeys.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, bankRoutingNumber);
 
-        return (ACHBankX) businessObjectService.findByPrimaryKey(ACHBankX.class, fieldKeys);
+        return (ACHBank) businessObjectService.findByPrimaryKey(ACHBank.class, fieldKeys);
     }
 
     /**
@@ -61,9 +61,9 @@ public class AchBankServiceImpl implements AchBankService {
 
                 Map fieldValues = new HashMap();
                 fieldValues.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, bankRoutingNumber);
-                ACHBankX tableBank = (ACHBankX) this.businessObjectService.findMatching(ACHBankX.class, fieldValues);
+                ACHBank tableBank = (ACHBank) this.businessObjectService.findMatching(ACHBank.class, fieldValues);
                 
-                ACHBankX ab = new ACHBankX(str);
+                ACHBank ab = new ACHBank(str);
                 if (tableBank != null) {
                     ab.setVersionNumber(tableBank.getVersionNumber());
                 }

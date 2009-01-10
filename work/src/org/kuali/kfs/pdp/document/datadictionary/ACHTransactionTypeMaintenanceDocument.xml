@@ -10,7 +10,7 @@
   <bean id="ACHTransactionTypeMaintenanceDocument" parent="ACHTransactionTypeMaintenanceDocument-parentBean" />
 
   <bean id="ACHTransactionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHTransactionTypeX" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHTransactionType" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>

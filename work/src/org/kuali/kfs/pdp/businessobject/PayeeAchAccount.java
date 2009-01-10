@@ -41,10 +41,10 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
     private boolean active;
     private String bankAccountTypeCode;
 
-    private ACHBankX bankRouting;
+    private ACHBank bankRouting;
     private VendorDetail vendorDetail;
     private Person user;
-    private ACHTransactionTypeX transactionType;
+    private ACHTransactionType transactionType;
 
     /**
      * Default constructor.
@@ -244,7 +244,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the transactionType.
      */
-    public ACHTransactionTypeX getTransactionType() {
+    public ACHTransactionType getTransactionType() {
         return transactionType;
     }
 
@@ -253,7 +253,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
      * 
      * @param transactionType The transactionType to set.
      */
-    public void setTransactionType(ACHTransactionTypeX transactionType) {
+    public void setTransactionType(ACHTransactionType transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -298,7 +298,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the bankRouting.
      */
-    public ACHBankX getBankRouting() {
+    public ACHBank getBankRouting() {
         return bankRouting;
     }
 
@@ -308,7 +308,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
      * @param bankRouting The bankRouting to set.
      * @deprecated
      */
-    public void setBankRouting(ACHBankX bankRouting) {
+    public void setBankRouting(ACHBank bankRouting) {
         this.bankRouting = bankRouting;
     }
 

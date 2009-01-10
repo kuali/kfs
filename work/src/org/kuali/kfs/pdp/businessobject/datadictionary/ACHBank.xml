@@ -9,7 +9,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="ACHBank" parent="ACHBank-parentBean" />
 
   <bean id="ACHBank-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHBankX" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHBank" />
     <property name="inquiryDefinition" >
       <ref bean="ACHBank-inquiryDefinition" />
     </property>

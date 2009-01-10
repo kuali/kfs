@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
+import org.kuali.kfs.pdp.businessobject.PayeeACHAccountX;
 import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -37,7 +37,7 @@ public class AchServiceImpl implements AchService {
     /**
      * @see org.kuali.kfs.pdp.service.AchService#getAchInformation(java.lang.String, java.lang.String, java.lang.String)
      */
-    public PayeeAchAccount getAchInformation(String idType, String payeeId, String achTransactionType) {
+    public PayeeACHAccountX getAchInformation(String idType, String payeeId, String achTransactionType) {
         LOG.debug("getAchInformation() started");
 
         Map<String, Object> fields = new HashMap<String, Object>();
@@ -63,7 +63,7 @@ public class AchServiceImpl implements AchService {
             }
         }
 
-        Collection<PayeeAchAccount> rows = businessObjectService.findMatching(PayeeAchAccount.class, fields);
+        Collection<PayeeACHAccountX> rows = businessObjectService.findMatching(PayeeACHAccountX.class, fields);
         if (rows.size() != 1) {
             LOG.debug("getAchInformation() not found rows = " + rows.size());
 

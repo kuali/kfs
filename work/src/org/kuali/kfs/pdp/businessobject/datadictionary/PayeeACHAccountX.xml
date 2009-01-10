@@ -4,35 +4,35 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PayeeAchAccount" parent="PayeeAchAccount-parentBean" />
+  <bean id="PayeeACHAccount" parent="PayeeACHAccount-parentBean" />
 
-  <bean id="PayeeAchAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PayeeAchAccount" />
+  <bean id="PayeeACHAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccountX" />
     <property name="inquiryDefinition" >
-      <ref bean="PayeeAchAccount-inquiryDefinition" />
+      <ref bean="PayeeACHAccount-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="PayeeAchAccount-lookupDefinition" />
+      <ref bean="PayeeACHAccount-lookupDefinition" />
     </property>
     <property name="objectLabel" value="Payee Account Clearing House Account" />
     <property name="attributes" >
       <list>
-        <ref bean="PayeeAchAccount-achAccountGeneratedIdentifier" />
-        <ref bean="PayeeAchAccount-bankAccountNumber" />
-        <ref bean="PayeeAchAccount-bankAccountTypeCode" />
-        <ref bean="PayeeAchAccount-payeeName" />
-        <ref bean="PayeeAchAccount-payeeEmailAddress" />
-        <ref bean="PayeeAchAccount-payeeIdentifierTypeCode" />
-        <ref bean="PayeeAchAccount-achTransactionType" />
-        <ref bean="PayeeAchAccount-bankRoutingNumber" />
-        <ref bean="PayeeAchAccount-vendorHeaderGeneratedIdentifier" />
-        <ref bean="PayeeAchAccount-vendorDetailAssignedIdentifier" />
-        <ref bean="PayeeAchAccount-vendorNumber" />
-        <ref bean="PayeeAchAccount-principalId" />
-        <ref bean="PayeeAchAccount-active" />
-        <ref bean="PayeeAchAccount-bankRouting.bankName" />
-        <ref bean="PayeeAchAccount-user.principalName" />
-        <ref bean="PayeeAchAccount-user.name" />
+        <ref bean="PayeeACHAccount-achAccountGeneratedIdentifier" />
+        <ref bean="PayeeACHAccount-bankAccountNumber" />
+        <ref bean="PayeeACHAccount-bankAccountTypeCode" />
+        <ref bean="PayeeACHAccount-payeeName" />
+        <ref bean="PayeeACHAccount-payeeEmailAddress" />
+        <ref bean="PayeeACHAccount-payeeIdentifierTypeCode" />
+        <ref bean="PayeeACHAccount-achTransactionType" />
+        <ref bean="PayeeACHAccount-bankRoutingNumber" />
+        <ref bean="PayeeACHAccount-vendorHeaderGeneratedIdentifier" />
+        <ref bean="PayeeACHAccount-vendorDetailAssignedIdentifier" />
+        <ref bean="PayeeACHAccount-vendorNumber" />
+        <ref bean="PayeeACHAccount-principalId" />
+        <ref bean="PayeeACHAccount-active" />
+        <ref bean="PayeeACHAccount-bankRouting.bankName" />
+        <ref bean="PayeeACHAccount-user.principalName" />
+        <ref bean="PayeeACHAccount-user.name" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -90,9 +90,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PayeeAchAccount-achAccountGeneratedIdentifier" parent="PayeeAchAccount-achAccountGeneratedIdentifier-parentBean" />
+  <bean id="PayeeACHAccount-achAccountGeneratedIdentifier" parent="PayeeACHAccount-achAccountGeneratedIdentifier-parentBean" />
 
-  <bean id="PayeeAchAccount-achAccountGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayeeACHAccount-achAccountGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="achAccountGeneratedIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="ACH Account Generated Identifier" />
@@ -106,9 +106,9 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="PayeeAchAccount-bankAccountNumber" parent="PayeeAchAccount-bankAccountNumber-parentBean" />
+  <bean id="PayeeACHAccount-bankAccountNumber" parent="PayeeACHAccount-bankAccountNumber-parentBean" />
 
-  <bean id="PayeeAchAccount-bankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayeeACHAccount-bankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankAccountNumber" />
     <property name="label" value="Bank Account Number" />
     <property name="shortLabel" value="Bank Account Number" />
@@ -130,9 +130,9 @@
   		</bean>
   	</property>
   </bean>
-  <bean id="PayeeAchAccount-bankAccountTypeCode" parent="PayeeAchAccount-bankAccountTypeCode-parentBean" />
+  <bean id="PayeeACHAccount-bankAccountTypeCode" parent="PayeeACHAccount-bankAccountTypeCode-parentBean" />
 
-  <bean id="PayeeAchAccount-bankAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayeeACHAccount-bankAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankAccountTypeCode" />
     <property name="label" value="Account Type" />
     <property name="shortLabel" value="Account Type" />
@@ -148,9 +148,9 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="PayeeAchAccount-payeeName" parent="PayeeAchAccount-payeeName-parentBean" />
+  <bean id="PayeeACHAccount-payeeName" parent="PayeeACHAccount-payeeName-parentBean" />
 
-  <bean id="PayeeAchAccount-payeeName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayeeACHAccount-payeeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeName" />
     <property name="label" value="Name" />
     <property name="shortLabel" value="Name" />
@@ -165,9 +165,9 @@
             p:size="51" />
     </property>
   </bean>
-  <bean id="PayeeAchAccount-payeeEmailAddress" parent="PayeeAchAccount-payeeEmailAddress-parentBean" />
+  <bean id="PayeeACHAccount-payeeEmailAddress" parent="PayeeACHAccount-payeeEmailAddress-parentBean" />
 
-  <bean id="PayeeAchAccount-payeeEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayeeACHAccount-payeeEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeEmailAddress" />
     <property name="label" value="Email Address" />
     <property name="shortLabel" value="Email Address" />
@@ -181,9 +181,9 @@
             p:size="43" />
     </property>
   </bean>
-  <bean id="PayeeAchAccount-payeeIdentifierTypeCode" parent="PayeeAchAccount-payeeIdentifierTypeCode-parentBean" />
+  <bean id="PayeeACHAccount-payeeIdentifierTypeCode" parent="PayeeACHAccount-payeeIdentifierTypeCode-parentBean" />
 
-  <bean id="PayeeAchAccount-payeeIdentifierTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayeeACHAccount-payeeIdentifierTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeIdentifierTypeCode" />
     <property name="label" value="Payee Type Code" />
     <property name="shortLabel" value="Payee Type Code" />
@@ -196,32 +196,32 @@
     </property>
   </bean>
 
-  <bean id="PayeeAchAccount-achTransactionType" parent="PayeeAchAccount-achTransactionType-parentBean" />
+  <bean id="PayeeACHAccount-achTransactionType" parent="PayeeACHAccount-achTransactionType-parentBean" />
 
-  <bean id="PayeeAchAccount-achTransactionType-parentBean" abstract="true" parent="ACHTransactionType-code-parentBean">
+  <bean id="PayeeACHAccount-achTransactionType-parentBean" abstract="true" parent="ACHTransactionType-code-parentBean">
     <property name="name" value="achTransactionType" />
   </bean>
   
-  <bean id="PayeeAchAccount-bankRoutingNumber" parent="PayeeAchAccount-bankRoutingNumber-parentBean" />
+  <bean id="PayeeACHAccount-bankRoutingNumber" parent="PayeeACHAccount-bankRoutingNumber-parentBean" />
 
-  <bean id="PayeeAchAccount-bankRoutingNumber-parentBean" abstract="true" parent="ACHBank-bankRoutingNumber">
+  <bean id="PayeeACHAccount-bankRoutingNumber-parentBean" abstract="true" parent="ACHBank-bankRoutingNumber">
   </bean>
-  <bean id="PayeeAchAccount-vendorHeaderGeneratedIdentifier" parent="PayeeAchAccount-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="PayeeACHAccount-vendorHeaderGeneratedIdentifier" parent="PayeeACHAccount-vendorHeaderGeneratedIdentifier-parentBean" />
 
-  <bean id="PayeeAchAccount-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  <bean id="PayeeACHAccount-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
-  <bean id="PayeeAchAccount-vendorDetailAssignedIdentifier" parent="PayeeAchAccount-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="PayeeACHAccount-vendorDetailAssignedIdentifier" parent="PayeeACHAccount-vendorDetailAssignedIdentifier-parentBean" />
 
-  <bean id="PayeeAchAccount-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  <bean id="PayeeACHAccount-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
   </bean>
-  <bean id="PayeeAchAccount-vendorNumber" parent="PayeeAchAccount-vendorNumber-parentBean" />
+  <bean id="PayeeACHAccount-vendorNumber" parent="PayeeACHAccount-vendorNumber-parentBean" />
 
-  <bean id="PayeeAchAccount-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+  <bean id="PayeeACHAccount-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
   </bean>
   
-  <bean id="PayeeAchAccount-principalId" parent="PayeeAchAccount-principalId-parentBean" />
+  <bean id="PayeeACHAccount-principalId" parent="PayeeACHAccount-principalId-parentBean" />
 
-  <bean id="PayeeAchAccount-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="PayeeACHAccount-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="label" value="Payee Universal ID" />
     <property name="shortLabel" value="Payee Univ ID" />
     <property name="required" value="false" />
@@ -231,9 +231,9 @@
   </bean>
   
 
-  <bean id="PayeeAchAccount-user.principalName" parent="PayeeAchAccount-user.principalName-parentBean" />
+  <bean id="PayeeACHAccount-user.principalName" parent="PayeeACHAccount-user.principalName-parentBean" />
 
-  <bean id="PayeeAchAccount-user.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="PayeeACHAccount-user.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="user.principalName" />
     <property name="label" value="Payee User ID" />
     <property name="shortLabel" value="PayeeID" />
@@ -245,9 +245,9 @@
     </property>
   </bean>
 
-  <bean id="PayeeAchAccount-user.name" parent="PayeeAchAccount-user.name-parentBean" />
+  <bean id="PayeeACHAccount-user.name" parent="PayeeACHAccount-user.name-parentBean" />
 
-  <bean id="PayeeAchAccount-user.name-parentBean" abstract="true" parent="PersonImpl-name">
+  <bean id="PayeeACHAccount-user.name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="user.name" />
     <property name="label" value="Payee Name" />
     <property name="required" value="false" />
@@ -256,16 +256,16 @@
     </property>
   </bean>
   
-  <bean id="PayeeAchAccount-active" parent="PayeeAchAccount-active-parentBean" />
+  <bean id="PayeeACHAccount-active" parent="PayeeACHAccount-active-parentBean" />
 
-  <bean id="PayeeAchAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="PayeeACHAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
     <property name="required" value="true" />
   </bean>
   
-  <bean id="PayeeAchAccount-bankRouting.bankName" parent="PayeeAchAccount-bankRouting.bankName-parentBean" />
+  <bean id="PayeeACHAccount-bankRouting.bankName" parent="PayeeACHAccount-bankRouting.bankName-parentBean" />
 
-  <bean id="PayeeAchAccount-bankRouting.bankName-parentBean" abstract="true" parent="ACHBank-bankName">
+  <bean id="PayeeACHAccount-bankRouting.bankName-parentBean" abstract="true" parent="ACHBank-bankName">
     <property name="name" value="bankRouting.bankName" />
     <property name="required" value="false" />
   </bean>
@@ -273,9 +273,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PayeeAchAccount-inquiryDefinition" parent="PayeeAchAccount-inquiryDefinition-parentBean" />
+  <bean id="PayeeACHAccount-inquiryDefinition" parent="PayeeACHAccount-inquiryDefinition-parentBean" />
 
-  <bean id="PayeeAchAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="PayeeACHAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Payee ACH Account" />
     <property name="inquirySections" >
       <list>
@@ -317,9 +317,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PayeeAchAccount-lookupDefinition" parent="PayeeAchAccount-lookupDefinition-parentBean" />
+  <bean id="PayeeACHAccount-lookupDefinition" parent="PayeeACHAccount-lookupDefinition-parentBean" />
 
-  <bean id="PayeeAchAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="PayeeACHAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Payee ACH Account Lookup" />
     <property name="lookupableID" value="pdpPayeeAchAccountLookupable" />
     <property name="instructions" value="Lookup a Payee ACH Account" />

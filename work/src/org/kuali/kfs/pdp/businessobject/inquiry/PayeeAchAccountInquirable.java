@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
+import org.kuali.kfs.pdp.businessobject.PayeeACHAccountX;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -45,7 +45,7 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
             Properties parameters = new Properties();
 
             parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PayeeAchAccount.class.getName());
+            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PayeeACHAccountX.class.getName());
 
             KualiInteger generatedIdentifier = (KualiInteger) ObjectUtils.getPropertyValue(businessObject, PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER);
             parameters.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, generatedIdentifier.toString());
@@ -53,7 +53,7 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, generatedIdentifier.toString());
 
-            return getHyperLink(PayeeAchAccount.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+            return getHyperLink(PayeeACHAccountX.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         }
 
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);

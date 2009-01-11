@@ -27,8 +27,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.kuali.kfs.integration.purap.AccountsPayableItem;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;

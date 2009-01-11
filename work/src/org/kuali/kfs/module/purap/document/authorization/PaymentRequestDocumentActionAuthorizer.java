@@ -226,11 +226,30 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
     public boolean canHold() {
         boolean hasPermission = false;
 
-        if (isCanHold() || (((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(getDocStatus()) || PaymentRequestStatuses.AUTO_APPROVED.equals(getDocStatus())) && (isApUser() && isHoldIndicator() == false && isHoldIndicator() == false && isExtracted() == false)))) {
-
-            hasPermission = true;
-        }
-
+        
+//        if (document.isHoldIndicator() == false && 
+//                document.getPaymentRequestedCancelIndicator() == false && 
+//                document.getExtractedTimestamp() == null)) && 
+//
+//                //                ((document.getDocumentHeader().hasWorkflowDocument() && 
+//  //                      (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+//                                document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || 
+////get this from default template                (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && 
+//                                        (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || 
+////do we really need this??               isBeingAdHocRouted(document))) {
+//            
+//
+//            canHold = true;
+//        }
+//
+//        if (isCanHold() || 
+//                (((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(getDocStatus()) || 
+//                        PaymentRequestStatuses.AUTO_APPROVED.equals(getDocStatus())) && 
+//                        //(isApUser() && isHoldIndicator() == false && isHoldIndicator() == false && isExtracted() == false)))) {
+//
+//            hasPermission = true;
+//        }
+//
         return hasPermission;
     }
 
@@ -260,11 +279,19 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
     public boolean canCancel() {
         boolean hasPermission = false;
 
-        if (((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus())) && ((isApUser() && isRequestCancelIndicator()) || isApSupervisor())) ||
+        if (((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || 
+                PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || 
+                PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || 
+                PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus())) && 
+                ((isApUser() && isRequestCancelIndicator()) || isApSupervisor())) ||
 
-        ((PaymentRequestStatuses.IN_PROCESS.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus())) && (isApUser() || isApSupervisor())) ||
+        ((PaymentRequestStatuses.IN_PROCESS.equals(getDocStatus()) || 
+                PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus())) && 
+                (isApUser() || isApSupervisor())) ||
 
-        ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(getDocStatus()) || PaymentRequestStatuses.AUTO_APPROVED.equals(getDocStatus())) && ((isApUser() || isApSupervisor()) && isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false))) {
+        ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(getDocStatus()) || 
+                PaymentRequestStatuses.AUTO_APPROVED.equals(getDocStatus())) && 
+                ((isApUser() || isApSupervisor()) && isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false))) {
 
             hasPermission = true;
         }
@@ -280,7 +307,16 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
     public boolean canRequestCancel() {
         boolean hasPermission = false;
 
-        if (isCanRequestCancel()) {
+//        if (document.getPaymentRequestedCancelIndicator() == false && 
+//                document.isHoldIndicator() == false && 
+//                document.getExtractedTimestamp() == null && 
+//                (document.getDocumentHeader().hasWorkflowDocument() && 
+//                        (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+//                                document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && 
+//                                (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()) || 
+//                                        isBeingAdHocRouted(document))) {
+
+            if (isCanRequestCancel()) {
             hasPermission = true;
         }
 

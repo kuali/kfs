@@ -40,18 +40,10 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
         //We only need to do capital asset validations if the capital asset system type
         //code is not blank.
         if (StringUtils.isNotBlank(purchasingDocument.getCapitalAssetSystemTypeCode())) {
-            String systemState = purchasingDocument.getCapitalAssetSystemStateCode();
-            String chartCode = purchasingDocument.getChartOfAccountsCode();
-            String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
-            if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
-                valid &= capitalAssetBuilderModuleService.validateIndividualCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
-            }
-            else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
-                valid &= capitalAssetBuilderModuleService.validateOneSystemCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
-            }
-            else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.MULTIPLE)) {
-                valid &= capitalAssetBuilderModuleService.validateMultipleSystemsCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
-            }
+            
+            valid &= capitalAssetBuilderModuleService.validatePurchasingData(purchasingDocument);
+
+            // FIXME hjs move this to cab module service
             // validate complete location addresses
             if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
                 for (CapitalAssetSystem system : purchasingDocument.getPurchasingCapitalAssetSystems()) {
@@ -59,12 +51,13 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
                         valid &= purchasingService.checkCapitalAssetLocation(location);
                     }
                 }
-            } else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
+            }
+            else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
                 CapitalAssetSystem system = purchasingDocument.getPurchasingCapitalAssetSystems().get(0);
                 for (CapitalAssetLocation location : system.getCapitalAssetLocations()) {
-                        valid &= purchasingService.checkCapitalAssetLocation(location);
-                    }
+                    valid &= purchasingService.checkCapitalAssetLocation(location);
                 }
+            }
             
         }
         return valid;

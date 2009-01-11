@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;

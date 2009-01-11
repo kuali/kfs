@@ -60,7 +60,7 @@ public abstract class PurapDocumentPreRulesBase extends PreRulesContinuationBase
         
         String questionText = "";
         if (StringUtils.isBlank(event.getQuestionContext())) {
-            if (!SpringContext.getBean(CapitalAssetBuilderModuleService.class).warningObjectLevelCapital(purapDocument.getItems())) {
+            if (!SpringContext.getBean(CapitalAssetBuilderModuleService.class).warningObjectLevelCapital(purapDocument)) {
                 proceed &= false;
                 questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
                         PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";

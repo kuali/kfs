@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.service;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.util.SummaryAccount;

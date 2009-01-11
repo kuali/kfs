@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
-import org.kuali.kfs.integration.purap.AccountsPayableItem;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;

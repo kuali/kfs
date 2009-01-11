@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.document.AccountingDocument;

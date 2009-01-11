@@ -28,8 +28,6 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.integration.purap.PurApItem;
-import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -37,7 +35,9 @@ import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
@@ -113,18 +113,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         //We only need to do capital asset validations if the capital asset system type
         //code is not blank.
         if (StringUtils.isNotBlank(purchasingDocument.getCapitalAssetSystemTypeCode())) {
-            String systemState = purchasingDocument.getCapitalAssetSystemStateCode();
-            String chartCode = purchasingDocument.getChartOfAccountsCode();
-            String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
-            if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
-                valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
-            }
-            else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
-                valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateOneSystemCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
-            }
-            else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.MULTIPLE)) {
-                valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateMultipleSystemsCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
-            }
+            
+            valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validatePurchasingData(purchasingDocument);
+
+            // FIXME hjs move this to cab module service
             // validate complete location addresses
             if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
                 for (CapitalAssetSystem system : purchasingDocument.getPurchasingCapitalAssetSystems()) {
@@ -200,8 +192,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         valid &= super.newIndividualItemValidation(purapDocument, documentType, item);
         //TODO: See if we really need this next line of refresh, if so then uncomment out the next line.
         //purapDocument.refreshReferenceObject(PurapPropertyConstants.RECURRING_PAYMENT_TYPE);        
-        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType(); 
-        valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateItemCapitalAssetWithErrors(recurringPaymentType, item, false);
+        String recurringPaymentTypeCode = ((PurchasingDocument)purapDocument).getRecurringPaymentTypeCode(); 
+        valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateItemCapitalAssetWithErrors(recurringPaymentTypeCode, item, false);
         valid &= validateUnitOfMeasure(item);       
         valid &= validateItemUnitPrice(item);      
         
@@ -845,7 +837,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     public boolean processCapitalAssetsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
         
-        return SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateCapitalAssetsForAutomaticPurchaseOrderRule(purapDocument.getItems());
+        return SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateAutomaticPurchaseOrderRule(purapDocument);
     }
 
     /**
@@ -860,9 +852,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.kfs.module.purap.document.validation.UpdateViewPurapRule#processUpdateViewPurapBusinessRules(org.kuali.rice.kns.document.TransactionalDocument)
      */
     public boolean processUpdateCamsViewPurapBusinessRules(TransactionalDocument document) {
-        PurchasingDocument pd = (PurchasingDocument)document;
-
-        return SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateUpdateCAMSView(pd.getItems());
+        PurchasingDocument purchasingdocument = (PurchasingDocument)document;
+        return SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateUpdateCAMSView(purchasingdocument);
     }
 
     /**

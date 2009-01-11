@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.integration.purap.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 

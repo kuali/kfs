@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.rice.kns.util.ObjectUtils;
 

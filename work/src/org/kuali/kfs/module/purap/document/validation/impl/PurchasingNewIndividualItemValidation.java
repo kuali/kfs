@@ -21,12 +21,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
-import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
@@ -48,8 +48,8 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         valid &= super.validate(event);
-        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)event.getDocument()).getRecurringPaymentType(); 
-        valid &= capitalAssetBuilderModuleService.validateItemCapitalAssetWithErrors(recurringPaymentType, getItemForValidation(), false);
+        String recurringPaymentTypeCode = ((PurchasingDocument)event.getDocument()).getRecurringPaymentTypeCode(); 
+        valid &= capitalAssetBuilderModuleService.validateItemCapitalAssetWithErrors(recurringPaymentTypeCode, getItemForValidation(), false);
         valid &= validateUnitOfMeasure(getItemForValidation());       
         valid &= validateItemUnitPrice(getItemForValidation());      
         

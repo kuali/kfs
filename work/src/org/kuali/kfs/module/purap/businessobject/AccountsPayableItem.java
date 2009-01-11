@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.purap;
+package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Interface for Accounts Payable Item Business Objects.

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.util;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.TypedArrayList;

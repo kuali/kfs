@@ -72,7 +72,7 @@
     </property>
     <property name="control" >
           <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cab.businessobject.options.AssetTransactionTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

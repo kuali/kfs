@@ -15,60 +15,15 @@
  */
 package org.kuali.kfs.integration.cab;
 
-import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.integration.purap.PurApItem;
-import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
-import org.kuali.kfs.integration.purap.PurApRecurringPaymentType;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.bo.DocumentHeader;
 
 public interface CapitalAssetBuilderModuleService {
-
-    /**
-     * Validates the capital asset field requirements based on system parameter and chart for individual system type. This also
-     * calls validations for quantity on locations equal quantity on line items, validates that the transaction type allows asset
-     * number and validates the non quantity driven allowed indicator.
-     * 
-     * @param systemState
-     * @param capitalAssetItems
-     * @param chartCode
-     * @param documentType
-     * @return
-     */
-    public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
-
-    /**
-     * Validates the capital asset field requirements based on system parameter and chart for one system type. This also calls
-     * validations that the transaction type allows asset number and validates the non quantity driven allowed indicator.
-     * 
-     * @param systemState
-     * @param capitalAssetSystems
-     * @param capitalAssetItems
-     * @param chartCode
-     * @param documentType
-     * @return
-     */
-    public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
-
-    /**
-     * Validates the capital asset field requirements based on system parameter and chart for multiple system type. This also calls
-     * validations that the transaction type allows asset number and validates the non quantity driven allowed indicator.
-     * 
-     * @param systemState
-     * @param capitalAssetSystems
-     * @param capitalAssetItems
-     * @param chartCode
-     * @param documentType
-     * @return
-     */
-    public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
 
     /**
      * validate the capitalAssetManagementAsset data associated with the given accounting document
@@ -79,25 +34,24 @@ public interface CapitalAssetBuilderModuleService {
      */
     public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation);
 
-    // Methods moved from PurchasingDocumentRuleBase
-
-    public boolean validateItemCapitalAssetWithErrors(PurApRecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck);
-
-    public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, String itemIdentifier, ObjectCode objectCode);
-
-    public boolean warningObjectLevelCapital(List<PurApItem> items);
     
-    public boolean validateLevelCapitalAssetIndication(BigDecimal unitPrice, ObjectCode objectCode, String itemIdentifier);
+    public boolean validatePurchasingData(AccountingDocument accountingDocument);
     
-    public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, String itemIdentifier, boolean quantityBasedItem);
+    public boolean validateAccountsPayableData(AccountingDocument accountingDocument);
 
-    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, PurApRecurringPaymentType recurringPaymentType, String itemIdentifier);
+    public boolean validateAutomaticPurchaseOrderRule(AccountingDocument accountingDocument);
 
-    public boolean isCapitalAssetObjectCode(ObjectCode oc);
+    public boolean doesItemNeedCapitalAsset(String itemTypeCode, List accountingLines);
+    
+    public boolean validateUpdateCAMSView(AccountingDocument accountingDocumen);
+
+    public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
+
+    public boolean warningObjectLevelCapital(AccountingDocument accountingDocument);
+    
+    public boolean validateItemCapitalAssetWithErrors(String recurringPaymentTypeCode, ExternalPurApItem item, boolean apoCheck);
 
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes();
-
-    public String getValueFromAvailabilityMatrix(String fieldName, String systemType, String systemState);
 
     /**
      * External modules can notify CAB if a document changed its route status. CAB Uses this notification to release records or to
@@ -107,15 +61,6 @@ public interface CapitalAssetBuilderModuleService {
      */
     public void notifyRouteStatusChange(DocumentHeader documentHeader);
 
-    public boolean doesItemNeedCapitalAsset(PurApItem item);
-
-    public boolean validateUpdateCAMSView(List<PurApItem> purapItems);
-
-    public boolean validateAccountsPayableItems(List<PurApItem> apItems);
-
-    public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
-
-    public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList);
 
     /**
      * determine whether there is any object code of the given source accounting lines with a capital asset object sub type

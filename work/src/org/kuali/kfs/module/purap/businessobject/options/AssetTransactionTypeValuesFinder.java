@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cab.businessobject.options;
+package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -37,8 +35,7 @@ public class AssetTransactionTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        CapitalAssetBuilderModuleService cabModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
-        List<CapitalAssetBuilderAssetTransactionType> types = cabModuleService.getAllAssetTransactionTypes();
+        List<CapitalAssetBuilderAssetTransactionType> types = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getAllAssetTransactionTypes();
         List labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("",""));
         for (Object type : types) {

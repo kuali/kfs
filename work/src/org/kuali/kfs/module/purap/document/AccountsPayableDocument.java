@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.kuali.kfs.integration.purap.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;

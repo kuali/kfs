@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;

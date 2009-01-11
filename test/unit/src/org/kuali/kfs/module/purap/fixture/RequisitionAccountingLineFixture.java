@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;

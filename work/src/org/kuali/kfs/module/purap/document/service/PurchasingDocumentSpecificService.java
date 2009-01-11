@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.purap.document.service;
 
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
-import org.kuali.kfs.integration.purap.PurApItem;
-import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public interface PurchasingDocumentSpecificService {

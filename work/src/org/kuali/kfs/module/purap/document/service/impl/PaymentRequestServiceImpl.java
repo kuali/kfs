@@ -831,6 +831,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return preqDoc;
     }
 
+    //TODO hjs can we remove this method since all code was moved to the actionauthorizer? (can hold, can request cancel, can remove hold....)
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      org.kuali.rice.kim.bo.Person)
@@ -957,7 +958,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
 
         /*
-         * The user is the person who requested a cancel on the preq The user is a member of the AP Supervisor group
+         * The user is the person who requested a cancel on the preq 
+         * The user is a member of the AP Supervisor group
          */
         if (document.getPaymentRequestedCancelIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
             return true;

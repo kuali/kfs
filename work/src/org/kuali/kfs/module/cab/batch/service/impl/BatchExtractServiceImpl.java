@@ -30,7 +30,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
@@ -51,6 +50,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;

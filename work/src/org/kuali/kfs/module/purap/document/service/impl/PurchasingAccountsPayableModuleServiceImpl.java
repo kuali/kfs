@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
-import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
@@ -48,6 +47,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableModuleServiceImpl.class);
 
+    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
+    public static final String ASSET_PAYMENT_DOCUMENT = "AssetPaymentDocument";
+
     private PurchaseOrderService purchaseOrderService;
     private PurapService purapService;
     private DocumentService documentService;
@@ -61,10 +63,10 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
         String noteText = null;
 
         // Create and add the note.
-        if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
+        if (ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
             noteText = "Asset Numbers have been created for this document: ";
         }
-        else if (CabConstants.ASSET_PAYMENT_DOCUMENT.equalsIgnoreCase(documentType)) {
+        else if (ASSET_PAYMENT_DOCUMENT.equalsIgnoreCase(documentType)) {
             noteText = "Existing Asset Numbers have been applied for this document: ";
         }
 

@@ -26,9 +26,8 @@ public class PurchasingUpdateCamsViewValidation extends GenericValidation{
     CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
     
     public boolean validate(AttributedDocumentEvent event) {
-        PurchasingDocument pd = (PurchasingDocument)event.getDocument();
-
-        return capitalAssetBuilderModuleService.validateUpdateCAMSView(pd.getItems());
+        PurchasingDocument purchasingdocument = (PurchasingDocument)event.getDocument();
+        return capitalAssetBuilderModuleService.validateUpdateCAMSView(purchasingdocument);
     }
 
     public CapitalAssetBuilderModuleService getCapitalAssetBuilderModuleService() {

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.integration.purap.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 
 public enum CreditMemoAccountingLineFixture {

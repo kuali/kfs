@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.kfs.integration.purap.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;

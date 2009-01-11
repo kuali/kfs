@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.businessobject;
+package org.kuali.kfs.integration.purap;
 
-
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 /**
- * Purchasing Item Interface.
+ * Purap Item Business Object.
  */
-public interface PurchasingItem extends PurApItem {
-    
-    public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem();
+public interface ExternalPurApItem extends ExternalizableBusinessObject {
 
 }

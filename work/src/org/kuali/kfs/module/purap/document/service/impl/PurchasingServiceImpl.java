@@ -22,13 +22,13 @@ import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
-import org.kuali.kfs.integration.purap.PurApItem;
-import org.kuali.kfs.integration.purap.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
@@ -77,7 +77,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
         for (PurApItem purapItem : purDoc.getItems()) {
             if (purapItem.getItemType().isLineItemIndicator() || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(purapItem.getItemTypeCode())) {
-                if (capitalAssetBuilderModuleService.doesItemNeedCapitalAsset(purapItem)) {
+                if (capitalAssetBuilderModuleService.doesItemNeedCapitalAsset(purapItem.getItemTypeCode(), purapItem.getSourceAccountingLines())) {
                     PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
                     // If either the camsItem is null or if its system is null and the document's system type is IND (this is
                     // the case when the user tries to switch from ONE system type to IND system type), we'll have to create

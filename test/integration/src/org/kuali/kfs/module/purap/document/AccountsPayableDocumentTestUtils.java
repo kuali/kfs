@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.purap.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class AccountsPayableDocumentTestUtils extends KualiTestBase {

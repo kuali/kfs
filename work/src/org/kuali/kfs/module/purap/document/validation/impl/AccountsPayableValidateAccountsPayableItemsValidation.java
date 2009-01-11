@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
@@ -27,7 +26,7 @@ public class AccountsPayableValidateAccountsPayableItemsValidation extends Gener
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        valid &= capitalAssetBuilderModuleService.validateAccountsPayableItems(((AccountsPayableDocument)event.getDocument()).getItems());
+        valid &= capitalAssetBuilderModuleService.validateAccountsPayableData((AccountsPayableDocument)event.getDocument());
         return valid;
     }
 

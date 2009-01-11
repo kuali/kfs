@@ -40,7 +40,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     {
         requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
-        requiredAttributes.add(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+        requiredAttributes.add(KfsKimAttributes.GENERAL_LEDGER_INPUT_TYPE_CODE);
     }
     
     /**
@@ -63,7 +63,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
-        String fisDocumentTypeCode = qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+        String generalLedgerInputTypeCode = qualification.get(KfsKimAttributes.GENERAL_LEDGER_INPUT_TYPE_CODE);
         String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         //Default to 0 total amount
         if(StringUtils.isEmpty(totalDollarAmount))
@@ -77,11 +77,11 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             Account account = getAccount(chartOfAccountsCode, accountNumber);
             if(account!=null) principalIds.add(account.getAccountFiscalOfficerSystemIdentifier());
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
-            AccountDelegate primaryDelegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, fisDocumentTypeCode, totalDollarAmount);
+            AccountDelegate primaryDelegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, generalLedgerInputTypeCode, totalDollarAmount);
             if(primaryDelegate!=null) principalIds.add(primaryDelegate.getAccountDelegateSystemId());
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
             List<AccountDelegate> secondaryDelegates = 
-                getSecondaryDelegates(chartOfAccountsCode, accountNumber, fisDocumentTypeCode, totalDollarAmount);
+                getSecondaryDelegates(chartOfAccountsCode, accountNumber, generalLedgerInputTypeCode, totalDollarAmount);
             for(AccountDelegate secondaryDelegate: secondaryDelegates)
                 principalIds.add(secondaryDelegate.getAccountDelegateSystemId());
         } else if(KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){

@@ -21,6 +21,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     public static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     public static String ACCOUNT_NUMBER = "accountNumber";
+    public static String GENERAL_LEDGER_INPUT_TYPE_CODE = "generalLedgerInputTypeCode";
     public static String ORGANIZATION_CODE = "organizationCode";
     public static String DESCEND_HIERARCHY = "descendHierarchy";
     public static String FROM_AMOUNT = "fromAmount";

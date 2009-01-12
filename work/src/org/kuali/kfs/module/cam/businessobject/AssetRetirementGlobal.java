@@ -276,6 +276,14 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @param mergedTargetCapitalAssetNumber The mergedTargetCapitalAssetNumber to set.
      */
     public void setMergedTargetCapitalAssetNumber(Long mergedTargetCapitalAssetNumber) {
+        if (StringUtils.isBlank(this.mergedTargetCapitalAssetDescription)) {
+            Asset asset = new Asset();
+            asset.setCapitalAssetNumber(mergedTargetCapitalAssetNumber);
+            asset = (Asset) SpringContext.getBean(BusinessObjectService.class).retrieve(asset);
+            if (ObjectUtils.isNotNull(asset)) {
+                setMergedTargetCapitalAssetDescription(asset.getCapitalAssetDescription());
+            }
+        }
         this.mergedTargetCapitalAssetNumber = mergedTargetCapitalAssetNumber;
     }
 
@@ -864,7 +872,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
 
     /**
-     * Gets the hiddenFieldForError attribute. 
+     * Gets the hiddenFieldForError attribute.
+     * 
      * @return Returns the hiddenFieldForError.
      */
     public String getHiddenFieldForError() {
@@ -874,11 +883,12 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the hiddenFieldForError attribute value.
+     * 
      * @param hiddenFieldForError The hiddenFieldForError to set.
      */
     public void setHiddenFieldForError(String hiddenFieldForError) {
         this.hiddenFieldForError = hiddenFieldForError;
     }
 
-    
+
 }

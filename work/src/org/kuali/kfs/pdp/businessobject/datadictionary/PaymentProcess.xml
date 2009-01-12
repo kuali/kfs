@@ -44,8 +44,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="Process ID." />
   </bean>
   <bean id="PaymentProcess-campus" parent="PaymentProcess-campus-parentBean" />
 
@@ -61,8 +59,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="campus" />
-    <property name="description" value="Process Campus." />
   </bean>
   <bean id="PaymentProcess-processTimestamp" parent="PaymentProcess-processTimestamp-parentBean" />
 

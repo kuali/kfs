@@ -131,8 +131,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="Source Document Number." />
   </bean>
   <bean id="PaymentDetail-paymentGroup.payeeIdTypeCd" parent="PaymentDetail-paymentGroup.payeeIdTypeCd-parentBean" />
 
@@ -158,9 +156,7 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="purchaseOrderNbr" />
-    <property name="description" value="Purchase Order Number." />
-  </bean>
+   </bean>
   <bean id="PaymentDetail-paymentGroup.payeeId" parent="PaymentDetail-paymentGroup.payeeId-parentBean" />
 
   <bean id="PaymentDetail-paymentGroup.payeeId-parentBean" abstract="true" parent="PaymentGroup-payeeId">
@@ -185,8 +181,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="invoiceNbr" />
-    <property name="description" value="Invoice Number." />
   </bean>
   <bean id="PaymentDetail-paymentGroup.disbursementTypeCode" parent="PaymentDetail-paymentGroup.disbursementTypeCode-parentBean" />
 
@@ -214,8 +208,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="requisitionNbr" />
-    <property name="description" value="Requisition Number." />
   </bean>
   <bean id="PaymentDetail-paymentGroup.disbursementNbr" parent="PaymentDetail-paymentGroup.disbursementNbr-parentBean" />
 
@@ -267,8 +259,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="Payment Detail ID." />
   </bean>
   <bean id="PaymentDetail-netPaymentAmount" parent="PaymentDetail-netPaymentAmount-parentBean" />
 

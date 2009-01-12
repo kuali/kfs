@@ -21,7 +21,7 @@ import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -30,14 +30,19 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Presentation Controller for Budget Adjustment documents
  */
-public class BudgetAdjustmentDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
+public class BudgetAdjustmentDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     */
     @Override
     public boolean canInitiate(String documentTypeName) {
-        List allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
+        List<Integer> allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
+
         // if no allowed years found, BA document is not allowed to be initiated
         if (allowedYears == null || allowedYears.isEmpty()) {
             return false;
         }
+
         return super.canInitiate(documentTypeName);
     }
 
@@ -48,7 +53,7 @@ public class BudgetAdjustmentDocumentPresentationController extends LedgerPostin
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-           
+
         if (!(document instanceof Correctable)) return false;
         if (!((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) return false;
         if (document.getDocumentHeader().getCorrectedByDocumentId() != null) return false;

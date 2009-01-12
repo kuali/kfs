@@ -27,18 +27,7 @@
     <property name="documentTypeCode" value="YEBA" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="attributes" >
       <list>
         <ref bean="YearEndBudgetAdjustmentDocument-nextPositionSourceLineNumber" />

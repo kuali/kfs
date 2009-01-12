@@ -18,20 +18,11 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentPresentationController" />
+    
     <property name="documentTypeCode" value="PCDO" />
     <property name="sessionDocument" value="true" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="validationMap" ref="ProcurementCardDocument-validations" />
     <property name="accountingLineGroups">
     	<map>

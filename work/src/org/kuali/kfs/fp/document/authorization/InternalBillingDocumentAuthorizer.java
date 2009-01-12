@@ -15,36 +15,8 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
-
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (workflowDocument.userIsInitiator(user)) {
-                editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
-            }
-        }
-
-        Map editModeMap = new HashMap();
-        editModeMap.put(editMode, "TRUE");
-
-        return editModeMap;
-    }
-
-
 }
 

@@ -15,37 +15,8 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-
 /**
  * This class...
  */
-public class YearEndDistributionOfIncomeAndExpenseDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-
-    /**
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) document;
-        
-        Map editModeMap = super.getEditMode(document, user);
-        
-        List<ElectronicPaymentClaim> efts = diDoc.getElectronicPaymentClaims();
-        if(efts!=null && efts.size()>0) {
-            editModeMap.put(KfsAuthorizationConstants.DistributionOfIncomeAndExpenseEditMode.SOURCE_LINE_READ_ONLY_MODE, "TRUE");
-        }
-        
-        return editModeMap;
-    }
+public class YearEndDistributionOfIncomeAndExpenseDocumentAuthorizer extends DistributionOfIncomeAndExpenseDocumentAuthorizer {
 }
-

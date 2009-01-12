@@ -20,7 +20,7 @@
 <c:set var="cashReceiptAttributes"
 	value="${DataDictionary['CashReceiptDocument'].attributes}" />
 <c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialCashReceipt"
@@ -128,7 +128,7 @@
 		</sys:accountingLines>
 	</kul:tab>			
 		 
-  	<c:set var="readOnly" value="${not empty KualiForm.editingMode['viewOnly']}" />
+  	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	<fin:capitalAssetEditTab readOnly="${readOnly}"/>
 			
 	<gl:generalLedgerPendingEntries />

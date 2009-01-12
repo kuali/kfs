@@ -22,24 +22,15 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentPresentationController" />
+    
     <property name="documentTypeCode" value="DI" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowAttributes">
     	<ref bean="DistributionOfIncomeAndExpenseDocument-workflowAttributes" />
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property> 
+ 
     <property name="validationMap" ref="DistributionOfIncomeAndExpenseDocument-validations" />
     <property name="accountingLineGroups">
     	<map>

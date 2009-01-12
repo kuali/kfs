@@ -17,29 +17,19 @@
     <property name="documentTypeName" value="DisbursementVoucherDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
 	   
+	<property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules" />   
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-
+    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
-    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController" />
+    
     <property name="documentTypeCode" value="DV" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowAttributes" >
       <ref bean="DisbursementVoucherDocument-workflowAttributes" />
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>FP_DISBURSEMENT_VOUCHER_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="attributes" >
       <list>
         <ref bean="DisbursementVoucherDocument-documentHeader.documentDescription" />

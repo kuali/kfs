@@ -61,7 +61,8 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
         // update editMode if possible
         CashManagementDocument cmDoc = (CashManagementDocument) document;
 
-        if (org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, cmDoc.getCampusCode()).getGroupId())) {
+        
+        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), KIMServiceLocator.getIdentityManagementService().getGroupByName(KFSConstants.KFS_GROUP_NAMESPACE, cmDoc.getCampusCode()).getGroupId())) {
             editModeMap.clear();
 
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

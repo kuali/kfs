@@ -34,29 +34,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Authorization permissions specific to the Advance Deposit document.
  */
 public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-    /**
-     * Only need to allow initiator or supervisor the ability to edit in pre-route mode. All other situations only present in
-     * non-edit mode. Since doc routes straight to final, no other editing is needed.
-     * 
-     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser, java.util.List, java.util.List)
-     */
-    public Map getEditMode(Document document, Person user) {
-        String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
-
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null)) {
-            if (workflowDocument.userIsInitiator(user)) {
-                editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
-            }
-        }
-
-        Map editModeMap = new HashMap();
-        editModeMap.put(editMode, "TRUE");
-
-        return editModeMap;
-    }
 
     /**
      * Overrides to use the parent's implementation, with the exception that AD documents can never be error corrected.

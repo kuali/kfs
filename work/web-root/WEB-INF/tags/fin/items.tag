@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
-<c:set var="readOnly" value="${not empty editingMode['viewOnly']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${KFSConstants.ITEM_LINE_ERRORS}">
 <c:set var="itemAttributes" value="${DataDictionary.InternalBillingItem.attributes}" />

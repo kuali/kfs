@@ -18,7 +18,7 @@
 <c:set var="creditCardReceiptAttributes"
 	value="${DataDictionary['CreditCardReceiptDocument'].attributes}" />
 <c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialCreditCardReceipt"

@@ -22,7 +22,7 @@
 
 <c:set var="checkBaseAttributes" value="${DataDictionary.CheckBase.attributes}" />
 
-<c:set var="readOnly" value="${!empty editingMode['viewOnly']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="columnCount" value="5" />
 <c:if test="${!readOnly}">
     <c:set var="columnCount" value="${columnCount + 1}" />

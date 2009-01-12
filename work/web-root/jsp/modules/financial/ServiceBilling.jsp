@@ -33,7 +33,7 @@
 		
 	<fin:items editingMode="${KualiForm.editingMode}" />
 	
-	<c:set var="readOnly" value="${not empty KualiForm.editingMode['viewOnly']}" />
+	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	<fin:capitalAssetEditTab readOnly="${readOnly}"/>
 	
 	<gl:generalLedgerPendingEntries />

@@ -21,7 +21,7 @@
 <%@ attribute name="editingMode" required="false" type="java.util.Map" %>
 
 <c:if test="${!readOnly && !empty editingMode}">
-  <c:set var="readOnly" value="${editingMode['viewOnly']}" />
+  <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 </c:if>
 
 <c:set var="currencyAttributes" value="${DataDictionary.CurrencyDetail.attributes}" />

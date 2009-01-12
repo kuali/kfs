@@ -18,7 +18,8 @@
         <property name="webScriptFiles" >
 			<ref bean="commonWebScriptFiles"/>
     	</property> 
-    	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase" />    
+    	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
+    	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase" />    
     </bean>
     
     <bean id="HelpDefinition" class="org.kuali.kfs.dictionary.HelpDefinition" abstract="true" />

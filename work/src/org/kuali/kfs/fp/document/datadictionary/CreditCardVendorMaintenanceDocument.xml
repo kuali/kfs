@@ -70,18 +70,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CCVN" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="workflowAttributes">
     	<ref bean="CreditCardVendorMaintenanceDocument-workflowAttributes" />
     </property>

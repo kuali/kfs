@@ -17,7 +17,7 @@
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialAuxiliaryVoucher" documentTypeName="AuxiliaryVoucherDocument" renderMultipart="true" showTabButtons="true">
 		<%-- derive displayReadOnly value --%>
-		<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+		<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
   	   	<SCRIPT type="text/javascript">
 		<!--

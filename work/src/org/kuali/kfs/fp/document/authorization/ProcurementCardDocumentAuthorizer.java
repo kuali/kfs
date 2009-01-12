@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -57,30 +58,6 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
 //
 //        return flags;
 //    }
-
-    /**
-     * Override to set the editMode to fullEntry if the routing is at the first account review node (PCDO has 2), second account
-     * review functions as normal.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        List activeNodes = getCurrentRouteLevels(workflowDocument);
-
-        Map editModeMap = new HashMap();
-        // FULL_ENTRY only if: a) person has an approval request, b) we are at the correct level, c) it's not a correction
-        // document, d) it is not an ADHOC request (important so that ADHOC don't get full entry).
-        if (workflowDocument.isApprovalRequested() && activeNodes.contains(RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT) && (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null) && !document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
-            editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY, "TRUE");
-        }
-        else {
-            editModeMap = super.getEditMode(document, user);
-        }
-
-        return editModeMap;
-    }
+   
 }
 

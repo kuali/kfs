@@ -59,8 +59,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="batchID" />
-    <property name="description" value="The batch ID." />
   </bean>
   <bean id="Batch-customerProfile.unitCode" parent="Batch-customerProfile.unitCode-parentBean" />
 
@@ -81,8 +79,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="paymentCount" />
-    <property name="description" value="Total Payment Count." />
   </bean>
   <bean id="Batch-customerProfile.subUnitCode" parent="Batch-customerProfile.subUnitCode-parentBean" />
 
@@ -125,8 +121,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="paymentFileName" />
-    <property name="description" value="The payment file name." />
   </bean>
   <bean id="Batch-fileProcessTimestamp" parent="Batch-fileProcessTimestamp-parentBean" />
 

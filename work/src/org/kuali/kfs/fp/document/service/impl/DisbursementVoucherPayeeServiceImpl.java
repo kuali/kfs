@@ -191,7 +191,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
                 // Send out FYIs to all previous approvers so they're aware of the changes to the address
                 try {
                     Set<Person> priorApprovers = dvDoc.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
-                    String initiatorUserId = dvDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiator().getUuId();
+                    String initiatorUserId = dvDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
                     Person finSysUser = SpringContext.getBean(PersonService.class).getPerson(initiatorUserId);
                     setupFYIs(dvDoc, priorApprovers, finSysUser.getPrincipalName());
                 }

@@ -181,11 +181,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             public String getCurrentRouteNodeNames() {
                 return null;
             }
-
-            public String getRoutedByUserNetworkId() {
-                return null;
-            }
-
+            
             public boolean isStandardSaveAllowed() {
                 return false;
             }

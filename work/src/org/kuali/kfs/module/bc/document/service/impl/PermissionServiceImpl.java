@@ -30,7 +30,6 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.RuleDTO;
 import org.kuali.rice.kew.dto.RuleExtensionDTO;
 import org.kuali.rice.kew.dto.RuleReportCriteriaDTO;
@@ -67,7 +66,7 @@ public class PermissionServiceImpl implements PermissionService {
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.rice.kim.bo.Person)
      */
     public List<Organization> getOrgReview(Person person) throws Exception {
-        return this.getOrgReview(person.getPrincipalName());
+        return this.getOrgReview(person.getPrincipalId());
     }
 
     /**
@@ -179,10 +178,10 @@ public class PermissionServiceImpl implements PermissionService {
      * @param principalName the specified person user identifier
      * @return the list of organizations where the user is a BC document approver
      */
-    private List<Organization> getOrgReview(String principalName) throws Exception {
+    private List<Organization> getOrgReview(String principalId) throws Exception {
         List<Organization> orgReview = new ArrayList<Organization>();
 
-        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(principalName);
+        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(principalId);
         RuleDTO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
 
         for (RuleDTO ruleDTO : rules) {
@@ -215,12 +214,12 @@ public class PermissionServiceImpl implements PermissionService {
      * @param principalName the specified user
      * @return the rule report criteria for budget construction document with the specified user
      */
-    private RuleReportCriteriaDTO getRuleReportCriteriaForBudgetDocument(String principalName) {
+    private RuleReportCriteriaDTO getRuleReportCriteriaForBudgetDocument(String principalId) {
         RuleReportCriteriaDTO ruleReportCriteria = new RuleReportCriteriaDTO();
 
         ruleReportCriteria.setDocumentTypeName(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
         ruleReportCriteria.setRuleTemplateName(BudgetConstructionConstants.ORG_REVIEW_RULE_TEMPLATE);
-        ruleReportCriteria.setResponsibleUser(new NetworkIdDTO(principalName));
+        ruleReportCriteria.setResponsiblePrincipalId(principalId);
         ruleReportCriteria.setIncludeDelegations(Boolean.FALSE);
         ruleReportCriteria.setActionRequestCodes(new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ });
 

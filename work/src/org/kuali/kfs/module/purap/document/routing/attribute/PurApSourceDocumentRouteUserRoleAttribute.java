@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.identity.Id;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
@@ -75,7 +75,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
      * @return a ResolvedQualifiedRole
      */
     @Override
-    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws KEWUserNotFoundException {
+    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) {
         String documentNumber = null;
         try {
             documentNumber = routeContext.getDocument().getRouteHeaderId().toString();

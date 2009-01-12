@@ -38,7 +38,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
 import org.kuali.rice.kew.identity.Id;
 import org.kuali.rice.kew.routeheader.DocumentContent;
@@ -46,7 +45,7 @@ import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RoleAttribute;
 import org.kuali.rice.kew.rule.WorkflowAttribute;
-import org.kuali.rice.kew.user.UuId;
+import org.kuali.rice.kew.user.WorkflowUserId;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -133,7 +132,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
 
     }
 
-    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws KEWUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) {
         //Using a set to prevent duplicates
         Set projectDirectors = new HashSet();
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
@@ -163,7 +162,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
             String annotation = "";
             ProjectDirectorRole role = getUnqualifiedProjectDirectorRole(qualifiedRole);
             annotation = (role.accountNumber == null ? "" : "Routing to chart/account number " + role.chart + "/" + role.accountNumber);
-            UuId projectDirectorUniversalId = getProjectDirectorUniversalId(role);
+            WorkflowUserId projectDirectorUniversalId = getProjectDirectorUniversalId(role);
             if (projectDirectorUniversalId != null) {
                 members.add(projectDirectorUniversalId);
             }
@@ -171,7 +170,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
         
     }
 
-    private static UuId getProjectDirectorUniversalId(ProjectDirectorRole role) {
+    private static WorkflowUserId getProjectDirectorUniversalId(ProjectDirectorRole role) {
         Person projectDirectorUniversalId = null;
         if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
             projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber);
@@ -183,7 +182,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
             return null;
         }
 
-        return new UuId(projectDirectorUniversalId.getPrincipalId());
+        return new WorkflowUserId(projectDirectorUniversalId.getPrincipalId());
 
     }
 

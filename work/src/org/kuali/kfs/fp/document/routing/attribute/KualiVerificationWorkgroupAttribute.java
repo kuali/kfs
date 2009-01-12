@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kew.rule.Role;
@@ -56,7 +56,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
         this.verificationWorkgoupName = verificationWorkgoupName;
     }
 
-    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws KEWUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) {
         Set verificationWorkgroups = new HashSet();
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
@@ -92,7 +92,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
         return roles;
     }
 
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) {
         try {
             List members = new ArrayList();
             String annotation = "";

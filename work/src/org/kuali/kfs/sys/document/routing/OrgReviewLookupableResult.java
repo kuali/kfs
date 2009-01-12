@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.sys.document.routing;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
 import org.kuali.rice.kew.rule.RuleBaseValues;
 import org.kuali.rice.kew.web.UrlResolver;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * This class wraps the Org Review Values that we need in the lookup result set.
@@ -63,26 +65,24 @@ public class OrgReviewLookupableResult {
             this.toAmount = ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.TO_AMOUNT_KEY).getValue();
         }
         StringBuffer responsiblePartyBuffer = new StringBuffer("<a href=\"");
-        try {
+        
             if (ruleBaseValues.getResponsibility(0).isUsingGroup()) {
                 responsiblePartyBuffer.append(UrlResolver.getInstance().getWorkgroupReportUrl() + "?methodToCall=report&workgroupId=").append(ruleBaseValues.getResponsibility(0).getGroup().getGroupId());
             }
             else {
-                responsiblePartyBuffer.append(UrlResolver.getInstance().getUserReportUrl() + "?methodToCall=report&workflowId=").append(ruleBaseValues.getResponsibility(0).getWorkflowUser().getWorkflowId());
+                responsiblePartyBuffer.append(UrlResolver.getInstance().getUserReportUrl() + "?methodToCall=report&workflowId=").append(ruleBaseValues.getResponsibility(0).getPrincipal().getPrincipalId());
             }
             responsiblePartyBuffer.append("&showEdit=no").append("\" >");
             if (ruleBaseValues.getResponsibility(0).isUsingGroup()) {
                 responsiblePartyBuffer.append(ruleBaseValues.getResponsibility(0).getGroup().getGroupName());
             }
             else {
-                responsiblePartyBuffer.append(ruleBaseValues.getResponsibility(0).getWorkflowUser().getDisplayName());
+                Person person = SpringContext.getBean(PersonService.class).getPerson(ruleBaseValues.getResponsibility(0).getPrincipal().getPrincipalId());
+                responsiblePartyBuffer.append(person.getName());
             }
             responsiblePartyBuffer.append("</a>");
             this.responsibleParty = responsiblePartyBuffer.toString();
-        }
-        catch (KEWUserNotFoundException e) {
-            throw new RuntimeException("Unable to find user for Rule Id: " + ruleBaseValues.getRuleBaseValuesId(), e);
-        }
+        
     }
 
     /**

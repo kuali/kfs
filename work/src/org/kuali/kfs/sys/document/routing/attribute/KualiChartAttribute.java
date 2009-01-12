@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
@@ -253,7 +253,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * @see org.kuali.rice.kew.rule.RoleAttribute#getQualifiedRoleNames(java.lang.String, java.lang.String)
      */
-    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws KEWUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
@@ -331,7 +331,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
      * @see org.kuali.rice.kew.rule.RoleAttribute#resolveQualifiedRole(org.kuali.rice.kew.rule.attribute.RouteContext,
      *      java.lang.String, java.lang.String)
      */
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) {
         List members = new ArrayList();
         Chart chart = null;
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {

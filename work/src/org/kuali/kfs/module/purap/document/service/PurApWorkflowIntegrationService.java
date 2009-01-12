@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.service;
 
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
@@ -55,6 +55,6 @@ public interface PurApWorkflowIntegrationService {
      */
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
 
-    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws KEWUserNotFoundException;
+    public String getLastUserId(DocumentRouteHeaderValue routeHeader);
 }
 

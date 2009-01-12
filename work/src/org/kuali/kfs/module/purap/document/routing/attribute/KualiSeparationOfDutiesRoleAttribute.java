@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.identity.Id;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
@@ -88,7 +88,7 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
      * @return a ResolvedQualifiedRole
      */
     @Override
-    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws KEWUserNotFoundException {
+    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) {
         DocumentRouteHeaderValue document = routeContext.getDocument();
         Set documentReviewers = new HashSet();
         // get a list of all people who have approved or completed this document in it's routing lifespan

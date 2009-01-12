@@ -7,18 +7,11 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoiceItemMappingDao;
-import org.kuali.rice.kew.user.UserService;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class ElectronicInvoiceItemMappingDaoOjb extends PersistenceBrokerDaoSupport implements
 ElectronicInvoiceItemMappingDao {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceItemMappingDaoOjb.class);
-
-  private UserService userService;
-
-  public void setUserService(UserService us) {
-    userService = us;
-  }
 
   /**
    * Save an ElectronicInvoiceItemMapping.

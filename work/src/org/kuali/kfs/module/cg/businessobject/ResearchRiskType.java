@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kew.workgroup.Workgroup;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -44,7 +43,6 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements I
     private String researchRiskTypeNotificationValue;
 
     private ControlAttributeType controlAttributeType;
-    private Workgroup routeWorkgroup;
 
     /**
      * Default constructor.

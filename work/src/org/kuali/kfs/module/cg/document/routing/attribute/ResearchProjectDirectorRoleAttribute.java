@@ -24,7 +24,7 @@ import javax.xml.xpath.XPath;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.rule.AbstractRoleAttribute;
@@ -56,12 +56,12 @@ public class ResearchProjectDirectorRoleAttribute extends AbstractRoleAttribute 
         return ROLES;
     }
 
-    public List getQualifiedRoleNames(String roleName, DocumentContent documentContent) throws KEWUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
         // deferring all "logic" to the resolve stage
         return QUALIFIED_ROLE_NAMES;
     }
 
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
         if (!PROJECT_DIRECTOR_ROLE_KEY.equals(roleName)) {
             throw new IllegalArgumentException("resolveQualifiedRole was called with a role name other than '" + PROJECT_DIRECTOR_ROLE_KEY + "'");
         }

@@ -20,12 +20,9 @@ import java.util.Set;
 
 import org.kuali.rice.kew.dto.ReturnPointDTO;
 import org.kuali.rice.kew.dto.RouteHeaderDTO;
-import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
-import org.kuali.rice.kew.dto.WorkgroupIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -174,6 +171,19 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
      * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getInitiatorNetworkId()
      */
     public String getInitiatorNetworkId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public String getInitiatorPrincipalId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+        /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#getRoutedByPrincipalId()
+     */
+    public String getRoutedByPrincipalId() {
         // TODO Auto-generated method stub
         return null;
     }

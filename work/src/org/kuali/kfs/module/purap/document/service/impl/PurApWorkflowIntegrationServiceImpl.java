@@ -30,7 +30,7 @@ import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.dto.UserIdDTO;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -204,8 +204,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             // throw exception
         }
         List<ActionRequestDTO> activeRequests = new ArrayList<ActionRequestDTO>();
-        UserIdDTO userIdDTO = (ObjectUtils.isNotNull(user)) ? new NetworkIdDTO(user.getPrincipalName()) : null;
-        ActionRequestDTO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber, nodeName, userIdDTO);
+        ActionRequestDTO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber, nodeName, user.getPrincipalId());
         for (ActionRequestDTO actionRequest : actionRequests) {
             // identify which requests for the given node name can be satisfied by an action by this user
             if (actionRequest.isActivated()) {
@@ -234,7 +233,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     // document is only initiated so we need to pass xml for workflow to simulate route properly
                     ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
                     reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaDTO.setRoutingUser(new NetworkIdDTO(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
+                    reportCriteriaDTO.setRoutingPrincipalId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                     reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
                     boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ });
                     return value;
@@ -283,7 +282,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#getLastUserId(org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue)
      */
-    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws KEWUserNotFoundException {
+    public String getLastUserId(DocumentRouteHeaderValue routeHeader) {
         KimPrincipal principal = null;
         Timestamp previousDate = null;
         for (Iterator iter = routeHeader.getActionsTaken().iterator(); iter.hasNext();) {

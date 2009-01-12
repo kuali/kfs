@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.identity.Id;
 import org.kuali.rice.kew.routeheader.DocumentContent;
@@ -39,6 +39,7 @@ import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RuleExtension;
 import org.kuali.rice.kew.rule.UnqualifiedRoleAttribute;
 import org.kuali.rice.kew.workgroup.GroupNameId;
+import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -83,12 +84,13 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     @Override
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         String documentNumber = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
-        String authenticationId = "(not found)";
+        String principalId = "(not found)";
         try {
-            authenticationId = docContent.getRouteContext().getDocument().getRoutedByUser().getAuthenticationUserId().getAuthenticationId();
-            if (StringUtils.isNotEmpty(authenticationId)) {
+            KimPrincipal routedByPrincipal = docContent.getRouteContext().getDocument().getRoutedByPrincipal();
+            if (routedByPrincipal != null && StringUtils.isNotEmpty(routedByPrincipal.getPrincipalId())) {
+                principalId = routedByPrincipal.getPrincipalId();
                 String contractManagersGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CONTRACT_MANAGERS_WORKGROUP_NAME);
-                if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authenticationId.toLowerCase()).getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, contractManagersGroupName)) {
+                if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(principalId, org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, contractManagersGroupName)) {
                     // get the document id number from the routeContext doc content
                     PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
                     document.refreshNonUpdateableReferences();
@@ -98,15 +100,10 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
                 return false;
             }
             else {
-                String errorMsg = "Error while processing doc id '" + documentNumber + "'... Authentication Id not found from routed by user.";
+                String errorMsg = "Error while processing doc id '" + documentNumber + "'... Principal Id not found from routed by user.";
                 LOG.error(errorMsg);
                 throw new RuntimeException(errorMsg);
             }
-        }
-        catch (KEWUserNotFoundException u) {
-            String errorMsg = "Error trying to get routed by user from doc id '" + documentNumber + "'";
-            LOG.error(errorMsg, u);
-            throw new RuntimeException(errorMsg, u);
         }
         catch (WorkflowException we) {
             String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
@@ -114,7 +111,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
             throw new RuntimeException(errorMsg, we);
         }
         catch (Exception e) {
-            String errorMsg = "Error while processing doc id '" + documentNumber + "'... User not found using Authentication Id '" + authenticationId + "'";
+            String errorMsg = "Error while processing doc id '" + documentNumber + "'... User not found using Principal Id '" + principalId + "'";
             LOG.error(errorMsg, e);
             throw new RuntimeException(errorMsg, e);
         }
@@ -128,7 +125,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
      * @return a ResolvedQualifiedRole
      */
     @Override
-    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws KEWUserNotFoundException {
+    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) {
         // assume isMatch above has done it's job
         String workgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
         return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));

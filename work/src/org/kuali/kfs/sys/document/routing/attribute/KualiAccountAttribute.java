@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
@@ -363,7 +363,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * Encodes the qualified role names for Fiscal Officer and Account Supervisor routing.
      */
-    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws KEWUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) {
         String newMaintPrefix = KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX;
         String oldMaintPrefix = KualiWorkflowUtils.OLD_MAINTAINABLE_PREFIX;
         try {
@@ -559,7 +559,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * Resolves the qualified roles for Fiscal Officers, their delegates, and account supervisors.
      */
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) {
         try {
             List members = new ArrayList();
             String workfowDocumentType = context.getDocument().getDocumentType().getName();

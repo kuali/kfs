@@ -22,28 +22,14 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="sessionDocument" value="true" />
     <property name="documentTypeCode" value="LLCP" />
-    <property name="workflowProperties" >
-      <ref bean="LaborLedgerCorrectionProcessDocument-workflowProperties" />
-    </property>
+    <property name="workflowAttributes">
+    	<ref bean="LaborLedgerCorrectionProcessDocument-workflowAttributes" />
+    </property>    
   </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="LaborLedgerCorrectionProcessDocument-workflowAttributes" parent="LaborLedgerCorrectionProcessDocument-workflowAttributes-parentBean" />
+  
+  <bean id="LaborLedgerCorrectionProcessDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="LaborLedgerCorrectionProcessDocument-workflowProperties" parent="LaborLedgerCorrectionProcessDocument-workflowProperties-parentBean" />
-
-  <bean id="LaborLedgerCorrectionProcessDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
 </beans>

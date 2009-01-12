@@ -22,9 +22,9 @@
     <property name="documentTypeCode" value="YEST" />
     <property name="sessionDocument" value="true" />    
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="YearEndSalaryExpenseTransferDocument-workflowProperties" />
-    </property>
+    <property name="workflowAttributes" >
+      <ref bean="YearEndSalaryExpenseTransferDocument-workflowAttributes" />
+    </property>    
        
     <property name="validationMap" ref="YearEndSalaryExpenseTransferDocument-validations" /> 
     <property name="accountingLineGroups">
@@ -42,34 +42,10 @@
     
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="YearEndSalaryExpenseTransferDocument-workflowProperties" parent="YearEndSalaryExpenseTransferDocument-workflowProperties-parentBean" />
-
-  <bean id="YearEndSalaryExpenseTransferDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>   
-        
-  </bean>
+<!-- Exported Workflow Attributes -->
+  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes" parent="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" />
+  
+  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
   
   <!-- Validations -->
   

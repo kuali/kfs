@@ -25,8 +25,8 @@
     <property name="documentTypeCode" value="LLJV" />
     <property name="sessionDocument" value="true" />    
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="LaborJournalVoucherDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="LaborJournalVoucherDocument-workflowAttributes" />
     </property>
     <property name="attributes" >
       <list>
@@ -118,29 +118,10 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="LaborJournalVoucherDocument-workflowProperties" parent="LaborJournalVoucherDocument-workflowProperties-parentBean" />
-
-  <bean id="LaborJournalVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+  <!-- workflow attributes -->
+  <bean id="LaborJournalVoucherDocument-workflowAttributes" parent="LaborJournalVoucherDocument-workflowAttributes-parentBean" />
+  
+  <bean id="LaborJournalVoucherDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
   
   <!-- Validations -->
   

@@ -253,7 +253,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p.add(new Chunk(" To:\n", ver_6_normal));
         StringBuffer vendorInfo = new StringBuffer();
         if (StringUtils.isNotBlank(poqv.getVendorAttentionName())) {
-            vendorInfo.append("     Attention: " + poqv.getVendorAttentionName().trim() + "\n");
+            vendorInfo.append("     ATTN: " + poqv.getVendorAttentionName().trim() + "\n");
         }
         vendorInfo.append("     " + poqv.getVendorName() + "\n");
         if (StringUtils.isNotBlank(poqv.getVendorLine1Address())) {

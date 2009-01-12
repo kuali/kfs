@@ -39,7 +39,7 @@ public class ArPropertyConstants {
 
         public static final String CUSTOMER_INVOICE_DETAILS = "accountingLines";
         public static final String INVOICE_ITEM_CODE = "invoiceItemCode";
-        public static final String UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
+        public static final String UNIT_OF_MEASURE_CODE = "invoiceItemUnitOfMeasureCode";
 
         public static final String CUSTOMER = "customer";
         public static final String CUSTOMER_NUMBER = "accountsReceivableDocumentHeader.customerNumber";

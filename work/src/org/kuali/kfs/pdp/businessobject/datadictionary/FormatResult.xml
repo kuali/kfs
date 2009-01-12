@@ -41,8 +41,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="Process ID" />
-    <property name="description" value="The Process ID." />
   </bean>
   <bean id="FormatResult-payments" parent="FormatResult-payments-parentBean" />
 
@@ -59,8 +57,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="Payments" />
-    <property name="description" value="Payments." />
   </bean>
   <bean id="FormatResult-amount" parent="FormatResult-amount-parentBean" />
 

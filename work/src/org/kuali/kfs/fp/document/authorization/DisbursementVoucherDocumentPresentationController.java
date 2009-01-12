@@ -15,11 +15,16 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
 
@@ -39,6 +44,37 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY);
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY);
 
+        this.addPayeeEditEntry(document, editModes);
+
         return editModes;
+    }
+
+    private void addPayeeEditEntry(Document document, Set<String> editModes) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE);
+        }
+        else if (workflowDocument.stateIsEnroute()) {
+            if (editModes.contains(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY)) {
+                editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE);
+            }
+            else {
+                List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+                if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) {
+                    editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE);
+                }
+            }
+        }
+
+    }
+
+    private List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+        try {
+            return Arrays.asList(workflowDocument.getNodeNames());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -37,8 +37,6 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="customerNoteLineNbr" />
-    <property name="description" value="Note Line Number." />
   </bean>
   <bean id="PaymentNoteText-customerNoteText" parent="PaymentNoteText-customerNoteText-parentBean" />
 
@@ -55,8 +53,6 @@
             p:cols="50"
             p:rows="3" />
     </property>
-    <property name="summary" value="customerNoteText" />
-    <property name="description" value="Note Text." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

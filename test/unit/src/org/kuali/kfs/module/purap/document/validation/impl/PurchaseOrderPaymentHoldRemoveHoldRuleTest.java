@@ -64,13 +64,6 @@ public class PurchaseOrderPaymentHoldRemoveHoldRuleTest extends PurapRuleTestBas
         assertTrue(holdRule.processValidation(po));
     }
 
-    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
-    public void testPaymentHoldValidate_InvalidUser() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
-        savePO(po);        
-        assertFalse(holdRule.processValidation(po));
-    }
-
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testRemoveHoldValidate_PaymentHold() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_PENDING_REMOVE_HOLD.generatePO();
@@ -92,11 +85,5 @@ public class PurchaseOrderPaymentHoldRemoveHoldRuleTest extends PurapRuleTestBas
         assertFalse(removeRule.processValidation(po));
     }
 
-    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
-    public void testRemoveHoldValidate_InvalidUser() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_PENDING_REMOVE_HOLD.generatePO();
-        savePO(po);
-        assertFalse(removeRule.processValidation(po));
-    }
 }
 

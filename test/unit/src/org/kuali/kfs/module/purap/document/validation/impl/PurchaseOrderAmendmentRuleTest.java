@@ -70,18 +70,5 @@ public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
         savePO(po);       
         assertFalse(amendRule.processValidation(po));
     }
-
-    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
-    public void testAmendmentValidate_InvalidUser() {
-        try {
-            po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
-            savePO(po);        
-            assertFalse(amendRule.processValidation(po));
-            return;
-        } catch ( DocumentInitiationAuthorizationException ex ) {
-            // OK, rorenfro can't initiate PO documents
-        }
-        fail( GlobalVariables.getUserSession().getPrincipalName() + " should not have been able to initiate the PO document" );
-    }
 }
 

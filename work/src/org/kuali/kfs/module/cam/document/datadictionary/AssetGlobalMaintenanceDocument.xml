@@ -84,8 +84,8 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalPresentationController" />
     <property name="documentTypeCode" value="AA" />
-    <property name="workflowProperties" >
-      <ref bean="AssetGlobalMaintenanceDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="AssetGlobalMaintenanceDocument-workflowAttributes" />
     </property> 
     <property name="webScriptFiles" >
       <list>
@@ -494,23 +494,30 @@
     </property>
   </bean>
 
-  <bean id="AssetGlobalMaintenanceDocument-workflowProperties" parent="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" />
-  <bean id="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.organizationOwnerAccount" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.assetGlobalDetails" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  <bean id="AssetGlobalMaintenanceDocument-workflowAttributes" parent="AssetGlobalMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AssetGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    <property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    						<property name="attributeName" value="capitalAssetNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.capitalAssetNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-AssetFabricationMaintenanceDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetMaintenanceDocument-OrganizationHierarchy" />
+    		</map>
+    	</property>
   </bean>  
 </beans>

@@ -73,10 +73,21 @@
     <property name="documentTypeName" value="AssetMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPresentationController" />
     <property name="documentTypeCode" value="CASM" />
-    <property name="workflowProperties" >
-      <ref bean="AssetMaintenanceDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="AssetMaintenanceDocument-workflowAttributes" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
     </property>
     <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetPaymentsLookupLink.jsp"></property>
   </bean>
@@ -790,25 +801,55 @@
     </property>
   </bean>
 
-  <bean id="AssetMaintenanceDocument-workflowProperties" parent="AssetMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="AssetMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingTypes" />
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingSet" />      
-              
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  
+  <bean id="AssetMaintenanceDocument-workflowAttributes" parent="AssetMaintenanceDocument-workflowAttributes-parentBean" />
+	
+  <bean id="AssetMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    						<property name="attributeName" value="capitalAssetNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.capitalAssetNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetMaintenanceDocument-OrganizationHierarchy" />
+    		</map>
+    	</property>
   </bean>
+  
+  <bean id="RoutingType-AssetMaintenanceDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-organizationCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentValues">
+	    				<list>
+	    					<value>newMaintainableObject.businessObject.organizationOwnerChartOfAccountsCode</value>
+	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organizationCode</value>	    					
+	    					<value>documentHeader.workflowDocument.documentType</value>	    					
+	    				</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    </bean>
+    
 </beans>
-

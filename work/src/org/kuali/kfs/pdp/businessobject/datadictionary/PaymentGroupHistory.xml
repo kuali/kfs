@@ -106,8 +106,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="requisitionNbr" />
-    <property name="description" value="Requisition Number." />
   </bean>
   <bean id="PaymentGroupHistory-origDisburseNbr" parent="PaymentGroupHistory-origDisburseNbr-parentBean" />
 
@@ -161,8 +159,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="Payment Detail ID." />
   </bean>
   <bean id="PaymentGroupHistory-paymentGroup.paymentDetails.netPaymentAmount" parent="PaymentGroupHistory-paymentGroup.paymentDetails.netPaymentAmount-parentBean" />
 
@@ -238,8 +234,6 @@
     <property name="name" value="pmtCancelExtractStat" />
     <property name="label" value="Cancel Extract Status" />
     <property name="shortLabel" value="Cancel Extract Status" />
-    <property name="summary" value="Cancel Extract Status" />
-    <property name="description" value="Cancel Extract Status" />
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
        <property name="control" >
@@ -271,8 +265,6 @@
             p:cols="50"
             p:rows="3" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="name" value="changeNoteText" />
     <property name="label" value="Change Note Text" />
     <property name="description" value="A free-form text field for the text of the change." />
   </bean>

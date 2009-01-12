@@ -59,8 +59,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="Process Summary ID." />
   </bean>
   <bean id="ProcessSummary-customerId" parent="ProcessSummary-customerId-parentBean" />
 
@@ -91,8 +89,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="Sort Group Id." />
   </bean>
   <bean id="ProcessSummary-sortGroupName" parent="ProcessSummary-sortGroupName-parentBean" />
 
@@ -123,9 +119,7 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="beginDisbursementNbr" />
-    <property name="description" value="Begin Disbursement Number." />
-  </bean>  
+  </bean>   
   <bean id="ProcessSummary-endDisbursementNbr" parent="ProcessSummary-endDisbursementNbr-parentBean" />
 
   <bean id="ProcessSummary-endDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
@@ -140,8 +134,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="id" />
-    <property name="description" value="End Disbursement Number." />
   </bean> 
   <bean id="ProcessSummary-processTotalAmount" parent="ProcessSummary-processTotalAmount-parentBean" />
 
@@ -163,8 +155,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="processTotalCount" />
-    <property name="description" value="Process Total Count." />
   </bean>
   <bean id="ProcessSummary-process.campus" parent="ProcessSummary-process.campus-parentBean" />
 

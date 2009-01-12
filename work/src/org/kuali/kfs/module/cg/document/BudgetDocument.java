@@ -17,13 +17,13 @@ package org.kuali.kfs.module.cg.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -34,16 +34,9 @@ import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.document.service.BudgetService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingGuid;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.exception.IllegalObjectStateException;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -52,7 +45,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Budget
  */
-public class BudgetDocument extends ResearchDocumentBase implements GenericRoutingInfo {
+public class BudgetDocument extends ResearchDocumentBase {
     private static final Logger LOG = Logger.getLogger(BudgetDocument.class);
 
     private static final long serialVersionUID = -3561859858801995441L;
@@ -68,8 +61,6 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
     private String taskToDelete;
 
     private Budget budget;
-
-    public Set<RoutingData> routingInfo;
 
     /**
      * Default no-arg constructor.
@@ -337,24 +328,6 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
         this.taskToDelete = taskToDelete;
     }
 
-    /**
-     * Gets the routingInfo attribute.
-     * 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * 
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-
     @Override
     public List buildListOfDeletionAwareLists() {
         List list = new ArrayList();
@@ -398,23 +371,21 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
 
         return list;
     }
+    
+    /**
+     * @return the budget user who is the project director on this research project
+     */
+    public BudgetUser getProjectDirector() {
+        BudgetUser projectDirector = null;
 
-    public String generateDocumentContent() {
-        List referenceObjects = new ArrayList();
-        referenceObjects.add("personnel");
-        referenceObjects.add("institutionCostShareItems");
-        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budget, referenceObjects);
-        this.refreshReferenceObject("adhocOrgs");
-
-        StringBuffer xml = new StringBuffer("<documentContent>");
-        xml.append(buildProjectDirectorReportXml(false));
-        xml.append(buildCostShareOrgReportXml(false));
-        xml.append(buildAdhocOrgReportXml(false));
-        xml.append("</documentContent>");
-
-        return xml.toString();
+        for (BudgetUser person : this.getBudget().getPersonnel()) {
+            if (person.isPersonProjectDirectorIndicator()) {
+                return person;
+            }
+        }
+        return null;
     }
-
+    
     /**
      * Build the xml to use when generating the workflow routing report.
      * 
@@ -453,7 +424,59 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
         }
         return xml.toString();
     }
-
+    
+    /**
+     * @return a one-element List (it'll be easier on the property resolver) with the organization of the project director
+     */
+    public List<Organization> getProjectDirectorOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        final BudgetUser projectDirector = getProjectDirector();
+        final OrganizationService organizationService = SpringContext.getBean(OrganizationService.class);
+        
+        final Organization org = organizationService.getByPrimaryId(projectDirector.getFiscalCampusCode(), projectDirector.getPrimaryDepartmentCode());
+        if (org != null) {
+            organizations.add(org);
+        }
+        
+        return organizations;
+    }
+    
+    /**
+     * @return a list of any ad hoc organizations on this research budget
+     */
+    public List<Organization> getAdHocOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        final OrganizationService organizationService = SpringContext.getBean(OrganizationService.class);
+        
+        for (AdhocOrg adHocOrganization : this.getAdhocOrgs()) {
+            final Organization org = organizationService.getByPrimaryId(adHocOrganization.getFiscalCampusCode(), adHocOrganization.getPrimaryDepartmentCode());
+            if (org != null) {
+                organizations.add(org);
+            }
+        }
+        return organizations;
+    }
+    
+    /**
+     * @return a list of all applicable cost share organizations on this budget
+     */
+    public List<Organization> getCostShareOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        final OrganizationService organizationService = SpringContext.getBean(OrganizationService.class);
+        final String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        
+        for (BudgetInstitutionCostShare costShare : getBudget().getInstitutionCostShareItems()) {
+            if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
+                final Organization org = organizationService.getByPrimaryId(costShare.getChartOfAccountsCode(), (costShare.getOrganizationCode() != "" ? costShare.getOrganizationCode() : ""));
+                if (org != null) {
+                    organizations.add(org);
+                }
+            }
+        }
+        
+        return organizations;
+    }
+    
     /**
      * Build the xml to use when generating the workflow org routing report.
      * 
@@ -482,74 +505,6 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
         }
 
         return xml.toString();
-    }
-
-    /**
-     * Build the xml to use when generating the workflow org routing report.
-     * 
-     * @param List<BudgetAdhocOrg> orgs
-     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
-     * @return String
-     */
-    public String buildAdhocOrgReportXml(boolean encloseContent) {
-        StringBuffer xml = new StringBuffer();
-        if (encloseContent) {
-            xml.append("<documentContent>");
-        }
-        xml.append(openRoutingInfoXml());
-        List<AdhocOrg> orgs = this.getAdhocOrgs();
-        for (AdhocOrg org : orgs) {
-            xml.append(buildRoutingDataXmlForOrg(org.getFiscalCampusCode(), org.getPrimaryDepartmentCode()));
-        }
-        xml.append(closeRoutingInfoXml());
-        if (encloseContent) {
-            xml.append("</documentContent>");
-        }
-        return xml.toString();
-    }
-
-    /**
-     * 
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        routingInfo = new HashSet<RoutingData>();
-        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
-
-        // Populate chart and org values related to the project director
-        for (BudgetUser person : this.getBudget().getPersonnel()) {
-            if (person.isPersonProjectDirectorIndicator()) {
-                String chartOfAccountsCode = person.getFiscalCampusCode();
-                String organizationCode;
-                if (StringUtils.isBlank(person.getPrimaryDepartmentCode())) {
-                    organizationCode = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(person.getUser(),CGConstants.CG_NAMESPACE_CODE).getOrganizationCode();
-                }
-                else {
-                    organizationCode = person.getPrimaryDepartmentCode();
-                }
-                organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationCode));
-            }
-        }
-
-        // Populate any chart and org values associated with the cost share
-        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
-        for (BudgetInstitutionCostShare costShare : this.getBudget().getInstitutionCostShareItems()) {
-            if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
-                if (costShare.getChartOfAccountsCode() != null && costShare.getOrganizationCode() != null) {
-                    organizationRoutingSet.add(new OrgReviewRoutingData(costShare.getChartOfAccountsCode(), costShare.getOrganizationCode()));
-                }
-            }
-        }
-        
-        // Populate any ad hoc orgs as well
-        for (AdhocOrg org : this.getAdhocOrgs()) {
-            organizationRoutingSet.add(new OrgReviewRoutingData(org.getFiscalCampusCode(), org.getPrimaryDepartmentCode()));
-        }
-
-        RoutingData organizationRoutingData = new RoutingData();
-        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
-        organizationRoutingData.setRoutingSet(organizationRoutingSet);
-        routingInfo.add(organizationRoutingData);
     }
 
 }

@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="ProposalMaintenanceDocument" parent="ProposalMaintenanceDocument-parentBean" />
 
@@ -74,9 +77,6 @@
         <value>../scripts/cg/proposalDocument.js</value>
       </list>
     </property>
-    <property name="workflowProperties" >
-      <ref bean="ProposalMaintenanceDocument-workflowProperties" />
-    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -88,6 +88,9 @@
           </property>
         </bean>
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="ProposalMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -339,32 +342,120 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="ProposalMaintenanceDocument-workflowProperties" parent="ProposalMaintenanceDocument-workflowProperties-parentBean" />
-
-  <bean id="ProposalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="oldMaintainableObject.businessObject" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.Agency" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.Award" />
-              <bean parent="WorkflowProperty"
-                    p:path="newMaintainableObject.businessObject.ProposalResearchRisk.researchRiskTypeCode" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<!-- workflow attributes -->
+  	<bean id="ProposalMaintenanceDocument-workflowAttributes" parent="ProposalMaintenanceDocument-workflowAttributes-parentBean" />
+  
+	<bean id="ProposalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-proposalStatus" />
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-chartOfAccountsCode" />
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-organizationCode" />
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-agencyReportName" />
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="OrganizationHierarchy" value-ref="ProposalMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+    			<entry key="ResearchRisk" value-ref="ProposalMaintenanceDocument-RoutingType-ResearchRisk" />
+    		</map>
+    	</property>
+	</bean>
+	
+	<bean id="ProposalMaintenanceDocument-SearchingType-proposalStatus" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+        	<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+        		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
+    			<property name="attributeName" value="proposalStatusCode" />
+        	</bean>
+        </property>
+        <property name="documentValues">
+        	<list>
+        		<value>newMaintainableObject.businessObject.proposalStatusCode</value>
+        	</list>
+        </property>
+    </bean>
+    
+    <bean id="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>newMaintainableObject.businessObject.primaryProposalOrganization.chartOfAccountsCode</value>
+        	</list>
+        </property>
+    </bean>
+    
+    <bean id="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>newMaintainableObject.businessObject.primaryProposalOrganization.organizationCode</value>
+        	</list>
+        </property>
+    </bean>
+    
+    <bean id="ProposalMaintenanceDocument-SearchingType-agencyReportName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+        	<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+        		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Agency" />
+    			<property name="attributeName" value="reportingName" />
+        	</bean>
+        </property>
+        <property name="documentValues">
+        	<list>
+        		<value>newMaintainableObject.businessObject.agency.reportingName</value>
+        	</list>
+        </property>
+    </bean>
+    
+    <bean id="ProposalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+    			<ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-organizationCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+			    	<property name="documentValues">
+			    		<list>
+			    			<value>newMaintainableObject.businessObject.primaryProposalOrganization.chartOfAccountsCode</value>
+			    		</list>
+			    	</property>
+			   	</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+			    	<property name="documentValues">
+			    		<list>
+			    			<value>newMaintainableObject.businessObject.primaryProposalOrganization.organizationCode</value>
+			    		</list>
+			    	</property>
+			   	</bean>
+    		</list>
+    	</property>
+    </bean>
+    <bean id="ProposalMaintenanceDocument-RoutingType-ResearchRisk" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-researchRiskCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+			    	<property name="documentCollectionPath">
+			    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+			    			<property name="collectionPath" value="newMaintainableObject.businessObject.proposalResearchRisks" />
+			    			<property name="documentValues">
+			    				<list>
+			    					<value>researchRiskTypeCode</value>
+			    				</list>
+			    			</property>
+			    		</bean>
+			    	</property>
+			   	</bean>
+    		</list>
+    	</property>
+    </bean>
 </beans>
 

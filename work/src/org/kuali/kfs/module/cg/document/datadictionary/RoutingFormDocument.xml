@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormDocument" parent="RoutingFormDocument-parentBean" />
 
@@ -165,6 +168,9 @@
         <ref bean="RoutingFormDocument-routingFormAgency" />
         <ref bean="RoutingFormDocument-versionNumber" />
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="RoutingFormDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -973,4 +979,119 @@
 
   <bean id="RoutingFormDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+  
+	<!-- workflow attributes for routing -->
+	<bean id="RoutingFormDocument-workflowAttributes" parent="RoutingFormDocument-workflowAttributes-parentBean" />
+
+	<bean id="RoutingFormDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingFormDocument-RoutingType-OrganizationHierarchy" />
+    			<entry key="ResearchAdHoc" value-ref="RoutingFormDocument-RoutingType-ResearchAdHoc" />
+    			<entry key="ResearchRisk" value-ref="RoutingFormDocument-RoutingType-PositivelyAnsweredQuestions" />
+    		</map>
+    	</property>
+	</bean>
+	
+	<bean id="RoutingFormDocument-RoutingType-ResearchAdHoc" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    				<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.BudgetUser" />
+    				<property name="attributeName" value="principalId" />
+    			</bean>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentCollectionPath">
+    					<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+    						<property name="documentValues">
+						   		<list>
+						   			<value>principalId</value>
+						   		</list>
+					   		</property>
+					   		<property name="collectionPath" value="adhocPersons" />
+    					</bean>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+	<bean id="RoutingFormDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-organizationCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentCollectionPath">
+    					<bean parent="DocumentCollectionPath-SimpleOrganization">
+    						<property name="collectionPath" value="projectDirectorOrganizations" />
+    					</bean>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentCollectionPath">
+    					<bean parent="DocumentCollectionPath-SimpleOrganization">
+    						<property name="collectionPath" value="coProjectDirectorOrganizations" />
+    					</bean>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentCollectionPath">
+    					<bean parent="DocumentCollectionPath-SimpleOrganization">
+    						<property name="collectionPath" value="adHocOrganizations" />
+    					</bean>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentCollectionPath">
+    					<bean parent="DocumentCollectionPath-SimpleOrganization">
+    						<property name="collectionPath" value="costShareOrganizations" />
+    					</bean>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentCollectionPath">
+    					<bean parent="DocumentCollectionPath-SimpleOrganization">
+    						<property name="collectionPath" value="otherOrganizations" />
+    					</bean>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+	<bean id="RoutingFormDocument-RoutingType-PositivelyAnsweredQuestions" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		        	<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.QuestionType" />
+    				<property name="attributeName" value="questionTypeCode" />
+		        </bean>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+			    	<property name="documentCollectionPath">
+			    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+			    			<property name="collectionPath" value="positivelyAnsweredQuestions" />
+			    			<property name="documentValues">
+			    				<list>
+			    					<value>questionTypeCode</value>
+			    				</list>
+			    			</property>
+			    		</bean>
+			    	</property>
+			   	</bean>
+    		</list>
+    	</property>
+    </bean>
 </beans>

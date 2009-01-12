@@ -29,6 +29,7 @@
         <ref bean="BudgetUser-personSalaryJustificationText" />
         <ref bean="BudgetUser-appointmentTypeCode" />
         <ref bean="BudgetUser-personHourlyNumber" />
+        <ref bean="BudgetUser-principalId" />
         <ref bean="BudgetUser-user.principalId" />
         <ref bean="BudgetUser-user.principalName" />
         <ref bean="BudgetUser-user.name" />
@@ -297,6 +298,15 @@
     <property name="shortLabel" value="Univ ID" />
     <property name="summary" value="Institution ID" />
     <property name="description" value="Institution ID" />
+  </bean>
+  <bean id="BudgetUser-principalId" parent="BudgetUser-principalId-parentBean" />
+
+  <bean id="BudgetUser-principalId-parentBean" abstract="true" parent="BudgetUser-user.principalId">
+    <property name="name" value="principalId" />
+    <property name="label" value="Person ID" />
+    <property name="shortLabel" value="Prsn ID" />
+    <property name="summary" value="Person ID" />
+    <property name="description" value="Person ID" />
   </bean>
   <bean id="BudgetUser-user.principalName" parent="BudgetUser-user.principalName-parentBean" />
 

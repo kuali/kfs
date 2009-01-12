@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
@@ -51,17 +53,14 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormProjectDetailsService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -1517,6 +1516,21 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public List<RoutingFormQuestion> getRoutingFormQuestions() {
         return routingFormQuestions;
     }
+    
+    /**
+     * A calculated property for routing purposes, this will return a List of all question
+     * which have been answered positively on this RoutingForm document. 
+     * @return a list of questions
+     */
+    public List<RoutingFormQuestion> getPositivelyAnsweredQuestions() {
+        List<RoutingFormQuestion> positivelyAnsweredQuestionTypes = new ArrayList<RoutingFormQuestion>();
+        for (RoutingFormQuestion question : getRoutingFormQuestions()) {
+            if ("YT1".indexOf(question.getYesNoIndicator()) >= 0) {
+                positivelyAnsweredQuestionTypes.add(question);
+            }
+        }
+        return positivelyAnsweredQuestionTypes;
+    }
 
     /**
      * Sets the routingFormQuestions attribute value.
@@ -1851,6 +1865,63 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         }
         return xml.toString();
     }
+    
+    /**
+     * @return the project director of this routing form
+     */
+    public RoutingFormPersonnel getProjectDirector() {
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(this, "routingFormPersonnel");
+        for (RoutingFormPersonnel user : this.getRoutingFormPersonnel()) {
+            if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.isProjectDirector()) {
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * @return a List - with one element - of the organizations the project director belongs to
+     */
+    public List<Organization> getProjectDirectorOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        
+        final RoutingFormPersonnel projectDirector = getProjectDirector();
+        if (!ObjectUtils.isNull(projectDirector.getOrganization())) {
+            organizations.add(projectDirector.getOrganization());
+        }
+        
+        return organizations;
+    }
+    
+    /**
+     * @return all co-project director personnel on this routing form
+     */
+    public List<RoutingFormPersonnel> getCoProjectDirectors() {
+        List<RoutingFormPersonnel> coProjectDirectors = new ArrayList<RoutingFormPersonnel>();
+        
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(this, "routingFormPersonnel");
+        for (RoutingFormPersonnel user : this.getRoutingFormPersonnel()) {
+            if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.getPersonRoleCode().equals(CGConstants.CO_PROJECT_DIRECTOR_CODE)) {
+                coProjectDirectors.add(user);
+            }
+        }
+        return coProjectDirectors;
+    }
+    
+    /**
+     * @return a List with the organizations that all the co project directors belong to
+     */
+    public List<Organization> getCoProjectDirectorOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        
+        for (RoutingFormPersonnel coDirector : getCoProjectDirectors()) {
+            if (!ObjectUtils.isNull(coDirector.getOrganization())) {
+                organizations.add(coDirector.getOrganization());
+            }
+        }
+        
+        return organizations;
+    }
 
     public String buildAdhocApproverReportXml() {
         StringBuffer xml = new StringBuffer();
@@ -1898,6 +1969,32 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
         return xml.toString();
     }
+    
+    /**
+     * @return a List of Organizations related to insitution cost shares
+     */
+    public List<Organization> getCostShareOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        
+        for (RoutingFormInstitutionCostShare costShare : this.getRoutingFormInstitutionCostShares()) {
+            if (!ObjectUtils.isNull(costShare.getOrganization())) {
+                organizations.add(costShare.getOrganization());
+            }  
+        }
+        
+        return organizations;
+    }
+    
+    /**
+     * Returns the list of cost share organizations - but only if the ROUTING_FORM_COST_SHARE_PERMISSION_CODE parameter says that this should happen
+     * @return a List of Organiztions
+     */
+    public List<RoutingFormInstitutionCostShare> getInstitutionCostSharesForWorkflow() {
+        if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(getClass(), CGConstants.ROUTING_FORM_COST_SHARE_PERMISSION_CODE).evaluationSucceeds()) {
+            return getRoutingFormInstitutionCostShares();
+        }
+        return new ArrayList<RoutingFormInstitutionCostShare>();
+    }
 
     /**
      * Build the xml to use when generating the workflow org routing report.
@@ -1930,6 +2027,21 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
         return xml.toString();
     }
+    
+    /**
+     * @return a List of "other" Organizations
+     */
+    public List<Organization> getOtherOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        
+        for (RoutingFormOrganization otherOrg : this.getRoutingFormOrganizations()) {
+            if (!ObjectUtils.isNull(otherOrg.getOrganization())) {
+                organizations.add(otherOrg.getOrganization());
+            }
+        }
+        
+        return organizations;
+    }
 
     /**
      * Build the xml to use when generating the workflow org routing report.
@@ -1955,6 +2067,23 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             xml.append("</documentContent>");
         }
         return xml.toString();
+    }
+    
+    /**
+     * @return returns a list Organizations for ad hoc routing
+     */
+    public List<Organization> getAdHocOrganizations() {
+        List<Organization> organizations = new ArrayList<Organization>();
+        final OrganizationService organizationService = SpringContext.getBean(OrganizationService.class);
+        
+        for (AdhocOrg org : getAdhocOrgs()) {
+            if (!StringUtils.isBlank(org.getFiscalCampusCode()) && !StringUtils.isBlank(org.getPrimaryDepartmentCode())) {
+                final Organization organization = organizationService.getByPrimaryId(org.getFiscalCampusCode(), org.getPrimaryDepartmentCode());
+                organizations.add(organization);
+            }
+        }
+        
+        return organizations;
     }
 
     public Budget getBudget() {

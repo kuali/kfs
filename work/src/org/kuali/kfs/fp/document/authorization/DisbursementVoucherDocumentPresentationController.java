@@ -29,9 +29,15 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        
+
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
+
+        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
+        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
+
+        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY);
+        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY);
 
         return editModes;
     }

@@ -32,6 +32,7 @@ import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
@@ -113,7 +114,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
           SearchingAttribute attr = definition.getSearchingAttribute();
           String attributeName = attr.getAttributeName();
           String businessObjectClassName = attr.getBusinessObjectClassName();
-          final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClassName);
+          final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(businessObjectClassName);
           DocumentSearchField searchField = buildSearchField(attributeName, boEntry);
               List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);
@@ -137,8 +138,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param businessObjectEntry the business object data dictionary for the maintained business object
      * @return a search field for the given property
      */
-    protected DocumentSearchField buildSearchField(String propertyName, BusinessObjectEntry businessObjectEntry) {
-        AttributeDefinition propertyAttribute = getAttributeFromEntry(propertyName, businessObjectEntry);
+    protected DocumentSearchField buildSearchField(String propertyName, DataDictionaryEntry dataDictionaryEntry) {
+        AttributeDefinition propertyAttribute = getAttributeFromEntry(propertyName, dataDictionaryEntry);
         DocumentSearchField field = buildFieldFromEntry(propertyAttribute);
 
         // 4. quickfinder?
@@ -175,8 +176,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param businessObjectEntry the business object data dictionary entry
      * @return the found AttributeDefinition
      */
-    protected AttributeDefinition getAttributeFromEntry(String propertyName, BusinessObjectEntry businessObjectEntry) {
-        return businessObjectEntry.getAttributeDefinition(propertyName);
+    protected AttributeDefinition getAttributeFromEntry(String propertyName, DataDictionaryEntry dataDictionaryEntry) {
+        return dataDictionaryEntry.getAttributeDefinition(propertyName);
     }
     
     /**

@@ -18,14 +18,16 @@ package org.kuali.kfs.fp.document.validation.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
-import org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -74,11 +76,14 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
 
         // and check that the user can edit the document
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(BudgetAdjustmentDocument.class);
-        BudgetAdjustmentDocumentAuthorizer budgetAdjustmentDocumentAuthorizer = (BudgetAdjustmentDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(documentTypeName);
+        FinancialSystemTransactionalDocumentPresentationController presentationController = (FinancialSystemTransactionalDocumentPresentationController)SpringContext.getBean(DocumentTypeService.class).getDocumentPresentationController(documentTypeName);
+        FinancialSystemTransactionalDocumentAuthorizerBase budgetAdjustmentDocumentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(documentTypeName);
         Person person = GlobalVariables.getUserSession().getPerson();
-        Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, person);
 
-        if (map.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && hasLaborObjectCodes) {
+        Set<String> editModes = presentationController.getEditModes(budgetDocument);
+        editModes = budgetAdjustmentDocumentAuthorizer.getEditModes(budgetDocument, person, editModes);
+
+        if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY) && hasLaborObjectCodes) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
             boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
             if (generateBenefits) {

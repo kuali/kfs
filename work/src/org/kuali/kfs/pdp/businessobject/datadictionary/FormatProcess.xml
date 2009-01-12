@@ -44,8 +44,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Campus Code" />
-    <property name="description" value="Campus Code" />
   </bean>
   <bean id="FormatProcess-beginFormat" parent="FormatProcess-beginFormat-parentBean" />
 

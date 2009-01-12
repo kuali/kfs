@@ -41,8 +41,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="accountingChangeCode" />
-    <property name="description" value="Accounting Change Code." />
   </bean>
   <bean id="PaymentAccountHistory-acctAttributeName" parent="PaymentAccountHistory-acctAttributeName-parentBean" />
 
@@ -58,8 +56,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="acctAttributeName" />
-    <property name="description" value="Accounting Attribute Name." />
   </bean>
   <bean id="PaymentAccountHistory-acctAttributeOrigValue" parent="PaymentAccountHistory-acctAttributeOrigValue-parentBean" />
 
@@ -75,8 +71,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="acctAttributeOrigValue" />
-    <property name="description" value="Original Value." />
   </bean>
   <bean id="PaymentAccountHistory-acctAttributeNewValue" parent="PaymentAccountHistory-acctAttributeNewValue-parentBean" />
 
@@ -92,8 +86,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="acctAttributeNewValue" />
-    <property name="description" value="New Value." />
   </bean>
   <bean id="PaymentAccountHistory-acctChangeDate" parent="PaymentAccountHistory-acctChangeDate-parentBean" />
 

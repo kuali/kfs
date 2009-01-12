@@ -13,30 +13,30 @@
           <requests name="Award" nextNode="RequiresBudgetReview"/>
           <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
 						<branch name="True">
-							<requests name="Budget" nextNode="Join"/>
+							<requests name="Budget" nextNode="JoinRequiresBudgetReview"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpBudget" nextNode="Join"/>
+							<simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinRequiresBudgetReview"/>
 					</split>
 					<split name="VendorIsEmployeeOrNonResidentAlien" nextNode="TransmissionMethodIsPrint">
 						<branch name="True">
-							<requests name="Tax" nextNode="Join"/>
+							<requests name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOp" nextNode="Join"/>
+							<simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
 					</split>
 					<split name="TransmissionMethodIsPrint">
 						<branch name="True">
-							<requests name="PrintTransmission" nextNode="Join"/>
+							<requests name="PrintTransmission" nextNode="JoinTransmissionMethodIsPrint"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpPrint" nextNode="Join"/>
+							<simple name="NoOpPrint" nextNode="JoinTransmissionMethodIsPrint"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinTransmissionMethodIsPrint"/>
 					</split>
         </routePath>
       </routePaths>
@@ -75,7 +75,7 @@
 <split name="VendorIsEmployeeOrNonResidentAlien">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
-<simple name="NoOp">
+<simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <simple name="NoOpBudget">
@@ -84,7 +84,9 @@
 <simple name="NoOpPrint">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
-<join name="Join"/>
+<join name="JoinRequiresBudgetReview" />
+<join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+<join name="JoinTransmissionMethodIsPrint"/>
 
 </routeNodes>
 </documentType>

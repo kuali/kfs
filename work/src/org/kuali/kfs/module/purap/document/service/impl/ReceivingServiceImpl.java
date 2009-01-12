@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -846,5 +848,29 @@ public class ReceivingServiceImpl implements ReceivingService {
         return isGenerated;
     }
 
+    public void approveReceivingDocsForPOAmendment(){
+        List<LineItemReceivingDocument> docs = receivingDao.getReceivingDocumentsForPOAmendment();
+        if (docs != null){
+            for (LineItemReceivingDocument receivingDoc: docs) {
+                if (StringUtils.equals(receivingDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(),
+                    PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS)){
+                        approveReceivingDoc(receivingDoc);
+                    }
+            }
+        }
+        
+    }
+    
+    private void approveReceivingDoc(LineItemReceivingDocument receivingDoc){
+        PurchaseOrderDocument poDoc = receivingDoc.getPurchaseOrderDocument();
+        if (purchaseOrderService.canAmendPurchaseOrder(poDoc)){
+            try{
+                KNSServiceLocator.getDocumentService().approveDocument(receivingDoc, "Approved by the batch job", null);
+            }
+            catch (WorkflowException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 

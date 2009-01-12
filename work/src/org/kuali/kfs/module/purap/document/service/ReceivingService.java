@@ -154,4 +154,10 @@ public interface ReceivingService {
     public boolean isLineItemReceivingDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException;
     
     public void createNoteForReturnedAndDamagedItems(ReceivingDocument recDoc);
+    
+    /**
+     * This method iterates all the line item receiving documents with Awaiting Purchase Order Open Status and approves it if the 
+     * associated PO is available for amedment.
+     */
+    public void approveReceivingDocsForPOAmendment();
 }

@@ -59,6 +59,7 @@
 				<value>electronicInvoiceExtractJob</value>
 				<value>faxPendingDocumentJob</value>
 				<value>purapMassRequisitionJob</value>
+				<value>approveLineItemReceivingJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -558,6 +559,12 @@
         </property>
     </bean>
     
+    <bean id="approveLineItemReceivingStep" class="org.kuali.kfs.module.purap.batch.ApproveLineItemReceivingStep" parent="step">
+	    <property name="receivingService">
+            <ref bean="receivingService" />
+        </property>
+    </bean>
+    
     <bean id="faxPendingDocumentJob" parent="scheduledJobDescriptor">
         <property name="steps">
             <list>
@@ -594,6 +601,14 @@
 		<property name="steps">
 			<list>
 				<ref bean="purapMassRequisitionStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="approveLineItemReceivingJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="approveLineItemReceivingStep" />
 			</list>
 		</property>
 	</bean>

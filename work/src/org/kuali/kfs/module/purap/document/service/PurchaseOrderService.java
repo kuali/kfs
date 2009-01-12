@@ -419,5 +419,25 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      */
     public List<PurchaseOrderDocument> getPendingPurchaseOrderFaxes();
     
+    /**
+     * Determines whether to display the amend button for the purchase order document.
+     * The document status must be open, the purchase order must be current and not pending and the
+     * user must be in purchasing group. These are the conditions for displaying the payment hold
+     * button. In addition to these conditions, we also have to check that there is no In Process
+     * Payment Requests nor Credit Memos associated with the PO.
+     * 
+     * @return boolean true if the amendment possible for the purchase order.
+     */
+    public boolean canAmendPurchaseOrder(PurchaseOrderDocument purchaseOrder);
+    
+    /**
+     * Determines whether to display the amend and payment hold buttons for the purchase order document.
+     * The document status must be open, the purchase order must be current and not pending and the
+     * user must be in purchasing group.
+     * 
+     * @return boolean true if the payment hold is possible for the purchase order document.
+     */
+    public boolean canHoldPayment(PurchaseOrderDocument purchaseOrder);
+    
     
 }

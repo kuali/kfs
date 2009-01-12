@@ -19,19 +19,15 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
@@ -199,7 +195,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * @return boolean true if the amend and payment hold buttons can be displayed.
      */
     public boolean canHoldPayment() {
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
+        if (SpringContext.getBean(PurchaseOrderService.class).canHoldPayment(purchaseOrder) && isUserAuthorized){
             return true;
         }
         return false;
@@ -215,31 +211,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * @return boolean true if the amend button can be displayed.
      */
     public boolean canAmend() {
-        boolean validForDisplayingAmendButton = false;
-
-        //The other conditions for displaying amend button (apart from the condition about No In Process PREQ and CM) 
-        //are the same as the conditions for displaying the Payment Hold button, so we're reusing that method here.
-        if (canHoldPayment()) {
-           validForDisplayingAmendButton = true;
-
-           if (purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews() != null && purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews().size() > 0) {
-               for (PaymentRequestView preq : purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews()) {
-                   if (StringUtils.equalsIgnoreCase(preq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
-                       return false;
-                   }
-               }
-           }
-            
-            if (purchaseOrder.getRelatedViews().getRelatedCreditMemoViews() != null && purchaseOrder.getRelatedViews().getRelatedCreditMemoViews().size() > 0) {
-                for (CreditMemoView cm : purchaseOrder.getRelatedViews().getRelatedCreditMemoViews()) {
-                    if (StringUtils.equalsIgnoreCase(cm.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        
-        return validForDisplayingAmendButton;
+        return SpringContext.getBean(PurchaseOrderService.class).canAmendPurchaseOrder(purchaseOrder) && isUserAuthorized;
     }
     
     /**

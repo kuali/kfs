@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -35,14 +34,18 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
@@ -922,6 +925,51 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         else {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.B2B_PO_RETRANSMIT_FAILED);
         }
+    }
+    
+    public boolean canHoldPayment(PurchaseOrderDocument purchaseOrder){
+        
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && 
+            purchaseOrder.isPurchaseOrderCurrentIndicator() && 
+            !purchaseOrder.isPendingActionIndicator()) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public boolean canAmendPurchaseOrder(PurchaseOrderDocument purchaseOrder){
+        boolean canAmend = false;
+        
+        //The other conditions for displaying amend button (apart from the condition about No In Process PREQ and CM) 
+        //are the same as the conditions for displaying the Payment Hold button, so we're reusing that method here.
+        if (canHoldPayment(purchaseOrder)) {
+            
+           canAmend = true;
+
+           if (purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews() != null && 
+               purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews().size() > 0) {
+               
+               for (PaymentRequestView preq : purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews()) {
+                   if (StringUtils.equalsIgnoreCase(preq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                       return false;
+                   }
+               }
+               
+           }
+            
+            if (purchaseOrder.getRelatedViews().getRelatedCreditMemoViews() != null && 
+                purchaseOrder.getRelatedViews().getRelatedCreditMemoViews().size() > 0) {
+                
+                for (CreditMemoView cm : purchaseOrder.getRelatedViews().getRelatedCreditMemoViews()) {
+                    if (StringUtils.equalsIgnoreCase(cm.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return canAmend;
     }
     
     public void completePurchaseOrderAmendment(PurchaseOrderDocument poa) {

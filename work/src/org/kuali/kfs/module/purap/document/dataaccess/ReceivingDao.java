@@ -17,6 +17,8 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.util.List;
 
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+
 
 /**
  * Receiving Line DAO Interface.
@@ -34,4 +36,6 @@ public interface ReceivingDao {
     public List<String> duplicatePackingSlipNumber(Integer poId, String packingSlipNumber);
     
     public List<String> duplicateBillOfLadingNumber(Integer poId, String billOfLadingNumber);
+    
+    public List<LineItemReceivingDocument> getReceivingDocumentsForPOAmendment();
 }

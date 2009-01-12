@@ -48,8 +48,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Sub Unit" />
-    <property name="description" value="Customer Sub Unit" />
   </bean>
   
   <bean id="PaymentFileLoad-creationDate" parent="PaymentFileLoad-creationDate-parentBean" />
@@ -74,8 +72,6 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Payment Count" />
-    <property name="description" value="Payment Count" />
   </bean>
   
   <bean id="PaymentFileLoad-paymentTotalAmount" parent="PaymentFileLoad-paymentTotalAmount-parentBean" />
@@ -99,8 +95,6 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Batch Idt" />
-    <property name="description" value="Batch Id" />
   </bean>
   
 </beans>  

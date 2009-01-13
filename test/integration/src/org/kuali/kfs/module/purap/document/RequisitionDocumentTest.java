@@ -39,6 +39,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -106,6 +108,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(requisitionDocument, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
+    @RelatesTo(JiraIssue.KULRICE2546)
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         requisitionDocument = buildSimpleDocument();
@@ -147,12 +150,14 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testRouteDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
     
+    @RelatesTo(JiraIssue.KULRICE2546)
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         requisitionDocument = buildSimpleDocument();
         AccountingDocumentTestUtils.testConvertIntoCopy(requisitionDocument, SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
 
+    @RelatesTo(JiraIssue.KULRICE2546)
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testRouteDocumentToFinal() throws Exception {
         requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
@@ -181,6 +186,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testSaveDocument(altAPORequisition, SpringContext.getBean(DocumentService.class));
     }
 
+    @RelatesTo(JiraIssue.KULRICE2546)
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testRouteDocumentToFinalWithBasicActiveCommodityCode() throws Exception {
         requisitionDocument = RequisitionDocumentWithCommodityCodeFixture.REQ_VALID_ACTIVE_COMMODITY_CODE.createRequisitionDocument();
@@ -223,6 +229,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         return complexRequisitionDocument;
     }
     
+    @RelatesTo(JiraIssue.KULRICE2546)
     public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {
         requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
         SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument));

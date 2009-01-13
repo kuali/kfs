@@ -39,6 +39,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class SensitiveDataRuleTest extends PurapRuleTestBase {
 
@@ -89,7 +90,7 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
      * This test combines the test for SensitiveDataService and SensitiveDataRule on InactivationBlocking
      * since the latter involves all major operations provided by the service class. 
      */
-    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
+    @ConfigureContext(session = parke)
     public final void testSensitiveDataInactivationBlocking() {
         // create a new sensitive data entry and save it (if not exists yet) for this test     
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -101,7 +102,8 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
         // add an active sensitive data entry for the PO, update all 3 tables to keep consistency
         List<SensitiveData> sds = new ArrayList<SensitiveData>();
         sds.add(sdNew);        
-        SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);       
+        SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class); 
+        
         Integer poId = po.getPurapDocumentIdentifier();
         if (poId == null) {
             poId = new Integer(1000);
@@ -141,10 +143,12 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
         sdService.savePurchaseOrderSensitiveDatas(posds);
         
         // try to inactivate the sensitive data just assigned to the PO, should fail rule
+        GlobalVariables.getUserSession().setBackdoorUser("khuntley");
         MaintenanceDocumentBase maintDoc = getMaintenanceDocument(SensitiveDataFixture.SENSITIVE_DATA_TO_INACTIVATE, SensitiveDataFixture.SENSITIVE_DATA_INACTIVATED);
         sensitiveDataRule.setupBaseConvenienceObjects(maintDoc);
         assertFalse(sensitiveDataRule.processCustomRouteDocumentBusinessRules(maintDoc));
         assertFalse(sensitiveDataRule.processCustomApproveDocumentBusinessRules(maintDoc));
+        GlobalVariables.getUserSession().clearBackdoorUser();
     }
         
 }

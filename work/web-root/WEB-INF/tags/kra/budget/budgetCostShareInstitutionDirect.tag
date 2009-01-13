@@ -18,7 +18,7 @@
 <c:set var="institutionCostSharePersonnelAttributes" value="${DataDictionary.InstitutionCostSharePersonnel.attributes}" />
 <c:set var="budgetInstitutionCostShareAttributes" value="${DataDictionary.BudgetInstitutionCostShare.attributes}" />
 <c:set var="budgetPeriodInstitutionCostShareAttributes" value="${DataDictionary.BudgetPeriodInstitutionCostShare.attributes}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 <c:set var="institutionDirectColumns" value="2"/>
 
 <c:if test="${KualiForm.displayCostSharePermission}">

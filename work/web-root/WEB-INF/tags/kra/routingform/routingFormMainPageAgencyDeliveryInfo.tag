@@ -18,7 +18,7 @@
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
 <c:set var="cfdaAttributes" value="${DataDictionary.Cfda.attributes}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
 
 <kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" tabErrorKey="document.routingFormAgency*,document.federalPassThroughAgency*,document.agencyFederalPassThrough*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">

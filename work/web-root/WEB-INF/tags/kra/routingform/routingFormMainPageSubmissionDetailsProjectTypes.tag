@@ -20,7 +20,7 @@
 
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormProjectTypeAttributes" value="${DataDictionary.RoutingFormProjectType.attributes}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 <table width="100%" cellpadding="0" cellspacing="0" class="nobord">
   <c:forEach items="${KualiForm.document.routingFormProjectTypes}" var="routingFormProjectType" varStatus="status" begin="${begin}" end="${end}">

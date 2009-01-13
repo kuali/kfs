@@ -20,7 +20,10 @@
     <property name="documentTypeName" value="RoutingFormDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.cg.document.RoutingFormDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.RoutingFormDocumentRule" />
+    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.RoutingFormDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.RoutingFormDocumentPresentationController" />
+     
     <property name="documentTypeCode" value="KRFD" />
     <property name="allowsNoteDelete" value="true" />
     <property name="displayTopicFieldInNotes" value="true" />

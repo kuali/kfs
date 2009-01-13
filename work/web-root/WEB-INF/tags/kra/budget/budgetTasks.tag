@@ -19,7 +19,7 @@
 
 <c:set var="budgetTaskAttributes" value="${DataDictionary.BudgetTask.attributes}" /> <c:set var="CGConstants" value="${CGConstants}" />
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetTask.businessObjectClass}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 
 <kul:tab 

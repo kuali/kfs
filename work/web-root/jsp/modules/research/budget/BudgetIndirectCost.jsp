@@ -37,7 +37,7 @@
       <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].versionNumber" />
   </logic:iterate>
 
-	<div align="center"><kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}"/>
+	<div align="center"><kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	</div>
 
 </kul:documentPage>

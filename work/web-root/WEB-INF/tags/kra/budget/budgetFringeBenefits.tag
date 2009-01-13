@@ -17,7 +17,7 @@
 
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" /> <c:set var="budgetFringeRateAttributes" value="${DataDictionary.BudgetFringeRate.attributes}" /> <c:set var="budgetGraduateFringeRateAttributes" value="${DataDictionary.BudgetGraduateAssistantRate.attributes}" />
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetFringeRate.businessObjectClass}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
   <a name="Fringes"></a><h3>Fringe Benefit Rates</h3>
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 

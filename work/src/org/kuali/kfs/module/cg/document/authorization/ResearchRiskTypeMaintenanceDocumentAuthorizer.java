@@ -21,18 +21,4 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
  * Authorizer class for ResearchRiskTypeMaintenanceDocument - allows for targeted field disabling.
  */
 public class ResearchRiskTypeMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
-// TODO move to presentation controller
-//    @Override
-//    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-//        ResearchRiskType researchRisk = (ResearchRiskType) document.getNewMaintainableObject().getBusinessObject();
-//        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-//        ResearchRiskType persistedResearchRisk = (ResearchRiskType) service.retrieve(researchRisk);
-//
-//        // If the research risk exists in db, set read-only fields
-//        if (ObjectUtils.isNotNull(persistedResearchRisk) && persistedResearchRisk.getResearchRiskTypeCode() != null) {
-//            auths.addReadonlyAuthField(CGPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
-//            auths.addReadonlyAuthField(CGPropertyConstants.CONTROL_ATTRIBUTE_TYPE_CODE);
-//        }
-//    }
 }
-

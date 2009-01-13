@@ -17,7 +17,7 @@
 
 <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" /> <c:set var="CGConstants" value="${CGConstants}" />
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetPeriod.businessObjectClass}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
         <kul:tab tabTitle="Budget Periods" defaultOpen="true" tabErrorKey="document.budget.period*,newPeriod**">
               <div class="tab-container" id="G02" style="" align="center">

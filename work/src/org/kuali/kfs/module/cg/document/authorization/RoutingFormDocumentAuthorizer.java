@@ -97,50 +97,6 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         permissionCode = getPermissionCodeByPrecedence(permissionCode, getAdHocEditMode(routingFormDocument, u));
 
         return this.finalizeEditMode(routingFormDocument, permissionCode);
-    }
-
-
-    /**
-     * Overriding to check for Budget Overwrite Mode. It was being bypassed in most cases.
-     * 
-     * @see org.kuali.kfs.module.cg.document.authorization.ResearchDocumentAuthorizer#finalizeEditMode(org.kuali.kfs.module.cg.document.ResearchDocument,
-     *      java.lang.String)
-     */
-    @Override
-    protected Map finalizeEditMode(ResearchDocument researchDocument, String permissionCode) {
-        // TODO Auto-generated method stub
-        Map editModes = super.finalizeEditMode(researchDocument, permissionCode);
-
-        RoutingFormDocument rfd = (RoutingFormDocument) researchDocument;
-        if (rfd.getRoutingFormBudgetNumber() != null) {
-            editModes.put(CGConstants.AuthorizationConstants.BUDGET_LINKED, "TRUE");
-            if (!GlobalVariables.getMessageList().contains(CGKeyConstants.BUDGET_OVERRIDE))
-                GlobalVariables.getMessageList().add(0, CGKeyConstants.BUDGET_OVERRIDE);
-        }
-
-        return editModes;
-    }
-
-// TODO fix for kim
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//        RoutingFormDocument routingFormDocument = (RoutingFormDocument) document;
-//
-//        flags.setCanAcknowledge(false);
-//
-//        if (!flags.getCanRoute() && routingFormDocument.isUserProjectDirector(user.getPrincipalId()) && routingFormDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
-//            flags.setCanRoute(true);
-//        }
-//        // flags.setCanApprove(false);
-//        flags.setCanBlanketApprove(false);
-//        flags.setCanCancel(false);
-//        // flags.setCanDisapprove(false);
-//        flags.setCanFYI(false);
-//        flags.setCanClose(false);
-//        flags.setCanSave(true);
-//
-//        return flags;
-//    }
+    }    
 }
 

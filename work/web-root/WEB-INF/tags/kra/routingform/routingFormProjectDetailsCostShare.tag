@@ -17,7 +17,7 @@
 
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
 
 <c:set var="institutionCostShareAttributes" value="${DataDictionary.RoutingFormInstitutionCostShare.attributes}" />

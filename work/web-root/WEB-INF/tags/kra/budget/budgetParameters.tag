@@ -18,7 +18,7 @@
   <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
   <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
   <c:set var="supportsModular" value="${KualiForm.supportsModular}" />
-  <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+  <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
   
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.PARAMETERS_HEADER_TAB}" altText="page help"/>

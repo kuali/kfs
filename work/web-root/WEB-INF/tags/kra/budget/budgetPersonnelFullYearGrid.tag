@@ -27,7 +27,7 @@
 <c:set var="userAppointmentTaskPeriodAttributes"
   value="${DataDictionary.UserAppointmentTaskPeriod.attributes}" />
 
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <tr>
   <th rowspan="2" class="bord-l-b"><b>Period</b></th>

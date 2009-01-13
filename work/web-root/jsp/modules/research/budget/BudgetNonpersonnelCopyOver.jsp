@@ -24,15 +24,21 @@
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
 	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"	includeTaskPeriodLists="true" />
-  <html:hidden property="budgetDocument.budget.budgetProjectDirectorUniversalIdentifier" />
+  	<html:hidden property="budgetDocument.budget.budgetProjectDirectorUniversalIdentifier" />
   
 
 	<kra-b:budgetNonpersonnelCopyOver />
 
-	<div id="globalbuttons" class="globalbuttons" align="center"><c:if test="${!KualiForm.editingMode['viewOnly']}"><html:image
-		src="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" styleClass="globalbuttons"
-		property="methodToCall.returnNonpersonnel" alt="return" /></c:if> <html:image
+	<div id="globalbuttons" class="globalbuttons" align="center">
+	<c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
+		<html:image
+			src="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" styleClass="globalbuttons"
+			property="methodToCall.returnNonpersonnel" alt="return" />
+	</c:if> 
+	
+	<html:image
 		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons"
-		property="methodToCall.cancel" alt="cancel" /></div>
+		property="methodToCall.cancel" alt="cancel" />
+	</div>
 
 </kul:documentPage>

@@ -43,7 +43,7 @@
       </tr>
     </table>
 
-    <kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+    <kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];

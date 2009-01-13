@@ -30,7 +30,7 @@
 	<kra-b:budgetNonpersonnel />
 
 	<div align="center"><kfs:documentControls transactionalDocument="false"
-		saveButtonOverride="saveNonpersonnel" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" /></div>
+		saveButtonOverride="saveNonpersonnel" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" /></div>
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;

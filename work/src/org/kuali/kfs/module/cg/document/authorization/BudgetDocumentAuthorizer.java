@@ -23,35 +23,4 @@ import org.apache.commons.logging.LogFactory;
  */
 public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
     private static Log LOG = LogFactory.getLog(BudgetDocumentAuthorizer.class);
-
-    // TODO fix for kim
-//    /**
-//     * Overrides most of the inherited flags so that the buttons behave exactly like they used to in the obsoleted
-//     * budgetDocumentControls.tag
-//     * 
-//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kns.bo.user.KualiUser)
-//     */
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        LOG.debug("calling BudgetDocumentAuthorizer.getDocumentActionFlags");
-//
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//
-//        flags.setCanAcknowledge(false);
-//        flags.setCanApprove(false);
-//        flags.setCanBlanketApprove(false);
-//        flags.setCanCancel(false);
-//        flags.setCanDisapprove(false);
-//        flags.setCanFYI(false);
-//        flags.setCanClose(false);
-//        flags.setCanSave(true);
-//        flags.setCanAnnotate(true);
-//
-//        BudgetDocument budgetDocument = (BudgetDocument) document;
-//
-//        // use inherited canRoute, canAnnotate, and canReload values
-//
-//        return flags;
-//    }
 }
-

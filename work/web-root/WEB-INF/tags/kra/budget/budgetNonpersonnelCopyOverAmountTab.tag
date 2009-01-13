@@ -20,7 +20,7 @@
 <%@ attribute name="amountType" required="true" %>
 <%@ attribute name="transparentBackground" required="false" %>
 
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
     <kul:tab tabTitle="${tabTitle}" tabDescription=" " transparentBackground="${transparentBackground}" defaultOpen="false">
       <div class="tab-container" id="G02" style="" align="center">

@@ -31,6 +31,8 @@
     </property>
     <property name="documentTypeName" value="QuestionTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentPresentationController" />
+    
     <property name="documentTypeCode" value="QNT" />
 
     <property name="workflowAttributes">

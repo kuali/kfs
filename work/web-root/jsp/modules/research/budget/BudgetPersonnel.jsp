@@ -16,7 +16,7 @@
 <!-- BEGIN budgetPersonnel.jsp -->
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
@@ -54,7 +54,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		viewOnly="${viewOnly}"
 		/>
 	</p>
 

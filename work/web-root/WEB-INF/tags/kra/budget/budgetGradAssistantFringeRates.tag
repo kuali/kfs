@@ -18,7 +18,7 @@
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="budgetGraduateFringeRateAttributes" value="${DataDictionary.BudgetGraduateAssistantRate.attributes}" />
 <c:set var="businessObjectClass" value="${DataDictionary.GraduateAssistantRate.businessObjectClass}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 <html:hidden property="numberOfAcademicYearSubdivisions" />
 <html:hidden property="academicYearSubdivisionNamesString"/>

@@ -17,7 +17,7 @@
 
 <c:set var="person" value="${DataDictionary.PersonImpl.attributes}" />
 <c:set var="routingFormPersonnel" value="${DataDictionary.RoutingFormPersonnel.attributes}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 <div id="workarea">
   <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >

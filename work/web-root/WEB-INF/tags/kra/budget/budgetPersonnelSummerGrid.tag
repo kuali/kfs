@@ -23,7 +23,7 @@
 <c:set var="userAppointmentTaskAttributes" value="${DataDictionary.UserAppointmentTask.attributes}" />
 <c:set var="userAppointmentTaskPeriodAttributes" value="${DataDictionary.UserAppointmentTaskPeriod.attributes}" />
 
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
               <tr>
                 <td colspan="14" class="tab-subhead" height="30"><div align="left"><strong>Salary Disbursement - Summer</strong></div></td>

@@ -19,7 +19,7 @@
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
 <c:set var="cgSubcontractorAttributes" value="${DataDictionary.Subcontractor.attributes}" />
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
 
 

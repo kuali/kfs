@@ -21,7 +21,7 @@
 
 <c:set var="budgetUserAttributes" value="${DataDictionary.BudgetUser.attributes}" />
 
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
             <div align="center">
               <!-- TAB -->

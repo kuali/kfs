@@ -30,7 +30,7 @@
 <html:hidden property="document.budget.modularBudget.invalidMode" />
 
 <c:set var="budgetModularAttributes" value="${DataDictionary.BudgetModular.attributes}" /> 
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 <c:set var="totalActualDirectCostAmount"> 
 	<fmt:formatNumber value="${KualiForm.document.budget.modularBudget.totalActualDirectCostAmount}" type="currency" currencySymbol="$" maxFractionDigits="0" /> 
 </c:set> 

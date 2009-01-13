@@ -18,7 +18,7 @@
 <c:set var="budgetIndirectCostAttributes" value="${DataDictionary.BudgetIndirectCost.attributes}" />
 <c:set var="budgetTaskPeriodIndirectCostAttributes" value="${DataDictionary.BudgetTaskPeriodIndirectCost.attributes}" />
 <c:set var="budgetTaskAttributes" value="${DataDictionary.BudgetTask.attributes}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 <kul:htmlControlAttribute property="document.budget.indirectCost.documentNumber" attributeEntry="${budgetIndirectCostAttributes.documentNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.objectId" attributeEntry="${budgetIndirectCostAttributes.objectId}"/>

@@ -17,7 +17,7 @@
 
 <c:set var="budgetThirdPartyCostShareAttributes" value="${DataDictionary.BudgetThirdPartyCostShare.attributes}" />
 <c:set var="budgetPeriodThirdPartyCostShareAttributes" value="${DataDictionary.BudgetPeriodThirdPartyCostShare.attributes}" />
-<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 <c:set var="tabDescription">
 	<c:choose>

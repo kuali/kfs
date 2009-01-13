@@ -10,33 +10,33 @@
 					<start name="AdHoc" nextNode="PayeeIsPurchaseOrderVendor"/>
 					<split name="PayeeIsPurchaseOrderVendor" nextNode="Account">
 						<branch name="True">
-							<requests name="Purchasing" nextNode="Join"/>
+							<requests name="Purchasing" nextNode="JoinPayeeIsPurchaseOrderVendor"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpPayee" nextNode="Join"/>
+							<simple name="NoOpPayee" nextNode="JoinPayeeIsPurchaseOrderVendor"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinPayeeIsPurchaseOrderVendor"/>
 					</split>
 					<requests name="Account" nextNode="OrganizationHierarchy"/>
 					<requests name="OrganizationHierarchy" nextNode="RequiresTaxReview"/>
 					<split name="RequiresTaxReview" nextNode="Campus">
 						<branch name="True">
-							<requests name="Tax" nextNode="Join"/>
+							<requests name="Tax" nextNode="JoinRequiresTaxReview"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTaxReview" nextNode="Join"/>
+							<simple name="NoOpTaxReview" nextNode="JoinRequiresTaxReview"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinRequiresTaxReview"/>
 					</split>
 					<requests name="Campus" nextNode="RequiresTravelReview"/>					
 					<split name="RequiresTravelReview" nextNode="PaymentMethod">
 						<branch name="True">
-							<requests name="Travel" nextNode="Join"/>
+							<requests name="Travel" nextNode="JoinRequiresTravelReview"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTravelReview" nextNode="Join"/>
+							<simple name="NoOpTravelReview" nextNode="JoinRequiresTravelReview"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinRequiresTravelReview"/>
 					</split>
 					<requests name="PaymentMethod" nextNode="Award"/>
 					<requests name="Award"/>
@@ -62,7 +62,9 @@
 <simple name="NoOpTravelReview">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
-<join name="Join"/>
+<join name="JoinPayeeIsPurchaseOrderVendor"/>
+<join name="JoinRequiresTaxReview"/>
+<join name="JoinRequiresTravelReview"/>
 <role name="Purchasing">
 					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 				</role>

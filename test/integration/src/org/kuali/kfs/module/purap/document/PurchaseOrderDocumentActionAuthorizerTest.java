@@ -66,9 +66,9 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testValidForRetransmit() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
         PurchaseOrderDocument po = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_RETRANSMIT.createPurchaseOrderDocument();
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(po, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(po, editMode, documentActions);
         assertTrue(auth.canRetransmit());
     }
     
@@ -83,6 +83,8 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=false)
     public final void testValidForPrintingRetransmitNonAPO() throws Exception {
         Map editMode = new HashMap();
+        Map documentActions = new HashMap();
+
         editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_RETRANSMIT.createPurchaseOrderDocument();
         poDocument.prepareForSave();       
@@ -94,7 +96,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
         poRetransmitDocument.setStatusCode("CGIN");
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode, documentActions);
         assertTrue(auth.canPrintRetransmit());
     }
     
@@ -109,7 +111,9 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=false)
     public final void testValidForPrintingRetransmitAPO() throws Exception {
         Map editMode = new HashMap();
+        Map documentActions = new HashMap();
         editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
+
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_RETRANSMIT.createPurchaseOrderDocument();
         poDocument.prepareForSave();       
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -122,7 +126,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         poRetransmitDocument.setStatusCode("CGIN");
         poRetransmitDocument.setPurchaseOrderAutomaticIndicator(true);
         changeCurrentUser(rorenfro);
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode, documentActions);
         assertTrue(auth.canPrintRetransmit());
     }
     
@@ -135,7 +139,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testFirstTransmitPrintPO() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
         
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_FIRST_TRANSMIT_PRINT.createPurchaseOrderDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -144,7 +148,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");        
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
         
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
         assertTrue(auth.canFirstTransmitPrintPo());
     }
     
@@ -156,9 +160,10 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testReopen() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
+
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_REOPEN.createPurchaseOrderDocument();
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
         assertTrue(auth.canReopen());
     }
     
@@ -170,7 +175,8 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testClose() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
+
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         //We create and save this req to obtain a number from the AP document link identifier sequencer in the database
         RequisitionDocument dummyReqDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
@@ -187,7 +193,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         preq.setAccountsPayablePurchasingDocumentLinkIdentifier(poDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
         preq.prepareForSave();       
         AccountingDocumentTestUtils.saveDocument(preq, documentService);
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
         assertTrue(auth.canClose());
     }
     
@@ -199,9 +205,10 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testPaymentHold() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
+
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_CLOSE.createPurchaseOrderDocument();
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
         assertTrue(auth.canHoldPayment());
     }
     
@@ -214,9 +221,10 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testVoidPendingPrint() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
+
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_VOID_PENDING_PRINT.createPurchaseOrderDocument();
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
         assertTrue(auth.canVoid());
     }
     
@@ -230,9 +238,10 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testVoidOpenNoPreq() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
+
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_VOID_OPEN_NO_PREQ.createPurchaseOrderDocument();
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
         assertTrue(auth.canVoid());
     }
     
@@ -244,9 +253,10 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testRemoveHold() throws Exception {
         Map editMode = new HashMap();
-        editMode.put("fullEntry", true);
+        Map documentActions = new HashMap();
+
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_REMOVE_HOLD.createPurchaseOrderDocument();
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
         assertTrue(auth.canRemoveHold());
     }
 }

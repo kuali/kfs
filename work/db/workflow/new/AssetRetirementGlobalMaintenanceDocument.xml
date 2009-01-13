@@ -13,21 +13,21 @@
           <requests name="OrganizationHierarchy"  nextNode="RetiredAssetTransferredExternally"/>
 		  <split name="RetiredAssetTransferredExternally" nextNode="RetiredAssetSoldOrGifted">
 						<branch name="True">
-							<requests name="Manager"  nextNode="Join"/>
+							<requests name="Manager"  nextNode="JoinRetiredAssetTransferredExternally"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpExternal" nextNode="Join"/>
+							<simple name="NoOpExternal" nextNode="JoinRetiredAssetTransferredExternally"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinRetiredAssetTransferredExternally"/>
 		  </split>
 		  <split name="RetiredAssetSoldOrGifted">
 						<branch name="True">
-							<requests name="Purchasing" nextNode="Join"/>
+							<requests name="Purchasing" nextNode="JoinRetiredAssetSoldOrGifted"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOp" nextNode="Join"/>
+							<simple name="NoOp" nextNode="JoinRetiredAssetSoldOrGifted"/>
 						</branch>
-						<join name="Join"/>
+						<join name="JoinRetiredAssetSoldOrGifted"/>
 					</split>
         </routePath>
         
@@ -60,7 +60,8 @@
 <simple name="NoOpExternal">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
-<join name="Join"/>
+<join name="JoinRetiredAssetTransferredExternally"/>
+<join name="JoinRetiredAssetSoldOrGifted"/>
 </routeNodes>
 </documentType>
 </documentTypes>

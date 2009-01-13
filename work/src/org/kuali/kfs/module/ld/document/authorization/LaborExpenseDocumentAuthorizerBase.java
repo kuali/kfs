@@ -15,26 +15,17 @@
  */
 package org.kuali.kfs.module.ld.document.authorization;
 
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 
 /**
  * Labor Document Implements special document authorization for the labor expense documents.
  */
 public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthorizerBase {
 
-//    /**
-//     * Override to disallow copy and error correction.
-//     * 
-//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kim.bo.Person)
-//     */
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//        flags.setCanCopy(false);
-//        flags.setCanErrorCorrect(false);
-//
-//        return flags;
-//    }
 }
 

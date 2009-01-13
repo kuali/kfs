@@ -18,11 +18,15 @@ package org.kuali.kfs.module.ld.document.authorization;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
+import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -31,7 +35,20 @@ import org.kuali.rice.kns.util.KNSConstants;
  * (typically source vs. target, but this should open things up).
  */
 public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
-
+   
+    @Override
+    protected boolean determineFieldEditability(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field) {
+        
+        if (field.getName().equals(KFSPropertyConstants.AMOUNT)) {
+            return true;
+        }
+        
+        if (field.getName().equals(LaborPropertyConstants.PAYROLL_TOTAL_HOURS)) {
+            return true;
+        }
+        return super.determineFieldEditability(accountingDocument, accountingLine, field);
+    }
+    
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getActionMap(org.kuali.kfs.sys.businessobject.AccountingLine,
      *      java.lang.String, java.lang.Integer, java.lang.String)

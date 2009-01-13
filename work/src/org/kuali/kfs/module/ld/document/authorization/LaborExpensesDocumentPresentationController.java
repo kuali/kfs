@@ -28,7 +28,7 @@ import org.kuali.rice.kns.document.Document;
  */
 
 public class LaborExpensesDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
-       
+    
     @Override
     public boolean canCopy(Document document) {
             return false;

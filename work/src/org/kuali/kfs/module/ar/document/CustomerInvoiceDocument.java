@@ -64,6 +64,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument> {
 
+    private static final String HAS_RECCURENCE_NODE = "HasReccurence";
     protected Integer nextInvoiceItemNumber;
     private String invoiceHeaderText;
     private String invoiceAttentionLineText;
@@ -1735,5 +1736,29 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public void setQuickApply(boolean quickApply) {
         this.quickApply = quickApply;
+    }
+
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (HAS_RECCURENCE_NODE.equals(nodeName)) {
+            if (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getChartOfAccountsCode() {
+        if (getAccountsReceivableDocumentHeader() != null) {
+            return getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+        }
+        return null;
+    }
+
+    public String getOrganizationCode() {
+        if (getAccountsReceivableDocumentHeader() != null) {
+            return getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        }
+        return null;
     }
 }

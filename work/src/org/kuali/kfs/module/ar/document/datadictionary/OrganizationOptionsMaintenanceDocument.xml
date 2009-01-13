@@ -193,8 +193,7 @@
 		</property>
   </bean>
   
-  <bean id="RoutingType-OrganizationOptionsMaintenanceDocument-OrganizationHierarchy" parent="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean" />    			
-  <bean id="RoutingType-OrganizationOptionsMaintenanceDocument-Manager" parent="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean" />
+  <bean id="RoutingType-OrganizationOptionsMaintenanceDocument-OrganizationHierarchy" parent="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean" />  			
   
   <bean id="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
@@ -223,7 +222,6 @@
     	<property name="routingTypeDefinitions">
     		<map>
     			<entry key="OrganizationHierarchy" value-ref="RoutingType-OrganizationOptionsMaintenanceDocument-OrganizationHierarchy" />
-    			<entry key="Manager" value-ref="RoutingType-OrganizationOptionsMaintenanceDocument-Manager" />
     		</map>
     	</property>
   </bean>

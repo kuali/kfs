@@ -120,7 +120,6 @@
   </bean>
   
   <bean id="RoutingType-CashControlDocument-Lockbox" parent="RoutingType-CashControlDocument-parentBean" />    			
-  <bean id="RoutingType-CashControlDocument-ElectronicPayment" parent="RoutingType-CashControlDocument-parentBean" />
   
   <bean id="RoutingType-CashControlDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
@@ -149,7 +148,6 @@
     	<property name="routingTypeDefinitions">
     		<map>
     			<entry key="Lockbox" value-ref="RoutingType-CashControlDocument-Lockbox" />
-    			<entry key="ElectronicPayment" value-ref="RoutingType-CashControlDocument-ElectronicPayment" />
     		</map>
     	</property>
   </bean>

@@ -66,6 +66,9 @@
         
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="CustomerMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -210,4 +213,9 @@
         </list>
         </property>
         </bean>
+        
+  <bean id="CustomerMaintenanceDocument-workflowAttributes" parent="CustomerMaintenanceDocument-workflowAttributes-parentBean" />
+	
+  <bean id="CustomerMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
+  </bean>        
 </beans>

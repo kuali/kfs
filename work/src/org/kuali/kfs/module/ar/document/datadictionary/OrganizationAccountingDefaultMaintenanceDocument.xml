@@ -111,6 +111,9 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="OrganizationAccountingDefaultMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -207,4 +210,71 @@
       </list>
     </property>
   </bean>
+<!-- Start - Workflow Attribute Beans -->
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" />
+  
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   	</list>
+	</property>
+  </bean>
+
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-organizationCode" parent="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-organizationCode-parentBean" />
+  
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>newMaintainableObject.businessObject.organizationCode</value>
+	   	</list>
+	</property>
+  </bean>   
+
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-DocumentValuePathGroup" parent="OrganizationAccountingDefaultMaintenanceDocument-DocumentValuePathGroup-parentBean" />
+  
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+				<value>newMaintainableObject.businessObject.organizationCode</value>	    					
+			</list>
+		</property>
+  </bean>
+  
+  <bean id="RoutingType-OrganizationAccountingDefaultMaintenanceDocument-OrganizationHierarchy" parent="RoutingType-OrganizationAccountingDefaultMaintenanceDocument-parentBean" />  			
+  
+  <bean id="RoutingType-OrganizationAccountingDefaultMaintenanceDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-organizationCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="OrganizationAccountingDefaultMaintenanceDocument-DocumentValuePathGroup" />    			
+    		</list>
+    	</property>
+    </bean>
+    
+  
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-workflowAttributes" parent="OrganizationAccountingDefaultMaintenanceDocument-workflowAttributes-parentBean" />
+	
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode" />
+    			<ref bean="OrganizationAccountingDefaultMaintenanceDocument-SearchingTypeDefinition-organizationCode" />
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-OrganizationAccountingDefaultMaintenanceDocument-OrganizationHierarchy" />
+    		</map>
+    	</property>
+  </bean>
+  
 </beans>

@@ -254,8 +254,8 @@
   
   <!-- workflow attributes -->
   <bean id="SystemInformationMaintenanceDocument-workflowAttributes" parent="SystemInformationMaintenanceDocument-workflowAttributes-parentBean" />
-  
-  <bean id="SystemInformationMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+	
+  <bean id="SystemInformationMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
   </bean>
 </beans>
 

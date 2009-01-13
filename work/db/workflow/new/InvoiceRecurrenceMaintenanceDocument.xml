@@ -8,8 +8,8 @@
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
-          <requests name="Account" nextNode="Manager"/>
-          <requests name="Manager"/>
+          <requests name="Account" nextNode="Management"/>
+          <requests name="Management"/>
         </routePath>
       </routePaths>
 <routeNodes>
@@ -17,7 +17,7 @@
 <role name="Account">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Manager">
+<role name="Management">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

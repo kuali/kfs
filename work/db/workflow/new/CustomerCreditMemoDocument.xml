@@ -5,7 +5,18 @@
 <name>CustomerCreditMemoDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
 <docHandler>${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler</docHandler>
-
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
 </documentType>
 </documentTypes>
 </data>

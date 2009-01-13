@@ -46,6 +46,9 @@
         </bean>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="InvoiceRecurrenceMaintenanceDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -97,6 +100,10 @@
               p:defaultValue="true" />
       </list>
     </property>
+  </bean>
+  <bean id="InvoiceRecurrenceMaintenanceDocument-workflowAttributes" parent="InvoiceRecurrenceMaintenanceDocument-workflowAttributes-parentBean" />
+	
+  <bean id="InvoiceRecurrenceMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
   </bean>
 </beans>
 

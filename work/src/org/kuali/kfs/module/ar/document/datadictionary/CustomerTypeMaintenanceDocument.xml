@@ -72,7 +72,7 @@
   
   <!-- workflow attributes -->
   <bean id="CustomerTypeMaintenanceDocument-workflowAttributes" parent="CustomerTypeMaintenanceDocument-workflowAttributes-parentBean" />
-  
-  <bean id="CustomerTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+	
+  <bean id="CustomerTypeMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
   </bean>
 </beans>

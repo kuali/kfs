@@ -71,7 +71,7 @@
   
   <!-- workflow attributes -->
   <bean id="PaymentMediumMaintenanceDocument-workflowAttributes" parent="PaymentMediumMaintenanceDocument-workflowAttributes-parentBean" />
-  
-  <bean id="PaymentMediumMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+	
+  <bean id="PaymentMediumMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
   </bean>
 </beans>

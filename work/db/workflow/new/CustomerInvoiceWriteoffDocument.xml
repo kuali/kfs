@@ -13,7 +13,7 @@
             	<requests name="Account" nextNode="Join"/>
             </branch>
             <branch name="False">
-              <simple name="Do Nothing" nextNode="Join"/>
+              <simple name="NoOp" nextNode="Join"/>
             </branch>
             <join name="Join"/>
           </split>
@@ -27,7 +27,7 @@
 <split name="RequiresApproval">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
-<simple name="Do Nothing">
+<simple name="NoOp">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <join name="Join"/>

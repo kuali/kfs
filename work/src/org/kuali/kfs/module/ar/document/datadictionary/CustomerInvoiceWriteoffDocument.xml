@@ -35,6 +35,9 @@
          <ref bean="CustomerInvoiceWriteoffDocument-customerNote" />
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="CustomerInvoiceWriteoffDocument-workflowAttributes" />
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -80,5 +83,72 @@
   <bean id="CustomerInvoiceWriteoffDocument-customerNote" parent="CustomerInvoiceWriteoffDocument-customerNote-parentBean" />
 
   <bean id="CustomerInvoiceWriteoffDocument-customerNote-parentBean" abstract="true" parent="CustomerInvoiceWriteoffLookupResult-customerNote" />
+  
+  <!-- Start - Workflow Attribute Beans -->  
+  <bean id="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" />
+  
+  <bean id="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>chartOfAccountsCode</value>
+	   	</list>
+	</property>
+  </bean>
 
+  <bean id="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-accountNumber" parent="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-accountNumber-parentBean" />
+  
+  <bean id="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-accountNumber-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-accountNumber" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>accountNumber</value>
+	   	</list>
+	</property>
+  </bean>   
+
+  <bean id="CustomerInvoiceWriteoffDocument-DocumentValuePathGroup" parent="CustomerInvoiceWriteoffDocument-DocumentValuePathGroup-parentBean" />
+  
+  <bean id="CustomerInvoiceWriteoffDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>chartOfAccountsCode</value>
+				<value>accountNumber</value>	    					
+			</list>
+		</property>
+  </bean>
+  
+  <bean id="RoutingType-CustomerInvoiceWriteoffDocument-Account" parent="RoutingType-CustomerInvoiceWriteoffDocument-parentBean" />    			
+  
+  <bean id="RoutingType-CustomerInvoiceWriteoffDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-accountNumber" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="CustomerInvoiceWriteoffDocument-DocumentValuePathGroup" />    			
+    		</list>
+    	</property>
+    </bean>
+    
+  
+  <bean id="CustomerInvoiceWriteoffDocument-workflowAttributes" parent="CustomerInvoiceWriteoffDocument-workflowAttributes-parentBean" />
+	
+  <bean id="CustomerInvoiceWriteoffDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<list>
+    			<ref bean="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-chartOfAccountsCode" />
+    			<ref bean="CustomerInvoiceWriteoffDocument-SearchingTypeDefinition-accountNumber" />
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-CustomerInvoiceWriteoffDocument-Account" />
+    		</map>
+    	</property>
+  </bean>
+  
 </beans>

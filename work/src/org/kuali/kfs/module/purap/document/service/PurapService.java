@@ -42,6 +42,8 @@ public interface PurapService {
      */
     public boolean updateStatus(PurchasingAccountsPayableDocument document, String statusToSet);
 
+    public List<String> getRelatedDocumentIds(Integer accountsPayablePurchasingDocumentLinkIdentifier);
+    
     /**
      * Retrieve list of views for given identifier
      * 

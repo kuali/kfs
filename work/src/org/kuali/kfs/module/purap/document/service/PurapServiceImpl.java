@@ -168,6 +168,20 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#getRelatedDocumentIds(java.lang.Integer)
+     */
+    public List<String> getRelatedDocumentIds(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        LOG.debug("getRelatedViews() started");
+
+        Map criteria = new HashMap();
+        criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
+        List boList = new ArrayList();
+        //TODO find list of ids
+        return boList;
+    }
+
+    
+    /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#getRelatedViews(java.lang.Class, java.lang.Integer)
      */
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {

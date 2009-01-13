@@ -253,6 +253,7 @@
   <bean id="PaymentGroupHistory-changeNoteText" parent="PaymentGroupHistory-changeNoteText-parentBean" />
 
   <bean id="PaymentGroupHistory-changeNoteText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="changeNoteText" />
     <property name="shortLabel" value="Change Note Text" />
     <property name="maxLength" value="250" />
     <property name="validationPattern" >
@@ -266,7 +267,6 @@
             p:rows="3" />
     </property>
     <property name="label" value="Change Note Text" />
-    <property name="description" value="A free-form text field for the text of the change." />
   </bean>
 <!-- Business Object Inquiry Definition -->
 

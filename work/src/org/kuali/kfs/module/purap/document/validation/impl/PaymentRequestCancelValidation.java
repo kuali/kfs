@@ -29,7 +29,7 @@ public class PaymentRequestCancelValidation extends GenericValidation {
         // no errors for now since we are not showing the button if they can't cancel, if that changes we need errors
         // also this is different than CreditMemo even though the rules are almost identical we should merge and have one consistent
         // way to do this
-        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq);
+        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq, null);
         valid = valid &= preqAuth.canCancel();
         
         return valid;

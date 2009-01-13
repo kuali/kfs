@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
@@ -23,14 +24,17 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class determines permissions for a user of the Payment Request document
@@ -41,336 +45,226 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
     private boolean requestCancelIndicator;
     private boolean holdIndicator;
     private boolean extracted;
-    private boolean canRemoveHold;
-    private boolean canRemoveRequestCancel;
-    private boolean canHold;
-    private boolean canRequestCancel;
-    private boolean fullEntryCompleted;
     private boolean adHocRequested;
-    private boolean initiateStatus;
     
-    private boolean apUser;
-    private boolean apSupervisor;
-    private boolean fiscalOfficerDelegateUser;
-    private boolean approver;
-
+    private PaymentRequestDocument paymentRequest;
+    private Map documentActions;
+    private Person user;
     
     /**
      * Constructs a PaymentRequestDocumentActionAuthorizer.
      * 
-     * @param preq A PaymentRequestDocument
+     * @param paymentRequest A PaymentRequestDocument
      */
-    public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument preq) {
-
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        // doc indicators
-        this.docStatus = preq.getStatusCode();
-        this.requestCancelIndicator = preq.getPaymentRequestedCancelIndicator();
-        this.holdIndicator = preq.isHoldIndicator();
-        this.extracted = (preq.getExtractedTimestamp() == null ? false : true);
-        this.fullEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq);
-        this.adHocRequested = preq.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
+    public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument paymentRequest, Map documentActions) {
+        docStatus = paymentRequest.getStatusCode();
+        requestCancelIndicator = paymentRequest.getPaymentRequestedCancelIndicator();
+        holdIndicator = paymentRequest.isHoldIndicator();        
+        extracted = paymentRequest.getExtractedTimestamp() != null;
+        adHocRequested = paymentRequest.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
         
-        // special indicators
-        if (SpringContext.getBean(PaymentRequestService.class).canHoldPaymentRequest(preq, user)) {
-            canHold = true;
-        }
-
-        if (SpringContext.getBean(PaymentRequestService.class).canUserRequestCancelOnPaymentRequest(preq, user)) {
-            canRequestCancel = true;
-        }
-
-        if (SpringContext.getBean(PaymentRequestService.class).canRemoveHoldPaymentRequest(preq, user)) {
-            canRemoveHold = true;
-        }
-
-        if (SpringContext.getBean(PaymentRequestService.class).canUserRemoveRequestCancelOnPaymentRequest(preq, user)) {
-            canRemoveRequestCancel = true;
-        }
-
-        // user indicators
-        this.approver = preq.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
-
-        String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup)) {
-            this.apUser = true;
-        }
-
-        String apSupGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apSupGroup)) {
-            this.apSupervisor = true;
-        }
-
-        if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) && isApprover()) {
-            this.fiscalOfficerDelegateUser = true;
-        }
-        
-        if (StringUtils.equals(preq.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
-            this.initiateStatus = true;
-        }
-
-    }
-
-    private String getDocStatus() {
-        return docStatus;
-    }
-
-    private boolean isRequestCancelIndicator() {
-        return requestCancelIndicator;
-    }
-
-    private boolean isHoldIndicator() {
-        return holdIndicator;
-    }
-
-    private boolean isExtracted() {
-        return extracted;
-    }
-
-    public boolean isCanRemoveHold() {
-        return canRemoveHold;
-    }
-
-    public boolean isCanRemoveRequestCancel() {
-        return canRemoveRequestCancel;
-    }
-
-    public boolean isCanHold() {
-        return canHold;
-    }
-
-    public boolean isCanRequestCancel() {
-        return canRequestCancel;
-    }
-
-    private boolean isApUser() {
-        return apUser;
-    }
-
-    public boolean isApSupervisor() {
-        return apSupervisor;
-    }
-
-    public void setApSupervisor(boolean apSupervisor) {
-        this.apSupervisor = apSupervisor;
-    }
-
-    private boolean isFiscalOfficerDelegateUser() {
-        return fiscalOfficerDelegateUser;
-    }
-
-    private boolean isApprover() {
-        return approver;
-    }
-
-    public boolean isFullEntryCompleted() {
-        return fullEntryCompleted;
-    }
-
-    public void setFullEntryCompleted(boolean fullEntryCompleted) {
-        this.fullEntryCompleted = fullEntryCompleted;
+        this.paymentRequest = paymentRequest;
+        this.documentActions = documentActions;
+        user = GlobalVariables.getUserSession().getPerson();        
     }
 
     /**
-     * Predicate to determine whether the current user can calculate the PREQ.
+     * Determines whether the current user can continue creating or clear fields of the payment request in initial status. Conditions:
+     * - the Payment Request must be in the INITIATE state; and
+     * - the user must have the authorization to initiate a Payment Request.
      * 
-     * @return True if the current user can calculate
+     * @return True if the current user can continue creating or clear fields of the initiated Payment Request.
+     */
+    public boolean canContinue() {
+        // preq must be in initiated status
+        boolean can = docStatus.equals(PaymentRequestStatuses.INITIATE);
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, user);
+        }
+              
+        return can;        
+    }    
+
+    /**
+     * Determine whether the current user can calculate the paymentRequest. Conditions:
+     * - Payment Request is not FullDocumentEntryCompleted, and
+     * - current user has the permission to edit the document.
+     * 
+     * @return True if the current user can calculate the Payment Request.
      */
     public boolean canCalculate() {
-        boolean hasPermission = false;
+        // preq must not be FullDocumentEntryCompleted
+        boolean can = !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequest);
+        
+        // check user authorization: whoever can edit can calculate
+        can = can && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
 
-        // Phase 2B Rule: (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover()) ||
-
-        if (isFullEntryCompleted() == false && isApUser()) {
-            hasPermission = true;
-        }
-
-        return hasPermission;
+        return can;
     }
 
     /**
-     * Predicate to determine whether the current user can approve the PREQ.
+     * Determines whether the PaymentRequest Hold button shall be available. Conditions:
+     * - Payment Request is not already on hold, and
+     * - Payment Request is not already being requested to be canceled, and
+     * - Payment Request has not already been extracted to PDP, and
+     * - Payment Request status is not in the list of "STATUSES_DISALLOWING_HOLD" or document is being adhoc routed; and
+     * - current user has an active approval request, or
+     * - current user has the permission for the default template in KIM.
      * 
-     * @return True if the current user can approve.
-     */
-    public boolean canApprove() {
-        boolean hasPermission = false;
-
-        if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus()) || isAdHocRequested()) && (isApprover() && isRequestCancelIndicator() == false && isHoldIndicator() == false)) {
-            hasPermission = true;
-        }
-        return hasPermission;
-    }
-
-    /**
-     * Predicate to determine whether the current user can save the PREQ.
-     * 
-     * @return True if the current user can save.
-     */
-    public boolean canSave() {
-        boolean hasPermission = false;
-
-        if (isApUser() && isExtracted() == false) {
-            hasPermission = true;
-        }
-
-        return hasPermission;
-    }
-
-    /**
-     * Predicate to determine whether the current user can place the PREQ on hold.
-     * 
-     * @return True if the current user can place the PREQ on hold.
+     * @return True if the current user can place the Payment Request on hold.
      */
     public boolean canHold() {
-        boolean hasPermission = false;
-
+        // check preq status
+        boolean can = !holdIndicator && !requestCancelIndicator && !extracted;
+        if (can) {
+            can = adHocRequested;
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(docStatus);
+        }
         
-//        if (document.isHoldIndicator() == false && 
-//                document.getPaymentRequestedCancelIndicator() == false && 
-//                document.getExtractedTimestamp() == null)) && 
-//
-//                //                ((document.getDocumentHeader().hasWorkflowDocument() && 
-//  //                      (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-//                                document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || 
-////get this from default template                (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && 
-//                                        (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || 
-////do we really need this??               isBeingAdHocRouted(document))) {
-//            
-//
-//            canHold = true;
-//        }
-//
-//        if (isCanHold() || 
-//                (((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(getDocStatus()) || 
-//                        PaymentRequestStatuses.AUTO_APPROVED.equals(getDocStatus())) && 
-//                        //(isApUser() && isHoldIndicator() == false && isHoldIndicator() == false && isExtracted() == false)))) {
-//
-//            hasPermission = true;
-//        }
-//
-        return hasPermission;
+        // check user authorization
+        if (can) {
+            can = paymentRequest.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
+            if (!can) {
+                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+                can = documentAuthorizer.isAuthorized(paymentRequest, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.HOLD_PREQ, user.getPrincipalId());                
+            }
+        }
+        
+        return can;
     }
 
     /**
-     * Predicate to determine whether the current user can remove the PREQ from being on hold.
+     * Determines whether the Remove Hold button shall be available. Conditions:
+     * - the hold indicator is set to true; and
+     * - the user has permission to use the button.  
+     * Because the state of the Payment Request cannot be changed while the document is on hold, 
+     * we should not have to check the state of the document to remove the hold.  
+     * For example, the document should not be allowed to be approved or extracted while on hold.
      * 
-     * @return True if the current user can remove the PREQ from hold.
+     * @return True if the current user can remove the Payment Request from hold.
      */
     public boolean canRemoveHold() {
-        boolean hasPermission = false;
+        // preq must be on hold
+        boolean can = holdIndicator;       
 
-        if (isCanRemoveHold() || (
-
-        ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(getDocStatus()) || PaymentRequestStatuses.AUTO_APPROVED.equals(getDocStatus())) && (isApSupervisor() && isHoldIndicator() == true && isExtracted() == false)))) {
-
-            hasPermission = true;
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+            can = documentAuthorizer.isAuthorized(paymentRequest, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.REMOVE_HOLD_PREQ, user.getPrincipalId());
         }
 
-        return hasPermission;
+        return can;
     }
 
     /**
-     * Predicate to determine whether the current user can cancel the PREQ.
+     * Determines whether the Request Cancel PaymentRequest button shall be available. Conditions:
+     * - Payment Request is not already on hold, and
+     * - Payment Request is not already being requested to be canceled, and
+     * - Payment Request has not already been extracted to PDP, and
+     * - Payment Request status is not in the list of "STATUSES_DISALLOWING_REQUEST_CANCEL" or document is being adhoc routed; and
+     * - current user has an active approval request.
+     * 
+     * @return True if the current user can request that the Payment Request be canceled.
+     */
+    public boolean canRequestCancel() {
+        // check preq status
+        boolean can = !requestCancelIndicator && !holdIndicator && !extracted;
+        if (can) {
+            can = adHocRequested;
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(docStatus);
+        }
+
+        // check user authorization
+        can = can && paymentRequest.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
+
+        return can;
+    }
+
+    /**
+     * Determines whether the Remove Request Cancel button shall be available. Conditions:
+     * - the request cancel indicator is set to true;  and 
+     * - the user has permission to use the button (either from the default template in KIM or that 
+     * - the user is the one that requested the cancel.  
+     * Because the state of the Payment Request cannot be changed while the document is set to request cancel, 
+     * we should not have to check the state of the document to remove the request cancel.  
+     * For example, the document should not be allowed to be approved or extracted while set to request cancel.
+     *  
+     * @return True if the current user can remove a request that the Payment Request be canceled.
+     */
+    public boolean canRemoveRequestCancel() {
+        // preq must have request cancel
+        boolean can = requestCancelIndicator;
+
+        // check user authorization
+        if (can) {
+            can = user.getPrincipalId().equals(paymentRequest.getLastActionPerformedByPersonId());
+            if (!can) {
+                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+                can = documentAuthorizer.isAuthorized(paymentRequest, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.REMOVE_CANCEL_PREQ, user.getPrincipalId());
+            }
+        }
+
+        return can;
+    }
+
+    //TODO remove
+    /**
+     * Predicate to determine whether the current user can cancel the paymentRequest.
      * 
      * @return True if the current user can cancel.
      */
     public boolean canCancel() {
-        boolean hasPermission = false;
-
-        if (((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || 
-                PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || 
-                PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || 
-                PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus())) && 
-                ((isApUser() && isRequestCancelIndicator()) || isApSupervisor())) ||
-
-        ((PaymentRequestStatuses.IN_PROCESS.equals(getDocStatus()) || 
-                PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus())) && 
-                (isApUser() || isApSupervisor())) ||
-
-        ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(getDocStatus()) || 
-                PaymentRequestStatuses.AUTO_APPROVED.equals(getDocStatus())) && 
-                ((isApUser() || isApSupervisor()) && isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false))) {
-
-            hasPermission = true;
+        boolean can = !StringUtils.equals(paymentRequest.getStatusCode(), PaymentRequestStatuses.INITIATE);
+        
+        boolean preroute = 
+            PaymentRequestStatuses.IN_PROCESS.equals(docStatus) || 
+            PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);
+        boolean enroute = 
+            PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
+            PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(docStatus);
+        boolean postroute = 
+            PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(docStatus) || 
+            PaymentRequestStatuses.AUTO_APPROVED.equals(docStatus);
+        
+        if (preroute) {
+            can = isApUser() || isApSupervisor();
         }
-
-        return hasPermission;
-    }
-
-    /**
-     * Predicate to determine whether the current user can request that the PREQ be canceled.
-     * 
-     * @return True if the current user can request that the PREQ be canceled
-     */
-    public boolean canRequestCancel() {
-        boolean hasPermission = false;
-
-//        if (document.getPaymentRequestedCancelIndicator() == false && 
-//                document.isHoldIndicator() == false && 
-//                document.getExtractedTimestamp() == null && 
-//                (document.getDocumentHeader().hasWorkflowDocument() && 
-//                        (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-//                                document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && 
-//                                (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()) || 
-//                                        isBeingAdHocRouted(document))) {
-
-            if (isCanRequestCancel()) {
-            hasPermission = true;
+        else if (enroute) {
+            can = isApUser() && requestCancelIndicator || isApSupervisor();
         }
-
-        return hasPermission;
-    }
-
-    /**
-     * Predicate to determine whether the current user can remove a request that the PREQ be canceled.
-     * 
-     * @return True if the current user can remove a request that the PREQ be canceled.
-     */
-    public boolean canRemoveRequestCancel() {
-        boolean hasPermission = false;
-
-        if (isCanRemoveRequestCancel()) {
-            hasPermission = true;
+        else if (postroute) {
+            can = (isApUser() || isApSupervisor()) && !requestCancelIndicator && !holdIndicator && !extracted;
         }
-
-        return hasPermission;
+        
+        return can;
     }
-
+    
+    //TODO move to presentation controller
     /**
-     * Predicate to determine whether the current user can edit the pre-extract fields.
+     * Determines whether the current user can edit the pre-extract fields.
      * 
      * @return True if the current user can edit the fields
      */
     public boolean canEditPreExtractFields() {
-        return !this.isExtracted() && this.apUser;
+        return !extracted && isApUser();
+    }
+    
+    //TODO remove
+    public boolean isApUser() {
+        String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup);
     }
 
-    /**
-     * Predicate to determine whether the current user can exit.
-     * 
-     * @return True if the current user can exit.
-     */
-    public boolean canExit() {
-        boolean hasPermission = true;
-        return hasPermission;
-    }
-
-    public boolean isAdHocRequested() {
-        return adHocRequested;
-    }
-
-    public void setAdHocRequested(boolean adHocRequested) {
-        this.adHocRequested = adHocRequested;
-    }
-
-    public boolean isInitiateStatus() {
-        return initiateStatus;
-    }
-
-    public void setInitiateStatus(boolean initiateStatus) {
-        this.initiateStatus = initiateStatus;
+    //TODO remove
+    public boolean isApSupervisor() {
+        String apSupGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apSupGroup);
     }
     
 }

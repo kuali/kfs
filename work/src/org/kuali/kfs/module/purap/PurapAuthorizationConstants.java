@@ -90,4 +90,19 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
     }
     
     public static final String PURAP_TAX_ENABLED = "purapTaxEnabled"; 
+    
+    public static class PermissionNames {
+        //TODO check default template names
+        //select * from KRIM_PERM_ATTR_V where PERM_NAMESPACE_CODE = 'KFS-PURAP';
+        //select * from KRIM_ROLE_PERM_V where ROLE_NAMESPACE = 'KFS-PURAP';
+        //public static final String PREVIEW_PRINT_PO = "Preview Print PO";
+        //public static final String PRINT_FIRST_TRANSMIT_PO = "Print First Transmit PO";
+        //public static final String PRINT_RETRANSMITTED_NON_APO = "Print Retransmitted Non APO";
+        public static final String PRINT_PO = "Print Purchase Order";
+        public static final String RESEND_PO = "Resend Purchase Order";
+        public static final String ASSIGN_SENSITIVE_DATA = "Assign Sensitive Data";
+        public static final String HOLD_PREQ = "Add Payment Request Hold";
+        public static final String REMOVE_HOLD_PREQ = "Remove Payment Request Hold";
+        public static final String REMOVE_CANCEL_PREQ = "Remove Payment Request Cancel";
+    }
 }

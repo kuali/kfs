@@ -20,6 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -42,13 +43,12 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
     public Map getEditMode(Document document, Person user) {
         Map editModeMap = super.getEditMode(document, user);
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preq);
 
         //FIXME hjs- still some KIM cleanup needed here (the rest has user authorization)
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
         if (!preq.isUseTaxIndicator() &&
-            !preqDocAuth.isFullEntryCompleted() && 
+            !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq) && 
             KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) ) {
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES, "TRUE");
         }

@@ -306,20 +306,19 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
-        //setup auth first if necessary
-        // remove this if condition to accomodate the change from request to scope obj, so that auth always gets refreshed; 
+        // always refresh auth, to accommodate the change from request to scope obj, so that auth always gets refreshed; 
         // otherwise extra buttons won't show correctly
-        //if (auth == null) { 
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-        auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+        auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode(), getDocumentActions());
             
-        //add buttons from purapformbase
+        //add buttons from PurapFormBase
         super.getExtraButtons();        
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         Map buttonsMap = createButtonsMap();                    
         
         // no other extra buttons except the following shall appear on "Assign Sensitive Data" page
-        if (isAssigningSensitiveData()) {
+        // and these buttons use the same permissions as the "Assign Sensitive Data" button
+        if (isAssigningSensitiveData() && auth.canAssignSensitiveData()) {
             extraButtons.clear();
             ExtraButton submitSensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData");
             extraButtons.add(submitSensitiveDataButton);
@@ -338,9 +337,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(printingRetransmitButton);
         }
 
-        ExtraButton printingPreviewButton = (ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo");
-        extraButtons.add(printingPreviewButton);
-
+        if (auth.canPreviewPrintPo()) {
+            ExtraButton printingPreviewButton = (ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo");
+            extraButtons.add(printingPreviewButton);
+        }
+        
         if (auth.canFirstTransmitPrintPo()) {
             ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
             extraButtons.add(printButton);

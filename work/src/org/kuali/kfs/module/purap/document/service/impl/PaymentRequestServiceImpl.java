@@ -831,46 +831,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return preqDoc;
     }
 
-    //TODO hjs can we remove this method since all code was moved to the actionauthorizer? (can hold, can request cancel, can remove hold....)
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canHoldPaymentRequest(PaymentRequestDocument document, Person user) {
-        boolean canHold = false;
-
-        String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-
-        /*
-         * The user is an approver of the document, The user is a member of the Accounts Payable group
-         */
-        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && document.getExtractedTimestamp() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
-
-            canHold = true;
-        }
-
-        return canHold;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, Person user) {
-        boolean canRemoveHold = false;
-
-        String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-
-        /*
-         * The user is the person who put the preq on hold The user is a member of the AP Supervisor group
-         */
-        if (document.isHoldIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains(document.getStatusCode()))) {
-
-            canRemoveHold = true;
-        }
-        return canRemoveHold;
-    }
-
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
      *      java.lang.String)
@@ -930,43 +890,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return (ObjectUtils.isNull(document.getExtractedTimestamp()) ? false : true);
     }
 
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user) {
-        /*
-         * The user is an approver of the document,
-         */
-        if (document.getPaymentRequestedCancelIndicator() == false && document.isHoldIndicator() == false && document.getExtractedTimestamp() == null && (document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean isBeingAdHocRouted(PaymentRequestDocument document) {
         return document.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
     }
     
-    /**
-     * This method determines if a user has permission to remove a request for cancel on a payment request document.
-     * 
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user) {
-        String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-
-        /*
-         * The user is the person who requested a cancel on the preq 
-         * The user is a member of the AP Supervisor group
-         */
-        if (document.getPaymentRequestedCancelIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
-            return true;
-        }
-        return false;
-    }
-
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#cancelExtractedPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument, java.lang.String)
      */

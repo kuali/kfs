@@ -102,24 +102,6 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public PaymentRequestDocument addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
 
     /**
-     * Determines if a user has permission to put the payment request on hold.
-     * 
-     * @param document  The payment request document to be determined whether the user has permission to put it on hold.
-     * @param user      The user whose permission to put the payment request on hold is to be determined.
-     * @return          boolean true if the user has permission to put the payment request on hold.
-     */
-    public boolean canHoldPaymentRequest(PaymentRequestDocument document, Person user);
-
-    /**
-     * Determines if a user has permission to remove a hold on the payment request.
-     * 
-     * @param document  The payment request document to be determined whether the user has permission to remove hold on it.
-     * @param user      The user whose permission to remove hold on the payment request is to be determined.
-     * @return          boolean true if the user has permission to remove hold on the payment request.
-     */
-    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, Person user);
-
-    /**
      * Removes a hold on a payment request.
      * 
      * @param document    The payment request document whose hold is to be removed.
@@ -161,24 +143,6 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return          boolean true if the payment request document is extracted.
      */
     public boolean isExtracted(PaymentRequestDocument document);
-
-    /**
-     * Determines if a user has permission to request cancel on the payment request.
-     * 
-     * @param document  The payment request document to be determined whether the user has permission to request cancel on it.
-     * @param user      The user whose permission to request cancel on the payment request is to be determined.
-     * @return          boolean true if the user has permission to request cancel on the payment request.
-     */
-    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user);
-
-    /**
-     * Determines if a user has permission to remove a request for cancel on the payment request.
-     * 
-     * @param document  The payment request document to be determined whether the user has permission to remove a request for cancel on it.
-     * @param user      The user whose permission to remove a request for cancel on the payment request is to be determined.
-     * @return          boolean true if the user has permission to remove a request for cancel on the payment request.
-     */
-    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user);
 
     /**
      * Removes a request cancel on payment request.

@@ -167,25 +167,18 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      * @return - list of extra buttons to be displayed to the user
      */
     @Override
-    public List<ExtraButton> getExtraButtons() {
-        // clear out the extra buttons array
-        extraButtons.clear();
-
+    public List<ExtraButton> getExtraButtons() {        
+        extraButtons.clear(); // clear out the extra buttons array
         PaymentRequestDocument preqDoc = this.getPaymentRequestDocument();
-
         String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preqDoc, getDocumentActions());
 
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preqDoc);
-
-        if (preqDocAuth.isInitiateStatus()) {
+        if (preqDocAuth.canContinue()) {
             addExtraButton("methodToCall.continuePREQ", externalImageURL + "buttonsmall_continue.gif", "Continue");
             addExtraButton("methodToCall.clearInitFields", externalImageURL + "buttonsmall_clear.gif", "Clear");
-
         }
         else {
-            //FIXME hjs- this isn't quite right; need to check the status or something
-            // if preq holdable and user can put on hold, show button
             if (preqDocAuth.canHold()) {
                 addExtraButton("methodToCall.addHoldOnPayment", appExternalImageURL + "buttonsmall_hold.gif", "Hold");
             }

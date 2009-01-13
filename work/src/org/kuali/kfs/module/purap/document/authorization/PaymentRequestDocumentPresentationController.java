@@ -30,12 +30,18 @@ import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -54,23 +60,21 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
     @Override
     protected boolean canSave(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
         
-        //FIXME hjs should all this logic be together (either all here or all in action authorizer)
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
             return false;
         }
-        // check Action Authorizer for ability to save doc
-        if (preqDocAuth.canSave()) {
+
+        if (paymentRequestDocument.getExtractedTimestamp() != null) {
             return false;
-        }
+        }      
+        
         return super.canSave(document);
     }
 
     @Override
     protected boolean canCancel(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
         
         //FIXME hjs should all this logic be together (either all here or all in action authorizer)
         // if Payment Request is in INITIATE status, user cannot cancel doc
@@ -79,11 +83,35 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         }
         
         // check Action Authorizer for ability to cancel doc
-        if (preqDocAuth.canCancel()) {
-            return false;
-        }
+        String docStatus = paymentRequestDocument.getStatusCode();
+        boolean requestCancelIndicator = paymentRequestDocument.getPaymentRequestedCancelIndicator();
+        boolean holdIndicator = paymentRequestDocument.isHoldIndicator();        
+        boolean extracted = paymentRequestDocument.getExtractedTimestamp() != null;
         
-        return super.canCancel(document);
+        boolean preroute = 
+            PaymentRequestStatuses.IN_PROCESS.equals(docStatus) || 
+            PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);
+        boolean enroute = 
+            PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(docStatus) ||
+            PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(docStatus) || 
+            PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(docStatus);
+        boolean postroute = 
+            PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(docStatus) || 
+            PaymentRequestStatuses.AUTO_APPROVED.equals(docStatus);
+        
+        boolean can = false;
+        if (preroute) {
+            can = isApUser() || isApSupervisor();
+        }
+        else if (enroute) {
+            can = isApUser() && requestCancelIndicator || isApSupervisor();
+        }
+        else if (postroute) {
+            can = (isApUser() || isApSupervisor()) && !requestCancelIndicator && !holdIndicator && !extracted;
+        }
+
+        return can && super.canCancel(document);
     }
 
     @Override
@@ -96,6 +124,14 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
     }
 
     
+    /* TODO uncomment when ready
+    @Override
+    public boolean canApprove(Document document) {
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        return !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator();
+    }
+    */
+
     @Override
     protected boolean canDisapprove(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -115,9 +151,8 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
     @Override
     protected boolean canEdit(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
 
-        if (preqDocAuth.isFullEntryCompleted()) {
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
             return false;
         }
 
@@ -126,7 +161,7 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
             return false;
         }
 
-        if (preqDocAuth.isAdHocRequested()) {
+        if (paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             return false;
         }
 
@@ -141,20 +176,21 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
     public Set<String> getEditModes(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
         Set<String> editModes = new HashSet<String>();
         
         // always show amount after full entry
-        if (preqDocAuth.isFullEntryCompleted()) {
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
         }
 
         // make sure ap user can edit certain fields
-        if (preqDocAuth.canEditPreExtractFields() && !preqDocAuth.isAdHocRequested() && !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
+        if (paymentRequestDocument.getExtractedTimestamp() == null && //TODO && isApUser
+            !paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() && 
+            !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT);
         }
 
-        if (preqDocAuth.isInitiateStatus()) {
+        if (paymentRequestDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.INITIATE)) {
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }
         
@@ -209,6 +245,20 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         return editModes;
     }
 
+    //TODO remove
+    public boolean isApUser() {
+        String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        Person user = GlobalVariables.getUserSession().getPerson();        
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup);
+    }
+
+    //TODO remove
+    public boolean isApSupervisor() {
+        String apSupGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        Person user = GlobalVariables.getUserSession().getPerson();        
+        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apSupGroup);
+    }
+        
     /**
      * A helper method for determining the route levels for a given document.
      * 

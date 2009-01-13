@@ -299,7 +299,7 @@
 
 	<bean id="assetBarcodeInventoryInputFileType" class="org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType"> 
 	    <property name="directoryPath">
-	       <value>${staging.directory}/CM_BARCODE</value>
+	       <value>${staging.directory}/cm/barcode</value>
 	    </property>
 	</bean>
 

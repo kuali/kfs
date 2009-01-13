@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-<documentType>
-<name>KualiDocument</name>
-<routePaths>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>KualiDocument</name>
+			<routePaths>
 				<routePath>
-					<start name="AdHoc"/>
-				</routePath>
-				<routePath initialNode="Exception" processName="exception">
-					<role name="Exception"/>
+					<start name="AdHoc" />
 				</routePath>
 			</routePaths>
-<routeNodes>
-<start name="AdHoc"/>
-<role name="Exception">
-					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				</role>
-</routeNodes>
-</documentType>
-</documentTypes>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+	</documentTypes>
 </data>

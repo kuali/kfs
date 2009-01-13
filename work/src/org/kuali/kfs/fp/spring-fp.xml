@@ -366,7 +366,7 @@
 	
 	<bean id="procurementCardInputFileType" class="org.kuali.kfs.fp.batch.ProcurementCardInputFileType"> 
 	    <property name="directoryPath">
-	       <value>${staging.directory}/PCDO</value>
+	       <value>${staging.directory}/fp/procurementCard</value>
 	    </property>
 	    <property name="fileExtension">
 	       <value>xml</value>

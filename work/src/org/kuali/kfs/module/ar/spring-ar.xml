@@ -482,7 +482,7 @@
 	
 	<bean id="customerLoadInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType">
 		<property name="directoryPath">
-			<value>${staging.directory}/ar</value>
+			<value>${staging.directory}/ar/customer</value>
 		</property>
 		<property name="fileExtension">
 			<value>xml</value>
@@ -541,7 +541,7 @@
 	
 	<bean id="customerInvoiceWriteoffBatchInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchInputFileType">
 		<property name="directoryPath">
-			<value>${staging.directory}/ar</value>
+			<value>${staging.directory}/ar/invoiceWriteoff</value>
 		</property>
 		<property name="fileExtension">
 			<value>xml</value>

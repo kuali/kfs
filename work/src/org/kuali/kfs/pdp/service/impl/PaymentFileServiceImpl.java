@@ -59,7 +59,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentFileServiceImpl implements PaymentFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileServiceImpl.class);
 
-    private String incomingDirectoryName;
     private String outgoingDirectoryName;
 
     private ParameterService parameterService;
@@ -347,15 +346,6 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         if (doneFile.exists()) {
             doneFile.delete();
         }
-    }
-
-    /**
-     * Sets the incomingDirectoryName attribute value.
-     * 
-     * @param incomingDirectoryName The incomingDirectoryName to set.
-     */
-    public void setIncomingDirectoryName(String incomingDirectoryName) {
-        this.incomingDirectoryName = incomingDirectoryName;
     }
 
     /**

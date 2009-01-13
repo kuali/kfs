@@ -777,7 +777,7 @@
 	
 	<bean id="electronicInvoiceInputFileType" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType">
     	<property name="directoryPath">
-	       <value>${staging.directory}/purap/</value>
+	       <value>${staging.directory}/purap/electronicInvoice</value>
 	    </property>
 	    <property name="fileExtension">
 	       <value>xml</value>

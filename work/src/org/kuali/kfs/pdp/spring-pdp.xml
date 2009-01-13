@@ -238,7 +238,7 @@
 
 	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.kfs.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
 		<property name="achBankService" ref="pdpAchBankService"/>
-		<property name="directoryName" value="${staging.directory}/PDP/"/>
+		<property name="directoryName" value="${staging.directory}/pdp/bankFederalReserve"/>
 	</bean>
 
 	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.kfs.pdp.batch.ExtractGlTransactionsStep" parent="step">
@@ -275,7 +275,7 @@
 
 	<bean id="pdpExtractPaymentService" class="org.kuali.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
 		<property name="parameterService" ref="parameterService"/>
-		<property name="directoryName" value="${staging.directory}/PDP/"/>
+		<property name="directoryName" value="${staging.directory}/pdp/paymentExtract"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
 		<property name="processDao" ref="pdpProcessDao"/>
@@ -354,7 +354,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
-		<property name="outgoingDirectoryName" value="${staging.directory}/PDP/outgoing"/>
+		<property name="outgoingDirectoryName" value="${staging.directory}/pdp/paymentLoadSummary"/>
 	</bean>
 	
 	<bean id="pdpEmailService" class="org.kuali.kfs.pdp.service.impl.PdpEmailServiceImpl">
@@ -385,7 +385,7 @@
 	
 	<bean id="paymentInputFileType" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">
     	<property name="directoryPath">
-	       <value>${staging.directory}/PDP/incoming</value>
+	       <value>${staging.directory}/pdp/paymentImport</value>
 	    </property>
 	    <property name="fileExtension">
 	       <value>xml</value>

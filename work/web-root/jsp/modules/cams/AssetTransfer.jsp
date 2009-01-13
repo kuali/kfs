@@ -18,6 +18,7 @@
 	<c:set var="assetTransferAttributes" value="${DataDictionary.AssetTransferDocument.attributes}" />
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />	
 	<c:set var="assetOrgAttributes" value="${DataDictionary.AssetOrganization.attributes}" />	
+	<c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />	
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
@@ -55,10 +56,10 @@
 				</td>				
 			</tr>
 			<tr>				
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.oldOrganizationOwnerAccount.organizationCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true" /></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.organizationCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationOwnerAccount.organizationCode" attributeEntry="${organizationAttributes.organizationCode}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.organizationCode}" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${organizationAttributes.organizationCode}" readOnly="true" /></td>
 			</tr>
 			<tr>
 				<td class="tab-subhead" colspan="4" width="100%">Interdepartmental Sale</td>

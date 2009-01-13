@@ -170,6 +170,7 @@ public class CamsPropertyConstants {
     public static class AssetTransferDocument {
         public static final String ORGANIZATION = "organization";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
+        public static final String OLD_ORGANIZATION_OWNER_ACCOUNT = "oldOrganizationOwnerAccount";
         public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE = "organizationOwnerChartOfAccountsCode";
         public static final String BUILDING_CODE = "buildingCode";

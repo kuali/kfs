@@ -65,6 +65,8 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
             assetTransferDocument.setOldOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
         }
         
+        this.refresh(mapping, form, request, response);
+        
         return docHandlerForward;
     }
 
@@ -107,6 +109,24 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
             assetTransferDocument.setCapitalAssetNumber(Long.valueOf(capitalAssetNumber));
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
         }
+    }
+    
+
+    /**
+     * Since the organization fields are view only we need to make sure they are in sync with the data entry fields.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.refresh(mapping, form, request, response);
+        
+        AssetTransferDocument assetTransferDocument = ((AssetTransferForm) form).getAssetTransferDocument();
+        
+        assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
+        assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.OLD_ORGANIZATION_OWNER_ACCOUNT);
+        
+        return actionForward;
     }
 }
 

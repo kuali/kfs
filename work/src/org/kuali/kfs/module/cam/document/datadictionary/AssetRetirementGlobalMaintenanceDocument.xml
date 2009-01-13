@@ -44,8 +44,8 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementPresentationController" />
     <property name="documentTypeCode" value="AR" />
-    <property name="workflowProperties" >
-      <ref bean="AssetRetirementGlobalMaintenanceDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="AssetRetirementGlobalMaintenanceDocument-workflowAttributes" />
     </property>
     <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenanceGlpe.jsp"></property>
   </bean>
@@ -303,24 +303,83 @@
     </property>
   </bean>
   
-  <bean id="AssetRetirementGlobalMaintenanceDocument-workflowProperties" parent="AssetRetirementGlobalMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="AssetRetirementGlobalMaintenanceDocument-workflowAttributes" parent="AssetRetirementGlobalMaintenanceDocument-workflowAttributes-parentBean" />
 
-  <bean id="AssetRetirementGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-       <list>
-        <bean parent="WorkflowPropertyGroup">
-        <property name="workflowProperties" >
-            <list>
-             
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingTypes" />
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingSet" />
-             
-            </list>
-          </property>
-        </bean>
-      </list>
+  <bean id="AssetRetirementGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    <property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    						<property name="attributeName" value="capitalAssetNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.capitalAssetNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy" />
+    			<!-- no qualifiers for purchasing node -->
+    			<!-- no qualifiers for manager node -->
+    		</map>
     </property>
   </bean>
+   
+   <bean id="DocumentCollectionPath-AssetRetirementGlobalMaintenanceDocument-chartAndAccountNumber" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   		<property name="documentValues">
+	   		<list>
+	   			<value>asset.organizationOwnerChartOfAccountsCode</value>
+	   			<value>asset.organizationOwnerAccountNumber</value>
+	   		</list>
+   		</property>
+   </bean>
+   	
+  <bean id="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-accountNumber" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	    			<property name="documentCollectionPath">
+    					<bean parent="DocumentCollectionPath-AssetRetirementGlobalMaintenanceDocument-chartAndAccountNumber">
+    						<property name="collectionPath" value="newMaintainableObject.businessObject.assetRetirementGlobalDetails" />
+    					</bean>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="DocumentValuePathGroup-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy-assetRetirementGlobalDetails" parent="DocumentValuePathGroup-CapitalAssetManagementDocument-documentType">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AssetDetail-chartAndOrgCode">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.assetRetirementGlobalDetails" />
+    		</bean>
+    	</property>
+    </bean>
+    <bean id="RoutingType-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-organizationCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy-assetRetirementGlobalDetails" />
+    		</list>
+    	</property>
+    </bean>
 </beans>

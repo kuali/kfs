@@ -507,7 +507,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>newMaintainableObject.businessObject.capitalAssetNumber</value>
+    						<value>newMaintainableObject.businessObject.assetGlobalDetails.capitalAssetNumber</value>
     					</list>
     				</property>
     			</bean>
@@ -515,8 +515,8 @@
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AssetFabricationMaintenanceDocument-Account" />
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetMaintenanceDocument-OrganizationHierarchy" />
+    			<entry key="Account" value-ref="RoutingType-CapitalAssetManagementComplexMaintenanceDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-CapitalAssetManagementComplexMaintenanceDocument-OrganizationHierarchy" />
     		</map>
     	</property>
   </bean>  

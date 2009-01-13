@@ -7,8 +7,16 @@
 <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="ContractManagement"/>
-          <requests name="ContractManagement" nextNode="Commodity"/>
+          <start name="AdHoc" nextNode="RequiresContractManagementReview"/>
+          <split name="RequiresContractManagementReview" nextNode="Commodity">
+          	<branch name="True">
+          		<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" />
+          	</branch>
+          	<branch name="False">
+          		<requests name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview" />
+          	</branch>
+          	<join name="JoinRequiresContractManagementReview" />
+          </split>
           <requests name="Commodity" nextNode="Award"/>
           <requests name="Award" nextNode="RequiresBudgetReview"/>
           <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
@@ -66,6 +74,9 @@
 <!--<ruleTemplate>KualiPurchaseOrderTransmissionTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
+<split name="RequiresContractManagementReview">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
 <split name="RequiresBudgetReview">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
@@ -75,6 +86,9 @@
 <split name="VendorIsEmployeeOrNonResidentAlien">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
+<simple name="NoOpRequiresContractManagementReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
 <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
@@ -87,7 +101,7 @@
 <join name="JoinRequiresBudgetReview" />
 <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
 <join name="JoinTransmissionMethodIsPrint"/>
-
+<join name="JoinRequiresContractManagementReview"/>
 </routeNodes>
 </documentType>
 </documentTypes>

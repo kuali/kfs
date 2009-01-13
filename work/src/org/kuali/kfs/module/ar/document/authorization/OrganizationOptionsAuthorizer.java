@@ -17,7 +17,9 @@ package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.document.OrganizationOptionsMaintainableImpl;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -31,58 +33,23 @@ public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDoc
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
 
-        // This should take care of KULAR-490
-        OrganizationOptions organizationOptions = (OrganizationOptions) ((FinancialSystemMaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+        FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) businessObject;
+        OrganizationOptionsMaintainableImpl newMaintainable = (OrganizationOptionsMaintainableImpl) maintDoc.getNewMaintainableObject();
         
-        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, organizationOptions.getChartOfAccountsCode());
-        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, organizationOptions.getOrganizationCode());
+        if (newMaintainable != null) {
+            OrganizationOptions orgOpts = (OrganizationOptions) newMaintainable.getBusinessObject();
+            if (orgOpts != null && StringUtils.isNotBlank(orgOpts.getChartOfAccountsCode()) && StringUtils.isNotBlank(orgOpts.getOrganizationCode())) {
+                attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, orgOpts.getChartOfAccountsCode());
+                attributes.put(KfsKimAttributes.ORGANIZATION_CODE, orgOpts.getOrganizationCode());
+            }
+            if (orgOpts != null && StringUtils.isNotBlank(orgOpts.getProcessingChartOfAccountCode()) && StringUtils.isNotBlank(orgOpts.getProcessingOrganizationCode())) {
+                attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, orgOpts.getProcessingChartOfAccountCode());
+                attributes.put(KfsKimAttributes.ORGANIZATION_CODE, orgOpts.getProcessingOrganizationCode());
+            }
+        }
+        
         super.addRoleQualification(businessObject, attributes);
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#addMaintenanceDocumentRestrictions(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kim.bo.Person)
-     */
-    // TODO move to presentation controller since none of this is user logic
-//    public void addMaintenanceDocumentRestrictions(MaintenanceDocumentAuthorizations auths, MaintenanceDocument document, Person user) {
-//        super.addMaintenanceDocumentRestrictions(auths, document, user);
-//        setFieldsReadOnlyAccessMode(document, auths);
-//    }
-//    
-//    /**
-//     * 
-//     * This method...
-//     * @param auths
-//     */
-//    private void setFieldsReadOnlyAccessMode(MaintenanceDocument document, MaintenanceDocumentAuthorizations auths) {
-//    
-//        ParameterService service = SpringContext.getBean(ParameterService.class);
-//        
-//        String nameEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
-//        if (nameEditable.equalsIgnoreCase("N")) {
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
-//        }
-//        
-//        String addressEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_ADDRESS_EDITABLE_IND);
-//        if (addressEditable.equalsIgnoreCase("N")) {
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ADDRESS_NAME);
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS);
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS);
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_CITY_NAME);
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_STATE_CODE);
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ZIP_CODE);
-//        }
-//        
-//        if( !SpringContext.getBean(ParameterService.class).getIndicatorParameter(ParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
-//            auths.addHiddenAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE);
-//        }
-//
-//        // Processing chart and org should be strictly read only when creating a new Org Options
-//        if(document.isNew()) {
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
-//            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE);
-//        }
-//        
-//    }
 }
 

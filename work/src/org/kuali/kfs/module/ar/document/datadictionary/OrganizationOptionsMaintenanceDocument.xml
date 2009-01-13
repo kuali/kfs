@@ -52,20 +52,9 @@
     <property name="documentTypeName" value="OrganizationOptionsMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsPreRules" />
     <property name="documentTypeCode" value="OOPT" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="workflowAttributes">
     	<ref bean="OrganizationOptionsMaintenanceDocument-workflowAttributes" />
     </property>

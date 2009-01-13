@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,15 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
     private Map editingMode;
     private Map documentActions;
     private Person user;
+    
+    /**
+     * Constructs a PurchaseOrderDocumentActionAuthorizer.
+     * 
+     * @param po A PurchaseOrderDocument
+     */
+    public PurchaseOrderDocumentActionAuthorizer(PurchaseOrderDocument purchaseOrder, Map editingMode) {
+        this(purchaseOrder, editingMode, new HashMap());
+    }
     
     /**
      * Constructs a PurchaseOrderDocumentActionAuthorizer.

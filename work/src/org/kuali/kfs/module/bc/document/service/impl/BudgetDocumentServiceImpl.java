@@ -62,6 +62,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -69,7 +70,6 @@ import org.kuali.rice.kew.actions.CompleteAction;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
@@ -109,6 +109,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private OptionsService optionsService;
     private PersistenceService persistenceService;
     private OrganizationService organizationService;
+    private RouteHeaderService routeHeaderService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
@@ -1216,8 +1217,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
         documentService.prepareWorkflowDocument(budgetConstructionDocument);
 
-        RouteHeaderService routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
-
         DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
 
         CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorPrincipal(), "created by application UI");
@@ -1410,6 +1409,15 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    /**
+     * Sets the routeHeaderService attribute value.
+     * @param routeHeaderService The routeHeaderService to set.
+     */
+    @NonTransactional
+    public void setRouteHeaderService(RouteHeaderService routeHeaderService) {
+        this.routeHeaderService = routeHeaderService;
     }
 }
 

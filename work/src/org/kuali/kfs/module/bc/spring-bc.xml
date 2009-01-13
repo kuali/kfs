@@ -111,6 +111,9 @@
 			<property name="organizationService">
 			<ref bean="organizationService" />
 		</property>
+        <property name="routeHeaderService">
+            <ref bean="enDocumentRouteHeaderService" />
+        </property>
 	</bean>
 
 	<bean id="budgetOrganizationTreeService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetOrganizationTreeServiceImpl">

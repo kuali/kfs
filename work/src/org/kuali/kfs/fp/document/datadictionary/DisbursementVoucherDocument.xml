@@ -25,10 +25,13 @@
     
     <property name="documentTypeCode" value="DV" />
     <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    
     <property name="workflowAttributes" >
       <ref bean="DisbursementVoucherDocument-workflowAttributes" />
     </property>
+    
+    <property name="allowsCopy" value="true" />
+    <property name="allowsErrorCorrection" value="false"/>
 
     <property name="attributes" >
       <list>

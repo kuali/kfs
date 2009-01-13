@@ -21,10 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.fp.document.ServiceBillingDocument;
-import org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRuleUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.TransactionalDocument;
@@ -64,45 +61,4 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
     public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
-
- // TODO fix for kim
-//    /**
-//     * Overrides the error-correct flag for SB income account control. Unlike a copy, an SB error correction's income accounts
-//     * cannot be changed, so if this user isn't authorized for all those income accounts then he won't be able to save or submit the
-//     * error correction. We avoid this frustration by hiding that button in the first place.
-//     * 
-//     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kns.bo.user.KualiUser)
-//     */
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//        boolean canUseAllIncomeSectionAccountsBool = false;
-//        if (flags.getCanErrorCorrect() || flags.getCanCopy()) {
-//            // canUseAllIncomeSectionAccounts may be an expensive operation, so we only invoke it exactly once only if it's
-//            // absolutely necessary
-//            // (i.e. can error correct or copy flags are true)
-//            // if any of these flags are false, we rely on short circuiting to ignore the value of this variable when
-//            // any of the flags are false
-//            canUseAllIncomeSectionAccountsBool = canUseAllIncomeSectionAccounts((ServiceBillingDocument) document, user);
-//        }
-//        flags.setCanErrorCorrect(flags.getCanErrorCorrect() && canUseAllIncomeSectionAccountsBool);
-//        flags.setCanCopy(flags.getCanCopy() && canUseAllIncomeSectionAccountsBool);
-//        return flags;
-//    }
-
-    /**
-     * @param serviceBillingDocument
-     * @param user
-     * @return whether the given user is allowed to use all of the accounts in the given SB doc's income accounting lines section
-     */
-    private static boolean canUseAllIncomeSectionAccounts(ServiceBillingDocument serviceBillingDocument, Person user) {
-        for (SourceAccountingLine sourceAccountingLine : ((List<SourceAccountingLine>) serviceBillingDocument.getSourceAccountingLines())) {
-            if (!ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(sourceAccountingLine, null, user)) {
-                return false;
-            }
-        }
-        return true;
-    }
 }
-

@@ -28,6 +28,30 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class ProcurementCardDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
 
     /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canCancel(Document document) {
+        return false;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canCopy(Document document) {
+        return false;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canDisapprove(Document document) {
+        return false;
+    }
+
+    /**
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
      */
     @Override

@@ -23,4 +23,3 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase
 public class DistributionOfIncomeAndExpenseDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     
 }
-

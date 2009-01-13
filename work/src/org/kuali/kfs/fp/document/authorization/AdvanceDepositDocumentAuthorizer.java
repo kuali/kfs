@@ -36,23 +36,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     /**
-     * Overrides to use the parent's implementation, with the exception that AD documents can never be error corrected.
-     * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    // TODO fix for kim
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//
-//        FinancialSystemTransactionalDocumentActionFlags tflags = flags;
-//        tflags.setCanErrorCorrect(false); // CCR, AD, CR, DV, andd PCDO don't allow error correction
-//
-//        return flags;
-//    }
-
-    /**
      * Overrides to always return false because there is never FO routing or FO approval for AD docs.
      * 
      * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.rice.kns.bo.user.KualiUser,

@@ -22,6 +22,7 @@
     
     <property name="documentTypeCode" value="PCDO" />
     <property name="sessionDocument" value="true" />
+    <property name="allowsErrorCorrection" value="false"/>
 
     <property name="validationMap" ref="ProcurementCardDocument-validations" />
     <property name="accountingLineGroups">

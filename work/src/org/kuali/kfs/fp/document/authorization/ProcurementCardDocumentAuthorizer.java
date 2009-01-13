@@ -35,29 +35,5 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Document Authorizer for the Procurement Card document.
  */
-public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-
- // TODO fix for kim
-//    /**
-//     * Overrides to call super and then blanketly reset the actions not allowed on the procurment card document.
-//     * 
-//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kns.bo.user.KualiUser)
-//     */
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
-//
-//        flags.setCanErrorCorrect(false); // PCDO doesn't allow error correction
-//
-//        flags.setCanCancel(false); // PCDO cannot be cancelled
-//
-//        flags.setCanDisapprove(false); // PCDO cannot be disapproved
-//
-//        flags.setCanCopy(false); // PCDO cannot be copied
-//
-//        return flags;
-//    }
-   
+public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthorizerBase {  
 }
-

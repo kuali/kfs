@@ -20,7 +20,9 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CCR" />
     <property name="sessionDocument" value="true" />
+    
     <property name="allowsCopy" value="true" />
+	<property name="allowsErrorCorrection" value="false"/>
 
     <property name="attributes" >
       <list>

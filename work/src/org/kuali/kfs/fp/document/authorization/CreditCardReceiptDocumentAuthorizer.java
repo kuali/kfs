@@ -21,30 +21,13 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 
 /**
  * Authorization permissions specific to the Credit Card Receipt document.
  */
 public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-
-    // TODO fix for kim
-//    /**
-//     * Overrides to use the parent's implementation, with the exception that CCR docs can't be error corrected.
-//     * 
-//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kns.bo.user.KualiUser)
-//     */
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//
-//        flags.setCanErrorCorrect(false); // CCR, CR, DV, andd PCDO don't allow error correction
-//
-//        return flags;
-//    }
 
     /**
      * Overrides to always return false because there is never FO routing or FO approval for CCR docs.
@@ -76,6 +59,4 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
     public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
-
 }
-

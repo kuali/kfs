@@ -23,7 +23,9 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CR" />
     <property name="sessionDocument" value="true" />
+    
     <property name="allowsCopy" value="true" />
+	<property name="allowsErrorCorrection" value="false"/>
 
     <property name="attributes" >
       <list>

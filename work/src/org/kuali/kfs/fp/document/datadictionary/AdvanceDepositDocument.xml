@@ -24,7 +24,10 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules" />
     <property name="documentTypeCode" value="AD" />
     <property name="sessionDocument" value="true" />
+    
     <property name="allowsCopy" value="true" />
+    <property name="allowsErrorCorrection" value="false"/>
+    
     <property name="validationMap" ref="AdvanceDepositDocument-validations" />
      <property name="accountingLineGroups">
     	<map>

@@ -18,42 +18,43 @@ package org.kuali.kfs.fp.document.authorization;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 
 /**
- * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
- * This class utilizes the new accountingLine model.
+ * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents This class utilizes
+ * the new accountingLine model.
  */
 public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
 
     /**
-     * This method determines if the current accounting line is editable based upon if electronic claims
-     * exists on the DI document.
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineFieldModifyability(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
+     * This method determines if the current accounting line is editable based upon if electronic claims exists on the DI document.
+     * 
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineFieldModifyability(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
      */
     @Override
     protected boolean determineFieldEditability(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field) {
         final boolean canModify = super.determineFieldEditability(accountingDocument, accountingLine, field);
         if (canModify && accountingLine.isSourceAccountingLine()) {
             DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) accountingDocument;
-            
+
             List<ElectronicPaymentClaim> epcs = diDoc.getElectronicPaymentClaims();
-    
+
             if (epcs == null) {
-                diDoc.refreshReferenceObject("electronicPaymentClaims");
+                diDoc.refreshReferenceObject(KFSPropertyConstants.ELECTRONIC_PAYMENT_CLAIMS);
                 epcs = diDoc.getElectronicPaymentClaims();
             }
-    
+
             if (epcs != null && epcs.size() > 0) {
                 return false; // we can't modify no matter what...
             }
         }
+        
         return canModify;
     }
-    
-}
 
+}

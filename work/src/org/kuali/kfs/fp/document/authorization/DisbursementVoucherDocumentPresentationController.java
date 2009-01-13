@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -27,6 +28,14 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canBlanketApprove(Document document) {
+        return false;
+    }
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)

@@ -22,7 +22,7 @@ import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE;
@@ -40,7 +40,7 @@ public class AssetPaymentAccountingLineParser extends AccountingLineParserBase {
       PURCHASE_ORDER,
         REQUISITION_NUMBER,
         DOCUMENT_NUMBER,
-        DOCUMENT_TYPE, 
+        DOCUMENT_TYPE_CODE, 
         ORIGINATION_CODE,
         DOCUMENT_POSTING_DATE
     };

@@ -136,7 +136,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                 valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
             }
             else if (assetType.isMovingIndicator() || assetType.isRequiredBuildingIndicator()) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
+                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
                 valid &= false;
             }
         }

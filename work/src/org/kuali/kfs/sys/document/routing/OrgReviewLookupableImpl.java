@@ -31,6 +31,7 @@ import org.kuali.rice.kew.rule.service.RuleTemplateService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class provides a lookup for org review hierarchy routing rules.
@@ -159,7 +160,7 @@ public class OrgReviewLookupableImpl /*implements WorkflowLookupable*/ {
      * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getLookupInstructions()
      */
     public String getLookupInstructions() {
-        return Utilities.getApplicationConstant(KEWConstants.RULE_SEARCH_INSTRUCTION);
+        return Utilities.getKNSParameterValue(KEWConstants.DEFAULT_KIM_NAMESPACE, KNSConstants.DetailTypes.RULE_DETAIL_TYPE, KEWConstants.RULE_SEARCH_INSTRUCTION);
     }
 
     /**

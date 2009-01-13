@@ -127,7 +127,7 @@ public class RequisitionAction extends PurchasingActionBase {
         document.setVendorContractName("");
         document.setVendorFaxNumber("");
         document.setVendorCustomerNumber("");
-
+        document.setVendorAttentionName("");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

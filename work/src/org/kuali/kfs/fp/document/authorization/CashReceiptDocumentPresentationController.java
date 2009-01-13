@@ -15,8 +15,48 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class CashReceiptDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase{
+public class CashReceiptDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
 
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canApprove(Document document) {
+        return this.canApproveOrBlanketApprove(document) ? super.canApprove(document) : false;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canBlanketApprove(Document document) {
+        return this.canApproveOrBlanketApprove(document) ? super.canBlanketApprove(document) : false;
+    }
+
+    private boolean canApproveOrBlanketApprove(Document document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isApprovalRequested() && !workflowDocument.isAdHocRequested()) {
+            CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
+
+            String campusCode = cashReceiptDocument.getCampusLocationCode();
+            CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode, true);
+            if (cashDrawer == null) {
+                throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + cashReceiptDocument.getDocumentNumber());
+            }
+
+            if (cashDrawer.isClosed()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

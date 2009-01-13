@@ -23,11 +23,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -35,41 +33,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(CashReceiptDocumentAuthorizer.class);
-
-// TODO fix for kim
-    //    /**
-//     * Overrides to use the parent's implementation, with the exception that if the cash drawer that is associated with this
-//     * document is closed, the CR doc cannot be approved at all.
-//     * 
-//     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-//     *      org.kuali.rice.kns.bo.user.KualiUser)
-//     */
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        Timer t0 = new Timer("getDocumentActionFlags");
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//
-//        // if an approval is requested, check to make sure that the cash drawer is open
-//        // if it's not, then they should not be able to verify the CR document
-//        if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && !document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
-//            CashReceiptDocument crd = (CashReceiptDocument) document;
-//
-//            String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
-//            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(unitName, true);
-//            if (cd == null) {
-//                throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + crd.getDocumentNumber());
-//            }
-//            else if (cd.isClosed()) {
-//                flags.setCanBlanketApprove(false);
-//                flags.setCanApprove(false);
-//            }
-//        }
-//
-//        flags.setCanErrorCorrect(false); // CR, DV, andd PCDO don't allow error correction
-//
-//        t0.log();
-//        return flags;
-//    }
 
     /**
      * Overrides to always return false because there is never FO routing or FO approval for CR docs.

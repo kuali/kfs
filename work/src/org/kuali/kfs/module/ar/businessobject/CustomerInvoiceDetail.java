@@ -71,6 +71,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public CustomerInvoiceDetail() {
         super();
         invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
+        invoiceItemTaxAmount = KualiDecimal.ZERO;
     }
 
     public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
@@ -594,4 +595,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public void setFullApply(boolean fullApply) {
         this.fullApply = fullApply;
     }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refresh()
+     */
+    public void refresh() {
+        super.refresh();
+        this.updateAmountBasedOnQuantityAndUnitPrice();
+    }
+    
 }

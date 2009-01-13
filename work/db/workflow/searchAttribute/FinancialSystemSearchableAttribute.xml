@@ -6,7 +6,7 @@
       <className>org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute</className>
       <label>Financial System Searchable Attribute</label>
       <description>Financial System Searchable Attribute</description>
-      <type>DataDictionarySearchableAttribute</type>
+      <type>SearchableAttribute</type>
 </ruleAttribute>
 </ruleAttributes>
 </data>

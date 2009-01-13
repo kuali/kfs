@@ -495,7 +495,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     }
 
     private UserNameFixture getInitialUserName() {
-        return rjweiss;
+        return khuntley; // replace rjweiss with khuntley
     }
 
     protected UserNameFixture getTestUserName() {

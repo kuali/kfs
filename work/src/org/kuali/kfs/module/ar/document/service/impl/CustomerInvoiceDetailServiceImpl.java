@@ -172,7 +172,8 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
             customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceItemCode.getItemDefaultPrice());
             customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(customerInvoiceItemCode.getDefaultUnitOfMeasureCode());
             customerInvoiceDetail.setInvoiceItemQuantity(customerInvoiceItemCode.getItemDefaultQuantity());
-
+            customerInvoiceDetail.setTaxableIndicator(customerInvoiceItemCode.isTaxableIndicator());
+            
             // KULAR-448 customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
 
             // TODO set sales tax accordingly

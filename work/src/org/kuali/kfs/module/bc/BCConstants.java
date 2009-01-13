@@ -37,6 +37,10 @@ public class BCConstants extends JSTLConstants {
     public static final String FORMKEY_PREFIX = "BcDoc";
     public static final String BC_IN_PROGRESS_SESSIONFLAG = FORMKEY_PREFIX + "BCInProgress";
     public static final String BC_DOC_EDIT_MODE_SESSIONKEY = FORMKEY_PREFIX + "EditMode";
+    
+    // this are used in expansion screen session security cleanup management
+    public static final String MAPPING_ATTRIBUTE_KUALI_FORM = "KualiForm";
+    public static final String MAPPING_SCOPE_SESSION = "session";
 
     // screen tab error keys
     public static final String BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS = "document.budgetConstructionSalarySetting*";

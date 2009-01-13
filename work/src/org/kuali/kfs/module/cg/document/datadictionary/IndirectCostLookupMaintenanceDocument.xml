@@ -41,18 +41,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.IndirectCostLookupRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="IDCL" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="workflowAttributes">
     	<ref bean="IndirectCostLookupMaintenanceDocument-workflowAttributes" />
     </property>

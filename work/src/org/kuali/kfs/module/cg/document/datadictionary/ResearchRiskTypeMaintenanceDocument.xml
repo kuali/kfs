@@ -31,19 +31,9 @@
     </property>
     <property name="documentTypeName" value="ResearchRiskTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentPresentationController" />        	
     <property name="documentTypeCode" value="RRT" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="workflowAttributes">
     	<ref bean="ResearchRiskTypeMaintenanceDocument-workflowAttributes" />
     </property>

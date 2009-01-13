@@ -114,34 +114,7 @@
         </bean>
       </list>
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="modify" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>RA_DEVELOPERS</value>
-            </set>
-          </property>
-        </bean>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="view" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="workflowAttributes" >
       <ref bean="BudgetDocument-workflowAttributes" />
     </property>

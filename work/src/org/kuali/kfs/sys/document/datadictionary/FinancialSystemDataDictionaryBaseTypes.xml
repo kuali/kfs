@@ -5,8 +5,10 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 >
 
-    <bean id="MaintenanceDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true"/>
-    
+    <bean id="MaintenanceDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true">
+        <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase" />  
+    </bean>
+          	
     <bean id="TransactionalDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" abstract="true">
         <property name="webScriptFiles" >
 			<ref bean="commonWebScriptFiles"/>

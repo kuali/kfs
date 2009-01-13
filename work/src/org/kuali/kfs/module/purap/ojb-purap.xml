@@ -2616,6 +2616,7 @@
 	<field-descriptor name="taxUSAIDPerDiemIndicator" column="USAID_DIEM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<field-descriptor name="otherTaxExemptIndicator" column="INC_TAX_EXMPT_CD_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<field-descriptor name="taxNQIId" column="NQI_CUST_TAX_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR" />
     
     
     <!-- COMMON TO ALL DOCUMENTS -->
@@ -3440,6 +3441,7 @@
     <field-descriptor name="creditMemoExtractedTimestamp" column="CRDT_MEMO_EXTRT_DT" jdbc-type="TIMESTAMP"/>         
     <field-descriptor name="creditMemoPaidTimestamp" column="CRDT_MEMO_PD_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
+    
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="creditMemoStatusCode" />
     </reference-descriptor>   
@@ -3497,6 +3499,8 @@
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="useTaxIndicator" column="USE_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR" />
+    
     
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />

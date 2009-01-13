@@ -104,6 +104,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
+    private String vendorAttentionName;
     
     // TAX ROUTING FIELDS
     private String taxClassificationCode;
@@ -1211,6 +1212,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setTaxNQIId(String taxNQIId) {
         this.taxNQIId = taxNQIId;
+    }
+
+    public String getVendorAttentionName() {
+        return vendorAttentionName;
+    }
+
+    public void setVendorAttentionName(String vendorAttentionName) {
+        this.vendorAttentionName = vendorAttentionName;
     }
 }
 

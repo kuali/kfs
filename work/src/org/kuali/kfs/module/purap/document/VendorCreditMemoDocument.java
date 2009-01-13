@@ -71,6 +71,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     private Timestamp creditMemoPaidTimestamp;
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
+    private String vendorAttentionName;
     
     private PaymentRequestDocument paymentRequestDocument;
 
@@ -650,6 +651,14 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
 
     public Date getTransactionTaxDate() {
         return getCreditMemoDate();
+    }
+
+    public String getVendorAttentionName() {
+        return vendorAttentionName;
+    }
+
+    public void setVendorAttentionName(String vendorAttentionName) {
+        this.vendorAttentionName = vendorAttentionName;
     }
 
     

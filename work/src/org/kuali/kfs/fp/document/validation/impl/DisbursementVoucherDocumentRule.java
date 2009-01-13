@@ -149,7 +149,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(financialDocument);
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then the line is accessible
-            if (financialDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvAuthorizer.isSpecialRouting(financialDocument, GlobalVariables.getUserSession().getPerson()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
+            DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
+            if (financialDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvDocument.isSpecialRouting() && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
                 isAccessible = true;
             }
         }
@@ -193,8 +194,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) approveEvent.getDocument();
 
         // amounts can only decrease
-        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(dvDocument);
-        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getPerson()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
+        if (dvDocument.isSpecialRouting() && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
             boolean approveOK = true;
 
             // users in foreign or wire workgroup can increase or decrease amounts because of currency conversion

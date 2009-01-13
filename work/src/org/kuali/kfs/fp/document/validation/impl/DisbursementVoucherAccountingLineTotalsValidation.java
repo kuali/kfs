@@ -16,20 +16,17 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);
-    
+
     private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
 
     /**
@@ -39,15 +36,12 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
         boolean isValid = true;
-        
+
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
-        
-        DocumentTypeService documentAuthorizer = SpringContext.getBean(DocumentTypeService.class);
-        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) documentAuthorizer.getDocumentAuthorizer(dvDocument);
-        
+
         // amounts can only decrease
-        if (dvAuthorizer.isSpecialRouting(dvDocument, financialSystemUser) && this.isUserInDisbursementVouchWorkGroups(financialSystemUser)) {
+        if (dvDocument.isSpecialRouting() && this.isUserInDisbursementVouchWorkGroups(financialSystemUser)) {
 
             // users in foreign or wire workgroup can increase or decrease amounts because of currency conversion
             if (this.isUserNotInForeignDraftAndWireTransferWorkGroups(financialSystemUser)) {
@@ -56,22 +50,22 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
                     handleNonExistentDocumentWhenApproving(dvDocument);
                     return true;
                 }
-                
+
                 // check total cannot decrease
                 if (persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {
                     GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KFSKeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);
                     return false;
                 }
             }
-            
+
             return true;
         }
-        
+
         isValid = super.validate(event);
 
         return isValid;
     }
-    
+
     // determine whether the current user is a member of the specified work groups
     private boolean isUserInDisbursementVouchWorkGroups(Person financialSystemUser) {
         boolean isInWorkGroups = true;
@@ -79,25 +73,25 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
         isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser);
         isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInTravelGroup(financialSystemUser);
         isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInWireGroup(financialSystemUser);
-        
+
         return isInWorkGroups;
     }
-    
+
     // determine whether the current user is a member of neither foreign draft nor wire transfer work groups
     private boolean isUserNotInForeignDraftAndWireTransferWorkGroups(Person financialSystemUser) {
         boolean isNotInWorkGroups = true;
         isNotInWorkGroups = isNotInWorkGroups && !disbursementVoucherWorkGroupService.isUserInFRNGroup(financialSystemUser);
         isNotInWorkGroups = isNotInWorkGroups && !disbursementVoucherWorkGroupService.isUserInWireGroup(financialSystemUser);
-        
+
         return isNotInWorkGroups;
     }
 
     /**
      * Sets the disbursementVoucherWorkGroupService attribute value.
+     * 
      * @param disbursementVoucherWorkGroupService The disbursementVoucherWorkGroupService to set.
      */
     public void setDisbursementVoucherWorkGroupService(DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService) {
         this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
     }
 }
-

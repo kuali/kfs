@@ -16,22 +16,20 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherAccountingLineAccessibleValidation extends AccountingLineAccessibleValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineAccessibleValidation.class);
-    
+
     private AccountService accountService;
     private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
 
@@ -44,7 +42,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
-        
+
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
         AccountingDocument accountingDocumentForValidation = this.getAccountingDocumentForValidation();
         AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();
@@ -55,12 +53,11 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         // but only if the document is enroute
         KualiWorkflowDocument workflowDocument = accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument();
         if (!isAccessible && workflowDocument.stateIsEnroute()) {
-            DocumentTypeService documentAuthorizer = SpringContext.getBean(DocumentTypeService.class);
-            DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) documentAuthorizer.getDocumentAuthorizer(accountingDocumentForValidation);
 
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then the line is accessible
-            if (workflowDocument.isApprovalRequested() && dvAuthorizer.isSpecialRouting(accountingDocumentForValidation, financialSystemUser) && this.isUserInDisbursementVouchWorkGroups(financialSystemUser)) {
+            DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) this.getAccountingDocumentForValidation();
+            if (workflowDocument.isApprovalRequested() && dvDocument.isSpecialRouting() && this.isUserInDisbursementVouchWorkGroups(financialSystemUser)) {
                 isAccessible = true;
             }
         }
@@ -73,7 +70,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
 
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, errorKey, accountNumber, principalName);
         }
-       
+
         return isAccessible;
     }
 
@@ -107,4 +104,3 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
     }
 }
-

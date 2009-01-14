@@ -27,7 +27,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorServi
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionProcessorServiceImpl implements BudgetConstructionProcessorService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionProcessorServiceImpl.class);
 
-    private RoleService roleService;
+    private RoleManagementService roleManagementService;
     private OrganizationService organizationService;
 
     /**
@@ -46,7 +46,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
     public List<Organization> getProcessorOrgs(Person person) {
         List<Organization> processorOrgs = new ArrayList<Organization>();
 
-        List<AttributeSet> allQualifications = roleService.getRoleQualifiersForPrincipal(person.getPrincipalId(), getBudgetProcessorRoleIds(), null);
+        List<AttributeSet> allQualifications = roleManagementService.getRoleQualifiersForPrincipal(person.getPrincipalId(), getBudgetProcessorRoleIds(), null);
         for (AttributeSet attributeSet : allQualifications) {
             String chartOfAccountsCode = attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             String organizationCode = attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE);
@@ -71,7 +71,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
 
-        return roleService.principalHasRole(person.getPrincipalId(), getBudgetProcessorRoleIds(), qualification);
+        return roleManagementService.principalHasRole(person.getPrincipalId(), getBudgetProcessorRoleIds(), qualification);
     }
 
     /**
@@ -113,27 +113,25 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
      */
     protected List<String> getBudgetProcessorRoleIds() {
         List<String> roleId = new ArrayList<String>();
-        roleId.add(roleService.getRoleIdByName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME));
+        roleId.add(roleManagementService.getRoleIdByName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME));
 
         return roleId;
     }
 
     /**
-     * Gets the roleService attribute.
-     * 
-     * @return Returns the roleService.
+     * Gets the roleManagementService attribute. 
+     * @return Returns the roleManagementService.
      */
-    protected RoleService getRoleService() {
-        return roleService;
+    public RoleManagementService getRoleManagementService() {
+        return roleManagementService;
     }
 
     /**
-     * Sets the roleService attribute value.
-     * 
-     * @param roleService The roleService to set.
+     * Sets the roleManagementService attribute value.
+     * @param roleManagementService The roleManagementService to set.
      */
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
+    public void setRoleManagementService(RoleManagementService roleManagementService) {
+        this.roleManagementService = roleManagementService;
     }
 
     /**

@@ -44,7 +44,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 
@@ -440,12 +440,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
             account = (Account) businessObjectService.retrieve(account);
 
-            RoleService roleService = SpringContext.getBean(RoleService.class);
+            RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
             AttributeSet qualification = new AttributeSet();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, getAccountNumber());
 
-            // TODO: do we need to explicitly check delegate role?
             List<String> roleId = new ArrayList<String>();
             roleId.add(roleService.getRoleIdByName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
 

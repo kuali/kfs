@@ -162,8 +162,8 @@
 		<property name="organizationService">
 			<ref bean="organizationService" />
 		</property>
-		<property name="roleService">
-			<ref bean="kimRoleService" />
+		<property name="roleManagementService">
+			<ref bean="kimRoleManagementService" />
 		</property>
 	</bean>
 

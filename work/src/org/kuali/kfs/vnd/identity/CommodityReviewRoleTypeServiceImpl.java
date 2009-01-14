@@ -15,8 +15,12 @@
  */
 package org.kuali.kfs.vnd.identity;
 
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public class CommodityReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
-
+    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+        return qualification.get(KfsKimAttributes.PURCHASING_COMMODITY_CODE).matches(roleQualifier.get(KfsKimAttributes.PURCHASING_COMMODITY_CODE).replaceAll("\\*", ".*")) && (!roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME) || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equals(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME))) && (!roleQualifier.containsKey(KfsKimAttributes.CAMPUS_CODE) || qualification.get(KfsKimAttributes.CAMPUS_CODE).equals(roleQualifier.get(KfsKimAttributes.CAMPUS_CODE)));
+    }
 }

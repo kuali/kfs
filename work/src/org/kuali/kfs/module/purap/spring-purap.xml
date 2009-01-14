@@ -836,6 +836,24 @@
 	  </property>
 	</bean>
 
+    <bean id="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" class="org.kuali.kfs.module.purap.identity.PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="paymentRequestHoldCancelInitiatorDerivedRoleTypeService"
+	      p:localServiceName="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" />
+	  </property>
+	</bean>
+
+    <bean id="potentiallySensitiveDocumentUserRoleTypeService" class="org.kuali.kfs.module.purap.identity.PotentiallySensitiveDocumentUserRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="potentiallySensitiveDocumentUserRoleTypeService"
+	      p:localServiceName="potentiallySensitiveDocumentUserRoleTypeService" />
+	  </property>
+	</bean>
+
     <bean id="sensitiveDataRoleTypeService" class="org.kuali.kfs.module.purap.identity.SensitiveDataRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">

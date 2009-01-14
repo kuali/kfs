@@ -19,89 +19,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kew.role.service.impl.RouteLogDerivedRoleTypeServiceImpl;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+    private static final String SOURCE_DOCUMENT_ROUTER_ROLE_NAME = "Source Document Router";
+    private static final String SENSITIVE_DATA_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME = "Sensitive Data Related Document Initiator Or Reviewer";
 
-    private static DocumentService documentService;
-    
-    protected List<String> requiredAttributes = new ArrayList<String>();
-    {
-        requiredAttributes.add(KimAttributes.DOCUMENT_NUMBER);
-    }
+    private DocumentService documentService;
+    private PurapService purapService;
+    private RoleManagementService roleManagementService;
 
     /**
-     * This service will accept the following attributes:
-     *  Document Number
-     *  
-     *  Context:
-     *  An fyi to the initiator - in the case of Automatic Purchase Orders (apo), the fyi is supposed to go to the requisition router. 
-     *  Otherwise, it should go to the PO router.
-     *
-     *  Requirements:
-     *  - KFS-PURAP Source Document Router - 
-     *  for Automated Purchase Order, Requisition router according to KR-WKFLW Router role / 
-     *  for normal Purchase Order, Purchase Order router according to KR-WKFLW Router
+     * This service will accept the following attributes: Document Number Context: An fyi to the initiator - in the case of
+     * Automatic Purchase Orders (apo), the fyi is supposed to go to the requisition router. Otherwise, it should go to the PO
+     * router. Requirements: - KFS-PURAP Source Document Router - for Automated Purchase Order, Requisition router according to
+     * KR-WKFLW Router role / for normal Purchase Order, Purchase Order router according to KR-WKFLW Router
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String,
+     *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
     public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-
-        String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
         List<String> principalIds = new ArrayList<String>();
-        PurchasingAccountsPayableDocument document = getPurchasingAccountsPayableDocument(documentNumber);            //Assuming that if the document is an APO, sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId() 
-        //will return the user network id of the requisition router, else it will return the id of the PO router.
-        if(document!=null){
-            PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
-            if(sourceDocument!=null)
-                principalIds.add(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId());
+        if (SOURCE_DOCUMENT_ROUTER_ROLE_NAME.equals(roleName)) {
+            try {
+                PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
+                if (document != null) {
+                    PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
+                    if (sourceDocument != null)
+                        principalIds.add(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+                }
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole", e);
+            }
+        }
+        else if (SENSITIVE_DATA_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
+            for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(KfsKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
+                AttributeSet tempQualification = new AttributeSet();
+                tempQualification.put(KfsKimAttributes.DOCUMENT_NUMBER, documentId);
+                principalIds.addAll(getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification));
+            }
         }
         return principalIds;
     }
-    
+
     /***
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List,
+     *      java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public boolean hasApplicationRole(
-            String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
-        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
-        boolean hasApplicationRole = false;
-        PurchasingAccountsPayableDocument document = getPurchasingAccountsPayableDocument(documentNumber);
-        if(document!=null){
-            PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
-            if(sourceDocument!=null)
-                hasApplicationRole = 
-                    principalId.equals(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId());
-        }
-        return hasApplicationRole;
+    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+        return getPrincipalIdsFromApplicationRole(namespaceCode, roleName, qualification).contains(principalId);
     }
 
-    protected PurchasingAccountsPayableDocument getPurchasingAccountsPayableDocument(String documentNumber){
-        try{
-            return (PurchasingAccountsPayableDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
-        } catch (WorkflowException e) {
-            String errorMessage = "Workflow problem while trying to get document using doc id '" + documentNumber + "'";
-            throw new RuntimeException(errorMessage, e);
-        }
-    }
-    
-    /**
-     * @return the documentService
-     */
-     protected static DocumentService getDocumentService(){
-        if (documentService == null ) {
-            documentService = KNSServiceLocator.getDocumentService();
+    protected DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = SpringContext.getBean(DocumentService.class);
         }
         return documentService;
     }
 
+    protected PurapService getPurapService() {
+        if (purapService == null) {
+            purapService = SpringContext.getBean(PurapService.class);
+        }
+        return purapService;
+    }
+
+    protected RoleManagementService getRoleManagementService() {
+        if (roleManagementService == null) {
+            roleManagementService = SpringContext.getBean(RoleManagementService.class);
+        }
+        return roleManagementService;
+    }
 }

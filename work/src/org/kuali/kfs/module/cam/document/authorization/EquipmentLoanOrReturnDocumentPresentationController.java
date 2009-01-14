@@ -29,7 +29,7 @@ public class EquipmentLoanOrReturnDocumentPresentationController extends Financi
     
     @Override
     public Set<String> getEditModes(Document document) {
-        Set<String> editModes = this.getEditModes(document);
+        Set<String> editModes = super.getEditModes(document);
         
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
         

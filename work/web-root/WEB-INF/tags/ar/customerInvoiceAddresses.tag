@@ -20,8 +20,7 @@
               
 <c:set var="customerAddressAttributes" value="${DataDictionary.CustomerAddress.attributes}" />              
 
-<%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
+<%@ attribute name="readOnly" required="true" description="used to decide editability of overview fields" %>
 
 <kul:tab tabTitle="Billing/Shipping" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_ADDRESS}">
     <div class="tab-container" align=center>	

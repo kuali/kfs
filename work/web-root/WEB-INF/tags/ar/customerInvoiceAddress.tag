@@ -21,10 +21,9 @@
 <%@ attribute name="customerAddressObject" required="true" description="Property reference for actual address"%>
 <%@ attribute name="customerAddressIdentifierAttributeEntry" required="true" description="Attribute entry for address identifer" type="java.util.Map"%>
 <%@ attribute name="customerAddressIdentifierProperty" required="true" description="Property for address identifer" %>
-<%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
+<%@ attribute name="readOnly" required="true" description="used to decide editability of overview fields" %>
 
 <c:set var="customerAddressAttributes" value="${DataDictionary.CustomerAddress.attributes}" />
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 
 <tr>
 	<td colspan="4" class="subhead">${subTitle}</td>

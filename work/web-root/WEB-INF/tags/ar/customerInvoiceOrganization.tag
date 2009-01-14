@@ -20,8 +20,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
 
-<%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
+<%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 
 <kul:tab tabTitle="Organization" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_ORGANIZATION_ERRORS}">
     <div class="tab-container" align=center>	

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,7 +35,9 @@ import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -139,13 +142,18 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         // clear out the extra buttons array
         extraButtons.clear();
 
-        String printButtonURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
- 
-        if (getEditingMode().containsKey(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {
-            if (getEditingMode().get(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON).equals("TRUE")) {
-                addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
-            }
+        CustomerInvoiceDocument invoiceDocument = (CustomerInvoiceDocument) getDocument();
+        DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
+        TransactionalDocumentPresentationController presoController = 
+                (TransactionalDocumentPresentationController) docTypeService.getDocumentPresentationController(invoiceDocument);
+        
+        Set<String> editModes = presoController.getEditModes(invoiceDocument);
+        if (editModes.contains(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {
+            KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
+            String printButtonURL = configService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
         }
+
         return extraButtons;
     }
         

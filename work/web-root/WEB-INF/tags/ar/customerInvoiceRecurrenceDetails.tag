@@ -21,9 +21,8 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
-<%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />                  
-                 
+<%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
+
 <c:set var="customerInvoiceRecurrenceAttributes" value="${DataDictionary.CustomerInvoiceRecurrenceDetails.attributes}" />
 
 <kul:tab tabTitle="Recurrence Details" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS}">

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,23 +31,30 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
+import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.OrganizationParameter;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.businessobject.RequisitionView;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
@@ -171,13 +179,61 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.kfs.module.purap.document.service.PurapService#getRelatedDocumentIds(java.lang.Integer)
      */
     public List<String> getRelatedDocumentIds(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
-        LOG.debug("getRelatedViews() started");
+        LOG.debug("getRelatedDocumentIds() started");
+        List documentIdList = new ArrayList();
 
-        Map criteria = new HashMap();
-        criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
-        List boList = new ArrayList();
-        //TODO find list of ids
-        return boList;
+        //get requisition views
+        List reqViews = getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator iterator = reqViews.iterator(); iterator.hasNext();) {
+            RequisitionView view = (RequisitionView) iterator.next();
+            documentIdList.add(view.getDocumentNumber());
+        }
+        
+        //get purchase order views
+        List poViews = getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator iterator = poViews.iterator(); iterator.hasNext();) {
+            PurchaseOrderView view = (PurchaseOrderView) iterator.next();
+            documentIdList.add(view.getDocumentNumber());
+        }
+        
+        //get payment request views
+        List preqViews = getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator iterator = preqViews.iterator(); iterator.hasNext();) {
+            PaymentRequestView view = (PaymentRequestView) iterator.next();
+            documentIdList.add(view.getDocumentNumber());
+        }
+        
+        //get credit memo views
+        List cmViews = getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator iterator = cmViews.iterator(); iterator.hasNext();) {
+            CreditMemoView view = (CreditMemoView) iterator.next();
+            documentIdList.add(view.getDocumentNumber());
+        }
+        
+        //get line item receiving views
+        List lineViews = getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator iterator = lineViews.iterator(); iterator.hasNext();) {
+            LineItemReceivingView view = (LineItemReceivingView) iterator.next();
+            documentIdList.add(view.getDocumentNumber());
+        }
+
+        //get correction receiving views
+        List corrViews = getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator iterator = corrViews.iterator(); iterator.hasNext();) {
+            CorrectionReceivingView view = (CorrectionReceivingView) iterator.next();
+            documentIdList.add(view.getDocumentNumber());
+        }
+        
+        //get bulk receiving views
+        List bulkViews = getRelatedViews(BulkReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator iterator = bulkViews.iterator(); iterator.hasNext();) {
+            BulkReceivingView view = (BulkReceivingView) iterator.next();
+            documentIdList.add(view.getDocumentNumber());
+        }
+        
+        //TODO (hjs)get electronic invoice reject views???
+        
+        return documentIdList;
     }
 
     

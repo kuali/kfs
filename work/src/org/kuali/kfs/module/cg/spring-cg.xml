@@ -400,6 +400,15 @@
 	      p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" />
 	  </property>
 	</bean>
+
+    <bean id="researchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl" class="org.kuali.kfs.module.cg.identity.ResearchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl"/>    
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="researchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl"
+	      p:localServiceName="researchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl" />
+	  </property>
+	</bean>
 	
     <bean id="researchTransactionalDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchTransactionalDocumentDerivedRoleTypeServiceImpl"/>    
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

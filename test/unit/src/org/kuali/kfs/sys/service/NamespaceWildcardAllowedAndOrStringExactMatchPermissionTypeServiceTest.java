@@ -24,7 +24,6 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.KimPermissionTypeService;
 import org.kuali.rice.kns.service.impl.NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceImpl;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -172,6 +171,25 @@ public class NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceT
         assertEquals( "Wrong number of matches", 1, results.size() );
         assertPermInList( results, null, BUILDING_BO );
     }    
+    
+    public void testMatchWithMissingPermissionNamespace() {
+        permissionService.setNamespaceRequiredOnStoredAttributeSet(false);
+        
+        AttributeSet requestedDetails = new AttributeSet();
+        requestedDetails.put(KimAttributes.NAMESPACE_CODE, "KFS-BC" );
+        requestedDetails.put(KimAttributes.COMPONENT_NAME, "org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionSelectionAction" );
+        
+        List<KimPermissionInfo> permissions = new ArrayList<KimPermissionInfo>();
+        KimPermissionInfo kpi = new KimPermissionInfo();
+        kpi.setDetails(new AttributeSet() );
+        kpi.getDetails().put(KimAttributes.COMPONENT_NAME, "org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionSelectionAction" );
+        permissions.add(kpi);
+        
+        List<KimPermissionInfo> results = permissionService.getMatchingPermissions(requestedDetails, permissions);
+        System.out.println( results );
+        assertEquals( "Wrong number of matches", 1, results.size() );
+    }
+    
     private List<KimPermissionInfo> buildPermissionList( String[][] permissionData ) {
         List<KimPermissionInfo> permissions = new ArrayList<KimPermissionInfo>();
         for ( String[] perm : permissionData ) {

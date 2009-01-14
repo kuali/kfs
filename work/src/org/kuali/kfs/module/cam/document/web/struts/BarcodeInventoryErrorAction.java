@@ -265,17 +265,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         return result;
     }
 
-    private KualiRuleService getKualiRuleService() {
-        return SpringContext.getBean(KualiRuleService.class);
-    }
-
-
     private AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
         return SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
-    }
-
-    private BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
     }
 
     private DateTimeService getDateTimeService() {

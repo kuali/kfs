@@ -3,12 +3,13 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetType extends PersistableBusinessObjectBase implements CapitalAssetManagementAssetType {
+public class AssetType extends PersistableBusinessObjectBase implements CapitalAssetManagementAssetType, Inactivateable {
 
 	private String capitalAssetTypeCode;
 	private String capitalAssetTypeDescription;

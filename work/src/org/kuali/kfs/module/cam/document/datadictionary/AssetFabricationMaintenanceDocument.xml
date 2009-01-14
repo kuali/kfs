@@ -29,7 +29,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>oldMaintainableObject.businessObject.capitalAssetNumber</value>
+    						<value>newMaintainableObject.businessObject.capitalAssetNumber</value>
     					</list>
     				</property>
     			</bean>

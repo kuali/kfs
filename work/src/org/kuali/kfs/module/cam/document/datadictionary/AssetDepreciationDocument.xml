@@ -16,25 +16,14 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetDepreciationDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetDepreciationDocumentAuthorizer" />
     <property name="documentTypeCode" value="DEPR" />
-    <property name="workflowProperties" >
-      <ref bean="AssetDepreciationDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="AssetDepreciationDocument-workflowAttributes" />
     </property>
   </bean>
+  
+ <!-- workflow attributes -->
+  <bean id="AssetDepreciationDocument-workflowAttributes" parent="AssetDepreciationDocument-workflowAttributes-parentBean" />
 
-  <bean id="AssetDepreciationDocument-workflowProperties" parent="AssetDepreciationDocument-workflowProperties-parentBean" />
-
-  <bean id="AssetDepreciationDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  <bean id="AssetDepreciationDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

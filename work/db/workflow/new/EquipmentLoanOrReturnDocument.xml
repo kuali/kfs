@@ -3,7 +3,7 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>EquipmentLoanOrReturnDocument</name>
-<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<parent>CapitalAssetManagementTransactionalDocument</parent>
 <docHandler>${application.url}/camsEquipmentLoanOrReturn.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

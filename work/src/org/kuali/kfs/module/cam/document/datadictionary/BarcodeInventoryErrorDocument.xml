@@ -19,8 +19,8 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentPresentationController" />
     
     <property name="documentTypeCode" value="BCIE" />
-    <property name="workflowProperties" >
-      <ref bean="BarcodeInventoryErrorDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="BarcodeInventoryErrorDocument-workflowAttributes" />
     </property>
     <property name="attributes" >
       <list>
@@ -180,19 +180,8 @@
     <property name="required" value="false" />    
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-workflowProperties" parent="BarcodeInventoryErrorDocument-workflowProperties-parentBean" />
-  <bean id="BarcodeInventoryErrorDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+ <!-- workflow attributes -->
+  <bean id="BarcodeInventoryErrorDocument-workflowAttributes" parent="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

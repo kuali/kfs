@@ -19,8 +19,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.EquipmentLoanOrReturnDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.EquipmentLoanOrReturnDocumentPresentationController" />
     <property name="documentTypeCode" value="ELR" />
-    <property name="workflowProperties" >
-      <ref bean="EquipmentLoanOrReturnDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="EquipmentLoanOrReturnDocument-workflowAttributes" />
     </property>
     <property name="attributes" >
       <list>
@@ -265,23 +265,52 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="EquipmentLoanOrReturnDocument-workflowProperties" parent="EquipmentLoanOrReturnDocument-workflowProperties-parentBean" />
+  <bean id="EquipmentLoanOrReturnDocument-workflowAttributes" parent="EquipmentLoanOrReturnDocument-workflowAttributes-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingTypes" />
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingSet" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  <bean id="EquipmentLoanOrReturnDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+       <property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    						<property name="attributeName" value="capitalAssetNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>capitalAssetNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-CapitalAssetManagementTransactionalDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-CapitalAssetManagementTransactionalDocument-OrganizationHierarchy" />
+    			<entry key="Borrower" value-ref="RoutingType-EquipmentLoanOrReturnDocument-Borrower" />
+    		</map>
+    	</property>
   </bean>
+  
+  <bean id="RoutingType-EquipmentLoanOrReturnDocument-Borrower" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-capitalAssetNumber" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentValues">
+	    				<list>
+	    					<value>capitalAssetNumber</value>
+	    				</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    </bean>
 </beans>
 

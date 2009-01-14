@@ -17,8 +17,8 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer" />
     <property name="documentTypeCode" value="MPAY" />
-    <property name="workflowProperties" >
-      <ref bean="AssetPaymentDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="AssetPaymentDocument-workflowAttributes" />
     </property>
 
     <property name="defaultExistenceChecks" >
@@ -106,24 +106,31 @@
     </property>
   </bean>
   
-  <bean id="AssetPaymentDocument-workflowProperties" parent="AssetPaymentDocument-workflowProperties-parentBean" />
+  <bean id="AssetPaymentDocument-workflowAttributes" parent="AssetPaymentDocument-workflowAttributes-parentBean" />
 
-  <bean id="AssetPaymentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingTypes" />
-              <bean parent="WorkflowProperty"
-                    p:path="routingInfo.routingSet" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  <bean id="AssetPaymentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    <property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    						<property name="attributeName" value="capitalAssetNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>assetPaymentAssetDetail.capitalAssetNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<!-- qualifiers for PlantFund node. now is missing in responsibility -->
+    		</map>
+    	</property>
   </bean>
 
   <!-- accounting line groups -->

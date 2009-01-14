@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -36,6 +37,7 @@ import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
@@ -46,7 +48,6 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -58,10 +59,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
  * assets
  */
-public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
+public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable implements GenericRoutingInfo {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
-
+    private static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";
+    private static final String RETIRED_ASSET_SOLD_OR_GIFTED = "RetiredAssetSoldOrGifted";
 
     private static final Map<String, String[]> NON_VIEWABLE_SECTION_MAP = new HashMap<String, String[]>();
     static {
@@ -74,6 +76,13 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
     private Set<RoutingData> routingInfo;
 
+    @Override
+    protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        String retirementReason = ((AssetRetirementGlobal) getBusinessObject()).getRetirementReasonCode();
+        if (nodeName.equals(this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY)) return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(retirementReason);
+        if (nodeName.equals(this.RETIRED_ASSET_SOLD_OR_GIFTED)) return CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(retirementReason) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(retirementReason);;
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
 
     /**
      * This creates the particular locking representation for this global document.

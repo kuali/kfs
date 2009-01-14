@@ -39,34 +39,6 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="agency"
               p:attributeToHighlightOnFail="agencyNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chart"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="objectCode"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="financialObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenditureFinancialDocumentType"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="expenditureFinancialDocumentTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenditureFinancialSystemOrigination"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="expenditureFinancialSystemOriginationCode"/>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="subObjectCode"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="financialSubObjectCode"/>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="subAccount"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="subAccountNumber"/>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="project"
-              p:collection="assetPaymentDetails"
-              p:attributeToHighlightOnFail="projectCode"/>
       </list>
     </property>
     <property name="lockingKeys" >
@@ -497,7 +469,7 @@
   <bean id="AssetGlobalMaintenanceDocument-workflowAttributes" parent="AssetGlobalMaintenanceDocument-workflowAttributes-parentBean" />
   <bean id="AssetGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
-    		<list>
+      <list>
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -506,13 +478,13 @@
     					</bean>
     				</property>
     				<property name="documentValues">
-    					<list>
+            <list>
     						<value>newMaintainableObject.businessObject.assetGlobalDetails.capitalAssetNumber</value>
-    					</list>
-    				</property>
-    			</bean>
-    		</list>
-    	</property>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
     	<property name="routingTypeDefinitions">
     		<map>
     			<entry key="Account" value-ref="RoutingType-CapitalAssetManagementComplexMaintenanceDocument-Account" />

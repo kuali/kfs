@@ -48,11 +48,6 @@
               p:name="contractManagerCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="contractManagerUserIdentifier"
-              p:required="true"
-              p:overrideFieldConversions="principalName:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber"
-              p:overrideLookupClass="org.kuali.rice.kim.bo.Person" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="contractManagerName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"

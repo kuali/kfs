@@ -29,7 +29,6 @@ public class QuestionType extends PersistableBusinessObjectBase implements Inact
     private boolean active;
     private String questionTypeDescription;
     private Integer questionTypeSortNumber;
-    private String questionTypeWorkgroupName;
     private String questionTypeNotificationValue;
 
     /**
@@ -102,24 +101,6 @@ public class QuestionType extends PersistableBusinessObjectBase implements Inact
      */
     public void setQuestionTypeSortNumber(Integer questionTypeSortNumber) {
         this.questionTypeSortNumber = questionTypeSortNumber;
-    }
-
-    /**
-     * Gets the questionTypeWorkgroupName attribute.
-     * 
-     * @return Returns the questionTypeWorkgroupName.
-     */
-    public String getQuestionTypeWorkgroupName() {
-        return questionTypeWorkgroupName;
-    }
-
-    /**
-     * Sets the questionTypeWorkgroupName attribute value.
-     * 
-     * @param questionTypeWorkgroupName The questionTypeWorkgroupName to set.
-     */
-    public void setQuestionTypeWorkgroupName(String questionTypeWorkgroupName) {
-        this.questionTypeWorkgroupName = questionTypeWorkgroupName;
     }
 
     /**

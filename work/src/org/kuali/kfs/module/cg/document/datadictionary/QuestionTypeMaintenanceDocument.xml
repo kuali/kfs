@@ -59,8 +59,6 @@
               p:name="questionTypeSortNumber"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="questionTypeWorkgroupName" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="questionTypeNotificationValue" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active"

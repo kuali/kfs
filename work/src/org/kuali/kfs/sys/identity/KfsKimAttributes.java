@@ -41,7 +41,6 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static String QUESTION_TYPE_ACTIVE = "active";
     public static String QUESTION_TYPE_DESCRIPTION = "questionTypeDescription";
     public static String QUESTION_TYPE_SORT_NUMBER = "questionTypeSortNumber";
-    public static String QUESTION_TYPE_WORKGROUP_NAME = "questionTypeWorkgroupName";
     public static String QUESTION_TYPE_NOTIFICATION_VALUE = "questionTypeNotificationValue";
     public static String SENSITIVE_DATA_CODE = "sensitiveDataCode";
     public static String ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER = "accountsPayablePurchasingDocumentLinkIdentifier";

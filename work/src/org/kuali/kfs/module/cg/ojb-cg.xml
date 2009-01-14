@@ -68,18 +68,6 @@
 
 <!-- 
  
- PROJECT DIRECTOR
-
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProjectDirector" table="CG_PRJDR_T">
-    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-</class-descriptor>
-
-<!-- 
- 
  SUBCONTRACTOR
 
 -->
@@ -343,9 +331,6 @@
     <field-descriptor name="proposalPrimaryProjectDirectorIndicator" column="PRPSL_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="principalId" />
-    </reference-descriptor>
 </class-descriptor>
 
 <!-- 
@@ -482,9 +467,6 @@
     <field-descriptor name="awardPrimaryProjectDirectorIndicator" column="CGAWD_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="awardProjectDirectorProjectTitle" column="CGAWD_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="principalId" />
-    </reference-descriptor>
 </class-descriptor>
 
 <!-- 
@@ -509,9 +491,6 @@
     </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="principalId" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -659,9 +638,6 @@
     <field-descriptor name="budgetTypeCodeText" column="BDGT_TYP_CD_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="budgetProjectDirectorUniversalIdentifier" />
-    </reference-descriptor>
 
     <reference-descriptor name="budgetAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetAgencyNumber" />
@@ -1643,7 +1619,6 @@
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="questionTypeDescription" column="QSTN_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="questionTypeSortNumber" column="QSTN_TYP_SORT_NBR" jdbc-type="INTEGER"/>
-	<field-descriptor name="questionTypeWorkgroupName" column="QSTN_TYP_WRKGRP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="questionTypeNotificationValue" column="QSTN_TYP_NTFCTN_VAL" jdbc-type="VARCHAR"/>
 </class-descriptor>
 

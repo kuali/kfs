@@ -16,8 +16,19 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kim.service.impl.RoleServiceImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -30,7 +41,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class ContractManager extends PersistableBusinessObjectBase {
 
     private Integer contractManagerCode;
-    private String contractManagerUserIdentifier;
     private String contractManagerName;
     private String contractManagerPhoneNumber;
     private String contractManagerFaxNumber;
@@ -59,15 +69,6 @@ public class ContractManager extends PersistableBusinessObjectBase {
 
     public void setContractManagerCode(Integer contractManagerCode) {
         this.contractManagerCode = contractManagerCode;
-    }
-
-    public String getContractManagerUserIdentifier() {
-
-        return contractManagerUserIdentifier;
-    }
-
-    public void setContractManagerUserIdentifier(String contractManagerUserIdentifier) {
-        this.contractManagerUserIdentifier = contractManagerUserIdentifier;
     }
 
     public String getContractManagerName() {
@@ -104,6 +105,30 @@ public class ContractManager extends PersistableBusinessObjectBase {
 
     public void setContractManagerDelegationDollarLimit(KualiDecimal contractManagerDelegationDollarLimit) {
         this.contractManagerDelegationDollarLimit = contractManagerDelegationDollarLimit;
+    }
+    
+    /**
+     * This method gets the contrsct manager user identifier.
+     * @return contractManagerId
+     */
+    public String getContractManagerUserIdentifier() {
+        String contractManagerId = null;
+        List<String> roleIds = new ArrayList<String>();
+        AttributeSet qualification = new AttributeSet();
+        
+        RoleService roleService = SpringContext.getBean(RoleServiceImpl.class);
+        String roleId = roleService.getRoleIdByName(PurapConstants.PURAP_NAMESPACE, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
+        roleIds.add(roleId);
+        
+        qualification.put(KfsKimAttributes.CONTRACT_MANAGER_CODE, String.valueOf(contractManagerCode));
+        Collection<RoleMembershipInfo> roleMemberships = roleService.getRoleMembers(roleIds, qualification);
+
+        for (RoleMembershipInfo membership : roleMemberships) {
+            contractManagerId = membership.getMemberId();
+            break;
+        }
+
+        return contractManagerId;
     }
     
     /**

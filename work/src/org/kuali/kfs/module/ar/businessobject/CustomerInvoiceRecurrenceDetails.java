@@ -22,7 +22,6 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
     private Date documentRecurrenceEndDate;
     private Integer documentTotalRecurrenceNumber;
     private String documentRecurrenceIntervalCode;
-    private String workgroupName;
     private String documentInitiatorUserIdentifier;
     private Date documentLastCreateDate;
     private boolean active;
@@ -166,27 +165,6 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
      */
     public void setDocumentRecurrenceIntervalCode(String documentRecurrenceIntervalCode) {
         this.documentRecurrenceIntervalCode = documentRecurrenceIntervalCode;
-    }
-
-
-    /**
-     * Gets the workgroupName attribute.
-     * 
-     * @return Returns the workgroupName
-     * 
-     */
-    public String getWorkgroupName() {
-        return workgroupName;
-    }
-    
-    /**
-     * Sets the workgroupName attribute.
-     * 
-     * @param workgroupName The workgroupName to set.
-     * 
-     */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
     }
 
     /**

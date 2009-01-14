@@ -72,13 +72,13 @@ public class RoutingFormProjectDetailsServiceImpl implements RoutingFormProjectD
         fieldValues.put("documentNumber", documentNumber);
         List<RoutingFormQuestion> questions = new ArrayList<RoutingFormQuestion>(businessObjectService.findMatching(RoutingFormQuestion.class, fieldValues));
         List<String> workgroups = new ArrayList<String>();
-        for (RoutingFormQuestion question : questions) {
-            if (question.getQuestion() != null) {
-                if (question.getQuestion().getQuestionTypeWorkgroupName() != null && (question.getQuestion().getQuestionTypeNotificationValue() != null && question.getYesNoIndicator().equals(question.getQuestion().getQuestionTypeNotificationValue()) || question.getQuestion().getQuestionTypeNotificationValue().equals("A"))) {
-                    workgroups.add(question.getQuestion().getQuestionTypeWorkgroupName());
-                }
-            }
-        }
+//        for (RoutingFormQuestion question : questions) {
+//            if (question.getQuestion() != null) {
+//                if (question.getQuestion().getQuestionTypeWorkgroupName() != null && (question.getQuestion().getQuestionTypeNotificationValue() != null && question.getYesNoIndicator().equals(question.getQuestion().getQuestionTypeNotificationValue()) || question.getQuestion().getQuestionTypeNotificationValue().equals("A"))) {
+//                    workgroups.add(question.getQuestion().getQuestionTypeWorkgroupName());
+//                }
+//            }
+//        }
         return workgroups;
     }
 

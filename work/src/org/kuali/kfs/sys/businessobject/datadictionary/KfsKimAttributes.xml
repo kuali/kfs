@@ -31,7 +31,6 @@
         <ref bean="KfsKimAttributes-QuestionType-active" />
         <ref bean="KfsKimAttributes-QuestionType-questionTypeDescription" />
         <ref bean="KfsKimAttributes-QuestionType-questionTypeSortNumber" />
-        <ref bean="KfsKimAttributes-QuestionType-questionTypeWorkgroupName" />
         <ref bean="KfsKimAttributes-QuestionType-questionTypeNotificationValue" />
         <ref bean="KfsKimAttributes-sensitiveDataCode" />
         <ref bean="KfsKimAttributes-documentSensitive" />
@@ -98,7 +97,6 @@
   <bean id="KfsKimAttributes-QuestionType-active" parent="QuestionType-active" />
   <bean id="KfsKimAttributes-QuestionType-questionTypeDescription" parent="QuestionType-questionTypeDescription" />
   <bean id="KfsKimAttributes-QuestionType-questionTypeSortNumber" parent="QuestionType-questionTypeSortNumber" />
-  <bean id="KfsKimAttributes-QuestionType-questionTypeWorkgroupName" parent="QuestionType-questionTypeWorkgroupName" />
   <bean id="KfsKimAttributes-QuestionType-questionTypeNotificationValue" parent="QuestionType-questionTypeNotificationValue" />
   <bean id="KfsKimAttributes-sensitiveDataCode" parent="SensitiveData-sensitiveDataCode" />
 

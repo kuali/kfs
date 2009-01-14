@@ -23,7 +23,6 @@
         <ref bean="ContractManager-contractManagerFaxNumber" />
         <ref bean="ContractManager-contractManagerName" />
         <ref bean="ContractManager-contractManagerPhoneNumber" />
-        <ref bean="ContractManager-contractManagerUserIdentifier" />
         <ref bean="ContractManager-activeIndicator" />
       </list>
     </property>
@@ -116,23 +115,7 @@
             p:size="47" />
     </property>
   </bean>
-  <bean id="ContractManager-contractManagerUserIdentifier" parent="ContractManager-contractManagerUserIdentifier-parentBean" />
-
-  <bean id="ContractManager-contractManagerUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="contractManagerUserIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Contract Manager User Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
-    </property>
-  </bean>
-
+  
   <bean id="ContractManager-activeIndicator"  parent="ContractManager-activeIndicator-parentBean" />
   
   <bean id="ContractManager-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" />
@@ -153,8 +136,6 @@
             <list>
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="contractManagerUserIdentifier" />
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerName" />
               <bean parent="FieldDefinition"
@@ -189,8 +170,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="contractManagerUserIdentifier" />
-        <bean parent="FieldDefinition"
               p:attributeName="contractManagerName" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerPhoneNumber" />
@@ -206,8 +185,6 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contractManagerUserIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerName" />
         <bean parent="FieldDefinition"

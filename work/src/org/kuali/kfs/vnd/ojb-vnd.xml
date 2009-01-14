@@ -524,7 +524,6 @@
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="contractManagerUserIdentifier" column="CONTR_MGR_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerName" column="CONTR_MGR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerPhoneNumber" column="CONTR_MGR_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerFaxNumber" column="CONTR_MGR_FAX_NBR" jdbc-type="VARCHAR"/>

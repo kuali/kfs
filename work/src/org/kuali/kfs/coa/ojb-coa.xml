@@ -273,7 +273,6 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="finCoaManagerUniversalId" column="FIN_COA_MGRUNVL_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="finChartOfAccountDescription" column="FIN_COA_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="FIN_COA_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="financialCashObjectCode" column="FIN_CASH_OBJ_CD" jdbc-type="VARCHAR" />

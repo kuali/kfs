@@ -1072,7 +1072,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
                 }
             }
-            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getWorkgroupName()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier())) {
+            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier())) {
             }
             else {
                 try {
@@ -1088,7 +1088,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     newInvoiceRecurrence.setDocumentRecurrenceEndDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
                     newInvoiceRecurrence.setDocumentRecurrenceIntervalCode(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode());
                     newInvoiceRecurrence.setDocumentTotalRecurrenceNumber(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber());
-                    newInvoiceRecurrence.setWorkgroupName(this.getCustomerInvoiceRecurrenceDetails().getWorkgroupName());
                     newInvoiceRecurrence.setDocumentInitiatorUserIdentifier(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier());
                     newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
 
@@ -1743,8 +1742,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         if (HAS_RECCURENCE_NODE.equals(nodeName)) {
             if (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails())) {
                 return true;
-            }
-        }
+}
+       }
         return false;
     }
 

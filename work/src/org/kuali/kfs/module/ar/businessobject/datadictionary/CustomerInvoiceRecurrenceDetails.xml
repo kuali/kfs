@@ -24,7 +24,6 @@
         <ref bean="CustomerInvoiceRecurrenceDetails-documentRecurrenceEndDate" />
         <ref bean="CustomerInvoiceRecurrenceDetails-documentTotalRecurrenceNumber" />
         <ref bean="CustomerInvoiceRecurrenceDetails-documentRecurrenceIntervalCode" />
-        <ref bean="CustomerInvoiceRecurrenceDetails-workgroupName" />
         <ref bean="CustomerInvoiceRecurrenceDetails-documentInitiatorUserIdentifier" />
         <ref bean="CustomerInvoiceRecurrenceDetails-documentInitiatorUserPersonUserIdentifier" />
         <ref bean="CustomerInvoiceRecurrenceDetails-documentInitiatorUser.principalName" />
@@ -151,31 +150,6 @@
     <property name="summary" value="documentRecurrenceIntervalCode" />
     <property name="description" value="The document recurrence interval code defines the frequency of the recurrence." />
   </bean>
-  <bean id="CustomerInvoiceRecurrenceDetails-workgroupName" parent="CustomerInvoiceRecurrenceDetails-workgroupName-parentBean" />
-
-  <bean id="CustomerInvoiceRecurrenceDetails-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="workgroupName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Workgroup Name" />
-    <property name="shortLabel" value="Wrkgrp" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:allowUnderscore="true" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="70" />
-    </property>
-<!--
-    <property name="control" >
-      <bean parent="WorkflowWorkgroupControlDefinition" />
-    </property>
--->
-    <property name="summary" value="workgroupName" />
-    <property name="description" value="The document recurrences will route to this workgroup" />
-  </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-documentInitiatorUserIdentifier" parent="CustomerInvoiceRecurrenceDetails-documentInitiatorUserIdentifier-parentBean" />
 
   <bean id="CustomerInvoiceRecurrenceDetails-documentInitiatorUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
@@ -278,8 +252,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="documentRecurrenceIntervalCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="workgroupName" />
-              <bean parent="FieldDefinition"
                     p:attributeName="documentInitiatorUser.principalName" />
               <bean parent="FieldDefinition"
                     p:attributeName="documentInitiatorUser.name" />
@@ -321,8 +293,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentRecurrenceIntervalCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="workgroupName" />
-        <bean parent="FieldDefinition"
               p:attributeName="documentInitiatorUser.principalName" />
         <bean parent="FieldDefinition"
               p:attributeName="documentInitiatorUser.name" />
@@ -346,8 +316,6 @@
               p:attributeName="documentTotalRecurrenceNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="documentRecurrenceIntervalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="workgroupName" />
         <bean parent="FieldDefinition"
               p:attributeName="documentInitiatorUser.principalName" />
         <bean parent="FieldDefinition"

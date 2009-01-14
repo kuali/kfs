@@ -21,7 +21,6 @@
         <ref bean="QuestionType-questionTypeCode" />
         <ref bean="QuestionType-questionTypeDescription" />
         <ref bean="QuestionType-questionTypeSortNumber" />
-        <ref bean="QuestionType-questionTypeWorkgroupName" />
         <ref bean="QuestionType-questionTypeNotificationValue" />
       </list>
     </property>
@@ -84,22 +83,6 @@
     <property name="summary" value="sortNumber" />
     <property name="description" value="sortNumber description..." />
   </bean>
-  <bean id="QuestionType-questionTypeWorkgroupName" parent="QuestionType-questionTypeWorkgroupName-parentBean" />
-
-  <bean id="QuestionType-questionTypeWorkgroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="questionTypeWorkgroupName" />
-    <property name="label" value="Question Type Workgroup Name" />
-    <property name="shortLabel" value="Workgroup" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="WorkflowWorkgroupControlDefinition" />
-    </property>
-    <property name="summary" value="questionTypeWorkgroupName" />
-    <property name="description" value="questionTypeWorkgroupName description..." />
-  </bean>
   <bean id="QuestionType-questionTypeNotificationValue" parent="QuestionType-questionTypeNotificationValue-parentBean" />
 
   <bean id="QuestionType-questionTypeNotificationValue-parentBean" abstract="true" parent="AttributeDefinition">
@@ -136,8 +119,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="questionTypeSortNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="questionTypeWorkgroupName" />
-              <bean parent="FieldDefinition"
                     p:attributeName="questionTypeNotificationValue" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
@@ -169,8 +150,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="questionTypeSortNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="questionTypeWorkgroupName" />
-        <bean parent="FieldDefinition"
               p:attributeName="questionTypeNotificationValue" />
         <bean parent="FieldDefinition"
               p:defaultValue="true"
@@ -185,8 +164,6 @@
               p:attributeName="questionTypeDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="questionTypeSortNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionTypeWorkgroupName" />
         <bean parent="FieldDefinition"
               p:attributeName="questionTypeNotificationValue" />
         <bean parent="FieldDefinition"

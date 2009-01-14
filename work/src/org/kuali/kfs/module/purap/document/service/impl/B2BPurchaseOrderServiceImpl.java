@@ -425,9 +425,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager.getEmailAddress();
         }
-        //FIXME hjs returning fake email until KIM changes are complete
-        return "test@email.com";
-//        return "";
+        return "";
     }
 
     public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {

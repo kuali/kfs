@@ -551,7 +551,6 @@
 	<field-descriptor name="documentRecurrenceEndDate" column="DOC_RCURRNC_END_DT" jdbc-type="DATE"/>
 	<field-descriptor name="documentTotalRecurrenceNumber" column="DOC_TOT_RCURRNC_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="documentRecurrenceIntervalCode" column="DOC_RCURRNC_INTRV_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="documentInitiatorUserIdentifier" column="DOC_INITR_USR_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 

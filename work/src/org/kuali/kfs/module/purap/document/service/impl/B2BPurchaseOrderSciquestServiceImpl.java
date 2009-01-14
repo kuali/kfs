@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -448,13 +449,12 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
      * Retrieve the Contract Manager's email
      */
     private String getContractManagerEmail(ContractManager cm) {
+
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager.getEmailAddress();
         }
-        //FIXME hjs returning fake email until KIM changes are complete
-        return "test@email.com";
-//        return "";
+        return "";
     }
 
     public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {

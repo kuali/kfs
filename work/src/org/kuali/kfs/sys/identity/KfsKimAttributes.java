@@ -45,6 +45,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static String QUESTION_TYPE_NOTIFICATION_VALUE = "questionTypeNotificationValue";
     public static String SENSITIVE_DATA_CODE = "sensitiveDataCode";
     public static String ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER = "accountsPayablePurchasingDocumentLinkIdentifier";
+    public static String DOCUMENT_SENSITIVE = "documentSensitive";
     
     protected String chartOfAccountsCode;
     protected String accountNumber;
@@ -71,6 +72,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String questionTypeNotificationValue;
     
     protected String sensitiveDataCode;
+    protected boolean documentSensitive;
     
     @SuppressWarnings("unchecked")
     @Override
@@ -480,4 +482,11 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
         this.sensitiveDataCode = sensitiveDataCode;
     }
 
+    public boolean isDocumentSensitive() {
+        return documentSensitive;
+    }
+
+    public void setDocumentSensitive(boolean documentSensitive) {
+        this.documentSensitive = documentSensitive;
+    }
 }

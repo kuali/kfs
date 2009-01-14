@@ -214,6 +214,10 @@
 			<param-name>config/en</param-name>
 			<param-value>${rice.workflow.struts.config.files}</param-value>
 		</init-param>
+		<init-param>
+			<param-name>config/kew</param-name>
+			<param-value>${rice.kew.struts.config.files}</param-value>
+		</init-param>
         <init-param>
             <param-name>config/ksb</param-name>
             <param-value>${rice.ksb.struts.config.files}</param-value>

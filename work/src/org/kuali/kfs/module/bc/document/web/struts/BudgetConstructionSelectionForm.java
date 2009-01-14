@@ -22,8 +22,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -135,7 +135,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
      * @return Returns the rootApprover.
      */
     public boolean isRootApprover() {
-        return SpringContext.getBean(PermissionService.class).isRootApprover(GlobalVariables.getUserSession().getPerson());
+        return SpringContext.getBean(BudgetConstructionProcessorService.class).isRootProcessor(GlobalVariables.getUserSession().getPerson());
     }
 
     /**

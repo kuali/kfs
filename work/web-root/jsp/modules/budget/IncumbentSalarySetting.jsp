@@ -20,6 +20,10 @@
 <kul:page showDocumentInfo="false" htmlFormAction="budgetIncumbentSalarySetting" renderMultipart="true"
 	showTabButtons="true" docTitle="${KualiForm.documentTitle}" transactionalDocument="false">
 
+    <c:forEach items="${KualiForm.documentActions}" var="action">
+      <html:hidden property="documentActions(${action.key})"/>
+    </c:forEach>
+    
     <c:forEach items="${KualiForm.editingMode}" var="mode">
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>

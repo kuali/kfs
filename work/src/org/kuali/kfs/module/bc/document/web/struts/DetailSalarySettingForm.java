@@ -31,16 +31,20 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 
@@ -143,16 +147,16 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
             String positionNumber = position.getPositionNumber();
             Integer universityFiscalYear = position.getUniversityFiscalYear();
-            String principalId = this.getPerson().getPrincipalId(); 
+            String principalId = this.getPerson().getPrincipalId();
             Boolean positionWasAlreadyLocked = lockService.isPositionLockedByUser(positionNumber, universityFiscalYear, principalId);
-            if (!positionWasAlreadyLocked){
+            if (!positionWasAlreadyLocked) {
                 BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getPerson());
                 if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
                     errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
 
                     // gwp - added if test, unlock all others only when initially loading the screen
                     // not during the add line action
-                    if (!appointmentFunding.isNewLineIndicator()){
+                    if (!appointmentFunding.isNewLineIndicator()) {
                         this.releasePositionAndFundingLocks();
                     }
                     return false;
@@ -167,10 +171,10 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
                 errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.getAppointmentFundingString());
-                
+
                 // gwp - added if test, unlock all others only when initially loading the screen
                 // not during the add line action
-                if (!appointmentFunding.isNewLineIndicator()){
+                if (!appointmentFunding.isNewLineIndicator()) {
                     this.releasePositionAndFundingLocks();
                 }
                 else {
@@ -222,7 +226,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
 
             // update the access flags of the current funding line
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getEditingMode(), this.getPerson());
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isEditAllowed(), this.getPerson());
             if (!updated) {
                 errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS, appointmentFunding.getAppointmentFundingString());
                 return false;
@@ -436,15 +440,21 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
             account = (Account) businessObjectService.retrieve(account);
 
-            // instruct the detail salary setting by single account mode if current user is an account approver or delegate
-            if (permissionService.isAccountManagerOrDelegate(account, this.getPerson())) {
-                return true;
-            }
+            RoleService roleService = SpringContext.getBean(RoleService.class);
+            AttributeSet qualification = new AttributeSet();
+            qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+            qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, getAccountNumber());
+
+            // TODO: do we need to explicitly check delegate role?
+            List<String> roleId = new ArrayList<String>();
+            roleId.add(roleService.getRoleIdByName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
+
+            return roleService.principalHasRole(getPerson().getPrincipalId(), roleId, qualification);
         }
 
         // instruct the detail salary setting by multiple account mode if current user is an organization level approver
-        List<Organization> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(this.getPerson());
-        if (organizationReviewHierachy != null && !organizationReviewHierachy.isEmpty()) {
+        List<Organization> processorOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(this.getPerson());
+        if (processorOrgs != null && !processorOrgs.isEmpty()) {
             return false;
         }
         else {
@@ -543,44 +553,9 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
-     * Gets the viewOnlyEntry attribute. In the detail salary setting context viewOnlyEntry checks for systemViewOnly and the
-     * calling context. SystemViewOnly overrides any other settings, otherwise, If the context is budgetByAccountMode the editing
-     * mode can either be viewOnly or fullEntry for the home account that the user originally opened and the screen level access
-     * must be edit, so the user can operate on other accounts based on the calculated access for the funding row. In the context of
-     * not budgetByAccountMode (Organization Salary Setting). The user gets edit access when fullEntry is found (and not
-     * systemViewOnly).
-     * 
      * @return Returns the viewOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
-
-        boolean viewOnly = false;
-
-        // check for systemViewOnly first
-        if (super.isViewOnlyEntry()) {
-            return true;
-        }
-
-        if (this.isBudgetByAccountMode()) {
-
-            // view or edit home account access should give edit access to the screen
-            if ((this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) || (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY))) {
-                viewOnly = false;
-            }
-            else {
-                // getting here is unlikely - fail soft
-                viewOnly = true;
-            }
-        }
-        else {
-            // we are doing organization salary setting
-            if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-                viewOnly = false;
-            }
-            else
-                // this is unlikely - fail soft
-                viewOnly = true;
-        }
-        return viewOnly;
+        return super.isViewOnlyEntry() || !isEditAllowed();
     }
 }

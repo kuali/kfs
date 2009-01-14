@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -38,23 +38,16 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         Person person = GlobalVariables.getUserSession().getPerson();
-        try {
-            List<Organization> pointOfViewOrgs = permissionService.getOrgReview(person);
-            pointOfViewOrgKeyLabels = new ArrayList();
-            pointOfViewOrgKeyLabels.add(new KeyLabelPair("", ""));
-            for (Iterator iter = pointOfViewOrgs.iterator(); iter.hasNext();) {
-                Organization element = (Organization) iter.next();
-                pointOfViewOrgKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode() + "-" + element.getOrganizationCode(), element.getChartOfAccountsCode() + "-" + element.getOrganizationCode()));
-            }
-        }
-        catch (Exception e) {
-            pointOfViewOrgKeyLabels = null;
+        List<Organization> pointOfViewOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(person);
+        pointOfViewOrgKeyLabels = new ArrayList();
+        pointOfViewOrgKeyLabels.add(new KeyLabelPair("", ""));
+        for (Iterator iter = pointOfViewOrgs.iterator(); iter.hasNext();) {
+            Organization element = (Organization) iter.next();
+            pointOfViewOrgKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode() + "-" + element.getOrganizationCode(), element.getChartOfAccountsCode() + "-" + element.getOrganizationCode()));
         }
 
         return pointOfViewOrgKeyLabels;
     }
 
 }
-

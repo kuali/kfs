@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -39,9 +38,9 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.AddBudgetConstructionDocumentEvent;
 import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
@@ -50,12 +49,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -99,21 +95,6 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         return forward;
     }
-
-    // TODO fix for kim
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
-//     *      java.lang.String)
-//     */
-//    @Override
-//    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-//
-//        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-//        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
-//            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-//            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
-//        }
-//    }
 
     /**
      * Performs the initial load of the selection screen. Checks for the active BC fiscal year and initializes the fiscal year to be
@@ -400,9 +381,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         Map<String, String> urlParms = new HashMap<String, String>();
 
         // check if current user is an budget approver at the top level (root) org
-        String[] chartOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
-        Person person = GlobalVariables.getUserSession().getPerson();
-        boolean isRootApprover = SpringContext.getBean(PermissionService.class).isOrgReviewApprover(chartOrg[0], chartOrg[1], person);
+        boolean isRootApprover = SpringContext.getBean(BudgetConstructionProcessorService.class).isRootProcessor(GlobalVariables.getUserSession().getPerson());
         urlParms.put(KFSConstants.SUPPRESS_ACTIONS, Boolean.toString(!isRootApprover));
 
         // forward to temp list action for displaying results

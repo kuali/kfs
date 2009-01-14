@@ -282,11 +282,11 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @param salarySettingFieldsHolder the field holder that contains the values passed from the user
      * @param budgetByObjectMode the budget by object mode flag
-     * @param editingMode the editing mode for the form
+     * @param hasDocumentEditAccess indicates whether the user has edit permission for the budget document (for budget by object)
      * @param person the specified user
      * @return true if the access flags are updated successfully; otherwise, false
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Map<String, String> editingMode, Person person);
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean hasDocumentEditAccess, Person person);
 
     /**
      * update the access flags of the given appointment funding according to the user level and document organization level

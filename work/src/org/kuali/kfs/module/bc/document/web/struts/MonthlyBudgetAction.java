@@ -27,23 +27,18 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.validation.event.SaveMonthlyBudgetEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -63,48 +58,39 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
-
-        // TODO should probably use service locator and call
-        // DocumentAuthorizer documentAuthorizer =
-        // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
-        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
-        monthlyBudgetForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
-
-
-        // set the readOnly status on initial load of the form 
-        if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)){
-
+        populateAuthorizationFields(monthlyBudgetForm);
+        
+        // set the readOnly status on initial load of the form
+        if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)) {
             BudgetConstructionMonthly bcMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
-            PendingBudgetConstructionGeneralLedger pbgl = bcMonthly.getPendingBudgetConstructionGeneralLedger(); 
-            Map editMode = monthlyBudgetForm.getEditingMode();
+            PendingBudgetConstructionGeneralLedger pbgl = bcMonthly.getPendingBudgetConstructionGeneralLedger();
 
-            boolean tmpReadOnly = (editMode.containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) || !editMode.containsKey(BudgetConstructionEditMode.FULL_ENTRY));
+            boolean tmpReadOnly = monthlyBudgetForm.isSystemViewOnly() || !monthlyBudgetForm.isEditAllowed();
             tmpReadOnly |= bcMonthly.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
             tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
 
             monthlyBudgetForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader()));
-//            tmpReadOnly |= !monthlyBudgetForm.isBudgetableDocument();
-// TODO handle not budgetable in rules like the BC document so we can display the delete monthly button only when we are not readonly
+            // tmpReadOnly |= !monthlyBudgetForm.isBudgetableDocument();
+            // TODO handle not budgetable in rules like the BC document so we can display the delete monthly button only when we are
+            // not readonly
             monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
-            
+
         }
-        
+
         return forward;
     }
+    
+    protected void populateAuthorizationFields(MonthlyBudgetForm monthlyBudgetForm) {
+        BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
 
-    // TODO fix for kim
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-//     */
-//    @Override
-//    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-//
-//        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-//        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
-//            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-//            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
-//        }
-//    }
+        if (authorizationStatus == null) {
+            // TODO: handle session timeout
+            return;
+        }
+
+        monthlyBudgetForm.setDocumentActions(authorizationStatus.getDocumentActions());
+        monthlyBudgetForm.setEditingMode(authorizationStatus.getEditingMode());
+    }
 
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -271,7 +257,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
 
         // don't really need this test since the delete button isn't displayed in readOnly mode
-        if (!monthlyBudgetForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) && monthlyBudgetForm.getEditingMode().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+        if (!monthlyBudgetForm.isSystemViewOnly() && monthlyBudgetForm.isEditAllowed()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 

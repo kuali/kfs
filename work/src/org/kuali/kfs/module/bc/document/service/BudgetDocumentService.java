@@ -138,40 +138,6 @@ public interface BudgetDocumentService {
      */
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
 
-    /**
-     * Version of getAccessMode that uses a passed in BudgetConstructionHeader, instead of getting it directly from the database.
-     * Cases of using this method include testing what the access mode would be at another level without actually moving (setting
-     * new level and storing) the document in the database.
-     * 
-     * @param bcHeader
-     * @param u
-     * @return
-     */
-    public String getAccessMode(BudgetConstructionHeader bcHeader, Person u);
-
-    /**
-     * Gets the Budget Construction access mode for the document candidate key and the user. Assumes the Budget Document exists in
-     * the database and the Account Organization Hierarchy rows exist for the account. Checks the special case when the document is
-     * at level 0 and the user is either the fiscal officer for the account or an account delegate for the Budget Construction
-     * document type or the special 'ALL' document type. All other cases calculate access based on a comparison of the Account
-     * Organization Hierarchy and the approval (pointOfView) organizations setup in workflow for the user. It returns one of the
-     * edit mode constants. KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY
-     * KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE
-     * KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY
-     * KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER
-     * KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL
-     * KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER
-     * 
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param u
-     * @return
-     */
-    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Person u);
-
-
     public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, Person u);
 
     /**
@@ -358,6 +324,7 @@ public interface BudgetDocumentService {
      * @throws WorkflowException
      */
     public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException;
+
 
 }
 

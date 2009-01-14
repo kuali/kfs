@@ -28,20 +28,18 @@ import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -218,7 +216,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                     }
                     if (!rvwHierMap.isEmpty()) {
                         try {
-                            List<Organization> povOrgs = (List<Organization>) SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getPerson());
+                            List<Organization> povOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(GlobalVariables.getUserSession().getPerson());
                             if (!povOrgs.isEmpty()) {
                                 for (Organization povOrg : povOrgs) {
                                     if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
@@ -336,53 +334,6 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
 
     }
-
-    // TODO these methods are gone.  fix for kim
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
-//     *      Additionally checks for BC specific exceptions throwing BudgetConstructionDocumentAuthorizationException appropos
-//     */
-//    @Override
-//    public void populateAuthorizationFields(DocumentAuthorizer documentAuthorizer) {
-//
-//        super.populateAuthorizationFields(documentAuthorizer);
-//        if (isFormDocumentInitialized()) {
-//
-//            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
-//            // correct DocumentAuthorizer
-//            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
-//            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
-//            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)",
-//            // this.isPickListMode());
-//            // }
-//            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-//            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
-//            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
-//            // }
-//            // if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
-//            // throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(),
-//            // "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)",
-//            // this.isPickListMode());
-//            // }
-//        }
-//    }
-//
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#useDocumentAuthorizer(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
-//     *      Uses BudgetConstructionDocumentAuthorizer to get the editMode and set the action flags This uses the BC security model
-//     *      to setup the authorization state
-//     */
-//    @Override
-//    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-//        BudgetConstructionDocumentAuthorizer bcDocumentAuthorizer = (BudgetConstructionDocumentAuthorizer) documentAuthorizer;
-//        Person kualiUser = GlobalVariables.getUserSession().getPerson();
-//
-//        // setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
-//        setEditingMode(bcDocumentAuthorizer.getEditModeFromSession());
-//
-//        // use BudgetConstructionDocumentAuthorizer method version using editingMode to set action flags
-//        setDocumentActionFlags(bcDocumentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser, getEditingMode()));
-//    }
 
     /**
      * Gets the budgetConstructionDocument
@@ -924,4 +875,19 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     public void setClosingDocument(boolean closingDocument) {
         this.closingDocument = closingDocument;
     }
+
+    /**
+     * Helper method to check edit mode Map for system view only entry
+     */
+    public boolean isSystemViewOnly() {
+        return getEditingMode().containsKey(BCConstants.EditModes.SYSTEM_VIEW_ONLY);
+    }
+
+    /**
+     * Helper method to check document actions Map for can edit entry
+     */
+    public boolean isEditAllowed() {
+        return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
+    }
+    
 }

@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.util.JSTLConstants;
 
 public class BCConstants extends JSTLConstants {
+    public static final String BUDGET_CONSTRUCTION_NAMESPACE = "KFS-BC";
 
     // max depth to check runaway account organization hierarchy builds
     public final static Integer MAXIMUM_ORGANIZATION_TREE_DEPTH = new Integer(1000);
@@ -36,8 +37,8 @@ public class BCConstants extends JSTLConstants {
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";
     public static final String BC_IN_PROGRESS_SESSIONFLAG = FORMKEY_PREFIX + "BCInProgress";
-    public static final String BC_DOC_EDIT_MODE_SESSIONKEY = FORMKEY_PREFIX + "EditMode";
-    
+    public static final String BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY = FORMKEY_PREFIX + "EditStatus";
+
     // this are used in expansion screen session security cleanup management
     public static final String MAPPING_ATTRIBUTE_KUALI_FORM = "KualiForm";
     public static final String MAPPING_SCOPE_SESSION = "session";
@@ -162,6 +163,8 @@ public class BCConstants extends JSTLConstants {
     public static final String INCUMBENT_SALARY_SETTING_ACTION = "budgetIncumbentSalarySetting.do";
     public static final String INCUMBENT_SALARY_SETTING_METHOD = "loadExpansionScreen";
     public static final String INCUMBENT_SALARY_SETTING_TITLE = "Salary Setting by Incumbent";
+    
+    public static final String LOAD_EXPANSION_SCREEN_METHOD = "loadExpansionScreen";
 
     public static final String REPORT_RUNNER_ACTION = "budgetReportRunner.do";
 
@@ -456,6 +459,14 @@ public class BCConstants extends JSTLConstants {
         public String getDurationDescription() {
             return durationDescription;
         }
+    }
+    
+    public class EditModes {
+        public static final String SYSTEM_VIEW_ONLY = "systemViewOnly";
+    }
+    
+    public class KimConstants {
+        public static final String BC_PROCESSOR_ROLE_NAME = "Processor";
     }
     
     /**

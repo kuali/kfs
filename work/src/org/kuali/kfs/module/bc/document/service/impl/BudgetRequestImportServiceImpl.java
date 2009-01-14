@@ -39,24 +39,29 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
 import org.kuali.kfs.module.bc.document.service.LockService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.ImportRequestFileParsingHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,13 +77,14 @@ import com.lowagie.text.pdf.PdfWriter;
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
     private BusinessObjectService businessObjectService;
     private ImportRequestDao importRequestDao;
-    private PermissionService permissionService;
     private DictionaryValidationService dictionaryValidationService;
     private LockService lockService;
     private BudgetDocumentService budgetDocumentService;
     private LaborModuleService laborModuleService;
     private BudgetParameterService budgetParameterService;
     private OptionsService optionsService;
+    private DocumentTypeService documentTypeService;
+    private DocumentService documentService;
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
 
@@ -314,7 +320,21 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 recordToLoad.setRequestUpdateErrorCode(temp.getRequestUpdateErrorCode());
             }
             else {
-                if ( header != null && budgetDocumentService.getAccessMode(budgetYear, recordToLoad.getChartOfAccountsCode(), recordToLoad.getAccountNumber(), recordToLoad.getSubAccountNumber(), user).equals(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) ) {
+                boolean hasAccess = false;
+                if (header != null) {
+                    BudgetConstructionDocument document;
+                    try {
+                        document = (BudgetConstructionDocument) documentService.getByDocumentHeaderId(header.getDocumentNumber());
+                    }
+                    catch (WorkflowException e) {
+                        throw new RuntimeException("Fail to retrieve budget document for doc id " + header.getDocumentNumber());
+                    }
+
+                    TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
+                    hasAccess = documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
+                }
+
+                if (hasAccess) {
                     recordToLoad.setHasAccess(true);
                 }
                 else {
@@ -378,16 +398,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     public void setImportRequestDao(ImportRequestDao dao) {
         this.importRequestDao = dao;
 
-    }
-
-    /**
-     * Sets permissionService
-     * 
-     * @param permissionService
-     */
-    @NonTransactional
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
     }
 
     /**
@@ -706,7 +716,26 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
-    
+
+    @NonTransactional
+    protected DocumentTypeService getDocumentTypeService() {
+        return documentTypeService;
+    }
+
+    @NonTransactional
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+
+    @NonTransactional
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    @NonTransactional
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
     
 }
 

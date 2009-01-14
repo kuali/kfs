@@ -16,9 +16,13 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -37,6 +41,9 @@ public class BudgetExpansionForm extends KualiForm {
     
     private List<String> callBackMessages = new ArrayList<String>();
     private ErrorMap callBackErrors = new ErrorMap();
+    
+    private Map<String, String> editingMode;
+    private Map<String, String> documentActions;
 
     /**
      * Default Constructor
@@ -44,6 +51,8 @@ public class BudgetExpansionForm extends KualiForm {
     public BudgetExpansionForm() {
         super();
         messages = new ArrayList<String>();
+        editingMode = new HashMap<String, String>();
+        documentActions = new HashMap<String, String>();
     }
 
     /**
@@ -164,4 +173,55 @@ public class BudgetExpansionForm extends KualiForm {
     public ErrorMap getCallBackErrors() {
         return callBackErrors;
     }
+
+    /**
+     * Gets the editingMode attribute.
+     * 
+     * @return Returns the editingMode.
+     */
+    public Map<String, String> getEditingMode() {
+        return editingMode;
+    }
+
+    /**
+     * Sets the editingMode attribute value.
+     * 
+     * @param editingMode The editingMode to set.
+     */
+    public void setEditingMode(Map<String, String> editingMode) {
+        this.editingMode = editingMode;
+    }
+
+    /**
+     * Gets the documentActions attribute.
+     * 
+     * @return Returns the documentActions.
+     */
+    public Map<String, String> getDocumentActions() {
+        return documentActions;
+    }
+
+    /**
+     * Sets the documentActions attribute value.
+     * 
+     * @param documentActions The documentActions to set.
+     */
+    public void setDocumentActions(Map<String, String> documentActions) {
+        this.documentActions = documentActions;
+    }
+    
+    /**
+     * Helper method to check edit mode Map for system view only entry
+     */
+    public boolean isSystemViewOnly() {
+        return getEditingMode().containsKey(BCConstants.EditModes.SYSTEM_VIEW_ONLY);
+    }
+
+    /**
+     * Helper method to check document actions Map for can edit entry
+     */
+    public boolean isEditAllowed() {
+        return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
+    }
+    
 }

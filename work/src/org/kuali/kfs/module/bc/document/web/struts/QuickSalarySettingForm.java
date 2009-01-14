@@ -154,32 +154,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
      */
     @Override
     public boolean isViewOnlyEntry() {
-
-        boolean viewOnly = false;
-        
-        // check for systemViewOnly first
-        if (super.isViewOnlyEntry()){
-            return true;
-        }
-
-        // Again, the existence of the editing mode means it is true, meaning edit access
-        if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-//            viewOnly = !Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
-            viewOnly = Boolean.FALSE;
-        }
-        else {
-            // no system view and no edit access, must be view only
-            viewOnly = Boolean.TRUE;
-        }
-        return viewOnly;
-
-
-        // // TODO: restore the logic above and remove this when ready
-        // List<String> messageList = GlobalVariables.getMessageList();
-        // if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
-        // messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
-        // }
-        // return false;
+        return super.isViewOnlyEntry() || !isEditAllowed();
     }
 
 }

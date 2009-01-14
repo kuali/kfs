@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 
 import com.lowagie.text.DocumentException;
 
@@ -69,40 +67,6 @@ public interface BudgetRequestImportService {
      * @return
      */
     public List<String> loadBudget(Person user, String fileType, Integer budgetYear) throws Exception;
-    
-    /**
-     * Gets ImportRequestDao
-     * 
-     * @return
-     */
-    public ImportRequestDao getImportRequestDao();
-    
-    /**
-     * Sets the ImportRequestDao
-     * 
-     * @param dao
-     */
-    public void setImportRequestDao(ImportRequestDao dao);
-    
-    /**
-     * Sets permissionService
-     * 
-     * @param permissionService
-     */
-    public void setPermissionService(PermissionService permissionService);
-    
-    /**
-     * Sets the dictionaryValidationService
-     * 
-     * @param dictionaryValidationService
-     */
-    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService);
-    
-    /**
-     * Sets the lock service
-     * 
-     * @param lockService
-     */
-    public void setLockService(LockService lockService);
+
 }
 

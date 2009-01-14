@@ -24,13 +24,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -39,23 +41,30 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,9 +83,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private LaborModuleService laborModuleService;
     private BudgetDocumentService budgetDocumentService;
     private BenefitsCalculationService benefitsCalculationService;
-    private PermissionService permissionService;
     private OptionsService optionsService;
     private LockService lockService;
+    private DocumentTypeService documentTypeService;
+    private DocumentService documentService;
+    private BudgetConstructionProcessorService budgetConstructionProcessorService;
 
     /**
      * for now just return false, implement application parameter if decision is made implement this functionality
@@ -530,17 +541,17 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // ones we just stored as part of this save operation (see above)
         // No one else would be updating these since we have a transaction lock on the account
         Set<SalarySettingExpansion> salarySettingExpansionSet = new HashSet<SalarySettingExpansion>();
-        
+
         // these keep track of purged/unpurged used to unlock funding
         // when the last line for that account is purged
         Set<SalarySettingExpansion> purgedSseSet = new HashSet<SalarySettingExpansion>();
         Set<SalarySettingExpansion> unpurgedSseSet = new HashSet<SalarySettingExpansion>();
-        
+
         // these keep track of purged/unpurged used to unlock positions
         // when the last line for that position is purged
         Set<BudgetConstructionPosition> purgedBPOSNSet = new HashSet<BudgetConstructionPosition>();
         Set<BudgetConstructionPosition> unpurgedBPOSNSet = new HashSet<BudgetConstructionPosition>();
-        
+
         for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
             SalarySettingExpansion salarySettingExpansion = this.retriveSalarySalarySettingExpansion(fundingLine);
 
@@ -588,9 +599,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             }
 
             // if SS by incumbent collect the set of purged/notpurged BudgetConstructionPositions here
-            if (isSalarySettingByIncumbent){
+            if (isSalarySettingByIncumbent) {
                 BudgetConstructionPosition budgetConstructionPosition = fundingLine.getBudgetConstructionPosition();
-                if (fundingLine.isPurged()){
+                if (fundingLine.isPurged()) {
                     purgedBPOSNSet.add(budgetConstructionPosition);
                 }
                 else {
@@ -604,7 +615,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         purgedSseSet.removeAll(unpurgedSseSet);
 
         // if SS by incumbent, remove from set of purged BPOSNs the set of nonpurged BPOSNs
-        if (isSalarySettingByIncumbent){
+        if (isSalarySettingByIncumbent) {
             purgedBPOSNSet.removeAll(unpurgedBPOSNSet);
         }
 
@@ -628,7 +639,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         // if SS by incumbent iterate leftover purged BPOSNs and release position lock for each
-        for (BudgetConstructionPosition budgetConstructionPosition : purgedBPOSNSet){
+        for (BudgetConstructionPosition budgetConstructionPosition : purgedBPOSNSet) {
             Person person = GlobalVariables.getUserSession().getPerson();
             lockService.unlockPostion(budgetConstructionPosition, person);
         }
@@ -740,7 +751,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, java.util.Map, org.kuali.rice.kim.bo.Person)
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Map<String, String> editingMode, Person person) {
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean hasDocumentEditAccess, Person person) {
         String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
         String budgetAccountNumber = salarySettingFieldsHolder.getAccountNumber();
         String budgetSubAccountNumber = salarySettingFieldsHolder.getSubAccountNumber();
@@ -755,14 +766,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // just allow edit if budget by object mode (general case of single account mode)
         if (budgetByObjectMode && StringUtils.equals(chartOfAccountsCode, budgetChartOfAccountsCode) && StringUtils.equals(accountNumber, budgetAccountNumber) && StringUtils.equals(subAccountNumber, budgetSubAccountNumber)) {
-            // use the editingMode already calculated for the home account during document open
-            if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-                appointmentFunding.setDisplayOnlyMode(false);
-            }
-            else {
-                // now we are either view only or something unexpected - default to view only
-                appointmentFunding.setDisplayOnlyMode(true);
-            }
+            // use the edit permission already calculated for the home account during document open
+            appointmentFunding.setDisplayOnlyMode(!hasDocumentEditAccess);
+
             return true;
         }
 
@@ -778,40 +784,70 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person) {
+    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person user) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
         if (budgetConstructionHeader == null) {
             return false;
         }
 
-        Integer documentOrganizationLevelCode = budgetConstructionHeader.getOrganizationLevelCode();
-        Account account = appointmentFunding.getAccount();
-
-        // account manager or delegate could edit the appointment funding if the document is in the beginning level
-        if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, person)) {
-            appointmentFunding.setDisplayOnlyMode(false);
-            return true;
-        }
-
-        // get the organization review hierachy path for which the user could be an approver
-        List<Organization> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(person);
-        if (organazationReviewHierachy == null || organazationReviewHierachy.isEmpty()) {
+        // get the organizations for which the user could be an processor
+        List<Organization> processorOrgs = budgetConstructionProcessorService.getProcessorOrgs(user);
+        if (processorOrgs == null || processorOrgs.isEmpty()) {
             return false;
         }
 
-        String accessMode = budgetDocumentService.getAccessMode(budgetConstructionHeader, person);
-        if (StringUtils.equals(accessMode, KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-            appointmentFunding.setDisplayOnlyMode(false);
+        BudgetConstructionDocument document;
+        try {
+            document = (BudgetConstructionDocument) documentService.getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
         }
-        else {
-            appointmentFunding.setDisplayOnlyMode(true);
+        catch (WorkflowException e) {
+            throw new RuntimeException("Fail to retrieve budget document for doc id " + budgetConstructionHeader.getDocumentNumber());
         }
 
-        if (StringUtils.equals(accessMode, KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-            appointmentFunding.setExcludedFromTotal(true);
-        }
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
+
+        boolean hasEditAccess = documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
+        appointmentFunding.setDisplayOnlyMode(!hasEditAccess);
+
+        appointmentFunding.setExcludedFromTotal(isOrgProcessorAboveDocumentLevelCode(budgetConstructionHeader, user));
 
         return true;
+    }
+
+    /**
+     * Determines whether the given user is an bc processor for an org in the account review hierarchy with level greater than or
+     * equal to the document level code
+     * 
+     * @param budgetConstructionHeader header for budget document to check access
+     * @param user user to check access for
+     * @return true if user is processor above the document's org level code, false otherwise
+     */
+    protected boolean isOrgProcessorAboveDocumentLevelCode(BudgetConstructionHeader budgetConstructionHeader, Person user) {
+        boolean excludedFromTotal = true;
+
+        List<BudgetConstructionAccountOrganizationHierarchy> accountReviewHierarchy = budgetDocumentService.retrieveOrBuildAccountOrganizationHierarchy(budgetConstructionHeader.getUniversityFiscalYear(), budgetConstructionHeader.getChartOfAccountsCode(), budgetConstructionHeader.getAccountNumber());
+        if (accountReviewHierarchy != null && !accountReviewHierarchy.isEmpty()) {
+            Map<String, BudgetConstructionAccountOrganizationHierarchy> accountReviewHierarchyMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>();
+            for (BudgetConstructionAccountOrganizationHierarchy accountHierarchy : accountReviewHierarchy) {
+                accountReviewHierarchyMap.put(accountHierarchy.getOrganizationChartOfAccountsCode() + accountHierarchy.getOrganizationCode(), accountHierarchy);
+            }
+
+            List<Organization> processorOrgs = (List<Organization>) budgetConstructionProcessorService.getProcessorOrgs(GlobalVariables.getUserSession().getPerson());
+            if (processorOrgs != null && !processorOrgs.isEmpty()) {
+                SortedSet<Integer> accountReviewProcessorOrgLevels = new TreeSet<Integer>();
+                for (Organization organization : processorOrgs) {
+                    if (accountReviewHierarchyMap.containsKey(organization.getChartOfAccountsCode() + organization.getOrganizationCode())) {
+                        accountReviewProcessorOrgLevels.add(accountReviewHierarchyMap.get(organization.getChartOfAccountsCode() + organization.getOrganizationCode()).getOrganizationLevelCode());
+                    }
+                }
+
+                if (!accountReviewProcessorOrgLevels.isEmpty() && accountReviewProcessorOrgLevels.last() >= budgetConstructionHeader.getOrganizationLevelCode()) {
+                    excludedFromTotal = false;
+                }
+            }
+        }
+
+        return excludedFromTotal;
     }
 
     /**
@@ -1032,15 +1068,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * Sets the permissionService attribute value.
-     * 
-     * @param permissionService The permissionService to set.
-     */
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
-
-    /**
      * Sets the optionsService attribute value.
      * 
      * @param optionsService The optionsService to set.
@@ -1056,5 +1083,32 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void setLockService(LockService lockService) {
         this.lockService = lockService;
+    }
+
+    /**
+     * Sets the documentTypeService attribute value.
+     * 
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+
+    /**
+     * Sets the documentService attribute value.
+     * 
+     * @param documentService The documentService to set.
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    /**
+     * Sets the budgetConstructionProcessorService attribute value.
+     * 
+     * @param budgetConstructionProcessorService The budgetConstructionProcessorService to set.
+     */
+    public void setBudgetConstructionProcessorService(BudgetConstructionProcessorService budgetConstructionProcessorService) {
+        this.budgetConstructionProcessorService = budgetConstructionProcessorService;
     }
 }

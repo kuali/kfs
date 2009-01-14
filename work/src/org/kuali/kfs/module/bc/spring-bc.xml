@@ -96,9 +96,6 @@
 		<property name="budgetParameterService">
 			<ref bean="budgetParameterService" />
 		</property>
-		<property name="permissionService">
-			<ref bean="permissionService" />
-		</property>
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
@@ -160,13 +157,13 @@
 			<ref bean="budgetDocumentService" />
 		</property>
 	</bean>
-
-	<bean id="permissionService" class="org.kuali.kfs.module.bc.document.service.impl.PermissionServiceImpl">
+	
+    <bean id="budgetConstructionProcessorService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionProcessorServiceImpl">
 		<property name="organizationService">
 			<ref bean="organizationService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="roleService">
+			<ref bean="kimRoleService" />
 		</property>
 	</bean>
 
@@ -186,15 +183,21 @@
 		<property name="benefitsCalculationService">
 			<ref bean="benefitsCalculationService" />
 		</property>
-		<property name="permissionService">
-			<ref bean="permissionService" />
+		<property name="budgetConstructionProcessorService">
+			<ref bean="budgetConstructionProcessorService" />
 		</property>				
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>				
 		<property name="lockService">
 			<ref bean="lockService" />
-		</property>				
+		</property>		
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" />
+		</property>	
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>	
 	</bean>
 
 	<bean id="benefitsCalculationService" class="org.kuali.kfs.module.bc.document.service.impl.BenefitsCalculationServiceImpl">
@@ -838,8 +841,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
-		<property name="permissionService">
-			<ref bean="permissionService" />
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" />
 		</property>	
 		<property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
@@ -861,7 +864,10 @@
 		</property>
 		<property name="importRequestDao">
 			<ref bean="importRequestDao" />
-		</property>					
+		</property>	
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>	
 	</bean>
 	
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">
@@ -1027,12 +1033,12 @@
 		</property>
 	</bean>
 
-	<bean
-		id="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService"
+	<bean id="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService"
 		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
 		p:qualificationDeterminesDescendHierarchy="true"
-		p:chartService-ref="budgetConstructionOrganizationReportsService"
+		p:chartService-ref="chartService"
 		p:organizationService-ref="budgetConstructionOrganizationReportsService" />
+		
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService"
@@ -1044,6 +1050,7 @@
 	<bean name="budgetConstructionDocumentDerivedRoleTypeService"
 		class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl"
 		p:organizationService-ref="budgetConstructionOrganizationReportsService" />
+		
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="budgetConstructionDocumentDerivedRoleTypeService"

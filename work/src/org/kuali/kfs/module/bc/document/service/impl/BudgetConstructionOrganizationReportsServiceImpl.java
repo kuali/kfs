@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  *      java.lang.String)
  */
 @Transactional
-public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetConstructionOrganizationReportsService, ChartHierarchyService, OrganizationHierarchyService {
+public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetConstructionOrganizationReportsService, OrganizationHierarchyService {
 
     private BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao;
 
@@ -110,13 +111,17 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
         return budgetConstructionOrganizationReportsDao.isLeafOrg(chartOfAccountsCode, organizationCode);
     }
 
-    public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode) {
-        // TODO implement this method using the bc tables instead
-        return SpringContext.getBean(ChartService.class).isParentChart(potentialChildChartCode, potentialParentChartCode);
-    }
-
+    /**
+     * @see org.kuali.kfs.coa.service.OrganizationHierarchyService#isParentOrganization(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
     public boolean isParentOrganization(String potentialChildChartCode, String potentialChildOrganizationCode, String potentialParentChartCode, String potentialParentOrganizationCode) {
-        // TODO implement this method using the bc tables instead
-        return SpringContext.getBean(OrganizationService.class).isParentOrganization(potentialChildChartCode, potentialChildOrganizationCode, potentialParentChartCode, potentialParentOrganizationCode);
+        List<BudgetConstructionOrganizationReports> childOrgs = budgetConstructionOrganizationReportsDao.getActiveChildOrgs(potentialParentChartCode, potentialParentOrganizationCode);
+        for (BudgetConstructionOrganizationReports orgReports : childOrgs) {
+            if (potentialChildChartCode.equals(orgReports.getChartOfAccountsCode()) && potentialChildOrganizationCode.equals(orgReports.getOrganizationCode())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

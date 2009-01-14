@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,11 +29,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
@@ -48,16 +47,18 @@ import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorization
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
-import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -68,6 +69,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -99,18 +101,18 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         ActionForward forward = super.execute(mapping, form, request, response);
 
         // handle any security no access cases
-        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
-            budgetConstructionForm.setSecurityNoAccess(true);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
-        }
-        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-            budgetConstructionForm.setSecurityNoAccess(true);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
-        }
-        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
-            budgetConstructionForm.setSecurityNoAccess(true);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
-        }
+//        if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_ORG_APPROVER)) {
+//            budgetConstructionForm.setSecurityNoAccess(true);
+//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+//        }
+//        if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_BELOW_DOC_LEVEL)) {
+//            budgetConstructionForm.setSecurityNoAccess(true);
+//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+//        }
+//        if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_IN_ACCOUNT_HIER)) {
+//            budgetConstructionForm.setSecurityNoAccess(true);
+//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+//        }
 
         // apprise user of granted access
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PULLUP_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PUSHDOWN_METHOD)) {
@@ -120,16 +122,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 budgetConstructionForm.setAccountOrgHierLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getPerson()));
             }
 
-            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+            if (budgetConstructionForm.isSystemViewOnly()) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
             }
 
-            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.VIEW_ONLY)) {
+            if (!budgetConstructionForm.isEditAllowed()) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
             }
 
-            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
-                if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+            if (budgetConstructionForm.isEditAllowed()) {
+                if (budgetConstructionForm.isSystemViewOnly()) {
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
                 }
                 else {
@@ -145,7 +147,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 }
 
                 // TODO: maybe move this to BC document service?
-                if (!budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+                if (!budgetConstructionForm.isSystemViewOnly()) {
                     LockService lockService = SpringContext.getBean(LockService.class);
                     HashMap primaryKey = new HashMap();
                     primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocument().getDocumentNumber());
@@ -218,7 +220,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // cleanup the session edit mode store so we don't side effect organization salary setting
         if (budgetConstructionForm.isClosingDocument()) {
-            GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
+            GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
         }
 
         return forward;
@@ -249,7 +251,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // set flag to have execute perform 2plug adjusment if the doc goes into edit mode later
         budgetConstructionForm.setCheckTwoPlugAdjustment(true);
 
-        this.initAuthorizationEditMode(budgetConstructionForm);
+        this.initAuthorization(budgetConstructionForm);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -311,47 +313,45 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm
      */
     private void cleanupForLockError(BudgetConstructionForm budgetConstructionForm) {
-
         budgetConstructionForm.setSecurityNoAccess(true);
-        budgetConstructionForm.getEditingMode().remove(BudgetConstructionEditMode.FULL_ENTRY);
-        budgetConstructionForm.getDocumentActionFlags().setCanSave(false);
+        budgetConstructionForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        budgetConstructionForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
         GlobalVariables.getMessageList().remove(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
+    }
+    
+    /**
+     * Override to set authorization Maps from session
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
+        BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
+
+        if (authorizationStatus == null) {
+            // TODO: handle session timeout
+            return;
+        }
+
+        formBase.setDocumentActions(authorizationStatus.getDocumentActions());
+        formBase.setEditingMode(authorizationStatus.getEditingMode());
     }
 
     /**
-     * Calculates the edit mode based on the BC security model and store it in session for later retrieval by budget by account
-     * expansion screens using BudgetConstructionDocumentAuthorizer.getEditModeFromSession()
+     * Calls authorizer to determine if the user has edit permission and checks if budget construction is active is fiscal year
+     * function table. Then updates the <code>BudgetConstructionEditStatus</code> in session. Finally updates authorization in the
+     * form
      * 
-     * @param bcDoc
+     * @param budgetConstructionForm current bc action form that will be updated
      */
-    private void initAuthorizationEditMode(BudgetConstructionForm bcForm) {
-        BudgetConstructionDocument bcDoc = bcForm.getBudgetConstructionDocument();
-        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+    protected void initAuthorization(BudgetConstructionForm budgetConstructionForm) {
+        super.populateAuthorizationFields(budgetConstructionForm);
+        
+        BudgetConstructionAuthorizationStatus editStatus = new BudgetConstructionAuthorizationStatus();
+        editStatus.setDocumentActions(budgetConstructionForm.getDocumentActions());
+        editStatus.setEditingMode(budgetConstructionForm.getEditingMode());
 
-        String chartOfAccountsCode = bcDoc.getChartOfAccountsCode();
-        String accountNumber = bcDoc.getAccountNumber();
-        String subAccountNumber = bcDoc.getSubAccountNumber();
-        Integer universityFiscalYear = bcDoc.getUniversityFiscalYear();
-        Person person = GlobalVariables.getUserSession().getPerson();
-
-        Map editModeMap = new HashMap();
-        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, person);
-        editModeMap.put(editMode, "TRUE");
-
-        // adding the case where system is in view only mode in case we need this fact for functionality
-        // getAccessMode() will not return FULL_ENTRY if the system is in view only mode,
-        // so we may or may not need this extra map row
-        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)) {
-            editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
-        }
-
-        GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
-        GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, editModeMap);
-
-        // need to set this immediately so pull/push action methods can use it
-        bcForm.setEditingMode(editModeMap);
-
+        GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY, editStatus);
     }
 
     /**
@@ -392,7 +392,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm docForm = (BudgetConstructionForm) form;
 
         // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActionFlags().getCanSave()) {
+        if (docForm.getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
@@ -441,25 +441,22 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // TODO: maybe move this to BC document service
         // do the unlock if they have full access and not system view mode
-        if (docForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
+        if (docForm.isEditAllowed() && !docForm.isSystemViewOnly()) {
+            LockService lockService = SpringContext.getBean(LockService.class);
+            HashMap primaryKey = new HashMap();
+            primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, docForm.getDocument().getDocumentNumber());
 
-            if (!docForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-                LockService lockService = SpringContext.getBean(LockService.class);
-                HashMap primaryKey = new HashMap();
-                primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, docForm.getDocument().getDocumentNumber());
+            BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+            if (budgetConstructionHeader != null) {
+                LockStatus lockStatus = lockService.unlockAccount(budgetConstructionHeader);
 
-                BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-                if (budgetConstructionHeader != null) {
-                    LockStatus lockStatus = lockService.unlockAccount(budgetConstructionHeader);
+                // TODO: figure out if we need error message and redisplay for not success?
+                if (lockStatus != LockStatus.SUCCESS) {
 
-                    // TODO: figure out if we need error message and redisplay for not success?
-                    if (lockStatus != LockStatus.SUCCESS) {
-
-                    }
                 }
-                else {
-                    // unlikely, but benign problem here
-                }
+            }
+            else {
+                // unlikely, but benign problem here
             }
         }
 
@@ -763,8 +760,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         budgetConstructionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
         budgetConstructionForm.registerNextMethodToCallIsRefresh(true);
 
-        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-
+        if (budgetConstructionForm.isEditAllowed() && !budgetConstructionForm.isSystemViewOnly()) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             // if the doc contains a 2plg line, turn off RI checking to allow cleanup.
@@ -848,7 +844,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         budgetConstructionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
         budgetConstructionForm.registerNextMethodToCallIsRefresh(true);
 
-        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+        if (budgetConstructionForm.isEditAllowed() && !budgetConstructionForm.isSystemViewOnly()) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             // if the doc contains a 2plg line, turn off RI checking to allow cleanup.
@@ -1187,8 +1183,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             // if editing - reload expenditure and check for changes to detail salary lines and 2plg request amount
             boolean diffFound = false;
-            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY) && !(budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY))) {
-
+            if (budgetConstructionForm.isEditAllowed() && !budgetConstructionForm.isSystemViewOnly()) {
                 BudgetConstructionDocument currentBCDoc = budgetConstructionForm.getBudgetConstructionDocument();
 
                 // get the current set of salary setting related rows from DB and compare against preSalarySettingRows
@@ -1317,7 +1312,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (adjustmentAmount != null) {
 
             // not sure we need this check since the tool isn't displayed in view mode
-            boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+            boolean isEditable = docForm.isEditAllowed() && !docForm.isSystemViewOnly();
             for (PendingBudgetConstructionGeneralLedger revenueLine : revenueLines) {
                 if (isEditable) {
                     revenueLine.setAdjustmentAmount(adjustmentAmount);
@@ -1338,7 +1333,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (adjustmentAmount != null) {
 
             // not sure we need this check since the tool isn't displayed in view mode
-            boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+            boolean isEditable = docForm.isEditAllowed() && !docForm.isSystemViewOnly();
             // (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == 'F')
             for (PendingBudgetConstructionGeneralLedger expenditureLine : expenditureLines) {
                 boolean isLineEditable = (isEditable && (docForm.isBenefitsCalculationDisabled() || (expenditureLine.getLaborObject() == null) || !expenditureLine.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
@@ -1363,31 +1358,32 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @throws Exception
      */
     public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        
         boolean doAllowPullup = false;
         boolean lockNeeded = false;
         boolean prePullReadOnlyAccess;
-
-        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
         // if system view only or view only - reload to get the latest status
         // and check that the document is still below the selected POV
-        if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) || tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY)) {
-
+        if (!tForm.isEditAllowed() || tForm.isSystemViewOnly()) { 
+         
             prePullReadOnlyAccess = true;
-            // if not system view only mode, we are in document view mode - we'll need a lock before the pullup
-            // since by definition pullup puts the account at a full_entry level
-            // and we need exclusive access to perform the pullup
-            if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-                lockNeeded = true;
-            }
-
+            
             // now reload the document and get latest status info
             loadDocument(tForm);
-            this.initAuthorizationEditMode(tForm);
+            this.initAuthorization(tForm);
             if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() < Integer.parseInt(tForm.getPullupKeyCode())) {
                 doAllowPullup = true;
+        
+                // if not system view only mode, we are in document view mode - we'll need a lock before the pullup
+                // since by definition pullup puts the account at a full_entry level
+                // and we need exclusive access to perform the pullup
+                if (!tForm.isSystemViewOnly()) {
+                    lockNeeded = true;
+                }
             }
             else {
                 // document has been moved and is either at the desired level or above
@@ -1399,18 +1395,12 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Document has already been moved above the selected level.");
                 }
             }
-
-            // if the reload now shows system view only mode and we flagged that a lock was needed - turn it back off
-            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-                lockNeeded = false;
-            }
-
         }
-        else {
-            // we are in document full_entry and not system view only
+        else {    
+            // we are in document full_entry
             // assume we already have a lock, allow the pullup
             // and we need to ensure the user can finish editing work if after pullup system goes to system view only
-            prePullReadOnlyAccess = false;
+            prePullReadOnlyAccess = false;  
             doAllowPullup = true;
         }
 
@@ -1468,14 +1458,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 // refresh organization - so UI shows new level description
                 tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
 
-                this.initAuthorizationEditMode(tForm);
+                this.initAuthorization(tForm);
 
                 // if before pullup, system was 'not system view only' goes to 'system view only' after pull
                 // need to manually remove the system view only editingMode here to allow the user to save work since still
                 // full_entry
-                if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !prePullReadOnlyAccess) {
-                    if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-                        tForm.getEditingMode().remove(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY);
+                if (tForm.isEditAllowed() && !prePullReadOnlyAccess) {
+                    if (tForm.isSystemViewOnly()) {
+                        tForm.getEditingMode().remove(BCConstants.EditModes.SYSTEM_VIEW_ONLY);
                     }
                 }
             }
@@ -1506,14 +1496,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // This method is called only if user has edit access and there is somewhere to push to.
         // If not system view only and the intended push level is view, we need to validate and save
         // Otherwise new level is still allowing editing, just push and keep current lock
-        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+        if (!tForm.isSystemViewOnly()) {
             prePushSystemViewOnly = false;
 
             // check editing mode at the intended level
-            BudgetConstructionHeader bcHdr = this.getTestHeaderFromDocument(bcDocument, Integer.parseInt(tForm.getPushdownKeyCode()));
-            String targetEditMode = budgetDocumentService.getAccessMode(bcHdr, GlobalVariables.getUserSession().getPerson());
-            if (targetEditMode.equals(BudgetConstructionEditMode.VIEW_ONLY)) {
-
+            if (!hasEditPermission(bcDocument, tForm.getPushdownKeyCode(), GlobalVariables.getUserSession().getPerson())) {
                 budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
                 tForm.initializePersistedRequestAmounts();
                 budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
@@ -1531,8 +1518,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // reload document to get most up-to-date status and recheck that we still have FULL_ENTRY access
             // anything else means the document was moved by someone else and we may no longer even have read access
             loadDocument(tForm);
-            this.initAuthorizationEditMode(tForm);
-            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+            this.initAuthorization(tForm);
+            if (tForm.isEditAllowed()) {
                 doAllowPushdown = true;
             }
             else {
@@ -1583,13 +1570,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // refresh organization - so UI shows new level description
             tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
 
-            this.initAuthorizationEditMode(tForm);
+            this.initAuthorization(tForm);
 
             // if before push, system is 'not system view only' goes to 'system view only' after push
             // need to manually remove the system view only editingMode here to allow the user to save work if still full_entry
-            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-                if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) && !prePushSystemViewOnly) {
-                    tForm.getEditingMode().remove(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY);
+            if (tForm.isEditAllowed()) {
+                if (tForm.isSystemViewOnly() && !prePushSystemViewOnly) {
+                    tForm.getEditingMode().remove(BCConstants.EditModes.SYSTEM_VIEW_ONLY);
                 }
             }
 
@@ -1597,26 +1584,22 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
+    
     /**
-     * Derives a BudgetConstructionHeader from a BudgetConstructionDocument and sets a testLevel to be used in finding out the
-     * access mode for the level.
+     * Checks whether the current user would have access for the given budget document for the given organization level code
      * 
-     * @param bcDoc
-     * @param testLevel
-     * @return
+     * @param document current bc document
+     * @param orgLevelCode organization level code for access check
+     * @param user user to check access for
+     * @return true if user would have edit permission, false otherwise
      */
-    private BudgetConstructionHeader getTestHeaderFromDocument(BudgetConstructionDocument bcDoc, Integer testLevel) {
+    protected boolean hasEditPermission(BudgetConstructionDocument document, String orgLevelCode, Person user) {
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
 
-        BudgetConstructionHeader bcHdr = new BudgetConstructionHeader();
-        bcHdr.setDocumentNumber(bcDoc.getDocumentNumber());
-        bcHdr.setUniversityFiscalYear(bcDoc.getUniversityFiscalYear());
-        bcHdr.setChartOfAccountsCode(bcDoc.getChartOfAccountsCode());
-        bcHdr.setAccountNumber(bcDoc.getAccountNumber());
-        bcHdr.setSubAccountNumber(bcDoc.getSubAccountNumber());
-        bcHdr.setOrganizationLevelCode(testLevel);
+        AttributeSet roleQualifiers = new AttributeSet();
+        roleQualifiers.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, orgLevelCode);
 
-        return bcHdr;
+        return documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId(), null, roleQualifiers);
     }
 
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1628,7 +1611,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         tForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
         tForm.registerNextMethodToCallIsRefresh(true);
 
-        if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !tForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+        if (tForm.isEditAllowed() && !tForm.isSystemViewOnly()) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             budgetDocumentService.saveDocumentNoWorkflow(bcDocument);

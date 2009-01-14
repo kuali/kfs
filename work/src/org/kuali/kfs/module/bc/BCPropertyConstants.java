@@ -23,6 +23,7 @@ public class BCPropertyConstants {
     public static final String PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING = "pendingBudgetConstructionAppointmentFunding";
     
     public static final String ORGANIZATION_LEVEL_CODE = "organizationLevelCode";
+    public static final String ORGANIZATION_CHART_OF_ACCOUNTS_CODE = "organizationChartOfAccountsCode";
     public static final String BUDGET_CONSTRUCTION_MONTHLY = "budgetConstructionMonthly";
     public static final String BUDGET_CONSTRUCTION_ACCOUNT_REPORTS = "budgetConstructionAccountReports";
     public static final String BUDGET_CONSTRUCTION_HEADER = "budgetConstructionHeader";

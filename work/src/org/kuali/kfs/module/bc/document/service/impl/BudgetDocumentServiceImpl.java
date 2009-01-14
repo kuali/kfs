@@ -24,12 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.OrganizationService;
@@ -51,7 +49,6 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.DeleteMonthlySpreadEvent;
 import org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRuleUtil;
 import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionForm;
@@ -59,7 +56,6 @@ import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -104,7 +100,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private KualiModuleService kualiModuleService;
     private ParameterService parameterService;
     private BudgetParameterService budgetParameterService;
-    private PermissionService permissionService;
     private FiscalYearFunctionControlService fiscalYearFunctionControlService;
     private OptionsService optionsService;
     private PersistenceService persistenceService;
@@ -536,62 +531,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @Transactional
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
         return budgetConstructionDao.getPendingBudgetConstructionAppointmentFundingRequestSum(salaryDetailLine);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    @Transactional
-    public String getAccessMode(BudgetConstructionHeader bcHeader, Person person) {
-        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
-        boolean isFiscalOfcOrDelegate = false;
-
-        // Check for missing Account Reports mapping
-        // Root users will have a special cancel button on the document
-        // Otherwise just drop through and do normal access mode checks
-        // This implies view access for all in this case, but no request is set so security is not an issue
-        if (!this.isAccountReportsExist(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber())) {
-            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
-            return editMode;
-        }
-
-        // continue normal access mode checks
-        Integer hdrLevel = bcHeader.getOrganizationLevelCode();
-
-        bcHeader.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        isFiscalOfcOrDelegate = permissionService.isAccountManagerOrDelegate(bcHeader.getAccount(), person);
-
-        // special case level 0 access, check if user is fiscal officer or delegate
-        if (hdrLevel == 0) {
-            if (isFiscalOfcOrDelegate) {
-                editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
-                return editMode;
-            }
-        }
-
-        // drops here if we need to check for org approver access for any doc level
-        editMode = this.getOrgApproverAcessMode(bcHeader, person);
-        if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
-
-            // user is a FO or delegate and not an Organization approver or not in account's hierarchy,
-            // means the doc is really above the user level
-            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
-
-        }
-
-        return editMode;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
-     *      java.lang.String, java.lang.String, org.kuali.rice.kim.bo.Person)
-     */
-    @Transactional
-    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Person person) {
-
-        BudgetConstructionHeader bcHeader = this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        return this.getAccessMode(bcHeader, person);
     }
 
     /**
@@ -1073,99 +1012,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * Gets the Budget Construction access mode for a Budget Construction document header and Organization Approver user. This
-     * method assumes the Budget Document exists in the database and the Account Organization Hierarchy rows exist for the account.
-     * This will not check the special case where the document is at level 0. Most authorization routines should use getAccessMode()
-     * 
-     * @param bcHeader
-     * @param u
-     * @return
-     */
-    @Transactional
-    private String getOrgApproverAcessMode(BudgetConstructionHeader bcHeader, Person person) {
-
-        // default the edit mode is just unviewable
-        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
-
-        // get the hierarchy or attempt to build
-        List<BudgetConstructionAccountOrganizationHierarchy> rvwHierList = this.retrieveOrBuildAccountOrganizationHierarchy(bcHeader.getUniversityFiscalYear(), bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber());
-
-        if (rvwHierList != null && !rvwHierList.isEmpty()) {
-
-            // get a hashmap copy of the accountOrgHier rows for the account
-            Map<String, BudgetConstructionAccountOrganizationHierarchy> rvwHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>();
-            for (BudgetConstructionAccountOrganizationHierarchy rvwHier : rvwHierList) {
-                rvwHierMap.put(rvwHier.getOrganizationChartOfAccountsCode() + rvwHier.getOrganizationCode(), rvwHier);
-            }
-            // this will hold an level ordered (low to high) subset of accountOrgHier rows where user is approver
-            TreeMap<Integer, BudgetConstructionAccountOrganizationHierarchy> rvwHierApproverList = new TreeMap<Integer, BudgetConstructionAccountOrganizationHierarchy>();
-
-            // get the subset of hier rows where the user is an approver
-            try {
-                List<Organization> povOrgs = (List<Organization>) permissionService.getOrgReview(person);
-                if (povOrgs.isEmpty()) {
-
-                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
-
-                }
-                else {
-                    for (Organization povOrg : povOrgs) {
-                        if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
-                            rvwHierApproverList.put(rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()).getOrganizationLevelCode(), rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()));
-                        }
-                    }
-
-                    // check if the user is an approver somewhere in the hier for this document, compare the header level with the
-                    // approval level(s)
-                    if (!rvwHierApproverList.isEmpty()) {
-
-                        // user is approver somewhere in the account hier, look for a min record above or equal to doc level
-                        boolean fnd = false;
-                        for (BudgetConstructionAccountOrganizationHierarchy rvwHierApprover : rvwHierApproverList.values()) {
-                            if (rvwHierApprover.getOrganizationLevelCode() >= bcHeader.getOrganizationLevelCode()) {
-                                fnd = true;
-                                if (rvwHierApprover.getOrganizationLevelCode() > bcHeader.getOrganizationLevelCode()) {
-                                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
-                                }
-                                else {
-                                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
-                                }
-                                break;
-                            }
-                        }
-
-                        // if min rec >= doc level not found, the remaining objects must be < doc level
-                        if (!fnd) {
-                            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
-                        }
-                    }
-                    else {
-                        // user not an approver in this account's hier, but is an org approver
-                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER;
-                    }
-                }
-            }
-            catch (Exception e) {
-
-                // returning unviewable will cause an authorization exception
-                // write a log message with the specific problem
-                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: " + person.getPrincipalName(), e);
-            }
-        }
-        else {
-
-            // returning unviewable will cause an authorization exception
-            // write a log message with the specific problem
-            // TODO probably should add another EditMode constant and
-            // raise BCDocumentAuthorization Exception in BudgetConstructionForm.populateAuthorizationFields()
-            LOG.error("Budget Construction Document's Account Organization Hierarchy not built due to overflow: " + bcHeader.getUniversityFiscalYear().toString() + "," + bcHeader.getChartOfAccountsCode() + "," + bcHeader.getAccountNumber());
-
-        }
-
-        return editMode;
-    }
-
-    /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#retrieveOrBuildAccountOrganizationHierarchy(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
@@ -1337,18 +1183,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
-
-    /**
-     * Sets the permissionService attribute value.
-     * 
-     * @param permissionService The permissionService to set.
-     */
-    @NonTransactional
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
-
 
     /**
      * Sets the fiscalYearFunctionControlService attribute value.

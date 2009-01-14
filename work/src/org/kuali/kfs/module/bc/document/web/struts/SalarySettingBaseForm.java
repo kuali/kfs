@@ -62,7 +62,6 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private KualiDecimal adjustmentAmount;
 
     private boolean hideDetails = false;
-    private Map<String, String> editingMode;
 
     private boolean budgetByAccountMode;
     private boolean singleAccountMode;
@@ -132,57 +131,6 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         appointmentFunding.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         appointmentFunding.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
-    }
-
-    /**
-     * Updates authorization-related form fields based on the current form contents
-     */
-    public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        useBCAuthorizer(documentAuthorizer);
-
-        if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
-        }
-    }
-
-    /**
-     * setup the budget construction authorization
-     */
-    public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        Map<String, String> editModeFromSession = documentAuthorizer.getEditModeFromSession();
-        if (editModeFromSession == null || editModeFromSession.isEmpty()) {
-            this.initializeEditingMode(documentAuthorizer);
-            return;
-        }
-
-        this.setEditingMode(editModeFromSession);
-    }
-
-    /**
-     * initialize the editing mode for salary setting
-     */
-    public void initializeEditingMode(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        Map<String, String> initialEditingMode = this.getInitialEditingMode(documentAuthorizer);
-
-        GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
-        GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, initialEditingMode);
-
-        this.setEditingMode(initialEditingMode);
-    }
-
-    /**
-     * initialize the editing mode for salary setting
-     */
-    public Map<String, String> getInitialEditingMode(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        if (this.isBudgetByAccountMode()) {
-            Person kualiUser = GlobalVariables.getUserSession().getPerson();
-
-            return documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser);
-        }
-        else {
-            // user got here through organization salary setting - check that the user is a BC org approver somewhere
-            return documentAuthorizer.getEditMode(this.getUniversityFiscalYear());
-        }
     }
 
     /**
@@ -402,24 +350,6 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the editingMode attribute.
-     * 
-     * @return Returns the editingMode.
-     */
-    public Map<String, String> getEditingMode() {
-        return editingMode;
-    }
-
-    /**
-     * Sets the editingMode attribute value.
-     * 
-     * @param editingMode The editingMode to set.
-     */
-    public void setEditingMode(Map<String, String> editingMode) {
-        this.editingMode = editingMode;
-    }
-
-    /**
      * Gets the budgetByAccountMode attribute.
      * 
      * @return Returns the budgetByAccountMode.
@@ -633,45 +563,13 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the viewOnlyEntry attribute. System view only trumps all, overriding methods should call this first
-     * and check the results for !viewOnly before continuing.
+     * Gets the viewOnlyEntry attribute. System view only trumps all, overriding methods should call this first and check the
+     * results for !viewOnly before continuing.
      * 
      * @return Returns the viewOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
-        
-        boolean viewOnly = false;
-
-        // The existence of the editing mode means it is true, so the extra test is not really needed.
-        if (this.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-//            viewOnly = Boolean.valueOf(this.getEditingMode().get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
-            viewOnly = Boolean.TRUE;
-        }
-        return viewOnly;
-//
-//        boolean viewOnly = false;
-//        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-//            viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
-//        }
-//        if (viewOnly) {
-//            return true;
-//        }
-//
-//        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-//            viewOnly = !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
-//        }
-//        else {
-//            viewOnly = true;
-//        }
-//        return viewOnly;
-//
-//
-//        // // TODO: restore the logic above and remove this when ready
-//        // List<String> messageList = GlobalVariables.getMessageList();
-//        // if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
-//        // messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
-//        // }
-//        // return false;
+        return isSystemViewOnly();
     }
 
     /**

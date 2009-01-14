@@ -25,12 +25,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.AdjustSalarySettingLinePercentEvent;
@@ -46,8 +49,8 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * the base action class for salary setting, which provides the implementations of common actions of the salary setting screens
@@ -73,31 +76,57 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
-        salarySettingForm.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
-
+        
+        // if org sal setting we need to initialize authorization
+        if (!salarySettingForm.isBudgetByAccountMode() && salarySettingForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD)) {
+            initAuthorization(salarySettingForm);
+        }
+        
+        populateAuthorizationFields(salarySettingForm);
+        
         ActionForward forward = super.execute(mapping, form, request, response);
         salarySettingForm.postProcessBCAFLines();
 
         return forward;
     }
+    
+    protected void populateAuthorizationFields(SalarySettingBaseForm salarySettingForm) {
+        BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
 
-    // TODO fix for kim
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
-//     *      java.lang.String)
-//     */
-//    @Override
-//    public void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-//        Person currentUser = GlobalVariables.getUserSession().getPerson();
-//        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-//
-//        if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
-//            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-//
-//            ModuleService module = getKualiModuleService().getResponsibleModuleService(this.getClass());
-//            throw new ModuleAuthorizationException(currentUser.getPrincipalName(), bcAuthorizationType, module);
-//        }
-//    }
+        if (authorizationStatus == null) {
+            // TODO: handle session timeout
+            return;
+        }
+
+        salarySettingForm.setDocumentActions(authorizationStatus.getDocumentActions());
+        salarySettingForm.setEditingMode(authorizationStatus.getEditingMode());
+    }
+
+    protected void initAuthorization(SalarySettingBaseForm salarySettingForm) {
+        Person user = GlobalVariables.getUserSession().getPerson();
+        try {
+            List<Organization> processorOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(user);
+            if (!processorOrgs.isEmpty()) {
+                salarySettingForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_EDIT, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            }
+            else {
+                throw new AuthorizationException(user.getName(), "view", salarySettingForm.getAccountNumber() + ", " + salarySettingForm.getSubAccountNumber());
+            }
+        }
+        catch (Exception e) {
+            throw new AuthorizationException(user.getName(), "view", salarySettingForm.getAccountNumber() + ", " + salarySettingForm.getSubAccountNumber());
+        }
+
+        if (!SpringContext.getBean(FiscalYearFunctionControlService.class).isBudgetUpdateAllowed(salarySettingForm.getUniversityFiscalYear())) {
+            salarySettingForm.getEditingMode().put(BCConstants.EditModes.SYSTEM_VIEW_ONLY, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        }
+
+        BudgetConstructionAuthorizationStatus editStatus = new BudgetConstructionAuthorizationStatus();
+        editStatus.setDocumentActions(salarySettingForm.getDocumentActions());
+        editStatus.setEditingMode(salarySettingForm.getEditingMode());
+
+        GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY, editStatus);
+    }
 
     /**
      * save the information in the current form into underlying data store

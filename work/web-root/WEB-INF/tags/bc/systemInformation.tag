@@ -465,7 +465,7 @@
             <%-- pushdown functionality only allowed when user has full access --%>
             <%-- display potential pushdown candidates if editingMode is full access --%>
             <%-- the list is populated only when fullEntry, but checking anyway --%>
-            <c:if test="${KualiForm.editingMode['fullEntry'] && !empty KualiForm.pushdownLevelKeyLabels}">
+            <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && !empty KualiForm.pushdownLevelKeyLabels}">
 
               <html:select property="pushdownKeyCode">
                   <html:optionsCollection property="pushdownLevelKeyLabels" label="label" value="key" />

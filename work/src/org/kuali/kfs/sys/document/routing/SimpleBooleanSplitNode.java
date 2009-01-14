@@ -64,7 +64,8 @@ public class SimpleBooleanSplitNode implements SplitNode {
      */
     protected SplitResult booleanToSplitResult(boolean b) {
         List<String> branches = new ArrayList<String>();
-        branches.add(b ? "True" : "False");
+        final String branchName = b ? "True" : "False";
+        branches.add(branchName);
         return new SplitResult(branches);
     }
 

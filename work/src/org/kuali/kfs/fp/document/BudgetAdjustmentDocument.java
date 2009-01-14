@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
@@ -35,6 +36,7 @@ import org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleCons
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -52,9 +54,12 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.engine.node.SplitResult;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -65,6 +70,8 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  */
 public class BudgetAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
+    
+    private static final String REQUIRES_FULL_APPROVAL_SPLIT_NODE_NAME = "RequiresFullApproval";
 
     private Integer nextPositionSourceLineNumber;
     private Integer nextPositionTargetLineNumber;
@@ -901,5 +908,83 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      */
     protected String getTransferDocumentType() {
         return TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(BudgetAdjustmentDocument.REQUIRES_FULL_APPROVAL_SPLIT_NODE_NAME)) return requiresFullApproval();
+        throw new UnsupportedOperationException("No split node logic defined for split node "+nodeName+" on the Budget Adjustment document");
+    }
+
+    /**
+     * Determines if this document can be auto-approved or not. The conditions for auto-approval are: 1) Single account used on document 2) Initiator is
+     * fiscal officer or primary delegate for the account 3) Only current adjustments are being made 4) The fund group for the account
+     * is not contract and grants 5) current income/expense decrease amount must equal increase amount
+     * @return false if auto-approval can occur (and therefore, full approval is not required); true if a full approval is required
+     */
+    protected boolean requiresFullApproval() {
+        boolean fullApprovalRequired = false;
+
+        // new list so that sourceAccountingLines isn't modified by addAll statement. Important for
+        // total calculations below.
+        List accountingLines = new ArrayList();
+        accountingLines.addAll(getSourceAccountingLines());
+        accountingLines.addAll(getTargetAccountingLines());
+
+        /* only one account can be present on document and only current adjustments allowed */
+        String chart = "";
+        String accountNumber = "";
+        for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (StringUtils.isNotBlank(accountNumber)) {
+                if (!accountNumber.equals(line.getAccountNumber()) && !chart.equals(line.getChartOfAccountsCode())) {
+                    fullApprovalRequired = true;
+                    break;
+                }
+            }
+
+            if (line.getBaseBudgetAdjustmentAmount().isNonZero()) {
+                fullApprovalRequired = true;
+                break;
+            }
+            chart = line.getChartOfAccountsCode();
+            accountNumber = line.getAccountNumber();
+        }
+
+        // check remaining conditions
+        if (!fullApprovalRequired) {
+            // initiator should be fiscal officer or primary delegate for account
+            Person initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+            List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
+            Account userAccount = null;
+            for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {
+                AccountResponsibility account = (AccountResponsibility) iter.next();
+                if (accountNumber.equals(account.getAccount().getAccountNumber()) && chart.equals(account.getAccount().getChartOfAccountsCode())) {
+                    userAccount = account.getAccount();
+                    break;
+                }
+            }
+
+            if (userAccount == null) {
+                fullApprovalRequired = true;
+            }
+            else {
+                // fund group should not be CG
+                if (userAccount.isForContractsAndGrants()) {
+                    fullApprovalRequired = true;
+                }
+
+                // current income/expense decrease amount must equal increase amount
+                if (!getSourceCurrentBudgetIncomeTotal().equals(getTargetCurrentBudgetIncomeTotal()) || !getSourceCurrentBudgetExpenseTotal().equals(getTargetCurrentBudgetExpenseTotal())) {
+                    fullApprovalRequired = true;
+                }
+            }
+        }
+        
+        return fullApprovalRequired;
     }
 }

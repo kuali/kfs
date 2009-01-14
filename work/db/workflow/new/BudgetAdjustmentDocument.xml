@@ -7,18 +7,18 @@
 <docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Approval No Approval Split"/>
-          <split name="Approval No Approval Split">
-            <branch name="ApprovalBranch">
+          <start name="AdHoc" nextNode="RequiresFullApproval"/>
+          <split name="RequiresFullApproval">
+            <branch name="True">
               <requests name="Account" nextNode="OrganizationHierarchy"/>
               <requests name="OrganizationHierarchy" nextNode="SubFund"/>
               <requests name="SubFund" nextNode="Award"/>
-              <requests name="Award" nextNode="Join"/>
+              <requests name="Award" nextNode="JoinRequiresFullApproval"/>
             </branch>
-            <branch name="NoApprovalBranch">
-              <simple name="Do Nothing" nextNode="Join"/>
+            <branch name="False">
+              <simple name="Do Nothing" nextNode="JoinRequiresFullApproval"/>
             </branch>
-            <join name="Join"/>
+            <join name="JoinRequiresFullApproval"/>
           </split>
          
         </routePath>
@@ -41,14 +41,14 @@
 <!--<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<split name="Approval No Approval Split">
-<type>org.kuali.kfs.fp.document.routing.node.BudgetAdjustmentDocumentApprovalNoApprovalSplitNode</type>
+<split name="RequiresFullApproval">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
 <simple name="Do Nothing">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 
-<join name="Join"/>
+<join name="JoinRequiresFullApproval"/>
 </routeNodes>
 </documentType>
 </documentTypes>

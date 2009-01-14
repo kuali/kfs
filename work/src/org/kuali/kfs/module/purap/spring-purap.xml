@@ -845,12 +845,12 @@
 	  </property>
 	</bean>
 
-    <bean id="potentiallySensitiveDocumentUserRoleTypeService" class="org.kuali.kfs.module.purap.identity.PotentiallySensitiveDocumentUserRoleTypeServiceImpl"/>
+    <bean id="potentiallySensitiveDocumentRoleTypeService" class="org.kuali.kfs.module.purap.identity.PotentiallySensitiveDocumentRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
-	      p:service-ref="potentiallySensitiveDocumentUserRoleTypeService"
-	      p:localServiceName="potentiallySensitiveDocumentUserRoleTypeService" />
+	      p:service-ref="potentiallySensitiveDocumentRoleTypeService"
+	      p:localServiceName="potentiallySensitiveDocumentRoleTypeService" />
 	  </property>
 	</bean>
 

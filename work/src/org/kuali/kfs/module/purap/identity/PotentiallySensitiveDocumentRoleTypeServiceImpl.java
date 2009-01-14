@@ -17,6 +17,6 @@ package org.kuali.kfs.module.purap.identity;
 
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
-public class PotentiallySensitiveDocumentUserRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class PotentiallySensitiveDocumentRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
 }

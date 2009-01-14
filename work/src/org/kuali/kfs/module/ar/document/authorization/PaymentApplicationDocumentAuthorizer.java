@@ -15,29 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
 
 public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    private static org.apache.log4j.Logger LOG =
-        org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentAuthorizer.class);
-    // TODO fix for kim
-
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
-//
-//        // KULAR-452
-//        if (paymentApplicationDocument.hasCashControlDocument()) {
-//            flags.setCanCancel(false);
-//        }
-//
-//        return flags;
-//    }
 
 }
 

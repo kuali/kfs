@@ -24,7 +24,7 @@
 <%@ attribute name="customerAddressAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
 
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
               
 <kul:tab tabTitle="Customer Invoice Summary" defaultOpen="true" tabErrorKey="document.customerNote">
     <div class="tab-container" align=center>	

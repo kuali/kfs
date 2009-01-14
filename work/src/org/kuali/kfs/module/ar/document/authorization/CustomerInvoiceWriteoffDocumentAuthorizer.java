@@ -15,55 +15,43 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArAuthorizationConstants;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
-import org.kuali.kfs.module.ar.util.ARUtil;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
-import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     @Override
-    public Map getEditMode(Document document, Person user) {
-
-        Map<String, String> editModeMap = super.getEditMode(document, user);
-        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
-
-        if (StringUtils.equals(customerInvoiceWriteoffDocument.getStatusCode(), ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE))
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB, "TRUE");
-        else
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB, "FALSE");
-
-        return editModeMap;
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+        
+        CustomerInvoiceWriteoffDocument writeoffDoc = (CustomerInvoiceWriteoffDocument) businessObject;
+        String invoiceDocNumber = writeoffDoc.getFinancialDocumentReferenceInvoiceNumber();
+        if (StringUtils.isBlank(invoiceDocNumber)) {
+            return;
+        }
+        CustomerInvoiceDocumentService invoiceService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        
+        Collection<CustomerInvoiceDetail> invoiceDetails = invoiceService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(invoiceDocNumber);
+        
+        //  adds the chart/account for each account used on the original invoice that will be credited by this
+        for (CustomerInvoiceDetail invoiceDetail : invoiceDetails) {
+            if (StringUtils.isNotBlank(invoiceDetail.getChartOfAccountsCode()) && StringUtils.isNotBlank(invoiceDetail.getAccountNumber())) {
+                attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, invoiceDetail.getChartOfAccountsCode());
+                attributes.put(KfsKimAttributes.ACCOUNT_NUMBER, invoiceDetail.getAccountNumber());
+            }
+        }
     }
 
-    // TODO fix for kim
-//    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
-//     */
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//
-//        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
-//        if (StringUtils.equals(customerInvoiceWriteoffDocument.getStatusCode(), ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE)) {
-//            flags.setCanSave(false);
-//            flags.setCanClose(true);
-//            flags.setCanCancel(false);
-//        }
-//        return flags;
-//    }
-
-    // TODO remove - replaced by kim
+//TODO Dont remove this until we're sure the FAU stuff is really in KIM
 //    /**
 //     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
 //     *      org.kuali.rice.kim.bo.Person)

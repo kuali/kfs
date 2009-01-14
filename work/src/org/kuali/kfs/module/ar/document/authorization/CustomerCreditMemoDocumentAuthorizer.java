@@ -35,6 +35,9 @@ public class CustomerCreditMemoDocumentAuthorizer extends FinancialSystemTransac
         
         CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument) businessObject;
         String invoiceDocNumber = creditMemoDoc.getFinancialDocumentReferenceInvoiceNumber();
+        if (StringUtils.isBlank(invoiceDocNumber)) {
+            return;
+        }
         CustomerInvoiceDocumentService invoiceService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         
         Collection<CustomerInvoiceDetail> invoiceDetails = invoiceService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(invoiceDocNumber);

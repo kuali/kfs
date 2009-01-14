@@ -31,7 +31,9 @@ public class PdpConstants {
     public static final String ACH_ACCOUNT_IDENTIFIER_SEQUENCE_NAME = "PDP_ACH_ACCT_GNRTD_ID_SEQ";
     public static final String PDP_EXTRACT_JOB_NAME = "pdpExtractChecksJob";
     public static final String ACH_TRANSACTION_TYPE_DEFAULT = "22";
-
+    public static final String ACH_BANK_DATA_VIEW_CODE_DEFAULT = "1";
+    public static final String ACH_BANK_INSTITUTION_CODE_DEFAULT = "1";
+    
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 
     public static class PayeeIdTypeCodes {
@@ -132,5 +134,15 @@ public class PdpConstants {
     public static class PDPEditMode extends EditMode {
         public static final String ENTRY = "entry";
     }
-
+    
+    public static class AchBankOfficeCodes {
+        public static final String AchBankOfficeCode_O = "O";
+        public static final String AchBankOfficeCode_B = "B";
+    }
+    
+    public static class AchBankTypeCodes {
+        public static final String AchBankTypeCode_0 = "0";
+        public static final String AchBankTypeCode_1 = "1";
+        public static final String AchBankTypeCode_2 = "2";
+    }
 }

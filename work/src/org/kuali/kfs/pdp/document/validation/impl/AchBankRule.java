@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.pdp.document.validation.impl;
 
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.ACHBank;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -64,25 +65,25 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
         setupConvenienceObjects();
 
         String officeCode = newAchBank.getBankOfficeCode();
-        if ((ObjectUtils.isNotNull(officeCode)) && !officeCode.equals("O") && !officeCode.equals("B")) {
+        if ((ObjectUtils.isNotNull(officeCode)) && !officeCode.equals(PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_O) && !officeCode.equals(PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_B)) {
             putFieldError("bankOfficeCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_OFFICE_CODE);
             validEntry = false;
         }
 
         String typeCode = newAchBank.getBankTypeCode();
-        if ((typeCode != null) && !typeCode.equals("0") && !typeCode.equals("1") && !typeCode.equals("2")) {
+        if ((typeCode != null) && !typeCode.equals(PdpConstants.AchBankTypeCodes.AchBankTypeCode_0) && !typeCode.equals(PdpConstants.AchBankTypeCodes.AchBankTypeCode_1) && !typeCode.equals(PdpConstants.AchBankTypeCodes.AchBankTypeCode_2)) {
             putFieldError("bankTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_TYPE_CODE);
             validEntry = false;
         }
 
         String bankInstitutionStatusCode = newAchBank.getBankInstitutionStatusCode();
-        if ((ObjectUtils.isNotNull(bankInstitutionStatusCode) ) && !bankInstitutionStatusCode.equals("1")) {
+        if ((ObjectUtils.isNotNull(bankInstitutionStatusCode) ) && !bankInstitutionStatusCode.equals(PdpConstants.ACH_BANK_INSTITUTION_CODE_DEFAULT)) {
             putFieldError("bankInstitutionStatusCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_INST_STATUS_CODE);
             validEntry = false;
         }
 
         String bankDataViewCode = newAchBank.getBankDataViewCode();
-        if ((ObjectUtils.isNotNull(bankDataViewCode) ) && !bankDataViewCode.equals("1")) {
+        if ((ObjectUtils.isNotNull(bankDataViewCode) ) && !bankDataViewCode.equals(PdpConstants.ACH_BANK_DATA_VIEW_CODE_DEFAULT)) {
             putFieldError("bankDataViewCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_DATA_VIEW_CODE);
             validEntry = false;
         }

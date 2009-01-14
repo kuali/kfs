@@ -119,9 +119,11 @@
               p:name="bankPhoneSuffixNumber"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="bankInstitutionStatusCode" />
+              p:name="bankInstitutionStatusCode" 
+              p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.AchBankDefaultInstitutionCodeFinder" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="bankDataViewCode" />
+              p:name="bankDataViewCode" 
+              p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.AchBankDefaultDataViewCodeFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
       </list>

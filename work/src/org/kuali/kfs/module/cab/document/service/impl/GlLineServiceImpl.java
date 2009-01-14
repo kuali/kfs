@@ -43,9 +43,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -61,7 +59,7 @@ public class GlLineServiceImpl implements GlLineService {
      */
     public Document createAssetGlobalDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primary) throws WorkflowException {
         // initiate a new document
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         MaintenanceDocument document = (MaintenanceDocument) documentService.getNewDocument(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT);
         // create asset global
         AssetGlobal assetGlobal = createAssetGlobal(primary, document);
@@ -182,7 +180,7 @@ public class GlLineServiceImpl implements GlLineService {
     public Document createAssetPaymentDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primaryGlEntry) throws WorkflowException {
         // Find out the GL Entry
         // initiate a new document
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(CabConstants.ASSET_PAYMENT_DOCUMENT);
         document.setCapitalAssetBuilderOriginIndicator(true);
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getGeneralLedgerAccountIdentifier());

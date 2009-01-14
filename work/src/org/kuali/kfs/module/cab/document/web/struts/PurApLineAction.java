@@ -46,7 +46,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -149,7 +148,7 @@ public class PurApLineAction extends KualiAction {
 
         // Create question page for save before close.
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // logic for close question
         if (question == null) {
@@ -276,7 +275,7 @@ public class PurApLineAction extends KualiAction {
         if (GlobalVariables.getErrorMap().isEmpty()) {
             // Display a warning message without blocking the action if TI indicator exists but TI allowance not exist.
             if (tradeInIndicatorInSelectedLines && !tradeInAllowanceInAllLines) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
             }
 
             performMerge(purApForm, mergeLines, isMergeAll);
@@ -484,7 +483,7 @@ public class PurApLineAction extends KualiAction {
             // TI indicator exists in either source or target lines, but TI allowance not found, bring up a warning message
             // to confirm this action.
             if (!allocateSourceLine.isAdditionalChargeNonTradeInIndicator() && !allocateSourceLine.isTradeInAllowance() && (allocateSourceLine.isItemAssignedToTradeInIndicator() || targetLineHasTradeIn) && hasTradeInAllowance) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
             }
             performAllocate(purApForm, allocateSourceLine, allocateTargetLines);
         }
@@ -596,7 +595,7 @@ public class PurApLineAction extends KualiAction {
         }
         if (selectedLine.isItemAssignedToTradeInIndicator()) {
             // TI indicator exists, bring up a warning message to confirm this action.
-            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.APPLY_PAYMENT, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.APPLY_PAYMENT, "");
         }
 
         // create CAMS asset payment global document.
@@ -647,7 +646,7 @@ public class PurApLineAction extends KualiAction {
                 // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message for
                 // confirmation.
                 if (isSettingAssetsInPurAp(selectedLine)) {
-                    return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
+                    return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
                 }
                 else {
                     return createAssetGlobalDocument(mapping, purApForm, selectedLine);
@@ -665,12 +664,12 @@ public class PurApLineAction extends KualiAction {
         if (GlobalVariables.getErrorMap().isEmpty()) {
             // TI indicator exists, bring up a warning message to confirm this action.
             if (selectedLine.isItemAssignedToTradeInIndicator()) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
             }
             // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message to confirm using
             // Asset Global document.
             else if (isSettingAssetsInPurAp(selectedLine)) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
             }
             else {
                 return createAssetGlobalDocument(mapping, purApForm, selectedLine);

@@ -27,7 +27,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.MaintenanceDocumentDao;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -79,7 +79,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
         // load the blocking locked document
         org.kuali.rice.kns.document.Document lockedDocument;
         try {
-            lockedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(blockingDocId);
+            lockedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(blockingDocId);
         }
         catch (WorkflowException e) {
             throw new ValidationException("Could not load the locking document.", e);

@@ -56,7 +56,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -328,7 +328,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateDocumentTypeForNonNew(assetGlobal.getAcquisitionTypeCode(), assetPaymentDetail);
         }
 
-        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(maintenanceDocument);
+        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.ADD_NEGATIVE_PAYMENTS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
@@ -465,7 +465,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             maxTotalPaymentByAsset = totalPayment;
         }
 
-        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(document);
+        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
         boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
@@ -611,7 +611,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (!getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             success &= validateAccount(assetGlobal);
 
-            AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(document);
+            AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
             boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, 
                     CamsConstants.PermissionNames.USE_ACQUISITION_TYPE_NEW, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             

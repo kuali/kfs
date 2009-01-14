@@ -21,20 +21,22 @@
 
 <portal:immutableBar />
 
- <table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
-<c:set var="motd" value="<%= (new org.kuali.kfs.sys.businessobject.defaultvalue.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
-<c:if test="${empty channelTitle && empty channelUrl && !empty pageScope.motd}">
-  	<tr valign="top" bgcolor="#FFFFFF">
+<table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
+	<c:if test="${empty channelTitle && empty channelUrl}">
+		<c:set var="motd" value="<%= (new org.kuali.kfs.sys.businessobject.defaultvalue.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
+		<c:if test="${!empty pageScope.motd}">
+		  	<tr valign="top" bgcolor="#FFFFFF">
 				<td width="15" class="leftback-focus">&nbsp;</td>
-					<td colspan="3">
-    <channel:portalChannelTop channelTitle="Message Of The Day" />
-    <div class="body">
-        <strong><c:out value="${pageScope.motd}"  /></strong>
-        </div>
-    <channel:portalChannelBottom />
-					</td>
-   	</tr>
-</c:if>
+				<td colspan="3">
+				    <channel:portalChannelTop channelTitle="Message Of The Day" />
+					    <div class="body">
+				    	    <strong><c:out value="${pageScope.motd}"  /></strong>
+		    		    </div>
+		    		<channel:portalChannelBottom />
+				</td>
+		   	</tr>
+	   	</c:if>
+	</c:if>
  	<tr valign="top" bgcolor="#FFFFFF">
        <td width="15" class="leftback-focus">&nbsp;</td>
         <c:choose>

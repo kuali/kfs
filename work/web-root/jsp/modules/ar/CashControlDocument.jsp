@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="editDetails"
 	value="${!empty KualiForm.editingMode['editDetails']}" />
 <c:set var="showGenerateButton"
@@ -33,7 +33,7 @@
 	htmlFormAction="arCashControlDocument" renderMultipart="true"
 	showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+    <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 

@@ -13,19 +13,9 @@
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CashControlDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController" />
     <property name="documentTypeCode" value="CTRL" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    <property name="allowsErrorCorrection" value="false"/>
     <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition"

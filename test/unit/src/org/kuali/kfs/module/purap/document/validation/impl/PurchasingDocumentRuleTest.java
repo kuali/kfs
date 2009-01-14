@@ -247,7 +247,6 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testMissingCommodityCodeWhenRequired() throws Exception {
         TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_NO_APO_VALID;
@@ -285,7 +284,6 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testInactiveCommodityCodeValidation() throws Exception {
         TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_VALID_INACTIVE_COMMODITY_CODE;
@@ -304,7 +302,6 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testNonExistenceCommodityCodeValidation() throws Exception {
         TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_NON_EXISTENCE_COMMODITY_CODE;

@@ -241,7 +241,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testCreateAutomaticPurchaseOrderDocument() throws Exception {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
@@ -260,7 +259,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testCreatePurchaseOrderDocument() throws Exception {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
         AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
@@ -279,7 +277,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testCreateAndSavePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
@@ -512,7 +509,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testCompletePurchaseOrder_NonB2B() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -532,7 +528,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULRICE2546)
     public void testCompletePurchaseOrder_B2B() throws Exception {
         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();

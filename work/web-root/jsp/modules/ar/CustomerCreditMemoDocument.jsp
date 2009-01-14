@@ -20,6 +20,7 @@
 	htmlFormAction="arCustomerCreditMemoDocument" renderMultipart="true"
 	showTabButtons="true">
 	
+	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	<c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
 	
 	<kfs:hiddenDocumentFields isFinancialDocument="false" />
@@ -42,7 +43,7 @@
     		<ar:customerCreditMemoReceivableAccountingLine />
     	</c:if>
       
-      	<ar:customerCreditMemoDetails editingMode="${KualiForm.editingMode}" />
+      	<ar:customerCreditMemoDetails readOnly="${readOnly}" />
       	<gl:generalLedgerPendingEntries />
     	<kul:notes />
 		<kul:adHocRecipients />

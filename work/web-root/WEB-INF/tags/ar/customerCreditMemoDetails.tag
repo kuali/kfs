@@ -15,8 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="editingMode" required="true" description="used to hide/show recalculate/refresh buttons" type="java.util.Map"%>
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
+<%@ attribute name="readOnly" required="true" description="used to hide/show recalculate/refresh buttons" %>
 
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />              
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />

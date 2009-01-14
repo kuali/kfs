@@ -15,90 +15,38 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArAuthorizationConstants;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.util.ARUtil;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
-import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kns.bo.BusinessObject;
 
-//public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class CustomerCreditMemoDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
-        @Override
-    @SuppressWarnings("unchecked")
-    public Map getEditMode(Document document, Person user) {
+    @Override
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
         
-        Map<String,String> editModeMap = super.getEditMode(document, user);
-        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
+        CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument) businessObject;
+        String invoiceDocNumber = creditMemoDoc.getFinancialDocumentReferenceInvoiceNumber();
+        CustomerInvoiceDocumentService invoiceService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         
-        if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(),ArConstants.CustomerCreditMemoStatuses.INITIATE)) {
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"TRUE");
-        }
-        else {
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"FALSE");
-        }
+        Collection<CustomerInvoiceDetail> invoiceDetails = invoiceService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(invoiceDocNumber);
         
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption ) ){
-            editModeMap.put(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.SHOW_RECEIVABLE_FAU, "TRUE");
+        //  adds the chart/account for each account used on the original invoice that will be credited by this
+        for (CustomerInvoiceDetail invoiceDetail : invoiceDetails) {
+            if (StringUtils.isNotBlank(invoiceDetail.getChartOfAccountsCode()) && StringUtils.isNotBlank(invoiceDetail.getAccountNumber())) {
+                attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, invoiceDetail.getChartOfAccountsCode());
+                attributes.put(KfsKimAttributes.ACCOUNT_NUMBER, invoiceDetail.getAccountNumber());
+            }
         }
-        
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal())) {
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON, "TRUE");
-        }
-        else {
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON, "FALSE");
-        }
-        
-        return editModeMap;
     }
 
-    // TODO fix for kim - looks like presentationl controller logic not authorization
-    
-//    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
-//     */
-//    @Override
-//    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-//        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//
-//        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
-//        if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE)) {
-//            flags.setCanSave(false);
-//            flags.setCanClose(true);
-//            flags.setCanCancel(false);
-//        }
-//        return flags;
-//    }
-    
-    // TODO remove - replaced by kim
-//    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
-//     */
-//    @Override
-//    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
-//        super.canInitiate(documentTypeName, user);
-//
-//        if (!ARUtil.isUserInArBillingOrg(user)) {
-//            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
-//                    new String[] { "(Users in an AR Billing Org)", "Customer Credit Memo" });
-//
-//        }
-//    } 
 }
 

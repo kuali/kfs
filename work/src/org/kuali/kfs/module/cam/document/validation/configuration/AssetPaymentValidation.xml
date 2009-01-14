@@ -57,14 +57,6 @@
 					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="AssetPayment-assetValidation" scope="prototype">
-					<!-- property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="assetPaymentAssetDetail" />
-								<property name="targetValidationProperty" value="assetPaymentAssetDetailsForValidation" />
-							</bean>
-						</list>
-					</property-->
 					<property name="quitOnFail" value="true" />					
 				</bean>														
 				<bean parent="AssetPayment-objectSubTypesValidation" scope="prototype">								

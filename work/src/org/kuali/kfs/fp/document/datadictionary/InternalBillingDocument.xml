@@ -26,6 +26,7 @@
     <property name="documentTypeCode" value="IB" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
+    
     <property name="workflowAttributes" >
       <ref bean="InternalBillingDocument-workflowAttributes" />
     </property>

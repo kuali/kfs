@@ -39,7 +39,7 @@
 		<property name="assetPaymentService" ref="assetPaymentService" />
 	</bean>	
 	
-	<bean id="AssetPayment-orginCodeValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentOrginCodeValidation" abstract="true">
+	<bean id="AssetPayment-orginCodeValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentOriginCodeValidation" abstract="true">
 		<property name="originationCodeService" ref="originationCodeService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>	

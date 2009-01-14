@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class validates asset payment document origin code
  */
-public class AssetPaymentOrginCodeValidation extends GenericValidation {
+public class AssetPaymentOriginCodeValidation extends GenericValidation {
 
     private OriginationCodeService originationCodeService;
     private DataDictionaryService dataDictionaryService;

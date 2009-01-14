@@ -39,7 +39,10 @@ public class EffortCertificationDocumentAuthorizer extends AccountingDocumentAut
     @Override
     public Map getEditMode(Document document, Person user) {
         Map editModeMap = super.getEditMode(document, user);
-        // need to figure out how to set the setHasTotalAmount to true
+        
+        //  set the setHasTotalAmount to true
+        editModeMap.put(EffortCertificationEditMode.HAS_TOTAL_AMOUNT, true);
+        
         return editModeMap;
    }
 }

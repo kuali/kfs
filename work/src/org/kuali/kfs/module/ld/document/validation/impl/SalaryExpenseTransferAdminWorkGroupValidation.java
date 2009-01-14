@@ -23,6 +23,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -56,15 +58,14 @@ public class SalaryExpenseTransferAdminWorkGroupValidation extends GenericValida
      * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
      */ 
     private boolean isValidAdminGroup(SalaryExpenseTransferDocument accountingDocument) {
-        boolean isAdmin = false ;
-        String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         
-        try {
-            isAdmin = KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminGroupName);
-        }
-        catch (Exception e) {
-                throw new RuntimeException ("Workgroup " + LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM + " not found", e) ;
-        }
+        boolean isAdmin = false ;
+       
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(accountingDocument);        
+        isAdmin = documentAuthorizer.isAuthorized(accountingDocument, LaborConstants.LABOR_MODULE_CODE, 
+                     LaborConstants.PermissionNames.OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION, 
+                                  GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
         return isAdmin ;
     }
     

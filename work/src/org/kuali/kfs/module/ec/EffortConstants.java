@@ -119,6 +119,8 @@ public class EffortConstants extends JSTLConstants {
         public static final String EXPENSE_ENTRY = TransactionalEditMode.EXPENSE_ENTRY;
 
         public static final String PROJECT_ENTRY = "projectEntry";
+        
+        public static final String HAS_TOTAL_AMOUNT = "hasTotalAmount";
     }
     
     public static final List<String> DETAIL_LINES_CONSOLIDATION_FILEDS = getDetailLinesConsolidationFields();

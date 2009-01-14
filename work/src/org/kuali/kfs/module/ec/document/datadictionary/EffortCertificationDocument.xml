@@ -34,8 +34,8 @@
         <ref bean="EffortCertificationDocument-versionNumber" />
       </list>
     </property>
-    <property name="workflowProperties">
-    	<ref bean="EffortCertificationDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="EffortCertificationDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -110,21 +110,23 @@
   <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
-  <bean id="EffortCertificationDocument-workflowProperties" parent="EffortCertificationDocument-workflowProperties-parentBean" />
+  <!-- Exported Workflow Attributes -->
+  <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean" />
 
-  <bean id="EffortCertificationDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="document" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+  <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" >
+	  <property name="searchingTypeDefinitions">
+	  		<list>
+	  
+	  		</list>
+  	  </property>
+  	  <property name="routingTypeDefinitions">
+  	  		<map>
+  	  			<!-- no qualifiers for ProjectManagement -->
+  	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly" />
+  	  			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+  	  			
+  	  		</map>
+  	  </property>	
+  </bean>		
+  
 </beans>
-

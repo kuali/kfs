@@ -532,6 +532,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULRICE2546)
     public void testCompletePurchaseOrder_B2B() throws Exception {
         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
